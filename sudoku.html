@@ -51,90 +51,36 @@
             margin-bottom: 40px;
             text-align: center;
         }
-        .logo-icon {
-            font-size: 4rem;
-            color: #2563eb;
-            margin-bottom: 10px;
-        }
-        .app-title {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #0f172a;
-            letter-spacing: -1px;
-        }
+        .logo-icon { font-size: 4rem; color: #2563eb; margin-bottom: 10px; }
+        .app-title { font-size: 2rem; font-weight: 800; color: #0f172a; letter-spacing: -1px; }
         .level-btn {
-            width: 80%;
-            padding: 16px;
-            margin-bottom: 15px;
-            border-radius: 12px;
-            border: none;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
+            width: 80%; padding: 16px; margin-bottom: 15px; border-radius: 12px;
+            border: none; font-size: 1.1rem; font-weight: 600; cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
-            background-color: #ffffff;
-            color: #0f172a;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            background-color: #ffffff; color: #0f172a; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
-        .level-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-        }
+        .level-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
         .level-btn.easy { border-left: 5px solid #22c55e; }
         .level-btn.medium { border-left: 5px solid #eab308; }
         .level-btn.hard { border-left: 5px solid #f97316; }
         .level-btn.expert { border-left: 5px solid #ef4444; }
 
         /* --- Game Screen --- */
-        #gameScreen {
-            display: none;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        .header-title {
-            font-size: 0.7rem;
-            letter-spacing: 1.5px;
-            color: #8fa0b4;
-            margin-bottom: 2px;
-            text-transform: uppercase;
-        }
-        
-        .timer {
-            font-size: 1.2rem;
-            color: #0f172a;
-            font-variant-numeric: tabular-nums;
-        }
+        #gameScreen { display: none; flex-direction: column; height: 100%; }
+        .header-title { font-size: 0.7rem; letter-spacing: 1.5px; color: #8fa0b4; margin-bottom: 2px; text-transform: uppercase; }
+        .timer { font-size: 1.2rem; color: #0f172a; font-variant-numeric: tabular-nums; }
 
         /* Sudoku Board Grid */
-        .board-wrapper {
-            padding: 0 15px;
-            margin-top: 5px;
-        }
-
+        .board-wrapper { padding: 0 15px; margin-top: 5px; }
         .sudoku-board {
-            display: grid;
-            grid-template-columns: repeat(9, 1fr);
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            border: 3px solid #0f172a;
-            background-color: #fff;
-            box-sizing: border-box;
+            display: grid; grid-template-columns: repeat(9, 1fr); width: 100%; aspect-ratio: 1 / 1;
+            border: 3px solid #0f172a; background-color: #fff; box-sizing: border-box;
         }
-
         .sudoku-cell {
-            border-right: 1px solid #e2e8f0;
-            border-bottom: 1px solid #e2e8f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            font-weight: 500;
-            color: #0f172a;
-            cursor: pointer;
-            user-select: none;
-            position: relative;
-            transition: background-color 0.1s;
+            border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; font-weight: 500; color: #0f172a; cursor: pointer;
+            user-select: none; position: relative; transition: background-color 0.1s;
         }
 
         /* 3x3 Thicker borders */
@@ -143,118 +89,108 @@
         .sudoku-cell:nth-child(n+46):nth-child(-n+54) { border-bottom: 2px solid #0f172a; }
         .sudoku-cell:nth-child(n+73):nth-child(-n+81) { border-bottom: none; }
 
-        /* --- Smart Highlighting Classes --- */
-        .cell-selected { background-color: #bfdbfe !important; } /* Deepest blue for active */
-        .cell-related { background-color: #eff6ff; } /* Light blue for row/col/box */
-        .cell-same-number { background-color: #c7d2fe; } /* Purple-ish blue for matching numbers */
-        .cell-error { 
-            background-color: #fee2e2 !important; 
-            color: #dc2626 !important; 
-        }
-
-        /* Text Colors */
+        /* Highlighting Classes */
+        .cell-selected { background-color: #bfdbfe !important; } 
+        .cell-related { background-color: #eff6ff; } 
+        .cell-same-number { background-color: #c7d2fe; } 
+        .cell-error { background-color: #fee2e2 !important; color: #dc2626 !important; }
         .text-fixed { color: #0f172a; font-weight: 700; }
         .text-user { color: #2563eb; font-weight: 500; }
 
-        /* Notes Grid inside a cell */
-        .notes-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(3, 1fr);
-            width: 100%;
-            height: 100%;
-            padding: 2px;
-            pointer-events: none;
-        }
-        .note-num {
-            font-size: 0.45rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #64748b;
-            font-weight: 600;
-        }
+        /* Notes Grid */
+        .notes-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); width: 100%; height: 100%; padding: 2px; pointer-events: none; }
+        .note-num { font-size: 0.45rem; display: flex; align-items: center; justify-content: center; color: #64748b; font-weight: 600; }
 
-        /* Controls Area */
+        /* Controls */
         .actions-container { margin-top: 25px; padding: 0 20px; }
-        .action-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            transition: transform 0.1s;
-        }
+        .action-wrapper { display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: transform 0.1s; }
         .action-wrapper:active { transform: scale(0.95); }
-        
         .action-icon {
-            width: 48px; height: 48px;
-            border-radius: 50%;
-            background-color: #f8fafc;
-            color: #2563eb;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            margin-bottom: 8px;
-            position: relative;
+            width: 48px; height: 48px; border-radius: 50%; background-color: #f8fafc;
+            color: #2563eb; display: flex; align-items: center; justify-content: center;
+            font-size: 1.25rem; margin-bottom: 8px; position: relative;
         }
-        
         .action-label { font-size: 0.65rem; font-weight: 700; color: #64748b; letter-spacing: 0.5px; }
-
-        .notes-badge {
-            position: absolute;
-            top: -2px; right: -5px;
-            font-size: 0.55rem;
-            padding: 3px 6px;
-            background-color: #0f172a !important;
-            transition: 0.2s background-color;
-        }
+        .notes-badge { position: absolute; top: -2px; right: -5px; font-size: 0.55rem; padding: 3px 6px; background-color: #0f172a !important; transition: 0.2s background-color; }
         .notes-badge.on { background-color: #2563eb !important; }
 
         /* Numpad */
-        .numpad-container {
-            padding: 0 15px;
-            margin-top: 20px;
-            display: flex;
-            justify-content: space-between;
-            gap: 4px;
-        }
-        .numpad-btn {
-            flex: 1; aspect-ratio: 1 / 1.3;
-            border: none;
-            background-color: #f8fafc;
-            color: #2563eb;
-            font-size: 1.4rem; font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.1s;
-        }
+        .numpad-container { padding: 0 15px; margin-top: 20px; display: flex; justify-content: space-between; gap: 4px; }
+        .numpad-btn { flex: 1; aspect-ratio: 1 / 1.3; border: none; background-color: #f8fafc; color: #2563eb; font-size: 1.4rem; font-weight: 600; border-radius: 8px; cursor: pointer; transition: all 0.1s; }
         .numpad-btn:active { background-color: #2563eb; color: #ffffff; }
 
-        /* Footer */
         .footer-container { margin-top: auto; padding: 15px 20px 25px 20px; text-align: center; }
-        .btn-new-game {
-            background-color: #0f172a; color: white;
-            border-radius: 50px; padding: 14px 40px;
-            font-weight: 600; font-size: 0.9rem; letter-spacing: 1px;
-            border: none; width: 85%; transition: 0.2s;
+
+        .loading-overlay {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #ffffff; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 50;
         }
-        .btn-new-game:hover { background-color: #1e293b; }
-        
-        /* Modal Overlay */
+
+        /* --- NEW WIN OVERLAY STYLES --- */
         .win-overlay {
             position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(255,255,255,0.95);
+            background: rgba(244, 246, 248, 0.95);
             display: none; flex-direction: column;
             justify-content: center; align-items: center; z-index: 100;
         }
-        
-        .loading-overlay {
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+
+        .win-card {
             background: #ffffff;
-            display: none; flex-direction: column;
-            justify-content: center; align-items: center; z-index: 50;
+            border-radius: 24px;
+            padding: 40px 30px;
+            width: 85%;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.08);
         }
+
+        .win-icon {
+            width: 75px; height: 75px;
+            background-color: #fef08a; /* Soft yellow */
+            color: #d97706; /* Star outline color */
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 20px auto;
+        }
+
+        .win-title { color: #0f172a; font-weight: 800; font-size: 1.6rem; margin-bottom: 5px; }
+        .win-subtitle { color: #64748b; font-size: 0.9rem; margin-bottom: 30px; }
+
+        .stat-box {
+            background-color: #f8fafc;
+            border-radius: 16px;
+            padding: 15px;
+            border: 1px solid #f1f5f9;
+            flex: 1;
+        }
+
+        .stat-label { 
+            font-size: 0.65rem; color: #94a3b8; font-weight: 800; 
+            letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px; 
+        }
+        
+        .stat-value { font-size: 1.3rem; color: #0f172a; font-weight: 700; }
+        .stat-value.green { color: #10b981; }
+
+        .progress-bg {
+            width: 60px; height: 6px; background-color: #d1fae5; border-radius: 10px; overflow: hidden;
+        }
+        .progress-bar-custom {
+            height: 100%; background-color: #10b981; border-radius: 10px; transition: width 1s ease-out;
+        }
+
+        .btn-win-primary {
+            background-color: #0f172a; color: white; border-radius: 14px;
+            padding: 14px; width: 100%; font-weight: 600; font-size: 1rem;
+            border: none; margin-bottom: 12px; transition: 0.2s;
+        }
+        .btn-win-primary:hover { background-color: #1e293b; color: white; }
+
+        .btn-win-secondary {
+            background-color: white; color: #334155; border-radius: 14px;
+            padding: 14px; width: 100%; font-weight: 600; font-size: 1rem;
+            border: 1px solid #e2e8f0; transition: 0.2s;
+        }
+        .btn-win-secondary:hover { background-color: #f8fafc; }
     </style>
 </head>
 <body>
@@ -277,25 +213,19 @@
 
     <!-- MAIN GAME SCREEN -->
     <div id="gameScreen">
-        <!-- Top Header -->
         <div class="d-flex justify-content-between align-items-center px-4 py-4">
-            <!-- Back Button to Menu -->
             <i class="bi bi-chevron-left fs-4" style="color: #475569; cursor: pointer;" onclick="showMainMenu()"></i>
-            
             <div class="text-center">
                 <div class="header-title fw-bold" id="difficultyLevel">MEDIUM</div>
                 <div class="timer fw-bold" id="timerDisplay">00:00</div>
             </div>
-            
             <i class="bi bi-gear fs-4" style="color: #475569; cursor: pointer;"></i>
         </div>
 
-        <!-- Sudoku Board -->
         <div class="board-wrapper">
             <div class="sudoku-board" id="sudokuBoard"></div>
         </div>
 
-        <!-- Actions -->
         <div class="actions-container d-flex justify-content-between">
             <div class="action-wrapper" id="btnUndo">
                 <div class="action-icon"><i class="bi bi-arrow-return-left"></i></div>
@@ -318,24 +248,48 @@
             </div>
         </div>
 
-        <!-- Number Pad -->
         <div class="numpad-container" id="numpad"></div>
+    </div>
 
-        <!-- Bottom Action -->
-        <div class="footer-container">
-            <button class="btn-new-game" onclick="showMainMenu()">NEW GAME</button>
+    <!-- NEW LEVEL COMPLETE OVERLAY -->
+    <div class="win-overlay" id="winOverlay">
+        <div class="win-card">
+            <div class="win-icon">
+                <i class="bi bi-stars"></i>
+            </div>
+            
+            <h2 class="win-title">Level Complete!</h2>
+            <p class="win-subtitle">Amazing puzzle solving skills.</p>
+
+            <div class="d-flex gap-2 mb-2">
+                <div class="stat-box">
+                    <div class="stat-label">TIME</div>
+                    <div class="stat-value" id="winTimeVal">00:00</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">BEST</div>
+                    <div class="stat-value" id="winBestTimeVal">00:00</div>
+                </div>
+            </div>
+
+            <div class="stat-box d-flex justify-content-between align-items-center mb-4">
+                <div class="text-start">
+                    <div class="stat-label">ACCURACY</div>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <div class="stat-value green" id="winAccuracyVal">100%</div>
+                    <div class="progress-bg">
+                        <div class="progress-bar-custom" id="winAccuracyBar" style="width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-win-primary" onclick="startLevel(currentDifficulty)">Play Again</button>
+            <button class="btn-win-secondary" onclick="showMainMenu()">Home</button>
         </div>
     </div>
 
-    <!-- Win Overlay -->
-    <div class="win-overlay" id="winOverlay">
-        <i class="bi bi-trophy text-warning" style="font-size: 4rem; margin-bottom: 10px;"></i>
-        <h2 class="text-dark fw-bold mb-2">Puzzle Solved!</h2>
-        <p class="text-muted mb-4" id="winTime" style="font-size: 1.2rem; font-weight: 600;">Time: 00:00</p>
-        <button class="btn btn-primary rounded-pill px-5 py-2" onclick="showMainMenu()">Play Again</button>
-    </div>
-
-    <!-- Loading Overlay for Board Generation -->
+    <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="spinner-border text-primary" role="status"></div>
         <div class="mt-3 fw-bold text-muted">Generating puzzle...</div>
@@ -350,11 +304,15 @@
     let notesGrid =[]; 
     let solutionGrid = []; 
     let moveHistory =[]; 
-
+    
+    let currentDifficulty = 'MEDIUM';
     let selectedIndex = -1;
     let notesMode = false;
     
-    // Timer Variables
+    // Stats variables
+    let totalMoves = 0;
+    let incorrectMoves = 0;
+
     let timerInterval;
     let secondsElapsed = 0;
 
@@ -370,13 +328,11 @@
     const difficultyLabel = document.getElementById('difficultyLevel');
     const loadingOverlay = document.getElementById('loadingOverlay');
 
-    // --- Initialization ---
     function init() {
         createNumpad();
         setupEventListeners();
     }
 
-    // --- Screen Navigation ---
     function showMainMenu() {
         stopTimer();
         gameScreen.style.display = 'none';
@@ -385,11 +341,12 @@
     }
 
     function startLevel(difficulty) {
+        currentDifficulty = difficulty;
+        winOverlay.style.display = 'none';
         startScreen.style.display = 'none';
         loadingOverlay.style.display = 'flex';
         difficultyLabel.textContent = difficulty;
 
-        // Use setTimeout to allow UI to show loading spinner before heavy math
         setTimeout(() => {
             generateNewPuzzle(difficulty);
             
@@ -398,11 +355,13 @@
             moveHistory =[];
             selectedIndex = -1;
             notesMode = false;
+            
+            // Reset Stats
+            totalMoves = 0;
+            incorrectMoves = 0;
             updateNotesUI();
             
-            // Reset and Start Timer
             startTimer();
-            
             renderBoard();
             
             loadingOverlay.style.display = 'none';
@@ -410,27 +369,20 @@
         }, 50);
     }
 
-    // --- Sudoku Generator (Advanced Logic) ---
+    // --- Sudoku Generator ---
     function generateNewPuzzle(difficulty) {
         let emptyBoard = Array(81).fill(0);
-        
-        // 1. Fill diagonal 3x3 boxes first (they are independent, makes solving faster)
         fillDiagonalBoxes(emptyBoard);
-        
-        // 2. Solve the rest of the board completely with randomization
         solveSudokuRandomized(emptyBoard);
-        
-        // 3. Save the guaranteed solution
         solutionGrid = [...emptyBoard];
         currentGrid =[...emptyBoard];
 
-        // 4. Remove elements based on difficulty
-        let holesToCreate = 30; // Easy default
-        if (difficulty === 'MEDIUM') holesToCreate = 43;
-        if (difficulty === 'HARD') holesToCreate = 52;
-        if (difficulty === 'EXPERT') holesToCreate = 60;
+        let holes = 30; // Easy
+        if (difficulty === 'MEDIUM') holes = 43;
+        if (difficulty === 'HARD') holes = 52;
+        if (difficulty === 'EXPERT') holes = 60;
 
-        let attempts = holesToCreate;
+        let attempts = holes;
         while (attempts > 0) {
             let randomIndex = Math.floor(Math.random() * 81);
             if (currentGrid[randomIndex] !== 0) {
@@ -438,25 +390,18 @@
                 attempts--;
             }
         }
-
-        // Map read-only fixed cells based on what wasn't removed
         fixedCells = currentGrid.map(val => val !== 0);
     }
 
     function fillDiagonalBoxes(board) {
-        for (let i = 0; i < 9; i += 3) {
-            fillBox(board, i, i);
-        }
+        for (let i = 0; i < 9; i += 3) fillBox(board, i, i);
     }
 
     function fillBox(board, rowStart, colStart) {
-        let nums =[1, 2, 3, 4, 5, 6, 7, 8, 9];
-        nums.sort(() => Math.random() - 0.5); // Shuffle array randomly
+        let nums =[1, 2, 3, 4, 5, 6, 7, 8, 9].sort(() => Math.random() - 0.5);
         let i = 0;
         for (let r = 0; r < 3; r++) {
-            for (let c = 0; c < 3; c++) {
-                board[(rowStart + r) * 9 + (colStart + c)] = nums[i++];
-            }
+            for (let c = 0; c < 3; c++) board[(rowStart + r) * 9 + (colStart + c)] = nums[i++];
         }
     }
 
@@ -468,7 +413,7 @@
                     if (isValid(board, i, num)) {
                         board[i] = num;
                         if (solveSudokuRandomized(board)) return true;
-                        board[i] = 0; // Backtrack
+                        board[i] = 0; 
                     }
                 }
                 return false;
@@ -491,7 +436,7 @@
         return true;
     }
 
-    // --- Timer Logic ---
+    // --- Timer & Best Time Logic ---
     function startTimer() {
         stopTimer();
         secondsElapsed = 0;
@@ -506,16 +451,32 @@
         if (timerInterval) clearInterval(timerInterval);
     }
 
+    function formatTime(totalSeconds) {
+        const m = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
+        const s = (totalSeconds % 60).toString().padStart(2, '0');
+        return `${m}:${s}`;
+    }
+
     function formatAndShowTime() {
-        const m = Math.floor(secondsElapsed / 60).toString().padStart(2, '0');
-        const s = (secondsElapsed % 60).toString().padStart(2, '0');
-        timerDisplay.textContent = `${m}:${s}`;
+        timerDisplay.textContent = formatTime(secondsElapsed);
+    }
+
+    function getBestTime(difficulty) {
+        return localStorage.getItem('sudokuBest_' + difficulty);
+    }
+
+    function saveBestTime(difficulty, timeSec) {
+        let currentBest = getBestTime(difficulty);
+        if (!currentBest || timeSec < parseInt(currentBest)) {
+            localStorage.setItem('sudokuBest_' + difficulty, timeSec);
+            return timeSec;
+        }
+        return parseInt(currentBest);
     }
 
     // --- Board Rendering ---
     function renderBoard() {
         boardEl.innerHTML = '';
-        
         let errors = findErrors(); 
         let isComplete = true;
 
@@ -527,7 +488,6 @@
             const val = currentGrid[i];
             if (val === 0) isComplete = false;
 
-            // Handle Value vs Notes
             if (val !== 0) {
                 cell.textContent = val;
                 cell.classList.add(fixedCells[i] ? 'text-fixed' : 'text-user');
@@ -543,7 +503,6 @@
                 cell.appendChild(notesContainer);
             }
 
-            // --- Smart Highlighting ---
             if (selectedIndex !== -1) {
                 const selRow = Math.floor(selectedIndex / 9);
                 const selCol = selectedIndex % 9;
@@ -564,25 +523,15 @@
                 }
             }
 
-            // Error Highlighting
-            if (errors.includes(i)) {
-                cell.classList.add('cell-error');
-            }
+            if (errors.includes(i)) cell.classList.add('cell-error');
 
-            // Click Event
-            cell.addEventListener('mousedown', () => {
-                selectedIndex = i;
-                renderBoard();
-            });
-
+            cell.addEventListener('mousedown', () => { selectedIndex = i; renderBoard(); });
             boardEl.appendChild(cell);
         }
 
-        // Win Condition
         if (isComplete && errors.length === 0) triggerWin();
     }
 
-    // Numpad Creation
     function createNumpad() {
         for (let i = 1; i <= 9; i++) {
             const btn = document.createElement('button');
@@ -593,38 +542,34 @@
         }
     }
 
-    // --- Interaction Handling ---
     function handleNumberInput(num) {
         if (selectedIndex === -1 || fixedCells[selectedIndex]) return;
-
         saveHistory();
 
         if (notesMode) {
             if(currentGrid[selectedIndex] !== 0) return; 
             const notes = notesGrid[selectedIndex];
-            if (notes.includes(num)) {
-                notesGrid[selectedIndex] = notes.filter(n => n !== num);
-            } else {
-                notesGrid[selectedIndex].push(num);
-            }
+            if (notes.includes(num)) notesGrid[selectedIndex] = notes.filter(n => n !== num);
+            else notesGrid[selectedIndex].push(num);
         } else {
             if (currentGrid[selectedIndex] === num) {
-                currentGrid[selectedIndex] = 0; // Toggle off if same number
+                currentGrid[selectedIndex] = 0;
             } else {
                 currentGrid[selectedIndex] = num;
-                notesGrid[selectedIndex] =[]; // Clear notes
+                notesGrid[selectedIndex] =[]; 
+                
+                // Track Accuracy
+                totalMoves++;
+                if (num !== solutionGrid[selectedIndex]) {
+                    incorrectMoves++;
+                }
             }
         }
         renderBoard();
     }
 
-    function saveHistory() {
-        moveHistory.push({
-            grid: [...currentGrid],
-            notes: notesGrid.map(arr =>[...arr])
-        });
-    }
-
+    function saveHistory() { moveHistory.push({ grid: [...currentGrid], notes: notesGrid.map(arr =>[...arr]) }); }
+    
     function handleUndo() {
         if (moveHistory.length === 0) return;
         const lastState = moveHistory.pop();
@@ -635,25 +580,16 @@
 
     function handleErase() {
         if (selectedIndex === -1 || fixedCells[selectedIndex]) return;
-        saveHistory();
-        currentGrid[selectedIndex] = 0;
-        notesGrid[selectedIndex] =[];
-        renderBoard();
+        saveHistory(); currentGrid[selectedIndex] = 0; notesGrid[selectedIndex] =[]; renderBoard();
     }
 
     function handleHint() {
         if (selectedIndex === -1 || fixedCells[selectedIndex] || currentGrid[selectedIndex] !== 0) return;
-        saveHistory();
-        currentGrid[selectedIndex] = solutionGrid[selectedIndex];
-        notesGrid[selectedIndex] =[];
-        renderBoard();
+        saveHistory(); currentGrid[selectedIndex] = solutionGrid[selectedIndex]; notesGrid[selectedIndex] =[]; renderBoard();
     }
 
-    function toggleNotes() {
-        notesMode = !notesMode;
-        updateNotesUI();
-    }
-
+    function toggleNotes() { notesMode = !notesMode; updateNotesUI(); }
+    
     function updateNotesUI() {
         notesBadge.textContent = notesMode ? 'ON' : 'OFF';
         if(notesMode) {
@@ -665,80 +601,80 @@
         }
     }
 
-    // --- Validation Utilities ---
     function findErrors() {
         const errors = new Set();
         for (let i = 0; i < 81; i++) {
             const val = currentGrid[i];
             if (val === 0) continue;
-
-            const row = Math.floor(i / 9);
-            const col = i % 9;
-            const boxRow = Math.floor(row / 3) * 3;
-            const boxCol = Math.floor(col / 3) * 3;
+            const row = Math.floor(i / 9); const col = i % 9;
+            const boxRow = Math.floor(row / 3) * 3; const boxCol = Math.floor(col / 3) * 3;
 
             for (let j = 0; j < 81; j++) {
                 if (i === j) continue;
-                
-                const jRow = Math.floor(j / 9);
-                const jCol = j % 9;
-                
-                const isSameRow = row === jRow;
-                const isSameCol = col === jCol;
+                const jRow = Math.floor(j / 9); const jCol = j % 9;
+                const isSameRow = row === jRow; const isSameCol = col === jCol;
                 const isSameBox = (jRow >= boxRow && jRow < boxRow + 3) && (jCol >= boxCol && jCol < boxCol + 3);
 
                 if ((isSameRow || isSameCol || isSameBox) && currentGrid[j] === val) {
-                    errors.add(i);
-                    errors.add(j);
+                    errors.add(i); errors.add(j);
                 }
             }
         }
         return Array.from(errors);
     }
 
+    // --- NEW WIN TRIGGER LOGIC ---
     function triggerWin() {
         stopTimer();
-        document.getElementById('winTime').textContent = `Time: ${timerDisplay.textContent}`;
+        
+        // Save Best Time
+        let bestTime = saveBestTime(currentDifficulty, secondsElapsed);
+        
+        // Calculate Accuracy
+        let accuracy = 100;
+        if (totalMoves > 0) {
+            accuracy = Math.round(((totalMoves - incorrectMoves) / totalMoves) * 100);
+            if (accuracy < 0) accuracy = 0; // Failsafe
+        }
+
+        // Update Overlay UI
+        document.getElementById('winTimeVal').textContent = formatTime(secondsElapsed);
+        document.getElementById('winBestTimeVal').textContent = formatTime(bestTime);
+        document.getElementById('winAccuracyVal').textContent = accuracy + '%';
+        
+        // Small delay for progress bar animation
+        document.getElementById('winAccuracyBar').style.width = '0%';
         winOverlay.style.display = 'flex';
+        setTimeout(() => {
+            document.getElementById('winAccuracyBar').style.width = accuracy + '%';
+        }, 100);
     }
 
-    // --- Keyboard & Button Setup ---
     function setupEventListeners() {
         document.getElementById('btnUndo').addEventListener('click', handleUndo);
         document.getElementById('btnErase').addEventListener('click', handleErase);
         document.getElementById('btnNotes').addEventListener('click', toggleNotes);
         document.getElementById('btnHint').addEventListener('click', handleHint);
 
-        // Global Keyboard Input
         document.addEventListener('keydown', (e) => {
-            if (gameScreen.style.display === 'none') return; // Ignore if in menu
-
-            if (e.key >= '1' && e.key <= '9') {
-                handleNumberInput(parseInt(e.key));
-            } else if (e.key === 'Backspace' || e.key === 'Delete') {
-                handleErase();
-            } else if (e.key.toLowerCase() === 'n') {
-                toggleNotes();
-            } else if (selectedIndex !== -1) {
-                // Arrow key navigation
-                let row = Math.floor(selectedIndex / 9);
-                let col = selectedIndex % 9;
-                
+            if (gameScreen.style.display === 'none') return; 
+            if (e.key >= '1' && e.key <= '9') handleNumberInput(parseInt(e.key));
+            else if (e.key === 'Backspace' || e.key === 'Delete') handleErase();
+            else if (e.key.toLowerCase() === 'n') toggleNotes();
+            else if (selectedIndex !== -1) {
+                let row = Math.floor(selectedIndex / 9); let col = selectedIndex % 9;
                 if (e.key === 'ArrowUp') row = Math.max(0, row - 1);
                 else if (e.key === 'ArrowDown') row = Math.min(8, row + 1);
                 else if (e.key === 'ArrowLeft') col = Math.max(0, col - 1);
                 else if (e.key === 'ArrowRight') col = Math.min(8, col + 1);
                 
                 if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-                    selectedIndex = row * 9 + col;
-                    renderBoard();
-                    e.preventDefault(); 
+                    selectedIndex = row * 9 + col; renderBoard(); e.preventDefault(); 
                 }
             }
         });
     }
 
-    // Start App
     init();
 
 </script>
