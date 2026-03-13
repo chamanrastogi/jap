@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corporate Holiday Calendar 2026</title>
+    
+    <!-- Bootstrap 5 & Google Fonts -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (for Icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --sunday: #ef4444;
+            --bg: #f8fafc;
+            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+        }
+
+        body {
+            background-color: var(--bg);
+            font-family: 'Poppins', sans-serif;
+            color: #1e293b;
+        }
+
+        /* Header UI */
+        .page-header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 80px 0;
+            border-radius: 0 0 50px 50px;
+            margin-bottom: -60px;
+        }
+
+        /* Stats Cards */
+        .stat-pill {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            text-align: center;
+            height: 100%;
+        }
+
+        .stat-pill i {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* Month Section */
+        .month-title {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #64748b;
+            margin: 40px 0 20px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .month-title::after {
+            content: "";
+            height: 2px;
+            flex-grow: 1;
+            background: #e2e8f0;
+            margin-left: 20px;
+        }
+
+        /* Holiday Card Item */
+        .holiday-item {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            display: flex;
+            align-items: center;
+            box-shadow: var(--card-shadow);
+        }
+
+        .holiday-item:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+        }
+
+        /* Icon Styling */
+        .fest-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        /* Color Variations */
+        .bg-fest-blue { background: #e0e7ff; color: #4338ca; }
+        .bg-fest-red { background: #fee2e2; color: #b91c1c; }
+        .bg-fest-orange { background: #ffedd5; color: #c2410c; }
+        .bg-fest-green { background: #dcfce7; color: #15803d; }
+        .bg-fest-purple { background: #f3e8ff; color: #7e22ce; }
+
+        .date-box {
+            min-width: 100px;
+            text-align: right;
+        }
+
+        .date-main {
+            display: block;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .day-label {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .sunday-badge {
+            background: #fef2f2;
+            color: #ef4444;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 5px;
+            display: inline-block;
+        }
+
+        .tentative-label {
+            font-size: 0.75rem;
+            color: #f59e0b;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .holiday-item { flex-direction: column; text-align: center; }
+            .fest-icon { margin-right: 0; margin-bottom: 15px; }
+            .date-box { text-align: center; margin-top: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-header text-center">
+    <div class="container">
+        <h1 class="fw-bold display-4 mb-2">2026 Holiday Schedule</h1>
+        <p class="lead opacity-75">Planning your work-life balance for the upcoming year.</p>
+    </div>
+</div>
+
+<div class="container mb-5">
+    <!-- Stats Row -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="stat-pill">
+                <i class="fa-solid fa-calendar-check text-primary"></i>
+                <span class="h4 fw-bold mb-0" id="totalHolidays">15</span>
+                <p class="text-muted small mb-0">Total Holidays</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-pill">
+                <i class="fa-solid fa-bed text-danger"></i>
+                <span class="h4 fw-bold mb-0" id="sundayCount">02</span>
+                <p class="text-muted small mb-0">Overlap with Sundays</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-pill">
+                <i class="fa-solid fa-briefcase text-success"></i>
+                <span class="h4 fw-bold mb-0" id="workingOff">13</span>
+                <p class="text-muted small mb-0">Actual Working Days Off</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Rendering -->
+    <div id="calendar-render">
+        <!-- JS Injected Content -->
+    </div>
+</div>
+
+<script>
+    const holidayData = [
+        { id: 1, month: "January", name: "New Year's Day", date: "Jan 01", day: "Thursday", icon: "fa-champagne-glasses", color: "bg-fest-blue" },
+        { id: 2, month: "January", name: "Makar Sankranti", date: "Jan 14", day: "Wednesday", icon: "fa-kite", iconAlt: "fa-wind", color: "bg-fest-orange" },
+        { id: 3, month: "January", name: "Republic Day", date: "Jan 26", day: "Monday", icon: "fa-flag", color: "bg-fest-blue" },
+        
+        { id: 4, month: "February", name: "Maha Shivratri", date: "Feb 16", day: "Monday", icon: "fa-om", color: "bg-fest-red" },
+        
+        { id: 5, month: "March", name: "Holi Festival", date: "Mar 04", day: "Wednesday", icon: "fa-palette", color: "bg-fest-green" },
+        { id: 6, month: "March", name: "Idu’l Fitr", date: "Mar 20", day: "Friday", icon: "fa-moon", color: "bg-fest-purple", isTentative: true },
+        { id: 7, month: "March", name: "Ram Navami", date: "Mar 26", day: "Thursday", icon: "fa-bow-arrow", iconAlt: "fa-sun", color: "bg-fest-orange" },
+        
+        { id: 8, month: "August", name: "Independence Day", date: "Aug 15", day: "Saturday", icon: "fa-monument", color: "bg-fest-blue" },
+        { id: 9, month: "August", name: "Raksha Bandhan", date: "Aug 28", day: "Friday", icon: "fa-hands-holding", color: "bg-fest-orange" },
+        
+        { id: 10, month: "September", name: "Janmashtami", date: "Sep 04", day: "Friday", icon: "fa-music", color: "bg-fest-blue" },
+        
+        { id: 11, month: "October", name: "Gandhi Jayanti", date: "Oct 02", day: "Friday", icon: "fa-glasses", color: "bg-fest-green" },
+        { id: 12, month: "October", name: "Dussehra", date: "Oct 20", day: "Tuesday", icon: "fa-fire", color: "bg-fest-red" },
+        
+        { id: 13, month: "November", name: "Deepawali", date: "Nov 08", day: "Sunday", icon: "fa-om", iconAlt: "fa-lightbulb", color: "bg-fest-orange", isSunday: true },
+        { id: 14, month: "November", name: "Guru Nanak Jayanti", date: "Nov 24", day: "Tuesday", icon: "fa-temple", iconAlt: "fa-dharmachakra", color: "bg-fest-blue" },
+        
+        { id: 15, month: "December", name: "Christmas Day", date: "Dec 25", day: "Friday", icon: "fa-tree", color: "bg-fest-red" }
+    ];
+
+    const renderTarget = document.getElementById('calendar-render');
+    let currentMonth = "";
+
+    holidayData.forEach(h => {
+        // Month Header
+        if (h.month !== currentMonth) {
+            currentMonth = h.month;
+            const mHeader = `<div class="month-title">${currentMonth}</div>`;
+            renderTarget.innerHTML += mHeader;
+        }
+
+        // Row Template
+        const item = `
+            <div class="holiday-item">
+                <div class="fest-icon ${h.color}">
+                    <i class="fa-solid ${h.icon || h.iconAlt}"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <h5 class="mb-0 fw-bold text-dark">${h.name}</h5>
+                    ${h.isTentative ? '<span class="tentative-label"><i class="fa-solid fa-circle-info me-1"></i>Tentative Date</span>' : ''}
+                </div>
+                <div class="date-box">
+                    <span class="date-main text-primary">${h.date}</span>
+                    <span class="day-label">${h.day}</span>
+                    <br>
+                    ${h.isSunday ? '<span class="sunday-badge">Sunday</span>' : ''}
+                </div>
+            </div>
+        `;
+        renderTarget.innerHTML += item;
+    });
+</script>
+
+</body>
+</html>
