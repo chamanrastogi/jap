@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Jap Mantra Machine - Pro Edition</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* Premium CSS Variables */
+    :root {
+      --saffron: #FF9933;
+      --saffron-hover: #e6882e;
+      --bg-light: linear-gradient(135deg, #fff5e1 0%, #ffdfba 100%);
+      --bg-dark: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+      --card-light: rgba(255, 255, 255, 0.85);
+      --card-dark: rgba(30, 41, 59, 0.75);
+      --text-main: #1f2937;
+      --text-muted: #6b7280;
+    }[data-bs-theme="dark"] {
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    body {
+      background: var(--bg-light);
+      min-height: 100vh;
+      font-family: 'Outfit', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      transition: background 0.6s ease;
+      overflow-x: hidden;
+    }
+
+    [data-bs-theme="dark"] body { background: var(--bg-dark); }
+
+    .font-elegant { font-family: 'Cinzel', serif; }
+
+    /* Glassmorphism Card */
+    .glass-card {
+      background: var(--card-light);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      border-radius: 2rem;
+      width: 100%;
+      max-width: 440px;
+      transition: background 0.4s ease, border 0.4s ease;
+    }[data-bs-theme="dark"] .glass-card {
+      background: var(--card-dark);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Top Navigation Tools */
+    .top-tools button {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.25rem;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .top-tools button:hover { color: var(--saffron); transform: scale(1.1); }
+
+    /* SVG Circular Progress Ring */
+    .progress-container {
+      position: relative;
+      width: 240px;
+      height: 240px;
+      margin: 0 auto;
+    }
+    .progress-ring__circle {
+      transition: stroke-dashoffset 0.4s ease-in-out;
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+    }
+    .ring-bg { stroke: rgba(156, 163, 175, 0.2); }[data-bs-theme="dark"] .ring-bg { stroke: rgba(255, 255, 255, 0.1); }
+    
+    .counter-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Main Tap Button - Breathing Animation */
+    .btn-jap {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      background: transparent;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      z-index: 10;
+      position: relative;
+      /* Subtle breathing pulse */
+      animation: breathe 8s infinite ease-in-out;
+    }
+    .btn-jap:active { transform: scale(0.96); animation: none; }
+    
+    @keyframes breathe {
+      0%, 100% { box-shadow: inset 0 0 0px rgba(255,153,51,0); }
+      50% { box-shadow: inset 0 0 30px rgba(255,153,51,0.2); }
+    }
+
+    .form-control, .form-select {
+      background-color: transparent;
+      color: var(--text-main);
+      border-color: rgba(156, 163, 175, 0.3);
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: var(--saffron);
+      box-shadow: 0 0 0 0.2rem rgba(255, 153, 51, 0.25);
+      background-color: transparent;
+      color: var(--text-main);
+    }
+    [data-bs-theme="dark"] option { background-color: #1e293b; color: white; }
+
+    .text-main { color: var(--text-main); }
+    .text-muted-custom { color: var(--text-muted); }
+
+    /* Utilities */
+    .timer-badge {
+      background: rgba(255, 153, 51, 0.1);
+      color: var(--saffron);
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+
+<main class="glass-card p-4">
+  
+  <!-- Top Tools -->
+  <div class="d-flex justify-content-between align-items-center mb-3 top-tools">
+    <button onclick="toggleTheme()" title="Toggle Dark/Light Mode" id="themeBtn">
+      <i class="fas fa-moon"></i>
+    </button>
+    <div class="timer-badge">
+      <i class="fas fa-clock me-1"></i> <span id="sessionTimer">00:00</span>
+    </div>
+    <button onclick="toggleSetup()" title="Settings">
+      <i class="fas fa-cog"></i>
+    </button>
+  </div>
+
+  <!-- Header -->
+  <header class="text-center mb-3">
+    <h1 class="fs-3 font-elegant text-main mb-1 tracking-wider"><i class="fas fa-dharmachakra text-saffron"></i> Jap Machine</h1>
+  </header>
+
+  <!-- Collapsible Setup Section -->
+  <div class="collapse show mb-4" id="setupSection">
+    <div class="card card-body bg-transparent border-0 p-0">
+      <label class="d-block small fw-bold text-muted-custom text-uppercase tracking-wider mb-2">Practice Setup</label>
+      
+      <!-- Preset & Target -->
+      <div class="row g-2 mb-2">
+        <div class="col-8">
+          <select id="presetSelect" class="form-select form-select-sm" onchange="applyPreset()">
+            <option value="">-- Choose Mantra --</option>
+            <option value="Om Namah Shivaya">Om Namah Shivaya</option>
+            <option value="Om Shri Ganeshaya Namah">Om Shri Ganeshaya Namah</option>
+            <option value="Hare Krishna Hare Rama">Hare Krishna Hare Rama</option>
+            <option value="Om Bhur Bhuva Swaha">Gayatri Mantra</option>
+            <option value="Om Tare Tuttare Ture Soha">Green Tara Mantra</option>
+          </select>
+        </div>
+        <div class="col-4">
+          <select id="targetSelect" class="form-select form-select-sm fw-bold text-center">
+            <option value="108">108</option>
+            <option value="11">11</option>
+            <option value="21">21</option>
+            <option value="51">51</option>
+            <option value="0">∞</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Ambient Sounds -->
+      <div class="mb-2">
+        <select id="ambientSelect" class="form-select form-select-sm" onchange="handleAmbientChange()">
+          <option value="">🔇 No Ambient Sound</option>
+          <option value="https://actions.google.com/sounds/v1/water/rain_on_roof.ogg">🌧️ Gentle Rain</option>
+          <option value="https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg">🌊 Deep River / Ocean</option>
+          <option value="https://actions.google.com/sounds/v1/nature/fire_crackling_and_crickets.ogg">🔥 Night Fire & Crickets</option>
+        </select>
+      </div>
+
+      <!-- Input & Start Button -->
+      <div class="input-group">
+        <input id="mantraInput" type="text" class="form-control" placeholder="Type your own mantra..." value="Om Namah Shivaya" />
+        <button class="btn" style="background: var(--saffron); color: white; font-weight: bold;" onclick="setAndStart()">Begin</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Active Mantra Display -->
+  <div class="text-center mb-4">
+    <h2 id="activeMantraDisplay" class="fs-5 text-saffron fw-bold font-elegant fst-italic mb-0">Om Namah Shivaya</h2>
+    <div class="text-muted-custom small fw-bold mt-1" id="malaText">Target: 108</div>
+  </div>
+
+  <!-- Advanced Circular Counter Display -->
+  <section class="text-center mb-4">
+    <div class="progress-container">
+      <!-- SVG Ring -->
+      <svg width="240" height="240">
+        <!-- Background Ring -->
+        <circle class="ring-bg" stroke-width="8" fill="transparent" r="106" cx="120" cy="120"/>
+        <!-- Progress Ring -->
+        <circle id="progressRing" class="progress-ring__circle" stroke="var(--saffron)" stroke-width="8" stroke-linecap="round" fill="transparent" r="106" cx="120" cy="120"/>
+      </svg>
+      
+      <!-- Counter & Tap Zone Inside Ring -->
+      <div class="counter-overlay">
+        <button id="japBtn" class="btn-jap text-main" onclick="incrementCount()" aria-label="Tap to count">
+          <div id="counterValue" class="fw-bold font-monospace text-main" style="font-size: 4rem; line-height: 1; transition: transform 0.1s;">0</div>
+          <div class="text-muted-custom small fw-bold text-uppercase mt-2 tracking-widest"><i class="fas fa-hand-pointer text-saffron me-1"></i> Tap</div>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Controls Layer -->
+  <section class="row g-2 mb-3">
+    <div class="col-6">
+      <div class="d-flex align-items-center justify-content-center p-2 rounded-3 border h-100" style="background: rgba(156,163,175,0.05);">
+        <div class="form-check form-switch mb-0">
+          <input class="form-check-input ms-0 me-2" type="checkbox" id="autoToggle" onchange="toggleAutoMode()">
+          <label class="form-check-label text-muted-custom small fw-bold" for="autoToggle">Auto Jap</label>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <button class="btn w-100 h-100 py-2 d-flex align-items-center justify-content-center gap-2 fw-semibold border text-main rounded-3" style="background: rgba(156,163,175,0.05);" onclick="resetSession()">
+        <i class="fas fa-rotate-left"></i> Reset
+      </button>
+    </div>
+  </section>
+
+  <!-- Auto Speed Slider (Hidden initially) -->
+  <div id="autoSpeedContainer" class="px-2 mb-4 d-none">
+    <div class="d-flex justify-content-between text-muted-custom fw-bold text-uppercase mb-1" style="font-size: 0.65rem;">
+      <span>Speed</span>
+      <span id="speedDisplay">2.5s</span>
+    </div>
+    <input id="speedSlider" type="range" class="form-range" min="1" max="5" step="0.5" value="2.5" oninput="updateSpeedDisplay(this.value)">
+  </div>
+
+  <!-- Stats Grid -->
+  <section class="row g-2">
+    <div class="col-6">
+      <div class="p-2 rounded-4 border text-center" style="background: rgba(156,163,175,0.05);">
+        <div class="text-muted-custom fw-bold text-uppercase mb-1" style="font-size: 0.6rem;">Today</div>
+        <div id="statsToday" class="fs-5 fw-bold text-main">0</div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="p-2 rounded-4 border text-center" style="background: rgba(156,163,175,0.05);">
+        <div class="text-muted-custom fw-bold text-uppercase mb-1" style="font-size: 0.6rem;">Lifetime</div>
+        <div id="statsTotal" class="fs-5 fw-bold text-main">0</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Hidden Audio Element for Ambient Background -->
+<audio id="ambientAudio" loop preload="none"></audio>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Application Logic -->
+<script>
+  /* --- Advanced UI State --- */
+  let count = 0;
+  let target = 108;
+  let sessionTotal = 0;
+  let lifetimeTotal = parseInt(localStorage.getItem('jap_total')) || 0;
+  
+  // Timer vars
+  let timerInterval = null;
+  let secondsActive = 0;
+  let autoJapInterval = null;
+
+  // DOM Elements
+  const counterDisplay = document.getElementById('counterValue');
+  const malaText = document.getElementById('malaText');
+  const statsToday = document.getElementById('statsToday');
+  const statsTotal = document.getElementById('statsTotal');
+  const mantraDisplay = document.getElementById('activeMantraDisplay');
+  const progressRing = document.getElementById('progressRing');
+  const timerDisplay = document.getElementById('sessionTimer');
+  const ambientAudio = document.getElementById('ambientAudio');
+  const setupCollapsible = new bootstrap.Collapse(document.getElementById('setupSection'), { toggle: false });
+
+  // Init Circular Progress math
+  const radius = progressRing.r.baseVal.value;
+  const circumference = radius * 2 * Math.PI;
+  progressRing.style.strokeDasharray = `${circumference} ${circumference}`;
+  progressRing.style.strokeDashoffset = circumference;
+
+  // Init Stats
+  statsTotal.innerText = lifetimeTotal;
+
+  /* --- Audio & Haptic Context --- */
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  
+  function playClick() {
+    if(audioCtx.state === 'suspended') audioCtx.resume();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(800, audioCtx.currentTime); 
+    gain.gain.setValueAtTime(0, audioCtx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.3);
+  }
+
+  function triggerHaptic(isTarget = false) {
+    if (navigator.vibrate) {
+      if (isTarget) navigator.vibrate([100, 50, 100, 50, 200]); // Celebration vibration
+      else navigator.vibrate(30); // Subtle tick
+    }
+  }
+
+  function handleAmbientChange() {
+    const url = document.getElementById('ambientSelect').value;
+    if (url) {
+      ambientAudio.src = url;
+      ambientAudio.play().catch(e => console.log("Audio play requires user interaction first."));
+    } else {
+      ambientAudio.pause();
+    }
+  }
+
+  /* --- Setup & Controls --- */
+  function applyPreset() {
+    const preset = document.getElementById('presetSelect').value;
+    if(preset) document.getElementById('mantraInput').value = preset;
+  }
+
+  function toggleSetup() {
+    setupCollapsible.toggle();
+  }
+
+  function setAndStart() {
+    const inputVal = document.getElementById('mantraInput').value.trim();
+    if (inputVal) mantraDisplay.innerText = inputVal;
+    
+    target = parseInt(document.getElementById('targetSelect').value);
+    
+    // Auto start ambient if selected
+    handleAmbientChange();
+
+    resetSession();
+    setupCollapsible.hide(); // Hide setup clean UI
+  }
+
+  /* --- Core Logic --- */
+  function incrementCount() {
+    // Start timer on first tap
+    if (count === 0 && !timerInterval) startTimer();
+
+    if (target > 0 && count >= target) {
+      stopAutoMode();
+      triggerHaptic(true);
+      alert(`🕉️ Peace. You have reached your target of ${target} japs.`);
+      return; 
+    }
+
+    count++;
+    sessionTotal++;
+    lifetimeTotal++;
+    
+    // UI Animations
+    counterDisplay.innerText = count;
+    counterDisplay.style.transform = 'scale(1.15)';
+    counterDisplay.style.color = 'var(--saffron)';
+    setTimeout(() => {
+      counterDisplay.style.transform = 'scale(1)';
+      counterDisplay.style.color = '';
+    }, 150);
+    
+    updateProgressRing();
+
+    // Stats
+    statsToday.innerText = sessionTotal;
+    statsTotal.innerText = lifetimeTotal;
+    localStorage.setItem('jap_total', lifetimeTotal);
+
+    playClick();
+    triggerHaptic();
+
+    // Recheck immediately if target was just reached
+    if (target > 0 && count === target) {
+      stopAutoMode();
+      triggerHaptic(true);
+      setTimeout(() => alert(`🕉️ Peace. Target of ${target} completed successfully.`), 300);
+    }
+  }
+
+  function updateProgressRing() {
+    if (target === 0) {
+      // Infinite Mode Loop
+      const pct = ((count % 108) / 108);
+      progressRing.style.strokeDashoffset = circumference - (pct * circumference);
+      malaText.innerText = `${count} (∞ Mode)`;
+    } else {
+      const pct = Math.min(count / target, 1);
+      progressRing.style.strokeDashoffset = circumference - (pct * circumference);
+      malaText.innerText = `${count} / ${target}`;
+    }
+  }
+
+  function resetSession() {
+    count = 0;
+    secondsActive = 0;
+    counterDisplay.innerText = '0';
+    timerDisplay.innerText = '00:00';
+    updateProgressRing();
+    stopAutoMode();
+    stopTimer();
+  }
+
+  /* --- Timer Logic --- */
+  function startTimer() {
+    stopTimer();
+    timerInterval = setInterval(() => {
+      secondsActive++;
+      const m = String(Math.floor(secondsActive / 60)).padStart(2, '0');
+      const s = String(secondsActive % 60).padStart(2, '0');
+      timerDisplay.innerText = `${m}:${s}`;
+    }, 1000);
+  }
+
+  function stopTimer() {
+    if(timerInterval) clearInterval(timerInterval);
+    timerInterval = null;
+  }
+
+  /* --- Auto Mode --- */
+  function toggleAutoMode() {
+    const isAuto = document.getElementById('autoToggle').checked;
+    const speedContainer = document.getElementById('autoSpeedContainer');
+    if (isAuto) {
+      speedContainer.classList.remove('d-none');
+      startAutoMode();
+    } else {
+      speedContainer.classList.add('d-none');
+      stopAutoMode();
+    }
+  }
+
+  function updateSpeedDisplay(val) {
+    document.getElementById('speedDisplay').innerText = val + 's';
+    if (autoJapInterval) {
+      stopAutoMode();
+      startAutoMode();
+    }
+  }
+
+  function startAutoMode() {
+    if (target > 0 && count >= target) {
+      document.getElementById('autoToggle').checked = false;
+      return;
+    }
+    if (count === 0 && !timerInterval) startTimer();
+    const speed = parseFloat(document.getElementById('speedSlider').value) * 1000;
+    autoJapInterval = setInterval(incrementCount, speed);
+  }
+
+  function stopAutoMode() {
+    if(autoJapInterval) clearInterval(autoJapInterval);
+    autoJapInterval = null;
+    document.getElementById('autoToggle').checked = false;
+  }
+
+  /* --- Theme Toggle --- */
+  function toggleTheme() {
+    const body = document.documentElement;
+    const themeBtnIcon = document.querySelector('#themeBtn i');
+    if (body.getAttribute('data-bs-theme') === 'light') {
+      body.setAttribute('data-bs-theme', 'dark');
+      themeBtnIcon.className = 'fas fa-sun';
+    } else {
+      body.setAttribute('data-bs-theme', 'light');
+      themeBtnIcon.className = 'fas fa-moon';
+    }
+  }
+
+  // Pre-fill initial UI
+  updateProgressRing();
+</script>
+
+</body>
+</html>
