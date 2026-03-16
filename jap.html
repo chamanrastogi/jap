@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Jap Mantra Machine Pro</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Outfit:wght@300;400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --saffron: #FF9933;
+      --saffron-hover: #e6882e;
+      --bg-light: linear-gradient(135deg, #fff7ea 0%, #ffe2bf 100%);
+      --bg-dark: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+      --card-light: rgba(255, 255, 255, 0.84);
+      --card-dark: rgba(30, 41, 59, 0.76);
+      --text-main: #1f2937;
+      --text-muted: #6b7280;
+      --chip-bg: rgba(255,255,255,0.65);
+      --soft-border: rgba(156,163,175,0.22);
+      --panel-bg: rgba(156,163,175,0.06);
+    }
+
+    [data-bs-theme="dark"] {
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --chip-bg: rgba(30, 41, 59, 0.72);
+      --soft-border: rgba(255,255,255,0.08);
+      --panel-bg: rgba(255,255,255,0.04);
+    }
+
+    body {
+      background: var(--bg-light);
+      min-height: 100vh;
+      font-family: 'Outfit', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      transition: background 0.6s ease;
+      overflow-x: hidden;
+    }
+
+    [data-bs-theme="dark"] body {
+      background: var(--bg-dark);
+    }
+
+    .font-elegant { font-family: 'Cinzel', serif; }
+    .font-devanagari { font-family: 'Noto Sans Devanagari', sans-serif; }
+    .text-main { color: var(--text-main); }
+    .text-muted-custom { color: var(--text-muted); }
+    .text-saffron { color: var(--saffron); }
+
+    .glass-card {
+      background: var(--card-light);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      border-radius: 2rem;
+      width: 100%;
+      max-width: 540px;
+      transition: background 0.4s ease, border 0.4s ease;
+      overflow: hidden;
+    }
+
+    [data-bs-theme="dark"] .glass-card {
+      background: var(--card-dark);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .top-tools button {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.25rem;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .top-tools button:hover {
+      color: var(--saffron);
+      transform: scale(1.08);
+    }
+
+    .timer-badge {
+      background: rgba(255, 153, 51, 0.1);
+      color: var(--saffron);
+      padding: 0.35rem 0.8rem;
+      border-radius: 1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      font-size: 0.88rem;
+    }
+
+    .section-panel {
+      background: var(--panel-bg);
+      border: 1px solid var(--soft-border);
+      border-radius: 1.2rem;
+      padding: 0.9rem;
+    }
+
+    .section-title {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--text-muted);
+      margin-bottom: 0.65rem;
+    }
+
+    .progress-container {
+      position: relative;
+      width: 240px;
+      height: 240px;
+      margin: 0 auto;
+    }
+
+    .progress-ring__circle {
+      transition: stroke-dashoffset 0.4s ease-in-out;
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+    }
+
+    .ring-bg { stroke: rgba(156, 163, 175, 0.2); }
+    [data-bs-theme="dark"] .ring-bg { stroke: rgba(255, 255, 255, 0.1); }
+
+    .counter-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-jap {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: transparent;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      position: relative;
+      animation: breathe 8s infinite ease-in-out;
+    }
+
+    .btn-jap:active {
+      transform: scale(0.96);
+      animation: none;
+    }
+
+    @keyframes breathe {
+      0%, 100% { box-shadow: inset 0 0 0 rgba(255,153,51,0); }
+      50% { box-shadow: inset 0 0 30px rgba(255,153,51,0.22); }
+    }
+
+    .form-control, .form-select {
+      background-color: transparent;
+      color: var(--text-main);
+      border-color: rgba(156, 163, 175, 0.3);
+    }
+
+    .form-control:focus, .form-select:focus {
+      border-color: var(--saffron);
+      box-shadow: 0 0 0 0.2rem rgba(255, 153, 51, 0.25);
+      background-color: transparent;
+      color: var(--text-main);
+    }
+
+    [data-bs-theme="dark"] option {
+      background-color: #1e293b;
+      color: white;
+    }
+
+    .mantra-search {
+      position: relative;
+    }
+
+    .mantra-search i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    .mantra-search input { padding-left: 2.1rem; }
+
+    .category-scroll, .recent-scroll {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding-bottom: 0.2rem;
+      scrollbar-width: none;
+    }
+
+    .category-scroll::-webkit-scrollbar,
+    .recent-scroll::-webkit-scrollbar,
+    .mantra-list::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-chip, .recent-chip {
+      border: 1px solid var(--soft-border);
+      background: var(--chip-bg);
+      color: var(--text-main);
+      border-radius: 999px;
+      padding: 0.45rem 0.8rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .filter-chip.active,
+    .recent-chip:hover {
+      background: rgba(255, 153, 51, 0.15);
+      border-color: rgba(255, 153, 51, 0.35);
+      color: var(--saffron);
+    }
+
+    .mantra-list {
+      max-height: 260px;
+      overflow-y: auto;
+      display: grid;
+      gap: 0.65rem;
+      padding-right: 0.15rem;
+    }
+
+    .mantra-card {
+      border: 1px solid var(--soft-border);
+      border-radius: 1rem;
+      padding: 0.85rem;
+      background: rgba(255,255,255,0.36);
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    [data-bs-theme="dark"] .mantra-card {
+      background: rgba(255,255,255,0.02);
+    }
+
+    .mantra-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255, 153, 51, 0.35);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+    }
+
+    .mantra-card.active {
+      border-color: rgba(255, 153, 51, 0.4);
+      background: rgba(255, 153, 51, 0.1);
+    }
+
+    .mantra-name {
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.35;
+      margin-bottom: 0.15rem;
+    }
+
+    .mantra-text-hi {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-main);
+      margin-bottom: 0.2rem;
+    }
+
+    .mantra-meaning {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      line-height: 1.4;
+    }
+
+    .mantra-meta {
+      display: flex;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+      margin-top: 0.45rem;
+    }
+
+    .meta-badge {
+      border-radius: 999px;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      background: rgba(156,163,175,0.12);
+      color: var(--text-muted);
+    }
+
+    .nice-btn {
+      background: var(--saffron);
+      color: #fff;
+      font-weight: 700;
+      border: none;
+    }
+
+    .nice-btn:hover {
+      background: var(--saffron-hover);
+      color: #fff;
+    }
+
+    .active-mantra-card {
+      background: linear-gradient(135deg, rgba(255,153,51,0.12), rgba(255,255,255,0.08));
+      border: 1px solid rgba(255,153,51,0.2);
+      border-radius: 1.2rem;
+      padding: 1rem;
+    }
+
+    .active-top-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 0.65rem;
+      border-radius: 999px;
+      background: rgba(255,153,51,0.12);
+      color: var(--saffron);
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 0.45rem;
+    }
+
+    .active-mantra-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.35;
+    }
+
+    .active-mantra-hindi {
+      font-size: 1.2rem;
+      line-height: 1.7;
+      color: var(--text-main);
+      margin-top: 0.35rem;
+      font-weight: 700;
+    }
+
+    .active-mantra-sub {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      margin-top: 0.25rem;
+    }
+
+    .active-mantra-meaning {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      margin-top: 0.35rem;
+      line-height: 1.4;
+    }
+
+    .stat-box {
+      background: rgba(156,163,175,0.05);
+      border: 1px solid var(--soft-border);
+      border-radius: 1rem;
+      padding: 0.75rem;
+      text-align: center;
+      height: 100%;
+    }
+
+    .stat-label {
+      color: var(--text-muted);
+      font-size: 0.66rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.15rem;
+    }
+
+    .stat-value {
+      color: var(--text-main);
+      font-size: 1.15rem;
+      font-weight: 800;
+    }
+
+    .sub-value {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 0.1rem;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 1rem 0.5rem;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    .completion-card {
+      border-radius: 1.2rem;
+      background: linear-gradient(135deg, rgba(255,153,51,0.12), rgba(245,158,11,0.08));
+      border: 1px solid rgba(255,153,51,0.18);
+      text-align: center;
+      padding: 1rem;
+    }
+
+    @media (max-width: 576px) {
+      .glass-card { max-width: 100%; border-radius: 1.5rem; }
+      .progress-container { width: 220px; height: 220px; }
+      .mantra-list { max-height: 220px; }
+      .active-mantra-hindi { font-size: 1.08rem; }
+    }
+  </style>
+</head>
+<body>
+
+<main class="glass-card p-4">
+  <div class="d-flex justify-content-between align-items-center mb-3 top-tools">
+    <button onclick="toggleTheme()" title="Toggle Dark/Light Mode" id="themeBtn">
+      <i class="fas fa-moon"></i>
+    </button>
+
+    <div class="timer-badge">
+      <i class="fas fa-clock me-1"></i> <span id="sessionTimer">00:00</span>
+    </div>
+
+    <button onclick="toggleSetup()" title="Settings">
+      <i class="fas fa-cog"></i>
+    </button>
+  </div>
+
+  <header class="text-center mb-3">
+    <h1 class="fs-3 font-elegant text-main mb-1">
+      <i class="fas fa-dharmachakra text-saffron"></i> Jap Machine
+    </h1>
+    <div class="text-muted-custom small">Set default mantra by ID and show Hindi text on counter.</div>
+  </header>
+
+  <div class="collapse show mb-4" id="setupSection">
+    <div class="card card-body bg-transparent border-0 p-0">
+
+      <div class="section-panel mb-3">
+        <div class="section-title">Practice setup</div>
+
+        <div class="row g-2 mb-2">
+          <div class="col-8">
+            <input id="mantraInput" type="text" class="form-control form-control-sm" placeholder="Type custom mantra title..." />
+          </div>
+          <div class="col-4">
+            <select id="targetSelect" class="form-select form-select-sm fw-bold text-center">
+              <option value="108">108</option>
+              <option value="11">11</option>
+              <option value="21">21</option>
+              <option value="51">51</option>
+              <option value="1008">1008</option>
+              <option value="0">∞</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row g-2 mb-2">
+          <div class="col-12">
+            <input id="defaultMantraIdInput" type="text" class="form-control form-control-sm" placeholder="Default mantra id (example: shani_beej)" />
+          </div>
+        </div>
+
+        <div class="row g-2 mb-2">
+          <div class="col-6 d-grid">
+            <button class="btn btn-outline-secondary rounded-pill btn-sm" onclick="saveDefaultMantraId()">
+              Save Default ID
+            </button>
+          </div>
+          <div class="col-6 d-grid">
+            <button class="btn btn-outline-secondary rounded-pill btn-sm" onclick="loadDefaultMantraById()">
+              Load Default
+            </button>
+          </div>
+        </div>
+
+        <div class="row g-2 mb-2">
+          <div class="col-12">
+            <select id="ambientSelect" class="form-select form-select-sm" onchange="handleAmbientChange()">
+              <option value="">🔇 No Ambient Sound</option>
+              <option value="https://actions.google.com/sounds/v1/water/rain_on_roof.ogg">🌧️ Gentle Rain</option>
+              <option value="https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg">🌊 Deep River / Ocean</option>
+              <option value="https://actions.google.com/sounds/v1/nature/fire_crackling_and_crickets.ogg">🔥 Night Fire & Crickets</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="d-grid">
+          <button class="btn nice-btn rounded-pill" onclick="setAndStart()">
+            <i class="fas fa-play me-1"></i> Begin Session
+          </button>
+        </div>
+      </div>
+
+      <div class="section-panel mb-3">
+        <div class="section-title">All mantras</div>
+
+        <div class="mantra-search mb-2">
+          <i class="fas fa-search"></i>
+          <input id="mantraSearch" type="text" class="form-control form-control-sm rounded-pill" placeholder="Search mantra, deity, or category..." oninput="renderMantras()" />
+        </div>
+
+        <div class="category-scroll mb-2" id="categoryFilters"></div>
+        <div class="recent-scroll mb-2" id="recentWrap"></div>
+        <div class="mantra-list" id="mantraList"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="active-mantra-card text-center mb-4">
+    <div class="active-top-badge">
+      <i class="fas fa-om"></i>
+      <span id="activeCategoryDisplay">Planetary</span>
+    </div>
+    <div id="activeMantraDisplay" class="active-mantra-title">Shani Beej Mantra</div>
+    <div id="activeMantraHindi" class="active-mantra-hindi font-devanagari">ॐ शं शनैश्चराय नमः</div>
+    <div id="activeMantraSubtitle" class="active-mantra-sub">Shani mantra</div>
+    <div id="activeMantraMeaning" class="active-mantra-meaning">A Shani mantra often associated with discipline, patience, and resilience.</div>
+    <div class="text-muted-custom small fw-bold mt-2" id="malaText">ॐ शं शनैश्चराय नमः • 0 / 108</div>
+  </div>
+
+  <section class="text-center mb-4">
+    <div class="progress-container">
+      <svg width="240" height="240">
+        <circle class="ring-bg" stroke-width="8" fill="transparent" r="106" cx="120" cy="120"/>
+        <circle id="progressRing" class="progress-ring__circle" stroke="var(--saffron)" stroke-width="8" stroke-linecap="round" fill="transparent" r="106" cx="120" cy="120"/>
+      </svg>
+
+      <div class="counter-overlay">
+        <button id="japBtn" class="btn-jap text-main" onclick="incrementCount()" aria-label="Tap to count">
+          <div id="counterValue" class="fw-bold font-monospace text-main" style="font-size: 4rem; line-height: 1; transition: transform 0.1s;">0</div>
+          <div class="text-muted-custom small fw-bold text-uppercase mt-2">
+            <i class="fas fa-hand-pointer text-saffron me-1"></i> Tap
+          </div>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="row g-2 mb-3">
+    <div class="col-6">
+      <div class="d-flex align-items-center justify-content-center p-2 rounded-4 border h-100" style="background: rgba(156,163,175,0.05);">
+        <div class="form-check form-switch mb-0">
+          <input class="form-check-input ms-0 me-2" type="checkbox" id="autoToggle" onchange="toggleAutoMode()">
+          <label class="form-check-label text-muted-custom small fw-bold" for="autoToggle">Auto Jap</label>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <button class="btn w-100 h-100 py-2 d-flex align-items-center justify-content-center gap-2 fw-semibold border text-main rounded-4" style="background: rgba(156,163,175,0.05);" onclick="resetSession()">
+        <i class="fas fa-rotate-left"></i> Reset
+      </button>
+    </div>
+  </section>
+
+  <div id="autoSpeedContainer" class="px-2 mb-4 d-none">
+    <div class="d-flex justify-content-between text-muted-custom fw-bold text-uppercase mb-1" style="font-size: 0.65rem;">
+      <span>Speed</span>
+      <span id="speedDisplay">2.5s</span>
+    </div>
+    <input id="speedSlider" type="range" class="form-range" min="1" max="5" step="0.5" value="2.5" oninput="updateSpeedDisplay(this.value)">
+  </div>
+
+  <section class="row g-2">
+    <div class="col-4">
+      <div class="stat-box">
+        <div class="stat-label">Session</div>
+        <div id="statsToday" class="stat-value">0</div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="stat-box">
+        <div class="stat-label">Lifetime</div>
+        <div id="statsTotal" class="stat-value">0</div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="stat-box">
+        <div class="stat-label">Malas</div>
+        <div id="statsMalas" class="stat-value">0</div>
+        <div class="sub-value">108 each</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<audio id="ambientAudio" loop preload="none"></audio>
+
+<div class="modal fade" id="completionModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 bg-transparent shadow-none">
+      <div class="completion-card">
+        <div class="fs-2 mb-2">🕉️</div>
+        <h5 class="fw-bold mb-2">Target completed</h5>
+        <p class="text-muted-custom mb-3" id="completionText">You completed your jap target.</p>
+        <button type="button" class="btn nice-btn rounded-pill px-4" data-bs-dismiss="modal">Peace</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  const STORAGE_KEYS = {
+    total: 'jap_total',
+    recent: 'recent_mantras',
+    selectedId: 'selected_mantra_id',
+    defaultId: 'default_mantra_id'
+  };
+
+  const DEFAULT_MANTRA_ID = 'shani_beej';
+
+  const MANTRAS = [
+    {
+      id: 'shani_beej',
+      name: 'Shani Beej Mantra',
+      text: 'ॐ शं शनैश्चराय नमः',
+      category: 'Planetary',
+      subtitle: 'Shani mantra',
+      tags: ['Shani', 'Discipline'],
+      meaning: 'A Shani mantra often associated with discipline, patience, and resilience.'
+    },
+    {
+      id: 'shani_dev',
+      name: 'Shani Dev Mantra',
+      text: 'ॐ शं शनैश्चराय नमः',
+      category: 'Planetary',
+      subtitle: 'Saturn devotion',
+      tags: ['Shani', 'Protection'],
+      meaning: 'A common Shani devotional title using the same mantra text in Hindi.'
+    },
+    {
+      id: 'shiv_om_namah_shivaya',
+      name: 'Om Namah Shivaya',
+      text: 'ॐ नमः शिवाय',
+      category: 'Shiva',
+      subtitle: 'Shiva mantra',
+      tags: ['Peace', 'Shiva'],
+      meaning: 'A well-known Shiva mantra often used for inner peace and devotion.'
+    },
+    {
+      id: 'maha_mrityunjaya',
+      name: 'Maha Mrityunjaya Mantra',
+      text: 'ॐ त्र्यम्बकं यजामहे',
+      category: 'Shiva',
+      subtitle: 'Healing and protection',
+      tags: ['Healing', 'Protection'],
+      meaning: 'A Shiva mantra widely associated with healing, strength, and protection.'
+    },
+    {
+      id: 'ganesha_om_shri_ganeshaya',
+      name: 'Om Shri Ganeshaya Namah',
+      text: 'ॐ श्री गणेशाय नमः',
+      category: 'Ganesha',
+      subtitle: 'For beginnings and obstacles',
+      tags: ['Beginnings', 'Obstacles'],
+      meaning: 'A Ganesha mantra used when seeking blessings before new work and removing obstacles.'
+    },
+    {
+      id: 'peace_om_shanti',
+      name: 'Om Shanti Shanti Shanti',
+      text: 'ॐ शान्तिः शान्तिः शान्तिः',
+      category: 'Peace',
+      subtitle: 'Peace mantra',
+      tags: ['Peace', 'Calm'],
+      meaning: 'A peace mantra invoking calmness in body, speech, and mind.'
+    },
+    {
+      id: 'hanuman_om_hanumate',
+      name: 'Om Hanumate Namah',
+      text: 'ॐ हनुमते नमः',
+      category: 'Hanuman',
+      subtitle: 'Courage and strength',
+      tags: ['Strength', 'Protection'],
+      meaning: 'A Hanuman mantra often used for courage, stamina, and devotion.'
+    }
+  ];
+
+  let currentCategory = 'All';
+  let count = 0;
+  let target = 108;
+  let sessionTotal = 0;
+  let lifetimeTotal = parseInt(localStorage.getItem(STORAGE_KEYS.total)) || 0;
+  let secondsActive = 0;
+  let timerInterval = null;
+  let autoJapInterval = null;
+  let recentMantras = JSON.parse(localStorage.getItem(STORAGE_KEYS.recent) || '[]');
+
+  function getStoredDefaultMantraId() {
+    return localStorage.getItem(STORAGE_KEYS.defaultId) || DEFAULT_MANTRA_ID;
+  }
+
+  function getStoredSelectedMantraId() {
+    return localStorage.getItem(STORAGE_KEYS.selectedId) || getStoredDefaultMantraId();
+  }
+
+  function findMantraById(id) {
+    return MANTRAS.find(m => m.id === id) || MANTRAS.find(m => m.id === DEFAULT_MANTRA_ID) || MANTRAS[0];
+  }
+
+  let activeMantra = findMantraById(getStoredSelectedMantraId());
+
+  const counterDisplay = document.getElementById('counterValue');
+  const malaText = document.getElementById('malaText');
+  const statsToday = document.getElementById('statsToday');
+  const statsTotal = document.getElementById('statsTotal');
+  const statsMalas = document.getElementById('statsMalas');
+  const mantraDisplay = document.getElementById('activeMantraDisplay');
+  const activeMantraHindi = document.getElementById('activeMantraHindi');
+  const activeCategoryDisplay = document.getElementById('activeCategoryDisplay');
+  const activeMantraSubtitle = document.getElementById('activeMantraSubtitle');
+  const activeMantraMeaning = document.getElementById('activeMantraMeaning');
+  const progressRing = document.getElementById('progressRing');
+  const timerDisplay = document.getElementById('sessionTimer');
+  const ambientAudio = document.getElementById('ambientAudio');
+  const mantraInput = document.getElementById('mantraInput');
+  const mantraList = document.getElementById('mantraList');
+  const mantraSearch = document.getElementById('mantraSearch');
+  const categoryFilters = document.getElementById('categoryFilters');
+  const recentWrap = document.getElementById('recentWrap');
+  const completionText = document.getElementById('completionText');
+  const defaultMantraIdInput = document.getElementById('defaultMantraIdInput');
+
+  const setupCollapsible = new bootstrap.Collapse(document.getElementById('setupSection'), { toggle: false });
+  const completionModal = new bootstrap.Modal(document.getElementById('completionModal'));
+
+  const radius = progressRing.r.baseVal.value;
+  const circumference = radius * 2 * Math.PI;
+  progressRing.style.strokeDasharray = `${circumference} ${circumference}`;
+  progressRing.style.strokeDashoffset = circumference;
+
+  statsTotal.innerText = lifetimeTotal;
+  statsToday.innerText = sessionTotal;
+  updateMalaStats();
+
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+  function playClick() {
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0, audioCtx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.3);
+  }
+
+  function triggerHaptic(isTarget = false) {
+    if (navigator.vibrate) {
+      if (isTarget) navigator.vibrate([100, 50, 100, 50, 200]);
+      else navigator.vibrate(30);
+    }
+  }
+
+  function handleAmbientChange() {
+    const url = document.getElementById('ambientSelect').value;
+    if (url) {
+      ambientAudio.src = url;
+      ambientAudio.play().catch(() => {});
+    } else {
+      ambientAudio.pause();
+      ambientAudio.currentTime = 0;
+    }
+  }
+
+  function toggleSetup() {
+    setupCollapsible.toggle();
+  }
+
+  function saveRecentMantra(name) {
+    recentMantras = [name, ...recentMantras.filter(m => m !== name)].slice(0, 6);
+    localStorage.setItem(STORAGE_KEYS.recent, JSON.stringify(recentMantras));
+    renderRecentMantras();
+  }
+
+  function saveSelectedMantraId(id) {
+    localStorage.setItem(STORAGE_KEYS.selectedId, id);
+  }
+
+  function saveDefaultMantraId() {
+    const inputId = defaultMantraIdInput.value.trim();
+    const mantra = findMantraById(inputId);
+    if (!inputId || !mantra || mantra.id !== inputId) {
+      alert('Enter valid mantra id. Example: shani_beej');
+      return;
+    }
+
+    localStorage.setItem(STORAGE_KEYS.defaultId, mantra.id);
+    chooseMantraById(mantra.id);
+    alert(`Default mantra set: ${mantra.name}`);
+  }
+
+  function loadDefaultMantraById() {
+    const defaultId = getStoredDefaultMantraId();
+    chooseMantraById(defaultId);
+  }
+
+  function findMantraByName(name) {
+    return MANTRAS.find(m => m.name === name || m.text === name) || null;
+  }
+
+  function updateActiveMantraDisplay() {
+    mantraDisplay.innerText = activeMantra.name;
+    activeMantraHindi.innerText = activeMantra.text;
+    activeCategoryDisplay.innerText = activeMantra.category;
+    activeMantraSubtitle.innerText = activeMantra.subtitle || 'Selected mantra';
+    activeMantraMeaning.innerText = activeMantra.meaning || '';
+    mantraInput.value = activeMantra.name;
+    defaultMantraIdInput.value = getStoredDefaultMantraId();
+  }
+
+  function chooseMantraById(id) {
+    const selected = findMantraById(id);
+    activeMantra = selected;
+    saveSelectedMantraId(selected.id);
+    saveRecentMantra(selected.name);
+    updateActiveMantraDisplay();
+    renderMantras();
+    updateProgressRing();
+  }
+
+  function chooseMantra(name) {
+    const selected = findMantraByName(name);
+    if (!selected) return;
+    chooseMantraById(selected.id);
+  }
+
+  function renderCategories() {
+    const cats = ['All', ...new Set(MANTRAS.map(m => m.category))];
+    categoryFilters.innerHTML = cats.map(cat => `
+      <button class="filter-chip ${cat === currentCategory ? 'active' : ''}" onclick="setCategory('${cat.replace(/'/g, "\\'")}')">${cat}</button>
+    `).join('');
+  }
+
+  function setCategory(cat) {
+    currentCategory = cat;
+    renderCategories();
+    renderMantras();
+  }
+
+  function renderRecentMantras() {
+    if (!recentMantras.length) {
+      recentWrap.innerHTML = '';
+      return;
+    }
+
+    recentWrap.innerHTML = recentMantras.map(name => `
+      <button class="recent-chip" onclick="chooseMantra('${name.replace(/'/g, "\\'")}')">
+        <i class="fas fa-clock-rotate-left me-1"></i>${name}
+      </button>
+    `).join('');
+  }
+
+  function renderMantras() {
+    const search = mantraSearch.value.trim().toLowerCase();
+
+    const filtered = MANTRAS.filter(m => {
+      const categoryMatch = currentCategory === 'All' || m.category === currentCategory;
+      const searchMatch =
+        m.name.toLowerCase().includes(search) ||
+        m.text.toLowerCase().includes(search) ||
+        m.category.toLowerCase().includes(search) ||
+        (m.subtitle || '').toLowerCase().includes(search) ||
+        m.tags.join(' ').toLowerCase().includes(search) ||
+        m.meaning.toLowerCase().includes(search);
+
+      return categoryMatch && searchMatch;
+    });
+
+    if (!filtered.length) {
+      mantraList.innerHTML = `<div class="empty-state"><i class="fas fa-spa mb-2 d-block fs-4"></i>No mantra found. Try another keyword.</div>`;
+      return;
+    }
+
+    mantraList.innerHTML = filtered.map(m => `
+      <div class="mantra-card ${activeMantra.id === m.id ? 'active' : ''}" data-id="${m.id}" onclick="chooseMantraById('${m.id}')">
+        <div class="mantra-name">${m.name}</div>
+        <div class="mantra-text-hi font-devanagari">${m.text}</div>
+        <div class="mantra-meaning">${m.subtitle}</div>
+        <div class="mantra-meta">
+          <span class="meta-badge">id: ${m.id}</span>
+          <span class="meta-badge">${m.category}</span>
+          ${m.tags.map(tag => `<span class="meta-badge">${tag}</span>`).join('')}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function setAndStart() {
+    const inputVal = mantraInput.value.trim();
+
+    if (inputVal) {
+      const matched = findMantraByName(inputVal);
+      if (matched) {
+        activeMantra = matched;
+      } else {
+        activeMantra = {
+          id: 'custom_' + Date.now(),
+          name: inputVal,
+          text: inputVal,
+          category: 'Custom',
+          subtitle: 'Custom mantra',
+          tags: ['Custom'],
+          meaning: 'Your manually entered mantra for this counting session.'
+        };
+      }
+    }
+
+    saveSelectedMantraId(activeMantra.id);
+    saveRecentMantra(activeMantra.name);
+    updateActiveMantraDisplay();
+
+    target = parseInt(document.getElementById('targetSelect').value, 10);
+    handleAmbientChange();
+    resetSession();
+    setupCollapsible.hide();
+  }
+
+  function incrementCount() {
+    if (count === 0 && !timerInterval) startTimer();
+
+    if (target > 0 && count >= target) {
+      stopAutoMode();
+      triggerHaptic(true);
+      return;
+    }
+
+    count++;
+    sessionTotal++;
+    lifetimeTotal++;
+
+    counterDisplay.innerText = count;
+    counterDisplay.style.transform = 'scale(1.15)';
+    counterDisplay.style.color = 'var(--saffron)';
+    setTimeout(() => {
+      counterDisplay.style.transform = 'scale(1)';
+      counterDisplay.style.color = '';
+    }, 150);
+
+    updateProgressRing();
+
+    statsToday.innerText = sessionTotal;
+    statsTotal.innerText = lifetimeTotal;
+    localStorage.setItem(STORAGE_KEYS.total, lifetimeTotal);
+    updateMalaStats();
+
+    playClick();
+    triggerHaptic();
+
+    if (target > 0 && count === target) {
+      stopAutoMode();
+      triggerHaptic(true);
+      completionText.innerText = `Peace. You completed your target of ${target} japs for "${activeMantra.text}".`;
+      setTimeout(() => completionModal.show(), 250);
+    }
+  }
+
+  function updateProgressRing() {
+    if (target === 0) {
+      const pct = ((count % 108) / 108);
+      progressRing.style.strokeDashoffset = circumference - (pct * circumference);
+      malaText.innerText = `${activeMantra.text} • ${count} (∞ Mode)`;
+    } else {
+      const pct = Math.min(count / target, 1);
+      progressRing.style.strokeDashoffset = circumference - (pct * circumference);
+      malaText.innerText = `${activeMantra.text} • ${count} / ${target}`;
+    }
+  }
+
+  function updateMalaStats() {
+    statsMalas.innerText = Math.floor(lifetimeTotal / 108);
+  }
+
+  function resetSession() {
+    count = 0;
+    secondsActive = 0;
+    counterDisplay.innerText = '0';
+    timerDisplay.innerText = '00:00';
+    updateProgressRing();
+    stopAutoMode();
+    stopTimer();
+  }
+
+  function startTimer() {
+    stopTimer();
+    timerInterval = setInterval(() => {
+      secondsActive++;
+      const m = String(Math.floor(secondsActive / 60)).padStart(2, '0');
+      const s = String(secondsActive % 60).padStart(2, '0');
+      timerDisplay.innerText = `${m}:${s}`;
+    }, 1000);
+  }
+
+  function stopTimer() {
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = null;
+  }
+
+  function toggleAutoMode() {
+    const isAuto = document.getElementById('autoToggle').checked;
+    const speedContainer = document.getElementById('autoSpeedContainer');
+    if (isAuto) {
+      speedContainer.classList.remove('d-none');
+      startAutoMode();
+    } else {
+      speedContainer.classList.add('d-none');
+      stopAutoMode(false);
+    }
+  }
+
+  function updateSpeedDisplay(val) {
+    document.getElementById('speedDisplay').innerText = val + 's';
+    if (autoJapInterval) {
+      stopAutoMode(false);
+      startAutoMode();
+    }
+  }
+
+  function startAutoMode() {
+    if (target > 0 && count >= target) {
+      document.getElementById('autoToggle').checked = false;
+      return;
+    }
+    if (count === 0 && !timerInterval) startTimer();
+
+    const speed = parseFloat(document.getElementById('speedSlider').value) * 1000;
+    stopAutoMode(false);
+    autoJapInterval = setInterval(incrementCount, speed);
+  }
+
+  function stopAutoMode(resetToggle = true) {
+    if (autoJapInterval) clearInterval(autoJapInterval);
+    autoJapInterval = null;
+    if (resetToggle) document.getElementById('autoToggle').checked = false;
+  }
+
+  function toggleTheme() {
+    const root = document.documentElement;
+    const themeBtnIcon = document.querySelector('#themeBtn i');
+    if (root.getAttribute('data-bs-theme') === 'light') {
+      root.setAttribute('data-bs-theme', 'dark');
+      themeBtnIcon.className = 'fas fa-sun';
+    } else {
+      root.setAttribute('data-bs-theme', 'light');
+      themeBtnIcon.className = 'fas fa-moon';
+    }
+  }
+
+  updateActiveMantraDisplay();
+  renderCategories();
+  renderRecentMantras();
+  renderMantras();
+  updateProgressRing();
+</script>
+
+</body>
+</html>

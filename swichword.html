@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Switchword Jap Machine</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --saffron: #ff9933;
+      --saffron-hover: #e68626;
+      --accent-2: #f59e0b;
+      --bg-light: linear-gradient(135deg, #fff7ea 0%, #ffe0bc 100%);
+      --bg-dark: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+      --card-light: rgba(255, 255, 255, 0.82);
+      --card-dark: rgba(30, 41, 59, 0.76);
+      --text-main: #1f2937;
+      --text-muted: #6b7280;
+      --chip-bg: rgba(255,255,255,0.68);
+      --soft-border: rgba(156,163,175,0.22);
+      --panel-bg: rgba(156,163,175,0.06);
+      --success-glow: rgba(255,153,51,0.22);
+    }
+
+    [data-bs-theme="dark"] {
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --chip-bg: rgba(30, 41, 59, 0.72);
+      --soft-border: rgba(255,255,255,0.08);
+      --panel-bg: rgba(255,255,255,0.04);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      background: var(--bg-light);
+      min-height: 100vh;
+      font-family: 'Outfit', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      transition: background 0.6s ease;
+      overflow-x: hidden;
+    }
+
+    html[data-bs-theme="dark"] body {
+      background: var(--bg-dark);
+    }
+
+    .font-elegant { font-family: 'Cinzel', serif; }
+    .text-main { color: var(--text-main); }
+    .text-muted-custom { color: var(--text-muted); }
+    .text-saffron { color: var(--saffron); }
+
+    .glass-card {
+      background: var(--card-light);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.10);
+      border-radius: 2rem;
+      width: 100%;
+      max-width: 600px;
+      transition: background 0.4s ease, border 0.4s ease;
+      overflow: hidden;
+    }
+
+    html[data-bs-theme="dark"] .glass-card {
+      background: var(--card-dark);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    .top-tools button {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .top-tools button:hover {
+      color: var(--saffron);
+      transform: scale(1.08);
+    }
+
+    .timer-badge {
+      background: rgba(255, 153, 51, 0.10);
+      color: var(--saffron);
+      padding: 0.38rem 0.85rem;
+      border-radius: 999px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      font-size: 0.88rem;
+    }
+
+    .section-panel {
+      background: var(--panel-bg);
+      border: 1px solid var(--soft-border);
+      border-radius: 1.2rem;
+      padding: 0.95rem;
+    }
+
+    .section-title {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--text-muted);
+      margin-bottom: 0.7rem;
+    }
+
+    .progress-container {
+      position: relative;
+      width: 250px;
+      height: 250px;
+      margin: 0 auto;
+    }
+
+    .progress-ring__circle {
+      transition: stroke-dashoffset 0.35s ease-in-out;
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+      filter: drop-shadow(0 0 10px rgba(255,153,51,0.22));
+    }
+
+    .ring-bg { stroke: rgba(156, 163, 175, 0.2); }
+    html[data-bs-theme="dark"] .ring-bg { stroke: rgba(255,255,255,0.1); }
+
+    .counter-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-jap {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: transparent;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      position: relative;
+      animation: breathe 8s infinite ease-in-out;
+    }
+
+    .btn-jap:active {
+      transform: scale(0.965);
+      animation: none;
+    }
+
+    @keyframes breathe {
+      0%, 100% { box-shadow: inset 0 0 0 rgba(255,153,51,0); }
+      50% { box-shadow: inset 0 0 34px rgba(255,153,51,0.18); }
+    }
+
+    .form-control, .form-select {
+      background-color: transparent;
+      color: var(--text-main);
+      border-color: rgba(156,163,175,0.30);
+    }
+
+    .form-control:focus, .form-select:focus {
+      border-color: var(--saffron);
+      box-shadow: 0 0 0 0.2rem rgba(255,153,51,0.20);
+      background-color: transparent;
+      color: var(--text-main);
+    }
+
+    html[data-bs-theme="dark"] option {
+      background: #1e293b;
+      color: #fff;
+    }
+
+    .search-box {
+      position: relative;
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    .search-box input { padding-left: 2.1rem; }
+
+    .category-scroll, .recent-scroll, .preset-scroll {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding-bottom: 0.2rem;
+      scrollbar-width: none;
+    }
+
+    .category-scroll::-webkit-scrollbar,
+    .recent-scroll::-webkit-scrollbar,
+    .preset-scroll::-webkit-scrollbar,
+    .switchword-list::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-chip, .recent-chip, .preset-chip {
+      border: 1px solid var(--soft-border);
+      background: var(--chip-bg);
+      color: var(--text-main);
+      border-radius: 999px;
+      padding: 0.45rem 0.85rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .filter-chip.active, .recent-chip:hover, .preset-chip:hover {
+      background: rgba(255,153,51,0.15);
+      border-color: rgba(255,153,51,0.35);
+      color: var(--saffron);
+    }
+
+    .switchword-list {
+      max-height: 280px;
+      overflow-y: auto;
+      display: grid;
+      gap: 0.65rem;
+      padding-right: 0.15rem;
+    }
+
+    .switchword-card {
+      border: 1px solid var(--soft-border);
+      border-radius: 1rem;
+      padding: 0.85rem;
+      background: rgba(255,255,255,0.36);
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    html[data-bs-theme="dark"] .switchword-card {
+      background: rgba(255,255,255,0.02);
+    }
+
+    .switchword-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255,153,51,0.35);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+    }
+
+    .switchword-card.active {
+      border-color: rgba(255,153,51,0.42);
+      background: rgba(255,153,51,0.10);
+    }
+
+    .word-name {
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.35;
+      margin-bottom: 0.15rem;
+    }
+
+    .word-text {
+      font-size: 1rem;
+      line-height: 1.5;
+      color: var(--text-main);
+      margin-bottom: 0.2rem;
+      letter-spacing: 0.5px;
+    }
+
+    .word-meaning {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      line-height: 1.4;
+    }
+
+    .word-meta {
+      display: flex;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+      margin-top: 0.45rem;
+    }
+
+    .meta-badge {
+      border-radius: 999px;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      background: rgba(156,163,175,0.12);
+      color: var(--text-muted);
+    }
+
+    .nice-btn {
+      background: var(--saffron);
+      color: #fff;
+      font-weight: 700;
+      border: none;
+    }
+
+    .nice-btn:hover {
+      background: var(--saffron-hover);
+      color: #fff;
+    }
+
+    .active-card {
+      background: linear-gradient(135deg, rgba(255,153,51,0.12), rgba(255,255,255,0.08));
+      border: 1px solid rgba(255,153,51,0.22);
+      border-radius: 1.2rem;
+      padding: 1rem;
+    }
+
+    .active-top-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 0.65rem;
+      border-radius: 999px;
+      background: rgba(255,153,51,0.12);
+      color: var(--saffron);
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 0.45rem;
+    }
+
+    .active-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.35;
+    }
+
+    .active-text {
+      font-size: 1.38rem;
+      line-height: 1.65;
+      color: var(--text-main);
+      margin-top: 0.3rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .active-sub {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      margin-top: 0.25rem;
+    }
+
+    .active-meaning {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      margin-top: 0.35rem;
+      line-height: 1.45;
+    }
+
+    .stat-box {
+      background: rgba(156,163,175,0.05);
+      border: 1px solid var(--soft-border);
+      border-radius: 1rem;
+      padding: 0.75rem;
+      text-align: center;
+      height: 100%;
+    }
+
+    .stat-label {
+      color: var(--text-muted);
+      font-size: 0.66rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.15rem;
+    }
+
+    .stat-value {
+      color: var(--text-main);
+      font-size: 1.15rem;
+      font-weight: 800;
+    }
+
+    .sub-value {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 0.1rem;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 1rem 0.5rem;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    .completion-card {
+      border-radius: 1.2rem;
+      background: linear-gradient(135deg, rgba(255,153,51,0.12), rgba(245,158,11,0.08));
+      border: 1px solid rgba(255,153,51,0.18);
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .small-note {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    @media (max-width: 576px) {
+      .glass-card { max-width: 100%; border-radius: 1.4rem; }
+      .progress-container { width: 220px; height: 220px; }
+      .switchword-list { max-height: 230px; }
+      .active-text { font-size: 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<main class="glass-card p-4">
+  <div class="d-flex justify-content-between align-items-center mb-3 top-tools">
+    <button onclick="toggleTheme()" title="Toggle Theme" id="themeBtn">
+      <i class="fas fa-moon"></i>
+    </button>
+
+    <div class="timer-badge">
+      <i class="fas fa-clock me-1"></i> <span id="sessionTimer">00:00</span>
+    </div>
+
+    <button onclick="toggleSetup()" title="Settings">
+      <i class="fas fa-cog"></i>
+    </button>
+  </div>
+
+  <header class="text-center mb-3">
+    <h1 class="fs-3 font-elegant text-main mb-1">
+      <i class="fas fa-wand-sparkles text-saffron"></i> Switchword Jap Machine
+    </h1>
+    <div class="text-muted-custom small">Tap, chant, save presets, and track your daily focus words.</div>
+  </header>
+
+  <div class="collapse show mb-4" id="setupSection">
+    <div class="card card-body bg-transparent border-0 p-0">
+
+      <div class="section-panel mb-3">
+        <div class="section-title">Practice setup</div>
+
+        <div class="row g-2 mb-2">
+          <div class="col-8">
+            <input id="switchwordInput" type="text" class="form-control form-control-sm" placeholder="Type custom switchword or combo..." />
+          </div>
+          <div class="col-4">
+            <select id="targetSelect" class="form-select form-select-sm fw-bold text-center">
+              <option value="108">108</option>
+              <option value="11">11</option>
+              <option value="21">21</option>
+              <option value="51">51</option>
+              <option value="1008">1008</option>
+              <option value="0">∞</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row g-2 mb-2">
+          <div class="col-12">
+            <input id="defaultWordIdInput" type="text" class="form-control form-control-sm" placeholder="Default switchword id (example: together)" />
+          </div>
+        </div>
+
+        <div class="row g-2 mb-2">
+          <div class="col-6 d-grid">
+            <button class="btn btn-outline-secondary rounded-pill btn-sm" onclick="saveDefaultWordId()">Save Default ID</button>
+          </div>
+          <div class="col-6 d-grid">
+            <button class="btn btn-outline-secondary rounded-pill btn-sm" onclick="loadDefaultWordById()">Load Default</button>
+          </div>
+        </div>
+
+        <div class="row g-2 mb-2">
+          <div class="col-12">
+            <select id="ambientSelect" class="form-select form-select-sm" onchange="handleAmbientChange()">
+              <option value="">🔇 No Ambient Sound</option>
+              <option value="https://actions.google.com/sounds/v1/water/rain_on_roof.ogg">🌧️ Gentle Rain</option>
+              <option value="https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg">🌊 Ocean</option>
+              <option value="https://actions.google.com/sounds/v1/nature/fire_crackling_and_crickets.ogg">🔥 Night Fire</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="d-grid">
+          <button class="btn nice-btn rounded-pill" onclick="setAndStart()">
+            <i class="fas fa-play me-1"></i> Begin Session
+          </button>
+        </div>
+      </div>
+
+      <div class="section-panel mb-3">
+        <div class="section-title">Quick presets</div>
+        <div class="preset-scroll" id="presetWrap"></div>
+      </div>
+
+      <div class="section-panel mb-3">
+        <div class="section-title">All switchwords</div>
+
+        <div class="search-box mb-2">
+          <i class="fas fa-search"></i>
+          <input id="wordSearch" type="text" class="form-control form-control-sm rounded-pill" placeholder="Search word, category, use..." oninput="renderWords()" />
+        </div>
+
+        <div class="category-scroll mb-2" id="categoryFilters"></div>
+        <div class="recent-scroll mb-2" id="recentWrap"></div>
+        <div class="switchword-list" id="wordList"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="active-card text-center mb-4">
+    <div class="active-top-badge">
+      <i class="fas fa-bolt"></i>
+      <span id="activeCategoryDisplay">General</span>
+    </div>
+    <div id="activeWordDisplay" class="active-title">Together</div>
+    <div id="activeWordText" class="active-text">TOGETHER</div>
+    <div id="activeWordSubtitle" class="active-sub">Master switchword</div>
+    <div id="activeWordMeaning" class="active-meaning">Often described as the master switchword for harmony and broad support.</div>
+    <div class="text-muted-custom small fw-bold mt-2" id="countText">TOGETHER • 0 / 108</div>
+  </div>
+
+  <section class="text-center mb-4">
+    <div class="progress-container">
+      <svg width="250" height="250">
+        <circle class="ring-bg" stroke-width="8" fill="transparent" r="111" cx="125" cy="125"></circle>
+        <circle id="progressRing" class="progress-ring__circle" stroke="var(--saffron)" stroke-width="8" stroke-linecap="round" fill="transparent" r="111" cx="125" cy="125"></circle>
+      </svg>
+
+      <div class="counter-overlay">
+        <button id="japBtn" class="btn-jap text-main" onclick="incrementCount()" aria-label="Tap to count">
+          <div id="counterValue" class="fw-bold font-monospace text-main" style="font-size: 4rem; line-height: 1; transition: transform 0.1s;">0</div>
+          <div class="text-muted-custom small fw-bold text-uppercase mt-2">
+            <i class="fas fa-hand-pointer text-saffron me-1"></i> Tap
+          </div>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="row g-2 mb-3">
+    <div class="col-6">
+      <div class="d-flex align-items-center justify-content-center p-2 rounded-4 border h-100" style="background: rgba(156,163,175,0.05);">
+        <div class="form-check form-switch mb-0">
+          <input class="form-check-input ms-0 me-2" type="checkbox" id="autoToggle" onchange="toggleAutoMode()">
+          <label class="form-check-label text-muted-custom small fw-bold" for="autoToggle">Auto Jap</label>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <button class="btn w-100 h-100 py-2 d-flex align-items-center justify-content-center gap-2 fw-semibold border text-main rounded-4" style="background: rgba(156,163,175,0.05);" onclick="resetSession()">
+        <i class="fas fa-rotate-left"></i> Reset
+      </button>
+    </div>
+  </section>
+
+  <div id="autoSpeedContainer" class="px-2 mb-4 d-none">
+    <div class="d-flex justify-content-between text-muted-custom fw-bold text-uppercase mb-1" style="font-size: 0.65rem;">
+      <span>Speed</span>
+      <span id="speedDisplay">2.5s</span>
+    </div>
+    <input id="speedSlider" type="range" class="form-range" min="1" max="5" step="0.5" value="2.5" oninput="updateSpeedDisplay(this.value)">
+  </div>
+
+  <section class="row g-2 mb-3">
+    <div class="col-4">
+      <div class="stat-box">
+        <div class="stat-label">Session</div>
+        <div id="statsToday" class="stat-value">0</div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="stat-box">
+        <div class="stat-label">Lifetime</div>
+        <div id="statsTotal" class="stat-value">0</div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="stat-box">
+        <div class="stat-label">Malas</div>
+        <div id="statsMalas" class="stat-value">0</div>
+        <div class="sub-value">108 each</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="small-note text-center">
+    These words are used in manifestation communities as spiritual focus tools and affirmation-style chants, including social-media words like Convalexa and Prosopiare and classic switchwords such as Together, Count, Divine, and Guard. [web:49][web:90][web:99][page:1]
+  </div>
+</main>
+
+<audio id="ambientAudio" loop preload="none"></audio>
+
+<div class="modal fade" id="completionModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 bg-transparent shadow-none">
+      <div class="completion-card">
+        <div class="fs-2 mb-2">✨</div>
+        <h5 class="fw-bold mb-2">Target completed</h5>
+        <p class="text-muted-custom mb-3" id="completionText">You completed your switchword target.</p>
+        <button type="button" class="btn nice-btn rounded-pill px-4" data-bs-dismiss="modal">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  const STORAGE_KEYS = {
+    total: 'sw_total',
+    recent: 'sw_recent_words',
+    selectedId: 'sw_selected_id',
+    defaultId: 'sw_default_id'
+  };
+
+  const DEFAULT_WORD_ID = 'together';
+
+  const WORDS = [
+    {
+      id: 'prosopiare',
+      name: 'Prosopiare',
+      text: 'PROSO PIARE',
+      category: 'Business',
+      subtitle: 'Clients and business attraction',
+      tags: ['Clients', 'Business', 'Social'],
+      meaning: 'Used in manifestation groups for attracting clients, visibility, and business opportunities.'
+    },
+    {
+      id: 'convalexa',
+      name: 'Convalexa',
+      text: 'CONVA LEXA',
+      category: 'Money',
+      subtitle: 'Money and hidden wealth',
+      tags: ['Money', 'Wealth', 'Abundance'],
+      meaning: 'A social-media “Italian switchword” commonly used for money, abundance, and prosperity.'
+    },
+    {
+      id: 'together',
+      name: 'Together',
+      text: 'TOGETHER',
+      category: 'General',
+      subtitle: 'Master switchword',
+      tags: ['Harmony', 'Master', 'General'],
+      meaning: 'Often described as the master switchword for harmony and broad support.'
+    },
+    {
+      id: 'count',
+      name: 'Count',
+      text: 'COUNT',
+      category: 'Money',
+      subtitle: 'Financial flow',
+      tags: ['Money', 'Finance'],
+      meaning: 'Commonly used for money and financial flow.'
+    },
+    {
+      id: 'divine',
+      name: 'Divine',
+      text: 'DIVINE',
+      category: 'General',
+      subtitle: 'Miracles and uplift',
+      tags: ['Miracles', 'Faith'],
+      meaning: 'Used for extraordinary support, miracles, and uplift.'
+    },
+    {
+      id: 'find',
+      name: 'Find',
+      text: 'FIND',
+      category: 'Money',
+      subtitle: 'Fortune and results',
+      tags: ['Fortune', 'Results'],
+      meaning: 'Linked with building fortune, finding opportunities, and getting results.'
+    },
+    {
+      id: 'guard',
+      name: 'Guard',
+      text: 'GUARD',
+      category: 'Protection',
+      subtitle: 'Protection and safety',
+      tags: ['Protection', 'Safety'],
+      meaning: 'Used for protection, safety, and energetic shielding.'
+    },
+    {
+      id: 'love',
+      name: 'Love',
+      text: 'LOVE',
+      category: 'Love',
+      subtitle: 'Love and acceptance',
+      tags: ['Love', 'Acceptance'],
+      meaning: 'Used for love, connection, and acceptance.'
+    },
+    {
+      id: 'charm',
+      name: 'Charm',
+      text: 'CHARM',
+      category: 'Love',
+      subtitle: 'Attraction and desire',
+      tags: ['Attraction', 'Desire'],
+      meaning: 'Used for magnetism and heart-centered attraction.'
+    },
+    {
+      id: 'bring',
+      name: 'Bring',
+      text: 'BRING',
+      category: 'General',
+      subtitle: 'Manifest and deliver',
+      tags: ['Manifest', 'Results'],
+      meaning: 'Used to bring in or deliver a desired outcome.'
+    },
+    {
+      id: 'now',
+      name: 'Now',
+      text: 'NOW',
+      category: 'Success',
+      subtitle: 'Immediate action',
+      tags: ['Action', 'Focus'],
+      meaning: 'Used to reduce delay and encourage immediate movement.'
+    },
+    {
+      id: 'reach',
+      name: 'Reach',
+      text: 'REACH',
+      category: 'Success',
+      subtitle: 'Solutions and recall',
+      tags: ['Solutions', 'Memory'],
+      meaning: 'Used for finding answers, solutions, and lost things.'
+    },
+    {
+      id: 'open',
+      name: 'Open',
+      text: 'OPEN',
+      category: 'Calm',
+      subtitle: 'Release and openness',
+      tags: ['Release', 'Mind'],
+      meaning: 'Used for openness, release, and understanding.'
+    },
+    {
+      id: 'clear',
+      name: 'Clear',
+      text: 'CLEAR',
+      category: 'Calm',
+      subtitle: 'Clarity and clearing',
+      tags: ['Clarity', 'Release'],
+      meaning: 'Used for emotional clarity and clearing negativity.'
+    },
+    {
+      id: 'change',
+      name: 'Change',
+      text: 'CHANGE',
+      category: 'Calm',
+      subtitle: 'Shift conditions',
+      tags: ['Shift', 'Relief'],
+      meaning: 'Used for change, transition, and relief from discomfort.'
+    },
+    {
+      id: 'move',
+      name: 'Move',
+      text: 'MOVE',
+      category: 'Success',
+      subtitle: 'Momentum and energy',
+      tags: ['Energy', 'Momentum'],
+      meaning: 'Used to increase energy and reduce inertia.'
+    },
+    {
+      id: 'light',
+      name: 'Light',
+      text: 'LIGHT',
+      category: 'Calm',
+      subtitle: 'Inspiration and uplift',
+      tags: ['Mood', 'Inspiration'],
+      meaning: 'Used to lighten mood and invite inspiration.'
+    },
+    {
+      id: 'be',
+      name: 'Be',
+      text: 'BE',
+      category: 'Calm',
+      subtitle: 'Peace and wellness',
+      tags: ['Peace', 'Wellness'],
+      meaning: 'Used for steadiness, peace, and wellness.'
+    },
+    {
+      id: 'praise',
+      name: 'Praise',
+      text: 'PRAISE',
+      category: 'Love',
+      subtitle: 'Beauty and appreciation',
+      tags: ['Beauty', 'Appreciation'],
+      meaning: 'Used for appreciation, beauty, and reducing criticism.'
+    },
+    {
+      id: 'quiet',
+      name: 'Quiet',
+      text: 'QUIET',
+      category: 'Calm',
+      subtitle: 'Quiet mind',
+      tags: ['Stillness', 'Mind'],
+      meaning: 'Used to settle inner noise and calm the mind.'
+    },
+    {
+      id: 'off',
+      name: 'Off',
+      text: 'OFF',
+      category: 'Calm',
+      subtitle: 'Sleep and stopping habits',
+      tags: ['Sleep', 'Habits'],
+      meaning: 'Used to stop unwanted patterns and support sleep.'
+    },
+    {
+      id: 'done',
+      name: 'Done',
+      text: 'DONE',
+      category: 'Success',
+      subtitle: 'Completion and deadlines',
+      tags: ['Completion', 'Willpower'],
+      meaning: 'Used for finishing tasks and meeting deadlines.'
+    },
+    {
+      id: 'bonus',
+      name: 'Bonus',
+      text: 'BONUS',
+      category: 'Money',
+      subtitle: 'Unexpected abundance',
+      tags: ['Abundance', 'Unexpected'],
+      meaning: 'Used for surprise gains and unexpected abundance.'
+    },
+    {
+      id: 'magnate',
+      name: 'Magnate',
+      text: 'MAGNATE',
+      category: 'Money',
+      subtitle: 'Wealth and business success',
+      tags: ['Wealth', 'Business'],
+      meaning: 'Used for wealth, influence, business growth, and success.'
+    },
+    {
+      id: 'lotus',
+      name: 'Lotus',
+      text: 'LOTUS',
+      category: 'General',
+      subtitle: 'Prosperity and fresh start',
+      tags: ['Prosperity', 'New Beginning'],
+      meaning: 'Used for prosperity and rising into a new phase.'
+    },
+    {
+      id: 'tailwind',
+      name: 'Tailwind',
+      text: 'TAILWIND',
+      category: 'Success',
+      subtitle: 'Effortless progress',
+      tags: ['Ease', 'Progress'],
+      meaning: 'Used for smooth progress and supportive movement.'
+    },
+    {
+      id: 'somehow',
+      name: 'Somehow',
+      text: 'SOMEHOW',
+      category: 'General',
+      subtitle: 'Release the how',
+      tags: ['Release', 'Faith'],
+      meaning: 'Used to let go of overcontrol and trust the process.'
+    },
+    {
+      id: 'allure',
+      name: 'Allure',
+      text: 'ALLURE',
+      category: 'Love',
+      subtitle: 'Magnetism and charisma',
+      tags: ['Charisma', 'Attraction'],
+      meaning: 'Used for attraction, personal magnetism, and charm.'
+    },
+    {
+      id: 'shine',
+      name: 'Shine',
+      text: 'SHINE',
+      category: 'Success',
+      subtitle: 'Visibility and energy',
+      tags: ['Visibility', 'Energy'],
+      meaning: 'Used to raise energy and attract positive attention.'
+    },
+    {
+      id: 'triumph',
+      name: 'Triumph',
+      text: 'TRIUMPH',
+      category: 'Success',
+      subtitle: 'Victory and achievement',
+      tags: ['Victory', 'Achievement'],
+      meaning: 'Used for achievement, success, and victory.'
+    }
+  ];
+
+  const PRESETS = [
+    { label: 'Money', combo: 'DIVINE COUNT NOW TOGETHER', category: 'Money', meaning: 'Popular money-focused combination.' },
+    { label: 'Clients', combo: 'PROSO PIARE COUNT', category: 'Business', meaning: 'Used for clients and business attraction.' },
+    { label: 'Wealth', combo: 'CONVA LEXA COUNT TOGETHER', category: 'Money', meaning: 'Used for abundance and wealth focus.' },
+    { label: 'Love', combo: 'TOGETHER DIVINE LOVE', category: 'Love', meaning: 'Used for connection and harmony.' },
+    { label: 'Protection', combo: 'GUARD DIVINE', category: 'Protection', meaning: 'Used for safety and protection.' },
+    { label: 'Calm', combo: 'QUIET BE OPEN', category: 'Calm', meaning: 'Used for mental calm and inner balance.' },
+    { label: 'Success', combo: 'DONE NOW TRIUMPH', category: 'Success', meaning: 'Used for completion and achievement.' },
+    { label: 'Sleep', combo: 'QUIET OFF', category: 'Calm', meaning: 'Used for sleep and quieting the mind.' }
+  ];
+
+  let currentCategory = 'All';
+  let count = 0;
+  let target = 108;
+  let sessionTotal = 0;
+  let secondsActive = 0;
+  let timerInterval = null;
+  let autoJapInterval = null;
+
+  let lifetimeTotal = parseInt(localStorage.getItem(STORAGE_KEYS.total)) || 0;
+  let recentWords = JSON.parse(localStorage.getItem(STORAGE_KEYS.recent) || '[]');
+
+  function getStoredDefaultWordId() {
+    return localStorage.getItem(STORAGE_KEYS.defaultId) || DEFAULT_WORD_ID;
+  }
+
+  function getStoredSelectedWordId() {
+    return localStorage.getItem(STORAGE_KEYS.selectedId) || getStoredDefaultWordId();
+  }
+
+  function findWordById(id) {
+    return WORDS.find(w => w.id === id) || WORDS.find(w => w.id === DEFAULT_WORD_ID) || WORDS[0];
+  }
+
+  function findWordByName(name) {
+    return WORDS.find(w =>
+      w.name.toLowerCase() === name.toLowerCase() ||
+      w.text.toLowerCase() === name.toLowerCase()
+    ) || null;
+  }
+
+  let activeWord = findWordById(getStoredSelectedWordId());
+
+  const counterDisplay = document.getElementById('counterValue');
+  const countText = document.getElementById('countText');
+  const statsToday = document.getElementById('statsToday');
+  const statsTotal = document.getElementById('statsTotal');
+  const statsMalas = document.getElementById('statsMalas');
+  const activeWordDisplay = document.getElementById('activeWordDisplay');
+  const activeWordText = document.getElementById('activeWordText');
+  const activeCategoryDisplay = document.getElementById('activeCategoryDisplay');
+  const activeWordSubtitle = document.getElementById('activeWordSubtitle');
+  const activeWordMeaning = document.getElementById('activeWordMeaning');
+  const progressRing = document.getElementById('progressRing');
+  const timerDisplay = document.getElementById('sessionTimer');
+  const ambientAudio = document.getElementById('ambientAudio');
+  const switchwordInput = document.getElementById('switchwordInput');
+  const wordList = document.getElementById('wordList');
+  const wordSearch = document.getElementById('wordSearch');
+  const categoryFilters = document.getElementById('categoryFilters');
+  const recentWrap = document.getElementById('recentWrap');
+  const presetWrap = document.getElementById('presetWrap');
+  const completionText = document.getElementById('completionText');
+  const defaultWordIdInput = document.getElementById('defaultWordIdInput');
+
+  const setupCollapsible = new bootstrap.Collapse(document.getElementById('setupSection'), { toggle: false });
+  const completionModal = new bootstrap.Modal(document.getElementById('completionModal'));
+
+  const radius = progressRing.r.baseVal.value;
+  const circumference = radius * 2 * Math.PI;
+  progressRing.style.strokeDasharray = `${circumference} ${circumference}`;
+  progressRing.style.strokeDashoffset = circumference;
+
+  statsTotal.innerText = lifetimeTotal;
+  statsToday.innerText = sessionTotal;
+  updateMalaStats();
+
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+  function playClick() {
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(820, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0, audioCtx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.26);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.26);
+  }
+
+  function triggerHaptic(isTarget = false) {
+    if (navigator.vibrate) {
+      if (isTarget) navigator.vibrate([100, 50, 100, 50, 200]);
+      else navigator.vibrate(28);
+    }
+  }
+
+  function handleAmbientChange() {
+    const url = document.getElementById('ambientSelect').value;
+    if (url) {
+      ambientAudio.src = url;
+      ambientAudio.play().catch(() => {});
+    } else {
+      ambientAudio.pause();
+      ambientAudio.currentTime = 0;
+      ambientAudio.removeAttribute('src');
+    }
+  }
+
+  function toggleSetup() {
+    setupCollapsible.toggle();
+  }
+
+  function saveRecentWord(name) {
+    recentWords = [name, ...recentWords.filter(w => w !== name)].slice(0, 8);
+    localStorage.setItem(STORAGE_KEYS.recent, JSON.stringify(recentWords));
+    renderRecentWords();
+  }
+
+  function saveSelectedWordId(id) {
+    localStorage.setItem(STORAGE_KEYS.selectedId, id);
+  }
+
+  function saveDefaultWordId() {
+    const inputId = defaultWordIdInput.value.trim();
+    const word = findWordById(inputId);
+    if (!inputId || !word || word.id !== inputId) {
+      alert('Enter a valid switchword id. Example: together');
+      return;
+    }
+    localStorage.setItem(STORAGE_KEYS.defaultId, word.id);
+    chooseWordById(word.id);
+    alert(`Default switchword set: ${word.name}`);
+  }
+
+  function loadDefaultWordById() {
+    const defaultId = getStoredDefaultWordId();
+    chooseWordById(defaultId);
+  }
+
+  function updateActiveWordDisplay() {
+    activeWordDisplay.innerText = activeWord.name;
+    activeWordText.innerText = activeWord.text;
+    activeCategoryDisplay.innerText = activeWord.category;
+    activeWordSubtitle.innerText = activeWord.subtitle || 'Selected switchword';
+    activeWordMeaning.innerText = activeWord.meaning || '';
+    switchwordInput.value = activeWord.text;
+    defaultWordIdInput.value = getStoredDefaultWordId();
+  }
+
+  function chooseWordById(id) {
+    const selected = findWordById(id);
+    activeWord = selected;
+    saveSelectedWordId(selected.id);
+    saveRecentWord(selected.name);
+    updateActiveWordDisplay();
+    renderWords();
+    updateProgressRing();
+  }
+
+  function chooseWord(name) {
+    const selected = findWordByName(name);
+    if (!selected) return;
+    chooseWordById(selected.id);
+  }
+
+  function loadPreset(combo, label, category, meaning) {
+    activeWord = {
+      id: 'preset_' + combo.toLowerCase().replace(/\s+/g, '_'),
+      name: label + ' Combo',
+      text: combo,
+      category: category,
+      subtitle: 'Preset combination',
+      tags: ['Preset', category],
+      meaning: meaning
+    };
+    updateActiveWordDisplay();
+    saveRecentWord(activeWord.name);
+    updateProgressRing();
+    renderWords();
+  }
+
+  function renderPresets() {
+    presetWrap.innerHTML = PRESETS.map(p => `
+      <button class="preset-chip" onclick="loadPreset('${escapeQuote(p.combo)}','${escapeQuote(p.label)}','${escapeQuote(p.category)}','${escapeQuote(p.meaning)}')">
+        ✨ ${p.label}
+      </button>
+    `).join('');
+  }
+
+  function renderCategories() {
+    const cats = ['All', ...new Set(WORDS.map(w => w.category))];
+    categoryFilters.innerHTML = cats.map(cat => `
+      <button class="filter-chip ${cat === currentCategory ? 'active' : ''}" onclick="setCategory('${escapeQuote(cat)}')">${cat}</button>
+    `).join('');
+  }
+
+  function setCategory(cat) {
+    currentCategory = cat;
+    renderCategories();
+    renderWords();
+  }
+
+  function renderRecentWords() {
+    if (!recentWords.length) {
+      recentWrap.innerHTML = '';
+      return;
+    }
+
+    recentWrap.innerHTML = recentWords.map(name => `
+      <button class="recent-chip" onclick="chooseWord('${escapeQuote(name)}')">
+        <i class="fas fa-clock-rotate-left me-1"></i>${name}
+      </button>
+    `).join('');
+  }
+
+  function renderWords() {
+    const search = wordSearch.value.trim().toLowerCase();
+
+    const filtered = WORDS.filter(w => {
+      const categoryMatch = currentCategory === 'All' || w.category === currentCategory;
+      const searchMatch =
+        w.name.toLowerCase().includes(search) ||
+        w.text.toLowerCase().includes(search) ||
+        w.category.toLowerCase().includes(search) ||
+        (w.subtitle || '').toLowerCase().includes(search) ||
+        (w.meaning || '').toLowerCase().includes(search) ||
+        (w.tags || []).join(' ').toLowerCase().includes(search);
+
+      return categoryMatch && searchMatch;
+    });
+
+    if (!filtered.length) {
+      wordList.innerHTML = `<div class="empty-state"><i class="fas fa-sparkles mb-2 d-block fs-4"></i>No switchword found. Try another keyword.</div>`;
+      return;
+    }
+
+    wordList.innerHTML = filtered.map(w => `
+      <div class="switchword-card ${activeWord.id === w.id ? 'active' : ''}" onclick="chooseWordById('${w.id}')">
+        <div class="word-name">${w.name}</div>
+        <div class="word-text">${w.text}</div>
+        <div class="word-meaning">${w.subtitle}</div>
+        <div class="word-meta">
+          <span class="meta-badge">id: ${w.id}</span>
+          <span class="meta-badge">${w.category}</span>
+          ${(w.tags || []).map(tag => `<span class="meta-badge">${tag}</span>`).join('')}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function setAndStart() {
+    const inputVal = switchwordInput.value.trim();
+
+    if (inputVal) {
+      const matched = findWordByName(inputVal);
+      if (matched) {
+        activeWord = matched;
+      } else {
+        activeWord = {
+          id: 'custom_' + Date.now(),
+          name: 'Custom Combo',
+          text: inputVal.toUpperCase(),
+          category: 'Custom',
+          subtitle: 'Custom switchword',
+          tags: ['Custom'],
+          meaning: 'Your manually entered switchword or combination for this session.'
+        };
+      }
+    }
+
+    if (activeWord.id && !activeWord.id.startsWith('custom_') && !activeWord.id.startsWith('preset_')) {
+      saveSelectedWordId(activeWord.id);
+    }
+
+    saveRecentWord(activeWord.name);
+    updateActiveWordDisplay();
+
+    target = parseInt(document.getElementById('targetSelect').value, 10);
+    handleAmbientChange();
+    resetSession();
+    setupCollapsible.hide();
+  }
+
+  function incrementCount() {
+    if (count === 0 && !timerInterval) startTimer();
+
+    if (target > 0 && count >= target) {
+      stopAutoMode();
+      triggerHaptic(true);
+      return;
+    }
+
+    count++;
+    sessionTotal++;
+    lifetimeTotal++;
+
+    counterDisplay.innerText = count;
+    counterDisplay.style.transform = 'scale(1.14)';
+    counterDisplay.style.color = 'var(--saffron)';
+    setTimeout(() => {
+      counterDisplay.style.transform = 'scale(1)';
+      counterDisplay.style.color = '';
+    }, 140);
+
+    updateProgressRing();
+
+    statsToday.innerText = sessionTotal;
+    statsTotal.innerText = lifetimeTotal;
+    localStorage.setItem(STORAGE_KEYS.total, lifetimeTotal);
+    updateMalaStats();
+
+    playClick();
+    triggerHaptic();
+
+    if (target > 0 && count === target) {
+      stopAutoMode();
+      triggerHaptic(true);
+      completionText.innerText = `Completed ${target} chants for "${activeWord.text}".`;
+      setTimeout(() => completionModal.show(), 220);
+    }
+  }
+
+  function updateProgressRing() {
+    if (target === 0) {
+      const pct = ((count % 108) / 108);
+      progressRing.style.strokeDashoffset = circumference - (pct * circumference);
+      countText.innerText = `${activeWord.text} • ${count} (∞ Mode)`;
+    } else {
+      const pct = Math.min(count / target, 1);
+      progressRing.style.strokeDashoffset = circumference - (pct * circumference);
+      countText.innerText = `${activeWord.text} • ${count} / ${target}`;
+    }
+  }
+
+  function updateMalaStats() {
+    statsMalas.innerText = Math.floor(lifetimeTotal / 108);
+  }
+
+  function resetSession() {
+    count = 0;
+    secondsActive = 0;
+    counterDisplay.innerText = '0';
+    timerDisplay.innerText = '00:00';
+    updateProgressRing();
+    stopAutoMode();
+    stopTimer();
+  }
+
+  function startTimer() {
+    stopTimer();
+    timerInterval = setInterval(() => {
+      secondsActive++;
+      const m = String(Math.floor(secondsActive / 60)).padStart(2, '0');
+      const s = String(secondsActive % 60).padStart(2, '0');
+      timerDisplay.innerText = `${m}:${s}`;
+    }, 1000);
+  }
+
+  function stopTimer() {
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = null;
+  }
+
+  function toggleAutoMode() {
+    const isAuto = document.getElementById('autoToggle').checked;
+    const speedContainer = document.getElementById('autoSpeedContainer');
+    if (isAuto) {
+      speedContainer.classList.remove('d-none');
+      startAutoMode();
+    } else {
+      speedContainer.classList.add('d-none');
+      stopAutoMode(false);
+    }
+  }
+
+  function updateSpeedDisplay(val) {
+    document.getElementById('speedDisplay').innerText = val + 's';
+    if (autoJapInterval) {
+      stopAutoMode(false);
+      startAutoMode();
+    }
+  }
+
+  function startAutoMode() {
+    if (target > 0 && count >= target) {
+      document.getElementById('autoToggle').checked = false;
+      return;
+    }
+    if (count === 0 && !timerInterval) startTimer();
+
+    const speed = parseFloat(document.getElementById('speedSlider').value) * 1000;
+    stopAutoMode(false);
+    autoJapInterval = setInterval(incrementCount, speed);
+  }
+
+  function stopAutoMode(resetToggle = true) {
+    if (autoJapInterval) clearInterval(autoJapInterval);
+    autoJapInterval = null;
+    if (resetToggle) document.getElementById('autoToggle').checked = false;
+  }
+
+  function toggleTheme() {
+    const root = document.documentElement;
+    const icon = document.querySelector('#themeBtn i');
+    if (root.getAttribute('data-bs-theme') === 'light') {
+      root.setAttribute('data-bs-theme', 'dark');
+      icon.className = 'fas fa-sun';
+    } else {
+      root.setAttribute('data-bs-theme', 'light');
+      icon.className = 'fas fa-moon';
+    }
+  }
+
+  function escapeQuote(text) {
+    return String(text).replace(/'/g, "\\'");
+  }
+
+  updateActiveWordDisplay();
+  renderPresets();
+  renderCategories();
+  renderRecentWords();
+  renderWords();
+  updateProgressRing();
+</script>
+
+</body>
+</html>

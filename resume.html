@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architect Portfolio | Terminal Theme</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts (Fira Code for Terminal Look) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        :root {
+            --term-green: #00ff41;       /* Main Neon Green */
+            --term-green-dim: #008f11;   /* Dimmer Green for borders/subtext */
+            --term-bg: #050505;          /* Almost Black */
+            --term-card-bg: #0a0a0a;     /* Slightly lighter for cards */
+            --term-white: #e0e0e0;       /* Off-white for prompts */
+        }
+
+        body {
+            background-color: var(--term-bg);
+            color: var(--term-green);
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            /* Subtle Terminal Grid Background */
+            background-image: 
+                linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        /* Typography & Utilities */
+        h1, h2, h3, h4, h5, h6 { font-weight: 700; }
+        .text-term-green { color: var(--term-green) !important; }
+        .text-term-white { color: var(--term-white) !important; }
+        .text-term-dim { color: var(--term-green-dim) !important; }
+        
+        a {
+            color: var(--term-green);
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        a:hover { color: var(--term-white); }
+
+        /* Left Sidebar Layout */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 60px;
+            height: 100vh;
+            border-right: 1px solid var(--term-green-dim);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            background: var(--term-bg);
+            z-index: 1000;
+        }
+        .sidebar .logo {
+            color: var(--term-green);
+            font-size: 24px;
+            font-weight: bold;
+            border: 1px solid var(--term-green);
+            padding: 2px 8px;
+            margin-bottom: 50px;
+        }
+        .sidebar-nav {
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            display: flex;
+            gap: 40px;
+        }
+        .sidebar-nav a {
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: var(--term-green-dim);
+        }
+        .sidebar-nav a:hover { color: var(--term-green); }
+
+        .main-content {
+            margin-left: 60px; /* Offset for sidebar */
+            padding: 40px 15px;
+            max-width: 1000px;
+            margin-right: auto;
+        }
+
+        /* Terminal Prompt Lines */
+        .prompt-line {
+            margin-bottom: 1.5rem;
+            font-size: 16px;
+        }
+        .prompt-user { color: var(--term-white); font-weight: bold; }
+        .prompt-symbol { color: var(--term-green); margin: 0 8px; }
+        
+        /* Highlighted Text Background */
+        .bg-highlight {
+            background-color: var(--term-green);
+            color: #000;
+            display: inline-block;
+            padding: 2px 10px;
+            margin: 5px 0;
+        }
+
+        /* Custom Badges */
+        .term-badge {
+            border: 1px solid var(--term-green);
+            color: var(--term-green);
+            padding: 4px 10px;
+            font-size: 10px;
+            text-transform: uppercase;
+            border-radius: 0;
+            display: inline-block;
+        }
+        .term-badge.dim {
+            border-color: var(--term-green-dim);
+            color: var(--term-green-dim);
+        }
+
+        /* Buttons */
+        .btn-term-fill {
+            background-color: var(--term-green);
+            color: #000;
+            border: 1px solid var(--term-green);
+            border-radius: 0;
+            font-weight: bold;
+            padding: 10px 20px;
+        }
+        .btn-term-fill:hover { background-color: var(--term-white); border-color: var(--term-white); }
+        
+        .btn-term-outline {
+            background-color: transparent;
+            color: var(--term-green);
+            border: 1px solid var(--term-green);
+            border-radius: 0;
+            padding: 10px 20px;
+        }
+        .btn-term-outline:hover { background-color: var(--term-green); color: #000; }
+
+        /* Cards */
+        .term-card {
+            background-color: var(--term-card-bg);
+            border: 1px solid var(--term-green-dim);
+            padding: 20px;
+            height: 100%;
+        }
+        .term-card .card-icon {
+            color: var(--term-green);
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        /* Tech Stack Icons */
+        .tech-icons {
+            border-top: 1px solid var(--term-green-dim);
+            border-bottom: 1px solid var(--term-green-dim);
+            padding: 20px 0;
+        }
+        .tech-item {
+            text-align: center;
+            border-right: 1px solid var(--term-green-dim);
+        }
+        .tech-item:last-child { border-right: none; }
+        .tech-item i { font-size: 24px; margin-bottom: 10px; }
+        .tech-item span { display: block; font-size: 11px; }
+
+        /* Timeline / History */
+        .history-item { margin-bottom: 15px; }
+        
+        /* Form Styling */
+        .form-control {
+            background-color: #000;
+            border: 1px solid var(--term-green-dim);
+            color: var(--term-green);
+            border-radius: 0;
+            padding: 12px;
+        }
+        .form-control:focus {
+            background-color: #000;
+            color: var(--term-green);
+            border-color: var(--term-green);
+            box-shadow: none;
+        }
+        .form-control::placeholder { color: var(--term-green-dim); }
+
+        /* Testimonial */
+        .testimonial { text-align: center; margin: 60px 0; }
+        .testimonial p { font-style: italic; font-size: 18px; max-width: 700px; margin: 0 auto 20px auto; }
+        .testimonial img { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--term-green); }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: auto; padding: 20px; }
+            .tech-item { border-right: none; border-bottom: 1px solid var(--term-green-dim); padding: 10px 0; }
+            .tech-item:last-child { border-bottom: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Left Vertical Sidebar -->
+    <div class="sidebar d-none d-md-flex">
+        <div class="logo">L</div>
+        <div class="sidebar-nav">
+            <a href="#contact">CONTACT</a>
+            <a href="#projects">PROJECTS</a>
+            <a href="#experience">EXPERIENCE</a>
+            <a href="#expertise">EXPERTISE</a>
+        </div>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container main-content">
+        
+        <!-- Header Info (Fake Terminal Header) -->
+        <div class="d-flex justify-content-between text-term-dim mb-5" style="font-size: 10px;">
+            <span>● ● ●</span>
+            <span>TERMINAL - BASH - 80X24</span>
+            <span>TTY01</span>
+        </div>
+
+        <!-- Section: WHOAMI -->
+        <section class="mb-5">
+            <p class="text-term-dim mb-2">Last login: Wed Oct 23 14:12:00 on ttys001</p>
+            <div class="prompt-line">
+                <span class="prompt-user">user@architect:</span> <span class="prompt-symbol">~ $</span> whoami
+            </div>
+            
+            <div class="mt-4">
+                <div class="term-badge mb-3">SYSTEM_LEVEL: 10+ Years Experience</div>
+                <h1 class="display-4 fw-bold mb-0">
+                    <span class="bg-highlight">SENIOR PHP &</span><br>
+                    <span class="bg-highlight">LARAVEL ARCHITECT</span>
+                </h1>
+                <p class="mt-4 mb-4 text-term-dim" style="max-width: 500px; font-size: 16px;">
+                    I design and implement high-performance backend systems, scalable SaaS architectures, and robust API ecosystems for global enterprise clients.
+                </p>
+                <div class="d-flex gap-3">
+                    <button class="btn btn-term-fill">./HIRE_ME.SH</button>
+                    <button class="btn btn-term-outline">LS ./PROJECTS</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: EXPERTISE -->
+        <section class="mb-5 mt-5 pt-5" id="expertise">
+            <div class="prompt-line">
+                <span class="prompt-user">user@architect:</span> <span class="prompt-symbol">~ $</span> cat expertise.json
+            </div>
+            
+            <div class="row g-4 mt-2">
+                <!-- Card 1 -->
+                <div class="col-md-4">
+                    <div class="term-card">
+                        <div class="text-term-dim mb-3" style="font-size: 10px;">01_ARCHITECTURE</div>
+                        <i class="fa-solid fa-layer-group card-icon"></i>
+                        <h5 class="mb-3">SCALABLE ARCHITECTURE</h5>
+                        <p class="text-term-dim mb-0">Expert in Domain Driven Design (DDD), Microservices, and Multi-tenant systems capable of handling millions of requests.</p>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="col-md-4">
+                    <div class="term-card">
+                        <div class="text-term-dim mb-3" style="font-size: 10px;">02_OPTIMIZATION</div>
+                        <i class="fa-solid fa-gauge-high card-icon"></i>
+                        <h5 class="mb-3">PERFORMANCE TUNING</h5>
+                        <p class="text-term-dim mb-0">Deep optimization of MySQL queries, Redis caching strategies, and load balancing for high-traffic environments.</p>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="col-md-4">
+                    <div class="term-card">
+                        <div class="text-term-dim mb-3" style="font-size: 10px;">03_APIS</div>
+                        <i class="fa-solid fa-network-wired card-icon"></i>
+                        <h5 class="mb-3">API ECOSYSTEMS</h5>
+                        <p class="text-term-dim mb-0">Designing secure RESTful and GraphQL APIs with comprehensive documentation and automated testing pipelines.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: TECH STACK -->
+        <section class="mb-5 term-card mt-5">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <span class="text-term-dim d-block mb-1" style="font-size: 10px;">SYSTEM_INFO --TECH-STACK</span>
+                    <h4 class="mb-0">TECHNICAL STACK</h4>
+                    <small class="text-term-dim">Battle-tested tools and technologies used daily.</small>
+                </div>
+                <div class="d-flex gap-2">
+                    <span class="term-badge dim">PHP_V: 8.2+</span>
+                    <span class="term-badge dim">LARAVEL_V: 10.X</span>
+                </div>
+            </div>
+
+            <div class="row tech-icons mt-4 g-0">
+                <div class="col-6 col-md-2 tech-item">
+                    <i class="fa-brands fa-php"></i><span>PHP 8.x</span>
+                </div>
+                <div class="col-6 col-md-2 tech-item">
+                    <i class="fa-brands fa-laravel"></i><span>Laravel</span>
+                </div>
+                <div class="col-6 col-md-2 tech-item">
+                    <i class="fa-solid fa-database"></i><span>MySQL</span>
+                </div>
+                <div class="col-6 col-md-2 tech-item">
+                    <i class="fa-solid fa-server"></i><span>Redis</span>
+                </div>
+                <div class="col-6 col-md-2 tech-item">
+                    <i class="fa-solid fa-code-branch"></i><span>CI / CD</span>
+                </div>
+                <div class="col-6 col-md-2 tech-item">
+                    <i class="fa-brands fa-docker"></i><span>Docker</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: EXPERIENCE -->
+        <section class="mb-5 mt-5 pt-4" id="experience">
+            <div class="prompt-line">
+                <span class="prompt-user">user@architect:</span> <span class="prompt-symbol">~ $</span> history | grep "employment"
+            </div>
+
+            <div class="d-flex flex-column gap-3 mt-4">
+                <!-- Job 1 -->
+                <div class="term-card history-item row g-0">
+                    <div class="col-md-2">
+                        <span class="bg-highlight px-2" style="font-size: 12px;">2021 - PRES</span>
+                    </div>
+                    <div class="col-md-10 ps-md-3">
+                        <h5 class="mb-2">LEAD BACKEND ARCHITECT @ CLOUDSPHERE SAAS</h5>
+                        <p class="text-term-dim mb-3">Spearheading the transition to a microservices architecture for an ERP system serving 50k+ daily users. Optimized database throughput by 40% through advanced indexing and query caching strategies.</p>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <span class="term-badge dim">#multi-tenancy</span>
+                            <span class="term-badge dim">#event-sourcing</span>
+                            <span class="term-badge dim">#kubernetes</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Job 2 -->
+                <div class="term-card history-item row g-0">
+                    <div class="col-md-2">
+                        <span class="text-term-dim" style="font-size: 12px;">2016 - 2020</span>
+                    </div>
+                    <div class="col-md-10 ps-md-3">
+                        <h5 class="mb-2">SENIOR FULL STACK DEVELOPER @ FINTECH SOLUTIONS</h5>
+                        <p class="text-term-dim mb-3">Developed high-security payment gateways and real-time transaction monitoring dashboards. Implemented strict TDD protocols resulting in a 95% reduction in production bugs.</p>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <span class="term-badge dim">#stripe-api</span>
+                            <span class="term-badge dim">#security-auditing</span>
+                            <span class="term-badge dim">#vue-js</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job 3 -->
+                <div class="term-card history-item row g-0">
+                    <div class="col-md-2">
+                        <span class="text-term-dim" style="font-size: 12px;">2012 - 2016</span>
+                    </div>
+                    <div class="col-md-10 ps-md-3">
+                        <h5 class="mb-2">FREELANCE PHP DEVELOPER</h5>
+                        <p class="text-term-dim mb-0">Built custom CMS and E-commerce solutions for various startups. Mastered the fundamentals of PHP, early versions of Laravel, and raw SQL optimization.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: PROJECTS -->
+        <section class="mb-5 mt-5 pt-4" id="projects">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="prompt-line mb-0">
+                    <span class="prompt-user">user@architect:</span> <span class="prompt-symbol">~ $</span> ls -la ./featured_projects
+                </div>
+                <a href="#" class="text-term-green text-decoration-underline" style="font-size: 12px;">GITHUB_REPO</a>
+            </div>
+
+            <div class="row g-4 mt-2">
+                <!-- Project 1 -->
+                <div class="col-md-6">
+                    <div class="term-card p-0">
+                        <div class="p-2 border-bottom border-success border-opacity-25" style="font-size: 10px;">PROJECT_01.BIN</div>
+                        <!-- Placeholder Image (Using a CSS gradient to mimic image style) -->
+                        <div style="height: 200px; background: linear-gradient(45deg, #111, #222); border-bottom: 1px solid var(--term-green-dim); display:flex; align-items:center; justify-content:center; color: var(--term-green-dim);">[ ERP DASHBOARD UI ]</div>
+                        <div class="p-4">
+                            <span class="bg-highlight px-2" style="font-size: 10px;">ENTERPRISE SAAS</span>
+                            <h5 class="mt-2 mb-3 d-inline-block ms-2">NEXGEN ERP CORE</h5>
+                            <p class="text-term-dim mb-3">A high-scale multi-tenant enterprise resource planning engine built with Laravel. Features a custom permission system, dynamic reporting, and robust API integration.</p>
+                            <div class="d-flex gap-2 mb-4">
+                                <span class="term-badge dim">Laravel 10</span>
+                                <span class="term-badge dim">Redis</span>
+                                <span class="term-badge dim">Inertia.js</span>
+                            </div>
+                            <a href="#" class="text-term-green text-decoration-underline" style="font-size: 12px;">READ_CASE_STUDY.TXT</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="col-md-6">
+                    <div class="term-card p-0">
+                        <div class="p-2 border-bottom border-success border-opacity-25" style="font-size: 10px;">PROJECT_02.BIN</div>
+                        <!-- Placeholder Image -->
+                        <div style="height: 200px; background: radial-gradient(circle, #222, #000); border-bottom: 1px solid var(--term-green-dim); display:flex; align-items:center; justify-content:center; color: var(--term-green-dim);">[ NETWORK GRAPH UI ]</div>
+                        <div class="p-4">
+                            <span class="term-badge dim">OPEN_SOURCE</span>
+                            <h5 class="mt-2 mb-3 d-inline-block ms-2">ELOQUENT QUERY PROFILER</h5>
+                            <p class="text-term-dim mb-3">A high-performance debugging tool for identifying N+1 queries and slow database interactions in Laravel applications. Used by 10k+ developers.</p>
+                            <div class="d-flex gap-2 mb-4">
+                                <span class="term-badge dim">PHP 8.2</span>
+                                <span class="term-badge dim">Open Source</span>
+                                <span class="term-badge dim">Composer</span>
+                            </div>
+                            <a href="#" class="text-term-green text-decoration-underline" style="font-size: 12px;">READ_DOCS.MD</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: TESTIMONIAL -->
+        <section class="testimonial">
+            <div class="text-term-dim mb-3">"</div>
+            <p class="text-term-green">
+                An exceptional architect. His deep understanding of PHP and Laravel internals allowed us to scale our platform to 10x traffic without a single second of downtime. A true senior-level engineering mind.
+            </p>
+            <div class="d-flex justify-content-center align-items-center gap-3 mt-4">
+                <!-- User Avatar Placeholder -->
+                <div style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--term-green); display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-user"></i></div>
+                <div class="text-start">
+                    <div class="fw-bold text-term-green" style="font-size: 12px;">DAVID CHEN</div>
+                    <div class="text-term-dim" style="font-size: 10px;">CTO, Global Logistics Hub</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: CONTACT -->
+        <section class="mb-5 mt-5 pt-4" id="contact">
+            <div class="prompt-line">
+                <span class="prompt-user">user@architect:</span> <span class="prompt-symbol">~ $</span> ./send_message.sh --to "architect"
+            </div>
+
+            <div class="row g-5 mt-2">
+                <!-- Left Info -->
+                <div class="col-md-5">
+                    <h2 class="bg-highlight fw-bold mb-0">LET'S BUILD SOMETHING</h2>
+                    <h2 class="bg-highlight fw-bold mb-4">RELIABLE TOGETHER.</h2>
+                    
+                    <p class="text-term-dim mb-5">Currently available for senior architect roles, technical consulting, and high-impact backend projects.</p>
+
+                    <div class="mb-3">
+                        <span class="text-term-dim me-2">EMAIL:</span> contact@architect.dev
+                    </div>
+                    <div class="mb-5">
+                        <span class="text-term-dim me-2">LOC:</span> Remote / London, UK
+                    </div>
+
+                    <div class="d-flex gap-4">
+                        <a href="#"><i class="fa-brands fa-github me-1"></i> GITHUB</a>
+                        <a href="#"><i class="fa-brands fa-linkedin me-1"></i> LINKEDIN</a>
+                    </div>
+                </div>
+
+                <!-- Right Form -->
+                <div class="col-md-7">
+                    <div class="term-card">
+                        <div class="text-term-dim mb-4" style="font-size: 10px;">MESSAGE_BUFFER</div>
+                        <form>
+                            <div class="row g-3 mb-3">
+                                <div class="col-sm-6">
+                                    <label class="text-term-dim mb-1" style="font-size: 10px;">STDIN_NAME</label>
+                                    <input type="text" class="form-control" placeholder="John Doe">
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="text-term-dim mb-1" style="font-size: 10px;">SMTP_EMAIL</label>
+                                    <input type="email" class="form-control" placeholder="john@example.com">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="text-term-dim mb-1" style="font-size: 10px;">MSG_SUBJECT</label>
+                                <input type="text" class="form-control" placeholder="Project Enquiry">
+                            </div>
+                            <div class="mb-4">
+                                <label class="text-term-dim mb-1" style="font-size: 10px;">STDIN_MESSAGE</label>
+                                <textarea class="form-control" rows="4" placeholder="Tell me about your project..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-term-fill w-100">EXECUTE: POST /API/CONTACT</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="mt-5 pt-5 pb-3 border-top border-success border-opacity-25 text-term-dim d-flex flex-column flex-md-row justify-content-between align-items-center" style="font-size: 10px;">
+            <div class="mb-2 mb-md-0">ARCHITECT.DEV INIT: 2024.300</div>
+            <div class="mb-2 mb-md-0">© 2024 PORTFOLIO.V1. CRAFTED_WITH_LARAVEL_MINDSET.</div>
+            <div class="d-flex gap-3">
+                <a href="#" class="text-term-dim text-decoration-underline">PRIVACY_POLICY</a>
+                <a href="#" class="text-term-dim text-decoration-underline">GET_RESUME.PDF</a>
+            </div>
+        </footer>
+        <div class="mt-2 text-term-dim" style="font-size: 12px;">user@architect: <span class="text-term-green">~ $</span> <span class="bg-term-green" style="background:#00ff41; width:8px; height:15px; display:inline-block; animation: blink 1s step-end infinite;"></span></div>
+
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Cursor Blinking Animation -->
+    <style>
+        @keyframes blink { 50% { opacity: 0; } }
+    </style>
+</body>
+</html>
