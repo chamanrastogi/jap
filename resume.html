@@ -50,6 +50,29 @@
         }
         a:hover { color: var(--term-white); }
 
+        .home-link {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 1200;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border: 1px solid var(--term-green-dim);
+            background: rgba(10, 10, 10, 0.92);
+            color: var(--term-green);
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+            box-shadow: 0 0 18px rgba(0, 255, 65, 0.08);
+        }
+
+        .home-link:hover {
+            color: var(--term-white);
+            border-color: var(--term-green);
+        }
+
         /* Left Sidebar Layout */
         .sidebar {
             position: fixed;
@@ -206,6 +229,11 @@
     </style>
 </head>
 <body>
+
+    <a href="index.html" class="home-link" aria-label="Go back to home page">
+        <i class="fa-solid fa-house"></i>
+        <span>HOME</span>
+    </a>
 
     <!-- Left Vertical Sidebar -->
     <div class="sidebar d-none d-md-flex">

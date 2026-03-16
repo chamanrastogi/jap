@@ -54,6 +54,32 @@
     .text-muted-custom { color: var(--text-muted); }
     .text-saffron { color: var(--saffron); }
 
+    .home-link {
+      position: fixed;
+      top: 0.9rem;
+      left: 0.9rem;
+      z-index: 1050;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.55rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid var(--soft-border);
+      background: var(--chip-bg);
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 700;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .home-link:hover {
+      color: var(--saffron);
+      border-color: rgba(255, 153, 51, 0.35);
+    }
+
     .glass-card {
       background: var(--card-light);
       backdrop-filter: blur(16px);
@@ -449,6 +475,11 @@
   </style>
 </head>
 <body>
+
+<a href="index.html" class="home-link" aria-label="Go back to home page">
+  <i class="fas fa-house"></i>
+  <span>Home</span>
+</a>
 
 <main class="glass-card p-4">
   <div class="d-flex justify-content-between align-items-center mb-3 top-tools">
