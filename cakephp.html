@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CakePHP 5.4 - Complete Guide: Commands & Concepts</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --cakephp-red: #d33c43;
+      --cakephp-dark: #1e1e2f;
+      --sidebar-width: 280px;
+    }
+    * { scroll-margin-top: 1rem; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f4f6fb;
+      display: flex;
+    }
+    #sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0; left: 0;
+      background: var(--cakephp-dark);
+      overflow-y: auto;
+      z-index: 1000;
+      transition: transform .3s;
+    }
+    #sidebar .brand {
+      padding: 1.25rem 1.25rem .75rem;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    #sidebar .brand h5 { color: #fff; font-weight: 700; }
+    #sidebar .brand small { color: #adb5bd; }
+    #sidebar .nav-link {
+      color: #c8cdd3;
+      padding: .5rem 1.25rem;
+      font-size: .88rem;
+      border-left: 3px solid transparent;
+      transition: all .15s;
+    }
+    #sidebar .nav-link:hover {
+      color: #fff;
+      background: rgba(255,255,255,.05);
+    }
+    #sidebar .nav-link i { width: 1.3rem; }
+    #sidebar .nav-section {
+      color: #6c757d;
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      padding: 1rem 1.25rem .3rem;
+      font-weight: 600;
+    }
+    #main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 2rem 2.5rem 4rem;
+      max-width: 1100px;
+    }
+    @media (max-width: 991.98px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.show { transform: translateX(0); }
+      #main { margin-left: 0; padding: 1.5rem; }
+    }
+    .sidebar-toggle {
+      position: fixed;
+      top: .75rem; left: .75rem;
+      z-index: 1050;
+      background: var(--cakephp-dark);
+      color: #fff;
+      border: none;
+      border-radius: .4rem;
+      padding: .4rem .65rem;
+      display: none;
+    }
+    @media (max-width: 991.98px) {
+      .sidebar-toggle { display: block; }
+    }
+    h2 {
+      font-weight: 700;
+      color: var(--cakephp-dark);
+      margin-top: 2.5rem;
+      padding-bottom: .5rem;
+      border-bottom: 3px solid var(--cakephp-red);
+    }
+    h3 {
+      font-weight: 600;
+      color: #2c3e50;
+      margin-top: 1.8rem;
+    }
+    .card {
+      border: none;
+      border-radius: .75rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      margin-bottom: 1.5rem;
+    }
+    .card-header {
+      background: #fff;
+      border-bottom: 1px solid #e9ecef;
+      font-weight: 600;
+      padding: 1rem 1.25rem;
+    }
+    .card-body { padding: 1.5rem; }
+    pre {
+      background: #1e1e2f;
+      color: #e6e6e6;
+      padding: 1rem 1.25rem;
+      border-radius: .5rem;
+      font-size: .82rem;
+      overflow-x: auto;
+      position: relative;
+    }
+    pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
+    .cmd-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+      white-space: nowrap;
+      color: var(--cakephp-red);
+    }
+    .badge-cake { background: var(--cakephp-red); color: #fff; }
+    .highlight-box {
+      background: #eef2ff;
+      border-left: 4px solid var(--cakephp-red);
+      padding: 1rem 1.25rem;
+      border-radius: .4rem;
+      margin: 1rem 0;
+    }
+    .home-link {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 1100;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.94);
+      color: #0f172a;
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 700;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: 0.2s;
+    }
+    .home-link:hover { color: #2563eb; }
+    @media (min-width: 992px) {
+      .home-link { left: calc(var(--sidebar-width) + 14px); }
+    }
+    @media (max-width: 991.98px) {
+      .home-link { left: 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
+<a href="index.html" class="home-link" aria-label="Go back to home page"><span>←</span> Home</a>
+
+<!-- ===== SIDEBAR ===== -->
+<nav id="sidebar">
+  <div class="brand">
+    <h5><i class="bi bi-lightning-charge-fill me-2"></i>CakePHP</h5>
+    <small class="d-block mt-1">v5.4.0 &mdash; Complete Guide</small>
+  </div>
+  <div class="py-2">
+    <div class="nav-section">Getting Started</div>
+    <a class="nav-link" href="#install"><i class="bi bi-download"></i> Installation</a>
+    <a class="nav-link" href="#commands"><i class="bi bi-terminal"></i> Commands Reference</a>
+
+    <div class="nav-section">Core Concepts</div>
+    <a class="nav-link" href="#mvc"><i class="bi bi-diagram-3"></i> MVC Architecture</a>
+    <a class="nav-link" href="#routing"><i class="bi bi-signpost-2"></i> Routing</a>
+    <a class="nav-link" href="#controllers"><i class="bi bi-gear"></i> Controllers</a>
+    <a class="nav-link" href="#orm"><i class="bi bi-database"></i> ORM &amp; Models</a>
+    <a class="nav-link" href="#associations"><i class="bi bi-link-45deg"></i> Associations</a>
+    <a class="nav-link" href="#behaviors"><i class="bi bi-puzzle"></i> Behaviors</a>
+    <a class="nav-link" href="#validation"><i class="bi bi-check2-square"></i> Validation</a>
+    <a class="nav-link" href="#views"><i class="bi bi-eye"></i> Views &amp; Templates</a>
+
+    <div class="nav-section">Advanced</div>
+    <a class="nav-link" href="#auth"><i class="bi bi-shield-lock"></i> Authentication</a>
+    <a class="nav-link" href="#authorization"><i class="bi bi-key"></i> Authorization</a>
+    <a class="nav-link" href="#queue"><i class="bi bi-arrow-repeat"></i> Queue / Jobs</a>
+    <a class="nav-link" href="#api"><i class="bi bi-globe"></i> REST API</a>
+    <a class="nav-link" href="#middleware"><i class="bi bi-funnel"></i> Middleware</a>
+
+    <div class="nav-section">DevOps &amp; QA</div>
+    <a class="nav-link" href="#testing"><i class="bi bi-check-circle"></i> Testing</a>
+    <a class="nav-link" href="#best-practices"><i class="bi bi-star"></i> Best Practices</a>
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<div id="main">
+
+  <!-- HERO -->
+  <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+    <div>
+      <h1 class="fw-bold mb-1" style="color:var(--cakephp-dark)">
+        <i class="bi bi-lightning-charge-fill" style="color:var(--cakephp-red)"></i>
+        CakePHP
+      </h1>
+      <p class="text-muted mb-0 fs-5">
+        Complete Command Reference &amp; Concept Guide
+        <span class="badge bg-secondary ms-2">v5.4.0</span>
+        <span class="badge bg-warning text-dark ms-1">PHP 8.1+</span>
+      </p>
+    </div>
+  </div>
+
+  <p class="fs-5 text-muted mb-5">
+    CakePHP is a rapid development framework for PHP that follows MVC patterns.
+    This guide covers all <strong>console commands</strong>, <strong>core concepts</strong>,
+    and <strong>practical code examples</strong> for CakePHP 5.4.
+  </p>
+
+  <!-- ==================== INSTALL ==================== -->
+  <section id="install">
+    <h2><i class="bi bi-download me-2"></i>Installation</h2>
+    <div class="card">
+      <div class="card-body">
+        <pre><code># Create a new CakePHP application
+composer create-project --prefer-dist cakephp/app myapp
+
+# Install the Bake plugin (code generation)
+composer require --dev cakephp/bake
+
+# Install Queue plugin
+composer require cakephp/queue
+
+# Install Authentication plugin
+composer require cakephp/authentication
+
+# Start the development server
+bin/cake server
+
+# Start with FrankenPHP (CakePHP 5.3+)
+bin/cake server --frankenphp</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== COMMANDS ==================== -->
+  <section id="commands">
+    <h2><i class="bi bi-terminal me-2"></i>Console Commands Reference</h2>
+    <p class="text-muted">All commands are run via <code>bin/cake &lt;command&gt;</code> from the application root.</p>
+
+    <h3>Bake &mdash; Code Generation</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:32%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>bake all</td><td>Bake all models, controllers, templates for all tables</td></tr>
+            <tr><td>bake model &lt;table&gt;</td><td>Generate Table and Entity class for a table</td></tr>
+            <tr><td>bake controller &lt;name&gt;</td><td>Generate a controller with CRUD actions</td></tr>
+            <tr><td>bake template &lt;controller&gt;</td><td>Generate view template files</td></tr>
+            <tr><td>bake migration &lt;name&gt;</td><td>Generate a migration file</td></tr>
+            <tr><td>bake fixture &lt;name&gt;</td><td>Generate a test fixture</td></tr>
+            <tr><td>bake test &lt;type&gt; &lt;name&gt;</td><td>Generate a PHPUnit test case</td></tr>
+            <tr><td>bake command &lt;name&gt;</td><td>Generate a custom CLI command</td></tr>
+            <tr><td>bake form &lt;name&gt;</td><td>Generate a form class</td></tr>
+            <tr><td>bake cell &lt;name&gt;</td><td>Generate a cell class</td></tr>
+            <tr><td>bake mailer &lt;name&gt;</td><td>Generate a mailer class</td></tr>
+            <tr><td>bake behavior &lt;name&gt;</td><td>Generate a behavior class</td></tr>
+            <tr><td>bake component &lt;name&gt;</td><td>Generate a component class</td></tr>
+            <tr><td>bake helper &lt;name&gt;</td><td>Generate a helper class</td></tr>
+            <tr><td>bake middleware &lt;name&gt;</td><td>Generate a middleware class</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Cache</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:32%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>cache clear</td><td>Clear all cache</td></tr>
+            <tr><td>cache clear_all</td><td>Clear all configured cache engines</td></tr>
+            <tr><td>cache clear_group &lt;group&gt;</td><td>Clear a specific cache group</td></tr>
+            <tr><td>cache list</td><td>List configured cache engines</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Internationalization (I18n)</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:32%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>i18n extract</td><td>Extract translation strings from source files</td></tr>
+            <tr><td>i18n init</td><td>Initialize a locale catalog</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Migrations</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:32%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>migrations migrate</td><td>Run all pending migrations</td></tr>
+            <tr><td>migrations rollback</td><td>Roll back the last migration(s)</td></tr>
+            <tr><td>migrations status</td><td>View migration status</td></tr>
+            <tr><td>migrations dump</td><td>Dump the migrations schema</td></tr>
+            <tr><td>migrations mark_migrated</td><td>Mark a migration as migrated without running</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Plugins</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:32%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>plugin list</td><td>List all available plugins</td></tr>
+            <tr><td>plugin load &lt;name&gt;</td><td>Load a plugin into the application</td></tr>
+            <tr><td>plugin loaded</td><td>Show currently loaded plugins</td></tr>
+            <tr><td>plugin unload &lt;name&gt;</td><td>Unload a plugin</td></tr>
+            <tr><td>plugin assets symlink</td><td>Symlink plugin webroot assets</td></tr>
+            <tr><td>plugin assets copy</td><td>Copy plugin webroot assets</td></tr>
+            <tr><td>plugin assets remove</td><td>Remove copied plugin assets</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Routes</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:32%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>routes</td><td>Display all connected routes</td></tr>
+            <tr><td>routes check &lt;url&gt;</td><td>Check which route matches a URL</td></tr>
+            <tr><td>routes generate &lt;name&gt; &lt;params&gt;</td><td>Generate a URL from a route name</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Schema &amp; Database</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:32%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>schema_cache build</td><td>Build schema cache for all tables</td></tr>
+            <tr><td>schema_cache clear</td><td>Clear schema cache</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Utility</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:32%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>server</td><td>Start PHP development server</td></tr>
+            <tr><td>server --frankenphp</td><td>Start with FrankenPHP</td></tr>
+            <tr><td>version</td><td>Show CakePHP version</td></tr>
+            <tr><td>help &lt;command&gt;</td><td>Show help for a command</td></tr>
+            <tr><td>completion</td><td>Generate shell completion script</td></tr>
+            <tr><td>console</td><td>Start a CakePHP REPL console</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MVC ==================== -->
+  <section id="mvc">
+    <h2><i class="bi bi-diagram-3 me-2"></i>MVC Architecture</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body text-center">
+            <i class="bi bi-database display-6" style="color:var(--cakephp-red)"></i>
+            <h5 class="mt-2">Model</h5>
+            <p class="text-muted small">Business logic &amp; data access. Table objects + Entities.</p>
+            <code class="small">src/Model/Table/</code>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body text-center">
+            <i class="bi bi-gear display-6" style="color:var(--cakephp-red)"></i>
+            <h5 class="mt-2">Controller</h5>
+            <p class="text-muted small">Request handling, flow control, data passing.</p>
+            <code class="small">src/Controller/</code>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body text-center">
+            <i class="bi bi-eye display-6" style="color:var(--cakephp-red)"></i>
+            <h5 class="mt-2">View</h5>
+            <p class="text-muted small">Presentation layer. Templates, layouts, elements.</p>
+            <code class="small">templates/</code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ROUTING ==================== -->
+  <section id="routing">
+    <h2><i class="bi bi-signpost-2 me-2"></i>Routing</h2>
+    <p>Define routes in <code>config/routes.php</code>. CakePHP 5 uses the scoped routing pattern.</p>
+
+    <div class="card">
+      <div class="card-header">Basic Routing</div>
+      <div class="card-body">
+        <pre><code>// config/routes.php
+use Cake\Routing\RouteBuilder;
+
+return function (RouteBuilder $routes): void {
+    $routes->setRouteClass(DashedRoute::class);
+
+    $routes->scope('/', function (RouteBuilder $routes): void {
+        $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+
+        // Named route
+        $routes->connect('/blog/:slug', ['controller' => 'Articles', 'action' => 'view'])
+            ->setPass(['slug'])
+            ->setPatterns(['slug' => '[a-z0-9-]+'])
+            ->setName('article:view');
+
+        // RESTful resource routes
+        $routes->extensions(['json', 'xml']);
+        $routes->resources('Articles');
+
+        // API prefix scoping
+        $routes->prefix('Api', function (RouteBuilder $routes): void {
+            $routes->resources('Articles');
+        });
+
+        $routes->fallback();
+    });
+};</code></pre>
+      </div>
+    </div>
+
+    <h3>Resource Route Mapping</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-light">
+            <tr><th>HTTP Method</th><th>URL</th><th>Controller Action</th><th>Route Name</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>GET</td><td>/articles</td><td>ArticlesController::index()</td><td>articles:index</td></tr>
+            <tr><td>GET</td><td>/articles/{id}</td><td>ArticlesController::view()</td><td>articles:view</td></tr>
+            <tr><td>POST</td><td>/articles</td><td>ArticlesController::add()</td><td>articles:add</td></tr>
+            <tr><td>PUT/PATCH</td><td>/articles/{id}</td><td>ArticlesController::edit()</td><td>articles:edit</td></tr>
+            <tr><td>DELETE</td><td>/articles/{id}</td><td>ArticlesController::delete()</td><td>articles:delete</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CONTROLLERS ==================== -->
+  <section id="controllers">
+    <h2><i class="bi bi-gear me-2"></i>Controllers</h2>
+    <div class="card">
+      <div class="card-header">ArticlesController.php &mdash; CRUD Example</div>
+      <div class="card-body">
+        <pre><code>// src/Controller/ArticlesController.php
+namespace App\Controller;
+
+class ArticlesController extends AppController
+{
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->loadComponent('Paginator');
+        $this->loadComponent('Flash');
+        $this->loadComponent('Authentication.Authentication');
+    }
+
+    public function index()
+    {
+        $articles = $this->Paginator->paginate(
+            $this->fetchTable('Articles')->find()->contain(['Authors'])
+        );
+        $this->set(compact('articles'));
+    }
+
+    public function view($id = null)
+    {
+        $article = $this->fetchTable('Articles')
+            ->get($id, contain: ['Authors', 'Tags']);
+        $this->set(compact('article'));
+    }
+
+    public function add()
+    {
+        $article = $this->fetchTable('Articles')->newEmptyEntity();
+        if ($this->request->is('post')) {
+            $article = $this->fetchTable('Articles')
+                ->patchEntity($article, $this->request->getData());
+            if ($this->fetchTable('Articles')->save($article)) {
+                $this->Flash->success('Article saved.');
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error('Unable to save article.');
+        }
+        $this->set(compact('article'));
+    }
+
+    public function edit($id = null)
+    {
+        $article = $this->fetchTable('Articles')->get($id);
+        if ($this->request->is(['post', 'put'])) {
+            $this->fetchTable('Articles')
+                ->patchEntity($article, $this->request->getData());
+            if ($this->fetchTable('Articles')->save($article)) {
+                $this->Flash->success('Article updated.');
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error('Unable to update article.');
+        }
+        $this->set(compact('article'));
+    }
+
+    public function delete($id = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $article = $this->fetchTable('Articles')->get($id);
+        if ($this->fetchTable('Articles')->delete($article)) {
+            $this->Flash->success('Article deleted.');
+        } else {
+            $this->Flash->error('Unable to delete article.');
+        }
+        return $this->redirect(['action' => 'index']);
+    }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ORM ==================== -->
+  <section id="orm">
+    <h2><i class="bi bi-database me-2"></i>ORM &amp; Models</h2>
+
+    <h3>Table Object</h3>
+    <div class="card">
+      <div class="card-header">ArticlesTable.php</div>
+      <div class="card-body">
+        <pre><code>// src/Model/Table/ArticlesTable.php
+namespace App\Model\Table;
+
+use Cake\ORM\Table;
+use Cake\Validation\Validator;
+
+class ArticlesTable extends Table
+{
+    public function initialize(array $config): void
+    {
+        $this->setTable('articles');
+        $this->setPrimaryKey('id');
+        $this->setDisplayField('title');
+        $this->addBehavior('Timestamp');
+        $this->belongsTo('Authors', ['foreignKey' => 'author_id']);
+        $this->belongsToMany('Tags', ['joinTable' => 'articles_tags']);
+        $this->hasMany('Comments');
+    }
+
+    public function validationDefault(Validator $validator): Validator
+    {
+        $validator
+            ->requirePresence('title', 'create')
+            ->notEmptyString('title')
+            ->maxLength('title', 255)
+            ->requirePresence('body')
+            ->notEmptyString('body');
+        return $validator;
+    }
+
+    public function findPublished($query, array $options)
+    {
+        return $query->where(['published' => true]);
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <h3>Entity</h3>
+    <div class="card">
+      <div class="card-header">Article.php</div>
+      <div class="card-body">
+        <pre><code>// src/Model/Entity/Article.php
+namespace App\Model\Entity;
+
+use Cake\ORM\Entity;
+
+class Article extends Entity
+{
+    protected array $_accessible = [
+        'title' => true,
+        'body' => true,
+        'author_id' => true,
+        'published' => true,
+        'tags' => true,
+        'comments' => true,
+        '*' => false,
+    ];
+
+    protected function _getExcerpt()
+    {
+        return substr($this->body, 0, 150) . '...';
+    }
+
+    protected function _setTitle($value)
+    {
+        return trim($value);
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <h3>Query Builder Examples</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>$articles = $this->fetchTable('Articles');
+
+$all = $articles->find()->all();
+
+$recent = $articles->find()
+    ->where(['created >=' => new \DateTime('-7 days')])
+    ->orderBy(['created' => 'DESC'])
+    ->all();
+
+$withAuthors = $articles->find()
+    ->contain(['Authors', 'Tags'])
+    ->where(['Articles.published' => true])
+    ->all();
+
+$first = $articles->find()->first();
+
+$total = $articles->find()->count();
+
+$published = $articles->find('published');
+
+$titles = $articles->find()
+    ->select(['id', 'title'])
+    ->where(['published' => true])
+    ->all();
+
+$search = $articles->find()
+    ->where(['title LIKE' => '%cake%'])
+    ->all();
+
+$byIds = $articles->find()
+    ->where(['id IN' => [1, 3, 5]])
+    ->all();
+
+// Pagination
+$this->paginate = [
+    'contain' => ['Authors'],
+    'limit' => 20,
+    'order' => ['Articles.created' => 'DESC'],
+];
+$paginated = $this->paginate($articles->find());</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ASSOCIATIONS ==================== -->
+  <section id="associations">
+    <h2><i class="bi bi-link-45deg me-2"></i>Associations</h2>
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">BelongsTo</div>
+          <div class="card-body">
+            <pre><code>$this->belongsTo('Authors', [
+    'foreignKey' => 'author_id',
+]);
+// $article->author->name</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">HasMany</div>
+          <div class="card-body">
+            <pre><code>$this->hasMany('Comments', [
+    'foreignKey' => 'article_id',
+]);
+// $article->comments[0]->body</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">HasOne</div>
+          <div class="card-body">
+            <pre><code>$this->hasOne('Profiles', [
+    'foreignKey' => 'user_id',
+]);
+// $user->profile->avatar</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">BelongsToMany</div>
+          <div class="card-body">
+            <pre><code>$this->belongsToMany('Tags', [
+    'joinTable' => 'articles_tags',
+    'foreignKey' => 'article_id',
+    'targetForeignKey' => 'tag_id',
+]);
+// $article->tags[0]->name</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BEHAVIORS ==================== -->
+  <section id="behaviors">
+    <h2><i class="bi bi-puzzle me-2"></i>Behaviors</h2>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>// Timestamp - auto-manages created/modified
+$this->addBehavior('Timestamp', [
+    'events' => [
+        'Model.beforeSave' => [
+            'created' => 'new',
+            'modified' => 'always',
+        ],
+    ],
+]);
+
+// Tree - hierarchical data (nested set)
+$this->addBehavior('Tree', ['level' => 'level']);
+
+// CounterCache - auto-counts associated records
+$this->addBehavior('CounterCache', [
+    'Authors' => ['article_count'],
+]);
+
+// Translate - multi-language fields
+$this->addBehavior('Translate', [
+    'fields' => ['title', 'body'],
+    'translationTable' => 'articles_translations',
+]);</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== VALIDATION ==================== -->
+  <section id="validation">
+    <h2><i class="bi bi-check2-square me-2"></i>Validation</h2>
+    <div class="card">
+      <div class="card-header">validationDefault()</div>
+      <div class="card-body">
+        <pre><code>public function validationDefault(Validator $validator): Validator
+{
+    $validator
+        ->scalar('title')
+        ->maxLength('title', 200)
+        ->minLength('title', 5)
+        ->notEmptyString('title')
+        ->requirePresence('title', 'create');
+
+    $validator
+        ->scalar('body')
+        ->notEmptyString('body');
+
+    $validator
+        ->email('email')
+        ->notEmptyString('email');
+
+    $validator
+        ->integer('author_id')
+        ->notEmptyString('author_id');
+
+    $validator
+        ->date('publish_date')
+        ->allowEmptyDate('publish_date');
+
+    $validator
+        ->add('url', 'valid-url', [
+            'rule' => ['custom', '/^https?:\/\/.+/'],
+            'message' => 'Must be a valid URL.',
+        ]);
+
+    return $validator;
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== VIEWS ==================== -->
+  <section id="views">
+    <h2><i class="bi bi-eye me-2"></i>Views &amp; Templates</h2>
+
+    <div class="card">
+      <div class="card-header">Layout &mdash; default.php</div>
+      <div class="card-body">
+        <pre><code>&lt;!-- templates/layout/default.php --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;?= $this-&gt;Html-&gt;charset() ?&gt;
+    &lt;meta name="viewport" content="width=device-width"&gt;
+    &lt;title&gt;&lt;?= h($this-&gt;fetch('title')) ?&gt;&lt;/title&gt;
+    &lt;?= $this-&gt;Html-&gt;meta('icon') ?&gt;
+    &lt;?= $this-&gt;Html-&gt;css(['normalize', 'milligram', 'cake']) ?&gt;
+    &lt;?= $this-&gt;fetch('meta') ?&gt;
+    &lt;?= $this-&gt;fetch('css') ?&gt;
+    &lt;?= $this-&gt;fetch('script') ?&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;nav&gt;...&lt;/nav&gt;
+    &lt;?= $this-&gt;Flash-&gt;render() ?&gt;
+    &lt;section&gt;&lt;?= $this-&gt;fetch('content') ?&gt;&lt;/section&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Articles List &mdash; index.php</div>
+      <div class="card-body">
+        <pre><code>&lt;!-- templates/Articles/index.php --&gt;
+&lt;h1&gt;Articles&lt;/h1&gt;
+&lt;p&gt;&lt;?= $this-&gt;Html-&gt;link('Add Article', ['action' =&gt; 'add']) ?&gt;&lt;/p&gt;
+&lt;table&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;&lt;?= $this-&gt;Paginator-&gt;sort('title') ?&gt;&lt;/th&gt;
+            &lt;th&gt;&lt;?= $this-&gt;Paginator-&gt;sort('created') ?&gt;&lt;/th&gt;
+            &lt;th&gt;Actions&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;?php foreach ($articles as $article): ?&gt;
+        &lt;tr&gt;
+            &lt;td&gt;&lt;?= h($article-&gt;title) ?&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;?= $article-&gt;created-&gt;format('Y-m-d') ?&gt;&lt;/td&gt;
+            &lt;td&gt;
+                &lt;?= $this-&gt;Html-&gt;link('View', ['action' =&gt; 'view', $article-&gt;id]) ?&gt;
+                &lt;?= $this-&gt;Form-&gt;postLink('Delete',
+                    ['action' =&gt; 'delete', $article-&gt;id],
+                    ['confirm' =&gt; 'Are you sure?'])
+                ?&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;?php endforeach; ?&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class="paginator"&gt;
+    &lt;ul class="pagination"&gt;
+        &lt;?= $this-&gt;Paginator-&gt;first('&amp;laquo; First') ?&gt;
+        &lt;?= $this-&gt;Paginator-&gt;numbers() ?&gt;
+        &lt;?= $this-&gt;Paginator-&gt;last('Last &amp;raquo;') ?&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Form Helper &mdash; add.php</div>
+      <div class="card-body">
+        <pre><code>&lt;!-- templates/Articles/add.php --&gt;
+&lt;h1&gt;Add Article&lt;/h1&gt;
+&lt;?= $this-&gt;Form-&gt;create($article) ?&gt;
+    &lt;?= $this-&gt;Form-&gt;control('title', ['label' =&gt; 'Title']) ?&gt;
+    &lt;?= $this-&gt;Form-&gt;control('body', ['rows' =&gt; '10']) ?&gt;
+    &lt;?= $this-&gt;Form-&gt;control('author_id', [
+        'options' =&gt; $authors,
+    ]) ?&gt;
+    &lt;?= $this-&gt;Form-&gt;control('published', ['type' =&gt; 'checkbox']) ?&gt;
+    &lt;?= $this-&gt;Form-&gt;button('Save') ?&gt;
+&lt;?= $this-&gt;Form-&gt;end() ?&gt;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== AUTHENTICATION ==================== -->
+  <section id="auth">
+    <h2><i class="bi bi-shield-lock me-2"></i>Authentication</h2>
+    <p>Uses the official <code>cakephp/authentication</code> plugin.</p>
+
+    <div class="card">
+      <div class="card-header">Application.php &mdash; Middleware Setup</div>
+      <div class="card-body">
+        <pre><code>namespace App;
+
+use Authentication\AuthenticationService;
+use Authentication\AuthenticationServiceInterface;
+use Authentication\AuthenticationServiceProviderInterface;
+use Authentication\Middleware\AuthenticationMiddleware;
+use Cake\Http\MiddlewareQueue;
+use Psr\Http\Message\ServerRequestInterface;
+
+class Application extends BaseApplication
+    implements AuthenticationServiceProviderInterface
+{
+    public function middleware(MiddlewareQueue $queue): MiddlewareQueue
+    {
+        $queue->add(new AuthenticationMiddleware($this));
+        return $queue;
+    }
+
+    public function getAuthenticationService(
+        ServerRequestInterface $request
+    ): AuthenticationServiceInterface {
+        $service = new AuthenticationService();
+        $service->loadIdentifier('Authentication.Password', [
+            'fields' => ['username' => 'email', 'password' => 'password'],
+        ]);
+        $service->loadAuthenticator('Authentication.Session');
+        $service->loadAuthenticator('Authentication.Form', [
+            'fields' => ['username' => 'email'],
+            'loginUrl' => '/users/login',
+        ]);
+        return $service;
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">UsersController &mdash; Login / Logout</div>
+      <div class="card-body">
+        <pre><code>namespace App\Controller;
+
+class UsersController extends AppController
+{
+    public function beforeFilter(\Cake\Event\EventInterface $event)
+    {
+        parent::beforeFilter($event);
+        $this->Authentication->addUnauthenticatedActions(['login']);
+    }
+
+    public function login()
+    {
+        $result = $this->Authentication->getResult();
+        if ($result && $result->isValid()) {
+            return $this->redirect(['controller' => 'Articles', 'action' => 'index']);
+        }
+        if ($this->request->is('post')) {
+            $this->Flash->error('Invalid credentials.');
+        }
+    }
+
+    public function logout()
+    {
+        $this->Authentication->logout();
+        return $this->redirect(['controller' => 'Users', 'action' => 'login']);
+    }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== AUTHORIZATION ==================== -->
+  <section id="authorization">
+    <h2><i class="bi bi-key me-2"></i>Authorization</h2>
+    <p>Uses the official <code>cakephp/authorization</code> plugin with policy classes.</p>
+
+    <div class="card">
+      <div class="card-header">ArticlePolicy.php</div>
+      <div class="card-body">
+        <pre><code>namespace App\Policy;
+
+use App\Model\Entity\Article;
+use Authorization\IdentityInterface;
+
+class ArticlePolicy
+{
+    public function canIndex(?IdentityInterface $user) { return true; }
+    public function canView(?IdentityInterface $user, Article $article) { return true; }
+    public function canAdd(IdentityInterface $user) { return true; }
+
+    public function canEdit(IdentityInterface $user, Article $article)
+    {
+        return $user->getIdentifier() === $article->author_id;
+    }
+
+    public function canDelete(IdentityInterface $user, Article $article)
+    {
+        return $this->canEdit($user, $article);
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>// In AppController::initialize()
+$this->loadComponent('Authorization.Authorization');
+
+// In a controller action:
+public function edit($id = null)
+{
+    $article = $this->fetchTable('Articles')->get($id);
+    $this->Authorization->authorize($article);
+    // continues only if authorized
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== QUEUE ==================== -->
+  <section id="queue">
+    <h2><i class="bi bi-arrow-repeat me-2"></i>Queue / Job System</h2>
+    <p>The <code>cakephp/queue</code> plugin provides deferred job execution. Jobs are pushed to a transport and processed by a worker.</p>
+
+    <h3>Installation</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>composer require cakephp/queue
+bin/cake plugin load Queue</code></pre>
+      </div>
+    </div>
+
+    <h3>1. Define a Queue Job</h3>
+    <div class="card">
+      <div class="card-header">src/Queue/Job/SendEmailJob.php</div>
+      <div class="card-body">
+        <pre><code>namespace App\Queue\Job;
+
+use Cake\Queue\Job\JobInterface;
+use Cake\Queue\Job\Message;
+
+class SendEmailJob implements JobInterface
+{
+    public function execute(array $data, Message $message): bool
+    {
+        $to = $data['to'] ?? null;
+        $subject = $data['subject'] ?? 'No subject';
+        $body = $data['body'] ?? '';
+
+        if (!$to) {
+            throw new \RuntimeException('Recipient required.');
+        }
+
+        // Send the email (pseudo)
+        // Mailer::send($to, $subject, $body);
+
+        return true; // true = success, false = retry
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <h3>2. Push a Job onto the Queue</h3>
+    <div class="card">
+      <div class="card-header">QueueManager::push()</div>
+      <div class="card-body">
+        <pre><code>use Cake\Queue\QueueManager;
+
+// Basic push
+QueueManager::push(SendEmailJob::class, [
+    'to' => 'user@example.com',
+    'subject' => 'Welcome!',
+    'body' => 'Thank you for registering.',
+]);
+
+// Push with options (delay, priority, queue)
+QueueManager::push(SendEmailJob::class, $data, [
+    'config' => 'default',
+    'queue' => 'emails',
+    'delay' => '+5 minutes',
+]);
+
+// Example inside a Controller
+public function register()
+{
+    $user = $this->fetchTable('Users')
+        ->newEntity($this->request->getData());
+    if ($this->fetchTable('Users')->save($user)) {
+        QueueManager::push(SendEmailJob::class, [
+            'to' => $user->email,
+            'subject' => 'Welcome!',
+            'body' => 'Thank you for registering.',
+        ]);
+        $this->Flash->success('Registration successful.');
+        return $this->redirect(['action' => 'login']);
+    }
+    $this->Flash->error('Registration failed.');
+}</code></pre>
+      </div>
+    </div>
+
+    <h3>3. Worker Command</h3>
+    <div class="card">
+      <div class="card-header">Run the Queue Worker</div>
+      <div class="card-body">
+        <pre><code># Start the worker (processes queued jobs)
+bin/cake queue worker
+
+# Short alias
+bin/cake worker
+
+# With all options
+bin/cake queue worker \
+    --config default \
+    --queue emails \
+    --max-jobs 50 \
+    --max-runtime 3600 \
+    --max-attempts 3 \
+    --verbose
+
+# Options:
+# --config / -c        Queue config name (default)
+# --queue / -Q         Queue name to bind to
+# --processor / -p     Processor class
+# --logger / -l        Logger for verbose output
+# --max-jobs / -i      Stop after N jobs
+# --max-runtime / -r   Stop after N seconds
+# --max-attempts / -a  Max retry count per job
+# --verbose / -v       Verbose logging</code></pre>
+      </div>
+    </div>
+
+    <h3>4. Failed Jobs</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code># Configure failed job storage in config/app.php:
+'Queue' => [
+    'default' => [
+        'failed' => [
+            'className' => \Cake\Queue\Failed\FailedJobsTable::class,
+            'table' => 'failed_jobs',
+        ],
+    ],
+];
+
+# Commands
+bin/cake queue requeue   # Requeue failed jobs
+bin/cake queue purge     # Purge failed jobs</code></pre>
+      </div>
+    </div>
+
+    <h3>Queue Configuration</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>// config/app.php
+return [
+    'Queue' => [
+        'default' => [
+            'queue' => 'default',
+            'url' => env('QUEUE_URL', 'null://'),
+            // Transport examples:
+            // 'url' => 'file:///tmp/queue'       (filesystem)
+            // 'url' => 'redis://localhost:6379'  (Redis)
+            // 'url' => 'amqp://guest:pass@localhost:5672' (RabbitMQ)
+        ],
+    ],
+];</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== API ==================== -->
+  <section id="api">
+    <h2><i class="bi bi-globe me-2"></i>RESTful API</h2>
+    <p>CakePHP has first-class support for building REST APIs using resource routes, JSON views, and content negotiation.</p>
+
+    <h3>Route Setup</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>// config/routes.php
+$routes->scope('/api', function (RouteBuilder $routes): void {
+    $routes->setExtensions(['json']);
+    $routes->resources('Articles');
+});
+
+// Or with prefix
+$routes->prefix('Api', function (RouteBuilder $routes): void {
+    $routes->setExtensions(['json']);
+    $routes->resources('Articles');
+});</code></pre>
+      </div>
+    </div>
+
+    <h3>API Controller</h3>
+    <div class="card">
+      <div class="card-header">src/Controller/Api/ArticlesController.php</div>
+      <div class="card-body">
+        <pre><code>namespace App\Controller\Api;
+
+use App\Controller\AppController;
+
+class ArticlesController extends AppController
+{
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->loadComponent('RequestHandler');
+        $this->loadComponent('Authentication.Authentication');
+        $this->loadComponent('Authorization.Authorization');
+    }
+
+    public function viewClasses(): array
+    {
+        return [\Cake\View\JsonView::class];
+    }
+
+    public function index()
+    {
+        $articles = $this->fetchTable('Articles')
+            ->find()->contain(['Authors', 'Tags'])->all();
+        $this->set(compact('articles'));
+        $this->viewBuilder()->setOption('serialize', ['articles']);
+    }
+
+    public function view($id = null)
+    {
+        $article = $this->fetchTable('Articles')
+            ->get($id, contain: ['Authors', 'Tags']);
+        $this->Authorization->authorize($article);
+        $this->set(compact('article'));
+        $this->viewBuilder()->setOption('serialize', ['article']);
+    }
+
+    public function add()
+    {
+        $article = $this->fetchTable('Articles')->newEmptyEntity();
+        $article = $this->fetchTable('Articles')
+            ->patchEntity($article, $this->request->getData());
+        if ($this->fetchTable('Articles')->save($article)) {
+            $message = 'Saved';
+            $this->set('article', $article);
+            $this->response = $this->response->withStatus(201);
+        } else {
+            $message = 'Error';
+            $this->response = $this->response->withStatus(422);
+            $this->set('errors', $article->getErrors());
+        }
+        $this->set(compact('message'));
+        $this->viewBuilder()
+            ->setOption('serialize', ['message', 'article', 'errors']);
+    }
+
+    public function edit($id = null)
+    {
+        $article = $this->fetchTable('Articles')->get($id);
+        $this->Authorization->authorize($article);
+        $article = $this->fetchTable('Articles')
+            ->patchEntity($article, $this->request->getData());
+        $message = $this->fetchTable('Articles')->save($article)
+            ? 'Updated' : 'Error';
+        $this->response = $message === 'Error'
+            ? $this->response->withStatus(422)
+            : $this->response;
+        $this->set(compact('message', 'article'));
+        $this->viewBuilder()
+            ->setOption('serialize', ['message', 'article']);
+    }
+
+    public function delete($id = null)
+    {
+        $this->request->allowMethod(['delete']);
+        $article = $this->fetchTable('Articles')->get($id);
+        $this->Authorization->authorize($article);
+        $message = $this->fetchTable('Articles')->delete($article)
+            ? 'Deleted' : 'Error';
+        $this->response = $message === 'Error'
+            ? $this->response->withStatus(422)
+            : $this->response;
+        $this->set(compact('message'));
+        $this->viewBuilder()->setOption('serialize', ['message']);
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <h3>Body Parser Middleware</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>// src/Application.php middleware()
+use Cake\Http\Middleware\BodyParserMiddleware;
+
+$middlewareQueue->add(new BodyParserMiddleware());
+// Auto-parses JSON/XML request bodies</code></pre>
+      </div>
+    </div>
+
+    <h3>Request / Response Examples</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>// GET /api/articles.json
+// Response:
+{
+    "articles": [
+        {
+            "id": 1,
+            "title": "Hello CakePHP",
+            "author": { "id": 1, "name": "John" },
+            "tags": [{ "id": 1, "name": "php" }]
+        }
+    ]
+}
+
+// POST /api/articles.json
+// Headers: Content-Type: application/json
+// Body: {"title": "New", "body": "...", "author_id": 1}
+// Response (201): {"message": "Saved", "article": {...}}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MIDDLEWARE ==================== -->
+  <section id="middleware">
+    <h2><i class="bi bi-funnel me-2"></i>Middleware</h2>
+    <div class="card">
+      <div class="card-header">Full Middleware Stack</div>
+      <div class="card-body">
+        <pre><code>// src/Application.php
+use Authentication\Middleware\AuthenticationMiddleware;
+use Cake\Http\Middleware\BodyParserMiddleware;
+use Cake\Http\Middleware\CsrfProtectionMiddleware;
+use Cake\Routing\Middleware\RoutingMiddleware;
+
+public function middleware(MiddlewareQueue $queue): MiddlewareQueue
+{
+    return $queue
+        ->add(new ErrorHandlerMiddleware(Configure::read('Error')))
+        ->add(new AssetMiddleware())
+        ->add(new BodyParserMiddleware())
+        ->add(new RoutingMiddleware($this))
+        ->add(new CsrfProtectionMiddleware(['httponly' => true]))
+        ->add(new AuthenticationMiddleware($this));
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Custom CORS Middleware</div>
+      <div class="card-body">
+        <pre><code>namespace App\Middleware;
+
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+
+class CorsMiddleware implements MiddlewareInterface
+{
+    public function process(
+        ServerRequestInterface $request,
+        RequestHandlerInterface $handler
+    ): ResponseInterface {
+        $response = $handler->handle($request);
+        return $response
+            ->withHeader('Access-Control-Allow-Origin', '*')
+            ->withHeader(
+                'Access-Control-Allow-Headers',
+                'X-Requested-With, Content-Type, Authorization'
+            )
+            ->withHeader(
+                'Access-Control-Allow-Methods',
+                'GET, POST, PUT, DELETE, PATCH, OPTIONS'
+            );
+    }
+}
+
+// Register: $middlewareQueue->add(new CorsMiddleware());</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TESTING ==================== -->
+  <section id="testing">
+    <h2><i class="bi bi-check-circle me-2"></i>Testing</h2>
+    <p>CakePHP uses <strong>PHPUnit</strong>. Tests live in <code>tests/</code>. Run with <code>vendor/bin/phpunit</code>.</p>
+
+    <div class="card">
+      <div class="card-header">Model Test</div>
+      <div class="card-body">
+        <pre><code>namespace App\Test\TestCase\Model\Table;
+
+use Cake\ORM\TableRegistry;
+use Cake\TestSuite\TestCase;
+
+class ArticlesTableTest extends TestCase
+{
+    protected array $fixtures = ['app.Articles', 'app.Authors'];
+
+    private \App\Model\Table\ArticlesTable $Articles;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->Articles = TableRegistry::getTableLocator()->get('Articles');
+    }
+
+    public function testFindPublished(): void
+    {
+        $results = $this->Articles->find('published')->all();
+        $this->assertCount(2, $results);
+    }
+
+    public function testValidation(): void
+    {
+        $entity = $this->Articles->newEntity(['title' => '']);
+        $this->assertNotEmpty($entity->getErrors()['title']);
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Controller Test</div>
+      <div class="card-body">
+        <pre><code>namespace App\Test\TestCase\Controller;
+
+use Cake\TestSuite\IntegrationTestTrait;
+use Cake\TestSuite\TestCase;
+
+class ArticlesControllerTest extends TestCase
+{
+    use IntegrationTestTrait;
+
+    protected array $fixtures = [
+        'app.Articles', 'app.Authors',
+        'app.Tags', 'app.ArticlesTags',
+    ];
+
+    public function testIndex(): void
+    {
+        $this->get('/articles');
+        $this->assertResponseOk();
+    }
+
+    public function testView(): void
+    {
+        $this->get('/articles/view/1');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Hello');
+    }
+
+    public function testAddUnauthenticated(): void
+    {
+        $this->post('/articles/add', ['title' => 'Test']);
+        $this->assertRedirect(['controller' => 'Users', 'action' => 'login']);
+    }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BEST PRACTICES ==================== -->
+  <section id="best-practices">
+    <h2><i class="bi bi-star me-2"></i>Best Practices</h2>
+
+    <div class="highlight-box">
+      <strong>Naming Conventions</strong> &mdash; Tables: plural snake_case (<code>articles</code>).
+      Table classes: plural PascalCase (<code>ArticlesTable</code>). Entities: singular PascalCase (<code>Article</code>).
+      Controllers: plural PascalCase (<code>ArticlesController</code>). Foreign keys: singular snake_case (<code>author_id</code>).
+      Join tables: alphabetical order (<code>articles_tags</code>).
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Recommended Folder Structure</div>
+          <div class="card-body">
+            <pre><code>myapp/
+  bin/cake
+  config/
+    app.php
+    routes.php
+  src/
+    Command/
+    Controller/
+      Api/
+    Middleware/
+    Model/
+      Entity/
+      Table/
+    Policy/
+    Queue/Job/
+  templates/
+    layout/
+    element/
+    Articles/
+  tests/
+    Fixture/
+    TestCase/
+  webroot/</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Key Guidelines</div>
+          <div class="card-body">
+            <ul class="list-unstyled mb-0">
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Always use <code>h()</code> when outputting user data</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use <code>contain()</code> for eager loading</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Fat models, skinny controllers</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Behaviors for reusable model logic</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Components for reusable controller logic</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Enable CSRF for web routes</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use migrations for schema changes</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Disable debug mode in production</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Never commit .env files</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="mt-5 pt-4 border-top text-muted">
+    <div class="row">
+      <div class="col-md-6">
+        <p class="fw-bold mb-2">CakePHP 5.4 Quick Reference</p>
+        <p class="small">Generated for study purposes. Always refer to the official documentation.</p>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <p class="small mb-1">
+          <a href="https://book.cakephp.org/5.x/" target="_blank" class="text-decoration-none">
+            <i class="bi bi-book me-1"></i> Documentation
+          </a>
+          &middot;
+          <a href="https://api.cakephp.org/" target="_blank" class="text-decoration-none">
+            <i class="bi bi-code-slash me-1"></i> API
+          </a>
+          &middot;
+          <a href="https://github.com/cakephp/cakephp" target="_blank" class="text-decoration-none">
+            <i class="bi bi-github me-1"></i> GitHub
+          </a>
+        </p>
+        <p class="small mb-0">
+          CakePHP &copy; Cake Software Foundation. v5.4.0 &mdash; PHP 8.1+
+        </p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.getElementById('sidebarToggle')?.addEventListener('click', function () {
+    document.getElementById('sidebar').classList.toggle('show');
+  });
+  document.querySelectorAll('#sidebar .nav-link').forEach(function (link) {
+    link.addEventListener('click', function () {
+      document.getElementById('sidebar').classList.remove('show');
+    });
+  });
+</script>
+</body>
+</html>

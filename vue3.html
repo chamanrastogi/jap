@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue 3.5 - Complete Guide: Commands, Composition API & Concepts</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --vue-green: #42b883;
+      --vue-dark: #1a1a2e;
+      --sidebar-width: 280px;
+    }
+    * { scroll-margin-top: 1rem; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f4f6fb;
+      display: flex;
+    }
+    #sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0; left: 0;
+      background: var(--vue-dark);
+      overflow-y: auto;
+      z-index: 1000;
+      transition: transform .3s;
+    }
+    #sidebar .brand {
+      padding: 1.25rem 1.25rem .75rem;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    #sidebar .brand h5 { color: #fff; font-weight: 700; }
+    #sidebar .brand small { color: #adb5bd; }
+    #sidebar .nav-link {
+      color: #c8cdd3;
+      padding: .5rem 1.25rem;
+      font-size: .88rem;
+      border-left: 3px solid transparent;
+      transition: all .15s;
+    }
+    #sidebar .nav-link:hover {
+      color: #fff;
+      background: rgba(255,255,255,.05);
+    }
+    #sidebar .nav-link.active {
+      color: var(--vue-green);
+      border-left-color: var(--vue-green);
+      background: rgba(66,184,131,.08);
+    }
+    #sidebar .nav-link i { width: 1.3rem; }
+    #sidebar .nav-section {
+      color: #6c757d;
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      padding: 1rem 1.25rem .3rem;
+      font-weight: 600;
+    }
+    #main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 2rem 2.5rem 4rem;
+      max-width: 1100px;
+    }
+    @media (max-width: 991.98px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.show { transform: translateX(0); }
+      #main { margin-left: 0; padding: 1.5rem; }
+    }
+    .sidebar-toggle {
+      position: fixed;
+      top: .75rem; left: .75rem;
+      z-index: 1050;
+      background: var(--vue-dark);
+      color: #fff;
+      border: none;
+      border-radius: .4rem;
+      padding: .4rem .65rem;
+      display: none;
+    }
+    @media (max-width: 991.98px) {
+      .sidebar-toggle { display: block; }
+    }
+    h2 {
+      font-weight: 700;
+      color: var(--vue-dark);
+      margin-top: 2.5rem;
+      padding-bottom: .5rem;
+      border-bottom: 3px solid var(--vue-green);
+    }
+    h3 {
+      font-weight: 600;
+      color: #2c3e50;
+      margin-top: 1.8rem;
+    }
+    .card {
+      border: none;
+      border-radius: .75rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      margin-bottom: 1.5rem;
+    }
+    .card-header {
+      background: #fff;
+      border-bottom: 1px solid #e9ecef;
+      font-weight: 600;
+      padding: 1rem 1.25rem;
+    }
+    .card-body { padding: 1.5rem; }
+    pre {
+      background: #1e1e2f;
+      color: #e6e6e6;
+      padding: 1rem 1.25rem;
+      border-radius: .5rem;
+      font-size: .82rem;
+      overflow-x: auto;
+      position: relative;
+    }
+    pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
+    .cmd-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+      white-space: nowrap;
+      color: var(--vue-green);
+    }
+    .highlight-box {
+      background: #eef2ff;
+      border-left: 4px solid var(--vue-green);
+      padding: 1rem 1.25rem;
+      border-radius: .4rem;
+      margin: 1rem 0;
+    }
+    .new-badge {
+      background: #10b981;
+      color: #fff;
+      font-size: .65rem;
+      font-weight: 600;
+      padding: .15rem .5rem;
+      border-radius: 1rem;
+      vertical-align: middle;
+    }
+    .home-link {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 1100;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.94);
+      color: #0f172a;
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 700;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: 0.2s;
+    }
+    .home-link:hover { color: #2563eb; }
+    @media (min-width: 992px) {
+      .home-link { left: calc(var(--sidebar-width) + 14px); }
+    }
+    @media (max-width: 991.98px) {
+      .home-link { left: 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
+<a href="index.html" class="home-link" aria-label="Go back to home page"><span>←</span> Home</a>
+
+<!-- ===== SIDEBAR ===== -->
+<nav id="sidebar">
+  <div class="brand">
+    <h5><i class="bi bi-brightness-alt-high me-2" style="color:var(--vue-green)"></i>Vue.js</h5>
+    <small class="d-block mt-1">v3.5.x &mdash; Complete Guide</small>
+  </div>
+  <div class="py-2">
+    <div class="nav-section">Getting Started</div>
+    <a class="nav-link" href="#install"><i class="bi bi-download"></i> Installation</a>
+    <a class="nav-link" href="#commands"><i class="bi bi-terminal"></i> CLI Commands</a>
+
+    <div class="nav-section">Core Concepts</div>
+    <a class="nav-link" href="#sfc"><i class="bi bi-file-earmark-code"></i> Single-File Components</a>
+    <a class="nav-link" href="#template"><i class="bi bi-code-slash"></i> Template Syntax</a>
+    <a class="nav-link" href="#reactivity"><i class="bi bi-box"></i> Reactivity</a>
+    <a class="nav-link" href="#comp-api"><i class="bi bi-diagram-3"></i> Composition API</a>
+    <a class="nav-link" href="#lifecycle"><i class="bi bi-arrow-repeat"></i> Lifecycle Hooks</a>
+    <a class="nav-link" href="#directives"><i class="bi bi-lightning-charge"></i> Built-in Directives</a>
+
+    <div class="nav-section">Components</div>
+    <a class="nav-link" href="#components"><i class="bi bi-puzzle"></i> Components</a>
+    <a class="nav-link" href="#slots"><i class="bi bi-box-arrow-in-right"></i> Slots</a>
+    <a class="nav-link" href="#provide-inject"><i class="bi bi-layers"></i> Provide / Inject</a>
+
+    <div class="nav-section">Advanced</div>
+    <a class="nav-link" href="#router"><i class="bi bi-signpost-2"></i> Vue Router</a>
+    <a class="nav-link" href="#pinia"><i class="bi bi-database"></i> Pinia</a>
+    <a class="nav-link" href="#composables"><i class="bi bi-tools"></i> Composables</a>
+    <a class="nav-link" href="#transitions"><i class="bi bi-film"></i> Transitions</a>
+    <a class="nav-link" href="#forms"><i class="bi bi-input-cursor-text"></i> Forms</a>
+    <a class="nav-link" href="#typescript"><i class="bi bi-filetype-tsx"></i> TypeScript</a>
+
+    <div class="nav-section">Testing & QA</div>
+    <a class="nav-link" href="#testing"><i class="bi bi-check-circle"></i> Testing</a>
+    <a class="nav-link" href="#best-practices"><i class="bi bi-star"></i> Best Practices</a>
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<div id="main">
+
+  <!-- HERO -->
+  <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+    <div>
+      <h1 class="fw-bold mb-1" style="color:var(--vue-dark)">
+        <i class="bi bi-brightness-alt-high" style="color:var(--vue-green)"></i>
+        Vue.js
+      </h1>
+      <p class="text-muted mb-0 fs-5">
+        Complete Reference &amp; Concept Guide
+        <span class="badge bg-secondary ms-2">v3.5.x</span>
+        <span class="badge bg-warning text-dark ms-1">Node.js 18+</span>
+        <span class="badge bg-success ms-1">Released May 2026</span>
+      </p>
+    </div>
+  </div>
+
+  <p class="fs-5 text-muted mb-5">
+    Vue is a progressive JavaScript framework for building user interfaces.
+    This guide covers all <strong>core concepts</strong>, <strong>Composition API</strong>,
+    <strong>reactivity</strong>, and <strong>practical code examples</strong> for Vue 3.5.
+  </p>
+
+  <!-- ==================== INSTALL ==================== -->
+  <section id="install">
+    <h2><i class="bi bi-download me-2"></i>Installation</h2>
+    <div class="card">
+      <div class="card-body">
+        <pre><code># Create a new Vue application with Vite (recommended)
+npm create vue@latest myapp
+
+# Interactive prompts: TypeScript, JSX, Router, Pinia, etc.
+
+# Or create manually with Vite
+npm create vite@latest myapp -- --template vue
+# With TypeScript
+npm create vite@latest myapp -- --template vue-ts
+
+# Install dependencies
+cd myapp
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">package.json Scripts (Vite)</div>
+      <div class="card-body">
+        <pre><code>{
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "vue": "^3.5.34",
+    "vue-router": "^4.4.0",
+    "pinia": "^2.2.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.0",
+    "vite": "^6.0.0",
+    "typescript": "^5.6.0"
+  }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== COMMANDS ==================== -->
+  <section id="commands">
+    <h2><i class="bi bi-terminal me-2"></i>CLI Commands Reference</h2>
+    <p class="text-muted">Common commands used in Vue development workflows.</p>
+
+    <h3>Vite Commands</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:36%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>npm run dev</td><td>Start development server with HMR</td></tr>
+            <tr><td>npm run dev -- --host</td><td>Expose server to network</td></tr>
+            <tr><td>npm run dev -- --port 3000</td><td>Start on specific port</td></tr>
+            <tr><td>npm run build</td><td>Build for production</td></tr>
+            <tr><td>npm run preview</td><td>Preview production build locally</td></tr>
+            <tr><td>npm run lint</td><td>Run ESLint</td></tr>
+            <tr><td>npm run typecheck</td><td>Run TypeScript type checking</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Vue CLI (Legacy) vs create-vue</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:36%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>npm create vue@latest</td><td>Scaffold new Vue project (recommended)</td></tr>
+            <tr><td>npm create vue@latest -- --ts</td><td>Scaffold with TypeScript</td></tr>
+            <tr><td>npm create vue@latest -- --router</td><td>Include Vue Router</td></tr>
+            <tr><td>npm create vue@latest -- --pinia</td><td>Include Pinia state mgmt</td></tr>
+            <tr><td>npm install -D @vue/compiler-sfc</td><td>Install SFC compiler</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SFC ==================== -->
+  <section id="sfc">
+    <h2><i class="bi bi-file-earmark-code me-2"></i>Single-File Components (SFC)</h2>
+    <p>Vue SFCs use the <code>.vue</code> extension with three sections: template, script, and style.</p>
+
+    <div class="card">
+      <div class="card-header">Basic SFC Structure</div>
+      <div class="card-body">
+        <pre><code>&lt;script setup&gt;
+import { ref } from 'vue'
+
+const count = ref(0)
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;div class="counter"&gt;
+    &lt;h1&gt;Hello Vue!&lt;/h1&gt;
+    &lt;p&gt;Count: {{ count }}&lt;/p&gt;
+    &lt;button @click="count++"&gt;Increment&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;style scoped&gt;
+.counter { text-align: center; }
+h1 { color: #42b883; }
+&lt;/style&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">SFC Features</div>
+      <div class="card-body">
+        <pre><code>&lt;!-- &lt;script setup&gt; -- shorthand Composition API --&gt;
+&lt;script setup lang="ts"&gt;
+import { ref, onMounted } from 'vue'
+defineProps&lt;{ title: string }&gt;()
+const emit = defineEmits&lt;{ update: [value: string] }&gt;()
+&lt;/script&gt;
+
+&lt;!-- Scoped CSS -- isolated styles --&gt;
+&lt;style scoped&gt;
+.parent &gt; .child { font-weight: bold; }
+/* Deep selector for child components */
+:deep(.child-component) { color: red; }
+/* Slotted content */
+:slotted(span) { text-decoration: underline; }
+/* Global selector within scoped */
+:global(.global-class) { font-size: 2rem; }
+&lt;/style&gt;
+
+&lt;!-- Multiple style blocks --&gt;
+&lt;style module&gt;
+.blue { color: blue; }  /* $style.blue in template */
+&lt;/style&gt;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TEMPLATE ==================== -->
+  <section id="template">
+    <h2><i class="bi bi-code-slash me-2"></i>Template Syntax</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>&lt;!-- Text interpolation --&gt;
+&lt;p&gt;{{ message }}&lt;/p&gt;
+
+&lt;!-- Raw HTML (use cautiously) --&gt;
+&lt;div v-html="rawHtml"&gt;&lt;/div&gt;
+
+&lt;!-- Attribute bindings --&gt;
+&lt;img :src="imageUrl" :alt="altText" /&gt;
+&lt;div :id="dynamicId" :class="{ active: isActive }"&gt;&lt;/div&gt;
+
+&lt;!-- Dynamic attribute names --&gt;
+&lt;button :[attributeName]="value"&gt;Dynamic&lt;/button&gt;
+
+&lt;!-- Class &amp; Style bindings --&gt;
+&lt;div :class="['static', { active: isActive }, dynamicClass]"&gt;&lt;/div&gt;
+&lt;div :style="{ color: textColor, fontSize: size + 'px' }"&gt;&lt;/div&gt;
+
+&lt;!-- Event handlers --&gt;
+&lt;button @click="handleClick"&gt;Click&lt;/button&gt;
+&lt;button @click="count++"&gt;Inline&lt;/button&gt;
+&lt;input @keyup.enter="submit" /&gt;
+
+&lt;!-- Event modifiers --&gt;
+&lt;form @submit.prevent="onSubmit"&gt;...&lt;/form&gt;
+&lt;a @click.stop="doThis" href="#"&gt;Stop&lt;/a&gt;
+&lt;div @click.once="fireOnce"&gt;Once&lt;/div&gt;
+
+&lt;!-- Mouse / keyboard modifiers --&gt;
+&lt;input @keydown.ctrl.enter="save" /&gt;
+&lt;div @mousemove.self="move"&gt;Self only&lt;/div&gt;
+
+&lt;!-- Conditional rendering --&gt;
+&lt;div v-if="visible"&gt;Visible&lt;/div&gt;
+&lt;div v-else-if="otherCondition"&gt;Other&lt;/div&gt;
+&lt;div v-else&gt;Hidden&lt;/div&gt;
+&lt;template v-if="loading"&gt;&lt;Spinner /&gt;&lt;/template&gt;
+
+&lt;!-- v-show (toggles display: none) --&gt;
+&lt;div v-show="visible"&gt;Shown/Hidden&lt;/div&gt;
+
+&lt;!-- List rendering --&gt;
+&lt;ul&gt;
+  &lt;li v-for="item in items" :key="item.id"&gt;
+    {{ item.text }}
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!-- With index --&gt;
+&lt;li v-for="(item, index) in items" :key="index"&gt;{{ index }}: {{ item }}&lt;/li&gt;
+
+&lt;!-- Over object --&gt;
+&lt;li v-for="(value, key) in object" :key="key"&gt;{{ key }}: {{ value }}&lt;/li&gt;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== REACTIVITY ==================== -->
+  <section id="reactivity">
+    <h2><i class="bi bi-box me-2"></i>Reactivity</h2>
+    <p>Vue 3's reactivity system is based on <strong>ref</strong> and <strong>reactive</strong> with automatic dependency tracking.</p>
+
+    <h3>ref &amp; reactive</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>import { ref, reactive, computed, watch, watchEffect } from 'vue'
+
+// ref — wraps primitive values (and objects)
+const count = ref(0)
+count.value = 5  // access via .value
+console.log(count.value)
+
+// reactive — wraps objects only
+const state = reactive({
+  name: 'Vue',
+  version: 3.5,
+})
+state.name = 'Vue.js'  // direct property access
+
+// ref with objects (automatically becomes .value)
+const user = ref({ name: 'Alice', age: 30 })
+user.value.age = 31
+
+// Template auto-unwraps refs
+// &lt;p&gt;{{ count }}&lt;/p&gt;  — no .value needed in template
+
+// computed
+const double = computed(() =&gt; count.value * 2)
+
+// writable computed
+const fullName = computed({
+  get: () =&gt; `${firstName.value} ${lastName.value}`,
+  set: (val) =&gt; {
+    const parts = val.split(' ')
+    firstName.value = parts[0]
+    lastName.value = parts[1]
+  },
+})</code></pre>
+      </div>
+    </div>
+
+    <h3>Watch</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>import { watch, watchEffect } from 'vue'
+
+// Watch a single source
+watch(count, (newVal, oldVal) =&gt; {
+  console.log(`count changed from ${oldVal} to ${newVal}`)
+})
+
+// Watch multiple sources
+watch([firstName, lastName], ([newFirst, newLast], [oldFirst, oldLast]) =&gt; {
+  console.log('Name changed')
+})
+
+// Watch with deep option
+watch(user, (newVal) =&gt; {
+  console.log('User deeply changed', newVal)
+}, { deep: true, immediate: true })
+
+// flush: 'post' — run after DOM update
+watch(count, callback, { flush: 'post' })
+
+// watchEffect — auto-tracks dependencies
+watchEffect(() =&gt; {
+  console.log(`Count is: ${count.value}`)
+  // auto-tracks any reactive refs used inside
+})
+
+// Async watcher — oneShot
+watch(source, (newVal, oldVal, onCleanup) =&gt; {
+  const controller = new AbortController()
+  onCleanup(() =&gt; controller.abort())
+  fetch(`/api?q=${newVal}`, { signal: controller.signal })
+})</code></pre>
+      </div>
+    </div>
+
+    <h3>toRef &amp; toRefs</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>import { toRefs, toRef, reactive } from 'vue'
+
+const state = reactive({ x: 0, y: 0 })
+
+// Convert all properties to refs
+const { x, y } = toRefs(state)
+
+// Convert a single property to a ref
+const xRef = toRef(state, 'x')
+
+// Keeps reactivity linked to original state
+x.value = 10  // also updates state.x</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== COMPOSITION API ==================== -->
+  <section id="comp-api">
+    <h2><i class="bi bi-diagram-3 me-2"></i>Composition API</h2>
+    <p>The Composition API organizes component logic by feature rather than option. <code>&lt;script setup&gt;</code> is the recommended syntax.</p>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>&lt;script setup lang="ts"&gt;
+import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+
+// Props (no need to import defineProps)
+const props = defineProps&lt;{
+  title: string
+  initialCount?: number
+}&gt;()
+
+// Emits
+const emit = defineEmits&lt;{
+  update: [value: number]
+  delete: [id: string]
+}&gt;()
+
+// Expose
+defineExpose({ reset })
+
+// Reactive state
+const count = ref(props.initialCount ?? 0)
+const double = computed(() =&gt; count.value * 2)
+
+// Methods
+function increment() {
+  count.value++
+  emit('update', count.value)
+}
+
+// Lifecycle
+onMounted(() =&gt; {
+  console.log('Mounted!')
+})
+
+// Router
+const router = useRouter()
+function navigate() {
+  router.push('/dashboard')
+}
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;div&gt;
+    &lt;h1&gt;{{ title }}&lt;/h1&gt;
+    &lt;p&gt;Count: {{ count }} (double: {{ double }})&lt;/p&gt;
+    &lt;button @click="increment"&gt;+1&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Options API (Legacy - still supported)</div>
+      <div class="card-body">
+        <pre><code>export default {
+  props: ['title'],
+  emits: ['update'],
+  data() {
+    return { count: 0 }
+  },
+  computed: {
+    double() { return this.count * 2 }
+  },
+  methods: {
+    increment() { this.count++; this.$emit('update', this.count) }
+  },
+  mounted() { console.log('Mounted!') }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== LIFECYCLE ==================== -->
+  <section id="lifecycle">
+    <h2><i class="bi bi-arrow-repeat me-2"></i>Lifecycle Hooks</h2>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:28%">Composition API</th><th style="width:28%">Options API</th><th>When</th></tr></thead>
+          <tbody>
+            <tr><td>onBeforeMount</td><td>beforeMount</td><td>Before component is mounted to DOM</td></tr>
+            <tr><td>onMounted</td><td>mounted</td><td>Component mounted, DOM available</td></tr>
+            <tr><td>onBeforeUpdate</td><td>beforeUpdate</td><td>Before reactive data change triggers re-render</td></tr>
+            <tr><td>onUpdated</td><td>updated</td><td>After DOM re-render</td></tr>
+            <tr><td>onBeforeUnmount</td><td>beforeUnmount</td><td>Before component is destroyed</td></tr>
+            <tr><td>onUnmounted</td><td>unmounted</td><td>Component destroyed</td></tr>
+            <tr><td>onErrorCaptured</td><td>errorCaptured</td><td>Error from descendent component</td></tr>
+            <tr><td>onActivated</td><td>activated</td><td>Keep-alive cached component activated</td></tr>
+            <tr><td>onDeactivated</td><td>deactivated</td><td>Keep-alive cached component deactivated</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>import { onMounted, onUnmounted, onBeforeUnmount } from 'vue'
+
+function useEventListener(target, event, callback) {
+  onMounted(() =&gt; target.addEventListener(event, callback))
+  onBeforeUnmount(() =&gt; target.removeEventListener(event, callback))
+}
+
+// Usage in component
+onMounted(async () =&gt; {
+  const data = await fetch('/api/data')
+  // Component is ready
+})
+
+onUnmounted(() =&gt; {
+  // Cleanup timers, subscriptions
+  clearInterval(timerId)
+})</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== DIRECTIVES ==================== -->
+  <section id="directives">
+    <h2><i class="bi bi-lightning-charge me-2"></i>Built-in Directives</h2>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:20%">Directive</th><th>Shorthand</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>v-if / v-else-if / v-else</td><td>-</td><td>Conditionally render element</td></tr>
+            <tr><td>v-show</td><td>-</td><td>Toggle display: none</td></tr>
+            <tr><td>v-for</td><td>-</td><td>Render list of items</td></tr>
+            <tr><td>v-on</td><td>@</td><td>Attach event listener</td></tr>
+            <tr><td>v-bind</td><td>:</td><td>Dynamically bind attribute</td></tr>
+            <tr><td>v-model</td><td>-</td><td>Two-way data binding</td></tr>
+            <tr><td>v-slot</td><td>#</td><td>Slot content</td></tr>
+            <tr><td>v-text</td><td>-</td><td>Set innerText</td></tr>
+            <tr><td>v-html</td><td>-</td><td>Set innerHTML</td></tr>
+            <tr><td>v-pre</td><td>-</td><td>Skip compilation for this element</td></tr>
+            <tr><td>v-once</td><td>-</td><td>Render only once, no updates</td></tr>
+            <tr><td>v-memo</td><td>-</td><td>Memoize template (Vue 3.2+)</td></tr>
+            <tr><td>v-cloak</td><td>-</td><td>Hide until compilation done</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>&lt;!-- v-model -- two-way binding --&gt;
+&lt;input v-model="name" /&gt;
+&lt;textarea v-model="message"&gt;&lt;/textarea&gt;
+&lt;select v-model="selected"&gt;
+  &lt;option value="a"&gt;A&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;!-- v-model modifiers --&gt;
+&lt;input v-model.trim="name" /&gt;        &lt;!-- trim whitespace --&gt;
+&lt;input v-model.number="age" /&gt;       &lt;!-- convert to number --&gt;
+&lt;input v-model.lazy="name" /&gt;        &lt;!-- sync on change not input --&gt;
+
+&lt;!-- Custom component v-model --&gt;
+&lt;MyInput v-model="search" /&gt;
+// Child: defineModel() returns a ref
+const model = defineModel()
+// Or: defineProps(['modelValue'])
+//     defineEmits(['update:modelValue'])</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== COMPONENTS ==================== -->
+  <section id="components">
+    <h2><i class="bi bi-puzzle me-2"></i>Components</h2>
+
+    <div class="card">
+      <div class="card-header">Props &amp; Emits</div>
+      <div class="card-body">
+        <pre><code>&lt;!-- Child Component --&gt;
+&lt;script setup lang="ts"&gt;
+// Type-based props
+defineProps&lt;{
+  title: string
+  items: string[]
+  count?: number          // optional
+  status: 'active' | 'inactive'
+}&gt;()
+
+// With defaults
+interface Props { title?: string; count?: number }
+const props = withDefaults(defineProps&lt;Props&gt;(), {
+  title: 'Default Title',
+  count: 0,
+})
+
+// Emits
+const emit = defineEmits&lt;{
+  (e: 'update', id: number): void
+  (e: 'delete', id: number): void
+}&gt;()
+
+// Or simpler syntax
+const emit = defineEmits&lt;{
+  update: [id: number]
+  delete: [id: number]
+}&gt;()
+
+emit('update', 42)
+&lt;/script&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Dynamic Components</div>
+      <div class="card-body">
+        <pre><code>&lt;script setup&gt;
+import { shallowRef } from 'vue'
+import HomePage from './HomePage.vue'
+import AboutPage from './AboutPage.vue'
+
+const currentTab = shallowRef(HomePage)
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;component :is="currentTab"&gt;&lt;/component&gt;
+&lt;/template&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">KeepAlive</div>
+      <div class="card-body">
+        <pre><code>&lt;template&gt;
+  &lt;KeepAlive :max="10"&gt;
+    &lt;component :is="activeComponent" /&gt;
+  &lt;/KeepAlive&gt;
+&lt;/template&gt;
+
+// KeepAlive hooks in child:
+import { onActivated, onDeactivated } from 'vue'
+onActivated(() =&gt; { /* component reactivated */ })
+onDeactivated(() =&gt; { /* component deactivated */ })</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SLOTS ==================== -->
+  <section id="slots">
+    <h2><i class="bi bi-box-arrow-in-right me-2"></i>Slots</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>&lt;!-- Child Component (BaseLayout.vue) --&gt;
+&lt;div class="layout"&gt;
+  &lt;header&gt;
+    &lt;slot name="header"&gt;Default header&lt;/slot&gt;
+  &lt;/header&gt;
+  &lt;main&gt;
+    &lt;slot /&gt;  &lt;!-- default slot --&gt;
+  &lt;/main&gt;
+  &lt;footer&gt;
+    &lt;slot name="footer" /&gt;
+  &lt;/footer&gt;
+&lt;/div&gt;
+
+&lt;!-- Parent usage --&gt;
+&lt;BaseLayout&gt;
+  &lt;template #header&gt;
+    &lt;h1&gt;Custom Header&lt;/h1&gt;
+  &lt;/template&gt;
+
+  &lt;p&gt;Default slot content&lt;/p&gt;
+
+  &lt;template #footer="{ year }"&gt;
+    &lt;footer&gt;&amp;copy; {{ year }}&lt;/footer&gt;
+  &lt;/template&gt;
+&lt;/BaseLayout&gt;
+
+&lt;!-- Scoped slots -- passing data back to parent --&gt;
+&lt;!-- Child --&gt;
+&lt;slot name="item" :item="item" :index="index" /&gt;
+
+&lt;!-- Parent --&gt;
+&lt;template #item="{ item, index }"&gt;
+  &lt;li&gt;{{ index }}: {{ item.name }}&lt;/li&gt;
+&lt;/template&gt;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PROVIDE / INJECT ==================== -->
+  <section id="provide-inject">
+    <h2><i class="bi bi-layers me-2"></i>Provide / Inject</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>import { provide, inject, type InjectionKey } from 'vue'
+
+// Define injection key
+const USER_KEY = Symbol('user') as InjectionKey&lt;User&gt;
+
+// Provider (ancestor)
+provide('theme', 'dark')
+provide(USER_KEY, { name: 'Alice', role: 'admin' })
+
+// Injector (descendant)
+const theme = inject('theme', 'light')  // with default
+const user = inject(USER_KEY)           // typed
+
+// Reactive provide
+const count = ref(0)
+provide('count', readonly(count))  // prevent mutation
+count.value++                       // child still reacts</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ROUTER ==================== -->
+  <section id="router">
+    <h2><i class="bi bi-signpost-2 me-2"></i>Vue Router</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>// router/index.ts
+import { createRouter, createWebHistory } from 'vue-router'
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [
+    { path: '/', name: 'home', component: () =&gt; import('@/views/Home.vue') },
+    { path: '/about', name: 'about', component: () =&gt; import('@/views/About.vue') },
+    {
+      path: '/users',
+      children: [
+        { path: '', name: 'users', component: () =&gt; import('@/views/UserList.vue') },
+        { path: ':id', name: 'user', component: () =&gt; import('@/views/UserProfile.vue'), props: true },
+      ],
+    },
+    { path: '/:pathMatch(.*)*', name: 'not-found', component: () =&gt; import('@/views/NotFound.vue') },
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) return savedPosition
+    return { top: 0 }
+  },
+})
+
+// Navigation guard
+router.beforeEach(async (to, from) =&gt; {
+  const auth = useAuthStore()
+  if (to.meta.requiresAuth &amp;&amp; !auth.isAuthenticated) {
+    return { name: 'login', query: { redirect: to.fullPath } }
+  }
+})
+
+export default router</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Component Usage</div>
+      <div class="card-body">
+        <pre><code>&lt;script setup lang="ts"&gt;
+import { useRouter, useRoute } from 'vue-router'
+
+const router = useRouter()
+const route = useRoute()
+
+// Navigation
+router.push('/users/42')
+router.push({ name: 'user', params: { id: '42' }, query: { tab: 'profile' } })
+router.replace('/login')   // no history entry
+router.back()              // go back
+
+// Route params
+const id = route.params.id        // string | string[]
+const tab = route.query.tab       // string | undefined
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;nav&gt;
+    &lt;RouterLink to="/"&gt;Home&lt;/RouterLink&gt;
+    &lt;RouterLink :to="{ name: 'about' }"&gt;About&lt;/RouterLink&gt;
+  &lt;/nav&gt;
+  &lt;RouterView v-slot="{ Component }"&gt;
+    &lt;Transition name="fade" mode="out-in"&gt;
+      &lt;component :is="Component" /&gt;
+    &lt;/Transition&gt;
+  &lt;/RouterView&gt;
+&lt;/template&gt;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PINIA ==================== -->
+  <section id="pinia">
+    <h2><i class="bi bi-database me-2"></i>Pinia</h2>
+    <p>Pinia is the official state management library for Vue 3, with TypeScript support and devtools integration.</p>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>// stores/counter.ts
+import { defineStore } from 'pinia'
+import { ref, computed } from 'vue'
+
+export const useCounterStore = defineStore('counter', () =&gt; {
+  // State
+  const count = ref(0)
+  const name = ref('Counter')
+
+  // Getters
+  const double = computed(() =&gt; count.value * 2)
+
+  // Actions
+  function increment() { count.value++ }
+  async function fetchAndSet() {
+    const data = await fetch('/api/count')
+    count.value = await data.json()
+  }
+
+  return { count, name, double, increment, fetchAndSet }
+})
+
+// Component usage
+import { useCounterStore } from '@/stores/counter'
+
+const store = useCounterStore()
+store.count       // reactive state
+store.double      // computed getter
+store.increment() // action
+
+// Destructure with reactivity
+const { count, double } = storeToRefs(store)
+const { increment } = store // destructure action directly</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== COMPOSABLES ==================== -->
+  <section id="composables">
+    <h2><i class="bi bi-tools me-2"></i>Composables</h2>
+    <p>Composables are functions that use Vue's Composition API to encapsulate reusable logic.</p>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>// composables/useFetch.ts
+import { ref, onUnmounted } from 'vue'
+
+export function useFetch&lt;T&gt;(url: string) {
+  const data = ref&lt;T | null&gt;(null)
+  const error = ref&lt;string | null&gt;(null)
+  const loading = ref(true)
+  const controller = new AbortController()
+
+  async function execute() {
+    loading.value = true
+    error.value = null
+    try {
+      const res = await fetch(url, { signal: controller.signal })
+      if (!res.ok) throw new Error('Failed to fetch')
+      data.value = await res.json()
+    } catch (err: any) {
+      if (err.name !== 'AbortError') error.value = err.message
+    } finally {
+      loading.value = true &amp;&amp; false  // force
+      loading.value = false
+    }
+  }
+
+  onUnmounted(() =&gt; controller.abort())
+
+  execute()
+
+  return { data, error, loading, refresh: execute }
+}
+
+// composables/useMouse.ts
+import { ref, onMounted, onUnmounted } from 'vue'
+
+export function useMouse() {
+  const x = ref(0)
+  const y = ref(0)
+
+  function update(e: MouseEvent) {
+    x.value = e.pageX
+    y.value = e.pageY
+  }
+
+  onMounted(() =&gt; window.addEventListener('mousemove', update))
+  onUnmounted(() =&gt; window.removeEventListener('mousemove', update))
+
+  return { x, y }
+}
+
+// Usage in component
+const { data: todos, loading, error } = useFetch&lt;Todo[]&gt;('/api/todos')
+const { x, y } = useMouse()</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TRANSITIONS ==================== -->
+  <section id="transitions">
+    <h2><i class="bi bi-film me-2"></i>Transitions &amp; Animations</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>&lt;!-- Single element/component --&gt;
+&lt;Transition name="fade" mode="out-in"&gt;
+  &lt;p v-if="visible"&gt;Hello&lt;/p&gt;
+&lt;/Transition&gt;
+
+&lt;!-- List transitions --&gt;
+&lt;TransitionGroup name="list" tag="ul"&gt;
+  &lt;li v-for="item in items" :key="item.id"&gt;{{ item.text }}&lt;/li&gt;
+&lt;/TransitionGroup&gt;
+
+&lt;!-- CSS classes generated by transition name --&gt;
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+
+/* List move animation */
+.list-enter-active, .list-leave-active {
+  transition: all 0.4s ease;
+}
+.list-enter-from, .list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+.list-move {
+  transition: transform 0.4s ease;
+}
+
+&lt;!-- JavaScript hooks --&gt;
+&lt;Transition
+  @before-enter="onBeforeEnter"
+  @enter="onEnter"
+  @after-enter="onAfterEnter"
+  @leave="onLeave"
+&gt;
+  &lt;div v-if="show"&gt;&lt;/div&gt;
+&lt;/Transition&gt;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FORMS ==================== -->
+  <section id="forms">
+    <h2><i class="bi bi-input-cursor-text me-2"></i>Forms</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>&lt;script setup lang="ts"&gt;
+import { ref, reactive } from 'vue'
+
+const form = reactive({
+  name: '',
+  email: '',
+  password: '',
+  category: 'general',
+  agree: false,
+})
+
+const errors = ref&lt;Record&lt;string, string&gt;&gt;({})
+
+function validate(): boolean {
+  const errs: Record&lt;string, string&gt; = {}
+  if (!form.name.trim()) errs.name = 'Name is required'
+  if (!form.email.includes('@')) errs.email = 'Invalid email'
+  if (form.password.length &lt; 6) errs.password = 'Min 6 characters'
+  errors.value = errs
+  return Object.keys(errs).length === 0
+}
+
+function handleSubmit() {
+  if (!validate()) return
+  console.log('Submit:', form)
+  // API call...
+}
+
+// VeeValidate integration (popular)
+import { useForm, useField } from 'vee-validate'
+import { toTypedSchema } from '@vee-validate/zod'
+import { z } from 'zod'
+
+const schema = toTypedSchema(z.object({
+  name: z.string().min(2),
+  email: z.string().email(),
+}))
+
+const { handleSubmit: vHandleSubmit } = useForm({
+  validationSchema: schema,
+})
+
+const { value: name, errorMessage: nameError } = useField('name')
+const { value: email, errorMessage: emailError } = useField('email')
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;form @submit.prevent="handleSubmit"&gt;
+    &lt;input v-model="form.name" placeholder="Name" /&gt;
+    &lt;span v-if="errors.name"&gt;{{ errors.name }}&lt;/span&gt;
+
+    &lt;input v-model="form.email" type="email" placeholder="Email" /&gt;
+    &lt;span v-if="errors.email"&gt;{{ errors.email }}&lt;/span&gt;
+
+    &lt;select v-model="form.category"&gt;
+      &lt;option value="general"&gt;General&lt;/option&gt;
+      &lt;option value="support"&gt;Support&lt;/option&gt;
+    &lt;/select&gt;
+
+    &lt;label&gt;
+      &lt;input v-model="form.agree" type="checkbox" /&gt; I agree
+    &lt;/label&gt;
+
+    &lt;button type="submit"&gt;Submit&lt;/button&gt;
+  &lt;/form&gt;
+&lt;/template&gt;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TYPESCRIPT ==================== -->
+  <section id="typescript">
+    <h2><i class="bi bi-filetype-tsx me-2"></i>TypeScript with Vue</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>&lt;script setup lang="ts"&gt;
+// Props typing
+interface Props {
+  title: string
+  items?: Todo[]
+  status: 'loading' | 'loaded' | 'error'
+}
+const props = withDefaults(defineProps&lt;Props&gt;(), {
+  items: () =&gt; [],
+})
+
+// Emits typing
+const emit = defineEmits&lt;{
+  change: [value: string]
+  update: [id: number, data: Partial&lt;Todo&gt;]
+}&gt;()
+
+// Refs with generics
+const user = ref&lt;User | null&gt;(null)
+const todos = ref&lt;Todo[]&gt;([])
+const input = ref&lt;HTMLInputElement | null&gt;(null)
+
+// Template ref typing
+const myForm = ref&lt;InstanceType&lt;typeof MyForm&gt; | null&gt;(null)
+
+// Computed
+const double = computed&lt;number&gt;(() =&gt; count.value * 2)
+
+// Provide/Inject
+const LOCALE_KEY = Symbol() as InjectionKey&lt;Ref&lt;string&gt;&gt;
+provide(LOCALE_KEY, ref('en'))
+const locale = inject(LOCALE_KEY)!
+
+// Define component options
+defineOptions({
+  inheritAttrs: false,
+  name: 'MyComponent',
+})</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TESTING ==================== -->
+  <section id="testing">
+    <h2><i class="bi bi-check-circle me-2"></i>Testing</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>// Component test with Vitest + Vue Test Utils
+import { mount } from '@vue/test-utils'
+import { describe, it, expect } from 'vitest'
+import Counter from './Counter.vue'
+
+describe('Counter.vue', () =&gt; {
+  it('renders initial count', () =&gt; {
+    const wrapper = mount(Counter, { props: { initialCount: 5 } })
+    expect(wrapper.text()).toContain('5')
+  })
+
+  it('increments on button click', async () =&gt; {
+    const wrapper = mount(Counter)
+    await wrapper.find('button').trigger('click')
+    expect(wrapper.text()).toContain('1')
+  })
+
+  it('emits update event', async () =&gt; {
+    const wrapper = mount(Counter)
+    await wrapper.find('button').trigger('click')
+    expect(wrapper.emitted('update')).toBeTruthy()
+    expect(wrapper.emitted('update')![0]).toEqual([1])
+  })
+})
+
+// Composition API test
+import { ref, computed } from 'vue'
+
+function useCounter(initial = 0) {
+  const count = ref(initial)
+  const double = computed(() =&gt; count.value * 2)
+  const increment = () =&gt; count.value++
+  return { count, double, increment }
+}
+
+describe('useCounter', () =&gt; {
+  it('starts at initial value', () =&gt; {
+    const { count } = useCounter(10)
+    expect(count.value).toBe(10)
+  })
+
+  it('increments correctly', () =&gt; {
+    const { count, increment } = useCounter()
+    increment()
+    expect(count.value).toBe(1)
+  })
+})</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BEST PRACTICES ==================== -->
+  <section id="best-practices">
+    <h2><i class="bi bi-star me-2"></i>Best Practices</h2>
+
+    <div class="highlight-box">
+      <strong>Component Design</strong> &mdash; Use <code>&lt;script setup&gt;</code> by default. Keep components small and focused. Extract reusable logic into composables.
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Project Structure</div>
+          <div class="card-body">
+            <pre><code>src/
+  components/    # Reusable components
+    BaseButton.vue
+    BaseCard.vue
+  composables/   # Reusable logic
+    useFetch.ts
+    useAuth.ts
+  views/         # Page-level components
+    Home.vue
+    UserProfile.vue
+  router/
+    index.ts
+  stores/        # Pinia stores
+    counter.ts
+    user.ts
+  utils/         # Helpers
+    format.ts
+  types/         # TypeScript types
+    index.ts
+  App.vue
+  main.ts</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Key Guidelines</div>
+          <div class="card-body">
+            <ul class="list-unstyled mb-0">
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use Composition API + &lt;script setup&gt;</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use TypeScript for type safety</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Extract composables for reusable logic</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use Pinia for global state</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Always use :key in v-for</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use scoped styles by default</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Lazy-load routes with dynamic imports</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use v-model on custom components</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Handle loading and error states</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Test with Vitest + Vue Test Utils</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mt-4">
+      <div class="card-header">Vue 3.6 Preview — Coming Soon</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0 cmd-table">
+            <thead class="table-light"><tr><th style="width:28%">Feature</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Reactivity Transform (ref sugar)</td><td>Experimental / RFC</td></tr>
+              <tr><td>Vapor Mode (compiled, no virtual DOM)</td><td>Experimental</td></tr>
+              <tr><td>Faster reactive system improvements</td><td>In progress</td></tr>
+              <tr><td>Better SSR streaming</td><td>In progress</td></tr>
+              <tr><td>Signal-based reactivity interop</td><td>Research</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="mt-5 pt-4 border-top text-muted">
+    <div class="row">
+      <div class="col-md-6">
+        <p class="fw-bold mb-2">Vue 3.5 Quick Reference</p>
+        <p class="small">Generated for study purposes. Always refer to the official documentation.</p>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <p class="small mb-1">
+          <a href="https://vuejs.org" target="_blank" class="text-decoration-none"><i class="bi bi-book me-1"></i> Official Docs</a>
+          &middot;
+          <a href="https://github.com/vuejs/core" target="_blank" class="text-decoration-none"><i class="bi bi-github me-1"></i> GitHub</a>
+        </p>
+        <p class="small text-muted">&copy; 2026 Study Guide</p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- ===== SCRIPTS ===== -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.getElementById('sidebarToggle');
+  toggle.addEventListener('click', () => sidebar.classList.toggle('show'));
+  document.querySelectorAll('#sidebar .nav-link').forEach(link => {
+    link.addEventListener('click', () => sidebar.classList.remove('show'));
+  });
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('#sidebar .nav-link');
+  function setActiveNav() {
+    let current = '';
+    sections.forEach(section => {
+      const top = section.offsetTop - 100;
+      if (window.scrollY >= top) current = section.getAttribute('id');
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+    });
+  }
+  window.addEventListener('scroll', setActiveNav);
+  setActiveNav();
+</script>
+</body>
+</html>

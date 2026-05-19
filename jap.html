@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Jap Mantra Machine Pro</title>
+  <title>Jap Mantra Machine</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
@@ -22,6 +22,7 @@
       --chip-bg: rgba(255,255,255,0.65);
       --soft-border: rgba(156,163,175,0.22);
       --panel-bg: rgba(156,163,175,0.06);
+      --guide-bg: #fef9f0;
     }
 
     [data-bs-theme="dark"] {
@@ -30,6 +31,7 @@
       --chip-bg: rgba(30, 41, 59, 0.72);
       --soft-border: rgba(255,255,255,0.08);
       --panel-bg: rgba(255,255,255,0.04);
+      --guide-bg: rgba(255,153,51,0.06);
     }
 
     body {
@@ -44,9 +46,7 @@
       overflow-x: hidden;
     }
 
-    [data-bs-theme="dark"] body {
-      background: var(--bg-dark);
-    }
+    [data-bs-theme="dark"] body { background: var(--bg-dark); }
 
     .font-elegant { font-family: 'Cinzel', serif; }
     .font-devanagari { font-family: 'Noto Sans Devanagari', sans-serif; }
@@ -55,144 +55,92 @@
     .text-saffron { color: var(--saffron); }
 
     .home-link {
-      position: fixed;
-      top: 0.9rem;
-      left: 0.9rem;
-      z-index: 1050;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      padding: 0.55rem 0.9rem;
-      border-radius: 999px;
-      border: 1px solid var(--soft-border);
-      background: var(--chip-bg);
-      color: var(--text-main);
-      text-decoration: none;
-      font-size: 0.8rem;
-      font-weight: 700;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      position: fixed; top: 0.9rem; left: 0.9rem; z-index: 1050;
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      padding: 0.55rem 0.9rem; border-radius: 999px;
+      border: 1px solid var(--soft-border); background: var(--chip-bg);
+      color: var(--text-main); text-decoration: none; font-size: 0.8rem;
+      font-weight: 700; backdrop-filter: blur(12px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      transition: 0.2s;
     }
 
-    .home-link:hover {
-      color: var(--saffron);
-      border-color: rgba(255, 153, 51, 0.35);
-    }
+    .home-link:hover { color: var(--saffron); border-color: rgba(255,153,51,0.35); }
 
     .glass-card {
-      background: var(--card-light);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-      border-radius: 2rem;
-      width: 100%;
-      max-width: 540px;
+      background: var(--card-light); width: 100%; max-width: 540px;
+      backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.3);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1); border-radius: 2rem;
       transition: background 0.4s ease, border 0.4s ease;
       overflow: hidden;
     }
 
     [data-bs-theme="dark"] .glass-card {
       background: var(--card-dark);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
     }
 
     .top-tools button {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      font-size: 1.25rem;
-      transition: color 0.2s, transform 0.2s;
+      background: transparent; border: none; color: var(--text-muted);
+      font-size: 1.25rem; transition: color 0.2s, transform 0.2s;
     }
 
-    .top-tools button:hover {
-      color: var(--saffron);
-      transform: scale(1.08);
-    }
+    .top-tools button:hover { color: var(--saffron); transform: scale(1.08); }
 
     .timer-badge {
-      background: rgba(255, 153, 51, 0.1);
-      color: var(--saffron);
-      padding: 0.35rem 0.8rem;
-      border-radius: 1rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      font-size: 0.88rem;
+      background: rgba(255,153,51,0.1); color: var(--saffron);
+      padding: 0.35rem 0.8rem; border-radius: 1rem; font-weight: 700;
+      letter-spacing: 1px; font-size: 0.88rem;
     }
 
     .section-panel {
-      background: var(--panel-bg);
-      border: 1px solid var(--soft-border);
-      border-radius: 1.2rem;
-      padding: 0.9rem;
+      background: var(--panel-bg); border: 1px solid var(--soft-border);
+      border-radius: 1.2rem; padding: 0.9rem;
     }
 
     .section-title {
-      font-size: 0.72rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      color: var(--text-muted);
-      margin-bottom: 0.65rem;
+      font-size: 0.72rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 1.2px; color: var(--text-muted); margin-bottom: 0.65rem;
     }
+
+    .guide-panel {
+      background: var(--guide-bg);
+      border: 1px solid rgba(255,153,51,0.15);
+      border-radius: 1.2rem; padding: 1rem; font-size: 0.85rem; line-height: 1.6;
+    }
+
+    .guide-panel strong { color: var(--saffron); }
 
     .progress-container {
-      position: relative;
-      width: 240px;
-      height: 240px;
-      margin: 0 auto;
+      position: relative; width: 240px; height: 240px; margin: 0 auto;
     }
 
-    .progress-container svg {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
+    .progress-container svg { width: 100%; height: 100%; display: block; }
 
     .progress-ring__circle {
       transition: stroke-dashoffset 0.4s ease-in-out;
-      transform: rotate(-90deg);
-      transform-origin: 50% 50%;
+      transform: rotate(-90deg); transform-origin: 50% 50%;
     }
 
-    .ring-bg { stroke: rgba(156, 163, 175, 0.2); }
-    [data-bs-theme="dark"] .ring-bg { stroke: rgba(255, 255, 255, 0.1); }
+    .ring-bg { stroke: rgba(156,163,175,0.2); }
+    [data-bs-theme="dark"] .ring-bg { stroke: rgba(255,255,255,0.1); }
 
     .counter-overlay {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 0.85rem;
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; padding: 0.85rem;
     }
 
     .btn-jap {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background: transparent;
-      border: none;
-      outline: none;
-      cursor: pointer;
-      position: relative;
+      width: 100%; height: 100%; border-radius: 50%; background: transparent;
+      border: none; outline: none; cursor: pointer; position: relative;
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 0.6rem; padding: 2.2rem; text-align: center;
       animation: breathe 8s infinite ease-in-out;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.6rem;
-      padding: 2.2rem;
-      text-align: center;
     }
 
-    .btn-jap:active {
-      transform: scale(0.96);
-      animation: none;
-    }
+    .btn-jap:active { transform: scale(0.96); animation: none; }
+    .btn-jap.no-breathe { animation: none; }
 
     @keyframes breathe {
       0%, 100% { box-shadow: inset 0 0 0 rgba(255,153,51,0); }
@@ -200,260 +148,136 @@
     }
 
     .counter-value {
-      font-size: clamp(2.6rem, 9vw, 4rem);
-      line-height: 1;
-      transition: transform 0.1s;
-      max-width: 100%;
-      word-break: break-word;
+      font-size: clamp(2.6rem, 9vw, 4rem); line-height: 1;
+      transition: transform 0.1s; max-width: 100%; word-break: break-word;
     }
 
-    .tap-hint {
-      max-width: 100%;
-      font-size: 0.78rem;
-      line-height: 1.2;
-    }
+    .tap-hint { max-width: 100%; font-size: 0.78rem; line-height: 1.2; }
 
     .form-control, .form-select {
-      background-color: transparent;
-      color: var(--text-main);
-      border-color: rgba(156, 163, 175, 0.3);
+      background-color: transparent; color: var(--text-main);
+      border-color: rgba(156,163,175,0.3);
     }
 
     .form-control:focus, .form-select:focus {
-      border-color: var(--saffron);
-      box-shadow: 0 0 0 0.2rem rgba(255, 153, 51, 0.25);
-      background-color: transparent;
-      color: var(--text-main);
+      border-color: var(--saffron); box-shadow: 0 0 0 0.2rem rgba(255,153,51,0.25);
+      background-color: transparent; color: var(--text-main);
     }
 
-    [data-bs-theme="dark"] option {
-      background-color: #1e293b;
-      color: white;
-    }
+    [data-bs-theme="dark"] option { background-color: #1e293b; color: white; }
 
-    .mantra-search {
-      position: relative;
-    }
-
+    .mantra-search { position: relative; }
     .mantra-search i {
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-muted);
-      font-size: 0.88rem;
+      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+      color: var(--text-muted); font-size: 0.88rem;
     }
-
     .mantra-search input { padding-left: 2.1rem; }
 
     .category-scroll, .recent-scroll {
-      display: flex;
-      gap: 0.5rem;
-      overflow-x: auto;
-      padding-bottom: 0.2rem;
+      display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.2rem;
       scrollbar-width: none;
     }
 
     .category-scroll::-webkit-scrollbar,
     .recent-scroll::-webkit-scrollbar,
-    .mantra-list::-webkit-scrollbar {
-      display: none;
-    }
+    .mantra-list::-webkit-scrollbar { display: none; }
 
     .filter-chip, .recent-chip {
-      border: 1px solid var(--soft-border);
-      background: var(--chip-bg);
-      color: var(--text-main);
-      border-radius: 999px;
-      padding: 0.45rem 0.8rem;
-      font-size: 0.8rem;
-      font-weight: 700;
-      white-space: nowrap;
-      cursor: pointer;
-      transition: 0.2s;
+      border: 1px solid var(--soft-border); background: var(--chip-bg);
+      color: var(--text-main); border-radius: 999px; padding: 0.45rem 0.8rem;
+      font-size: 0.8rem; font-weight: 700; white-space: nowrap;
+      cursor: pointer; transition: 0.2s;
     }
 
-    .filter-chip.active,
-    .recent-chip:hover {
-      background: rgba(255, 153, 51, 0.15);
-      border-color: rgba(255, 153, 51, 0.35);
-      color: var(--saffron);
+    .filter-chip.active, .recent-chip:hover {
+      background: rgba(255,153,51,0.15);
+      border-color: rgba(255,153,51,0.35); color: var(--saffron);
     }
 
     .mantra-list {
-      max-height: 260px;
-      overflow-y: auto;
-      display: grid;
-      gap: 0.65rem;
+      max-height: 260px; overflow-y: auto; display: grid; gap: 0.65rem;
       padding-right: 0.15rem;
     }
 
     .mantra-card {
-      border: 1px solid var(--soft-border);
-      border-radius: 1rem;
-      padding: 0.85rem;
-      background: rgba(255,255,255,0.36);
-      cursor: pointer;
-      transition: 0.2s ease;
+      border: 1px solid var(--soft-border); border-radius: 1rem;
+      padding: 0.85rem; background: rgba(255,255,255,0.36);
+      cursor: pointer; transition: 0.2s ease;
     }
 
-    [data-bs-theme="dark"] .mantra-card {
-      background: rgba(255,255,255,0.02);
-    }
+    [data-bs-theme="dark"] .mantra-card { background: rgba(255,255,255,0.02); }
 
     .mantra-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(255, 153, 51, 0.35);
+      transform: translateY(-2px); border-color: rgba(255,153,51,0.35);
       box-shadow: 0 8px 18px rgba(0,0,0,0.08);
     }
 
     .mantra-card.active {
-      border-color: rgba(255, 153, 51, 0.4);
-      background: rgba(255, 153, 51, 0.1);
+      border-color: rgba(255,153,51,0.4); background: rgba(255,153,51,0.1);
     }
 
-    .mantra-name {
-      font-weight: 700;
-      color: var(--text-main);
-      line-height: 1.35;
-      margin-bottom: 0.15rem;
-    }
+    .mantra-name { font-weight: 700; color: var(--text-main); line-height: 1.35; margin-bottom: 0.15rem; }
+    .mantra-text-hi { font-size: 0.95rem; line-height: 1.6; color: var(--text-main); margin-bottom: 0.2rem; }
+    .mantra-meaning { color: var(--text-muted); font-size: 0.8rem; line-height: 1.4; }
 
-    .mantra-text-hi {
-      font-size: 0.95rem;
-      line-height: 1.6;
-      color: var(--text-main);
-      margin-bottom: 0.2rem;
-    }
-
-    .mantra-meaning {
-      color: var(--text-muted);
-      font-size: 0.8rem;
-      line-height: 1.4;
-    }
-
-    .mantra-meta {
-      display: flex;
-      gap: 0.45rem;
-      flex-wrap: wrap;
-      margin-top: 0.45rem;
-    }
+    .mantra-meta { display: flex; gap: 0.45rem; flex-wrap: wrap; margin-top: 0.45rem; }
 
     .meta-badge {
-      border-radius: 999px;
-      padding: 0.25rem 0.6rem;
-      font-size: 0.68rem;
-      font-weight: 700;
-      background: rgba(156,163,175,0.12);
-      color: var(--text-muted);
+      border-radius: 999px; padding: 0.25rem 0.6rem; font-size: 0.68rem;
+      font-weight: 700; background: rgba(156,163,175,0.12); color: var(--text-muted);
     }
 
-    .nice-btn {
-      background: var(--saffron);
-      color: #fff;
-      font-weight: 700;
-      border: none;
-    }
-
-    .nice-btn:hover {
-      background: var(--saffron-hover);
-      color: #fff;
-    }
+    .nice-btn { background: var(--saffron); color: #fff; font-weight: 700; border: none; }
+    .nice-btn:hover { background: var(--saffron-hover); color: #fff; }
 
     .active-mantra-card {
       background: linear-gradient(135deg, rgba(255,153,51,0.12), rgba(255,255,255,0.08));
-      border: 1px solid rgba(255,153,51,0.2);
-      border-radius: 1.2rem;
-      padding: 1rem;
+      border: 1px solid rgba(255,153,51,0.2); border-radius: 1.2rem; padding: 1rem;
     }
 
     .active-top-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.3rem 0.65rem;
-      border-radius: 999px;
-      background: rgba(255,153,51,0.12);
-      color: var(--saffron);
-      font-size: 0.72rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      margin-bottom: 0.45rem;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.3rem 0.65rem; border-radius: 999px;
+      background: rgba(255,153,51,0.12); color: var(--saffron);
+      font-size: 0.72rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.8px; margin-bottom: 0.45rem;
     }
 
-    .active-mantra-title {
-      font-size: 1rem;
-      font-weight: 800;
-      color: var(--text-main);
-      line-height: 1.35;
-    }
+    .active-mantra-title { font-size: 1rem; font-weight: 800; color: var(--text-main); line-height: 1.35; }
+    .active-mantra-hindi { font-size: 1.2rem; line-height: 1.7; color: var(--text-main); margin-top: 0.35rem; font-weight: 700; }
+    .active-mantra-sub { color: var(--text-muted); font-size: 0.82rem; margin-top: 0.25rem; }
+    .active-mantra-meaning { color: var(--text-muted); font-size: 0.8rem; margin-top: 0.35rem; line-height: 1.4; }
 
-    .active-mantra-hindi {
-      font-size: 1.2rem;
-      line-height: 1.7;
-      color: var(--text-main);
-      margin-top: 0.35rem;
-      font-weight: 700;
-    }
-
-    .active-mantra-sub {
-      color: var(--text-muted);
-      font-size: 0.82rem;
-      margin-top: 0.25rem;
-    }
-
-    .active-mantra-meaning {
-      color: var(--text-muted);
-      font-size: 0.8rem;
-      margin-top: 0.35rem;
-      line-height: 1.4;
+    .streak-badge {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      padding: 0.25rem 0.7rem; border-radius: 999px;
+      background: rgba(255,153,51,0.12); color: var(--saffron);
+      font-size: 0.72rem; font-weight: 800;
     }
 
     .stat-box {
-      background: rgba(156,163,175,0.05);
-      border: 1px solid var(--soft-border);
-      border-radius: 1rem;
-      padding: 0.75rem;
-      text-align: center;
-      height: 100%;
+      background: rgba(156,163,175,0.05); border: 1px solid var(--soft-border);
+      border-radius: 1rem; padding: 0.75rem; text-align: center; height: 100%;
     }
 
-    .stat-label {
-      color: var(--text-muted);
-      font-size: 0.66rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 0.15rem;
-    }
-
-    .stat-value {
-      color: var(--text-main);
-      font-size: 1.15rem;
-      font-weight: 800;
-    }
-
-    .sub-value {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      margin-top: 0.1rem;
-    }
-
-    .empty-state {
-      text-align: center;
-      padding: 1rem 0.5rem;
-      color: var(--text-muted);
-      font-size: 0.88rem;
-    }
+    .stat-label { color: var(--text-muted); font-size: 0.66rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.15rem; }
+    .stat-value { color: var(--text-main); font-size: 1.15rem; font-weight: 800; }
+    .sub-value { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.1rem; }
+    .empty-state { text-align: center; padding: 1rem 0.5rem; color: var(--text-muted); font-size: 0.88rem; }
 
     .completion-card {
-      border-radius: 1.2rem;
-      background: linear-gradient(135deg, rgba(255,153,51,0.12), rgba(245,158,11,0.08));
-      border: 1px solid rgba(255,153,51,0.18);
-      text-align: center;
-      padding: 1rem;
+      border-radius: 1.2rem; background: linear-gradient(135deg, rgba(255,153,51,0.12), rgba(245,158,11,0.08));
+      border: 1px solid rgba(255,153,51,0.18); text-align: center; padding: 1.5rem;
     }
+
+    .session-log-item {
+      border: 1px solid var(--soft-border); border-radius: 0.8rem;
+      padding: 0.6rem 0.75rem; font-size: 0.78rem; margin-bottom: 0.35rem;
+    }
+
+    .session-log-item .log-mantra { font-weight: 700; color: var(--text-main); }
+    .session-log-item .log-count { color: var(--saffron); font-weight: 700; }
+    .session-log-item .log-date { color: var(--text-muted); font-size: 0.68rem; }
 
     @media (max-width: 576px) {
       .glass-card { max-width: 100%; border-radius: 1.5rem; }
@@ -472,6 +296,10 @@
       .counter-value { font-size: clamp(2rem, 12vw, 3rem); }
       .tap-hint { font-size: 0.68rem; }
     }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--soft-border); border-radius: 4px; }
   </style>
 </head>
 <body>
@@ -483,12 +311,15 @@
 
 <main class="glass-card p-4">
   <div class="d-flex justify-content-between align-items-center mb-3 top-tools">
-    <button onclick="toggleTheme()" title="Toggle Dark/Light Mode" id="themeBtn">
+    <button onclick="toggleTheme()" title="Toggle Theme" id="themeBtn">
       <i class="fas fa-moon"></i>
     </button>
 
-    <div class="timer-badge">
-      <i class="fas fa-clock me-1"></i> <span id="sessionTimer">00:00</span>
+    <div class="d-flex align-items-center gap-2">
+      <span class="streak-badge" id="streakBadge"><i class="fas fa-fire"></i> <span id="streakCount">0</span></span>
+      <div class="timer-badge">
+        <i class="fas fa-clock me-1"></i> <span id="sessionTimer">00:00</span>
+      </div>
     </div>
 
     <button onclick="toggleSetup()" title="Settings">
@@ -500,8 +331,29 @@
     <h1 class="fs-3 font-elegant text-main mb-1">
       <i class="fas fa-dharmachakra text-saffron"></i> Jap Machine
     </h1>
-    <div class="text-muted-custom small">Set default mantra by ID and show Hindi text on counter.</div>
+    <div class="text-muted-custom small">Daily mantra chanting with mala tracking and session history.</div>
   </header>
+
+  <div class="mb-3">
+    <button class="btn btn-sm btn-outline-secondary rounded-pill w-100" type="button" data-bs-toggle="collapse" data-bs-target="#guideSection">
+      <i class="fas fa-book me-1 text-saffron"></i> About Japa — Quick Guide
+    </button>
+    <div class="collapse mt-2" id="guideSection">
+      <div class="guide-panel">
+        <p class="mb-2"><strong>Japa</strong> (जप) is the meditative repetition of a mantra. It is a core practice in Hindu, Buddhist, and Sikh traditions for focusing the mind and connecting with the divine.</p>
+        <p class="mb-2"><strong>Mala beads</strong> typically have 108 beads — a sacred number in Eastern traditions representing the wholeness of existence. One full mala = 108 recitations.</p>
+        <p class="mb-2"><strong>How to practice:</strong></p>
+        <ul class="mb-2" style="padding-left:1.2rem;">
+          <li>Sit comfortably with a calm mind and set your intention</li>
+          <li>Recite the mantra aloud, in a whisper, or silently</li>
+          <li>Use the counter to track — one tap per recitation</li>
+          <li>Focus on the sound and meaning of the mantra</li>
+          <li>Consistency matters more than quantity — daily practice is key</li>
+        </ul>
+        <p class="mb-0 small text-muted-custom">Each mantra carries a specific vibration and intention. Choose the one that resonates with your current need.</p>
+      </div>
+    </div>
+  </div>
 
   <div class="collapse show mb-4" id="setupSection">
     <div class="card card-body bg-transparent border-0 p-0">
@@ -527,32 +379,41 @@
 
         <div class="row g-2 mb-2">
           <div class="col-12">
-            <input id="defaultMantraIdInput" type="text" class="form-control form-control-sm" placeholder="Default mantra id (example: shani_beej)" />
+            <input id="defaultMantraIdInput" type="text" class="form-control form-control-sm" placeholder="Default mantra id (example: gayatri)" />
           </div>
         </div>
 
         <div class="row g-2 mb-2">
           <div class="col-6 d-grid">
-            <button class="btn btn-outline-secondary rounded-pill btn-sm" onclick="saveDefaultMantraId()">
-              Save Default ID
-            </button>
+            <button class="btn btn-outline-secondary rounded-pill btn-sm" onclick="saveDefaultMantraId()">Save Default</button>
           </div>
           <div class="col-6 d-grid">
-            <button class="btn btn-outline-secondary rounded-pill btn-sm" onclick="loadDefaultMantraById()">
-              Load Default
-            </button>
+            <button class="btn btn-outline-secondary rounded-pill btn-sm" onclick="loadDefaultMantraById()">Load Default</button>
           </div>
         </div>
 
         <div class="row g-2 mb-2">
-          <div class="col-12">
+          <div class="col-6">
             <select id="ambientSelect" class="form-select form-select-sm" onchange="handleAmbientChange()">
-              <option value="">🔇 No Ambient Sound</option>
+              <option value="">🔇 No Sound</option>
               <option value="https://actions.google.com/sounds/v1/water/rain_on_roof.ogg">🌧️ Gentle Rain</option>
-              <option value="https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg">🌊 Deep River / Ocean</option>
-              <option value="https://actions.google.com/sounds/v1/nature/fire_crackling_and_crickets.ogg">🔥 Night Fire & Crickets</option>
+              <option value="https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg">🌊 Ocean</option>
+              <option value="https://actions.google.com/sounds/v1/nature/fire_crackling_and_crickets.ogg">🔥 Night Fire</option>
             </select>
           </div>
+          <div class="col-6">
+            <select id="soundSelect" class="form-select form-select-sm" onchange="updateClickSound()">
+              <option value="sine">🔔 Soft Bell</option>
+              <option value="triangle">🔊 Tibetan Bowl</option>
+              <option value="click">👆 Click</option>
+              <option value="none">🔇 Mute</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-check form-switch mb-2">
+          <input class="form-check-input" type="checkbox" id="breatheToggle" checked onchange="toggleBreathe()">
+          <label class="form-check-label text-muted-custom small fw-bold" for="breatheToggle">Breathing animation</label>
         </div>
 
         <div class="d-grid">
@@ -563,7 +424,10 @@
       </div>
 
       <div class="section-panel mb-3">
-        <div class="section-title">All mantras</div>
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <div class="section-title mb-0">All mantras</div>
+          <span class="meta-badge" id="totalMantrasBadge">30</span>
+        </div>
 
         <div class="mantra-search mb-2">
           <i class="fas fa-search"></i>
@@ -574,6 +438,14 @@
         <div class="recent-scroll mb-2" id="recentWrap"></div>
         <div class="mantra-list" id="mantraList"></div>
       </div>
+
+      <div class="section-panel mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <div class="section-title mb-0">Session log</div>
+          <button class="btn btn-sm btn-outline-secondary rounded-pill" style="font-size:0.7rem;padding:0.2rem 0.6rem;" onclick="clearSessionLog()">Clear</button>
+        </div>
+        <div id="sessionLog"></div>
+      </div>
     </div>
   </div>
 
@@ -582,11 +454,11 @@
       <i class="fas fa-om"></i>
       <span id="activeCategoryDisplay">Planetary</span>
     </div>
-    <div id="activeMantraDisplay" class="active-mantra-title">Shani Beej Mantra</div>
-    <div id="activeMantraHindi" class="active-mantra-hindi font-devanagari">ॐ शं शनैश्चराय नमः</div>
-    <div id="activeMantraSubtitle" class="active-mantra-sub">Shani mantra</div>
-    <div id="activeMantraMeaning" class="active-mantra-meaning">A Shani mantra often associated with discipline, patience, and resilience.</div>
-    <div class="text-muted-custom small fw-bold mt-2" id="malaText">ॐ शं शनैश्चराय नमः • 0 / 108</div>
+    <div id="activeMantraDisplay" class="active-mantra-title">Gayatri Mantra</div>
+    <div id="activeMantraHindi" class="active-mantra-hindi font-devanagari">ॐ भूर्भुवः स्वः</div>
+    <div id="activeMantraSubtitle" class="active-mantra-sub">Wisdom and illumination</div>
+    <div id="activeMantraMeaning" class="active-mantra-meaning">The most revered Vedic mantra for wisdom, spiritual light, and higher consciousness.</div>
+    <div class="text-muted-custom small fw-bold mt-2" id="malaText">ॐ भूर्भुवः स्वः • 0 / 108</div>
   </div>
 
   <section class="text-center mb-4">
@@ -609,7 +481,7 @@
 
   <section class="row g-2 mb-3">
     <div class="col-6">
-      <div class="d-flex align-items-center justify-content-center p-2 rounded-4 border h-100" style="background: rgba(156,163,175,0.05);">
+      <div class="d-flex align-items-center justify-content-center p-2 rounded-4 border h-100" style="background:rgba(156,163,175,0.05);">
         <div class="form-check form-switch mb-0">
           <input class="form-check-input ms-0 me-2" type="checkbox" id="autoToggle" onchange="toggleAutoMode()">
           <label class="form-check-label text-muted-custom small fw-bold" for="autoToggle">Auto Jap</label>
@@ -617,14 +489,14 @@
       </div>
     </div>
     <div class="col-6">
-      <button class="btn w-100 h-100 py-2 d-flex align-items-center justify-content-center gap-2 fw-semibold border text-main rounded-4" style="background: rgba(156,163,175,0.05);" onclick="resetSession()">
+      <button class="btn w-100 h-100 py-2 d-flex align-items-center justify-content-center gap-2 fw-semibold border text-main rounded-4" style="background:rgba(156,163,175,0.05);" onclick="resetSession()">
         <i class="fas fa-rotate-left"></i> Reset
       </button>
     </div>
   </section>
 
   <div id="autoSpeedContainer" class="px-2 mb-4 d-none">
-    <div class="d-flex justify-content-between text-muted-custom fw-bold text-uppercase mb-1" style="font-size: 0.65rem;">
+    <div class="d-flex justify-content-between text-muted-custom fw-bold text-uppercase mb-1" style="font-size:0.65rem;">
       <span>Speed</span>
       <span id="speedDisplay">2.5s</span>
     </div>
@@ -632,29 +504,36 @@
   </div>
 
   <section class="row g-2">
-    <div class="col-4">
+    <div class="col-3">
       <div class="stat-box">
         <div class="stat-label">Session</div>
         <div id="statsToday" class="stat-value">0</div>
       </div>
     </div>
-    <div class="col-4">
+    <div class="col-3">
       <div class="stat-box">
         <div class="stat-label">Lifetime</div>
         <div id="statsTotal" class="stat-value">0</div>
       </div>
     </div>
-    <div class="col-4">
+    <div class="col-3">
       <div class="stat-box">
         <div class="stat-label">Malas</div>
         <div id="statsMalas" class="stat-value">0</div>
         <div class="sub-value">108 each</div>
       </div>
     </div>
+    <div class="col-3">
+      <div class="stat-box">
+        <div class="stat-label">Mantras</div>
+        <div id="statsMantras" class="stat-value">30</div>
+      </div>
+    </div>
   </section>
 </main>
 
 <audio id="ambientAudio" loop preload="none"></audio>
+<audio id="bellAudio" preload="none"></audio>
 
 <div class="modal fade" id="completionModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
@@ -676,75 +555,45 @@
     total: 'jap_total',
     recent: 'recent_mantras',
     selectedId: 'selected_mantra_id',
-    defaultId: 'default_mantra_id'
+    defaultId: 'default_mantra_id',
+    log: 'jap_session_log',
+    streak: 'jap_streak'
   };
 
-  const DEFAULT_MANTRA_ID = 'shani_beej';
+  const DEFAULT_MANTRA_ID = 'gayatri';
+  let clickSoundType = 'sine';
 
   const MANTRAS = [
-    {
-      id: 'shani_beej',
-      name: 'Shani Beej Mantra',
-      text: 'ॐ शं शनैश्चराय नमः',
-      category: 'Planetary',
-      subtitle: 'Shani mantra',
-      tags: ['Shani', 'Discipline'],
-      meaning: 'A Shani mantra often associated with discipline, patience, and resilience.'
-    },
-    {
-      id: 'shani_dev',
-      name: 'Shani Dev Mantra',
-      text: 'ॐ शं शनैश्चराय नमः',
-      category: 'Planetary',
-      subtitle: 'Saturn devotion',
-      tags: ['Shani', 'Protection'],
-      meaning: 'A common Shani devotional title using the same mantra text in Hindi.'
-    },
-    {
-      id: 'shiv_om_namah_shivaya',
-      name: 'Om Namah Shivaya',
-      text: 'ॐ नमः शिवाय',
-      category: 'Shiva',
-      subtitle: 'Shiva mantra',
-      tags: ['Peace', 'Shiva'],
-      meaning: 'A well-known Shiva mantra often used for inner peace and devotion.'
-    },
-    {
-      id: 'maha_mrityunjaya',
-      name: 'Maha Mrityunjaya Mantra',
-      text: 'ॐ त्र्यम्बकं यजामहे',
-      category: 'Shiva',
-      subtitle: 'Healing and protection',
-      tags: ['Healing', 'Protection'],
-      meaning: 'A Shiva mantra widely associated with healing, strength, and protection.'
-    },
-    {
-      id: 'ganesha_om_shri_ganeshaya',
-      name: 'Om Shri Ganeshaya Namah',
-      text: 'ॐ श्री गणेशाय नमः',
-      category: 'Ganesha',
-      subtitle: 'For beginnings and obstacles',
-      tags: ['Beginnings', 'Obstacles'],
-      meaning: 'A Ganesha mantra used when seeking blessings before new work and removing obstacles.'
-    },
-    {
-      id: 'peace_om_shanti',
-      name: 'Om Shanti Shanti Shanti',
-      text: 'ॐ शान्तिः शान्तिः शान्तिः',
-      category: 'Peace',
-      subtitle: 'Peace mantra',
-      tags: ['Peace', 'Calm'],
-      meaning: 'A peace mantra invoking calmness in body, speech, and mind.'
-    },
-    {
-      id: 'hanuman_om_hanumate',
-      name: 'Om Hanumate Namah',
-      text: 'ॐ हनुमते नमः',
-      category: 'Hanuman',
-      subtitle: 'Courage and strength',
-      tags: ['Strength', 'Protection'],
-      meaning: 'A Hanuman mantra often used for courage, stamina, and devotion.'
-    }
+    { id: 'gayatri', name: 'Gayatri Mantra', text: 'ॐ भूर्भुवः स्वः', category: 'Vedic', subtitle: 'Wisdom and illumination', tags: ['Wisdom', 'Light'], meaning: 'The most revered Vedic mantra for wisdom, spiritual light, and higher consciousness.' },
+    { id: 'om_namah_shivaya', name: 'Om Namah Shivaya', text: 'ॐ नमः शिवाय', category: 'Shiva', subtitle: 'Peace and devotion', tags: ['Peace', 'Shiva'], meaning: 'A well-known Shiva mantra used for inner peace, devotion, and self-realization.' },
+    { id: 'maha_mrityunjaya', name: 'Maha Mrityunjaya Mantra', text: 'ॐ त्र्यम्बकं यजामहे', category: 'Shiva', subtitle: 'Healing and protection', tags: ['Healing', 'Protection'], meaning: 'A powerful Shiva mantra for healing, strength, and overcoming difficulties.' },
+    { id: 'shani_beej', name: 'Shani Beej Mantra', text: 'ॐ शं शनैश्चराय नमः', category: 'Planetary', subtitle: 'Discipline and patience', tags: ['Shani', 'Discipline'], meaning: 'A Shani mantra for discipline, patience, resilience, and karmic balance.' },
+    { id: 'om_shri_ganeshaya', name: 'Om Shri Ganeshaya Namah', text: 'ॐ श्री गणेशाय नमः', category: 'Ganesha', subtitle: 'Remove obstacles', tags: ['Beginnings', 'Obstacles'], meaning: 'A Ganesha mantra for removing obstacles, new beginnings, and success.' },
+    { id: 'om_hanumate_namah', name: 'Om Hanumate Namah', text: 'ॐ हनुमते नमः', category: 'Hanuman', subtitle: 'Courage and strength', tags: ['Strength', 'Courage'], meaning: 'A Hanuman mantra for courage, strength, devotion, and protection.' },
+    { id: 'om_shanti', name: 'Om Shanti Shanti Shanti', text: 'ॐ शान्तिः शान्तिः शान्तिः', category: 'Peace', subtitle: 'Peace mantra', tags: ['Peace', 'Calm'], meaning: 'A peace mantra invoking calmness in body, speech, and mind.' },
+    { id: 'hari_om', name: 'Hari Om', text: 'हरि ॐ', category: 'General', subtitle: 'Supreme consciousness', tags: ['Peace', 'Meditation'], meaning: 'A simple yet powerful mantra connecting with supreme consciousness.' },
+    { id: 'so_ham', name: 'So Ham', text: 'सो ऽहम्', category: 'General', subtitle: 'I am that', tags: ['Meditation', 'Self'], meaning: 'A meditation mantra affirming oneness with the universe.' },
+    { id: 'om_mane_padme_hum', name: 'Om Mani Padme Hum', text: 'ॐ मणि पद्मे हूँ', category: 'Buddhist', subtitle: 'Compassion', tags: ['Compassion', 'Peace'], meaning: 'The most famous Buddhist mantra of compassion, wisdom, and purification.' },
+    { id: 'om_ah_hum', name: 'Om Ah Hum', text: 'ॐ आः हूँ', category: 'Buddhist', subtitle: 'Body speech mind', tags: ['Purification', 'Meditation'], meaning: 'A Tibetan Buddhist mantra purifying body, speech, and mind.' },
+    { id: 'guru_om', name: 'Guru Om', text: 'गुरु ॐ', category: 'General', subtitle: 'Guru mantra', tags: ['Guru', 'Guidance'], meaning: 'A mantra honoring the spiritual teacher and seeking guidance.' },
+    { id: 'durga_durgatihara', name: 'Durgatihara Mantra', text: 'ॐ दुर्गा दुर्गतिहारिणी', category: 'Devi', subtitle: 'Protection and strength', tags: ['Durga', 'Protection'], meaning: 'A Durga mantra for protection, strength, and removing difficulties.' },
+    { id: 'lakshmi_om_shrim', name: 'Om Shrim Mahalakshmi', text: 'ॐ श्रीं महालक्ष्म्यै नमः', category: 'Devi', subtitle: 'Abundance and prosperity', tags: ['Lakshmi', 'Abundance'], meaning: 'A Lakshmi mantra for abundance, prosperity, beauty, and grace.' },
+    { id: 'saraswati_om_aim', name: 'Om Aim Saraswatyai', text: 'ॐ ऐं सरस्वत्यै नमः', category: 'Devi', subtitle: 'Knowledge and wisdom', tags: ['Saraswati', 'Knowledge'], meaning: 'A Saraswati mantra for knowledge, wisdom, creativity, and learning.' },
+    { id: 'krishna_om_namah', name: 'Om Krishnaya Namah', text: 'ॐ कृष्णाय नमः', category: 'Vishnu', subtitle: 'Love and joy', tags: ['Krishna', 'Love'], meaning: 'A Krishna mantra for love, joy, compassion, and devotion.' },
+    { id: 'vishnu_om_namo', name: 'Om Namo Narayanaya', text: 'ॐ नमो नारायणाय', category: 'Vishnu', subtitle: 'Preservation and peace', tags: ['Vishnu', 'Peace'], meaning: 'A Vishnu mantra for preservation, peace, protection, and cosmic order.' },
+    { id: 'ram_om_ramaya', name: 'Om Ramaya Namah', text: 'ॐ रामाय नमः', category: 'Vishnu', subtitle: 'Righteousness and strength', tags: ['Ram', 'Dharma'], meaning: 'A Rama mantra for righteousness, strength, courage, and dharma.' },
+    { id: 'kali_om_krim', name: 'Om Krim Kalikayai', text: 'ॐ क्रीं कालिकायै नमः', category: 'Devi', subtitle: 'Transformation and power', tags: ['Kali', 'Power'], meaning: 'A Kali mantra for transformation, protection, and removing negativity.' },
+    { id: 'budh_beej', name: 'Budh Beej Mantra', text: 'ॐ ब्रां ब्रीं ब्रौं सः बुधाय नमः', category: 'Planetary', subtitle: 'Intellect and communication', tags: ['Mercury', 'Intellect'], meaning: 'A Mercury (Budh) mantra for intellect, communication, and analytical skills.' },
+    { id: 'guru_beej', name: 'Guru Beej Mantra', text: 'ॐ ग्रां ग्रीण ग्रौं सः गुरवे नमः', category: 'Planetary', subtitle: 'Wisdom and guidance', tags: ['Jupiter', 'Wisdom'], meaning: 'A Jupiter (Guru) mantra for wisdom, knowledge, prosperity, and guidance.' },
+    { id: 'mangal_beej', name: 'Mangal Beej Mantra', text: 'ॐ म्रां म्रीण म्रौं सः मङ्गलाय नमः', category: 'Planetary', subtitle: 'Energy and courage', tags: ['Mars', 'Energy'], meaning: 'A Mars (Mangal) mantra for energy, courage, ambition, and strength.' },
+    { id: 'shukra_beej', name: 'Shukra Beej Mantra', text: 'ॐ ट्रां ट्रीण ट्रौं सः शुक्राय नमः', category: 'Planetary', subtitle: 'Love and luxury', tags: ['Venus', 'Love'], meaning: 'A Venus (Shukra) mantra for love, beauty, luxury, and harmonious relationships.' },
+    { id: 'rahu_beej', name: 'Rahu Beej Mantra', text: 'ॐ र्रां र्रीण र्रौं सः रहवे नमः', category: 'Planetary', subtitle: 'Remove obstacles', tags: ['Rahu', 'Obstacles'], meaning: 'A Rahu mantra for removing obstacles, confusion, and unexpected challenges.' },
+    { id: 'ketu_beej', name: 'Ketu Beej Mantra', text: 'ॐ स्रां स्रीण स्रौं सः केतवे नमः', category: 'Planetary', subtitle: 'Spiritual growth', tags: ['Ketu', 'Spirituality'], meaning: 'A Ketu mantra for spiritual growth, detachment, and liberation.' },
+    { id: 'surya_beej', name: 'Surya Beej Mantra', text: 'ॐ ह्रां ह्रीण ह्रौं सः सूर्याय नमः', category: 'Planetary', subtitle: 'Health and vitality', tags: ['Sun', 'Health'], meaning: 'A Sun (Surya) mantra for health, vitality, confidence, and leadership.' },
+    { id: 'nirvana_shatkam', name: 'Nirvana Shatkam', text: 'मनो बुद्ध्यहंकार चित्तानि नाहम्', category: 'Advaita', subtitle: 'Non-duality', tags: ['Advaita', 'Self'], meaning: 'A Vedantic mantra by Adi Shankara affirming the nature of the self beyond body and mind.' },
+    { id: 'asato_ma', name: 'Asato Ma Sadgamaya', text: 'असतो मा सद्गमय', category: 'Vedic', subtitle: 'Lead me to truth', tags: ['Truth', 'Light'], meaning: 'A Vedic prayer seeking guidance from darkness to light, from ignorance to truth.' },
+    { id: 'shanti_mantra', name: 'Shanti Mantra (Full)', text: 'ॐ सह नाववतु', category: 'Vedic', subtitle: 'Peace and harmony', tags: ['Peace', 'Harmony'], meaning: 'A Vedic peace mantra prayed for harmony between teacher and student.' },
+    { id: 'bhagavad_gita', name: 'Gita Dhyanam', text: 'पार्थाय प्रतिबोधिताम्', category: 'General', subtitle: 'Gita invocation', tags: ['Gita', 'Wisdom'], meaning: 'An invocation to the Bhagavad Gita for wisdom and guidance.' }
   ];
 
   let currentCategory = 'All';
@@ -784,6 +633,7 @@
   const progressRing = document.getElementById('progressRing');
   const timerDisplay = document.getElementById('sessionTimer');
   const ambientAudio = document.getElementById('ambientAudio');
+  const bellAudio = document.getElementById('bellAudio');
   const mantraInput = document.getElementById('mantraInput');
   const mantraList = document.getElementById('mantraList');
   const mantraSearch = document.getElementById('mantraSearch');
@@ -791,6 +641,9 @@
   const recentWrap = document.getElementById('recentWrap');
   const completionText = document.getElementById('completionText');
   const defaultMantraIdInput = document.getElementById('defaultMantraIdInput');
+  const sessionLogEl = document.getElementById('sessionLog');
+  const streakCountEl = document.getElementById('streakCount');
+  const japBtn = document.getElementById('japBtn');
 
   const setupCollapsible = new bootstrap.Collapse(document.getElementById('setupSection'), { toggle: false });
   const completionModal = new bootstrap.Modal(document.getElementById('completionModal'));
@@ -803,22 +656,68 @@
   statsTotal.innerText = lifetimeTotal;
   statsToday.innerText = sessionTotal;
   updateMalaStats();
+  initStreak();
+  renderSessionLog();
 
   const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-  function playClick() {
+  function playClickSound() {
+    if (clickSoundType === 'none') return;
     if (audioCtx.state === 'suspended') audioCtx.resume();
+
+    if (clickSoundType === 'click') {
+      const buf = audioCtx.createBuffer(1, audioCtx.sampleRate * 0.04, audioCtx.sampleRate);
+      const d = buf.getChannelData(0);
+      for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (audioCtx.sampleRate * 0.01));
+      const src = audioCtx.createBufferSource();
+      src.buffer = buf;
+      src.connect(audioCtx.destination);
+      src.start();
+      return;
+    }
+
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-    gain.gain.setValueAtTime(0, audioCtx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + 0.01);
-    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+    const now = audioCtx.currentTime;
+
+    if (clickSoundType === 'triangle') {
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(640, now);
+      osc.frequency.exponentialRampToValueAtTime(320, now + 0.4);
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(0.12, now + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+    } else {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(880, now);
+      osc.frequency.exponentialRampToValueAtTime(440, now + 0.15);
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(0.08, now + 0.005);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+    }
+
     osc.connect(gain);
     gain.connect(audioCtx.destination);
     osc.start();
-    osc.stop(audioCtx.currentTime + 0.3);
+    osc.stop(now + 0.5);
+  }
+
+  function playCompletionBell() {
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    [0, 0.3, 0.6].forEach(delay => {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      const now = audioCtx.currentTime + delay;
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(528, now);
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(0.15, now + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 1.2);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 1.2);
+    });
   }
 
   function triggerHaptic(isTarget = false) {
@@ -826,6 +725,10 @@
       if (isTarget) navigator.vibrate([100, 50, 100, 50, 200]);
       else navigator.vibrate(30);
     }
+  }
+
+  function updateClickSound() {
+    clickSoundType = document.getElementById('soundSelect').value;
   }
 
   function handleAmbientChange() {
@@ -839,9 +742,11 @@
     }
   }
 
-  function toggleSetup() {
-    setupCollapsible.toggle();
+  function toggleBreathe() {
+    japBtn.classList.toggle('no-breathe', !document.getElementById('breatheToggle').checked);
   }
+
+  function toggleSetup() { setupCollapsible.toggle(); }
 
   function saveRecentMantra(name) {
     recentMantras = [name, ...recentMantras.filter(m => m !== name)].slice(0, 6);
@@ -849,27 +754,20 @@
     renderRecentMantras();
   }
 
-  function saveSelectedMantraId(id) {
-    localStorage.setItem(STORAGE_KEYS.selectedId, id);
-  }
+  function saveSelectedMantraId(id) { localStorage.setItem(STORAGE_KEYS.selectedId, id); }
 
   function saveDefaultMantraId() {
     const inputId = defaultMantraIdInput.value.trim();
     const mantra = findMantraById(inputId);
     if (!inputId || !mantra || mantra.id !== inputId) {
-      alert('Enter valid mantra id. Example: shani_beej');
+      alert('Enter valid mantra id. Example: gayatri');
       return;
     }
-
     localStorage.setItem(STORAGE_KEYS.defaultId, mantra.id);
     chooseMantraById(mantra.id);
-    alert(`Default mantra set: ${mantra.name}`);
   }
 
-  function loadDefaultMantraById() {
-    const defaultId = getStoredDefaultMantraId();
-    chooseMantraById(defaultId);
-  }
+  function loadDefaultMantraById() { chooseMantraById(getStoredDefaultMantraId()); }
 
   function findMantraByName(name) {
     return MANTRAS.find(m => m.name === name || m.text === name) || null;
@@ -903,63 +801,46 @@
 
   function renderCategories() {
     const cats = ['All', ...new Set(MANTRAS.map(m => m.category))];
-    categoryFilters.innerHTML = cats.map(cat => `
-      <button class="filter-chip ${cat === currentCategory ? 'active' : ''}" onclick="setCategory('${cat.replace(/'/g, "\\'")}')">${cat}</button>
-    `).join('');
+    categoryFilters.innerHTML = cats.map(cat =>
+      `<button class="filter-chip ${cat === currentCategory ? 'active' : ''}" onclick="setCategory('${cat.replace(/'/g, "\\'")}')">${cat}</button>`
+    ).join('');
   }
 
-  function setCategory(cat) {
-    currentCategory = cat;
-    renderCategories();
-    renderMantras();
-  }
+  function setCategory(cat) { currentCategory = cat; renderCategories(); renderMantras(); }
 
   function renderRecentMantras() {
-    if (!recentMantras.length) {
-      recentWrap.innerHTML = '';
-      return;
-    }
-
-    recentWrap.innerHTML = recentMantras.map(name => `
-      <button class="recent-chip" onclick="chooseMantra('${name.replace(/'/g, "\\'")}')">
-        <i class="fas fa-clock-rotate-left me-1"></i>${name}
-      </button>
-    `).join('');
+    if (!recentMantras.length) { recentWrap.innerHTML = ''; return; }
+    recentWrap.innerHTML = recentMantras.map(name =>
+      `<button class="recent-chip" onclick="chooseMantra('${name.replace(/'/g, "\\'")}')"><i class="fas fa-clock-rotate-left me-1"></i>${name}</button>`
+    ).join('');
   }
 
   function renderMantras() {
     const search = mantraSearch.value.trim().toLowerCase();
-
     const filtered = MANTRAS.filter(m => {
       const categoryMatch = currentCategory === 'All' || m.category === currentCategory;
-      const searchMatch =
-        m.name.toLowerCase().includes(search) ||
-        m.text.toLowerCase().includes(search) ||
-        m.category.toLowerCase().includes(search) ||
-        (m.subtitle || '').toLowerCase().includes(search) ||
-        m.tags.join(' ').toLowerCase().includes(search) ||
-        m.meaning.toLowerCase().includes(search);
-
+      const searchMatch = m.name.toLowerCase().includes(search) || m.text.toLowerCase().includes(search) ||
+        m.category.toLowerCase().includes(search) || (m.subtitle || '').toLowerCase().includes(search) ||
+        m.tags.join(' ').toLowerCase().includes(search) || m.meaning.toLowerCase().includes(search);
       return categoryMatch && searchMatch;
     });
 
     if (!filtered.length) {
-      mantraList.innerHTML = `<div class="empty-state"><i class="fas fa-spa mb-2 d-block fs-4"></i>No mantra found. Try another keyword.</div>`;
+      mantraList.innerHTML = '<div class="empty-state"><i class="fas fa-spa mb-2 d-block fs-4"></i>No mantra found. Try another keyword.</div>';
       return;
     }
 
-    mantraList.innerHTML = filtered.map(m => `
-      <div class="mantra-card ${activeMantra.id === m.id ? 'active' : ''}" data-id="${m.id}" onclick="chooseMantraById('${m.id}')">
+    mantraList.innerHTML = filtered.map(m =>
+      `<div class="mantra-card ${activeMantra.id === m.id ? 'active' : ''}" data-id="${m.id}" onclick="chooseMantraById('${m.id}')">
         <div class="mantra-name">${m.name}</div>
         <div class="mantra-text-hi font-devanagari">${m.text}</div>
         <div class="mantra-meaning">${m.subtitle}</div>
         <div class="mantra-meta">
-          <span class="meta-badge">id: ${m.id}</span>
           <span class="meta-badge">${m.category}</span>
-          ${m.tags.map(tag => `<span class="meta-badge">${tag}</span>`).join('')}
+          ${m.tags.map(t => `<span class="meta-badge">${t}</span>`).join('')}
         </div>
-      </div>
-    `).join('');
+      </div>`
+    ).join('');
   }
 
   function setAndStart() {
@@ -967,19 +848,8 @@
 
     if (inputVal) {
       const matched = findMantraByName(inputVal);
-      if (matched) {
-        activeMantra = matched;
-      } else {
-        activeMantra = {
-          id: 'custom_' + Date.now(),
-          name: inputVal,
-          text: inputVal,
-          category: 'Custom',
-          subtitle: 'Custom mantra',
-          tags: ['Custom'],
-          meaning: 'Your manually entered mantra for this counting session.'
-        };
-      }
+      if (matched) activeMantra = matched;
+      else activeMantra = { id: 'custom_' + Date.now(), name: inputVal, text: inputVal, category: 'Custom', subtitle: 'Custom mantra', tags: ['Custom'], meaning: 'Your manually entered mantra for this session.' };
     }
 
     saveSelectedMantraId(activeMantra.id);
@@ -995,11 +865,7 @@
   function incrementCount() {
     if (count === 0 && !timerInterval) startTimer();
 
-    if (target > 0 && count >= target) {
-      stopAutoMode();
-      triggerHaptic(true);
-      return;
-    }
+    if (target > 0 && count >= target) { stopAutoMode(); triggerHaptic(true); return; }
 
     count++;
     sessionTotal++;
@@ -1008,10 +874,7 @@
     counterDisplay.innerText = count;
     counterDisplay.style.transform = 'scale(1.15)';
     counterDisplay.style.color = 'var(--saffron)';
-    setTimeout(() => {
-      counterDisplay.style.transform = 'scale(1)';
-      counterDisplay.style.color = '';
-    }, 150);
+    setTimeout(() => { counterDisplay.style.transform = 'scale(1)'; counterDisplay.style.color = ''; }, 150);
 
     updateProgressRing();
 
@@ -1020,13 +883,16 @@
     localStorage.setItem(STORAGE_KEYS.total, lifetimeTotal);
     updateMalaStats();
 
-    playClick();
+    playClickSound();
     triggerHaptic();
 
     if (target > 0 && count === target) {
       stopAutoMode();
       triggerHaptic(true);
+      playCompletionBell();
       completionText.innerText = `Peace. You completed your target of ${target} japs for "${activeMantra.text}".`;
+      addSessionLog(activeMantra.name, target);
+      updateStreak();
       setTimeout(() => completionModal.show(), 250);
     }
   }
@@ -1043,9 +909,7 @@
     }
   }
 
-  function updateMalaStats() {
-    statsMalas.innerText = Math.floor(lifetimeTotal / 108);
-  }
+  function updateMalaStats() { statsMalas.innerText = Math.floor(lifetimeTotal / 108); }
 
   function resetSession() {
     count = 0;
@@ -1061,65 +925,112 @@
     stopTimer();
     timerInterval = setInterval(() => {
       secondsActive++;
-      const m = String(Math.floor(secondsActive / 60)).padStart(2, '0');
-      const s = String(secondsActive % 60).padStart(2, '0');
-      timerDisplay.innerText = `${m}:${s}`;
+      timerDisplay.innerText = `${String(Math.floor(secondsActive / 60)).padStart(2, '0')}:${String(secondsActive % 60).padStart(2, '0')}`;
     }, 1000);
   }
 
-  function stopTimer() {
-    if (timerInterval) clearInterval(timerInterval);
-    timerInterval = null;
-  }
+  function stopTimer() { if (timerInterval) { clearInterval(timerInterval); timerInterval = null; } }
 
   function toggleAutoMode() {
     const isAuto = document.getElementById('autoToggle').checked;
     const speedContainer = document.getElementById('autoSpeedContainer');
-    if (isAuto) {
-      speedContainer.classList.remove('d-none');
-      startAutoMode();
-    } else {
-      speedContainer.classList.add('d-none');
-      stopAutoMode(false);
-    }
+    if (isAuto) { speedContainer.classList.remove('d-none'); startAutoMode(); }
+    else { speedContainer.classList.add('d-none'); stopAutoMode(false); }
   }
 
   function updateSpeedDisplay(val) {
     document.getElementById('speedDisplay').innerText = val + 's';
-    if (autoJapInterval) {
-      stopAutoMode(false);
-      startAutoMode();
-    }
+    if (autoJapInterval) { stopAutoMode(false); startAutoMode(); }
   }
 
   function startAutoMode() {
-    if (target > 0 && count >= target) {
-      document.getElementById('autoToggle').checked = false;
-      return;
-    }
+    if (target > 0 && count >= target) { document.getElementById('autoToggle').checked = false; return; }
     if (count === 0 && !timerInterval) startTimer();
-
     const speed = parseFloat(document.getElementById('speedSlider').value) * 1000;
     stopAutoMode(false);
     autoJapInterval = setInterval(incrementCount, speed);
   }
 
   function stopAutoMode(resetToggle = true) {
-    if (autoJapInterval) clearInterval(autoJapInterval);
-    autoJapInterval = null;
+    if (autoJapInterval) { clearInterval(autoJapInterval); autoJapInterval = null; }
     if (resetToggle) document.getElementById('autoToggle').checked = false;
   }
 
   function toggleTheme() {
     const root = document.documentElement;
-    const themeBtnIcon = document.querySelector('#themeBtn i');
+    const icon = document.querySelector('#themeBtn i');
     if (root.getAttribute('data-bs-theme') === 'light') {
       root.setAttribute('data-bs-theme', 'dark');
-      themeBtnIcon.className = 'fas fa-sun';
+      icon.className = 'fas fa-sun';
     } else {
       root.setAttribute('data-bs-theme', 'light');
-      themeBtnIcon.className = 'fas fa-moon';
+      icon.className = 'fas fa-moon';
     }
+  }
+
+  // --- Session Log ---
+  function addSessionLog(mantraName, count) {
+    const log = JSON.parse(localStorage.getItem(STORAGE_KEYS.log) || '[]');
+    log.unshift({ mantra: mantraName, count: count, date: new Date().toISOString(), timestamp: Date.now() });
+    if (log.length > 50) log.length = 50;
+    localStorage.setItem(STORAGE_KEYS.log, JSON.stringify(log));
+    renderSessionLog();
+  }
+
+  function renderSessionLog() {
+    const log = JSON.parse(localStorage.getItem(STORAGE_KEYS.log) || '[]');
+    if (!log.length) {
+      sessionLogEl.innerHTML = '<div class="text-muted-custom small text-center py-2">No sessions yet. Complete a target to log it here.</div>';
+      return;
+    }
+    sessionLogEl.innerHTML = log.map(s => {
+      const d = new Date(s.date);
+      const dateStr = d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+      const timeStr = d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+      return `<div class="session-log-item d-flex justify-content-between align-items-center">
+        <div><span class="log-mantra">${s.mantra}</span><br><span class="log-date">${dateStr} ${timeStr}</span></div>
+        <div><span class="log-count">${s.count}</span> <span class="text-muted-custom" style="font-size:0.68rem;">japs</span></div>
+      </div>`;
+    }).join('');
+  }
+
+  function clearSessionLog() {
+    if (!confirm('Clear all session history?')) return;
+    localStorage.removeItem(STORAGE_KEYS.log);
+    renderSessionLog();
+  }
+
+  // --- Streak ---
+  function initStreak() {
+    const data = JSON.parse(localStorage.getItem(STORAGE_KEYS.streak) || '{"current":0,"lastDate":null}');
+    const today = new Date().toDateString();
+    if (data.lastDate === today) {
+      streakCountEl.innerText = data.current;
+    } else {
+      const yesterday = new Date(Date.now() - 86400000).toDateString();
+      if (data.lastDate === yesterday) {
+        streakCountEl.innerText = data.current;
+      } else {
+        data.current = 0;
+        data.lastDate = today;
+        localStorage.setItem(STORAGE_KEYS.streak, JSON.stringify(data));
+        streakCountEl.innerText = 0;
+      }
+    }
+  }
+
+  function updateStreak() {
+    const data = JSON.parse(localStorage.getItem(STORAGE_KEYS.streak) || '{"current":0,"lastDate":null}');
+    const today = new Date().toDateString();
+    if (data.lastDate === today) {
+      data.current++;
+    } else {
+      const yesterday = new Date(Date.now() - 86400000).toDateString();
+      data.current = (data.lastDate === yesterday) ? data.current + 1 : 1;
+    }
+    data.lastDate = today;
+    localStorage.setItem(STORAGE_KEYS.streak, JSON.stringify(data));
+    streakCountEl.innerText = data.current;
   }
 
   updateActiveMantraDisplay();

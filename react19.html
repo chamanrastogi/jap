@@ -1,0 +1,1697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React 19 - Complete Guide: Commands, Hooks & Concepts</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --react-blue: #61dafb;
+      --react-dark: #1a1a2e;
+      --react-dark2: #16213e;
+      --sidebar-width: 280px;
+    }
+    * { scroll-margin-top: 1rem; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f4f6fb;
+      display: flex;
+    }
+    #sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0; left: 0;
+      background: var(--react-dark);
+      overflow-y: auto;
+      z-index: 1000;
+      transition: transform .3s;
+    }
+    #sidebar .brand {
+      padding: 1.25rem 1.25rem .75rem;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    #sidebar .brand h5 { color: #fff; font-weight: 700; }
+    #sidebar .brand small { color: #adb5bd; }
+    #sidebar .nav-link {
+      color: #c8cdd3;
+      padding: .5rem 1.25rem;
+      font-size: .88rem;
+      border-left: 3px solid transparent;
+      transition: all .15s;
+    }
+    #sidebar .nav-link:hover {
+      color: #fff;
+      background: rgba(255,255,255,.05);
+    }
+    #sidebar .nav-link.active {
+      color: var(--react-blue);
+      border-left-color: var(--react-blue);
+      background: rgba(97,218,251,.08);
+    }
+    #sidebar .nav-link i { width: 1.3rem; }
+    #sidebar .nav-section {
+      color: #6c757d;
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      padding: 1rem 1.25rem .3rem;
+      font-weight: 600;
+    }
+    #main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 2rem 2.5rem 4rem;
+      max-width: 1100px;
+    }
+    @media (max-width: 991.98px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.show { transform: translateX(0); }
+      #main { margin-left: 0; padding: 1.5rem; }
+    }
+    .sidebar-toggle {
+      position: fixed;
+      top: .75rem; left: .75rem;
+      z-index: 1050;
+      background: var(--react-dark);
+      color: #fff;
+      border: none;
+      border-radius: .4rem;
+      padding: .4rem .65rem;
+      display: none;
+    }
+    @media (max-width: 991.98px) {
+      .sidebar-toggle { display: block; }
+    }
+    h2 {
+      font-weight: 700;
+      color: var(--react-dark);
+      margin-top: 2.5rem;
+      padding-bottom: .5rem;
+      border-bottom: 3px solid var(--react-blue);
+    }
+    h3 {
+      font-weight: 600;
+      color: #2c3e50;
+      margin-top: 1.8rem;
+    }
+    .card {
+      border: none;
+      border-radius: .75rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      margin-bottom: 1.5rem;
+    }
+    .card-header {
+      background: #fff;
+      border-bottom: 1px solid #e9ecef;
+      font-weight: 600;
+      padding: 1rem 1.25rem;
+    }
+    .card-body { padding: 1.5rem; }
+    pre {
+      background: #1e1e2f;
+      color: #e6e6e6;
+      padding: 1rem 1.25rem;
+      border-radius: .5rem;
+      font-size: .82rem;
+      overflow-x: auto;
+      position: relative;
+    }
+    pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
+    .cmd-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+      white-space: nowrap;
+      color: var(--react-blue);
+    }
+    .highlight-box {
+      background: #eef2ff;
+      border-left: 4px solid var(--react-blue);
+      padding: 1rem 1.25rem;
+      border-radius: .4rem;
+      margin: 1rem 0;
+    }
+    .new-badge {
+      background: #10b981;
+      color: #fff;
+      font-size: .65rem;
+      font-weight: 600;
+      padding: .15rem .5rem;
+      border-radius: 1rem;
+      vertical-align: middle;
+    }
+    .hook-badge {
+      background: #0d6efd;
+      color: #fff;
+      font-size: .65rem;
+      font-weight: 600;
+      padding: .15rem .5rem;
+      border-radius: 1rem;
+      vertical-align: middle;
+    }
+  </style>
+    .home-link {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 1100;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.94);
+      color: #0f172a;
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 700;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: 0.2s;
+    }
+    .home-link:hover { color: #2563eb; }
+    @media (min-width: 992px) {
+      .home-link { left: calc(var(--sidebar-width) + 14px); }
+    }
+    @media (max-width: 991.98px) {
+      .home-link { left: 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
+<a href="index.html" class="home-link" aria-label="Go back to home page"><span>←</span> Home</a>
+
+<!-- ===== SIDEBAR ===== -->
+<nav id="sidebar">
+  <div class="brand">
+    <h5><i class="bi bi-atom me-2" style="color:var(--react-blue)"></i>React</h5>
+    <small class="d-block mt-1">v19.2.x &mdash; Complete Guide</small>
+  </div>
+  <div class="py-2">
+    <div class="nav-section">Getting Started</div>
+    <a class="nav-link" href="#install"><i class="bi bi-download"></i> Installation</a>
+    <a class="nav-link" href="#commands"><i class="bi bi-terminal"></i> CLI Commands</a>
+
+    <div class="nav-section">Core Concepts</div>
+    <a class="nav-link" href="#jsx"><i class="bi bi-code-slash"></i> JSX</a>
+    <a class="nav-link" href="#components"><i class="bi bi-diagram-3"></i> Components</a>
+    <a class="nav-link" href="#props"><i class="bi bi-arrow-left-right"></i> Props</a>
+    <a class="nav-link" href="#state"><i class="bi bi-box"></i> State Management</a>
+    <a class="nav-link" href="#hooks"><i class="bi bi-hooks"></i> Hooks Reference</a>
+    <a class="nav-link" href="#effects"><i class="bi bi-arrow-repeat"></i> Effects & Lifecycle</a>
+
+    <div class="nav-section">React 19 Features</div>
+    <a class="nav-link" href="#server-components"><i class="bi bi-server"></i> Server Components <span class="new-badge">RSC</span></a>
+    <a class="nav-link" href="#actions"><i class="bi bi-lightning-charge"></i> Actions <span class="new-badge">NEW</span></a>
+    <a class="nav-link" href="#compiler"><i class="bi bi-gear-wide-connected"></i> React Compiler <span class="new-badge">NEW</span></a>
+
+    <div class="nav-section">Advanced</div>
+    <a class="nav-link" href="#routing"><i class="bi bi-signpost-2"></i> Routing</a>
+    <a class="nav-link" href="#context"><i class="bi bi-layers"></i> Context & State</a>
+    <a class="nav-link" href="#performance"><i class="bi bi-speedometer2"></i> Performance</a>
+    <a class="nav-link" href="#forms"><i class="bi bi-input-cursor-text"></i> Forms</a>
+    <a class="nav-link" href="#typescript"><i class="bi bi-filetype-tsx"></i> TypeScript</a>
+
+    <div class="nav-section">Testing & QA</div>
+    <a class="nav-link" href="#testing"><i class="bi bi-check-circle"></i> Testing</a>
+    <a class="nav-link" href="#best-practices"><i class="bi bi-star"></i> Best Practices</a>
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<div id="main">
+
+  <!-- HERO -->
+  <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+    <div>
+      <h1 class="fw-bold mb-1" style="color:var(--react-dark)">
+        <i class="bi bi-atom" style="color:var(--react-blue)"></i>
+        React
+      </h1>
+      <p class="text-muted mb-0 fs-5">
+        Complete Reference &amp; Concept Guide
+        <span class="badge bg-secondary ms-2">v19.2.x</span>
+        <span class="badge bg-warning text-dark ms-1">Node.js 18+</span>
+        <span class="badge bg-success ms-1">Released May 2026</span>
+      </p>
+    </div>
+  </div>
+
+  <p class="fs-5 text-muted mb-5">
+    React is a JavaScript library for building user interfaces.
+    This guide covers all <strong>core concepts</strong>, <strong>hooks</strong>,
+    <strong>React 19 features</strong> (Server Components, Actions, Compiler),
+    and <strong>practical code examples</strong>.
+  </p>
+
+  <!-- ==================== INSTALL ==================== -->
+  <section id="install">
+    <h2><i class="bi bi-download me-2"></i>Installation</h2>
+    <div class="card">
+      <div class="card-body">
+        <pre><code># Create a new React application with Vite (recommended)
+npm create vite@latest myapp -- --template react
+
+# Or with TypeScript
+npm create vite@latest myapp -- --template react-ts
+
+# Create with Next.js (full-stack framework)
+npx create-next-app@latest myapp
+
+# Create with Remix
+npx create-remix@latest myapp
+
+# Install dependencies
+cd myapp
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">package.json Scripts (Vite)</div>
+      <div class="card-body">
+        <pre><code>{
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.0",
+    "vite": "^6.0.0"
+  }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== COMMANDS ==================== -->
+  <section id="commands">
+    <h2><i class="bi bi-terminal me-2"></i>CLI Commands Reference</h2>
+    <p class="text-muted">Common commands used in React development workflows.</p>
+
+    <h3>Vite Commands</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:36%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>npm run dev</td><td>Start development server with HMR</td></tr>
+            <tr><td>npm run dev -- --host</td><td>Expose server to network</td></tr>
+            <tr><td>npm run dev -- --port 3000</td><td>Start on specific port</td></tr>
+            <tr><td>npm run build</td><td>Build for production</td></tr>
+            <tr><td>npm run build -- --mode staging</td><td>Build with specific mode</td></tr>
+            <tr><td>npm run preview</td><td>Preview production build locally</td></tr>
+            <tr><td>npm run lint</td><td>Run ESLint</td></tr>
+            <tr><td>npm run lint -- --fix</td><td>Auto-fix lint errors</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Next.js Commands</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:36%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>npm run dev</td><td>Start Next.js dev server</td></tr>
+            <tr><td>npm run build</td><td>Build for production</td></tr>
+            <tr><td>npm run start</td><td>Start production server</td></tr>
+            <tr><td>npm run lint</td><td>Run Next.js lint</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Useful npm / npx Commands</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:36%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>npm install react react-dom</td><td>Install React packages</td></tr>
+            <tr><td>npm install -D @types/react</td><td>Install TypeScript types</td></tr>
+            <tr><td>npx react-devtools</td><td>Launch React DevTools standalone</td></tr>
+            <tr><td>npx eslint --init</td><td>Initialize ESLint config</td></tr>
+            <tr><td>npm outdated</td><td>Check for outdated packages</td></tr>
+            <tr><td>npm update</td><td>Update packages within semver</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== JSX ==================== -->
+  <section id="jsx">
+    <h2><i class="bi bi-code-slash me-2"></i>JSX</h2>
+    <p>JSX is a syntax extension for JavaScript that lets you write HTML-like markup inside JavaScript files.</p>
+
+    <div class="card">
+      <div class="card-header">JSX Basics</div>
+      <div class="card-body">
+        <pre><code>// Expressions in JSX
+const name = 'React Developer';
+const element = &lt;h1&gt;Hello, {name}!&lt;/h1&gt;;
+
+// JSX is an expression too
+function getGreeting(user) {
+  if (user) {
+    return &lt;h1&gt;Hello, {user.name}!&lt;/h1&gt;;
+  }
+  return &lt;h1&gt;Hello, Stranger.&lt;/h1&gt;;
+}
+
+// Attributes with expressions
+const imgSize = 72;
+const avatar = (
+  &lt;img
+    src="/profile.jpg"
+    alt="Profile"
+    width={imgSize}
+    height={imgSize}
+  /&gt;
+);
+
+// Inline styles (camelCase properties)
+const style = {
+  color: 'purple',
+  fontSize: '2rem',
+  backgroundColor: '#f0f0f0',
+};
+const styled = &lt;p style={style}&gt;Styled text&lt;/p&gt;;
+
+// className instead of class
+const div = &lt;div className="container"&gt;Content&lt;/div&gt;;
+
+// Fragments - no wrapper div
+const list = (
+  &lt;&gt;
+    &lt;li&gt;Item 1&lt;/li&gt;
+    &lt;li&gt;Item 2&lt;/li&gt;
+    &lt;li&gt;Item 3&lt;/li&gt;
+  &lt;/&gt;
+);
+
+// Conditional rendering
+const isLoggedIn = true;
+const greeting = isLoggedIn
+  ? &lt;h1&gt;Welcome back!&lt;/h1&gt;
+  : &lt;h1&gt;Please sign up.&lt;/h1&gt;;
+
+// Short-circuit evaluation
+const unread = 5;
+const badge = unread &gt; 0 &amp;&amp; &lt;span&gt;{unread} new&lt;/span&gt;;</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">JSX Rules</div>
+      <div class="card-body">
+        <pre><code>// 1. Return a single root element (or fragment)
+return (
+  &lt;div&gt;
+    &lt;h1&gt;Title&lt;/h1&gt;
+    &lt;p&gt;Content&lt;/p&gt;
+  &lt;/div&gt;
+);
+
+// 2. Close all tags
+&lt;img src="photo.jpg" /&gt;  // self-closing
+&lt;br /&gt;
+
+// 3. camelCase for most attributes
+&lt;div tabIndex="0"&gt;       // tabindex
+&lt;input readOnly /&gt;       // readonly
+&lt;label htmlFor="email"&gt;  // for
+&lt;div className="box"&gt;    // class
+
+// 4. JavaScript expressions in curly braces
+const items = ['a', 'b', 'c'];
+&lt;ul&gt;
+  {items.map((item, i) =&gt; (
+    &lt;li key={i}&gt;{item}&lt;/li&gt;
+  ))}
+&lt;/ul&gt;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== COMPONENTS ==================== -->
+  <section id="components">
+    <h2><i class="bi bi-diagram-3 me-2"></i>Components</h2>
+    <p>Components are the building blocks of React applications. In React 19, function components are the standard.</p>
+
+    <div class="card">
+      <div class="card-header">Function Component</div>
+      <div class="card-body">
+        <pre><code>// Basic component
+function Welcome() {
+  return &lt;h1&gt;Hello, World!&lt;/h1&gt;;
+}
+
+// Arrow function component
+const Welcome = () =&gt; {
+  return &lt;h1&gt;Hello, World!&lt;/h1&gt;;
+};
+
+// Implicit return
+const Welcome = () =&gt; &lt;h1&gt;Hello, World!&lt;/h1&gt;;
+
+// Export
+export default Welcome;</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Component with Props</div>
+      <div class="card-body">
+        <pre><code>function Avatar({ user, size = 80 }) {
+  return (
+    &lt;img
+      className="avatar"
+      src={user.imageUrl}
+      alt={user.name}
+      width={size}
+      height={size}
+    /&gt;
+  );
+}
+
+// Usage
+&lt;Avatar user={currentUser} size={120} /&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Component Composition &mdash; Children</div>
+      <div class="card-body">
+        <pre><code>function Card({ title, children }) {
+  return (
+    &lt;div className="card"&gt;
+      &lt;div className="card-header"&gt;{title}&lt;/div&gt;
+      &lt;div className="card-body"&gt;{children}&lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Usage
+&lt;Card title="Dashboard"&gt;
+  &lt;p&gt;Welcome to your dashboard&lt;/p&gt;
+  &lt;Button&gt;Settings&lt;/Button&gt;
+&lt;/Card&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Conditional Rendering Patterns</div>
+      <div class="card-body">
+        <pre><code>function UserGreeting({ isLoggedIn, user }) {
+  // Pattern 1: if/else
+  if (isLoggedIn) {
+    return &lt;h1&gt;Welcome back, {user.name}!&lt;/h1&gt;;
+  }
+  return &lt;h1&gt;Please sign in.&lt;/h1&gt;;
+}
+
+function Badge({ count }) {
+  // Pattern 2: Ternary
+  return &lt;span&gt;{count &gt; 0 ? count : 'No'} items&lt;/span&gt;;
+}
+
+function Notification({ messages }) {
+  // Pattern 3: Short-circuit
+  return (
+    &lt;div&gt;
+      {messages.length &gt; 0 &amp;&amp; (
+        &lt;ul&gt;
+          {messages.map(m =&gt; &lt;li key={m.id}&gt;{m.text}&lt;/li&gt;)}
+        &lt;/ul&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+
+function Status({ status }) {
+  // Pattern 4: Early return
+  if (status === 'loading') return &lt;Spinner /&gt;;
+  if (status === 'error') return &lt;ErrorMessage /&gt;;
+  if (status === 'empty') return &lt;EmptyState /&gt;;
+  return &lt;Content /&gt;;
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">List Rendering</div>
+      <div class="card-body">
+        <pre><code>function TodoList({ todos }) {
+  return (
+    &lt;ul&gt;
+      {todos.map((todo) =&gt; (
+        &lt;li key={todo.id}&gt;
+          {todo.completed ? &lt;s&gt;{todo.text}&lt;/s&gt; : todo.text}
+        &lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}
+
+// With index as key (only when no stable ID)
+function SimpleList({ items }) {
+  return (
+    &lt;ul&gt;
+      {items.map((item, index) =&gt; (
+        &lt;li key={index}&gt;{item}&lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PROPS ==================== -->
+  <section id="props">
+    <h2><i class="bi bi-arrow-left-right me-2"></i>Props</h2>
+    <p>Props are arguments passed into React components, similar to function arguments.</p>
+
+    <div class="card">
+      <div class="card-header">Props Patterns</div>
+      <div class="card-body">
+        <pre><code>// Destructuring with defaults
+function Button({
+  variant = 'primary',
+  size = 'md',
+  disabled = false,
+  onClick,
+  children,
+}) {
+  return (
+    &lt;button
+      className={`btn btn-${variant} btn-${size}`}
+      disabled={disabled}
+      onClick={onClick}
+    &gt;
+      {children}
+    &lt;/button&gt;
+  );
+}
+
+// Spreading props
+function Input(props) {
+  return &lt;input className="form-control" {...props} /&gt;;
+}
+
+// Rest props (forward specific, spread rest)
+function TextInput({ label, ...rest }) {
+  return (
+    &lt;label&gt;
+      {label}
+      &lt;input {...rest} /&gt;
+    &lt;/label&gt;
+  );
+}
+
+// Children as function (render prop)
+function Repeat({ count, children }) {
+  return Array.from({ length: count }, (_, i) =&gt;
+    children(i)
+  );
+}
+
+// Usage:
+&lt;Repeat count={3}&gt;
+  {(index) =&gt; &lt;p key={index}&gt;Item #{index + 1}&lt;/p&gt;}
+&lt;/Repeat&gt;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== STATE ==================== -->
+  <section id="state">
+    <h2><i class="bi bi-box me-2"></i>State Management</h2>
+
+    <h3>useState <span class="hook-badge">HOOK</span></h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>import { useState } from 'react';
+
+// Basic state
+function Counter() {
+  const [count, setCount] = useState(0);
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Count: {count}&lt;/p&gt;
+      &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;+1&lt;/button&gt;
+      &lt;button onClick={() =&gt; setCount(c =&gt; c - 1)}&gt;-1&lt;/button&gt;
+      &lt;button onClick={() =&gt; setCount(0)}&gt;Reset&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// State with objects
+function Form() {
+  const [form, setForm] = useState({ name: '', email: '', age: '' });
+  const handleChange = (e) =&gt; {
+    setForm(prev =&gt; ({ ...prev, [e.target.name]: e.target.value }));
+  };
+  return (
+    &lt;form&gt;
+      &lt;input name="name" value={form.name} onChange={handleChange} /&gt;
+      &lt;input name="email" value={form.email} onChange={handleChange} /&gt;
+    &lt;/form&gt;
+  );
+}
+
+// State with arrays
+function TodoApp() {
+  const [todos, setTodos] = useState([]);
+
+  const addTodo = (text) =&gt; {
+    setTodos(prev =&gt; [...prev, { id: Date.now(), text, done: false }]);
+  };
+
+  const toggleTodo = (id) =&gt; {
+    setTodos(prev =&gt;
+      prev.map(t =&gt; t.id === id ? { ...t, done: !t.done } : t)
+    );
+  };
+
+  const removeTodo = (id) =&gt; {
+    setTodos(prev =&gt; prev.filter(t =&gt; t.id !== id));
+  };
+
+  return (
+    &lt;ul&gt;
+      {todos.map(todo =&gt; (
+        &lt;li key={todo.id}&gt;
+          &lt;span onClick={() =&gt; toggleTodo(todo.id)}&gt;{todo.text}&lt;/span&gt;
+          &lt;button onClick={() =&gt; removeTodo(todo.id)}&gt;Delete&lt;/button&gt;
+        &lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}</code></pre>
+      </div>
+    </div>
+
+    <h3>useReducer <span class="hook-badge">HOOK</span></h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>import { useReducer } from 'react';
+
+function todoReducer(state, action) {
+  switch (action.type) {
+    case 'ADD':
+      return [...state, { id: Date.now(), text: action.text, done: false }];
+    case 'TOGGLE':
+      return state.map(t =&gt;
+        t.id === action.id ? { ...t, done: !t.done } : t
+      );
+    case 'REMOVE':
+      return state.filter(t =&gt; t.id !== action.id);
+    case 'CLEAR_COMPLETED':
+      return state.filter(t =&gt; !t.done);
+    default:
+      return state;
+  }
+}
+
+function TodoApp() {
+  const [todos, dispatch] = useReducer(todoReducer, []);
+
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() =&gt; dispatch({ type: 'ADD', text: 'New task' })}&gt;Add&lt;/button&gt;
+      &lt;button onClick={() =&gt; dispatch({ type: 'CLEAR_COMPLETED' })}&gt;Clear Done&lt;/button&gt;
+      &lt;ul&gt;
+        {todos.map(todo =&gt; (
+          &lt;li key={todo.id}&gt;
+            &lt;span onClick={() =&gt; dispatch({ type: 'TOGGLE', id: todo.id })}&gt;{todo.text}&lt;/span&gt;
+            &lt;button onClick={() =&gt; dispatch({ type: 'REMOVE', id: todo.id })}&gt;Delete&lt;/button&gt;
+          &lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+      </div>
+    </div>
+
+    <h3>Context API</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>import { createContext, useContext, useState } from 'react';
+
+const ThemeContext = createContext();
+
+function ThemeProvider({ children }) {
+  const [theme, setTheme] = useState('light');
+  const toggleTheme = () =&gt; setTheme(prev =&gt; prev === 'light' ? 'dark' : 'light');
+
+  return (
+    &lt;ThemeContext.Provider value={{ theme, toggleTheme }}&gt;
+      {children}
+    &lt;/ThemeContext.Provider&gt;
+  );
+}
+
+function useTheme() {
+  const context = useContext(ThemeContext);
+  if (!context) throw new Error('useTheme must be used within ThemeProvider');
+  return context;
+}
+
+function Toolbar() {
+  const { theme, toggleTheme } = useTheme();
+  return (
+    &lt;div className={theme}&gt;
+      &lt;p&gt;Current theme: {theme}&lt;/p&gt;
+      &lt;button onClick={toggleTheme}&gt;Toggle Theme&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== HOOKS ==================== -->
+  <section id="hooks">
+    <h2><i class="bi bi-hooks me-2"></i>Hooks Reference</h2>
+    <p>All built-in React hooks with examples.</p>
+
+    <h3>useState <span class="hook-badge">HOOK</span></h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>const [state, setState] = useState(initialValue);
+const [data, setData] = useState(() =&gt; expensiveComputation());
+setState(prev =&gt; ({ ...prev, count: prev.count + 1 }));</code></pre>
+      </div>
+    </div>
+
+    <h3>useEffect <span class="hook-badge">HOOK</span></h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>import { useEffect } from 'react';
+
+useEffect(() =&gt; {
+  const timer = setInterval(() =&gt; console.log('tick'), 1000);
+  return () =&gt; clearInterval(timer);
+}, []);
+
+useEffect(() =&gt; {
+  document.title = `Count: ${count}`;
+}, [count]);
+
+useEffect(() =&gt; {
+  let cancelled = false;
+  async function fetchData() {
+    const res = await fetch(`/api/users/${id}`);
+    const data = await res.json();
+    if (!cancelled) setData(data);
+  }
+  fetchData();
+  return () =&gt; { cancelled = true; };
+}, [id]);</code></pre>
+      </div>
+    </div>
+
+    <h3>useContext <span class="hook-badge">HOOK</span></h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>const value = useContext(MyContext);
+// Returns the current context value; re-renders when Provider updates</code></pre>
+      </div>
+    </div>
+
+    <h3>useRef <span class="hook-badge">HOOK</span></h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>import { useRef, useEffect } from 'react';
+
+function TextInput() {
+  const inputRef = useRef(null);
+  useEffect(() =&gt; { inputRef.current.focus(); }, []);
+  return &lt;input ref={inputRef} /&gt;;
+}
+
+function Timer() {
+  const intervalRef = useRef(null);
+  const [count, setCount] = useState(0);
+  const start = () =&gt; {
+    intervalRef.current = setInterval(() =&gt; setCount(c =&gt; c + 1), 1000);
+  };
+  const stop = () =&gt; clearInterval(intervalRef.current);
+  return (
+    &lt;div&gt;
+      &lt;p&gt;{count}&lt;/p&gt;
+      &lt;button onClick={start}&gt;Start&lt;/button&gt;
+      &lt;button onClick={stop}&gt;Stop&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+      </div>
+    </div>
+
+    <h3>useMemo <span class="hook-badge">HOOK</span></h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>import { useMemo } from 'react';
+
+function UserList({ users, filter }) {
+  const filteredUsers = useMemo(() =&gt; {
+    return users.filter(u =&gt; u.name.includes(filter));
+  }, [users, filter]);
+  return &lt;ul&gt;{filteredUsers.map(u =&gt; &lt;li key={u.id}&gt;{u.name}&lt;/li&gt;)}&lt;/ul&gt;;
+}</code></pre>
+      </div>
+    </div>
+
+    <h3>useCallback <span class="hook-badge">HOOK</span></h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>import { useCallback } from 'react';
+
+function TodoList({ todos, onToggle }) {
+  const handleClick = useCallback((id) =&gt; onToggle(id), [onToggle]);
+  return todos.map(todo =&gt; (
+    &lt;TodoItem key={todo.id} todo={todo} onClick={handleClick} /&gt;
+  ));
+}</code></pre>
+      </div>
+    </div>
+
+    <h3>useImperativeHandle <span class="hook-badge">HOOK</span></h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>const MyInput = forwardRef((props, ref) =&gt; {
+  const inputRef = useRef(null);
+  useImperativeHandle(ref, () =&gt; ({
+    focus: () =&gt; inputRef.current.focus(),
+    clear: () =&gt; (inputRef.current.value = ''),
+  }));
+  return &lt;input ref={inputRef} /&gt;;
+});</code></pre>
+      </div>
+    </div>
+
+    <h3>useLayoutEffect <span class="hook-badge">HOOK</span></h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>useLayoutEffect(() =&gt; {
+  if (targetRef.current &amp;&amp; tooltipRef.current) {
+    const rect = targetRef.current.getBoundingClientRect();
+    tooltipRef.current.style.left = `${rect.left}px`;
+    tooltipRef.current.style.top = `${rect.bottom}px`;
+  }
+}, []);</code></pre>
+      </div>
+    </div>
+
+    <h3>useId <span class="hook-badge">HOOK</span> <span class="new-badge">React 18+</span></h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>import { useId } from 'react';
+
+function FormField({ label }) {
+  const id = useId();
+  return (
+    &lt;div&gt;
+      &lt;label htmlFor={id}&gt;{label}&lt;/label&gt;
+      &lt;input id={id} type="text" /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+      </div>
+    </div>
+
+    <h3>useTransition <span class="hook-badge">HOOK</span> <span class="new-badge">React 18+</span></h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>import { useState, useTransition } from 'react';
+
+function SearchPage() {
+  const [isPending, startTransition] = useTransition();
+  const [results, setResults] = useState([]);
+
+  const handleSearch = (value) =&gt; {
+    startTransition(async () =&gt; {
+      const data = await fetchResults(value);
+      setResults(data);
+    });
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;input onChange={e =&gt; handleSearch(e.target.value)} /&gt;
+      {isPending &amp;&amp; &lt;Spinner /&gt;}
+      &lt;Results data={results} /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+      </div>
+    </div>
+
+    <h3>useDeferredValue <span class="hook-badge">HOOK</span> <span class="new-badge">React 18+</span></h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>const deferredQuery = useDeferredValue(query);
+// Allows UI to stay responsive during expensive re-renders</code></pre>
+      </div>
+    </div>
+
+    <h3>useSyncExternalStore <span class="hook-badge">HOOK</span> <span class="new-badge">React 18+</span></h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>const state = useSyncExternalStore(store.subscribe, () =&gt; store.getState());
+// Subscribe to external stores (Redux, Zustand, etc.)</code></pre>
+      </div>
+    </div>
+
+    <h3>useActionState <span class="hook-badge">HOOK</span> <span class="new-badge">React 19</span></h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>import { useActionState } from 'react';
+
+function SignupForm() {
+  const [state, submitAction, isPending] = useActionState(
+    async (previousState, formData) =&gt; {
+      try {
+        await signup(formData.get('email'), formData.get('password'));
+        return { success: true, error: null };
+      } catch (err) {
+        return { success: false, error: err.message };
+      }
+    },
+    { success: false, error: null }
+  );
+
+  return (
+    &lt;form action={submitAction}&gt;
+      &lt;input name="email" type="email" required /&gt;
+      &lt;input name="password" type="password" required /&gt;
+      &lt;button disabled={isPending}&gt;{isPending ? 'Signing up...' : 'Sign Up'}&lt;/button&gt;
+      {state.error &amp;&amp; &lt;p className="error"&gt;{state.error}&lt;/p&gt;}
+    &lt;/form&gt;
+  );
+}</code></pre>
+      </div>
+    </div>
+
+    <h3>useFormStatus <span class="hook-badge">HOOK</span> <span class="new-badge">React 19</span></h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>import { useFormStatus } from 'react-dom';
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+  return &lt;button type="submit" disabled={pending}&gt;
+    {pending ? 'Submitting...' : 'Submit'}
+  &lt;/button&gt;;
+}</code></pre>
+      </div>
+    </div>
+
+    <h3>useOptimistic <span class="hook-badge">HOOK</span> <span class="new-badge">React 19</span></h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>import { useOptimistic } from 'react';
+
+function CommentThread({ comments }) {
+  const [optimisticComments, addOptimisticComment] = useOptimistic(
+    comments,
+    (current, newComment) =&gt; [...current, { ...newComment, isOptimistic: true }]
+  );
+
+  async function submitAction(formData) {
+    addOptimisticComment({ id: 'temp', text: formData.get('text') });
+    await addComment(formData);
+  }
+
+  return (
+    &lt;div&gt;
+      {optimisticComments.map(c =&gt; (
+        &lt;div key={c.id} style={{ opacity: c.isOptimistic ? 0.5 : 1 }}&gt;{c.text}&lt;/div&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== EFFECTS ==================== -->
+  <section id="effects">
+    <h2><i class="bi bi-arrow-repeat me-2"></i>Effects &amp; Lifecycle</h2>
+
+    <div class="card">
+      <div class="card-header">Effect Patterns</div>
+      <div class="card-body">
+        <pre><code>// Mount / Unmount
+useEffect(() =&gt; {
+  console.log('Mounted');
+  return () =&gt; console.log('Unmounted');
+}, []);
+
+// On prop/state change
+useEffect(() =&gt; { console.log('Count:', count); }, [count]);
+
+// Event listener
+useEffect(() =&gt; {
+  const handleResize = () =&gt; setWidth(window.innerWidth);
+  window.addEventListener('resize', handleResize);
+  return () =&gt; window.removeEventListener('resize', handleResize);
+}, []);
+
+// Data fetching
+function UserProfile({ userId }) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() =&gt; {
+    let cancelled = false;
+    async function fetchUser() {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await fetch(`/api/users/${userId}`);
+        if (!res.ok) throw new Error('Failed to fetch');
+        const data = await res.json();
+        if (!cancelled) { setUser(data); setLoading(false); }
+      } catch (err) {
+        if (!cancelled) { setError(err.message); setLoading(false); }
+      }
+    }
+    fetchUser();
+    return () =&gt; { cancelled = true; };
+  }, [userId]);
+
+  if (loading) return &lt;Spinner /&gt;;
+  if (error) return &lt;ErrorMessage message={error} /&gt;;
+  return &lt;div&gt;&lt;h1&gt;{user.name}&lt;/h1&gt;&lt;p&gt;{user.bio}&lt;/p&gt;&lt;/div&gt;;
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SERVER COMPONENTS ==================== -->
+  <section id="server-components">
+    <h2><i class="bi bi-server me-2"></i>React Server Components <span class="new-badge">RSC</span></h2>
+    <p>Server Components run exclusively on the server, reducing bundle size and enabling direct database access.</p>
+
+    <div class="card">
+      <div class="card-header">Server Component (Next.js App Router)</div>
+      <div class="card-body">
+        <pre><code>// Server Component - default in Next.js App Router
+import db from './db';
+
+export default async function HomePage() {
+  const posts = await db.posts.findMany({
+    orderBy: { createdAt: 'desc' },
+    take: 10,
+  });
+
+  return (
+    &lt;main&gt;
+      &lt;h1&gt;Latest Posts&lt;/h1&gt;
+      &lt;ul&gt;
+        {posts.map(post =&gt; (
+          &lt;li key={post.id}&gt;
+            &lt;a href={`/posts/${post.slug}`}&gt;{post.title}&lt;/a&gt;
+          &lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/main&gt;
+  );
+}
+
+// Client Component - must declare 'use client'
+'use client';
+import { useState } from 'react';
+export default function Counter() {
+  const [count, setCount] = useState(0);
+  return &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;Count: {count}&lt;/button&gt;;
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ACTIONS ==================== -->
+  <section id="actions">
+    <h2><i class="bi bi-lightning-charge me-2"></i>Actions <span class="new-badge">React 19</span></h2>
+    <p>Actions are async functions that handle form submissions and data mutations.</p>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>// Server Action (Next.js)
+export async function createUser(formData: FormData) {
+  'use server';
+  const name = formData.get('name');
+  const email = formData.get('email');
+  await db.user.create({ data: { name, email } });
+  revalidatePath('/users');
+}
+
+// Usage
+function CreateUserForm() {
+  return (
+    &lt;form action={createUser}&gt;
+      &lt;input name="name" required /&gt;
+      &lt;input name="email" type="email" required /&gt;
+      &lt;button type="submit"&gt;Create User&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+
+// Action with useTransition
+function EditProfile({ user }) {
+  const [isPending, startTransition] = useTransition();
+  async function updateUser(formData) {
+    startTransition(async () =&gt; {
+      await fetch('/api/user', { method: 'PUT', body: formData });
+    });
+  }
+  return (
+    &lt;form action={updateUser}&gt;
+      &lt;button disabled={isPending}&gt;{isPending ? 'Saving...' : 'Save'}&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== COMPILER ==================== -->
+  <section id="compiler">
+    <h2><i class="bi bi-gear-wide-connected me-2"></i>React Compiler <span class="new-badge">React 19</span></h2>
+    <p>Automatically memoizes your components, removing the need for manual <code>useMemo</code>, <code>useCallback</code>, and <code>React.memo</code>.</p>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>// vite.config.js - Enable Compiler
+import react from '@vitejs/plugin-react';
+
+export default {
+  plugins: [
+    react({
+      babel: { plugins: ['babel-plugin-react-compiler'] },
+    }),
+  ],
+};
+
+// BEFORE: Manual memoization
+function TodoList({ todos, filter, onToggle }) {
+  const filtered = useMemo(() =&gt; todos.filter(t =&gt; t.text.includes(filter)), [todos, filter]);
+  return filtered.map(todo =&gt; (
+    &lt;TodoItem key={todo.id} todo={todo} onToggle={onToggle} /&gt;
+  ));
+}
+
+// AFTER: Compiler handles it automatically
+function TodoList({ todos, filter, onToggle }) {
+  const filtered = todos.filter(t =&gt; t.text.includes(filter));
+  return filtered.map(todo =&gt; (
+    &lt;TodoItem key={todo.id} todo={todo} onToggle={onToggle} /&gt;
+  ));
+}
+
+// Opt out: 'use no memo'
+function ExpensiveComponent() {
+  'use no memo';
+  return &lt;div&gt;...&lt;/div&gt;;
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ROUTING ==================== -->
+  <section id="routing">
+    <h2><i class="bi bi-signpost-2 me-2"></i>Routing</h2>
+
+    <h3>React Router v7</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>import { BrowserRouter, Routes, Route, Link, useParams, useNavigate } from 'react-router-dom';
+
+function App() {
+  return (
+    &lt;BrowserRouter&gt;
+      &lt;nav&gt;
+        &lt;Link to="/"&gt;Home&lt;/Link&gt;
+        &lt;Link to="/about"&gt;About&lt;/Link&gt;
+        &lt;Link to="/users"&gt;Users&lt;/Link&gt;
+      &lt;/nav&gt;
+      &lt;Routes&gt;
+        &lt;Route path="/" element={&lt;Home /&gt;} /&gt;
+        &lt;Route path="/about" element={&lt;About /&gt;} /&gt;
+        &lt;Route path="/users" element={&lt;UserList /&gt;} /&gt;
+        &lt;Route path="/users/:id" element={&lt;UserProfile /&gt;} /&gt;
+        &lt;Route path="*" element={&lt;NotFound /&gt;} /&gt;
+      &lt;/Routes&gt;
+    &lt;/BrowserRouter&gt;
+  );
+}
+
+function UserProfile() {
+  const { id } = useParams();
+  return &lt;h1&gt;User {id}&lt;/h1&gt;;
+}
+
+// Nested routes with Outlet
+function Layout() {
+  return (
+    &lt;div&gt;
+      &lt;Sidebar /&gt;
+      &lt;Outlet /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+      </div>
+    </div>
+
+    <h3>Next.js File-Based Routing</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>// app/
+//   page.tsx              -- /
+//   about/page.tsx        -- /about
+//   users/[id]/page.tsx   -- /users/:id
+//   blog/[slug]/page.tsx  -- /blog/:slug
+
+export default async function UserProfile({ params }: { params: { id: string } }) {
+  const user = await db.user.findUnique({ where: { id: params.id } });
+  return &lt;h1&gt;{user.name}&lt;/h1&gt;;
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CONTEXT & STATE ==================== -->
+  <section id="context">
+    <h2><i class="bi bi-layers me-2"></i>Context &amp; Global State</h2>
+
+    <div class="card">
+      <div class="card-header">Multiple Contexts + Custom Hooks</div>
+      <div class="card-body">
+        <pre><code>const AuthContext = createContext(null);
+const ThemeContext = createContext(null);
+
+function AppProvider({ children }) {
+  const [auth, dispatchAuth] = useReducer(authReducer, { user: null });
+  const [theme, setTheme] = useState('light');
+  return (
+    &lt;AuthContext.Provider value={{ auth, dispatchAuth }}&gt;
+      &lt;ThemeContext.Provider value={{ theme, setTheme }}&gt;{children}&lt;/ThemeContext.Provider&gt;
+    &lt;/AuthContext.Provider&gt;
+  );
+}
+
+function useAuth() { return useContext(AuthContext); }
+function useTheme() { return useContext(ThemeContext); }</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Zustand (Lightweight State)</div>
+      <div class="card-body">
+        <pre><code>import { create } from 'zustand';
+
+const useStore = create((set) =&gt; ({
+  todos: [],
+  addTodo: (text) =&gt; set((s) =&gt; ({ todos: [...s.todos, { id: Date.now(), text, done: false }] })),
+  toggleTodo: (id) =&gt; set((s) =&gt; ({
+    todos: s.todos.map((t) =&gt; t.id === id ? { ...t, done: !t.done } : t)
+  })),
+}));
+
+function TodoApp() {
+  const todos = useStore((s) =&gt; s.todos);
+  const addTodo = useStore((s) =&gt; s.addTodo);
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() =&gt; addTodo('New task')}&gt;Add&lt;/button&gt;
+      &lt;ul&gt;{todos.map(t =&gt; &lt;li key={t.id}&gt;{t.text}&lt;/li&gt;)}&lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PERFORMANCE ==================== -->
+  <section id="performance">
+    <h2><i class="bi bi-speedometer2 me-2"></i>Performance Optimization</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>// React.memo
+const TodoItem = memo(function TodoItem({ todo, onToggle }) {
+  return &lt;li&gt;&lt;span onClick={() =&gt; onToggle(todo.id)}&gt;{todo.text}&lt;/span&gt;&lt;/li&gt;;
+});
+
+// Code Splitting with lazy + Suspense
+const HeavyChart = lazy(() =&gt; import('./HeavyChart'));
+function App() {
+  return (
+    &lt;Suspense fallback={&lt;Spinner /&gt;}&gt;
+      &lt;HeavyChart /&gt;
+    &lt;/Suspense&gt;
+  );
+}
+
+// Virtualization (react-window)
+import { FixedSizeList as List } from 'react-window';
+function VirtualizedList({ items }) {
+  const Row = ({ index, style }) =&gt; &lt;div style={style}&gt;{items[index].name}&lt;/div&gt;;
+  return &lt;List height={600} itemCount={items.length} itemSize={35} width="100%"&gt;{Row}&lt;/List&gt;;
+}
+
+// Debounce search
+useEffect(() =&gt; {
+  const timer = setTimeout(async () =&gt; {
+    if (query) setResults(await searchAPI(query));
+  }, 300);
+  return () =&gt; clearTimeout(timer);
+}, [query]);
+
+// Performance Checklist
+// 1. React DevTools Profiler
+// 2. React Compiler for auto-memoization
+// 3. React.lazy() for code splitting
+// 4. Virtualize long lists
+// 5. Debounce inputs
+// 6. useTransition for non-urgent updates
+// 7. Stable unique keys
+// 8. CSS over JS animations</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FORMS ==================== -->
+  <section id="forms">
+    <h2><i class="bi bi-input-cursor-text me-2"></i>Forms</h2>
+
+    <div class="card">
+      <div class="card-header">Controlled Component</div>
+      <div class="card-body">
+        <pre><code>function ControlledForm() {
+  const [form, setForm] = useState({ name: '', email: '', agree: false });
+  const [errors, setErrors] = useState({});
+
+  const handleChange = (e) =&gt; {
+    const { name, value, type, checked } = e.target;
+    setForm(prev =&gt; ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+  };
+
+  const handleSubmit = (e) =&gt; {
+    e.preventDefault();
+    const errs = {};
+    if (!form.name.trim()) errs.name = 'Name required';
+    if (!form.email.includes('@')) errs.email = 'Invalid email';
+    if (Object.keys(errs).length === 0) console.log('Submit:', form);
+    else setErrors(errs);
+  };
+
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;input name="name" value={form.name} onChange={handleChange} /&gt;
+      {errors.name &amp;&amp; &lt;span className="error"&gt;{errors.name}&lt;/span&gt;}
+      &lt;input name="email" value={form.email} onChange={handleChange} /&gt;
+      {errors.email &amp;&amp; &lt;span className="error"&gt;{errors.email}&lt;/span&gt;}
+      &lt;label&gt;&lt;input name="agree" type="checkbox" checked={form.agree} onChange={handleChange} /&gt; Agree&lt;/label&gt;
+      &lt;button type="submit"&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">React Hook Form + Zod Validation</div>
+      <div class="card-body">
+        <pre><code>import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+
+const schema = z.object({
+  name: z.string().min(2),
+  email: z.string().email(),
+  age: z.coerce.number().min(18).optional(),
+});
+
+function RHFExample() {
+  const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm({
+    resolver: zodResolver(schema),
+  });
+
+  const onSubmit = async (data) =&gt; {
+    await fetch('/api/users', { method: 'POST', body: JSON.stringify(data) });
+    reset();
+  };
+
+  return (
+    &lt;form onSubmit={handleSubmit(onSubmit)}&gt;
+      &lt;input {...register('name')} placeholder="Name" /&gt;
+      {errors.name &amp;&amp; &lt;p&gt;{errors.name.message}&lt;/p&gt;}
+      &lt;input {...register('email')} placeholder="Email" /&gt;
+      {errors.email &amp;&amp; &lt;p&gt;{errors.email.message}&lt;/p&gt;}
+      &lt;button type="submit" disabled={isSubmitting}&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TYPESCRIPT ==================== -->
+  <section id="typescript">
+    <h2><i class="bi bi-filetype-tsx me-2"></i>TypeScript with React</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>interface ButtonProps {
+  variant?: 'primary' | 'secondary' | 'danger';
+  size?: 'sm' | 'md' | 'lg';
+  disabled?: boolean;
+  onClick?: () =&gt; void;
+  children: ReactNode;
+}
+
+function Button({ variant = 'primary', size = 'md', disabled, onClick, children }: ButtonProps) {
+  return (
+    &lt;button className={`btn btn-${variant} btn-${size}`} disabled={disabled} onClick={onClick}&gt;
+      {children}
+    &lt;/button&gt;
+  );
+}
+
+// Hooks with types
+const [count, setCount] = useState&lt;number&gt;(0);
+const [user, setUser] = useState&lt;User | null&gt;(null);
+const inputRef = useRef&lt;HTMLInputElement&gt;(null);
+const handleChange = (e: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt; setValue(e.target.value);
+const handleSubmit = (e: React.FormEvent) =&gt; { e.preventDefault(); };
+
+// Generc component
+function List&lt;T extends { id: string }&gt;({ items, renderItem }: {
+  items: T[];
+  renderItem: (item: T) =&gt; ReactNode;
+}) {
+  return &lt;ul&gt;{items.map(item =&gt; &lt;li key={item.id}&gt;{renderItem(item)}&lt;/li&gt;)}&lt;/ul&gt;;
+}
+
+// Context with types
+interface AuthContextType { user: User | null; login: (email: string, password: string) =&gt; Promise&lt;void&gt;; logout: () =&gt; void; }
+const AuthContext = createContext&lt;AuthContextType | null&gt;(null);
+function useAuth(): AuthContextType {
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error('useAuth must be inside AuthProvider');
+  return ctx;
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TESTING ==================== -->
+  <section id="testing">
+    <h2><i class="bi bi-check-circle me-2"></i>Testing</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { describe, it, expect, vi } from 'vitest';
+
+describe('TodoApp', () =&gt; {
+  it('renders empty list initially', () =&gt; {
+    render(&lt;TodoApp /&gt;);
+    expect(screen.getByText('No todos yet')).toBeInTheDocument();
+  });
+
+  it('adds a new todo', () =&gt; {
+    render(&lt;TodoApp /&gt;);
+    fireEvent.change(screen.getByPlaceholderText('Add a todo'), { target: { value: 'Learn React' } });
+    fireEvent.click(screen.getByText('Add'));
+    expect(screen.getByText('Learn React')).toBeInTheDocument();
+  });
+
+  it('toggles a todo', async () =&gt; {
+    render(&lt;TodoApp /&gt;);
+    fireEvent.change(screen.getByPlaceholderText('Add a todo'), { target: { value: 'Test me' } });
+    fireEvent.click(screen.getByText('Add'));
+    fireEvent.click(screen.getByText('Test me'));
+    await waitFor(() =&gt; expect(screen.getByText('Test me')).toHaveStyle('text-decoration: line-through'));
+  });
+});
+
+// Test async component
+global.fetch = vi.fn();
+it('renders user data on success', async () =&gt; {
+  fetch.mockResolvedValue({ ok: true, json: () =&gt; Promise.resolve({ name: 'John', bio: 'Developer' }) });
+  render(&lt;UserProfile userId="1" /&gt;);
+  await waitFor(() =&gt; expect(screen.getByText('John')).toBeInTheDocument());
+});</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BEST PRACTICES ==================== -->
+  <section id="best-practices">
+    <h2><i class="bi bi-star me-2"></i>Best Practices</h2>
+
+    <div class="highlight-box">
+      <strong>Component Design</strong> &mdash; Keep components small and focused. Each component should do one thing well. Prefer composition over inheritance.
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Project Structure</div>
+          <div class="card-body">
+            <pre><code>src/
+  components/    # Reusable UI
+    Button/
+    Card/
+    Modal/
+  hooks/         # Custom hooks
+  contexts/      # Context providers
+  pages/         # Page components
+  services/      # API calls
+  utils/         # Helpers
+  types/         # TypeScript types
+  App.tsx
+  main.tsx</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Key Guidelines</div>
+          <div class="card-body">
+            <ul class="list-unstyled mb-0">
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use function components (not class)</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Enable React Compiler for auto-memoization</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Keep state as close to usage as possible</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use TypeScript for type safety</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use stable unique keys for lists</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Handle loading and error states</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use React.lazy for code splitting</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Prefer composition over prop drilling</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Test with React Testing Library</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use ESLint + Prettier for code quality</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mt-4">
+      <div class="card-header">React 19 New APIs Summary</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0 cmd-table">
+            <thead class="table-light"><tr><th style="width:28%">API</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>useActionState</td><td>Manage state of form actions with pending state</td></tr>
+              <tr><td>useFormStatus</td><td>Access form submission status from children</td></tr>
+              <tr><td>useOptimistic</td><td>Optimistically update UI before server confirms</td></tr>
+              <tr><td>Actions</td><td>Async functions for form submissions ('use server')</td></tr>
+              <tr><td>React Compiler</td><td>Automatic memoization, removes need for useMemo/useCallback</td></tr>
+              <tr><td>Document Metadata</td><td>&lt;title&gt;, &lt;meta&gt;, &lt;link&gt; can render anywhere in tree</td></tr>
+              <tr><td>Ref as prop</td><td>Pass ref as a regular prop (no forwardRef needed)</td></tr>
+              <tr><td>use</td><td>Read resources like promises and context in render</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="mt-5 pt-4 border-top text-muted">
+    <div class="row">
+      <div class="col-md-6">
+        <p class="fw-bold mb-2">React 19 Quick Reference</p>
+        <p class="small">Generated for study purposes. Always refer to the official documentation.</p>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <p class="small mb-1">
+          <a href="https://react.dev" target="_blank" class="text-decoration-none"><i class="bi bi-book me-1"></i> Official Docs</a>
+          &middot;
+          <a href="https://github.com/facebook/react" target="_blank" class="text-decoration-none"><i class="bi bi-github me-1"></i> GitHub</a>
+        </p>
+        <p class="small text-muted">&copy; 2026 Study Guide</p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- ===== SCRIPTS ===== -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.getElementById('sidebarToggle');
+  toggle.addEventListener('click', () => sidebar.classList.toggle('show'));
+  document.querySelectorAll('#sidebar .nav-link').forEach(link => {
+    link.addEventListener('click', () => sidebar.classList.remove('show'));
+  });
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('#sidebar .nav-link');
+  function setActiveNav() {
+    let current = '';
+    sections.forEach(section => {
+      const top = section.offsetTop - 100;
+      if (window.scrollY >= top) current = section.getAttribute('id');
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+    });
+  }
+  window.addEventListener('scroll', setActiveNav);
+  setActiveNav();
+</script>
+</body>
+</html>

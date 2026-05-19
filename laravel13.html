@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laravel 13 - Complete Guide: Artisan Commands & Concepts</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --laravel-red: #f9322c;
+      --laravel-dark: #1a1a2e;
+      --sidebar-width: 280px;
+    }
+    * { scroll-margin-top: 1rem; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f4f6fb;
+      display: flex;
+    }
+    #sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0; left: 0;
+      background: var(--laravel-dark);
+      overflow-y: auto;
+      z-index: 1000;
+      transition: transform .3s;
+    }
+    #sidebar .brand {
+      padding: 1.25rem 1.25rem .75rem;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    #sidebar .brand h5 { color: #fff; font-weight: 700; }
+    #sidebar .brand small { color: #adb5bd; }
+    #sidebar .nav-link {
+      color: #c8cdd3;
+      padding: .5rem 1.25rem;
+      font-size: .88rem;
+      border-left: 3px solid transparent;
+      transition: all .15s;
+    }
+    #sidebar .nav-link:hover {
+      color: #fff;
+      background: rgba(255,255,255,.05);
+    }
+    #sidebar .nav-link i { width: 1.3rem; }
+    #sidebar .nav-section {
+      color: #6c757d;
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      padding: 1rem 1.25rem .3rem;
+      font-weight: 600;
+    }
+    #main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 2rem 2.5rem 4rem;
+      max-width: 1100px;
+    }
+    @media (max-width: 991.98px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.show { transform: translateX(0); }
+      #main { margin-left: 0; padding: 1.5rem; }
+    }
+    .sidebar-toggle {
+      position: fixed;
+      top: .75rem; left: .75rem;
+      z-index: 1050;
+      background: var(--laravel-dark);
+      color: #fff;
+      border: none;
+      border-radius: .4rem;
+      padding: .4rem .65rem;
+      display: none;
+    }
+    @media (max-width: 991.98px) {
+      .sidebar-toggle { display: block; }
+    }
+    h2 {
+      font-weight: 700;
+      color: var(--laravel-dark);
+      margin-top: 2.5rem;
+      padding-bottom: .5rem;
+      border-bottom: 3px solid var(--laravel-red);
+    }
+    h3 {
+      font-weight: 600;
+      color: #2c3e50;
+      margin-top: 1.8rem;
+    }
+    .card {
+      border: none;
+      border-radius: .75rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      margin-bottom: 1.5rem;
+    }
+    .card-header {
+      background: #fff;
+      border-bottom: 1px solid #e9ecef;
+      font-weight: 600;
+      padding: 1rem 1.25rem;
+    }
+    .card-body { padding: 1.5rem; }
+    pre {
+      background: #1e1e2f;
+      color: #e6e6e6;
+      padding: 1rem 1.25rem;
+      border-radius: .5rem;
+      font-size: .82rem;
+      overflow-x: auto;
+      position: relative;
+    }
+    pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
+    .cmd-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+      white-space: nowrap;
+      color: var(--laravel-red);
+    }
+    .highlight-box {
+      background: #eef2ff;
+      border-left: 4px solid var(--laravel-red);
+      padding: 1rem 1.25rem;
+      border-radius: .4rem;
+      margin: 1rem 0;
+    }
+    .new-badge {
+      background: #10b981;
+      color: #fff;
+      font-size: .65rem;
+      font-weight: 600;
+      padding: .15rem .5rem;
+      border-radius: 1rem;
+      vertical-align: middle;
+    }
+    .home-link {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 1100;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.94);
+      color: #0f172a;
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 700;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: 0.2s;
+    }
+    .home-link:hover { color: #2563eb; }
+    @media (min-width: 992px) {
+      .home-link { left: calc(var(--sidebar-width) + 14px); }
+    }
+    @media (max-width: 991.98px) {
+      .home-link { left: 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
+<a href="index.html" class="home-link" aria-label="Go back to home page"><span>←</span> Home</a>
+
+<!-- ===== SIDEBAR ===== -->
+<nav id="sidebar">
+  <div class="brand">
+    <h5><i class="bi bi-lightning-charge-fill me-2" style="color:var(--laravel-red)"></i>Laravel</h5>
+    <small class="d-block mt-1">v13.x &mdash; Complete Guide</small>
+  </div>
+  <div class="py-2">
+    <div class="nav-section">Getting Started</div>
+    <a class="nav-link" href="#install"><i class="bi bi-download"></i> Installation</a>
+    <a class="nav-link" href="#commands"><i class="bi bi-terminal"></i> Artisan Commands</a>
+
+    <div class="nav-section">Core Concepts</div>
+    <a class="nav-link" href="#mvc"><i class="bi bi-diagram-3"></i> MVC &amp; Structure</a>
+    <a class="nav-link" href="#routing"><i class="bi bi-signpost-2"></i> Routing</a>
+    <a class="nav-link" href="#controllers"><i class="bi bi-gear"></i> Controllers</a>
+    <a class="nav-link" href="#attributes"><i class="bi bi-tag"></i> PHP Attributes <span class="new-badge">NEW</span></a>
+    <a class="nav-link" href="#eloquent"><i class="bi bi-database"></i> Eloquent ORM</a>
+    <a class="nav-link" href="#associations"><i class="bi bi-link-45deg"></i> Associations</a>
+    <a class="nav-link" href="#validation"><i class="bi bi-check2-square"></i> Validation</a>
+    <a class="nav-link" href="#blade"><i class="bi bi-eye"></i> Blade Templates</a>
+
+    <div class="nav-section">Advanced</div>
+    <a class="nav-link" href="#auth"><i class="bi bi-shield-lock"></i> Authentication</a>
+    <a class="nav-link" href="#authorization"><i class="bi bi-key"></i> Authorization</a>
+    <a class="nav-link" href="#queue"><i class="bi bi-arrow-repeat"></i> Queue / Jobs</a>
+    <a class="nav-link" href="#api"><i class="bi bi-globe"></i> REST API</a>
+    <a class="nav-link" href="#ai"><i class="bi bi-stars"></i> AI SDK <span class="new-badge">NEW</span></a>
+    <a class="nav-link" href="#middleware"><i class="bi bi-funnel"></i> Middleware</a>
+
+    <div class="nav-section">DevOps &amp; QA</div>
+    <a class="nav-link" href="#testing"><i class="bi bi-check-circle"></i> Testing</a>
+    <a class="nav-link" href="#best-practices"><i class="bi bi-star"></i> Best Practices</a>
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<div id="main">
+
+  <!-- HERO -->
+  <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+    <div>
+      <h1 class="fw-bold mb-1" style="color:var(--laravel-dark)">
+        <i class="bi bi-lightning-charge-fill" style="color:var(--laravel-red)"></i>
+        Laravel
+      </h1>
+      <p class="text-muted mb-0 fs-5">
+        Complete Artisan Command Reference &amp; Concept Guide
+        <span class="badge bg-secondary ms-2">v13.x</span>
+        <span class="badge bg-warning text-dark ms-1">PHP 8.3+</span>
+        <span class="badge bg-success ms-1">Released Mar 17, 2026</span>
+      </p>
+    </div>
+  </div>
+
+  <p class="fs-5 text-muted mb-5">
+    Laravel is a web application framework with expressive, elegant syntax.
+    This guide covers all <strong>Artisan commands</strong>, <strong>core concepts</strong>,
+    and <strong>practical code examples</strong> for Laravel 13.x &mdash; including new PHP Attributes, AI SDK, and Passkey authentication.
+  </p>
+
+  <!-- ==================== INSTALL ==================== -->
+  <section id="install">
+    <h2><i class="bi bi-download me-2"></i>Installation</h2>
+    <div class="card">
+      <div class="card-body">
+        <pre><code># Create a new Laravel 13 application
+composer create-project laravel/laravel myapp
+
+# Or via the Laravel installer
+laravel new myapp
+
+# Start the development server
+php artisan serve
+
+# Start with Laravel Sail (Docker)
+./vendor/bin/sail up
+
+# Install common packages
+composer require laravel/breeze   # Auth scaffolding
+composer require laravel/horizon  # Queue dashboard
+composer require laravel/sanctum  # API tokens
+composer require laravel/pennant  # Feature flags
+composer require laravel/pint     # Code style fixer</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== COMMANDS ==================== -->
+  <section id="commands">
+    <h2><i class="bi bi-terminal me-2"></i>Artisan Commands Reference</h2>
+    <p class="text-muted">All commands are run via <code>php artisan &lt;command&gt;</code> from the application root. Laravel 13 ships with <strong>257+</strong> built-in commands.</p>
+
+    <h3>make: &mdash; Code Generation</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:36%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>make:model Article -m</td><td>Create a model with migration</td></tr>
+            <tr><td>make:controller ArticleController</td><td>Create a controller</td></tr>
+            <tr><td>make:controller Api/ArticleController --api</td><td>Create an API resource controller</td></tr>
+            <tr><td>make:resource ArticleResource</td><td>Create an API resource class</td></tr>
+            <tr><td>make:migration create_articles_table</td><td>Create a migration</td></tr>
+            <tr><td>make:seeder ArticleSeeder</td><td>Create a database seeder</td></tr>
+            <tr><td>make:factory ArticleFactory</td><td>Create a model factory</td></tr>
+            <tr><td>make:request StoreArticleRequest</td><td>Create a form request</td></tr>
+            <tr><td>make:middleware CheckAge</td><td>Create a middleware</td></tr>
+            <tr><td>make:command SendEmails</td><td>Create an Artisan command</td></tr>
+            <tr><td>make:job SendWelcomeEmail</td><td>Create a queue job</td></tr>
+            <tr><td>make:mail WelcomeMail</td><td>Create a mail class</td></tr>
+            <tr><td>make:notification InvoicePaid</td><td>Create a notification</td></tr>
+            <tr><td>make:listener SendWelcomeNotification</td><td>Create an event listener</td></tr>
+            <tr><td>make:event UserRegistered</td><td>Create an event class</td></tr>
+            <tr><td>make:observer ArticleObserver</td><td>Create a model observer</td></tr>
+            <tr><td>make:policy ArticlePolicy</td><td>Create an authorization policy</td></tr>
+            <tr><td>make:rule Uppercase</td><td>Create a validation rule</td></tr>
+            <tr><td>make:scope TrendingScope</td><td>Create a query scope</td></tr>
+            <tr><td>make:cast MoneyCast</td><td>Create a custom cast</td></tr>
+            <tr><td>make:channel OrderChannel</td><td>Create a broadcasting channel</td></tr>
+            <tr><td>make:component Alert</td><td>Create a Blade component</td></tr>
+            <tr><td>make:action ProcessPodcast <span class="new-badge">NEW</span></td><td>Create a single-action class (Laravel 13)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Database &amp; Migrations</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:36%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>migrate</td><td>Run all pending migrations</td></tr>
+            <tr><td>migrate:fresh</td><td>Drop all tables and re-run migrations</td></tr>
+            <tr><td>migrate:rollback</td><td>Roll back the last migration batch</td></tr>
+            <tr><td>migrate:status</td><td>Show migration status</td></tr>
+            <tr><td>migrate:reset</td><td>Roll back all migrations</td></tr>
+            <tr><td>db:seed</td><td>Seed the database</td></tr>
+            <tr><td>db:seed --class=ArticleSeeder</td><td>Run a specific seeder</td></tr>
+            <tr><td>db:show</td><td>Show database schema info</td></tr>
+            <tr><td>db:monitor</td><td>Monitor database connection count</td></tr>
+            <tr><td>db:table &lt;name&gt;</td><td>Show table structure</td></tr>
+            <tr><td>db:wipe</td><td>Drop all tables</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Queue &amp; Jobs</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:36%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>queue:work</td><td>Start a queue worker</td></tr>
+            <tr><td>queue:work --queue=high,default</td><td>Work specific queues (priority)</td></tr>
+            <tr><td>queue:listen</td><td>Listen to a given queue</td></tr>
+            <tr><td>queue:restart</td><td>Restart queue workers gracefully</td></tr>
+            <tr><td>queue:failed</td><td>List failed jobs</td></tr>
+            <tr><td>queue:retry all</td><td>Retry all failed jobs</td></tr>
+            <tr><td>queue:forget &lt;id&gt;</td><td>Delete a failed job</td></tr>
+            <tr><td>queue:flush</td><td>Delete all failed jobs</td></tr>
+            <tr><td>queue:monitor &lt;queues&gt;</td><td>Monitor queue size</td></tr>
+            <tr><td>queue:prune-batches</td><td>Prune stale batch records</td></tr>
+            <tr><td>queue:prune-failed</td><td>Prune stale failed job records</td></tr>
+            <tr><td>queue:clear &lt;queue&gt;</td><td>Delete all jobs from a queue</td></tr>
+            <tr><td>horizon <span class="new-badge">REC</span></td><td>Start Horizon dashboard (requires horizon package)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Cache</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:36%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>cache:clear</td><td>Clear all cache</td></tr>
+            <tr><td>cache:forget &lt;key&gt;</td><td>Remove a specific cache key</td></tr>
+            <tr><td>cache:table</td><td>Create migration for cache database table</td></tr>
+            <tr><td>config:clear</td><td>Clear config cache</td></tr>
+            <tr><td>config:cache</td><td>Cache config files for production</td></tr>
+            <tr><td>route:clear</td><td>Clear route cache</td></tr>
+            <tr><td>route:cache</td><td>Cache routes for production</td></tr>
+            <tr><td>view:clear</td><td>Clear compiled view cache</td></tr>
+            <tr><td>view:cache</td><td>Cache Blade views</td></tr>
+            <tr><td>optimize</td><td>Cache framework for production</td></tr>
+            <tr><td>optimize:clear</td><td>Remove cached framework files</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Auth &amp; Security</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:36%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>auth:clear-resets</td><td>Flush expired password reset tokens</td></tr>
+            <tr><td>passport:install</td><td>Install Passport (OAuth2)</td></tr>
+            <tr><td>sanctum:prune-expired</td><td>Prune expired Sanctum tokens</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Routes</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:36%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>route:list</td><td>List all registered routes</td></tr>
+            <tr><td>route:list --path=api</td><td>Filter routes by path</td></tr>
+            <tr><td>route:list --method=POST</td><td>Filter by HTTP method</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Maintenance &amp; Utility</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:36%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>down</td><td>Put app into maintenance mode</td></tr>
+            <tr><td>up</td><td>Bring app out of maintenance mode</td></tr>
+            <tr><td>tinker</td><td>Interact with your app via REPL</td></tr>
+            <tr><td>about</td><td>Display application overview</td></tr>
+            <tr><td>env</td><td>Display current environment</td></tr>
+            <tr><td>storage:link</td><td>Create storage symbolic link</td></tr>
+            <tr><td>key:generate</td><td>Set application key</td></tr>
+            <tr><td>schedule:list</td><td>List scheduled tasks</td></tr>
+            <tr><td>schedule:run</td><td>Run scheduled tasks</td></tr>
+            <tr><td>schedule:work</td><td>Run scheduler in foreground</td></tr>
+            <tr><td>list</td><td>List all Artisan commands</td></tr>
+            <tr><td>help &lt;command&gt;</td><td>Show help for a command</td></tr>
+            <tr><td>docs &lt;page&gt;</td><td>Open Laravel docs in browser</td></tr>
+            <tr><td>db</td><td>Open database CLI session</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MVC ==================== -->
+  <section id="mvc">
+    <h2><i class="bi bi-diagram-3 me-2"></i>MVC &amp; Directory Structure</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body text-center">
+            <i class="bi bi-database display-6" style="color:var(--laravel-red)"></i>
+            <h5 class="mt-2">Model</h5>
+            <p class="text-muted small">Business logic, Eloquent ORM, data access.</p>
+            <code class="small">app/Models/</code>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body text-center">
+            <i class="bi bi-gear display-6" style="color:var(--laravel-red)"></i>
+            <h5 class="mt-2">Controller</h5>
+            <p class="text-muted small">Handle requests, return responses.</p>
+            <code class="small">app/Http/Controllers/</code>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body text-center">
+            <i class="bi bi-eye display-6" style="color:var(--laravel-red)"></i>
+            <h5 class="mt-2">View</h5>
+            <p class="text-muted small">Blade templates, layouts, components.</p>
+            <code class="small">resources/views/</code>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card mt-3">
+      <div class="card-header">Laravel 13 Directory Structure</div>
+      <div class="card-body">
+        <pre><code>myapp/
+  app/
+    Http/
+      Controllers/
+      Middleware/
+      Requests/
+    Jobs/
+    Mail/
+    Models/
+    Notifications/
+    Policies/
+    Providers/
+    Queue/Job/          <-- PHP Attributes style
+    Rules/
+  bootstrap/
+  config/
+  database/
+    factories/
+    migrations/
+    seeders/
+  public/
+  resources/
+    views/
+      components/
+      layouts/
+  routes/
+    web.php
+    api.php
+    console.php
+    channels.php
+  storage/
+  tests/
+    Feature/
+    Unit/</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ROUTING ==================== -->
+  <section id="routing">
+    <h2><i class="bi bi-signpost-2 me-2"></i>Routing</h2>
+    <p>Define routes in <code>routes/web.php</code> (web) and <code>routes/api.php</code> (API).</p>
+
+    <div class="card">
+      <div class="card-header">routes/web.php &mdash; Examples</div>
+      <div class="card-body">
+        <pre><code>// Basic GET route
+Route::get('/articles', [ArticleController::class, 'index']);
+
+// Named route
+Route::get('/articles/{slug}', [ArticleController::class, 'view'])
+    ->name('articles.show');
+
+// Route with parameters
+Route::get('/user/{id}', function (string $id) {
+    return 'User '.$id;
+})->where('id', '[0-9]+');
+
+// Route groups with middleware
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+    Route::resource('articles', ArticleController::class);
+});
+
+// Resourceful routes
+Route::resource('articles', ArticleController::class);
+// Generates: index, create, store, show, edit, update, destroy
+
+// API resource (no create/edit views)
+Route::apiResource('articles', ArticleController::class);
+
+// Nested resource
+Route::resource('articles.comments', CommentController::class);
+
+// Route with prefix
+Route::prefix('admin')->group(function () {
+    Route::get('/users', [AdminController::class, 'users']);
+});</code></pre>
+      </div>
+    </div>
+
+    <h3>Resource Route Mapping</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-light">
+            <tr><th>HTTP Method</th><th>URL</th><th>Controller Action</th><th>Route Name</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>GET</td><td>/articles</td><td>index()</td><td>articles.index</td></tr>
+            <tr><td>GET</td><td>/articles/create</td><td>create()</td><td>articles.create</td></tr>
+            <tr><td>POST</td><td>/articles</td><td>store()</td><td>articles.store</td></tr>
+            <tr><td>GET</td><td>/articles/{id}</td><td>show()</td><td>articles.show</td></tr>
+            <tr><td>GET</td><td>/articles/{id}/edit</td><td>edit()</td><td>articles.edit</td></tr>
+            <tr><td>PUT/PATCH</td><td>/articles/{id}</td><td>update()</td><td>articles.update</td></tr>
+            <tr><td>DELETE</td><td>/articles/{id}</td><td>destroy()</td><td>articles.destroy</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CONTROLLERS ==================== -->
+  <section id="controllers">
+    <h2><i class="bi bi-gear me-2"></i>Controllers</h2>
+
+    <div class="card">
+      <div class="card-header">ArticleController &mdash; Resource Full CRUD</div>
+      <div class="card-body">
+        <pre><code>namespace App\Http\Controllers;
+
+use App\Models\Article;
+use App\Http\Requests\StoreArticleRequest;
+use App\Http\Requests\UpdateArticleRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
+
+class ArticleController extends Controller
+{
+    public function index(): View
+    {
+        $articles = Article::with('author', 'tags')
+            ->latest()
+            ->paginate(20);
+        return view('articles.index', compact('articles'));
+    }
+
+    public function create(): View
+    {
+        return view('articles.create');
+    }
+
+    public function store(StoreArticleRequest $request): RedirectResponse
+    {
+        $article = auth()->user()->articles()
+            ->create($request->validated());
+        return redirect()->route('articles.show', $article)
+            ->with('success', 'Article created.');
+    }
+
+    public function show(Article $article): View
+    {
+        return view('articles.show', compact('article'));
+    }
+
+    public function edit(Article $article): View
+    {
+        return view('articles.edit', compact('article'));
+    }
+
+    public function update(UpdateArticleRequest $request, Article $article): RedirectResponse
+    {
+        $article->update($request->validated());
+        return redirect()->route('articles.show', $article)
+            ->with('success', 'Article updated.');
+    }
+
+    public function destroy(Article $article): RedirectResponse
+    {
+        $article->delete();
+        return redirect()->route('articles.index')
+            ->with('success', 'Article deleted.');
+    }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PHP ATTRIBUTES ==================== -->
+  <section id="attributes">
+    <h2><i class="bi bi-tag me-2"></i>PHP Attributes <span class="new-badge">NEW in Laravel 13</span></h2>
+    <p>Laravel 13 introduces native PHP 8 attributes across 15+ locations, replacing traditional <code>$property</code> declarations. Fully optional and backward compatible.</p>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Before (Laravel 12) &mdash; Properties</div>
+          <div class="card-body">
+            <pre><code>class Invoice extends Model
+{
+    protected $table = 'invoices';
+    protected $primaryKey = 'invoice_id';
+    protected $keyType = 'string';
+    public $incrementing = false;
+    protected $fillable = [
+        'amount', 'status', 'user_id',
+    ];
+    protected $hidden = ['internal_notes'];
+}</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">After (Laravel 13) &mdash; Attributes</div>
+          <div class="card-body">
+            <pre><code>use Illuminate\Database\Eloquent\Attributes\{
+    Table, PrimaryKey, KeyType, Incrementing,
+    Fillable, Hidden,
+};
+
+#[Table('invoices')]
+#[PrimaryKey('invoice_id')]
+#[KeyType('string')]
+#[Incrementing(false)]
+#[Fillable(['amount', 'status', 'user_id'])]
+#[Hidden(['internal_notes'])]
+class Invoice extends Model
+{
+    // Clean class body
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">More Attribute Examples</div>
+      <div class="card-body">
+        <pre><code>use App\Models\Article;
+use Illuminate\Queue\Attributes\Job;
+use Illuminate\Console\Attributes\Command;
+
+// Job with Attributes
+#[Job(queue: 'emails', tries: 3, backoff: 30)]
+class SendWelcomeEmail implements ShouldQueue
+{
+    public function handle(): void
+    {
+        // ...
+    }
+}
+
+// Artisan Command with Attributes
+#[Command(name: 'app:send-emails', description: 'Send queued emails')]
+class SendEmails extends Command
+{
+    #[Argument(description: 'User ID')]
+    public string $userId;
+
+    #[Option(description: 'Send via batch')]
+    public bool $batch;
+
+    public function handle(): int
+    {
+        // ...
+        return self::SUCCESS;
+    }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ELOQUENT ==================== -->
+  <section id="eloquent">
+    <h2><i class="bi bi-database me-2"></i>Eloquent ORM</h2>
+
+    <h3>Model</h3>
+    <div class="card">
+      <div class="card-header">Article.php</div>
+      <div class="card-body">
+        <pre><code>namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+class Article extends Model
+{
+    protected $fillable = [
+        'title', 'body', 'author_id', 'published',
+    ];
+
+    protected $casts = [
+        'published' => 'boolean',
+        'created_at' => 'datetime',
+    ];
+
+    // Accessor
+    public function getExcerptAttribute(): string
+    {
+        return substr($this->body, 0, 150) . '...';
+    }
+
+    // Mutator
+    public function setTitleAttribute(string $value): void
+    {
+        $this->attributes['title'] = trim($value);
+    }
+
+    // Relationships
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'author_id');
+    }
+
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    // Local scope
+    public function scopePublished($query)
+    {
+        return $query->where('published', true);
+    }
+
+    public function scopeRecent($query)
+    {
+        return $query->orderBy('created_at', 'desc');
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <h3>Migration</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('articles', function (Blueprint $table) {
+            $table->id();
+            $table->string('title', 255);
+            $table->text('body');
+            $table->foreignId('author_id')
+                ->constrained('users')->cascadeOnDelete();
+            $table->boolean('published')->default(false);
+            $table->timestamps();
+            $table->softDeletes();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('articles');
+    }
+};</code></pre>
+      </div>
+    </div>
+
+    <h3>Query Builder Examples</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>use App\Models\Article;
+
+// All records
+$articles = Article::all();
+
+// With eager loading
+$articles = Article::with('author', 'tags')
+    ->where('published', true)
+    ->latest()
+    ->get();
+
+// Find by ID
+$article = Article::findOrFail(1);
+
+// Scopes
+$recent = Article::published()->recent()->get();
+
+// Pagination
+$paginated = Article::with('author')
+    ->published()
+    ->paginate(20);
+
+// Lazy loading
+$article = Article::find(1);
+$article->load('comments.author');
+
+// Create
+$article = Article::create([
+    'title' => 'New Article',
+    'body' => 'Content here',
+    'author_id' => 1,
+]);
+
+// Update
+$article->update(['title' => 'Updated Title']);
+
+// Delete
+$article->delete();
+
+// Aggregates
+$count = Article::where('published', true)->count();
+$latest = Article::whereDate('created_at', '>', now()->subDays(7))
+    ->orderBy('views', 'desc')
+    ->first();
+
+// Where between
+$articles = Article::whereBetween('created_at', [
+    now()->startOfMonth(), now()->endOfMonth(),
+])->get();
+
+// Where in
+$selected = Article::whereIn('id', [1, 3, 5])->get();
+
+// Raw where
+$search = Article::where('title', 'like', '%Laravel%')->get();
+
+// Chunk (for large datasets)
+Article::chunk(100, function ($articles) {
+    foreach ($articles as $article) {
+        // process
+    }
+});</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ASSOCIATIONS ==================== -->
+  <section id="associations">
+    <h2><i class="bi bi-link-45deg me-2"></i>Eloquent Associations</h2>
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">BelongsTo</div>
+          <div class="card-body">
+            <pre><code>// articles.author_id -> users.id
+public function author(): BelongsTo
+{
+    return $this->belongsTo(User::class);
+}
+// $article->author->name</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">HasMany</div>
+          <div class="card-body">
+            <pre><code>// articles.id -> comments.article_id
+public function comments(): HasMany
+{
+    return $this->hasMany(Comment::class);
+}
+// $article->comments[0]->body</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">HasOne</div>
+          <div class="card-body">
+            <pre><code>// users.id -> profiles.user_id
+public function profile(): HasOne
+{
+    return $this->hasOne(Profile::class);
+}
+// $user->profile->avatar</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">BelongsToMany</div>
+          <div class="card-body">
+            <pre><code>// articles_tags pivot table
+public function tags(): BelongsToMany
+{
+    return $this->belongsToMany(Tag::class);
+}
+// $article->tags[0]->name</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== VALIDATION ==================== -->
+  <section id="validation">
+    <h2><i class="bi bi-check2-square me-2"></i>Validation</h2>
+
+    <div class="card">
+      <div class="card-header">FormRequest &mdash; StoreArticleRequest.php</div>
+      <div class="card-body">
+        <pre><code>namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class StoreArticleRequest extends FormRequest
+{
+    public function authorize(): bool
+    {
+        return true; // or Gate check
+    }
+
+    public function rules(): array
+    {
+        return [
+            'title' => ['required', 'string', 'max:255', 'min:5'],
+            'body' => ['required', 'string', 'min:50'],
+            'author_id' => ['required', 'exists:users,id'],
+            'published' => ['boolean'],
+            'tags' => ['array'],
+            'tags.*' => ['exists:tags,id'],
+            'email' => ['required', 'email:rfc,dns'],
+            'publish_date' => ['date', 'after:today'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'title.required' => 'A title is required.',
+            'body.min' => 'Body must be at least 50 characters.',
+        ];
+    }
+
+    // After validation
+    public function withValidator($validator): void
+    {
+        $validator->after(function ($validator) {
+            if ($this->hasSpam($this->input('body'))) {
+                $validator->errors()->add(
+                    'body', 'Content contains spam.'
+                );
+            }
+        });
+    }
+}
+
+// In controller:
+public function store(StoreArticleRequest $request)
+{
+    // $request->validated() returns validated data
+    Article::create($request->validated());
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Inline Validation in Controller</div>
+      <div class="card-body">
+        <pre><code>public function store(Request $request)
+{
+    $validated = $request->validate([
+        'title' => 'required|string|max:255',
+        'body' => 'required|string',
+        'author_id' => 'required|exists:users,id',
+        'published' => 'boolean',
+    ]);
+
+    Article::create($validated);
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BLADE ==================== -->
+  <section id="blade">
+    <h2><i class="bi bi-eye me-2"></i>Blade Templates</h2>
+
+    <div class="card">
+      <div class="card-header">Layout &mdash; layouts/app.blade.php</div>
+      <div class="card-body">
+        <pre><code>&lt;!-- resources/views/layouts/app.blade.php --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;@yield('title', 'My App')&lt;/title&gt;
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;nav class="navbar"&gt;...&lt;/nav&gt;
+
+    &lt;main class="container"&gt;
+        @yield('content')
+    &lt;/main&gt;
+
+    @stack('scripts')
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Articles Index &mdash; articles/index.blade.php</div>
+      <div class="card-body">
+        <pre><code>@extends('layouts.app')
+
+@section('title', 'Articles')
+
+@section('content')
+    &lt;h1&gt;Articles&lt;/h1&gt;
+    &lt;a href="{{ route('articles.create') }}" class="btn btn-primary"&gt;Add&lt;/a&gt;
+
+    &lt;table class="table"&gt;
+        &lt;thead&gt;
+            &lt;tr&gt;
+                &lt;th&gt;Title&lt;/th&gt;
+                &lt;th&gt;Author&lt;/th&gt;
+                &lt;th&gt;Created&lt;/th&gt;
+                &lt;th&gt;Actions&lt;/th&gt;
+            &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+            @foreach($articles as $article)
+            &lt;tr&gt;
+                &lt;td&gt;{{ $article->title }}&lt;/td&gt;
+                &lt;td&gt;{{ $article->author->name }}&lt;/td&gt;
+                &lt;td&gt;{{ $article->created_at->diffForHumans() }}&lt;/td&gt;
+                &lt;td&gt;
+                    &lt;a href="{{ route('articles.show', $article) }}"&gt;View&lt;/a&gt;
+                    &lt;a href="{{ route('articles.edit', $article) }}"&gt;Edit&lt;/a&gt;
+                    &lt;form method="POST"
+                          action="{{ route('articles.destroy', $article) }}"
+                          style="display:inline"&gt;
+                        @csrf @method('DELETE')
+                        &lt;button type="submit"&gt;Delete&lt;/button&gt;
+                    &lt;/form&gt;
+                &lt;/td&gt;
+            &lt;/tr&gt;
+            @endforeach
+        &lt;/tbody&gt;
+    &lt;/table&gt;
+
+    {{ $articles->links() }}
+@endsection</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Form &mdash; articles/create.blade.php</div>
+      <div class="card-body">
+        <pre><code>@extends('layouts.app')
+
+@section('content')
+    &lt;h1&gt;Create Article&lt;/h1&gt;
+
+    &lt;form method="POST" action="{{ route('articles.store') }}"&gt;
+        @csrf
+
+        &lt;div class="mb-3"&gt;
+            &lt;label for="title"&gt;Title&lt;/label&gt;
+            &lt;input id="title" name="title" class="form-control"
+                   value="{{ old('title') }}"&gt;
+            @error('title')
+                &lt;div class="text-danger"&gt;{{ $message }}&lt;/div&gt;
+            @enderror
+        &lt;/div&gt;
+
+        &lt;div class="mb-3"&gt;
+            &lt;label for="body"&gt;Body&lt;/label&gt;
+            &lt;textarea id="body" name="body" class="form-control"
+                      rows="10"&gt;{{ old('body') }}&lt;/textarea&gt;
+            @error('body')
+                &lt;div class="text-danger"&gt;{{ $message }}&lt;/div&gt;
+            @enderror
+        &lt;/div&gt;
+
+        &lt;button type="submit" class="btn btn-primary"&gt;Save&lt;/button&gt;
+    &lt;/form&gt;
+@endsection</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== AUTHENTICATION ==================== -->
+  <section id="auth">
+    <h2><i class="bi bi-shield-lock me-2"></i>Authentication</h2>
+
+    <div class="card">
+      <div class="card-header">Breeze &mdash; Quick Auth Scaffolding</div>
+      <div class="card-body">
+        <pre><code># Install Breeze with Blade
+composer require laravel/breeze
+php artisan breeze:install blade
+php artisan migrate
+npm install && npm run dev
+
+# Or with React/Inertia
+php artisan breeze:install react
+
+# Or with Vue/Inertia
+php artisan breeze:install vue
+
+# API-only Sanctum
+php artisan breeze:install api
+
+# Passkey support (Laravel 13)
+php artisan breeze:install blade --passkey</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Passkey Authentication <span class="new-badge">NEW in 13</span></div>
+      <div class="card-body">
+        <pre><code>// Laravel 13 adds passkey (WebAuthn) support
+// Use with Breeze:
+php artisan breeze:install blade --passkey
+
+// Or manually via Sanctum + Passkey
+composer require laravel/sanctum
+
+// config/sanctum.php includes passkey config
+// Credentials are stored in the new passkeys table
+
+// Frontend uses navigator.credentials.get() / create()
+// Simple Blade directive:
+@passkeyScripts</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Sanctum &mdash; API Token Auth</div>
+      <div class="card-body">
+        <pre><code>// routes/api.php
+Route::middleware('auth:sanctum')->get('/user',
+    fn(Request $r) => $r->user()
+);
+
+// Issuing tokens
+$token = $user->createToken('api-token')->plainTextToken;
+
+// Login controller
+public function login(Request $request)
+{
+    $credentials = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+
+    if (Auth::attempt($credentials)) {
+        $token = $request->user()->createToken('api');
+        return response()->json([
+            'token' => $token->plainTextToken,
+        ]);
+    }
+
+    return response()->json([
+        'message' => 'Invalid credentials',
+    ], 401);
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== AUTHORIZATION ==================== -->
+  <section id="authorization">
+    <h2><i class="bi bi-key me-2"></i>Authorization</h2>
+
+    <div class="card">
+      <div class="card-header">Policy &mdash; ArticlePolicy.php</div>
+      <div class="card-body">
+        <pre><code>namespace App\Policies;
+
+use App\Models\Article;
+use App\Models\User;
+
+class ArticlePolicy
+{
+    public function viewAny(?User $user): bool
+    {
+        return true;
+    }
+
+    public function view(?User $user, Article $article): bool
+    {
+        return true; // public articles
+    }
+
+    public function create(User $user): bool
+    {
+        return true; // any authenticated user
+    }
+
+    public function update(User $user, Article $article): bool
+    {
+        return $user->id === $article->author_id;
+    }
+
+    public function delete(User $user, Article $article): bool
+    {
+        return $this->update($user, $article);
+    }
+}
+
+// Register in AuthServiceProvider:
+protected $policies = [
+    Article::class => ArticlePolicy::class,
+];</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>// In controller:
+public function update(Request $request, Article $article)
+{
+    $this->authorize('update', $article);
+    // proceeds only if authorized
+}
+
+// In Blade:
+@can('update', $article)
+    &lt;a href="{{ route('articles.edit', $article) }}"&gt;Edit&lt;/a&gt;
+@endcan
+
+// With Gate facade:
+Gate::define('view-dashboard', function (User $user) {
+    return $user->isAdmin();
+});</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== QUEUE ==================== -->
+  <section id="queue">
+    <h2><i class="bi bi-arrow-repeat me-2"></i>Queue / Job System</h2>
+    <p>Laravel provides a unified queue API across many backends. Use <strong>Horizon</strong> for Redis-powered dashboards.</p>
+
+    <h3>1. Create a Job</h3>
+    <div class="card">
+      <div class="card-header">app/Jobs/SendWelcomeEmail.php</div>
+      <div class="card-body">
+        <pre><code>namespace App\Jobs;
+
+use App\Models\User;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Queue\Attributes\Job; // Laravel 13
+
+#[Job(queue: 'emails', tries: 3, backoff: 30)]
+class SendWelcomeEmail implements ShouldQueue
+{
+    use Queueable;
+
+    public function __construct(
+        public User $user
+    ) {}
+
+    public function handle(): void
+    {
+        // Send email
+        Mail::to($this->user->email)
+            ->send(new WelcomeMail($this->user));
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <h3>2. Dispatch Jobs</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>// Simple dispatch
+SendWelcomeEmail::dispatch($user);
+
+// With delay
+SendWelcomeEmail::dispatch($user)->delay(now()->addMinutes(10));
+
+// On a specific queue
+SendWelcomeEmail::dispatch($user)->onQueue('emails');
+
+// Job chains (sequential)
+Bus::chain([
+    new ProcessPodcast($podcast),
+    new OptimizePodcast($podcast),
+    new SendNotification($podcast),
+])->dispatch();
+
+// Job batches
+Bus::batch([
+    new ProcessFile($file1),
+    new ProcessFile($file2),
+])->then(function () {
+    // All jobs complete
+})->dispatch();
+
+// From controller:
+public function register(Request $request)
+{
+    $user = User::create($request->validated());
+    SendWelcomeEmail::dispatch($user);
+    return redirect()->home();
+}</code></pre>
+      </div>
+    </div>
+
+    <h3>3. Run the Worker</h3>
+    <div class="card">
+      <div class="card-header">Worker Commands</div>
+      <div class="card-body">
+        <pre><code># Start queue worker (processes jobs)
+php artisan queue:work
+
+# With specific queue and options
+php artisan queue:work redis \
+    --queue=high,default,low \
+    --max-jobs=100 \
+    --max-time=3600 \
+    --memory=256 \
+    --tries=3 \
+    --backoff=30 \
+    --sleep=3
+
+# Start Horizon (dashboard at /horizon)
+php artisan horizon
+
+# Supervisor config (production)
+[program:laravel-worker]
+process_name=%(program_name)s_%(process_num)02d
+command=php /var/www/artisan queue:work redis --sleep=3 --tries=3
+autostart=true
+autorestart=true
+numprocs=4
+user=forge</code></pre>
+      </div>
+    </div>
+
+    <h3>4. Failed Jobs</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code># Table for failed jobs
+php artisan queue:failed-table
+php artisan migrate
+
+# List failed jobs
+php artisan queue:failed
+
+# Retry a specific job
+php artisan queue:retry 1
+
+# Retry all
+php artisan queue:retry all
+
+# Forget a single failed job
+php artisan queue:forget 1
+
+# Delete all failed jobs
+php artisan queue:flush</code></pre>
+      </div>
+    </div>
+
+    <h3>Queue Configuration</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>// config/queue.php
+'connections' => [
+    'redis' => [
+        'driver' => 'redis',
+        'connection' => 'default',
+        'queue' => env('REDIS_QUEUE', 'default'),
+        'retry_after' => 90,
+        'block_for' => null,
+        'after_commit' => true,
+    ],
+
+    'database' => [
+        'driver' => 'database',
+        'table' => 'jobs',
+        'queue' => 'default',
+        'retry_after' => 90,
+        'after_commit' => true,
+    ],
+
+    'sqs' => [
+        'driver' => 'sqs',
+        'key' => env('AWS_ACCESS_KEY_ID'),
+        'secret' => env('AWS_SECRET_ACCESS_KEY'),
+        'queue' => env('SQS_QUEUE_URL'),
+    ],
+],</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== API ==================== -->
+  <section id="api">
+    <h2><i class="bi bi-globe me-2"></i>RESTful API</h2>
+
+    <div class="card">
+      <div class="card-header">API Routes</div>
+      <div class="card-body">
+        <pre><code>// routes/api.php
+Route::apiResource('articles', ArticleController::class);
+
+// With Sanctum auth
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', fn(Request $r) => $r->user());
+    Route::apiResource('articles', ArticleController::class);
+});</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">API Resource Controller</div>
+      <div class="card-body">
+        <pre><code>namespace App\Http\Controllers\Api;
+
+use App\Models\Article;
+use App\Http\Resources\ArticleResource;
+use App\Http\Requests\StoreArticleRequest;
+use Illuminate\Http\JsonResponse;
+
+class ArticleController extends Controller
+{
+    public function index(): JsonResponse
+    {
+        $articles = Article::with('author', 'tags')
+            ->latest()
+            ->paginate(20);
+
+        return ArticleResource::collection($articles)
+            ->response();
+    }
+
+    public function show(Article $article): JsonResponse
+    {
+        $article->load('author', 'tags');
+        return (new ArticleResource($article))
+            ->response();
+    }
+
+    public function store(StoreArticleRequest $request): JsonResponse
+    {
+        $article = auth()->user()->articles()
+            ->create($request->validated());
+
+        return (new ArticleResource($article))
+            ->response()
+            ->setStatusCode(201);
+    }
+
+    public function update(UpdateArticleRequest $request, Article $article): JsonResponse
+    {
+        $article->update($request->validated());
+        return (new ArticleResource($article))->response();
+    }
+
+    public function destroy(Article $article): JsonResponse
+    {
+        $article->delete();
+        return response()->json([
+            'message' => 'Deleted',
+        ], 200);
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">API Resource &mdash; ArticleResource.php</div>
+      <div class="card-body">
+        <pre><code>namespace App\Http\Resources;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class ArticleResource extends JsonResource
+{
+    public function toArray(Request $request): array
+    {
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'body' => $this->body,
+            'excerpt' => $this->excerpt,
+            'published' => $this->published,
+            'author' => new UserResource($this->whenLoaded('author')),
+            'tags' => TagResource::collection($this->whenLoaded('tags')),
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+        ];
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">API Request / Response Examples</div>
+      <div class="card-body">
+        <pre><code>// GET /api/articles?page=1
+// Response:
+{
+    "data": [
+        {
+            "id": 1,
+            "title": "Hello Laravel 13",
+            "excerpt": "...",
+            "author": { "id": 1, "name": "John" },
+            "created_at": "2026-05-14T10:00:00Z"
+        }
+    ],
+    "meta": {
+        "current_page": 1,
+        "last_page": 5,
+        "per_page": 20,
+        "total": 100
+    }
+}
+
+// POST /api/articles
+// Headers: Authorization: Bearer {token}, Content-Type: application/json
+// Body: {"title": "New", "body": "Content...", "author_id": 1}
+// Response (201): {"data": {"id": 2, "title": "New", ...}}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== AI SDK ==================== -->
+  <section id="ai">
+    <h2><i class="bi bi-stars me-2"></i>AI SDK <span class="new-badge">NEW in Laravel 13</span></h2>
+    <p>Laravel 13 introduces a first-party AI SDK with a unified API for text generation, agents, embeddings, images, and audio.</p>
+
+    <div class="card">
+      <div class="card-header">Text Generation &amp; Agents</div>
+      <div class="card-body">
+        <pre><code>use App\Ai\Agents\SalesCoach;
+use Laravel\Ai\Image;
+use Laravel\Ai\Audio;
+
+// Basic text generation
+$response = SalesCoach::make()
+    ->prompt('Analyze this sales transcript...');
+return (string) $response;
+
+// Image generation
+$image = Image::of('A donut sitting on the kitchen counter')
+    ->generate();
+$rawContent = (string) $image;
+
+// Audio synthesis
+$audio = Audio::of('I love coding with Laravel.')
+    ->generate();
+$rawContent = (string) $audio;
+
+// Configuration in config/ai.php:
+return [
+    'default' => env('AI_PROVIDER', 'openai'),
+    'providers' => [
+        'openai' => [
+            'api_key' => env('OPENAI_API_KEY'),
+        ],
+        'anthropic' => [
+            'api_key' => env('ANTHROPIC_API_KEY'),
+        ],
+    ],
+];</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MIDDLEWARE ==================== -->
+  <section id="middleware">
+    <h2><i class="bi bi-funnel me-2"></i>Middleware</h2>
+
+    <div class="card">
+      <div class="card-header">Custom Middleware &mdash; CorsMiddleware.php</div>
+      <div class="card-body">
+        <pre><code>namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+class CorsMiddleware
+{
+    public function handle(Request $request, Closure $next): Response
+    {
+        $response = $next($request);
+
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set(
+            'Access-Control-Allow-Headers',
+            'X-Requested-With, Content-Type, Authorization'
+        );
+        $response->headers->set(
+            'Access-Control-Allow-Methods',
+            'GET, POST, PUT, DELETE, PATCH, OPTIONS'
+        );
+
+        return $response;
+    }
+}
+
+// Register in Kernel:
+// protected $middleware = [\App\Http\Middleware\CorsMiddleware::class];</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Built-in Middleware</div>
+      <div class="card-body">
+        <pre><code>// In routes/web.php:
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+});
+
+// In routes/api.php:
+Route::middleware('auth:sanctum')->get('/user', function (Request $r) {
+    return $r->user();
+});
+
+// Throttle API routes:
+Route::middleware('throttle:60,1')->group(function () {
+    Route::apiResource('articles', ArticleController::class);
+});
+
+// Force JSON responses for API:
+Route::middleware('api')->group(function () {
+    // api middleware group includes: throttle, bindings, etc.
+});</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TESTING ==================== -->
+  <section id="testing">
+    <h2><i class="bi bi-check-circle me-2"></i>Testing</h2>
+    <p>Laravel supports PHPUnit and Pest. Tests live in <code>tests/</code>. Run with <code>php artisan test</code>.</p>
+
+    <div class="card">
+      <div class="card-header">Model Factory</div>
+      <div class="card-body">
+        <pre><code>// database/factories/ArticleFactory.php
+namespace Database\Factories;
+
+use App\Models\Article;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class ArticleFactory extends Factory
+{
+    protected $model = Article::class;
+
+    public function definition(): array
+    {
+        return [
+            'title' => fake()->sentence(),
+            'body' => fake()->paragraphs(3, true),
+            'author_id' => User::factory(),
+            'published' => fake()->boolean(),
+        ];
+    }
+
+    public function published(): static
+    {
+        return $this->state(['published' => true]);
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Feature Test</div>
+      <div class="card-body">
+        <pre><code>namespace Tests\Feature;
+
+use App\Models\Article;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+class ArticleTest extends TestCase
+{
+    use RefreshDatabase;
+
+    public function test_articles_list_can_be_rendered(): void
+    {
+        Article::factory()->count(3)->published()->create();
+
+        $response = $this->get('/articles');
+
+        $response->assertOk();
+        $response->assertSee('Articles');
+    }
+
+    public function test_authenticated_user_can_create_article(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->post('/articles', [
+            'title' => 'Test Article',
+            'body' => 'Content for the test article.',
+            'published' => true,
+        ]);
+
+        $response->assertRedirect();
+        $this->assertDatabaseHas('articles', [
+            'title' => 'Test Article',
+            'author_id' => $user->id,
+        ]);
+    }
+
+    public function test_unauthenticated_user_cannot_create(): void
+    {
+        $response = $this->postJson('/api/articles', [
+            'title' => 'Test',
+            'body' => 'Content',
+        ]);
+
+        $response->assertUnauthorized();
+    }
+}
+
+// Run: php artisan test</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BEST PRACTICES ==================== -->
+  <section id="best-practices">
+    <h2><i class="bi bi-star me-2"></i>Best Practices</h2>
+
+    <div class="highlight-box">
+      <strong>Laravel Naming Conventions</strong> &mdash;
+      Models: singular PascalCase (<code>Article</code>).
+      Tables: plural snake_case (<code>articles</code>).
+      Controllers: singular PascalCase (<code>ArticleController</code>).
+      Migrations: descriptive (<code>create_articles_table</code>).
+      Foreign keys: singular <code>author_id</code>.
+      Pivot tables: alphabetical singular (<code>article_tag</code>).
+      Routes: kebab-case (<code>/api/articles/{slug}</code>).
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Recommended Practices</div>
+          <div class="card-body">
+            <ul class="list-unstyled mb-0">
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use Eloquent, avoid raw SQL</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Eager load with <code>with()</code></li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use FormRequest for validation</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Skinny controllers, fat models</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use policies for authorization</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Queue long-running tasks</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Write tests for all features</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use <code>env()</code> only in config files</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Cache config/routes in production</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Never <code>.env</code> in version control</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Quick Commands Cheat Sheet</div>
+          <div class="card-body">
+            <pre><code># Model + Migration + Factory + Controller
+php artisan make:model Article
+    -m --factory --resource --requests
+
+# Run everything
+php artisan migrate
+php artisan db:seed
+php artisan queue:work
+php artisan serve
+
+# Cache for production
+php artisan optimize
+
+# Clear everything
+php artisan optimize:clear
+
+# Test
+php artisan test
+
+# List routes
+php artisan route:list
+
+# Tinker REPL
+php artisan tinker</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="mt-5 pt-4 border-top text-muted">
+    <div class="row">
+      <div class="col-md-6">
+        <p class="fw-bold mb-2">Laravel 13.x Quick Reference</p>
+        <p class="small">Generated for study purposes. Always refer to the official documentation.</p>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <p class="small mb-1">
+          <a href="https://laravel.com/docs/13.x" target="_blank" class="text-decoration-none">
+            <i class="bi bi-book me-1"></i> Documentation
+          </a>
+          &middot;
+          <a href="https://api.laravel.com/" target="_blank" class="text-decoration-none">
+            <i class="bi bi-code-slash me-1"></i> API
+          </a>
+          &middot;
+          <a href="https://github.com/laravel/laravel" target="_blank" class="text-decoration-none">
+            <i class="bi bi-github me-1"></i> GitHub
+          </a>
+        </p>
+        <p class="small mb-0">
+          Laravel &copy; Taylor Otwell. v13.x &mdash; PHP 8.3+ &mdash; Released Mar 17, 2026
+        </p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.getElementById('sidebarToggle')?.addEventListener('click', function () {
+    document.getElementById('sidebar').classList.toggle('show');
+  });
+  document.querySelectorAll('#sidebar .nav-link').forEach(function (link) {
+    link.addEventListener('click', function () {
+      document.getElementById('sidebar').classList.remove('show');
+    });
+  });
+</script>
+</body>
+</html>

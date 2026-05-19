@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Angular 21 - Complete Guide: CLI Commands, Signals & Concepts</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --angular-red: #dd0031;
+      --angular-dark: #1a1a2e;
+      --sidebar-width: 280px;
+    }
+    * { scroll-margin-top: 1rem; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f4f6fb;
+      display: flex;
+    }
+    #sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0; left: 0;
+      background: var(--angular-dark);
+      overflow-y: auto;
+      z-index: 1000;
+      transition: transform .3s;
+    }
+    #sidebar .brand {
+      padding: 1.25rem 1.25rem .75rem;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    #sidebar .brand h5 { color: #fff; font-weight: 700; }
+    #sidebar .brand small { color: #adb5bd; }
+    #sidebar .nav-link {
+      color: #c8cdd3;
+      padding: .5rem 1.25rem;
+      font-size: .88rem;
+      border-left: 3px solid transparent;
+      transition: all .15s;
+    }
+    #sidebar .nav-link:hover {
+      color: #fff;
+      background: rgba(255,255,255,.05);
+    }
+    #sidebar .nav-link.active {
+      color: var(--angular-red);
+      border-left-color: var(--angular-red);
+      background: rgba(221,0,49,.08);
+    }
+    #sidebar .nav-link i { width: 1.3rem; }
+    #sidebar .nav-section {
+      color: #6c757d;
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      padding: 1rem 1.25rem .3rem;
+      font-weight: 600;
+    }
+    #main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 2rem 2.5rem 4rem;
+      max-width: 1100px;
+    }
+    @media (max-width: 991.98px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.show { transform: translateX(0); }
+      #main { margin-left: 0; padding: 1.5rem; }
+    }
+    .sidebar-toggle {
+      position: fixed;
+      top: .75rem; left: .75rem;
+      z-index: 1050;
+      background: var(--angular-dark);
+      color: #fff;
+      border: none;
+      border-radius: .4rem;
+      padding: .4rem .65rem;
+      display: none;
+    }
+    @media (max-width: 991.98px) {
+      .sidebar-toggle { display: block; }
+    }
+    h2 {
+      font-weight: 700;
+      color: var(--angular-dark);
+      margin-top: 2.5rem;
+      padding-bottom: .5rem;
+      border-bottom: 3px solid var(--angular-red);
+    }
+    h3 {
+      font-weight: 600;
+      color: #2c3e50;
+      margin-top: 1.8rem;
+    }
+    .card {
+      border: none;
+      border-radius: .75rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      margin-bottom: 1.5rem;
+    }
+    .card-header {
+      background: #fff;
+      border-bottom: 1px solid #e9ecef;
+      font-weight: 600;
+      padding: 1rem 1.25rem;
+    }
+    .card-body { padding: 1.5rem; }
+    pre {
+      background: #1e1e2f;
+      color: #e6e6e6;
+      padding: 1rem 1.25rem;
+      border-radius: .5rem;
+      font-size: .82rem;
+      overflow-x: auto;
+      position: relative;
+    }
+    pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
+    .cmd-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+      white-space: nowrap;
+      color: var(--angular-red);
+    }
+    .highlight-box {
+      background: #eef2ff;
+      border-left: 4px solid var(--angular-red);
+      padding: 1rem 1.25rem;
+      border-radius: .4rem;
+      margin: 1rem 0;
+    }
+    .new-badge {
+      background: #10b981;
+      color: #fff;
+      font-size: .65rem;
+      font-weight: 600;
+      padding: .15rem .5rem;
+      border-radius: 1rem;
+      vertical-align: middle;
+    }
+    .stable-badge {
+      background: #0d6efd;
+      color: #fff;
+      font-size: .65rem;
+      font-weight: 600;
+      padding: .15rem .5rem;
+      border-radius: 1rem;
+      vertical-align: middle;
+    }
+    .home-link {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 1100;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.94);
+      color: #0f172a;
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 700;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: 0.2s;
+    }
+    .home-link:hover { color: #2563eb; }
+    @media (min-width: 992px) {
+      .home-link { left: calc(var(--sidebar-width) + 14px); }
+    }
+    @media (max-width: 991.98px) {
+      .home-link { left: 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
+<a href="index.html" class="home-link" aria-label="Go back to home page"><span>←</span> Home</a>
+
+<!-- ===== SIDEBAR ===== -->
+<nav id="sidebar">
+  <div class="brand">
+    <h5><i class="bi bi-shield-fill me-2" style="color:var(--angular-red)"></i>Angular</h5>
+    <small class="d-block mt-1">v21.x &mdash; Complete Guide</small>
+  </div>
+  <div class="py-2">
+    <div class="nav-section">Getting Started</div>
+    <a class="nav-link" href="#install"><i class="bi bi-download"></i> Installation</a>
+    <a class="nav-link" href="#commands"><i class="bi bi-terminal"></i> CLI Commands</a>
+
+    <div class="nav-section">Core Concepts</div>
+    <a class="nav-link" href="#components"><i class="bi bi-diagram-3"></i> Components</a>
+    <a class="nav-link" href="#templates"><i class="bi bi-code-slash"></i> Templates &amp; Binding</a>
+    <a class="nav-link" href="#directives"><i class="bi bi-lightning-charge"></i> Directives</a>
+    <a class="nav-link" href="#pipes"><i class="bi bi-funnel"></i> Pipes</a>
+    <a class="nav-link" href="#signals"><i class="bi bi-activity"></i> Signals <span class="stable-badge">STABLE</span></a>
+    <a class="nav-link" href="#di"><i class="bi bi-cpu"></i> Dependency Injection</a>
+
+    <div class="nav-section">Advanced</div>
+    <a class="nav-link" href="#routing"><i class="bi bi-signpost-2"></i> Routing</a>
+    <a class="nav-link" href="#forms"><i class="bi bi-input-cursor-text"></i> Forms</a>
+    <a class="nav-link" href="#http"><i class="bi bi-globe"></i> HTTP Client</a>
+    <a class="nav-link" href="#zoneless"><i class="bi bi-lightning"></i> Zoneless <span class="stable-badge">STABLE</span></a>
+    <a class="nav-link" href="#ssr"><i class="bi bi-server"></i> SSR &amp; Hydration</a>
+
+    <div class="nav-section">Testing & QA</div>
+    <a class="nav-link" href="#testing"><i class="bi bi-check-circle"></i> Testing</a>
+    <a class="nav-link" href="#best-practices"><i class="bi bi-star"></i> Best Practices</a>
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<div id="main">
+
+  <!-- HERO -->
+  <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+    <div>
+      <h1 class="fw-bold mb-1" style="color:var(--angular-dark)">
+        <i class="bi bi-shield-fill" style="color:var(--angular-red)"></i>
+        Angular
+      </h1>
+      <p class="text-muted mb-0 fs-5">
+        Complete Reference &amp; Concept Guide
+        <span class="badge bg-secondary ms-2">v21.x</span>
+        <span class="badge bg-warning text-dark ms-1">Node.js 18+</span>
+        <span class="badge bg-success ms-1">Released May 2026</span>
+      </p>
+    </div>
+  </div>
+
+  <p class="fs-5 text-muted mb-5">
+    Angular is a platform for building mobile and desktop web applications.
+    This guide covers all <strong>core concepts</strong>, <strong>signals</strong>,
+    <strong>standalone components</strong>, <strong>zoneless change detection</strong>,
+    and <strong>practical code examples</strong> for Angular 21.
+  </p>
+
+  <!-- ==================== INSTALL ==================== -->
+  <section id="install">
+    <h2><i class="bi bi-download me-2"></i>Installation</h2>
+    <div class="card">
+      <div class="card-body">
+        <pre><code># Install Angular CLI globally
+npm install -g @angular/cli
+
+# Create a new Angular application
+ng new myapp
+# Prompts: SSR, SCSS/Tailwind, etc.
+
+# Create with specific options
+ng new myapp --standalone --routing --style=scss
+ng new myapp --standalone --ssr=false --style=tailwind
+
+# Start development server
+ng serve
+
+# Start on specific port
+ng serve --port 4200
+
+# Build for production
+ng build
+
+# Build with optimization
+ng build --configuration production
+
+# Create project without CLI (Vite + analog)
+npm create analog@latest</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">dependencies in package.json</div>
+      <div class="card-body">
+        <pre><code>{
+  "dependencies": {
+    "@angular/core": "^21.2.12",
+    "@angular/router": "^21.2.12",
+    "@angular/forms": "^21.2.12",
+    "@angular/platform-browser": "^21.2.12",
+    "@angular/common": "^21.2.12",
+    "@angular/compiler": "^21.2.12",
+    "rxjs": "~7.8.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^21.2.12",
+    "@angular/cli": "^21.2.12",
+    "@angular/compiler-cli": "^21.2.12",
+    "typescript": "~5.8.0"
+  }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== COMMANDS ==================== -->
+  <section id="commands">
+    <h2><i class="bi bi-terminal me-2"></i>Angular CLI Commands</h2>
+    <p class="text-muted">All commands run via <code>ng &lt;command&gt;</code>. Angular 21 uses Vite/esbuild by default.</p>
+
+    <h3>ng generate &mdash; Code Scaffolding</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:42%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>ng generate component UserProfile</td><td>Create a component</td></tr>
+            <tr><td>ng generate component UserProfile --standalone</td><td>Standalone component</td></tr>
+            <tr><td>ng generate service api/user</td><td>Create a service</td></tr>
+            <tr><td>ng generate directive highlight</td><td>Create a directive</td></tr>
+            <tr><td>ng generate pipe capitalize</td><td>Create a pipe</td></tr>
+            <tr><td>ng generate guard auth</td><td>Create a route guard</td></tr>
+            <tr><td>ng generate interceptor auth</td><td>Create an HTTP interceptor</td></tr>
+            <tr><td>ng generate module shared</td><td>Create a module (legacy)</td></tr>
+            <tr><td>ng generate resolver user</td><td>Create a route resolver</td></tr>
+            <tr><td>ng generate environment</td><td>Create environment files</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Serve &amp; Build</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:42%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>ng serve</td><td>Start dev server (Vite + HMR)</td></tr>
+            <tr><td>ng serve --port 4200 --host 0.0.0.0</td><td>Custom port and host</td></tr>
+            <tr><td>ng serve --hmr</td><td>Enable hot module replacement</td></tr>
+            <tr><td>ng build</td><td>Build for production</td></tr>
+            <tr><td>ng build --watch</td><td>Build and watch for changes</td></tr>
+            <tr><td>ng test</td><td>Run unit tests (Karma or Vitest)</td></tr>
+            <tr><td>ng test --browsers=ChromeHeadless</td><td>Run tests headless</td></tr>
+            <tr><td>ng lint</td><td>Run ESLint</td></tr>
+            <tr><td>ng e2e</td><td>Run end-to-end tests</td></tr>
+            <tr><td>ng update @angular/core</td><td>Update Angular version</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Utility</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:42%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>ng version</td><td>Show Angular CLI version</td></tr>
+            <tr><td>ng analytics</td><td>Configure analytics</td></tr>
+            <tr><td>ng config schematics.standalone true</td><td>Set standalone as default</td></tr>
+            <tr><td>ng add @angular/material</td><td>Add Angular Material</td></tr>
+            <tr><td>ng add @angular/pwa</td><td>Add PWA support</td></tr>
+            <tr><td>ng add @angular/fire</td><td>Add Firebase</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== COMPONENTS ==================== -->
+  <section id="components">
+    <h2><i class="bi bi-diagram-3 me-2"></i>Components</h2>
+    <p>Components are the building blocks of Angular apps. Angular 21 defaults to standalone components (no NgModule required).</p>
+
+    <div class="card">
+      <div class="card-header">Basic Standalone Component</div>
+      <div class="card-body">
+        <pre><code>import { Component, Input, Output, EventEmitter } from '@angular/core';
+
+@Component({
+  selector: 'app-counter',
+  standalone: true,
+  imports: [],  // import other standalone components, pipes, directives
+  template: `
+    &lt;div class="counter"&gt;
+      &lt;h2&gt;{{ title }}&lt;/h2&gt;
+      &lt;p&gt;Count: {{ count }}&lt;/p&gt;
+      &lt;button (click)="increment()"&gt;+1&lt;/button&gt;
+      &lt;button (click)="countChange.emit(count)"&gt;Emit&lt;/button&gt;
+    &lt;/div&gt;
+  `,
+  styles: [`
+    .counter { text-align: center; padding: 1rem; }
+    button { margin: 0.25rem; }
+  `],
+})
+export class CounterComponent {
+  @Input({ required: true }) title!: string;
+  @Input() count = 0;
+  @Output() countChange = new EventEmitter&lt;number&gt;();
+
+  increment() {
+    this.count++;
+    this.countChange.emit(this.count);
+  }
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Component with Signals</div>
+      <div class="card-body">
+        <pre><code>import { Component, signal, computed, effect } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-signal-counter',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    &lt;p&gt;Count: {{ count() }}&lt;/p&gt;
+    &lt;p&gt;Double: {{ double() }}&lt;/p&gt;
+    &lt;button (click)="increment()"&gt;+1&lt;/button&gt;
+    &lt;p *ngIf="count() &gt; 10"&gt;Over 10!&lt;/p&gt;
+  `,
+})
+export class SignalCounterComponent {
+  readonly count = signal(0);
+  readonly double = computed(() =&gt; this.count() * 2);
+
+  private logEffect = effect(() =&gt; {
+    console.log(`Count changed to: ${this.count()}`);
+  });
+
+  increment() {
+    this.count.update(c =&gt; c + 1);
+  }
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Component Lifecycle</div>
+      <div class="card-body">
+        <pre><code>import { Component, OnInit, OnDestroy, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
+
+@Component({...})
+export class MyComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
+  @Input() data: any;
+
+  // Called before ngOnInit, when input bindings change
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('Input changed:', changes);
+  }
+
+  // Called once after first ngOnChanges
+  ngOnInit() {
+    console.log('Component initialized');
+  }
+
+  // Called after component's view is fully initialized
+  ngAfterViewInit() {
+    console.log('View initialized');
+  }
+
+  // Called just before Angular destroys the component
+  ngOnDestroy() {
+    console.log('Component destroyed');
+    // Clean up subscriptions
+    this.subscription?.unsubscribe();
+  }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TEMPLATES ==================== -->
+  <section id="templates">
+    <h2><i class="bi bi-code-slash me-2"></i>Templates &amp; Data Binding</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>&lt;!-- Interpolation --&gt;
+&lt;h1&gt;{{ title }}&lt;/h1&gt;
+&lt;p&gt;{{ 1 + 1 }}&lt;/p&gt;
+&lt;p&gt;{{ user.name | uppercase }}&lt;/p&gt;
+
+&lt;!-- Property binding --&gt;
+&lt;img [src]="imageUrl" [alt]="altText" /&gt;
+&lt;button [disabled]="isSaving"&gt;Submit&lt;/button&gt;
+&lt;div [class.active]="isActive"&gt;&lt;/div&gt;
+&lt;div [style.color]="textColor"&gt;Styled&lt;/div&gt;
+
+&lt;!-- Event binding --&gt;
+&lt;button (click)="handleClick($event)"&gt;Click&lt;/button&gt;
+&lt;input (input)="onInput($event)" /&gt;
+&lt;input (keyup.enter)="submit()" /&gt;
+
+&lt;!-- Two-way binding --&gt;
+&lt;input [(ngModel)]="name" /&gt;
+&lt;input [ngModel]="name" (ngModelChange)="name = $event" /&gt;  &lt;!-- desugared --&gt;
+
+&lt;!-- Two-way binding with signals --&gt;
+&lt;input [(ngModel)]="nameSignal" /&gt;  &lt;!-- works with WritableSignal --&gt;
+
+&lt;!-- Template reference variables --&gt;
+&lt;input #myInput (keyup)="onKey(myInput.value)" /&gt;
+&lt;button (click)="myInput.focus()"&gt;Focus Input&lt;/button&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Control Flow (@ syntax — Angular 17+)</div>
+      <div class="card-body">
+        <pre><code>&lt;!-- @if --&gt;
+@if (isLoggedIn) {
+  &lt;h1&gt;Welcome, {{ user.name }}!&lt;/h1&gt;
+} @else {
+  &lt;button (click)="login()"&gt;Sign In&lt;/button&gt;
+}
+
+&lt;!-- @for (with built-in track) --&gt;
+@for (item of items; track item.id; let i = $index, first = $first, last = $last) {
+  &lt;li [class.first]="first" [class.last]="last"&gt;
+    {{ i }}: {{ item.name }}
+  &lt;/li&gt;
+} @empty {
+  &lt;li&gt;No items found&lt;/li&gt;
+}
+
+&lt;!-- @switch --&gt;
+@switch (status) {
+  @case ('loading') {
+    &lt;app-spinner /&gt;
+  }
+  @case ('error') {
+    &lt;app-error [message]="errorMessage" /&gt;
+  }
+  @default {
+    &lt;app-content /&gt;
+  }
+}
+
+&lt;!-- Defer (lazy loading with placeholder) --&gt;
+@defer (on viewport) {
+  &lt;heavy-component /&gt;
+} @placeholder {
+  &lt;p&gt;Loading...&lt;/p&gt;
+} @loading (minimum 500ms) {
+  &lt;mat-spinner /&gt;
+} @error {
+  &lt;p&gt;Failed to load component&lt;/p&gt;
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== DIRECTIVES ==================== -->
+  <section id="directives">
+    <h2><i class="bi bi-lightning-charge me-2"></i>Directives</h2>
+
+    <h3>Built-in Directives</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:25%">Directive</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>*ngIf</td><td>Conditional rendering</td></tr>
+            <tr><td>*ngFor</td><td>List rendering</td></tr>
+            <tr><td>*ngSwitch / ngSwitchCase / ngSwitchDefault</td><td>Switch statement</td></tr>
+            <tr><td>ngClass</td><td>Dynamic CSS classes</td></tr>
+            <tr><td>ngStyle</td><td>Dynamic inline styles</td></tr>
+            <tr><td>ngModel</td><td>Two-way data binding (FormsModule)</td></tr>
+            <tr><td>ngTemplateOutlet</td><td>Render embedded template</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>Built-in @ Control Flow (Angular 17+)</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:25%">Block</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>@if ... @else</td><td>Conditional rendering (replaces *ngIf)</td></tr>
+            <tr><td>@for ... @empty</td><td>List rendering (replaces *ngFor)</td></tr>
+            <tr><td>@switch ... @case</td><td>Switch statement</td></tr>
+            <tr><td>@defer</td><td>Lazy load component with placeholders</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>Custom Directive</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+
+@Directive({
+  selector: '[appHighlight]',
+  standalone: true,
+})
+export class HighlightDirective {
+  @Input('appHighlight') highlightColor = 'yellow';
+
+  constructor(private el: ElementRef) {}
+
+  @HostListener('mouseenter') onMouseEnter() {
+    this.highlight(this.highlightColor);
+  }
+
+  @HostListener('mouseleave') onMouseLeave() {
+    this.highlight(null);
+  }
+
+  private highlight(color: string | null) {
+    this.el.nativeElement.style.backgroundColor = color;
+  }
+}
+
+// Usage
+&lt;p appHighlight="lightblue"&gt;Hover me&lt;/p&gt;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PIPES ==================== -->
+  <section id="pipes">
+    <h2><i class="bi bi-funnel me-2"></i>Pipes</h2>
+    <p>Pipes transform data in templates. Angular 21 ships with built-in pipes and supports standalone pipe creation.</p>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:25%">Pipe</th><th>Usage</th></tr></thead>
+          <tbody>
+            <tr><td>date</td><td>{{ today | date:'fullDate' }}</td></tr>
+            <tr><td>currency</td><td>{{ price | currency:'USD':'symbol':'1.2-2' }}</td></tr>
+            <tr><td>percent</td><td>{{ rate | percent:'1.0-2' }}</td></tr>
+            <tr><td>uppercase / lowercase</td><td>{{ name | uppercase }}</td></tr>
+            <tr><td>titlecase</td><td>{{ name | titlecase }}</td></tr>
+            <tr><td>json</td><td>{{ obj | json }}</td></tr>
+            <tr><td>slice</td><td>{{ items | slice:0:10 }}</td></tr>
+            <tr><td>async</td><td>{{ observable$ | async }}</td></tr>
+            <tr><td>keyvalue</td><td>{{ obj | keyvalue }}</td></tr>
+            <tr><td>i18nPlural / i18nSelect</td><td>Internationalization</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Custom Pipe</div>
+      <div class="card-body">
+        <pre><code>import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'truncate',
+  standalone: true,
+})
+export class TruncatePipe implements PipeTransform {
+  transform(value: string, maxLength = 100, suffix = '...'): string {
+    if (!value) return '';
+    return value.length &gt; maxLength
+      ? value.substring(0, maxLength) + suffix
+      : value;
+  }
+}
+
+// Usage
+&lt;p&gt;{{ longText | truncate:50:'... read more' }}&lt;/p&gt;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SIGNALS ==================== -->
+  <section id="signals">
+    <h2><i class="bi bi-activity me-2"></i>Signals <span class="stable-badge">STABLE</span></h2>
+    <p>Signals are Angular's reactive primitive. They provide a granular reactivity model without Zone.js dependency.</p>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>import { signal, computed, effect, linkedSignal } from '@angular/core';
+
+// signal — writable reactive value
+const count = signal(0);
+count.set(5);              // set directly
+count.update(c =&gt; c + 1); // update based on current
+console.log(count());      // read (signal is a getter function)
+
+// computed — derived value (read-only, lazy)
+const double = computed(() =&gt; count() * 2);
+
+// effect — runs side effects when signals change
+const logEffect = effect(() =&gt; {
+  console.log(`Count is: ${count()}`);
+});
+// Effects run during change detection by default
+// Cleanup: logEffect.destroy()
+
+// linkedSignal — writable signal derived from another (Angular 20+)
+const firstName = signal('John');
+const lastName = signal('Doe');
+const fullName = linkedSignal({
+  source: () =&gt; [firstName(), lastName()] as const,
+  computation: () =&gt; `${firstName()} ${lastName()}`,
+});
+
+// Signal equality (custom compare)
+const items = signal([1, 2, 3], {
+  equal: (a, b) =&gt; a.length === b.length &amp;&amp; a.every((v, i) =&gt; v === b[i]),
+});</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Signals in Services</div>
+      <div class="card-body">
+        <pre><code>import { Injectable, signal, computed } from '@angular/core';
+
+@Injectable({ providedIn: 'root' })
+export class UserStore {
+  private user = signal&lt;User | null&gt;(null);
+  readonly isLoggedIn = computed(() =&gt; this.user() !== null);
+  readonly displayName = computed(() =&gt; this.user()?.name ?? 'Guest');
+
+  login(email: string, password: string) {
+    // API call...
+    this.user.set({ id: 1, name: 'Alice', email });
+  }
+
+  logout() {
+    this.user.set(null);
+  }
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Signals with Component Inputs</div>
+      <div class="card-body">
+        <pre><code>import { Component, input, output } from '@angular/core';
+
+@Component({...})
+export class UserCardComponent {
+  // Signal-based inputs (Angular 17.1+)
+  readonly user = input.required&lt;User&gt;();
+  readonly variant = input&lt;'compact' | 'full'&gt;('full');
+
+  // Signal-based output
+  readonly selected = output&lt;number&gt;();
+
+  // Effect to react to input changes
+  private logEffect = effect(() =&gt; {
+    console.log('User changed:', this.user());
+  });
+}
+
+// Usage
+&lt;app-user-card [user]="currentUser" (selected)="onUserSelected($event)" /&gt;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== DI ==================== -->
+  <section id="di">
+    <h2><i class="bi bi-cpu me-2"></i>Dependency Injection</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>import { Injectable, InjectionToken, inject } from '@angular/core';
+
+// Service with providedIn
+@Injectable({
+  providedIn: 'root',  // singleton across app
+})
+export class ApiService {
+  constructor() {}
+  getData() { return fetch('/api/data'); }
+}
+
+// Injection token for non-class dependencies
+export const API_URL = new InjectionToken&lt;string&gt;('API_URL', {
+  providedIn: 'root',
+  factory: () =&gt; 'https://api.example.com',
+});
+
+// inject() function (Angular 14+, preferred in functions)
+@Injectable()
+export class UserService {
+  private api = inject(ApiService);
+  private apiUrl = inject(API_URL);
+
+  fetchUsers() {
+    return this.api.getData();
+  }
+}
+
+// Component-level providers
+@Component({
+  selector: 'app-users',
+  standalone: true,
+  providers: [UserService],  // new instance per component
+  template: `...`,
+})
+export class UsersComponent {
+  private userService = inject(UserService);
+}
+
+// Factory provider
+export const LOGGER = new InjectionToken&lt;Logger&gt;('logger', {
+  factory: () =&gt; new ConsoleLogger(),
+});
+
+// Optional dependency
+import { Optional } from '@angular/core';
+constructor(@Optional() private config?: ConfigService) {}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ROUTING ==================== -->
+  <section id="routing">
+    <h2><i class="bi bi-signpost-2 me-2"></i>Routing</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>// app.config.ts (with standalone)
+import { ApplicationConfig } from '@angular/core';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideRouter(
+      [
+        { path: '', redirectTo: '/home', pathMatch: 'full' },
+        { path: 'home', component: HomeComponent },
+        {
+          path: 'users',
+          children: [
+            { path: '', component: UserListComponent },
+            { path: ':id', component: UserProfileComponent },
+          ],
+        },
+        {
+          path: 'dashboard',
+          loadComponent: () =&gt; import('./dashboard/dashboard.component'),
+          canActivate: [authGuard],
+        },
+        { path: '**', component: NotFoundComponent },
+      ],
+      withComponentInputBinding(),  // bind route params to @Input
+    ),
+  ],
+};
+
+// Router outlet
+&lt;router-outlet /&gt;
+
+// Navigation
+&lt;a routerLink="/home"&gt;Home&lt;/a&gt;
+&lt;a [routerLink]="['/users', user.id]"&gt;Profile&lt;/a&gt;
+&lt;button (click)="goBack()"&gt;Back&lt;/button&gt;
+
+// Component
+import { Component, inject } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+
+@Component({...})
+export class UserProfileComponent {
+  // With withComponentInputBinding:
+  // @Input() id!: string;
+
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
+  ngOnInit() {
+    this.route.params.subscribe(params =&gt; {
+      console.log('User ID:', params['id']);
+    });
+  }
+
+  goBack() {
+    this.router.navigate(['/users']);
+  }
+
+  // Route guard
+  import { inject } from '@angular/core';
+  import { CanActivateFn, Router } from '@angular/router';
+
+  export const authGuard: CanActivateFn = (route, state) =&gt; {
+    const auth = inject(AuthService);
+    const router = inject(Router);
+    return auth.isLoggedIn() ? true : router.parseUrl('/login');
+  };
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FORMS ==================== -->
+  <section id="forms">
+    <h2><i class="bi bi-input-cursor-text me-2"></i>Forms</h2>
+    <p>Angular offers two form approaches: Reactive Forms and Template-Driven Forms. Angular 21 introduces Signal Forms (experimental).</p>
+
+    <h3>Reactive Forms</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>import { Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+
+@Component({
+  selector: 'app-user-form',
+  standalone: true,
+  imports: [ReactiveFormsModule],
+  template: `
+    &lt;form [formGroup]="userForm" (ngSubmit)="onSubmit()"&gt;
+      &lt;input formControlName="name" placeholder="Name" /&gt;
+      &lt;div *ngIf="userForm.get('name')?.invalid &amp;&amp; userForm.get('name')?.touched"&gt;
+        Name is required (min 2 chars)
+      &lt;/div&gt;
+
+      &lt;input formControlName="email" type="email" placeholder="Email" /&gt;
+
+      &lt;select formControlName="role"&gt;
+        &lt;option value="user"&gt;User&lt;/option&gt;
+        &lt;option value="admin"&gt;Admin&lt;/option&gt;
+      &lt;/select&gt;
+
+      &lt;label&gt;
+        &lt;input type="checkbox" formControlName="agree" /&gt; I agree
+      &lt;/label&gt;
+
+      &lt;button type="submit" [disabled]="userForm.invalid"&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+  `,
+})
+export class UserFormComponent {
+  private fb = inject(FormBuilder);
+
+  userForm: FormGroup = this.fb.group({
+    name: ['', [Validators.required, Validators.minLength(2)]],
+    email: ['', [Validators.required, Validators.email]],
+    role: ['user'],
+    agree: [false, Validators.requiredTrue],
+  });
+
+  get nameControl() { return this.userForm.get('name'); }
+
+  onSubmit() {
+    if (this.userForm.valid) {
+      console.log('Form submitted:', this.userForm.value);
+    }
+  }
+}
+
+// FormBuilder with signals
+import { formControl, formGroup, validators } from '@angular/forms/signals';</code></pre>
+      </div>
+    </div>
+
+    <h3>Template-Driven Forms</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code>import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
+@Component({
+  selector: 'app-login',
+  standalone: true,
+  imports: [FormsModule],
+  template: `
+    &lt;form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)"&gt;
+      &lt;input name="email" [(ngModel)]="model.email" #email="ngModel" required email /&gt;
+      &lt;div *ngIf="email.invalid &amp;&amp; email.touched"&gt;Valid email required&lt;/div&gt;
+
+      &lt;input name="password" [(ngModel)]="model.password" #password="ngModel" required minlength="6" /&gt;
+      &lt;div *ngIf="password.errors?.['minlength']"&gt;Min 6 characters&lt;/div&gt;
+
+      &lt;button type="submit" [disabled]="loginForm.invalid"&gt;Log In&lt;/button&gt;
+    &lt;/form&gt;
+  `,
+})
+export class LoginComponent {
+  model = { email: '', password: '' };
+
+  onSubmit(form: NgForm) {
+    if (form.valid) console.log('Login:', this.model);
+  }
+}
+
+// Custom validator
+export function forbiddenNameValidator(name: string): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null =&gt; {
+    return control.value === name ? { forbiddenName: { value: control.value } } : null;
+  };
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== HTTP ==================== -->
+  <section id="http">
+    <h2><i class="bi bi-globe me-2"></i>HTTP Client</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpParams, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { catchError, map, retry } from 'rxjs/operators';
+
+@Injectable({ providedIn: 'root' })
+export class ArticleService {
+  private http = inject(HttpClient);
+  private baseUrl = '/api/articles';
+
+  // GET with params
+  getArticles(page = 1, size = 20): Observable&lt;PaginatedResponse&lt;Article&gt;&gt; {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get&lt;PaginatedResponse&lt;Article&gt;&gt;(this.baseUrl, { params })
+      .pipe(
+        retry(2),
+        catchError(this.handleError)
+      );
+  }
+
+  // GET by ID
+  getArticle(id: number): Observable&lt;Article&gt; {
+    return this.http.get&lt;Article&gt;(`${this.baseUrl}/${id}`);
+  }
+
+  // POST
+  createArticle(article: Partial&lt;Article&gt;): Observable&lt;Article&gt; {
+    return this.http.post&lt;Article&gt;(this.baseUrl, article, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    });
+  }
+
+  // PUT
+  updateArticle(id: number, article: Partial&lt;Article&gt;): Observable&lt;Article&gt; {
+    return this.http.put&lt;Article&gt;(`${this.baseUrl}/${id}`, article);
+  }
+
+  // DELETE
+  deleteArticle(id: number): Observable&lt;void&gt; {
+    return this.http.delete&lt;void&gt;(`${this.baseUrl}/${id}`);
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    const message = error.error?.message || 'Server error';
+    console.error('API Error:', message);
+    return of({ error: message } as any);
+  }
+}
+
+// HTTP Interceptor
+import { HttpInterceptorFn } from '@angular/common/http';
+
+export const authInterceptor: HttpInterceptorFn = (req, next) =&gt; {
+  const auth = inject(AuthService);
+  const token = auth.token();
+  const headers = token
+    ? req.headers.set('Authorization', `Bearer ${token}`)
+    : req.headers;
+
+  return next(req.clone({ headers })).pipe(
+    catchError((error: HttpErrorResponse) =&gt; {
+      if (error.status === 401) auth.logout();
+      throw error;
+    })
+  );
+};
+
+// Provide interceptor
+// app.config.ts
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideHttpClient(
+      withInterceptors([authInterceptor]),
+    ),
+  ],
+};</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ZONELESS ==================== -->
+  <section id="zoneless">
+    <h2><i class="bi bi-lightning me-2"></i>Zoneless Change Detection <span class="stable-badge">STABLE</span></h2>
+    <p>Angular 20+ supports running without Zone.js, improving performance and interoperability with other frameworks.</p>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>// Enable zoneless in app.config.ts
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
+// In Angular 20+, use:
+import { provideZonelessChangeDetection } from '@angular/core';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideZonelessChangeDetection(),
+    // ... other providers
+  ],
+};
+
+// Remove zone.js from polyfills and angular.json
+// "polyfills": []  (remove zone.js)
+
+// With zoneless, change detection is triggered by:
+// 1. Signal changes (signal.set() / signal.update())
+// 2. Async pipe updates
+// 3. @Output() events
+// 4. Manual changeRef.detectChanges()
+
+// Benefits:
+// - Smaller bundle (no zone.js)
+// - Better debugging (no zone.js wrapping)
+// - Faster change detection (targeted updates)
+// - Better interop with non-Angular libraries
+
+@Component({...})
+export class MyComponent {
+  // Signals automatically trigger change detection
+  readonly count = signal(0);
+
+  increment() {
+    this.count.update(c =&gt; c + 1);  // triggers CD
+  }
+
+  // Manual change detection (if needed)
+  private cdr = inject(ChangeDetectorRef);
+  forceUpdate() {
+    this.cdr.detectChanges();
+  }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SSR ==================== -->
+  <section id="ssr">
+    <h2><i class="bi bi-server me-2"></i>SSR &amp; Hydration</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>// Enable SSR when creating project
+ng new myapp --ssr
+
+// Or add to existing project
+ng add @angular/ssr
+
+// Route-level render mode (Angular 20+ stable)
+// Configure render mode per route in app.routes.ts
+import { renderMode } from '@angular/ssr';
+
+export const routes: Routes = [
+  {
+    path: 'about',
+    component: AboutComponent,
+    data: { renderMode: renderMode.ClientSide }, // CSR only
+  },
+  {
+    path: 'pricing',
+    component: PricingComponent,
+    data: { renderMode: renderMode.ServerSide }, // SSR always
+  },
+  {
+    path: 'blog/:slug',
+    component: BlogPostComponent,
+    data: { renderMode: renderMode.Prerender },  // SSG
+  },
+];
+
+// Incremental hydration (Angular 20+ stable)
+@defer (on interaction) {
+  &lt;heavy-chart /&gt;
+} @placeholder {
+  &lt;div class="chart-placeholder"&gt;Click to load chart&lt;/div&gt;
+}
+
+// Hydration configuration
+import { provideClientHydration, withIncrementalHydration } from '@angular/platform-browser';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideClientHydration(withIncrementalHydration()),
+  ],
+};</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TESTING ==================== -->
+  <section id="testing">
+    <h2><i class="bi bi-check-circle me-2"></i>Testing</h2>
+    <p>Angular testing uses Jasmine (default) or Vitest (Angular 21 supports Vitest as an alternative test runner).</p>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>// Component test with TestBed
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CounterComponent } from './counter.component';
+
+describe('CounterComponent', () =&gt; {
+  let component: CounterComponent;
+  let fixture: ComponentFixture&lt;CounterComponent&gt;;
+
+  beforeEach(async () =&gt; {
+    await TestBed.configureTestingModule({
+      imports: [CounterComponent],  // standalone
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(CounterComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('renders initial count', () =&gt; {
+    component.count = 5;
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('p');
+    expect(el.textContent).toContain('5');
+  });
+
+  it('increments count on button click', () =&gt; {
+    const button = fixture.nativeElement.querySelector('button');
+    button.click();
+    fixture.detectChanges();
+    expect(component.count).toBe(1);
+    const el = fixture.nativeElement.querySelector('p');
+    expect(el.textContent).toContain('1');
+  });
+
+  it('emits countChange event', () =&gt; {
+    spyOn(component.countChange, 'emit');
+    component.count = 10;
+    fixture.nativeElement.querySelectorAll('button')[1].click();
+    expect(component.countChange.emit).toHaveBeenCalledWith(10);
+  });
+});
+
+// Service test
+import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+
+describe('ArticleService', () =&gt; {
+  let service: ArticleService;
+  let httpMock: HttpTestingController;
+
+  beforeEach(() =&gt; {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [ArticleService],
+    });
+    service = TestBed.inject(ArticleService);
+    httpMock = TestBed.inject(HttpTestingController);
+  });
+
+  afterEach(() =&gt; httpMock.verify());
+
+  it('fetches articles', () =&gt; {
+    const mockArticles = [{ id: 1, title: 'Test' }];
+
+    service.getArticles().subscribe(articles =&gt; {
+      expect(articles.length).toBe(1);
+      expect(articles[0].title).toBe('Test');
+    });
+
+    const req = httpMock.expectOne('/api/articles?page=1&size=20');
+    expect(req.request.method).toBe('GET');
+    req.flush(mockArticles);
+  });
+});
+
+// With Vitest
+// Install: npm install -D @analogjs/vite-plugin-angular @analogjs/platform vitest
+// Configure vite.config.ts with analog plugin
+// Same API as TestBed, but faster execution</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BEST PRACTICES ==================== -->
+  <section id="best-practices">
+    <h2><i class="bi bi-star me-2"></i>Best Practices</h2>
+
+    <div class="highlight-box">
+      <strong>Component Design</strong> &mdash; Use standalone components by default. Use signals for state. Keep components small and focused with single responsibility.
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Project Structure</div>
+          <div class="card-body">
+            <pre><code>src/
+  app/
+    components/      # Shared components
+      header/
+      sidebar/
+    pages/           # Route-level components
+      home/
+      users/
+      dashboard/
+    services/        # API services
+      api.service.ts
+      auth.service.ts
+    guards/          # Route guards
+      auth.guard.ts
+    interceptors/    # HTTP interceptors
+      auth.interceptor.ts
+    pipes/           # Custom pipes
+      truncate.pipe.ts
+    directives/      # Custom directives
+      highlight.directive.ts
+    models/          # Interfaces/types
+      user.interface.ts
+    app.config.ts    # App configuration
+    app.component.ts # Root component
+  assets/
+  environments/</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Key Guidelines</div>
+          <div class="card-body">
+            <ul class="list-unstyled mb-0">
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use standalone components (skip NgModules)</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use signals for reactive state</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Enable zoneless change detection</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use @if/@for over *ngIf/*ngFor</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use OnPush change detection strategy</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Unsubscribe from observables (takeUntil)</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use lazy loading with loadComponent</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use @defer for lazy component loading</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use inject() over constructor injection</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Test with TestBed or Vitest</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mt-4">
+      <div class="card-header">Angular 21 — What's New</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0 cmd-table">
+            <thead class="table-light"><tr><th style="width:28%">Feature</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Signal Forms</td><td>Experimental (Angular 21)</td></tr>
+              <tr><td>Angular Aria (accessibility)</td><td>Developer Preview</td></tr>
+              <tr><td>Vitest integration</td><td>Developer Preview</td></tr>
+              <tr><td>Faster builds (esbuild/Vite)</td><td>Stable</td></tr>
+              <tr><td>Incremental Hydration</td><td>Stable</td></tr>
+              <tr><td>Route-level render modes</td><td>Stable</td></tr>
+              <tr><td>Zoneless Change Detection</td><td>Stable</td></tr>
+              <tr><td>Angular v22</td><td>Preview (next.12) — June 2026</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="mt-5 pt-4 border-top text-muted">
+    <div class="row">
+      <div class="col-md-6">
+        <p class="fw-bold mb-2">Angular 21 Quick Reference</p>
+        <p class="small">Generated for study purposes. Always refer to the official documentation.</p>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <p class="small mb-1">
+          <a href="https://angular.dev" target="_blank" class="text-decoration-none"><i class="bi bi-book me-1"></i> Official Docs</a>
+          &middot;
+          <a href="https://github.com/angular/angular" target="_blank" class="text-decoration-none"><i class="bi bi-github me-1"></i> GitHub</a>
+        </p>
+        <p class="small text-muted">&copy; 2026 Study Guide</p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- ===== SCRIPTS ===== -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.getElementById('sidebarToggle');
+  toggle.addEventListener('click', () => sidebar.classList.toggle('show'));
+  document.querySelectorAll('#sidebar .nav-link').forEach(link => {
+    link.addEventListener('click', () => sidebar.classList.remove('show'));
+  });
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('#sidebar .nav-link');
+  function setActiveNav() {
+    let current = '';
+    sections.forEach(section => {
+      const top = section.offsetTop - 100;
+      if (window.scrollY >= top) current = section.getAttribute('id');
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+    });
+  }
+  window.addEventListener('scroll', setActiveNav);
+  setActiveNav();
+</script>
+</body>
+</html>

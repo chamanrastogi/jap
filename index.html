@@ -168,22 +168,39 @@
       border-color: rgba(156, 163, 175, 0.3);
     }
 
-    .search-box input:focus,
-    .filter-select:focus {
+    .search-box input:focus {
       border-color: var(--saffron);
       box-shadow: 0 0 0 0.2rem rgba(255, 153, 51, 0.2);
       background-color: transparent;
       color: var(--text-main);
     }
 
-    .filter-select {
-      background-color: transparent;
-      color: var(--text-main);
-      border-color: rgba(156, 163, 175, 0.3);
+        .cat-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
     }
 
-    html[data-bs-theme="dark"] option {
-      background-color: #1e293b;
+    .cat-tab {
+      border: 1px solid var(--soft-border);
+      background: transparent;
+      color: var(--text-muted);
+      border-radius: 999px;
+      padding: 0.4rem 0.85rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .cat-tab:hover {
+      border-color: rgba(255, 153, 51, 0.35);
+      color: var(--text-main);
+    }
+
+    .cat-tab.active {
+      background: var(--saffron);
+      border-color: var(--saffron);
       color: #fff;
     }
 
@@ -329,7 +346,7 @@
             <p class="text-muted-custom mb-3">One Bootstrap home page for your chanting tools, games, utilities, and calendar pages with the same glass style as your other screens.</p>
             <div class="d-flex flex-wrap gap-2">
               <a class="quick-chip" href="jap.html"><i class="fas fa-dharmachakra"></i> Open Jap</a>
-              <a class="quick-chip" href="swichword.html"><i class="fas fa-wand-sparkles"></i> Open Switchword</a>
+              <a class="quick-chip" href="switchword.html"><i class="fas fa-wand-sparkles"></i> Open Switchword</a>
               <a class="quick-chip" href="#apps"><i class="fas fa-grid-2"></i> View all</a>
             </div>
           </div>
@@ -375,19 +392,43 @@
           <div class="section-panel">
             <div class="section-title">Find a page</div>
             <div class="row g-2">
-              <div class="col-md-8">
+              <div class="col-12">
                 <div class="search-box">
                   <i class="fas fa-search"></i>
                   <input id="searchInput" type="text" class="form-control rounded-pill" placeholder="Search page, category, or feature..." oninput="renderApps()" />
                 </div>
               </div>
-              <div class="col-md-4">
-                <select id="categorySelect" class="form-select rounded-pill filter-select" onchange="renderApps()"></select>
+              <div class="col-12">
+                <div class="cat-tabs" id="categoryTabs"></div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      <section class="section-panel mt-3">
+        <div class="section-title mb-1">Learning resources</div>
+        <div class="row g-2">
+          <div class="col-6 col-md-4 col-lg-2">
+            <a class="quick-chip w-100 justify-content-center" href="laravel13.html"><i class="fas fa-bolt"></i> Laravel 13</a>
+          </div>
+          <div class="col-6 col-md-4 col-lg-2">
+            <a class="quick-chip w-100 justify-content-center" href="angular21.html"><i class="fas fa-shield"></i> Angular 21</a>
+          </div>
+          <div class="col-6 col-md-4 col-lg-2">
+            <a class="quick-chip w-100 justify-content-center" href="vue3.html"><i class="fab fa-vuejs"></i> Vue 3.5</a>
+          </div>
+          <div class="col-6 col-md-4 col-lg-2">
+            <a class="quick-chip w-100 justify-content-center" href="react19.html"><i class="fab fa-react"></i> React 19</a>
+          </div>
+          <div class="col-6 col-md-4 col-lg-2">
+            <a class="quick-chip w-100 justify-content-center" href="cakephp.html"><i class="fas fa-database"></i> CakePHP 5</a>
+          </div>
+          <div class="col-6 col-md-4 col-lg-2">
+            <a class="quick-chip w-100 justify-content-center" href="cakephp28.html"><i class="fas fa-layer-group"></i> CakePHP 2.8</a>
+          </div>
+        </div>
+      </section>
 
       <section class="section-panel mt-3" id="apps">
         <div class="d-flex justify-content-between align-items-center gap-2 mb-3">
@@ -420,7 +461,7 @@
       },
       {
         name: 'Switchword Jap Machine',
-        file: 'swichword.html',
+        file: 'switchword.html',
         icon: 'fa-wand-sparkles',
         category: 'Spiritual',
         desc: 'Switchword chanting page with presets, categories, target counts, and ambient sound.',
@@ -465,12 +506,62 @@
         category: 'Profile',
         desc: 'Resume or portfolio page in this project for personal presentation and sharing.',
         tags: ['cv', 'profile', 'about']
+      },
+      {
+        name: 'Laravel 13 Guide',
+        file: 'laravel13.html',
+        icon: 'fa-bolt',
+        category: 'Learning',
+        desc: 'Complete Artisan command reference & concept guide for Laravel 13 with PHP Attributes, AI SDK, and more.',
+        tags: ['laravel', 'php', 'artisan', 'backend', 'mvc']
+      },
+      {
+        name: 'Angular 21 Guide',
+        file: 'angular21.html',
+        icon: 'fa-shield',
+        category: 'Learning',
+        desc: 'Complete CLI, signals, standalone components, zoneless CD & concept guide for Angular 21.',
+        tags: ['angular', 'typescript', 'frontend', 'signals', 'spa']
+      },
+      {
+        name: 'Vue 3.5 Guide',
+        file: 'vue3.html',
+        icon: 'fab fa-vuejs',
+        category: 'Learning',
+        desc: 'Complete Composition API, commands & concept guide for Vue 3.5.',
+        tags: ['vue', 'javascript', 'frontend', 'composition-api', 'spa']
+      },
+      {
+        name: 'React 19 Guide',
+        file: 'react19.html',
+        icon: 'fab fa-react',
+        category: 'Learning',
+        desc: 'Complete hooks, server components, actions & concept guide for React 19.',
+        tags: ['react', 'javascript', 'frontend', 'hooks', 'spa']
+      },
+      {
+        name: 'CakePHP 5.4 Guide',
+        file: 'cakephp.html',
+        icon: 'fa-database',
+        category: 'Learning',
+        desc: 'Complete console shells, commands & concept guide for CakePHP 5.4.',
+        tags: ['cakephp', 'php', 'backend', 'mvc', 'console']
+      },
+      {
+        name: 'CakePHP 2.8 Guide',
+        file: 'cakephp28.html',
+        icon: 'fa-layer-group',
+        category: 'Learning',
+        desc: 'Complete console shells, commands & concept guide for CakePHP 2.8.',
+        tags: ['cakephp', 'php', 'backend', 'mvc', 'legacy']
       }
     ];
 
+    let currentCategory = 'All';
+
     const appGrid = document.getElementById('appGrid');
     const searchInput = document.getElementById('searchInput');
-    const categorySelect = document.getElementById('categorySelect');
+    const categoryTabs = document.getElementById('categoryTabs');
     const resultsLabel = document.getElementById('resultsLabel');
 
     function getRecentApps() {
@@ -486,11 +577,20 @@
       return APPS.find(app => app.file === file) || null;
     }
 
+    function setCategory(category) {
+      currentCategory = category;
+      categoryTabs.querySelectorAll('.cat-tab').forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.category === category);
+      });
+      renderApps();
+    }
+
     function populateCategories() {
       const categories = ['All', ...new Set(APPS.map(app => app.category))];
-      categorySelect.innerHTML = categories
-        .map(category => `<option value="${category}">${category}</option>`)
-        .join('');
+      categoryTabs.innerHTML = categories
+        .map(category => `
+          <button class="cat-tab${category === 'All' ? ' active' : ''}" data-category="${category}" onclick="setCategory('${category}')">${category}</button>
+        `).join('');
 
       document.getElementById('statPages').innerText = APPS.length;
       document.getElementById('statCategories').innerText = categories.length - 1;
@@ -499,10 +599,9 @@
 
     function renderApps() {
       const search = searchInput.value.trim().toLowerCase();
-      const selectedCategory = categorySelect.value || 'All';
 
       const filtered = APPS.filter(app => {
-        const categoryMatch = selectedCategory === 'All' || app.category === selectedCategory;
+        const categoryMatch = currentCategory === 'All' || app.category === currentCategory;
         const searchMatch =
           app.name.toLowerCase().includes(search) ||
           app.category.toLowerCase().includes(search) ||
@@ -542,6 +641,8 @@
       if (!quickAccessPanel) return;
 
       const staticLinks = [
+        { file: 'laravel13.html', icon: 'fa-bolt', label: 'Laravel 13' },
+        { file: 'angular21.html', icon: 'fa-shield', label: 'Angular 21' },
         { file: 'game.html', icon: 'fa-cube', label: 'Game' },
         { file: 'sudoku.html', icon: 'fa-table-cells-large', label: 'Sudoku' },
         { file: 'holiday.html', icon: 'fa-calendar-days', label: 'Holiday' },
