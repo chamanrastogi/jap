@@ -433,10 +433,13 @@
            <div class="col-6 col-md-4 col-lg-2">
              <a class="quick-chip w-100 justify-content-center" href="interview.html"><i class="fas fa-circle-question"></i> PHP/Laravel Interview</a>
            </div>
-          <div class="col-6 col-md-4 col-lg-2">
-            <a class="quick-chip w-100 justify-content-center" href="interview-quiz.html"><i class="fas fa-brain"></i> Interview Quiz</a>
-          </div>
-        </div>
+           <div class="col-6 col-md-4 col-lg-2">
+             <a class="quick-chip w-100 justify-content-center" href="interview-quiz.html"><i class="fas fa-brain"></i> Interview Quiz</a>
+           </div>
+           <div class="col-6 col-md-4 col-lg-2">
+             <a class="quick-chip w-100 justify-content-center" href="problems.html"><i class="fas fa-laptop"></i> Case Problems</a>
+           </div>
+         </div>
       </section>
 
       <section class="section-panel mt-3" id="apps">
@@ -580,15 +583,31 @@
          desc: '100+ PHP & Laravel interview questions with detailed answers. Covers PHP core, OOP, Composer, and Laravel.',
          tags: ['intervi', 'php', 'laravel', 'qa', 'preparation']
        },
-      {
-        name: 'Interview Quiz',
-        file: 'interview-quiz.html',
-        icon: 'fa-brain',
-        category: 'Learning',
-        desc: 'Flashcard-style quiz with 150+ PHP & Laravel questions. Filter by category/difficulty, track progress, and test yourself.',
-        tags: ['interview', 'php', 'laravel', 'quiz', 'flashcard']
-      }
-    ];
+       {
+         name: 'Interview Quiz',
+         file: 'interview-quiz.html',
+         icon: 'fa-brain',
+         category: 'Learning',
+         desc: 'Flashcard-style quiz with 150+ PHP & Laravel questions. Filter by category/difficulty, track progress, and test yourself.',
+         tags: ['interview', 'php', 'laravel', 'quiz', 'flashcard']
+       },
+        {
+          name: 'Coding Case Problems',
+          file: 'problems.html',
+          icon: 'fa-laptop',
+          category: 'Learning',
+          desc: '94 architecture & design case problems with detailed solutions. Practice real-world scenarios, edge cases, and system design.',
+          tags: ['problems', 'architecture', 'design', 'practice', 'case']
+        },
+        {
+          name: 'Practice MCQ',
+          file: 'practice.html',
+          icon: 'fa-list-check',
+          category: 'Learning',
+          desc: 'Interactive multiple-choice quiz from case problems. Pick an answer, get instant feedback, and learn from detailed explanations.',
+          tags: ['mcq', 'practice', 'quiz', 'problems', 'test']
+        }
+      ];
 
     let currentCategory = 'All';
 
@@ -679,7 +698,8 @@
         { file: 'game.html', icon: 'fa-cube', label: 'Game' },
         { file: 'sudoku.html', icon: 'fa-table-cells-large', label: 'Sudoku' },
         { file: 'holiday.html', icon: 'fa-calendar-days', label: 'Holiday' },
-        { file: 'resume.html', icon: 'fa-id-card', label: 'Resume' }
+        { file: 'resume.html', icon: 'fa-id-card', label: 'Resume' },
+        { file: 'practice.html', icon: 'fa-list-check', label: 'MCQ' }
       ];
 
       const baseHtml = staticLinks.map(link => `
