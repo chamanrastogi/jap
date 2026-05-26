@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CakePHP Upgrade Guide - Seamless Transition</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --cake-gold: #fbc02d;
+      --cake-dark: #2c3e50;
+      --sidebar-width: 280px;
+    }
+    * { scroll-margin-top: 1rem; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f4f6fb;
+      display: flex;
+    }
+    #sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0; left: 0;
+      background: var(--cake-dark);
+      overflow-y: auto;
+      z-index: 1000;
+      transition: transform .3s;
+    }
+    #sidebar .brand {
+      padding: 1.25rem 1.25rem .75rem;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    #sidebar .brand h5 { color: #fff; font-weight: 700; }
+    #sidebar .brand small { color: #adb5bd; }
+    #sidebar .nav-link {
+      color: #c8cdd3;
+      padding: .5rem 1.25rem;
+      font-size: .88rem;
+      border-left: 3px solid transparent;
+      transition: all .15s;
+    }
+    #sidebar .nav-link:hover {
+      color: #fff;
+      background: rgba(255,255,255,.05);
+    }
+    #sidebar .nav-link i { width: 1.3rem; }
+    #sidebar .nav-section {
+      color: #6c757d;
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      padding: 1rem 1.25rem .3rem;
+      font-weight: 600;
+    }
+    #main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 2rem 2.5rem 4rem;
+      max-width: 1100px;
+    }
+    @media (max-width: 991.98px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.show { transform: translateX(0); }
+      #main { margin-left: 0; padding: 1.5rem; }
+    }
+    .sidebar-toggle {
+      position: fixed;
+      top: .75rem; left: .75rem;
+      z-index: 1050;
+      background: var(--cake-dark);
+      color: #fff;
+      border: none;
+      border-radius: .4rem;
+      padding: .4rem .65rem;
+      display: none;
+    }
+    @media (max-width: 991.98px) {
+      .sidebar-toggle { display: block; }
+    }
+    h2 {
+      font-weight: 700;
+      color: var(--cake-dark);
+      margin-top: 2.5rem;
+      padding-bottom: .5rem;
+      border-bottom: 3px solid var(--cake-gold);
+    }
+    h3 {
+      font-weight: 600;
+      color: #2c3e50;
+      margin-top: 1.8rem;
+    }
+    .card {
+      border: none;
+      border-radius: .75rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      margin-bottom: 1.5rem;
+    }
+    .card-header {
+      background: #fff;
+      border-bottom: 1px solid #e9ecef;
+      font-weight: 600;
+      padding: 1rem 1.25rem;
+    }
+    .card-body { padding: 1.5rem; }
+    pre {
+      background: #1e1e2f;
+      color: #e6e6e6;
+      padding: 1rem 1.25rem;
+      border-radius: .5rem;
+      font-size: .82rem;
+      overflow-x: auto;
+      position: relative;
+    }
+    pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
+    .highlight-box {
+      background: #fffde7;
+      border-left: 4px solid var(--cake-gold);
+      padding: 1rem 1.25rem;
+      border-radius: .4rem;
+      margin: 1rem 0;
+    }
+    .home-link {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 1100;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.94);
+      color: #0f172a;
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 700;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: 0.2s;
+    }
+    .home-link:hover { color: #fbc02d; }
+    @media (min-width: 992px) {
+      .home-link { left: calc(var(--sidebar-width) + 14px); }
+    }
+    @media (max-width: 991.98px) {
+      .home-link { left: 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
+<a href="index.html" class="home-link" aria-label="Go back to home page"><span>←</span> Home</a>
+
+<!-- ===== SIDEBAR ===== -->
+<nav id="sidebar">
+  <div class="brand">
+    <h5><i class="bi bi-cake2-fill me-2" style="color:var(--cake-gold)"></i>CakePHP</h5>
+    <small class="d-block mt-1">Upgrade Guide &mdash; Migration Path</small>
+  </div>
+  <div class="py-2">
+    <div class="nav-section">Fundamentals</div>
+    <a class="nav-link" href="#checklist"><i class="bi bi-clipboard-check"></i> Upgrade Checklist</a>
+    <a class="nav-link" href="#requirements"><i class="bi bi-cpu"></i> System Requirements</a>
+
+    <div class="nav-section">Migration Steps</div>
+    <a class="nav-link" href="#composer"><i class="bi bi-box-seam"></i> Composer Update</a>
+    <a class="nav-link" href="#breaking"><i class="bi bi-exclamation-triangle"></i> Breaking Changes</a>
+    <a class="nav-link" href="#database"><i class="bi bi-database"></i> Database Changes</a>
+    <a class="nav-link" href="#orm"><i class="bi bi-diagram-3"></i> ORM Updates</a>
+
+    <div class="nav-section">Verification</div>
+    <a class="nav-link" href="#testing"><i class="bi bi-check-circle"></i> Testing Strategy</a>
+    <a class="nav-link" href="#debugging"><i class="bi bi-bug"></i> Debugging Tips</a>
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<div id="main">
+
+  <!-- HERO -->
+  <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+    <div>
+      <h1 class="fw-bold mb-1" style="color:var(--cake-dark)">
+        <i class="bi bi-cake2-fill" style="color:var(--cake-gold)"></i>
+        CakePHP Upgrade Guide
+      </h1>
+      <p class="text-muted mb-0 fs-5">
+        Comprehensive path for upgrading legacy CakePHP versions to the latest stable release.
+      </p>
+    </div>
+  </div>
+
+  <p class="fs-5 text-muted mb-5">
+    Upgrading a framework requires a systematic approach. This guide provides the necessary steps, common pitfalls, and verification methods to ensure a stable transition without downtime.
+  </p>
+
+  <!-- ==================== CHECKLIST ==================== -->
+  <section id="checklist">
+    <h2><i class="bi bi-clipboard-check me-2"></i>Upgrade Checklist</h2>
+    <div class="card">
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><i class="bi bi-check2-square me-2 text-success"></i> Backup current database and codebase</li>
+          <li class="list-group-item"><i class="bi bi-check2-square me-2 text-success"></i> Verify PHP version compatibility</li>
+          <li class="list-group-item"><i class="bi bi-check2-square me-2 text-success"></i> Update Composer dependencies</li>
+          <li class="list-group-item"><i class="bi bi-check2-square me-2 text-success"></i> Run the CakePHP Upgrade Tool (if available)</li>
+          <li class="list-group-item"><i class="bi bi-check2-square me-2 text-success"></i> Test all critical business flows in staging</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== REQUIREMENTS ==================== -->
+  <section id="requirements">
+    <h2><i class="bi bi-cpu me-2"></i>System Requirements</h2>
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Server Environment</div>
+          <div class="card-body">
+            <p><strong>PHP:</strong> 8.1+ (Recommended 8.3+)</p>
+            <p><strong>Extensions:</strong> intl, mbstring, pdo, openssl</p>
+            <p><strong>Memory Limit:</strong> 256MB minimum</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Tooling</div>
+          <div class="card-body">
+            <p><strong>Composer:</strong> 2.2+ (Required for latest packages)</p>
+            <p><strong>Database:</strong> MySQL 5.7+, PostgreSQL 12+, SQLite 3.35+</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== COMPOSER ==================== -->
+  <section id="composer">
+    <h2><i class="bi bi-box-seam me-2"></i>Composer Update</h2>
+    <div class="card">
+      <div class="card-body">
+        <p>Updating the core framework and its dependencies is the first technical step.</p>
+        <pre><code># Update composer.json version constraints
+composer require cakephp/cakephp:^5.0 --with-all-dependencies
+
+# Update dependencies
+composer update
+
+# Clear cached files
+bin/cake cache clear_all</code></pre>
+        <div class="highlight-box">
+          <strong>Pro Tip:</strong> Always update in small increments (e.g., 3.x &rarr; 4.x &rarr; 5.x) rather than jumping multiple major versions at once.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BREAKING ==================== -->
+  <section id="breaking">
+    <h2><i class="bi bi-exclamation-triangle me-2"></i>Breaking Changes</h2>
+    <div class="card">
+      <div class="card-header">Common Migration Pain Points</div>
+      <div class="card-body">
+        <table class="table table-hover">
+          <thead>
+            <tr><th>Feature</th><th>Old Way</th><th>New Way</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Namespace</td><td><code>Cake\Controller</code></td><td><code>Cake\Controller\Component</code> (Strict Types)</td></tr>
+            <tr><td>Type Hinting</td><td>Mixed/None</td><td>Strict PHP 8.x Type Hints</td></tr>
+            <tr><td>Routing</td><td>Array-based</td><td>Fluent-interface / Scoped routing</td></tr>
+            <tr><td>Templates</td><td>.ctp files</td><td>.php files (Modernized)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== DATABASE ==================== -->
+  <section id="database">
+    <h2><i class="bi bi-database me-2"></i>Database Changes</h2>
+    <div class="card">
+      <div class="card-body">
+        <p>Depending on the version jump, you may need to update your schema or how you handle connections.</p>
+        <pre><code>// Update config/app_local.php
+'Datasources' => [
+    'default' => [
+        'className' => 'Cake\Database\Connection',
+        'driver' => 'Cake\Database\Driver\Mysql',
+        'persistent' => false,
+        'host' => 'localhost',
+        'username' => 'my_app',
+        'password' => 'secret',
+        'database' => 'my_app_db',
+        'encoding' => 'utf8mb4',
+        'timezone' => 'UTC',
+        'cacheMetadata' => true,
+    ],
+],</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ORM ==================== -->
+  <section id="orm">
+    <h2><i class="bi bi-diagram-3 me-2"></i>ORM Updates</h2>
+    <div class="card">
+      <div class="card-header">Query Builder Evolution</div>
+      <div class="card-body">
+        <p>The way associations and queries are handled has become more strict and type-safe.</p>
+        <pre><code>// Old: Implicit loading
+$query = $this->Articles->find('all');
+
+// New: Explicit eager loading with contain()
+$query = $this->Articles->find()
+    ->contain(['Authors', 'Tags'])
+    ->where(['Articles.published' => true]);</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TESTING ==================== -->
+  <section id="testing">
+    <h2><i class="bi bi-check-circle me-2"></i>Testing Strategy</h2>
+    <div class="card">
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <h5>Unit Tests</h5>
+            <p>Ensure your model logic remains intact. Run existing tests before and after the upgrade.</p>
+            <pre><code>vendor/bin/phpunit tests/TestCase/Model</code></pre>
+          </div>
+          <div class="col-md-6">
+            <h5>Integration Tests</h5>
+            <p>Verify that controllers and views still render correctly.</p>
+            <pre><code>vendor/bin/phpunit tests/TestCase/Controller</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== DEBUGGING ==================== -->
+  <section id="debugging">
+    <h2><i class="bi bi-bug me-2"></i>Debugging Tips</h2>
+    <div class="card">
+      <div class="card-body">
+        <p>If you encounter a "White Screen of Death" or 500 error during upgrade:</p>
+        <ol class="text-muted">
+          <li>Enable <code>debug => true</code> in <code>config/app.php</code>.</li>
+          <li>Check the logs in <code>logs/error.log</code>.</li>
+          <li>Clear all caches using <code>bin/cake cache clear_all</code>.</li>
+          <li>Verify that folder permissions for <code>tmp/</code> and <code>logs/</code> are correct.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  document.getElementById('sidebarToggle')?.addEventListener('click', () => {
+    document.getElementById('sidebar').classList.toggle('show');
+  });
+</script>
+
+</body>
+</html>

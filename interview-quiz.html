@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Senior Interview — PHP & Laravel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --php-blue: #4F5B93;
+      --laravel-red: #f9322c;
+      --saffron: #FF9933;
+      --exp-junior: #22c55e;
+      --exp-mid: #3b82f6;
+      --exp-senior: #f59e0b;
+      --exp-lead: #ef4444;
+      --bg-dark: linear-gradient(135deg, #0c0c1a 0%, #1a1a2e 50%, #16213e 100%);
+      --bg-light: linear-gradient(135deg, #f0f4ff 0%, #fdf2f8 100%);
+      --card-dark: rgba(30, 41, 59, 0.85);
+      --card-light: rgba(255, 255, 255, 0.92);
+      --text-main: #f1f5f9;
+      --text-muted: #64748b;
+      --soft-border: rgba(255,255,255,0.06);
+      --panel-bg: rgba(255,255,255,0.03);
+      --chip-bg: rgba(30, 41, 59, 0.6);
+      --tag-easy-bg: rgba(34, 197, 94, 0.15);
+      --tag-easy-text: #4ade80;
+      --tag-med-bg: rgba(251, 191, 36, 0.15);
+      --tag-med-text: #fbbf24;
+      --tag-hard-bg: rgba(239, 68, 68, 0.15);
+      --tag-hard-text: #f87171;
+      --got-color: #22c55e;
+      --review-color: #f59e0b;
+      --skip-color: #475569;
+    }
+
+    [data-bs-theme="light"] {
+      --bg-dark: var(--bg-light);
+      --card-dark: var(--card-light);
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --soft-border: rgba(0,0,0,0.08);
+      --panel-bg: rgba(0,0,0,0.02);
+      --chip-bg: rgba(255,255,255,0.7);
+      --tag-easy-bg: #d1fae5;
+      --tag-easy-text: #059669;
+      --tag-med-bg: #fef3c7;
+      --tag-med-text: #b45309;
+      --tag-hard-bg: #fee2e2;
+      --tag-hard-text: #dc2626;
+      --skip-color: #94a3b8;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      background: var(--bg-dark);
+      min-height: 100vh;
+      font-family: 'Outfit', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      transition: background 0.6s ease;
+      overflow-x: hidden;
+    }
+
+    .home-link {
+      position: fixed; top: 0.9rem; left: 0.9rem; z-index: 1050;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.5rem 0.85rem; border-radius: 999px;
+      border: 1px solid var(--soft-border); background: var(--chip-bg);
+      color: var(--text-muted); text-decoration: none; font-size: 0.78rem;
+      font-weight: 600; backdrop-filter: blur(12px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      transition: 0.2s;
+    }
+
+    .home-link:hover { color: var(--saffron); }
+
+    .theme-btn {
+      position: fixed; top: 0.9rem; right: 0.9rem; z-index: 1050;
+      width: 38px; height: 38px; border-radius: 50%;
+      border: 1px solid var(--soft-border); background: var(--chip-bg);
+      color: var(--text-muted); backdrop-filter: blur(12px);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; cursor: pointer; transition: 0.2s;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .theme-btn:hover { color: var(--saffron); }
+
+    .glass-card {
+      background: var(--card-dark); width: 100%; max-width: 740px;
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.35);
+      border-radius: 1.75rem;
+      transition: background 0.4s ease, border 0.4s ease;
+      padding: 1.6rem 1.8rem;
+    }
+
+    [data-bs-theme="light"] .glass-card {
+      border: 1px solid rgba(0,0,0,0.04);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+    }
+
+    .page-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .page-header h1 {
+      font-weight: 800; font-size: 1.3rem;
+      color: var(--text-main); margin: 0;
+    }
+
+    .page-header h1 i { color: var(--php-blue); margin-right: 0.4rem; }
+    [data-bs-theme="dark"] .page-header h1 i { color: var(--saffron); }
+
+    .header-badge {
+      font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.5px; padding: 0.3rem 0.7rem; border-radius: 999px;
+      background: var(--exp-lead); color: #fff;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .page-sub {
+      color: var(--text-muted); font-size: 0.78rem;
+      margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
+    }
+
+    .page-sub span { opacity: 0.7; }
+
+    .stats-row {
+      display: flex; gap: 0.5rem; margin-bottom: 0.75rem;
+    }
+
+    .stat-box {
+      flex: 1; text-align: center; padding: 0.5rem 0.3rem;
+      background: var(--panel-bg); border: 1px solid var(--soft-border);
+      border-radius: 0.75rem;
+    }
+
+    .stat-box .num {
+      font-weight: 700; font-size: 1.1rem; color: var(--text-main); line-height: 1.2;
+    }
+    .stat-box .lbl {
+      font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.4px;
+      color: var(--text-muted); font-weight: 600;
+    }
+    .stat-box.got .num { color: var(--got-color); }
+    .stat-box.review .num { color: var(--review-color); }
+
+    .progress-wrap {
+      height: 4px; background: var(--panel-bg); border-radius: 999px;
+      overflow: hidden; margin-bottom: 1rem;
+    }
+
+    .progress-wrap .bar {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--exp-senior), var(--exp-lead));
+      border-radius: 999px; transition: width 0.5s ease;
+    }
+
+    .filter-section { margin-bottom: 0.6rem; }
+
+    .filter-label {
+      font-size: 0.6rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.6px; color: var(--text-muted); margin-bottom: 0.3rem;
+    }
+
+    .filter-row {
+      display: flex; gap: 0.35rem; overflow-x: auto; flex-wrap: nowrap;
+      padding-bottom: 0.25rem; scrollbar-width: none;
+    }
+
+    .filter-row::-webkit-scrollbar { display: none; }
+
+    .filter-chip {
+      flex-shrink: 0; padding: 0.3rem 0.75rem; border-radius: 999px;
+      border: 1px solid var(--soft-border); background: var(--chip-bg);
+      color: var(--text-muted); font-size: 0.7rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; white-space: nowrap;
+      backdrop-filter: blur(8px);
+    }
+
+    .filter-chip:hover { border-color: var(--saffron); color: var(--saffron); }
+
+    .filter-chip.active {
+      background: var(--saffron); color: #fff; border-color: var(--saffron);
+    }
+
+    .filter-chip.diff-easy.active { background: var(--tag-easy-text); color: #fff; border-color: var(--tag-easy-text); }
+    .filter-chip.diff-med.active { background: var(--tag-med-text); color: #fff; border-color: var(--tag-med-text); }
+    .filter-chip.diff-hard.active { background: var(--tag-hard-text); color: #fff; border-color: var(--tag-hard-text); }
+
+    .filter-chip.exp-junior.active { background: var(--exp-junior); color: #fff; border-color: var(--exp-junior); }
+    .filter-chip.exp-mid.active { background: var(--exp-mid); color: #fff; border-color: var(--exp-mid); }
+    .filter-chip.exp-senior.active { background: var(--exp-senior); color: #fff; border-color: var(--exp-senior); }
+    .filter-chip.exp-lead.active { background: var(--exp-lead); color: #fff; border-color: var(--exp-lead); }
+
+    .flashcard {
+      min-height: 260px; position: relative;
+    }
+
+    .q-meta {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 0.5rem; margin-bottom: 0.6rem; flex-wrap: wrap;
+    }
+
+    .q-badges {
+      display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap;
+    }
+
+    .q-badge {
+      display: inline-block; font-size: 0.6rem; font-weight: 700;
+      padding: 0.15rem 0.5rem; border-radius: 1rem;
+      text-transform: uppercase; letter-spacing: 0.3px;
+    }
+
+    .diff-easy { background: var(--tag-easy-bg); color: var(--tag-easy-text); }
+    .diff-med { background: var(--tag-med-bg); color: var(--tag-med-text); }
+    .diff-hard { background: var(--tag-hard-bg); color: var(--tag-hard-text); }
+
+    .exp-junior { background: rgba(34,197,94,0.12); color: var(--exp-junior); }
+    .exp-mid { background: rgba(59,130,246,0.12); color: var(--exp-mid); }
+    .exp-senior { background: rgba(245,158,11,0.12); color: var(--exp-senior); }
+    .exp-lead { background: rgba(239,68,68,0.12); color: var(--exp-lead); }
+
+    .q-number {
+      font-size: 0.7rem; font-weight: 600; color: var(--text-muted);
+    }
+
+    .q-tags {
+      display: flex; gap: 0.3rem; margin-bottom: 0.75rem; flex-wrap: wrap;
+    }
+
+    .q-tag {
+      font-size: 0.6rem; font-weight: 500; padding: 0.1rem 0.45rem;
+      border-radius: 0.3rem; background: var(--panel-bg);
+      color: var(--text-muted); border: 1px solid var(--soft-border);
+    }
+
+    .q-text {
+      font-size: 1.1rem; font-weight: 600; color: var(--text-main);
+      line-height: 1.6; margin-bottom: 1rem;
+    }
+
+    .q-cat {
+      font-size: 0.65rem; color: var(--text-muted); font-weight: 500;
+      margin-bottom: 0.75rem;
+    }
+
+    .q-cat i { margin-right: 0.3rem; color: var(--php-blue); }
+    [data-bs-theme="dark"] .q-cat i { color: var(--saffron); }
+
+    .reveal-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.5rem 1.2rem; border-radius: 999px;
+      border: 1.5px solid var(--saffron); background: transparent;
+      color: var(--saffron); font-weight: 700; font-size: 0.8rem;
+      cursor: pointer; transition: all 0.25s; margin-bottom: 0.75rem;
+    }
+
+    .reveal-btn:hover { background: var(--saffron); color: #fff; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,153,51,0.25); }
+
+    .answer-area {
+      display: none;
+      background: var(--panel-bg); border: 1px solid var(--soft-border);
+      border-radius: 1rem; padding: 1.1rem; margin-bottom: 0.75rem;
+      line-height: 1.7; font-size: 0.9rem; color: var(--text-main);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .answer-area.show { display: block; }
+
+    .answer-area code {
+      background: rgba(79, 91, 147, 0.08); padding: 0.12rem 0.35rem;
+      border-radius: 0.3rem; font-size: 0.85rem; color: var(--php-blue);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    [data-bs-theme="dark"] .answer-area code {
+      background: rgba(255, 153, 51, 0.08); color: #fcd34d;
+    }
+
+    .answer-area pre {
+      background: #0d1117; color: #e6e6e6; padding: 1rem;
+      border-radius: 0.75rem; overflow-x: auto; font-size: 0.82rem;
+      margin: 0.75rem 0; border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .answer-area pre code {
+      background: transparent; color: inherit; padding: 0;
+      border-radius: 0; font-family: 'JetBrains Mono', monospace;
+    }
+
+    .answer-area strong { color: var(--saffron); }
+
+    .action-btns {
+      display: flex; gap: 0.4rem; margin-bottom: 0.75rem;
+    }
+
+    .action-btn {
+      flex: 1; padding: 0.45rem; border-radius: 0.75rem;
+      border: 1px solid var(--soft-border); background: var(--panel-bg);
+      color: var(--text-muted); font-size: 0.75rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; text-align: center;
+    }
+
+    .action-btn:hover { transform: translateY(-1px); }
+
+    .action-btn.got { color: var(--got-color); border-color: rgba(34,197,94,0.2); }
+    .action-btn.got:hover, .action-btn.got.active { background: var(--got-color); color: #fff; border-color: var(--got-color); }
+
+    .action-btn.review { color: var(--review-color); border-color: rgba(245,158,11,0.2); }
+    .action-btn.review:hover, .action-btn.review.active { background: var(--review-color); color: #fff; border-color: var(--review-color); }
+
+    .action-btn.skip { color: var(--skip-color); }
+    .action-btn.skip:hover, .action-btn.skip.active { background: var(--skip-color); color: #fff; border-color: var(--skip-color); }
+
+    .nav-btns {
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+
+    .nav-btn {
+      flex: 1; padding: 0.5rem; border-radius: 0.75rem;
+      border: 1px solid var(--soft-border); background: var(--panel-bg);
+      color: var(--text-muted); font-size: 0.8rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; text-align: center;
+    }
+
+    .nav-btn:hover { background: var(--chip-bg); border-color: var(--saffron); color: var(--saffron); }
+    .nav-btn:disabled { opacity: 0.3; cursor: default; }
+    .nav-btn:disabled:hover { border-color: var(--soft-border); color: var(--text-muted); background: var(--panel-bg); }
+
+    .nav-btn.shuffle-btn { flex: 0 0 auto; width: 40px; font-size: 1rem; }
+
+    .empty-state {
+      text-align: center; padding: 3rem 1rem; color: var(--text-muted);
+    }
+
+    .empty-state i { font-size: 2.5rem; margin-bottom: 0.75rem; display: block; opacity: 0.5; }
+    .empty-state h5 { font-weight: 700; color: var(--text-main); }
+
+    .footer-text {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 0.75rem; padding-top: 0.75rem;
+      border-top: 1px solid var(--soft-border);
+      color: var(--text-muted); font-size: 0.65rem;
+    }
+
+    .footer-text kbd {
+      background: var(--panel-bg); border: 1px solid var(--soft-border);
+      padding: 0.1rem 0.35rem; border-radius: 0.25rem;
+      font-size: 0.6rem; font-family: 'JetBrains Mono', monospace; color: var(--text-muted);
+    }
+
+    .loading-spinner {
+      display: flex; align-items: center; justify-content: center;
+      padding: 3rem; color: var(--text-muted);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(16px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .slide-in { animation: slideIn 0.25s ease; }
+
+    @media (max-width: 576px) {
+      .glass-card { padding: 1rem 0.9rem; border-radius: 1.25rem; }
+      .page-header h1 { font-size: 1.1rem; }
+      .q-text { font-size: 1rem; }
+      .action-btns { flex-direction: column; }
+      .action-btn { padding: 0.55rem; }
+      .stats-row { gap: 0.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<a href="index.html" class="home-link"><i class="bi bi-arrow-left"></i> Home</a>
+<button class="theme-btn" id="themeToggle" title="Toggle theme"><i class="bi bi-sun-fill"></i></button>
+
+<div class="glass-card" id="app">
+  <div class="page-header">
+    <h1><i class="bi bi-question-circle-fill"></i>Senior Interview</h1>
+    <span class="header-badge" id="expLabel">10+ Yrs</span>
+  </div>
+  <div class="page-sub">
+    <span>PHP &amp; Laravel</span>
+    <span>·</span>
+    <span id="totalQ">0</span> questions
+    <span>·</span>
+    <span id="filterCount">0</span> shown
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box">
+      <div class="num" id="statAnswered">0</div>
+      <div class="lbl">Answered</div>
+    </div>
+    <div class="stat-box got">
+      <div class="num" id="statCorrect">0</div>
+      <div class="lbl">Got It</div>
+    </div>
+    <div class="stat-box review">
+      <div class="num" id="statReview">0</div>
+      <div class="lbl">To Review</div>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="bar" id="progressBar"></div>
+  </div>
+
+  <div class="filter-section">
+    <div class="filter-label">Experience</div>
+    <div class="filter-row" id="expFilters"></div>
+  </div>
+
+  <div class="filter-section">
+    <div class="filter-label">Difficulty</div>
+    <div class="filter-row" id="difficultyFilters"></div>
+  </div>
+
+  <div class="filter-section">
+    <div class="filter-label">Category</div>
+    <div class="filter-row" id="categoryFilters"></div>
+  </div>
+
+  <div class="flashcard" id="flashcardArea">
+    <div class="loading-spinner">
+      <div class="spinner-border" role="status" style="color:var(--saffron)">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-text">
+    <span><kbd>Space</kbd> reveal · <kbd>&larr;</kbd> <kbd>&rarr;</kbd> navigate</span>
+    <span><i class="bi bi-arrow-repeat me-1"></i>shuffle</span>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script id="questionsData" type="application/json">[
+  {"id":1,"category":"php-basics","difficulty":"easy","exp":"junior","tags":["basics"],"q":"What is PHP?","a":"PHP (<strong>H</strong>ypertext <strong>P</strong>reprocessor) is a widely-used open-source server-side scripting language designed for web development. It can be embedded into HTML and runs on the server, generating dynamic page content. PHP is loosely typed, interpreted, and supports object-oriented programming."},
+  {"id":2,"category":"php-basics","difficulty":"easy","exp":"junior","tags":["basics"],"q":"How do you declare variables in PHP?","a":"Variables in PHP start with a <code>$</code> sign followed by the name. They are loosely typed — no type declaration is required. Example: <code>$name = \"John\";</code>. PHP 7+ supports typed properties in classes and PHP 8+ adds union types."},
+  {"id":3,"category":"php-basics","difficulty":"easy","exp":"junior","tags":["basics"],"q":"What is the difference between echo and print?","a":"<code>echo</code> can output multiple strings separated by commas and is slightly faster. <code>print</code> returns 1 so it can be used in expressions. Both are language constructs (not functions), so parentheses are optional."},
+  {"id":7,"category":"php-basics","difficulty":"med","exp":"junior","tags":["basics","comparison"],"q":"Explain == vs === in PHP.","a":"<code>==</code> (loose equality) coerces types before comparing, e.g. <code>\"5\" == 5</code> is true. <code>===</code> (strict equality) checks both value and type, so <code>\"5\" === 5</code> is false. Always prefer <code>===</code> for predictable comparisons."},
+  {"id":15,"category":"php-basics","difficulty":"hard","exp":"senior","tags":["php8","attributes","reflection"],"q":"Explain PHP 8 attributes and their use.","a":"PHP 8.0+ attributes (annotations) add structured metadata to classes, methods, properties, etc. They use the <code>#[Attribute]</code> syntax. Attributes are read via reflection (<code>$ref->getAttributes()</code>). Laravel uses them for route definitions, event listeners, and model casting. Example: <code>#[Route('get', '/dashboard')]</code>."},
+  {"id":109,"category":"php-basics","difficulty":"hard","exp":"senior","tags":["php8","concurrency","fibers"],"q":"What are fibers in PHP?","a":"Fibers (PHP 8.1+) are lightweight coroutines for cooperative multitasking. A fiber can be suspended (<code>Fiber::suspend()</code>) and resumed (<code>$fiber->resume()</code>) from the main execution context."},
+  {"id":107,"category":"php-basics","difficulty":"hard","exp":"senior","tags":["php8","property-hooks"],"q":"What are PHP 8.4 property hooks?","a":"PHP 8.4 introduced property hooks, allowing custom get/set logic for properties. Syntax: <code>public string $name { get => ...; set => ...; }</code>. Also asymmetric visibility (<code>public private(set) string $email</code>)."},
+  {"id":25,"category":"php-oop","difficulty":"hard","exp":"senior","tags":["design-patterns","solid","architecture"],"q":"Explain the SOLID principles in depth.","a":"<strong>S</strong>ingle Responsibility: each class has one reason to change.<br><strong>O</strong>pen/Closed: open for extension, closed for modification.<br><strong>L</strong>iskov Substitution: subtypes must be substitutable.<br><strong>I</strong>nterface Segregation: many specific interfaces &gt; one general.<br><strong>D</strong>ependency Inversion: depend on abstractions, not concretions."},
+  {"id":26,"category":"php-oop","difficulty":"hard","exp":"senior","tags":["magic-methods","oop"],"q":"What are magic methods and their advanced use cases?","a":"PHP magic methods: <code>__construct()</code>, <code>__call()</code>/<code>__callStatic()</code> (facades), <code>__get()</code>/<code>__set()</code> (Eloquent), <code>__invoke()</code> (invokable controllers), <code>__toString()</code>, <code>__serialize()</code>/<code>__unserialize()</code> (queues), <code>__clone()</code>."},
+  {"id":29,"category":"php-oop","difficulty":"hard","exp":"lead","tags":["design-patterns","repository","architecture"],"q":"Compare Repository vs Active Record patterns.","a":"<strong>Active Record</strong> (Eloquent): model handles data + persistence. Simple, rapid CRUD.<br><strong>Repository</strong>: abstracts data access behind interface. Swap implementations, unit test with mocks. Use for complex domain logic, CQRS, hexagonal architecture."}
+]</script>
+<script>
+const STORAGE_KEY = 'iq_progress';
+const CAT_ICONS = {
+  'php-basics': 'bi-code-slash',
+  'php-oop': 'bi-diagram-3',
+  'composer': 'bi-box-seam',
+  'laravel-basics': 'bi-lightning',
+  'routing': 'bi-signpost-2',
+  'blade': 'bi-eye',
+  'eloquent': 'bi-database',
+  'validation': 'bi-check2-square',
+  'api-testing': 'bi-globe',
+  'queues-advanced': 'bi-arrow-repeat',
+  'security': 'bi-shield-lock',
+  'case-problems': 'bi-laptop'
+};
+const CAT_NAMES = {
+  'php-basics': 'PHP Basics',
+  'php-oop': 'OOP in PHP',
+  'composer': 'Composer',
+  'laravel-basics': 'Laravel Basics',
+  'routing': 'Routing',
+  'blade': 'Blade & Views',
+  'eloquent': 'Eloquent ORM',
+  'validation': 'Validation & Auth',
+  'api-testing': 'API & Testing',
+  'queues-advanced': 'Queues & Advanced',
+  'security': 'Security',
+  'case-problems': 'Case Problems'
+};
+const DIFFS = ['easy', 'med', 'hard'];
+const DIFF_LABELS = { easy: 'Easy', med: 'Medium', hard: 'Hard' };
+const EXP_LEVELS = ['junior', 'mid', 'senior', 'lead'];
+const EXP_LABELS = { junior: 'Junior (0-2)', mid: 'Mid (3-5)', senior: 'Senior (6-9)', lead: 'Lead (10+)' };
+
+let questions = [];
+let filtered = [];
+let currentIndex = 0;
+let progress = {};
+let selectedCat = 'all';
+let selectedDiff = 'all';
+let selectedExp = 'lead';
+
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+
+function loadProgress() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; }
+}
+
+function saveProgress() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+}
+
+function updateStats() {
+  const total = filtered.length;
+  const answered = filtered.filter(q => progress[q.id] && progress[q.id] !== 'skip').length;
+  const got = filtered.filter(q => progress[q.id] === 'got').length;
+  const review = filtered.filter(q => progress[q.id] === 'review').length;
+  $('#statAnswered').textContent = answered;
+  $('#statCorrect').textContent = got;
+  $('#statReview').textContent = review;
+  const pct = total > 0 ? (answered / total) * 100 : 0;
+  $('#progressBar').style.width = pct + '%';
+  $('#totalQ').textContent = questions.length;
+  $('#filterCount').textContent = filtered.length;
+  const expName = EXP_LABELS[selectedExp] || 'All Levels';
+  $('#expLabel').textContent = selectedExp === 'all' ? 'All Levels' : expName;
+}
+
+function renderQuestion() {
+  const area = $('#flashcardArea');
+  if (filtered.length === 0) {
+    area.innerHTML = `<div class="empty-state">
+      <i class="bi bi-compass"></i>
+      <h5>No questions match</h5>
+      <p>Try broadening your filters to see more results.</p>
+    </div>`;
+    $('#statAnswered').textContent = '0';
+    $('#statCorrect').textContent = '0';
+    $('#statReview').textContent = '0';
+    $('#progressBar').style.width = '0%';
+    return;
+  }
+  if (currentIndex >= filtered.length) currentIndex = filtered.length - 1;
+  if (currentIndex < 0) currentIndex = 0;
+  const q = filtered[currentIndex];
+  const catName = CAT_NAMES[q.category] || q.category;
+  const catIcon = CAT_ICONS[q.category] || 'bi-tag';
+  const status = progress[q.id] || null;
+  const isRevealed = progress[q.id] === 'revealed';
+  const tags = q.tags || [];
+
+  area.innerHTML = `
+    <div class="slide-in">
+      <div class="q-meta">
+        <span class="q-number">Q${q.id} of ${filtered.length}</span>
+        <div class="q-badges">
+          <span class="q-badge exp-${q.exp || 'mid'}">${EXP_LABELS[q.exp] || q.exp}</span>
+          <span class="q-badge diff-${q.difficulty}">${DIFF_LABELS[q.difficulty]}</span>
+        </div>
+      </div>
+      <div class="q-cat"><i class="${catIcon}"></i>${catName}</div>
+      ${tags.length ? `<div class="q-tags">${tags.map(t => `<span class="q-tag">#${t}</span>`).join('')}</div>` : ''}
+      <div class="q-text">${q.q}</div>
+      <div style="text-align:center">
+        <button class="reveal-btn" id="revealBtn">
+          <i class="bi bi-eye${isRevealed ? '-slash' : ''}"></i>
+          ${isRevealed ? 'Hide Answer' : 'Show Answer'}
+        </button>
+      </div>
+      <div class="answer-area${isRevealed ? ' show' : ''}" id="answerArea">${q.a}</div>
+      <div class="action-btns">
+        <button class="action-btn got${status === 'got' ? ' active' : ''}" data-action="got"><i class="bi bi-check-lg"></i> Got It</button>
+        <button class="action-btn review${status === 'review' ? ' active' : ''}" data-action="review"><i class="bi bi-arrow-repeat"></i> Review</button>
+        <button class="action-btn skip${status === 'skip' ? ' active' : ''}" data-action="skip"><i class="bi bi-x-lg"></i> Skip</button>
+      </div>
+      <div class="nav-btns">
+        <button class="nav-btn" id="prevBtn"${currentIndex === 0 ? ' disabled' : ''}><i class="bi bi-chevron-left"></i> Prev</button>
+        <button class="nav-btn shuffle-btn" id="shuffleBtn" title="Shuffle"><i class="bi bi-shuffle"></i></button>
+        <button class="nav-btn" id="nextBtn"${currentIndex >= filtered.length - 1 ? ' disabled' : ''}>Next <i class="bi bi-chevron-right"></i></button>
+      </div>
+    </div>
+  `;
+  bindEvents();
+  updateStats();
+}
+
+function bindEvents() {
+  const reveal = $('#revealBtn');
+  if (reveal) {
+    reveal.addEventListener('click', () => {
+      const area = $('#answerArea');
+      const isShowing = area.classList.toggle('show');
+      reveal.innerHTML = isShowing
+        ? '<i class="bi bi-eye-slash"></i> Hide Answer'
+        : '<i class="bi bi-eye"></i> Show Answer';
+      if (isShowing) {
+        const qId = filtered[currentIndex].id;
+        if (!progress[qId] || progress[qId] === 'revealed') {
+          progress[qId] = 'revealed';
+          saveProgress();
+        }
+      }
+    });
+  }
+  $$('.action-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const action = btn.dataset.action;
+      const qId = filtered[currentIndex].id;
+      if (progress[qId] === action) {
+        delete progress[qId];
+      } else {
+        progress[qId] = action;
+      }
+      saveProgress();
+      renderQuestion();
+    });
+  });
+  const prev = $('#prevBtn');
+  const next = $('#nextBtn');
+  if (prev) prev.addEventListener('click', () => { if (currentIndex > 0) { currentIndex--; renderQuestion(); } });
+  if (next) next.addEventListener('click', () => { if (currentIndex < filtered.length - 1) { currentIndex++; renderQuestion(); } });
+  const shuffle = $('#shuffleBtn');
+  if (shuffle) {
+    shuffle.addEventListener('click', () => {
+      const currentId = filtered[currentIndex].id;
+      for (let i = filtered.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [filtered[i], filtered[j]] = [filtered[j], filtered[i]];
+      }
+      currentIndex = filtered.findIndex(q => q.id === currentId);
+      if (currentIndex === -1) currentIndex = 0;
+      renderQuestion();
+    });
+  }
+}
+
+function buildFilters() {
+  const expHtml = ['<div class="filter-chip" data-exp="all">All Levels</div>'];
+  EXP_LEVELS.forEach(e => {
+    expHtml.push(`<div class="filter-chip exp-${e}" data-exp="${e}">${EXP_LABELS[e]}</div>`);
+  });
+  $('#expFilters').innerHTML = expHtml.join('');
+  $$('.filter-chip[data-exp]').forEach(chip => {
+    chip.addEventListener('click', () => {
+      $$('.filter-chip[data-exp]').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      selectedExp = chip.dataset.exp;
+      applyFilters();
+      updateStats();
+    });
+  });
+  const expChips = $$('.filter-chip[data-exp]');
+  expChips.forEach(c => {
+    if (c.dataset.exp === selectedExp) c.classList.add('active');
+  });
+
+  const diffHtml = ['<div class="filter-chip diff-all active" data-diff="all">All</div>'];
+  DIFFS.forEach(d => {
+    diffHtml.push(`<div class="filter-chip diff-${d}" data-diff="${d}">${DIFF_LABELS[d]}</div>`);
+  });
+  $('#difficultyFilters').innerHTML = diffHtml.join('');
+  $$('.filter-chip[data-diff]').forEach(chip => {
+    chip.addEventListener('click', () => {
+      $$('.filter-chip[data-diff]').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      selectedDiff = chip.dataset.diff;
+      applyFilters();
+    });
+  });
+
+  const cats = Object.keys(CAT_NAMES);
+  const catHtml = ['<div class="filter-chip active" data-cat="all">All</div>'];
+  cats.forEach(c => {
+    catHtml.push(`<div class="filter-chip" data-cat="${c}"><i class="${CAT_ICONS[c]} me-1"></i>${CAT_NAMES[c]}</div>`);
+  });
+  $('#categoryFilters').innerHTML = catHtml.join('');
+  $$('.filter-chip[data-cat]').forEach(chip => {
+    chip.addEventListener('click', () => {
+      $$('.filter-chip[data-cat]').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      selectedCat = chip.dataset.cat;
+      applyFilters();
+    });
+  });
+}
+
+function applyFilters() {
+  filtered = questions.filter(q => {
+    if (selectedCat !== 'all' && q.category !== selectedCat) return false;
+    if (selectedDiff !== 'all' && q.difficulty !== selectedDiff) return false;
+    if (selectedExp !== 'all' && q.exp !== selectedExp) return false;
+    return true;
+  });
+  currentIndex = 0;
+  renderQuestion();
+}
+
+function loadQuestions() {
+  const embedded = document.getElementById('questionsData');
+  const fallback = embedded && embedded.textContent.trim()
+    ? (() => { try { return JSON.parse(embedded.textContent); } catch { return null; } })()
+    : null;
+
+  fetch('questions.json')
+    .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+    .then(data => {
+      questions = data;
+      progress = loadProgress();
+      buildFilters();
+      applyFilters();
+    })
+    .catch(() => {
+      if (fallback) {
+        questions = fallback;
+        progress = loadProgress();
+        buildFilters();
+        applyFilters();
+      } else {
+        $('#flashcardArea').innerHTML = `<div class="empty-state">
+          <i class="bi bi-exclamation-triangle"></i>
+          <h5>Could not load questions</h5>
+          <p>Open via <strong>http://localhost</strong> or ensure <code>questions.json</code> exists.</p>
+        </div>`;
+      }
+    });
+}
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const theme = html.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-bs-theme', theme);
+  localStorage.setItem('iq_theme', theme);
+  const icon = $('#themeToggle i');
+  icon.className = theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill';
+}
+
+function initTheme() {
+  const saved = localStorage.getItem('iq_theme');
+  if (saved) {
+    document.documentElement.setAttribute('data-bs-theme', saved);
+    const icon = $('#themeToggle i');
+    icon.className = saved === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill';
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  if (e.key === ' ' || e.key === 'Space') {
+    e.preventDefault();
+    const reveal = $('#revealBtn');
+    if (reveal) reveal.click();
+  }
+  if (e.key === 'ArrowLeft') { const btn = $('#prevBtn'); if (btn && !btn.disabled) btn.click(); }
+  if (e.key === 'ArrowRight') { const btn = $('#nextBtn'); if (btn && !btn.disabled) btn.click(); }
+});
+
+$('#themeToggle').addEventListener('click', toggleTheme);
+initTheme();
+loadQuestions();
+</script>
+</body>
+</html>
