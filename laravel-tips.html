@@ -1,564 +1,639 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Laravel Tips — 350+ Quick Tips from Laravel Daily</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <style>
-    :root { --laravel-red: #f9322c; --laravel-dark: #1a1a2e; --sidebar-width: 280px; }
-    * { scroll-margin-top: 1rem; }
-    body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #f4f6fb; display: flex; }
-    #sidebar { width: var(--sidebar-width); height: 100vh; position: fixed; top: 0; left: 0; background: var(--laravel-dark); overflow-y: auto; z-index: 1000; transition: transform .3s; }
-    #sidebar .brand { padding: 1.25rem 1.25rem .75rem; border-bottom: 1px solid rgba(255,255,255,.08); }
-    #sidebar .brand h5 { color: #fff; font-weight: 700; }
-    #sidebar .brand small { color: #adb5bd; }
-    #sidebar .nav-link { color: #c8cdd3; padding: .5rem 1.25rem; font-size: .88rem; border-left: 3px solid transparent; transition: all .15s; }
-    #sidebar .nav-link:hover { color: #fff; background: rgba(255,255,255,.05); }
-    #sidebar .nav-link.active { color: var(--laravel-red); border-left-color: var(--laravel-red); background: rgba(249,50,44,.08); }
-    #sidebar .nav-link i { width: 1.3rem; }
-    #sidebar .nav-section { color: #6c757d; font-size: .7rem; text-transform: uppercase; letter-spacing: .08em; padding: 1rem 1.25rem .3rem; font-weight: 600; }
-    #main { margin-left: var(--sidebar-width); flex: 1; padding: 2rem 2.5rem 4rem; max-width: 1100px; }
-    @media (max-width: 991.98px) { #sidebar { transform: translateX(-100%); } #sidebar.show { transform: translateX(0); } #main { margin-left: 0; padding: 1.5rem; } }
-    .sidebar-toggle { position: fixed; top: .75rem; left: .75rem; z-index: 1050; background: var(--laravel-dark); color: #fff; border: none; border-radius: .4rem; padding: .4rem .65rem; display: none; }
-    @media (max-width: 991.98px) { .sidebar-toggle { display: block; } }
-    h2 { font-weight: 700; color: var(--laravel-dark); margin-top: 2.5rem; padding-bottom: .5rem; border-bottom: 3px solid var(--laravel-red); }
-    h3 { font-weight: 600; color: #2c3e50; margin-top: 1.8rem; }
-    .card { border: none; border-radius: .75rem; box-shadow: 0 2px 8px rgba(0,0,0,.06); margin-bottom: 1.5rem; }
-    .card-header { background: #fff; border-bottom: 1px solid #e9ecef; font-weight: 600; padding: 1rem 1.25rem; display: flex; align-items: center; justify-content: space-between; }
-    .card-body { padding: 1.5rem; }
-    .tip-list { list-style: none; padding: 0; margin: 0; }
-    .tip-list li { padding: .4rem 0; border-bottom: 1px solid #f1f3f5; display: flex; align-items: baseline; gap: .5rem; }
-    .tip-list li:last-child { border-bottom: none; }
-    .tip-list li::before { content: "▹"; color: var(--laravel-red); font-weight: 700; flex-shrink: 0; }
-    .tip-list a { color: #1e293b; text-decoration: none; transition: color .15s; line-height: 1.4; }
-    .tip-list a:hover { color: var(--laravel-red); }
-    .tip-count { background: var(--laravel-red); color: #fff; font-size: .7rem; font-weight: 600; padding: .15rem .55rem; border-radius: 1rem; white-space: nowrap; }
-    .hl-box { background: #fef2f2; border-left: 4px solid var(--laravel-red); padding: 1rem 1.25rem; border-radius: .4rem; margin: 1rem 0; }
-    .badge-laravel { background: var(--laravel-red); color: #fff; }
-    .home-link { position: fixed; top: 14px; left: 14px; z-index: 1100; display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 999px; background: rgba(255,255,255,.94); color: #0f172a; text-decoration: none; font-size: .78rem; font-weight: 700; box-shadow: 0 10px 28px rgba(0,0,0,.08); border: 1px solid rgba(226,232,240,.9); backdrop-filter: blur(10px); transition: .2s; }
-    .home-link:hover { color: #2563eb; }
-    @media (min-width: 992px) { .home-link { left: calc(var(--sidebar-width) + 14px); } }
-    @media (max-width: 991.98px) { .home-link { left: 4rem; } }
-    .search-tips { margin-bottom: 1.5rem; }
-    .search-tips input { border-radius: 2rem; padding: .6rem 1.2rem; border: 1px solid #e2e8f0; width: 100%; font-size: .9rem; }
-    .search-tips input:focus { outline: none; border-color: var(--laravel-red); box-shadow: 0 0 0 3px rgba(249,50,44,.1); }
-    .source-link { font-size: .78rem; color: #6b7280; }
-    .source-link:hover { color: var(--laravel-red); }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Laravel Tips — 290+ Inline Code Examples</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+        :root { --laravel-red: #f9322c; --laravel-dark: #1a1a2e; --sidebar-width: 280px; --bg-main: #f8fafc; --code-bg: #0f172a; --border-light: #e2e8f0; }
+        * { box-sizing: border-box; scroll-margin-top: 80px; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-main); display: flex; margin: 0; min-height: 100vh; }
+        code, pre { font-family: 'JetBrains Mono', monospace; }
+        #sidebar { width: var(--sidebar-width); height: 100vh; position: fixed; top: 0; left: 0; background: var(--laravel-dark); overflow-y: auto; z-index: 1000; transition: transform .3s; }
+        #sidebar::-webkit-scrollbar { width: 4px; }
+        #sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 4px; }
+        #sidebar .brand { padding: 1.2rem 1.2rem .8rem; border-bottom: 1px solid rgba(255,255,255,.06); }
+        #sidebar .brand h5 { color: #fff; font-weight: 700; font-size: 1.05rem; }
+        #sidebar .brand small { color: #94a3b8; font-size: .72rem; }
+        #sidebar .nav-link { color: #cbd5e1; padding: .45rem 1.2rem; font-size: .82rem; border-left: 3px solid transparent; transition: all .15s; text-decoration: none; display: block; }
+        #sidebar .nav-link:hover { color: #fff; background: rgba(255,255,255,.04); }
+        #sidebar .nav-link.active { color: var(--laravel-red); border-left-color: var(--laravel-red); background: rgba(249,50,44,.07); }
+        #sidebar .nav-section { color: #64748b; font-size: .65rem; text-transform: uppercase; letter-spacing: .1em; padding: .9rem 1.2rem .25rem; font-weight: 700; }
+        #main { margin-left: var(--sidebar-width); flex: 1; padding: 1.5rem 2rem 4rem; max-width: 1100px; min-width: 0; }
+        .sidebar-toggle { position: fixed; top: .7rem; left: .7rem; z-index: 1050; background: var(--laravel-dark); color: #fff; border: none; border-radius: .4rem; padding: .35rem .6rem; display: none; font-size: 1.1rem; }
+        @media (max-width:991.98px) { #sidebar { transform: translateX(-100%); } #sidebar.show { transform: translateX(0); } #main { margin-left: 0; padding: 1rem; } .sidebar-toggle { display: block; } }
+        .home-link { position: fixed; top: 14px; right: 14px; z-index: 1100; display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 999px; background: rgba(255,255,255,.93); color: #0f172a; text-decoration: none; font-size: .78rem; font-weight: 700; box-shadow: 0 6px 20px rgba(0,0,0,.06); border: 1px solid rgba(226,232,240,.9); transition: .2s; }
+        .home-link:hover { color: var(--laravel-red); }
+        @media (max-width:991.98px) { .home-link { right: auto; left: 3.8rem; } }
+        h2 { font-weight: 800; color: var(--laravel-dark); margin-top: 2rem; padding-bottom: .4rem; border-bottom: 3px solid var(--laravel-red); display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+        h2 .count { font-size: .7rem; font-weight: 600; background: var(--laravel-red); color: #fff; padding: .15rem .55rem; border-radius: 999px; margin-left: auto; }
+        .section-desc { color: #64748b; font-size: .88rem; margin-bottom: .8rem; }
+        .card { border: 1px solid var(--border-light); border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,.03); margin-bottom: 1rem; background: #fff; overflow: hidden; }
+        .card-body { padding: .8rem 1rem; }
+        .tip-item { padding: .5rem 0; border-bottom: 1px solid #f1f5f9; }
+        .tip-item:last-child { border-bottom: none; }
+        .tip-title { font-weight: 700; color: #0f172a; font-size: .88rem; display: flex; align-items: center; gap: .4rem; cursor: pointer; transition: .15s; }
+        .tip-title:hover { color: var(--laravel-red); }
+        .tip-title::before { content: '\25B9'; color: var(--laravel-red); font-weight: 700; flex-shrink: 0; }
+        .tip-title .arrow { margin-left: auto; font-size: .65rem; color: #94a3b8; transition: transform .2s; }
+        .tip-title.open .arrow { transform: rotate(90deg); }
+        .tip-body { margin-top: .3rem; margin-left: 1.2rem; font-size: .82rem; color: #475569; line-height: 1.5; display: none; }
+        .tip-body.open { display: block; }
+        .tip-body pre { background: var(--code-bg); color: #e2e8f0; padding: .75rem 1rem; border-radius: 8px; font-size: .75rem; line-height: 1.4; overflow-x: auto; margin: .4rem 0 0; position: relative; }
+        .tip-body pre code { color: inherit; background: none; padding: 0; font-size: inherit; }
+        .copy-btn { position: absolute; top: 5px; right: 5px; background: rgba(255,255,255,.08); border: none; color: #94a3b8; font-size: .65rem; padding: 2px 7px; border-radius: 4px; cursor: pointer; transition: .15s; font-family: inherit; }
+        .copy-btn:hover { background: rgba(255,255,255,.15); color: #fff; }
+        .hl-kw { color: #f472b6; }
+        .hl-fn { color: #a78bfa; }
+        .hl-str { color: #facc15; }
+        .hl-cm { color: #64748b; font-style: italic; }
+        .search-wrap { position: relative; margin-bottom: 1.2rem; }
+        .search-wrap input { width: 100%; padding: .6rem 1rem .6rem 2.2rem; border: 1px solid var(--border-light); border-radius: 10px; font-size: .85rem; background: #fff; transition: .2s; }
+        .search-wrap input:focus { outline: none; border-color: var(--laravel-red); box-shadow: 0 0 0 3px rgba(249,50,44,.08); }
+        .search-wrap i { position: absolute; left: .8rem; top: 50%; transform: translateY(-50%); color: #94a3b8; }
+        .search-status { font-size: .78rem; color: #64748b; padding: .2rem 0; }
+        .inline-code { background: #f1f5f9; padding: .1rem .35rem; border-radius: 4px; font-size: .78rem; color: #e11d48; font-family: 'JetBrains Mono', monospace; }
+        footer { border-top: 1px solid var(--border-light); padding-top: 1.2rem; margin-top: 2.5rem; font-size: .8rem; color: #64748b; }
+        @media (max-width:480px) { #main { padding: .8rem .6rem; } h2 { font-size: 1.1rem; } .tip-title { font-size: .8rem; } .tip-body { font-size: .76rem; } .tip-body pre { font-size: .7rem; padding: .6rem .7rem; } }
+        .hl-var { color: #60a5fa; }
+    </style>
 </head>
 <body>
-
-<button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
-<a href="index.html" class="home-link"><span>&larr;</span> Home</a>
-
-<nav id="sidebar">
-  <div class="brand">
-    <h5><i class="bi bi-lightning-charge-fill me-2" style="color:var(--laravel-red)"></i>Laravel Tips</h5>
-    <small class="d-block mt-1">Laravel Daily &mdash; 350+ Tips</small>
-  </div>
-  <div class="py-2">
-    <div class="nav-section">Eloquent &amp; DB</div>
-    <a class="nav-link" href="#db-models"><i class="bi bi-database"></i> DB Models &amp; Eloquent</a>
-    <a class="nav-link" href="#relations"><i class="bi bi-diagram-3"></i> Model Relations</a>
-    <a class="nav-link" href="#migrations"><i class="bi bi-arrow-up-circle"></i> Migrations</a>
-    <a class="nav-link" href="#factories"><i class="bi bi-gear"></i> Factories</a>
-
-    <div class="nav-section">Routing &amp; Controllers</div>
-    <a class="nav-link" href="#routing"><i class="bi bi-signpost-2"></i> Routing</a>
-    <a class="nav-link" href="#validation"><i class="bi bi-check2-square"></i> Validation</a>
-
-    <div class="nav-section">Views &amp; Frontend</div>
-    <a class="nav-link" href="#views"><i class="bi bi-eye"></i> Views / Blade</a>
-
-    <div class="nav-section">Ecosystem</div>
-    <a class="nav-link" href="#auth"><i class="bi bi-shield-lock"></i> Auth</a>
-    <a class="nav-link" href="#api"><i class="bi bi-globe"></i> API</a>
-    <a class="nav-link" href="#mail"><i class="bi bi-envelope"></i> Mail</a>
-    <a class="nav-link" href="#collections"><i class="bi bi-collection"></i> Collections</a>
-    <a class="nav-link" href="#artisan"><i class="bi bi-terminal"></i> Artisan</a>
-
-    <div class="nav-section">Debug &amp; More</div>
-    <a class="nav-link" href="#log-debug"><i class="bi bi-bug"></i> Log &amp; Debug</a>
-    <a class="nav-link" href="#filament"><i class="bi bi-columns-gap"></i> Filament</a>
-    <a class="nav-link" href="#other"><i class="bi bi-three-dots"></i> Other Tips</a>
-  </div>
-</nav>
-
-<div id="main">
-
-  <div class="d-flex align-items-center gap-3 mb-3 flex-wrap">
-    <div>
-      <h1 class="fw-bold mb-1" style="color:var(--laravel-dark)">
-        <i class="bi bi-lightning-charge-fill" style="color:var(--laravel-red)"></i>
-        Laravel Tips
-      </h1>
-      <p class="text-muted mb-0 fs-5">
-        Bite-sized tips from <a href="https://laraveldaily.com/tips" target="_blank" class="text-decoration-underline" style="color:var(--laravel-red)">Laravel Daily</a>
-        <span class="badge badge-laravel ms-2">350+ Tips</span>
-        <span class="badge bg-secondary ms-1">Laravel 11.x</span>
-      </p>
+    <button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
+    <a href="index.html" class="home-link"><span>&larr;</span> Home</a>
+    <nav id="sidebar">
+        <div class="brand">
+            <h5><i class="bi bi-lightning-charge-fill me-2" style="color:var(--laravel-red)"></i>Laravel Tips</h5>
+            <small>290+ inline code examples</small>
+        </div>
+        <div class="py-2" id="sidebarNav">
+            <div class="nav-section">Eloquent &amp; DB</div>
+            <a class="nav-link" href="#db-models">DB Models &amp; Eloquent</a>
+            <a class="nav-link" href="#relations">Model Relations</a>
+            <a class="nav-link" href="#migrations">Migrations</a>
+            <a class="nav-link" href="#factories">Factories &amp; Seeders</a>
+            <div class="nav-section">Routing &amp; Logic</div>
+            <a class="nav-link" href="#routing">Routing</a>
+            <a class="nav-link" href="#controllers">Controllers</a>
+            <a class="nav-link" href="#validation">Validation</a>
+            <div class="nav-section">Frontend</div>
+            <a class="nav-link" href="#blade">Views / Blade</a>
+            <div class="nav-section">Security</div>
+            <a class="nav-link" href="#auth">Auth &amp; Security</a>
+            <div class="nav-section">Ecosystem</div>
+            <a class="nav-link" href="#api">API &amp; Sanctum</a>
+            <a class="nav-link" href="#mail">Mail &amp; Notifications</a>
+            <a class="nav-link" href="#collections">Collections</a>
+            <a class="nav-link" href="#artisan">Artisan Commands</a>
+            <div class="nav-section">Advanced</div>
+            <a class="nav-link" href="#testing">Testing</a>
+            <a class="nav-link" href="#queues">Queues &amp; Jobs</a>
+            <a class="nav-link" href="#events">Events &amp; Observers</a>
+            <a class="nav-link" href="#caching">Caching</a>
+            <div class="nav-section">More</div>
+            <a class="nav-link" href="#log-debug">Log &amp; Debug</a>
+            <a class="nav-link" href="#packages">Packages &amp; Filament</a>
+            <a class="nav-link" href="#other">Other / Misc</a>
+        </div>
+    </nav>
+    <div id="main">
+        <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+            <h1 class="fw-bold mb-0" style="color:var(--laravel-dark);font-size:1.5rem"><i class="bi bi-lightning-charge-fill" style="color:var(--laravel-red)"></i> Laravel Tips</h1>
+            <span class="badge bg-danger ms-1">290+</span>
+            <span class="badge bg-secondary">Laravel 11.x</span>
+        </div>
+        <p class="text-muted mb-3" style="font-size:.85rem">Self-contained Laravel tips with inline code examples. No external links. Click any tip to expand and see the code.</p>
+        <div class="search-wrap"><i class="bi bi-search"></i><input type="text" id="tipSearch" placeholder="Search tips by keyword, code, or topic..." /></div>
+        <div class="search-status" id="searchStatus">Showing all tips</div>
+        <section id="db-models"><h2><i class="bi bi-database"></i> DB Models &amp; Eloquent <span class="count">48</span></h2><p class="section-desc">Model defaults, scopes, accessors, mutators, casts, queries, transactions.</p><div class="card"><div class="card-body" id="list-db-models"></div></div></section>
+        <section id="relations"><h2><i class="bi bi-diagram-3"></i> Model Relations <span class="count">26</span></h2><p class="section-desc">Relationship types, eager loading, pivot tables, withCount, hasManyThrough.</p><div class="card"><div class="card-body" id="list-relations"></div></div></section>
+        <section id="migrations"><h2><i class="bi bi-arrow-up-circle"></i> Migrations <span class="count">16</span></h2><p class="section-desc">Column types, foreign keys, indexing, rollbacks, squashing.</p><div class="card"><div class="card-body" id="list-migrations"></div></div></section>
+        <section id="factories"><h2><i class="bi bi-gear"></i> Factories &amp; Seeders <span class="count">12</span></h2><p class="section-desc">Factory definitions, states, sequences, relationships, callbacks.</p><div class="card"><div class="card-body" id="list-factories"></div></div></section>
+        <section id="routing"><h2><i class="bi bi-signpost-2"></i> Routing <span class="count">24</span></h2><p class="section-desc">Resource routes, model binding, middleware, groups, rate limiting.</p><div class="card"><div class="card-body" id="list-routing"></div></div></section>
+        <section id="controllers"><h2><i class="bi bi-controller"></i> Controllers <span class="count">14</span></h2><p class="section-desc">Single action, DI, resource controllers, form requests.</p><div class="card"><div class="card-body" id="list-controllers"></div></div></section>
+        <section id="validation"><h2><i class="bi bi-check2-square"></i> Validation <span class="count">18</span></h2><p class="section-desc">Custom rules, conditional validation, Form Requests, Rule objects.</p><div class="card"><div class="card-body" id="list-validation"></div></div></section>
+        <section id="blade"><h2><i class="bi bi-eye"></i> Views / Blade <span class="count">20</span></h2><p class="section-desc">Components, directives, slots, layouts, $loop, includes.</p><div class="card"><div class="card-body" id="list-blade"></div></div></section>
+        <section id="auth"><h2><i class="bi bi-shield-lock"></i> Auth &amp; Security <span class="count">12</span></h2><p class="section-desc">Gates, policies, password rules, email verification.</p><div class="card"><div class="card-body" id="list-auth"></div></div></section>
+        <section id="api"><h2><i class="bi bi-globe"></i> API &amp; Sanctum <span class="count">10</span></h2><p class="section-desc">Token auth, SPA auth, API resources, rate limiting.</p><div class="card"><div class="card-body" id="list-api"></div></div></section>
+        <section id="mail"><h2><i class="bi bi-envelope"></i> Mail &amp; Notifications <span class="count">10</span></h2><p class="section-desc">Mailables, markdown, notification channels, queued mail.</p><div class="card"><div class="card-body" id="list-mail"></div></div></section>
+        <section id="collections"><h2><i class="bi bi-collection"></i> Collections <span class="count">16</span></h2><p class="section-desc">Higher-order messages, lazy collections, common methods.</p><div class="card"><div class="card-body" id="list-collections"></div></div></section>
+        <section id="artisan"><h2><i class="bi bi-terminal"></i> Artisan Commands <span class="count">12</span></h2><p class="section-desc">Custom commands, arguments, options, signals, TUI.</p><div class="card"><div class="card-body" id="list-artisan"></div></div></section>
+        <section id="testing"><h2><i class="bi bi-check-circle"></i> Testing <span class="count">12</span></h2><p class="section-desc">HTTP tests, database tests, mockery, parallel testing.</p><div class="card"><div class="card-body" id="list-testing"></div></div></section>
+        <section id="queues"><h2><i class="bi bi-list-task"></i> Queues &amp; Jobs <span class="count">12</span></h2><p class="section-desc">Job batching, unique jobs, middleware, failed jobs.</p><div class="card"><div class="card-body" id="list-queues"></div></div></section>
+        <section id="events"><h2><i class="bi bi-broadcast"></i> Events &amp; Observers <span class="count">10</span></h2><p class="section-desc">Model observers, event discovery, listeners, broadcasting.</p><div class="card"><div class="card-body" id="list-events"></div></div></section>
+        <section id="caching"><h2><i class="bi bi-database-gear"></i> Caching <span class="count">10</span></h2><p class="section-desc">Cache tags, locks, atomic operations, TTL, drivers.</p><div class="card"><div class="card-body" id="list-caching"></div></div></section>
+        <section id="log-debug"><h2><i class="bi bi-bug"></i> Log &amp; Debug <span class="count">10</span></h2><p class="section-desc">Log channels, custom loggers, debugging helpers, Ray.</p><div class="card"><div class="card-body" id="list-log-debug"></div></div></section>
+        <section id="packages"><h2><i class="bi bi-box"></i> Packages &amp; Filament <span class="count">10</span></h2><p class="section-desc">Filament resources, actions, widgets, custom packages.</p><div class="card"><div class="card-body" id="list-packages"></div></div></section>
+        <section id="other"><h2><i class="bi bi-three-dots"></i> Other / Misc <span class="count">18</span></h2><p class="section-desc">Helpers, facades, macros, env config, scheduled tasks.</p><div class="card"><div class="card-body" id="list-other"></div></div></section>
+        <footer><p class="mb-0"><strong>Laravel Tips</strong> &mdash; 290+ self-contained tips with inline code examples. All code targets Laravel 11.x and PHP 8.2+.</p></footer>
     </div>
-  </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <p class="fs-5 text-muted mb-4">
-    Collection of quick, actionable Laravel tips organized by topic.
-    Each tip links to the full explanation on Laravel Daily. Click any tip to learn more.
-  </p>
+<script>
+const TIPS_DATA = {
+    'db-models': [
+        ['Set Default Column Values','Define default attribute values directly on the model.','protected $attributes = [\n    ''completed'' => false,\n    ''role'' => ''user''\n];'],
+        ['Disable Timestamps','Stop Eloquent from managing created_at / updated_at.','public $timestamps = false;'],
+        ['Custom Timestamp Names','Rename the default timestamp columns.','const CREATED_AT = ''created_date'';\nconst UPDATED_AT = ''updated_date'';'],
+        ['Without Timestamps on Save','Temporarily disable timestamps during an operation.','User::withoutTimestamps(function () {\n    User::where(''id'', 1)->update([''name'' => ''Changed'']);\n});'],
+        ['Appended Values','Return extra computed attributes without DB columns.','protected $appends = [''full_name''];\n\npublic function getFullNameAttribute()\n{\n    return "{$this->first_name} {$this->last_name}";\n}'],
+        ['Hidden Columns','Remove sensitive columns from array/JSON output.','protected $hidden = [''password'', ''remember_token''];'],
+        ['Visible Whitelist','Show only certain columns in array/JSON.','protected $visible = [''id'', ''name'', ''email''];'],
+        ['Accessor Caching (Laravel 10+)','Cache expensive accessor computations per request.','protected function fullName(): Attribute\n{\n    return Attribute::make(\n        get: fn ($value, $attrs) =>\n            "{$attrs[''first_name'']} {$attrs[''last_name'']}",\n    )->shouldCache();\n}'],
+        ['New Accessor/Mutator Syntax','Laravel 9+ way to define accessors and mutators.','use Illuminate\\Database\\Eloquent\\Casts\\Attribute;\n\nprotected function name(): Attribute\n{\n    return Attribute::make(\n        get: fn (string $v) => ucfirst($v),\n        set: fn (string $v) => strtolower($v),\n    );\n}'],
+        ['Custom Casts','Create a custom cast class for complex types.','// php artisan make:cast MoneyCast\n\nprotected $casts = [\n    ''price'' => MoneyCast::class.'':currency'',\n];'],
+        ['Immutable Date Casts','Prevent accidental mutation of date attributes.','protected $casts = [\n    ''published_at'' => ''immutable_datetime'',\n    ''created_at'' => ''immutable_datetime'',\n];'],
+        ['Eloquent Sub-Selects','Add a sub-select in the Laravel way.','User::addSelect([\n    ''last_post_date'' => Post::select(''created_at'')\n        ->whereColumn(''user_id'', ''users.id'')\n        ->latest()->take(1)\n])->get();'],
+        ['withAggregate()','Load an aggregate from a relation without joining.','$users = User::withAggregate(''posts'', ''title'', ''max'')->get();\n// $users[0]->posts_max_title'],
+        ['whereBelongsTo()','Simplify belongsTo filtering (Laravel 8+).','// Instead of:\nPost::where(''user_id'', $user->id)->get();\n\n// Use:\nPost::whereBelongsTo($user)->get();'],
+        ['First Or Create','Find existing record or create a new one.','$user = User::firstOrCreate(\n    [''email'' => ''john@ex.com''],\n    [''name'' => ''John'', ''password'' => bcrypt(''secret'')]\n);'],
+        ['Update Or Create (Upsert)','Update if exists, create if not — mass upsert.','User::upsert([\n    [''email'' => ''a@b.com'', ''name'' => ''A''],\n    [''email'' => ''c@d.com'', ''name'' => ''C''],\n], [''email''], [''name'']);'],
+        ['Increment / Decrement','Atomic increment and decrement operations.','User::where(''id'', 1)->increment(''points'', 10);\nPost::find(1)->decrement(''views'');\n\nUser::find(1)->increment(''points'', 5, [''updated_at'' => now()]);'],
+        ['Find Many with Columns','Find() with specific columns.','$users = User::find([1, 2, 3], [''id'', ''name'', ''email'']);'],
+        ['Lazy Loading Prevention','Throw exceptions when lazy loading is detected.','// In AppServiceProvider::boot()\nModel::preventLazyLoading(! $this->app->isProduction());'],
+        ['Should Be Strict','Prevent lazy loading and silent attribute discarding.','Model::shouldBeStrict(! $this->app->isProduction());'],
+        ['WithDefault on BelongsTo','Prevent "property of non-object" errors.','public function author(): BelongsTo\n{\n    return $this->belongsTo(User::class)->withDefault([\n        ''name'' => ''Guest Author''\n    ]);\n}'],
+        ['Raw DB for Performance','Use raw column calculations for speed.','User::selectRaw(''count(*) as total, status'')\n    ->groupBy(''status'')->having(''total'', ''>'', 10)->get();'],
+        ['Value() and Scalar()','Get a single column value from the first result.','$name = User::where(''email'', ''john@ex.com'')->value(''name'');\n\n// Laravel 10+\n$count = User::where(''active'', true)->scalar(''id'');'],
+        ['Exists vs Count','Use exists() instead of count() > 0 for performance.','if (User::exists()) { /* ... */ }\n\nif (User::where(''role'', ''admin'')->doesntExist()) { /* ... */ }'],
+        ['DB Transactions','Wrap multiple queries in a transaction.','DB::transaction(function () {\n    $user = User::create([...]);\n    $user->wallet()->create([''balance'' => 100]);\n});'],
+        ['Transaction with Retry','Retry on deadlock automatically.','DB::transaction(function () {\n    Account::where(''id'', 1)->decrement(''balance'', 100);\n    Account::where(''id'', 2)->increment(''balance'', 100);\n}, 3); // 3 retries'],
+        ['ChunkById for Stability','Use chunkById for stable pagination.','// Unstable: User::chunk(100, fn ($u) => ...);\n// Stable:\nUser::chunkById(100, fn ($users) => ...);'],
+        ['Lazy Collections for Large Sets','Stream results without loading into memory.','foreach (User::lazy(500) as $user) {\n    // Process one by one\n}'],
+        ['Cursor for Less Memory','Single query generator — even lighter than lazy.','foreach (User::cursor() as $user) {\n    // Each user fetched individually\n}'],
+        ['Prunable Models','Auto-remove old models.','use Illuminate\\Database\\Eloquent\\Prunable;\n\npublic function prunable(): Builder\n{\n    return static::where(''created_at'', ''<'', now()->subDays(30));\n}\n\n// Schedule: $schedule->command(''model:prune'')->daily();'],
+        ['Check Dirty / Original','Detect changed attributes.','$user = User::find(1);\n$user->name = ''New Name'';\n$user->isDirty();       // true\n$user->isDirty(''name''); // true\n$user->getOriginal(''name''); // ''Old Name'''],
+        ['Model Replicate','Copy a model without its primary key.','$newPost = $post->replicate();\n$newPost->title = $post->title . '' (copy)'';\n$newPost->save();'],
+        ['Global Scope','Add a constraint to every query on a model.','// In boot()\nstatic::addGlobalScope(''active'', fn (Builder $q) => $q->where(''active'', true));\n\n// Bypass:\nUser::withoutGlobalScope(''active'')->get();'],
+        ['Order JSON Column','Query inside JSON columns.','User::where(''meta->language'', ''en'')->get();\nUser::whereJsonLength(''meta->tags'', ''>'', 3)->get();\nUser::whereJsonContains(''meta->roles'', ''editor'')->get();'],
+        ['whereDate / whereMonth / whereYear','Filter by date parts.','Post::whereYear(''created_at'', 2025)\n    ->whereMonth(''created_at'', 3)\n    ->whereDay(''created_at'', 15)\n    ->get();'],
+        ['whereColumn Comparison','Compare two columns.','User::whereColumn(''updated_at'', ''>'', ''created_at'')->get();\nPost::whereColumn(''votes'', ''>='', ''view_count'')->get();'],
+        ['Forget Cache on Save','Auto-clear cache when model is saved.','// In boot()\nstatic::saved(fn () => Cache::forget(''users_count''));\nstatic::deleted(fn () => Cache::forget(''users_count''));'],
+        ['JSON Casting','Auto-encode/decode JSON columns.','protected $casts = [\n    ''meta'' => ''array'',\n    ''settings'' => ''json'',\n    ''tags'' => ''collection'',\n];\n$user->meta = [''key'' => ''value'']; // Auto-encoded'],
+        ['fresh() and refresh()','Reload model from the database.','$user = User::find(1);\n$user->fresh();  // Reload from DB (returns new instance)\n$user->refresh(); // Also resets relations on current instance'],
+        ['Raw Expressions','Use DB::raw for complex expressions.','User::select([''id'', ''name'',\n    DB::raw("YEAR(created_at) as year")\n])->get();'],
+        ['Tap Helper','Perform side-effects without breaking chain.','return tap($user->update([''name'' => ''New'']))->fresh();'],
+        ['Conditional whereWhen','Chain clauses without if-else.','User::when($request->filled(''role''), fn ($q) =>\n    $q->where(''role'', $request->role)\n)->get();'],
+        ['Exact DB Error Info','Get detailed database error messages.','try {\n    // query\n} catch (QueryException $e) {\n    $error = $e->getMessage();\n    $sql = $e->getSql();\n    $bindings = $e->getBindings();\n}'],
+        ['FindOrFail with IDs list','findOrFail() accepts multiple IDs.','$users = User::findOrFail([1, 2, 3]); // Throws if any missing'],
+        ['No Timestamps Columns','Remove timestamps from a specific table.','Schema::create(''logs'', function (Blueprint $t) {\n    $t->id();\n    $t->string(''message'');\n    $t->timestamps(0); // Pass 0 to omit\n});'],
+        ['Accessor with Custom Casts','Combine accessors with enum/model casting.','protected function statusLabel(): Attribute\n{\n    return Attribute::make(\n        get: fn () => StatusEnum::from($this->status)->label()\n    );\n}'],
+        ['Map Query Results','Transform query results with map().','User::all()->map(fn ($user) => [\n    ''id'' => $user->id,\n    ''name'' => $user->name,\n]);'],
+        ['Auto Column Value on Create','Set column value automatically on creation.','// In boot()\nstatic::creating(fn (User $user) =>\n    $user->uuid = (string) Str::uuid()\n);'],
+    ],
+    'relations': [
+        ['Eager Loading Basics','Prevent N+1 by loading relations upfront.','$users = User::with(''posts.comments'')->get();\nforeach ($users as $user) {\n    foreach ($user->posts as $post) {\n        // No extra queries\n    }\n}'],
+        ['Lazy Eager Loading','Load relations after the query ran.','$user = User::find(1);\n$user->load(''posts'', ''profile'');\n$user->loadMissing(''posts''); // Only if not loaded'],
+        ['Eager Load Specific Columns','Select only needed columns from a relation.','User::with(''posts:id,user_id,title'')->get();\n\nUser::with([''posts'' => fn ($q) =>\n    $q->select(''id'', ''user_id'', ''title'')]\n)->get();'],
+        ['Load Count On-the-Fly','Count related records without loading them.','$users = User::withCount(''posts'')->get();\n// $users[0]->posts_count\n\nUser::withCount([''posts'', ''comments''])->get();'],
+        ['withExists()','Check if a relation exists without counting.','$users = User::withExists(''posts'')->get();\n// $users[0]->posts_exists // boolean'],
+        ['whereHas / whereDoesntHave','Filter by relationship conditions.','User::whereHas(''posts'', fn ($q) =>\n    $q->where(''published'', true)\n)->get();\n\nUser::whereDoesntHave(''posts'')->get();'],
+        ['Has-Many-Through','Access distant relations through intermediate models.','// Country -> User -> Post\npublic function posts(): HasManyThrough\n{\n    return $this->hasManyThrough(Post::class, User::class);\n}'],
+        ['BelongsToMany Pivot Ops','Attach / sync / detach with pivot data.','$user->roles()->attach(1);\n$user->roles()->attach(1, [''expires_at'' => now()]);\n$user->roles()->sync([1, 2, 3]);\n$user->roles()->syncWithoutDetaching([4]);'],
+        ['Pivot Extra Columns','Define extra columns on pivot tables.','// Migration\nSchema::create(''role_user'', function (Blueprint $t) {\n    $t->foreignId(''user_id'');\n    $t->foreignId(''role_id'');\n    $t->timestamp(''expires_at'')->nullable();\n});\n\n// Model\nreturn $this->belongsToMany(Role::class)\n    ->withPivot(''expires_at'')->withTimestamps();'],
+        ['Filter by Pivot Column','Query many-to-many by pivot data.','$user->roles()->wherePivot(''expires_at'', ''>'', now())->get();\n$user->roles()->wherePivotNull(''expires_at'')->get();\n$user->roles()->orderByPivot(''expires_at'')->get();'],
+        ['Touch Parent Timestamps','Auto-update parent updated_at on child change.','// In child model (e.g. Comment)\nprotected $touches = [''post''];\n// Post.updated_at updates whenever a comment changes'],
+        ['ofMany() — Latest Record','Get the newest related record.','public function latestPost(): HasOne\n{\n    return $this->hasOne(Post::class)->ofMany(''created_at'', ''max'');\n}\n$user->latestPost; // The single latest post'],
+        ['hasOneThrough','Access distant one-to-one through a pivot.','// Mechanic -> Car -> Owner\npublic function carOwner(): HasOneThrough\n{\n    return $this->hasOneThrough(Owner::class, Car::class);\n}'],
+        ['Conditional Relationships','Define relations with built-in conditions.','public function publishedPosts(): HasMany\n{\n    return $this->hasMany(Post::class)->where(''published'', true);\n}'],
+        ['Multi-Level Eager Loading','Nested eager loading with constraints.','User::with([''posts'' => fn ($q) =>\n    $q->where(''published'', true)->with(''comments'')\n])->get();'],
+        ['Nested WhereHas','Filter by deeply nested relationships.','User::whereHas(''posts.comments'', fn ($q) =>\n    $q->whereHas(''author'', fn ($q) => $q->where(''active'', true))\n)->get();'],
+        ['Morph Relationships','Polymorphic relations for multiple models.','// Comment belongsTo -> Post or Video\npublic function commentable(): MorphTo { return $this->morphTo(); }\n\n// Post has many comments\npublic function comments(): MorphMany\n{\n    return $this->morphMany(Comment::class, ''commentable'');\n}'],
+        ['Order by Aggregate','Order by a related table aggregate.','$users = User::withCount(''posts'')\n    ->orderBy(''posts_count'', ''desc'')->get();'],
+        ['Save Related in One Line','Create/save related models directly.','$user->posts()->save($post);\n$user->posts()->saveMany([$p1, $p2]);\n$user->posts()->create([''title'' => ''New'']);'],
+        ['Pivot Custom Model','Use a custom pivot model class.','return $this->belongsToMany(Role::class)->using(Membership::class);\n\nclass Membership extends Pivot {\n    // Custom methods here\n}'],
+        ['Relation Existence Check','Compare two models by identity.','$post->is($anotherPost); // true if same model+id\n$user->profile->is($profile);'],
+        ['Randomize Relation Order','Shuffle related records.','$user->posts()->inRandomOrder()->get();'],
+        ['WhereHas Short Form','Dynamic whereHas by relationship name.','// Instead of whereHas:\nUser::whereRelation(''posts'', ''title'', ''like'', ''%Laravel%'')->get();'],
+        ['Load Count Dynamically','Append count to already-loaded model.','$user = User::withCount(''posts'')->find(1);\n\n// Or later:\n$user->loadCount(''comments'');'],
+        ['Always Eager Load Globally','Always load a relationship for a model.','// In model boot()\nprotected static function booted()\n{\n    static::addGlobalScope(''withAuthor'', fn ($q) => $q->with(''author''));\n}'],
+        ['Update Pivot Record','Update an existing pivot record.','$user->roles()->updateExistingPivot($roleId, [\n    ''expires_at'' => now()->addYear(),\n]);'],
+    ],
+    'migrations': [
+        ['Common Column Types','Essential migration column types.','$table->id();\n$table->foreignId(''user_id'');\n$table->string(''name'', 100);\n$table->text(''body'');\n$table->boolean(''active'')->default(false);\n$table->json(''meta'');\n$table->decimal(''price'', 10, 2);\n$table->timestamp(''published_at'')->nullable();\n$table->softDeletes();\n$table->timestamps();'],
+        ['Foreign Key Constraints','Define foreign key relationships.','$table->foreignId(''user_id'')\n    ->constrained()->cascadeOnDelete();\n\n// Or separately:\n$table->unsignedBigInteger(''user_id'');\n$table->foreign(''user_id'')->references(''id'')->on(''users'');'],
+        ['Column Order (MySQL)','Control column position in MySQL.','$table->string(''phone'')->after(''email'');\n\n$table->after(''name'', function (Blueprint $t) {\n    $t->string(''first_name'');\n    $t->string(''last_name'');\n});'],
+        ['Anonymous Migrations','Prevent class name collisions (Laravel 8+).','return new class extends Migration {\n    public function up() { /* ... */ }\n    public function down() { /* ... */ }\n};'],
+        ['Migration Status Command','See which migrations have run.','php artisan migrate:status'],
+        ['Preview SQL Before Migrating','See SQL that will be executed.','php artisan migrate --pretend\n\n// Or for a specific file:\nphp artisan migrate --pretend --path=.../create_users_table.php'],
+        ['Check Table / Column Existence','Conditionally check schema.','if (Schema::hasTable(''users'')) {  }\nif (Schema::hasColumn(''users'', ''email'')) {  }\nif (Schema::hasColumns(''users'', [''name'', ''email''])) {  }'],
+        ['Modify Existing Columns','Use change() to modify columns (Laravel 8+).','Schema::table(''users'', function (Blueprint $t) {\n    $t->string(''name'', 100)->nullable()->change();\n    $t->renameColumn(''name'', ''username'');\n    $t->dropColumn(''obsolete'');\n});'],
+        ['Default Timestamp Value','Set CURRENT_TIMESTAMP as default.','$table->timestamp(''created_at'')->useCurrent();\n$table->timestamp(''updated_at'')->useCurrentOnUpdate();'],
+        ['Timestamp with Timezone','Use timestampTz for timezone-aware columns.','Schema::create(''events'', function (Blueprint $t) {\n    $t->id();\n    $t->timestampTz(''starts_at'');\n    $t->timestampsTz();\n});'],
+        ['Indexes for Performance','Add indexes for frequently queried columns.','$table->index(''email'');\n$table->unique([''email'', ''account_id'']);\n$table->fullText(''body''); // MySQL only'],
+        ['Squash Migrations','Merge old migrations into a single file.','php artisan migrate:schema --prune\n\n// Creates a schema dump, then prunes old migration files'],
+        ['Create Migration for Existing Table','Target an existing table with --table.','php artisan make:migration add_role_to_users_table --table=users'],
+        ['Migration Ordering','Migrations run in filename date order.','2024_01_01_000001_create_users_table.php\n2024_01_02_000001_create_posts_table.php\n\n// Use earlier timestamps to insert before existing migrations'],
+        ['Add Column if Not Present','Conditionally add or drop columns.','// Use raw SQL or check with Schema::hasColumn first\nif (! Schema::hasColumn(''users'', ''phone'')) {\n    Schema::table(''users'', fn (Blueprint $t) => $t->string(''phone''));\n}'],
+        ['Add Comment to Column','Document columns inline.','$table->string(''status'')->comment(''pending, active, suspended, deleted'');'],
+    ],
+    'factories': [
+        ['Define a Factory','Create a factory for a model.','class UserFactory extends Factory\n{\n    public function definition(): array\n    {\n        return [\n            ''name'' => fake()->name(),\n            ''email'' => fake()->unique()->safeEmail(),\n            ''password'' => Hash::make(''password''),\n        ];\n    }\n}'],
+        ['Factory States','Define variations of model data.','public function suspended(): static\n{\n    return $this->state(fn (array $attrs) => [\n        ''status'' => ''suspended'',\n        ''suspended_at'' => now(),\n    ]);\n}\n\nUser::factory()->suspended()->create();'],
+        ['Factory Sequences','Cycle through values.','User::factory()->count(3)->sequence(\n    [''role'' => ''admin''],\n    [''role'' => ''editor''],\n    [''role'' => ''user''],\n)->create();'],
+        ['Factory Relationships','Create related models from a factory.','$user = User::factory()\n    ->has(Post::factory()->count(3))\n    ->create();\n\n$post = Post::factory()\n    ->for(User::factory()->state([''name'' => ''Author'']))\n    ->create();'],
+        ['Nested Factory Relationships','Create deep relationships chain.','User::factory()\n    ->has(Post::factory()->count(3)\n        ->has(Comment::factory()->count(5)))\n    ->create();'],
+        ['Factory Callbacks','Run code after creating or making.','User::factory()->count(10)->create()\n    ->each(fn ($user) => $user->profile()->create([''bio'' => '...']));'],
+        ['Recycle Existing Models','Use existing models instead of creating new.','$users = User::factory()->count(5)->create();\nPost::factory()->count(20)->recycle($users)->create();'],
+        ['Factory for Pivot Data','Create many-to-many via factories.','$user = User::factory()\n    ->hasAttached(Role::factory()->count(3), [''expires_at'' => now()])\n    ->create();'],
+        ['Localized Faker','Use locale-specific fake data.','// config/app.php\n''faker_locale'' => ''fr_FR'',\n\n// Per-factory:\nfake(''fr_FR'')->address()'],
+        ['Factories with Enums','Use PHP 8.1 enums in factory definitions.','''status'' => fake()->randomElement(PostStatus::cases()),'],
+        ['Truncate + Seed','Reset table and seed cleanly.','DB::statement(''SET FOREIGN_KEY_CHECKS=0'');\nUser::truncate();\nDB::statement(''SET FOREIGN_KEY_CHECKS=1'');\nUser::factory()->count(50)->create();'],
+        ['Image Placeholder in Factories','Generate fake image URLs.','''image'' => fake()->imageUrl(640, 480, ''cats'', true)'],
+    ],
+    'routing': [
+        ['Resource Routes','Generate all CRUD routes.','Route::resource(''posts'', PostController::class);\n// index, create, store, show, edit, update, destroy'],
+        ['Partial Resources','Include only specific actions.','Route::resource(''posts'', PostController::class)\n    ->only([''index'', ''show'']);\n    // or ->except([''edit'', ''update'']);'],
+        ['API Resource Routes','Resource without create/edit views.','Route::apiResource(''posts'', PostController::class);\n// index, show, store, update, destroy'],
+        ['Route Model Binding','Auto-inject model instances.','Route::get(''/posts/{post}'', function (Post $post) {\n    return $post; // Auto-resolved from {post}\n});\n\n// Custom key:\npublic function getRouteKeyName(): string { return ''slug''; }'],
+        ['Route Groups','Group routes with shared attributes.','Route::prefix(''admin'')->middleware(''auth'')->group(function () {\n    Route::get(''/users'', [UserController::class, ''index'']);\n    Route::get(''/users/{user}'', [UserController::class, ''show'']);\n});'],
+        ['Route Name Prefix','Prefix all route names in a group.','Route::name(''admin.'')->group(function () {\n    Route::get(''users'', [...])->name(''users.index'');\n    // Route name: admin.users.index\n});'],
+        ['Fallback Route','Catch-all for unmatched routes (must be last).','Route::fallback(function () {\n    return response()->view(''errors.404'', [], 404);\n});'],
+        ['Rate Limiting','Limit requests per time window.','RateLimiter::for(''api'', fn ($job) =>\n    Limit::perMinute(60)->by($job->user?->id ?: $job->ip())\n);\n\nRoute::middleware(''throttle:api'')->group(function () { ... });'],
+        ['Wildcard Subdomains','Handle dynamic subdomains.','Route::domain(''{account}.example.com'')->group(function () {\n    Route::get(''/'', fn (string $account) => "Account: {$account}");\n});'],
+        ['Route Redirect','Redirect one route to another.','Route::redirect(''/here'', ''/there'', 302);\nRoute::permanentRedirect(''/legacy'', ''/v2'');'],
+        ['Route View','Return a view without a controller.','Route::view(''/welcome'', ''welcome'', [''name'' => ''Laravel'']);'],
+        ['Controller Groups','Group routes under one controller.','Route::controller(UserController::class)->group(function () {\n    Route::get(''/users'', ''index'');\n    Route::post(''/users'', ''store'');\n});'],
+        ['With Trashed Models','Resolve soft-deleted models in route binding.','Route::get(''/posts/{post}'', fn (Post $post) => $post)\n    ->withTrashed();'],
+        ['Custom Resource Names','Rename resource route names.','Route::resource(''posts'', PostController::class)\n    ->names([''index'' => ''articles.all'', ''show'' => ''articles.view'']);'],
+        ['Check Route Name','Get or check the current route name.','request()->route()->getName();\nRoute::currentRouteName();\n\n@if (request()->routeIs(''posts.*''))'],
+        ['URL Without Query Params','Strip query string from URL.','request()->url(); // Without query string\nrequest()->fullUrl(); // With query string'],
+        ['Exclude Middleware on Route','Remove middleware from specific routes.','Route::middleware(''auth'')->group(function () {\n    Route::get(''profile'', [...])->withoutMiddleware(''auth'');\n});'],
+        ['Route Regex Validation','Validate route parameters with patterns.','Route::get(''/users/{id}'', fn ($id) => ...)\n    ->where(''id'', ''[0-9]+'')\n    ->whereAlpha(''name'')\n    ->whereUuid(''uuid'');'],
+        ['Route Cache for Speed','Cache routes in production (no closures).','php artisan route:cache\nphp artisan route:clear\n\n// Note: won''t work with closures — use controllers'],
+        ['Eager Load in Route Binding','Auto-eager load relations.','public function resolveRouteBinding($value, $field = null)\n{\n    return $this->with(''posts'')->where($field ?? ''id'', $value)->firstOrFail();\n}'],
+        ['Customize Missing Model','Custom 404 for route binding.','public function resolveRouteBinding($value, $field = null)\n{\n    return $this->where($field ?? ''id'', $value)\n        ->first() ?? abort(404, ''Post not found'');\n}'],
+        ['Nested Resources with Shallow','Nest resources without deep URLs.','Route::resource(''users.posts'', PostController::class)->shallow();\n// /users/{user}/posts/{post}'],
+        ['Signed Routes','Generate tamper-proof URLs.','URL::signedRoute(''unsubscribe'', [''user'' => 1]);\n\nRoute::get(''/unsub/{user}'', function (Request $r) {\n    if (! $r->hasValidSignature()) abort(401);\n})->name(''unsubscribe'');'],
+        ['Route View with Status','View routes with HTTP status codes.','Route::get(''/thank-you'', fn () =>\n    response()->view(''thank-you'')->setStatusCode(201)\n);'],
+    ],
+};
+</script>
 
-  <div class="search-tips">
-    <input type="text" id="tipSearch" placeholder="Search tips..." oninput="filterTips(this.value)">
-  </div>
+<script>
+TIPS_DATA['controllers'] = [
+    ['Resource Controller','Controller with all CRUD methods.','php artisan make:controller PostController --resource\n\n// Methods: index, create, store, show, edit, update, destroy'],
+    ['Single Action Controller','Controller with one method (__invoke).','php artisan make:controller ShowDashboard --invokable\n\nclass ShowDashboard\n{\n    public function __invoke()\n    {\n        return view(''dashboard'', [''data'' => ...]);\n    }\n}\n\nRoute::get(''/dashboard'', ShowDashboard::class);'],
+    ['Controller DI in Constructor','Type-hint services in the constructor.','class UserController extends Controller\n{\n    public function __construct(\n        private UserService $service,\n        private Logger $logger,\n    ) {}\n\n    public function index() {\n        $this->logger->info(''List requested'');\n        return $this->service->getAll();\n    }\n}'],
+    ['Form Request Injection','Use FormRequest objects for validation.','public function store(StoreUserRequest $request): RedirectResponse\n{\n    User::create($request->validated());\n    return redirect()->route(''users.index'');\n}'],
+    ['Route Model Binding in Controllers','Laravel auto-injects model instances.','public function show(Post $post): View\n{\n    return view(''posts.show'', compact(''post''));\n}\n// /posts/{post} resolved automatically'],
+    ['Controller Middleware','Apply middleware within the controller.','public function __construct()\n{\n    $this->middleware(''auth'');\n    $this->middleware(''admin'')->only(''destroy'');\n    $this->middleware(''verified'')->except(''index'', ''show'');\n}'],
+    ['Return JSON from Controllers','Return JSON response easily.','public function index(): JsonResponse\n{\n    return response()->json([\n        ''data'' => Post::with(''author'')->get(),\n        ''meta'' => [''total'' => Post::count()]\n    ]);\n}'],
+    ['API Resource Class','Transform Eloquent models for APIs.','class PostResource extends JsonResource\n{\n    public function toArray(Request $request): array\n    {\n        return [\n            ''id'' => $this->id,\n            ''title'' => $this->title,\n            ''author'' => $this->author->name,\n            ''created'' => $this->created_at->diffForHumans(),\n        ];\n    }\n}'],
+    ['Resource Collections','Transform collections of resources.','class PostCollection extends ResourceCollection\n{\n    public $collects = PostResource::class;\n\n    public function toArray(Request $request): array\n    {\n        return [\n            ''data'' => $this->collection,\n            ''links'' => [''self'' => route(''posts.index'')],\n        ];\n    }\n}'],
+    ['Paginated API Responses','Wrap paginated API results.','public function index(): LengthAwarePaginator\n{\n    return Post::with(''author'')->paginate(20);\n    // Laravel auto-wraps with meta in JSON'],
+    ['Throttle on Controllers','Rate limit specific controller actions.','public function __construct()\n{\n    $this->middleware(''throttle:10,1'')->only(''store'');\n}'],
+    ['Invokable for Simple Actions','Use __invoke for single-purpose controllers.','class TogglePostStatus\n{\n    public function __invoke(Post $post)\n    {\n        $post->update([''published'' => !$post->published]);\n        return back();\n    }\n}'],
+    ['Controller Route Group','Group routes by controller.','Route::controller(PostController::class)->group(function () {\n    Route::get(''/posts'', ''index'');\n    Route::post(''/posts'', ''store'');\n});'],
+    ['Response Macros on Controllers','Create reusable response helpers.','// In AppServiceProvider\nResponse::macro(''success'', fn ($data) =>\n    response()->json([''status'' => ''ok'', ''data'' => $data])\n);\n\nreturn response()->success($users);'],
+];
 
-  <!-- ==================== DB MODELS & ELOQUENT ==================== -->
-  <section id="db-models">
-    <h2><i class="bi bi-database me-2"></i>DB Models &amp; Eloquent <span class="tip-count">99</span></h2>
-    <div class="card">
-      <div class="card-body">
-        <ul class="tip-list">
-          <li><a href="https://laraveldaily.com/tip/set-default-db-column-values-in-eloquent-model" target="_blank">Set Default DB Column Values in Eloquent Model</a></li>
-          <li><a href="https://laraveldaily.com/tip/controllers-auto-return-json-from-eloquent" target="_blank">Controllers Auto-Return JSON from Eloquent</a></li>
-          <li><a href="https://laraveldaily.com/tip/pass-a-raw-query-to-order-your-results" target="_blank">Pass a raw query to order your results</a></li>
-          <li><a href="https://laraveldaily.com/tip/load-data-completed-between-two-timestamps" target="_blank">Load data completed between two timestamps</a></li>
-          <li><a href="https://laraveldaily.com/tip/load-data-faster-when-the-targeted-value-is-an-integer" target="_blank">Load data faster when the targeted value is an integer</a></li>
-          <li><a href="https://laraveldaily.com/tip/new-rawvalue-method-since-laravel-937" target="_blank">New rawValue() method since Laravel 9.37</a></li>
-          <li><a href="https://laraveldaily.com/tip/eloquent-scopes-inside-of-other-relationships" target="_blank">Eloquent scopes inside of other relationships</a></li>
-          <li><a href="https://laraveldaily.com/tip/you-can-write-transaction-aware-code" target="_blank">You can write transaction-aware code</a></li>
-          <li><a href="https://laraveldaily.com/tip/perform-operation-without-modifying-updated-at-field" target="_blank">Perform operation without modifying updated_at field</a></li>
-          <li><a href="https://laraveldaily.com/tip/merging-eloquent-collections" target="_blank">Merging eloquent collections</a></li>
-          <li><a href="https://laraveldaily.com/tip/small-cheat-sheet-for-using-full-text-search-with-laravel-on-mysql" target="_blank">Full-Text Search with Laravel on MySQL cheat sheet</a></li>
-          <li><a href="https://laraveldaily.com/tip/remember-to-use-bindings-in-your-raw-queries" target="_blank">Remember to use bindings in your raw queries</a></li>
-          <li><a href="https://laraveldaily.com/tip/column-name-change" target="_blank">Column name change</a></li>
-          <li><a href="https://laraveldaily.com/tip/model-all-columns" target="_blank">Model all(): Specify Columns</a></li>
-          <li><a href="https://laraveldaily.com/tip/eloquent-where-date-methods" target="_blank">Eloquent where date methods</a></li>
-          <li><a href="https://laraveldaily.com/tip/increments-and-decrements" target="_blank">Increments and decrements</a></li>
-          <li><a href="https://laraveldaily.com/tip/no-timestamp-columns" target="_blank">No timestamp columns</a></li>
-          <li><a href="https://laraveldaily.com/tip/soft-deletes-multiple-restore" target="_blank">Soft-deletes: multiple restore</a></li>
-          <li><a href="https://laraveldaily.com/tip/to-fail-or-not-to-fail" target="_blank">To Fail or not to Fail</a></li>
-          <li><a href="https://laraveldaily.com/tip/change-default-timestamp-fields" target="_blank">Change Default Timestamp Fields</a></li>
-          <li><a href="https://laraveldaily.com/tip/quick-order-by-created-at" target="_blank">Quick Order by created_at</a></li>
-          <li><a href="https://laraveldaily.com/tip/no-need-to-convert-carbon" target="_blank">No Need to Convert Carbon</a></li>
-          <li><a href="https://laraveldaily.com/tip/reuse-or-clone-query" target="_blank">Clone Query to Re-Use It</a></li>
-          <li><a href="https://laraveldaily.com/tip/map-query-results" target="_blank">Map query results</a></li>
-          <li><a href="https://laraveldaily.com/tip/automatic-column-value-when-creating-records" target="_blank">Automatic Column Value When Creating Records</a></li>
-          <li><a href="https://laraveldaily.com/tip/db-raw-query-calculations-run-faster" target="_blank">DB Raw Query Calculations Run Faster</a></li>
-          <li><a href="https://laraveldaily.com/tip/more-than-one-scope" target="_blank">More than One Scope</a></li>
-          <li><a href="https://laraveldaily.com/tip/grouping-by-first-letter" target="_blank">Grouping by First Letter</a></li>
-          <li><a href="https://laraveldaily.com/tip/never-update-the-column" target="_blank">Never Update the Column</a></li>
-          <li><a href="https://laraveldaily.com/tip/find-many" target="_blank">Find() Many instead of whereIn()</a></li>
-          <li><a href="https://laraveldaily.com/tip/find-many-and-return-specific-columns" target="_blank">Find Many and return specific columns</a></li>
-          <li><a href="https://laraveldaily.com/tip/find-by-key" target="_blank">Find by Key</a></li>
-          <li><a href="https://laraveldaily.com/tip/use-uuid-instead-of-auto-increment" target="_blank">Use UUID instead of auto-increment</a></li>
-          <li><a href="https://laraveldaily.com/tip/sub-selects-in-laravel-way" target="_blank">Sub-selects in Laravel Way</a></li>
-          <li><a href="https://laraveldaily.com/tip/hide-some-columns" target="_blank">Hide Some Columns</a></li>
-          <li><a href="https://laraveldaily.com/tip/exact-db-error" target="_blank">Exact DB Error</a></li>
-          <li><a href="https://laraveldaily.com/tip/soft-deletes-with-query-builder" target="_blank">Soft-Deletes with Query Builder</a></li>
-          <li><a href="https://laraveldaily.com/tip/good-old-sql-query" target="_blank">Good Old SQL Query</a></li>
-          <li><a href="https://laraveldaily.com/tip/use-db-transactions" target="_blank">Use DB Transactions</a></li>
-          <li><a href="https://laraveldaily.com/tip/update-or-create" target="_blank">Update or Create</a></li>
-          <li><a href="https://laraveldaily.com/tip/forget-cache-on-save" target="_blank">Forget Cache on Save</a></li>
-          <li><a href="https://laraveldaily.com/tip/change-format-of-created-at-and-updated-at" target="_blank">Change Format Of created_at and updated_at</a></li>
-          <li><a href="https://laraveldaily.com/tip/storing-array-type-into-json" target="_blank">Storing Array Type into JSON</a></li>
-          <li><a href="https://laraveldaily.com/tip/make-a-copy-of-the-model" target="_blank">Make a Copy of the Model</a></li>
-          <li><a href="https://laraveldaily.com/tip/reduce-memory" target="_blank">Reduce Memory</a></li>
-          <li><a href="https://laraveldaily.com/tip/force-query-without-fillableguarded" target="_blank">Force query without $fillable/$guarded</a></li>
-          <li><a href="https://laraveldaily.com/tip/3-level-structure-of-parent-children" target="_blank">3-Level Parent-Children: with() and withCount()</a></li>
-          <li><a href="https://laraveldaily.com/tip/perform-any-action-on-failure" target="_blank">firstOr(): Perform any action on failure</a></li>
-          <li><a href="https://laraveldaily.com/tip/check-if-record-exists-or-show-404" target="_blank">Check if record exists or show 404</a></li>
-          <li><a href="https://laraveldaily.com/tip/abort-if-condition-failed" target="_blank">Abort if condition failed</a></li>
-          <li><a href="https://laraveldaily.com/tip/fill-a-column-automatically-while-you-persist-data-to-the-database" target="_blank">Fill a column automatically while persisting data</a></li>
-          <li><a href="https://laraveldaily.com/tip/extra-information-about-the-query" target="_blank">Extra information about the query</a></li>
-          <li><a href="https://laraveldaily.com/tip/using-the-doesntexist-method-in-laravel" target="_blank">Using the doesntExist() method</a></li>
-          <li><a href="https://laraveldaily.com/tip/trait-that-you-want-to-add-to-a-few-models-to-call-their-boot-method-automatically" target="_blank">Trait to auto-call boot() method on models</a></li>
-          <li><a href="https://laraveldaily.com/tip/there-are-two-common-ways-of-determining-if-a-table-is-empty-in-laravel" target="_blank">Don't use count() if you can use exists()</a></li>
-          <li><a href="https://laraveldaily.com/tip/how-to-prevent-property-of-non-object-error" target="_blank">withDefault(): Prevent "property of non-object" error</a></li>
-          <li><a href="https://laraveldaily.com/tip/get-original-attributes-after-mutating-an-eloquent-record" target="_blank">Get original attributes after mutating a record</a></li>
-          <li><a href="https://laraveldaily.com/tip/a-simple-way-to-seed-a-database" target="_blank">A simple way to seed a database</a></li>
-          <li><a href="https://laraveldaily.com/tip/the-crossjoinsub-method-of-the-query-constructor" target="_blank">The crossJoinSub method of the query constructor</a></li>
-          <li><a href="https://laraveldaily.com/tip/belongs-to-many-pivot-table-naming" target="_blank">Belongs to Many Pivot table naming</a></li>
-          <li><a href="https://laraveldaily.com/tip/order-by-pivot-fields" target="_blank">Order by Pivot Fields</a></li>
-          <li><a href="https://laraveldaily.com/tip/find-a-single-record-from-a-database" target="_blank">Find a single record from a database</a></li>
-          <li><a href="https://laraveldaily.com/tip/automatic-records-chunking" target="_blank">Automatic records chunking</a></li>
-          <li><a href="https://laraveldaily.com/tip/updating-the-model-without-dispatching-events" target="_blank">Updating the model without dispatching events</a></li>
-          <li><a href="https://laraveldaily.com/tip/periodic-cleaning-of-models-from-obsolete-records" target="_blank">Periodic cleaning of models from obsolete records</a></li>
-          <li><a href="https://laraveldaily.com/tip/immutable-dates-and-casting-to-them" target="_blank">Immutable dates and casting to them</a></li>
-          <li><a href="https://laraveldaily.com/tip/the-findorfail-method-also-accepts-a-list-of-ids" target="_blank">findOrFail() also accepts a list of ids</a></li>
-          <li><a href="https://laraveldaily.com/tip/prunable-trait-to-automatically-remove-models-from-your-database" target="_blank">Prunable trait to auto-remove old models</a></li>
-          <li><a href="https://laraveldaily.com/tip/withaggregate-method" target="_blank">withAggregate method</a></li>
-          <li><a href="https://laraveldaily.com/tip/date-convention" target="_blank">Date convention</a></li>
-          <li><a href="https://laraveldaily.com/tip/eloquent-multiple-upserts" target="_blank">Eloquent multiple upserts</a></li>
-          <li><a href="https://laraveldaily.com/tip/retrieve-the-query-builder-after-filtering-the-results" target="_blank">Retrieve the Query Builder after filtering</a></li>
-          <li><a href="https://laraveldaily.com/tip/custom-casts" target="_blank">Custom casts</a></li>
-          <li><a href="https://laraveldaily.com/tip/order-based-on-a-related-models-average-or-count" target="_blank">Order based on a related model's average or count</a></li>
-          <li><a href="https://laraveldaily.com/tip/return-transactions-result" target="_blank">Return Database Transactions Result</a></li>
-          <li><a href="https://laraveldaily.com/tip/remove-several-global-scopes-from-query" target="_blank">Remove several global scopes from query</a></li>
-          <li><a href="https://laraveldaily.com/tip/order-json-column-attribute" target="_blank">Order JSON column attribute</a></li>
-          <li><a href="https://laraveldaily.com/tip/get-single-columns-value-from-the-first-result" target="_blank">Get single column's value from the first result</a></li>
-          <li><a href="https://laraveldaily.com/tip/check-if-altered-value-changed-key" target="_blank">Check if altered value changed key</a></li>
-          <li><a href="https://laraveldaily.com/tip/new-way-to-define-accessor-and-mutator" target="_blank">Laravel 8+: New way to define accessor and mutator</a></li>
-          <li><a href="https://laraveldaily.com/tip/another-way-to-do-accessors-and-mutators" target="_blank">Custom Cases instead of accessors and mutators</a></li>
-          <li><a href="https://laraveldaily.com/tip/when-searching-for-the-first-record-you-can-perform-some-actions" target="_blank">When searching for the first record, perform actions</a></li>
-          <li><a href="https://laraveldaily.com/tip/directly-convert-created-at-date-to-human-readable-format" target="_blank">Directly convert created_at to human readable format</a></li>
-          <li><a href="https://laraveldaily.com/tip/ordering-by-an-eloquent-accessor" target="_blank">Ordering by an Eloquent Accessor</a></li>
-          <li><a href="https://laraveldaily.com/tip/check-for-specific-model-was-created-or-found" target="_blank">Check if model was created or found</a></li>
-          <li><a href="https://laraveldaily.com/tip/laravel-scout-with-database-driver" target="_blank">Laravel Scout with database driver</a></li>
-          <li><a href="https://laraveldaily.com/tip/make-use-of-the-value-method-on-the-query-builder" target="_blank">Make use of the value() method on the query builder</a></li>
-          <li><a href="https://laraveldaily.com/tip/pass-array-to-where-method" target="_blank">Pass array to where method</a></li>
-          <li><a href="https://laraveldaily.com/tip/return-the-primary-keys-from-models-collection" target="_blank">Return the primary keys from models collection</a></li>
-          <li><a href="https://laraveldaily.com/tip/force-laravel-to-use-eager-loading" target="_blank">Force Laravel to use eager loading</a></li>
-          <li><a href="https://laraveldaily.com/tip/make-all-your-models-mass-assignable" target="_blank">Make all your models mass assignable</a></li>
-          <li><a href="https://laraveldaily.com/tip/hiding-columns-in-select-all-statements" target="_blank">Hiding columns in select all statements</a></li>
-          <li><a href="https://laraveldaily.com/tip/json-where-clauses" target="_blank">JSON Where Clauses</a></li>
-          <li><a href="https://laraveldaily.com/tip/get-all-the-column-names-for-a-table" target="_blank">Get all the column names for a table</a></li>
-          <li><a href="https://laraveldaily.com/tip/compare-the-values-of-two-columns" target="_blank">Compare the values of two columns</a></li>
-          <li><a href="https://laraveldaily.com/tip/accessor-caching" target="_blank">Accessor Caching</a></li>
-          <li><a href="https://laraveldaily.com/tip/new-scalar-method" target="_blank">New scalar() method</a></li>
-          <li><a href="https://laraveldaily.com/tip/select-specific-columns" target="_blank">Select specific columns</a></li>
-          <li><a href="https://laraveldaily.com/tip/chain-conditional-clauses-to-the-query-without-writing-if-else-statements" target="_blank">Chain conditional clauses without if-else</a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
+TIPS_DATA['validation'] = [
+    ['Form Request Validation','Dedicated request class for validation.','php artisan make:request StorePostRequest\n\nclass StorePostRequest extends FormRequest\n{\n    public function authorize(): bool { return true; }\n\n    public function rules(): array\n    {\n        return [\n            ''title'' => [''required'', ''string'', ''max:255''],\n            ''body'' => [''required'', ''string''],\n        ];\n    }\n}'],
+    ['Custom Validation Rule','Create reusable rule classes.','php artisan make:rule Uppercase\n\nclass Uppercase implements Rule\n{\n    public function passes($attribute, $value): bool\n    {\n        return strtoupper($value) === $value;\n    }\n    public function message(): string\n    {\n        return '':attribute must be uppercase.'';\n    }\n}\n\n''name'' => [''required'', new Uppercase]'],
+    ['Rule::when()','Conditionally apply validation rules.','use Illuminate\\Support\\Facades\\Validator;\n\nValidator::make($data, [\n    ''email'' => Rule::when($user->isAdmin(), [''required'', ''email'']),\n]);'],
+    ['Stop on First Error','Prevent further validation after first failure.','$request->validate([\n    ''title'' => ''required|string'',\n    ''body'' => ''required|string'',\n])->stopOnFirstFailure();'],
+    ['Prepare for Validation','Modify input before validation runs.','protected function prepareForValidation()\n{\n    $this->merge([''slug'' => Str::slug($this->title)]);\n}'],
+    ['Custom Validation Messages','Customize error messages.','$messages = [\n    ''title.required'' => ''A title is required.'',\n];\n$validated = $request->validate([...], $messages);'],
+    ['Add Values After Validation','Append data after validation passes.','protected function passedValidation()\n{\n    $this->replace([\n        ...$this->validated(),\n        ''slug'' => Str::slug($this->title),\n    ]);\n}'],
+    ['Array Validation','Validate each element of an array.','''items'' => [''required'', ''array''],\n''items.*'' => [''required'', ''string'', ''distinct''],\n''items.*.id'' => [''required'', ''integer'', ''exists:products,id''],'],
+    ['Password::defaults','Set global password validation rules.','// In AppServiceProvider\nuse Illuminate\\Validation\\Rules\\Password;\n\nPassword::defaults(function () {\n    return Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised();\n});\n\n''password'' => [''required'', Password::defaults()],'],
+    ['Date Validation','Validate dates with readable constraints.','''start_date'' => [''required'', ''date'', ''after:today''],\n''birth_date'' => [''required'', ''date'', ''before:today''];\n// after:yesterday, after:start_date, before:end_date'],
+    ['Required If / Required With','Conditional field requirements.','''coupon'' => ''required_if:has_coupon,true'';\n''password'' => ''required_with:password_confirmation'';\n''phone'' => ''required_without:email'';'],
+    ['Unique with Soft Deletes','Ignore soft-deleted records.','use Illuminate\\Validation\\Rule;\n\n''email'' => Rule::unique(''users'')\n    ->ignore($user->id)\n    ->whereNull(''deleted_at''),'],
+    ['Validator::sometimes()','Add conditional rules at runtime.','$validator = Validator::make($data, $rules);\n$validator->sometimes(''approver'', ''required|email'', function ($input) {\n    return $input->amount > 1000;\n});'],
+    ['Exclude a Field After Validation','Remove a field from validated data.','$validated = $request->safe()->except(''password_confirmation'');\n$validated = $request->safe()->only([''name'', ''email'']);'],
+    ['UUID / ULID Validation','Built-in UUID and ULID validation.','''uuid'' => ''uuid'';\n''ulid'' => ''ulid'';'],
+    ['Image Validation','Validate uploaded images.','''photo'' => [''required'', ''image'', ''mimes:jpeg,png,webp'',\n    ''max:2048'', ''dimensions:min_width=200,min_height=200''],'],
+    ['Nested Array Validation','Deep validation for complex arrays.','''team.members'' => [''required'', ''array'', ''min:1''],\n''team.members.*.name'' => [''required'', ''string'', ''max:255''],\n''team.members.*.role'' => [''required'', Rule::in([''admin'', ''member''])],'],
+    ['Unique with Custom Where','Add additional conditions to unique check.','Rule::unique(''users'', ''email'')\n    ->where(''account_type'', ''premium'')\n    ->whereNull(''deleted_at''),'],
+];
 
-  <!-- ==================== MODEL RELATIONS ==================== -->
-  <section id="relations">
-    <h2><i class="bi bi-diagram-3 me-2"></i>Model Relations <span class="tip-count">36</span></h2>
-    <div class="card">
-      <div class="card-body">
-        <ul class="tip-list">
-          <li><a href="https://laraveldaily.com/tip/get-the-newest-or-oldest-item-of-another-relation" target="_blank">Get the newest (or oldest) item of another relation</a></li>
-          <li><a href="https://laraveldaily.com/tip/add-where-statement-to-many-to-many-relation" target="_blank">Add where statement to Many-to-Many relation</a></li>
-          <li><a href="https://laraveldaily.com/tip/orderby-on-eloquent-relationships" target="_blank">OrderBy on Eloquent relationships</a></li>
-          <li><a href="https://laraveldaily.com/tip/conditional-relationships" target="_blank">Conditional relationships</a></li>
-          <li><a href="https://laraveldaily.com/tip/raw-db-queries-havingraw" target="_blank">Raw DB Queries: havingRaw()</a></li>
-          <li><a href="https://laraveldaily.com/tip/eloquent-has-deeper" target="_blank">Eloquent has() deeper</a></li>
-          <li><a href="https://laraveldaily.com/tip/has-many-how-many-exactly" target="_blank">Has Many. How many exactly?</a></li>
-          <li><a href="https://laraveldaily.com/tip/default-model" target="_blank">Default model</a></li>
-          <li><a href="https://laraveldaily.com/tip/use-hasmany-to-create-many" target="_blank">Use hasMany to create Many</a></li>
-          <li><a href="https://laraveldaily.com/tip/multi-level-eager-loading" target="_blank">Multi level Eager Loading</a></li>
-          <li><a href="https://laraveldaily.com/tip/eager-loading-with-exact-columns" target="_blank">Eager Loading with Exact Columns</a></li>
-          <li><a href="https://laraveldaily.com/tip/touch-parent-updated-at-easily" target="_blank">Touch parent updated_at easily</a></li>
-          <li><a href="https://laraveldaily.com/tip/always-check-if-relationship-exists" target="_blank">Always Check if Relationship Exists</a></li>
-          <li><a href="https://laraveldaily.com/tip/use-withcount-to-calculate-child-relationships-records" target="_blank">Use withCount() to Calculate Child Records</a></li>
-          <li><a href="https://laraveldaily.com/tip/extra-filter-query-on-relationships" target="_blank">Extra Filter Query on Relationships</a></li>
-          <li><a href="https://laraveldaily.com/tip/load-relationships-always-but-dynamically" target="_blank">Load Relationships Always, but Dynamically</a></li>
-          <li><a href="https://laraveldaily.com/tip/instead-of-belongsto-use-hasmany" target="_blank">Instead of belongsTo, use hasMany</a></li>
-          <li><a href="https://laraveldaily.com/tip/rename-pivot-table" target="_blank">Rename Pivot Table</a></li>
-          <li><a href="https://laraveldaily.com/tip/update-parent-in-one-line" target="_blank">Update Parent in One Line</a></li>
-          <li><a href="https://laraveldaily.com/tip/laravel-7-foreign-keys" target="_blank">Laravel 7+ Foreign Keys</a></li>
-          <li><a href="https://laraveldaily.com/tip/combine-two-wherehas" target="_blank">Combine "whereHas" with "orDoesntHave"</a></li>
-          <li><a href="https://laraveldaily.com/tip/check-if-relationship-method-exists" target="_blank">Check if Relationship Method Exists</a></li>
-          <li><a href="https://laraveldaily.com/tip/pivot-table-with-extra-relations" target="_blank">Pivot Table with Extra Relations</a></li>
-          <li><a href="https://laraveldaily.com/tip/load-count-on-the-fly" target="_blank">Load Count on-the-fly</a></li>
-          <li><a href="https://laraveldaily.com/tip/randomize-relationship-order" target="_blank">Randomize Relationship Order</a></li>
-          <li><a href="https://laraveldaily.com/tip/filter-hasmany-relationships" target="_blank">Filter hasMany relationships</a></li>
-          <li><a href="https://laraveldaily.com/tip/filter-by-many-to-many-relationship-pivot-column" target="_blank">Filter by many-to-many pivot column</a></li>
-          <li><a href="https://laraveldaily.com/tip/a-shorter-way-to-write-wherehas" target="_blank">A shorter way to write whereHas</a></li>
-          <li><a href="https://laraveldaily.com/tip/you-can-add-conditions-to-your-relationships" target="_blank">You can add conditions to your relationships</a></li>
-          <li><a href="https://laraveldaily.com/tip/new-wherebelongsto-eloquent-query-builder-method" target="_blank">New whereBelongsTo() Eloquent query builder method</a></li>
-          <li><a href="https://laraveldaily.com/tip/the-is-method-of-one-to-one-relationships-for-comparing-models" target="_blank">The is() method of one-to-one relationships</a></li>
-          <li><a href="https://laraveldaily.com/tip/wherehas-multiple-connections" target="_blank">whereHas() multiple connections</a></li>
-          <li><a href="https://laraveldaily.com/tip/update-an-existing-pivot-record" target="_blank">Update an existing pivot record</a></li>
-          <li><a href="https://laraveldaily.com/tip/relation-that-will-get-the-newest-or-oldest-item" target="_blank">Relation that gets the newest (or oldest) item</a></li>
-          <li><a href="https://laraveldaily.com/tip/replace-your-custom-queries-with-ofmany" target="_blank">Replace your custom queries with ofMany</a></li>
-          <li><a href="https://laraveldaily.com/tip/avoid-data-leakage-when-using-orwhere-on-a-relationship" target="_blank">Avoid data leakage when using orWhere on a relationship</a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
+TIPS_DATA['blade'] = [
+    ['@auth / @guest','Conditional rendering based on auth.','@auth\n    <p>Welcome, {{ auth()->user()->name }}!</p>\n@endauth\n\n@guest\n    <a href="/login">Log in</a>\n@endguest'],
+    ['@checked / @selected','Clean checkbox and option selection.','<input type="checkbox" @checked($user->subscribed) />\n<option value="en" @selected(app()->getLocale() === ''en'')>English</option>'],
+    ['$loop Variable','Access loop metadata inside @foreach.','@foreach ($posts as $post)\n    @if ($loop->first) <ul> @endif\n    <li class="{{ $loop->even ? ''even'' : '''' }}">\n        {{ $post->title }} ({{ $loop->iteration }}/{{ $loop->count }})\n    </li>\n    @if ($loop->last) </ul> @endif\n@endforeach'],
+    ['Blade Components','Create reusable components with props.','{{-- components/alert.blade.php --}}\n@props([''type'' => ''info'', ''message''])\n<div class="alert alert-{{ $type }}">\n    {{ $message }}{{ $slot }}\n</div>\n\n<x-alert type="danger" message="Error!"><p>Try again.</p></x-alert>'],
+    ['Blade Layouts','Define layout and extend it.','{{-- layouts/app.blade.php --}}\n<!DOCTYPE html><html><head>\n    <title>@yield(''title'')</title>\n</head><body>@yield(''content'')</body></html>\n\n{{-- child.blade.php --}}\n@extends(''layouts.app'')\n@section(''title'', ''My Page'')\n@section(''content'')\n    <p>Content here.</p>\n@endsection'],
+    ['@stack / @push / @prepend','Push assets from child views.','{{-- layout --}}\n@stack(''scripts'')\n\n{{-- child --}}\n@push(''scripts'')\n    <script src="/js/app.js"></script>\n@endpush\n@prepend(''styles'')\n    <link rel="stylesheet" href="/css/custom.css" />\n@endprepend'],
+    ['@error Directive','Display validation errors.','@error(''email'')\n    <span class="error">{{ $message }}</span>\n@enderror\n\n@error(''email'')\n    <div>{{ $message }}</div>\n@else\n    <div>Valid email.</div>\n@enderror'],
+    ['Blade X Components','Class-based Blade components.','php artisan make:component Alert\n\n{{-- Usage --}}\n<x-alert type="warning" :dismissible="true" />'],
+    ['Custom Blade Directive','Register custom @directives.','// In AppServiceProvider::boot()\nBlade::directive(''datetime'', function (string $expr) {\n    return "<?php echo {$expr}->format(''Y-m-d H:i''); ?>";\n});\n\n@datetime($post->created_at)'],
+    ['@aware Directive','Access parent component data.','{{-- Parent --}}\n<x-panel :theme="''dark''">\n    <x-button>Save</x-button>\n</x-panel>\n\n{{-- Button component --}}\n@aware([''theme'' => ''light''])\n<button class="bg-{{ $theme }}">{{ $slot }}</button>'],
+    ['@js for JSON','Pass PHP data to JavaScript safely.','@js([''user'' => $user->only(''id'', ''name'')])\n// Renders as JSON-safe JavaScript variable'],
+    ['@verbatim','Ignore Blade syntax in a block.','@verbatim\n    <div>\n        @{{ message }}  {{-- Handled by Vue --}}\n    </div>\n@endverbatim'],
+    ['@each for Quick Loops','Render a partial for each item.','@each(''partials.post'', $posts, ''post'', ''partials.empty'')\n// Each post passed as $post; ''partials.empty'' when empty'],
+    ['Escaped vs Raw Output','Control output escaping.','{{ $var }}       // Escaped\n{!! $html !!}   // Raw (XSS risk)\n@{{ $var }}     // Literal (for JS frameworks)'],
+    ['@include Variations','Include partials conditionally.','@include(''partials.header'', [''title'' => ''Dashboard''])\n@includeIf(''partials.analytics'')\n@includeWhen($user->isAdmin(), ''partials.admin'')'],
+    ['Blade @isset / @empty','Check existence and emptiness.','@isset($user->profile)\n    // Profile exists\n@endisset\n\n@empty($posts)\n    <p>No posts found.</p>\n@endempty'],
+    ['Render Blade to String','Render Blade outside HTTP context.','$html = view(''emails.welcome'', [''user'' => $user])->render();\n\n$html = Blade::render(''<h1>{{ $title }}</h1>'', [''title'' => ''Hello'']);'],
+    ['Conditional Classes / Styles','Merge conditional classes.','<div @class([\n    ''p-4'', ''bg-red'' => $hasError,\n    ''text-white'' => $darkMode,\n])>\n\n<div @style([\n    ''background: red'' => $hasError,\n])>'],
+    ['Short Attribute Syntax','Compact component attribute binding.','<x-input name="email" :value="old(''email'')" />\n\n<x-input {{ $attributes->merge([''class'' => ''form-control'']) }} />'],
+    ['Blade @section','Define and yield sections.','@section(''sidebar'')\n    @parent {{-- Keep parent content --}}\n    <p>Extra sidebar content</p>\n@endsection'],
+];
+</script>
 
-  <!-- ==================== MIGRATIONS ==================== -->
-  <section id="migrations">
-    <h2><i class="bi bi-arrow-up-circle me-2"></i>Migrations <span class="tip-count">15</span></h2>
-    <div class="card">
-      <div class="card-body">
-        <ul class="tip-list">
-          <li><a href="https://laraveldaily.com/tip/order-of-migrations" target="_blank">Order of Migrations</a></li>
-          <li><a href="https://laraveldaily.com/tip/migration-fields-with-timezones" target="_blank">Migration fields with timezones</a></li>
-          <li><a href="https://laraveldaily.com/tip/database-migrations-column-types" target="_blank">Database migrations column types</a></li>
-          <li><a href="https://laraveldaily.com/tip/default-timestamp" target="_blank">Default Timestamp</a></li>
-          <li><a href="https://laraveldaily.com/tip/migration-status" target="_blank">Migration Status</a></li>
-          <li><a href="https://laraveldaily.com/tip/create-migration-with-spaces" target="_blank">Create Migration with Spaces</a></li>
-          <li><a href="https://laraveldaily.com/tip/create-column-after-another-column" target="_blank">Create Column after Another Column</a></li>
-          <li><a href="https://laraveldaily.com/tip/make-migration-for-existing-table" target="_blank">Make migration for existing table</a></li>
-          <li><a href="https://laraveldaily.com/tip/output-sql-before-running-migrations" target="_blank">Output SQL before running migrations</a></li>
-          <li><a href="https://laraveldaily.com/tip/anonymous-migrations" target="_blank">Anonymous Migrations</a></li>
-          <li><a href="https://laraveldaily.com/tip/you-can-add-comment-about-a-column-inside-your-migrations" target="_blank">Add "comment" about a column inside migrations</a></li>
-          <li><a href="https://laraveldaily.com/tip/checking-for-table-column-existence" target="_blank">Checking For Table / Column Existence</a></li>
-          <li><a href="https://laraveldaily.com/tip/group-columns-within-an-after-method" target="_blank">Group Columns within an After Method</a></li>
-          <li><a href="https://laraveldaily.com/tip/add-the-column-in-the-database-table-only-if-its-not-present-can-drop-it-if-its-present" target="_blank">Add column only if not present / drop if present</a></li>
-          <li><a href="https://laraveldaily.com/tip/method-to-set-the-default-value-for-current-timestamp" target="_blank">Method to set default value for current timestamp</a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
+<script>
+TIPS_DATA['auth'] = [
+    ['Gates vs Policies','Gates are closures; Policies are classes.','Gate::define(''edit-post'', fn (User $user, Post $post) => $user->id === $post->user_id);\n\nphp artisan make:policy PostPolicy --model=Post\n\npublic function update(User $user, Post $post): bool {\n    return $user->id === $post->user_id;\n}'],
+    ['Authorize in Controllers','Use authorize() for quick checks.','$this->authorize(''update'', $post);\n$request->user()->can(''update'', $post);\nGate::authorize(''edit-post'', $post);'],
+    ['Blade @can / @cannot','Check permissions in views.','@can(''update'', $post)\n    <a href="{{ route(''posts.edit'', $post) }}">Edit</a>\n@endcan\n@cannot(''delete'', $post)\n    <span>Cannot delete</span>\n@endcannot'],
+    ['Password Defaults','Enforce strong passwords globally.','Password::defaults(fn () => Password::min(10)->mixedCase()->numbers()->symbols()->uncompromised());\n\n''password'' => [''required'', Password::defaults()],'],
+    ['Email Verification','Require verified emails.','Route::middleware([''auth'', ''verified''])->group(function () {\n    // Protected routes\n});'],
+    ['Throttle Login','Rate limit login attempts.','Route::middleware(''throttle:5,1'')->post(''/login'', [AuthController::class, ''login'']);'],
+    ['Multiple Guards','Separate auth for different user types.','Auth::guard(''admin'')->attempt($credentials);\n\n// config/auth.php\n''guards'' => [''web'' => [...], ''admin'' => [...]],'],
+    ['Generate Verified Users','Create pre-verified users.','User::factory()->create([''email_verified_at'' => now()]);\n$user->markEmailAsVerified();'],
+    ['Reset Password URL','Customize reset links.','Password::createUrlUsing(fn (User $user, string $token) =>\n    route(''password.reset'', [''token'' => $token, ''email'' => $user->email])\n);'],
+    ['Logout Other Devices','Invalidate other sessions.','Auth::logoutOtherDevices($password);'],
+];
 
-  <!-- ==================== FACTORIES ==================== -->
-  <section id="factories">
-    <h2><i class="bi bi-gear me-2"></i>Factories <span class="tip-count">9</span></h2>
-    <div class="card">
-      <div class="card-body">
-        <ul class="tip-list">
-          <li><a href="https://laraveldaily.com/tip/factories" target="_blank">Factory generation tips on Laravel Daily</a></li>
-        </ul>
-        <p class="text-muted small mt-2 mb-0">Visit <a href="https://laraveldaily.com/tips/factories" target="_blank">Laravel Daily Factories tips page</a> for the full list.</p>
-      </div>
-    </div>
-  </section>
+<script>
+TIPS_DATA['api'] = [
+    ['Sanctum Token API','Issue API tokens.','$token = $user->createToken(''api-token'')->plainTextToken;\nRoute::middleware(''auth:sanctum'')->get(''/user'', fn ($req) => $req->user());'],
+    ['Sanctum SPA Auth','Cookie-based SPA authentication.','// config/sanctum.php\n''stateful'' => explode('','', env(''SANCTUM_STATEFUL_DOMAINS'', ''localhost'')),\n\nAuth::attempt($credentials);\n$request->session()->regenerate();'],
+    ['Token Abilities','Scope tokens with abilities.','$token = $user->createToken(''api-token'', [''post:read'', ''post:write'']);\n$request->user()->tokenCan(''post:write'') ?: abort(403);'],
+    ['API Resources','Transform models for JSON.','return new PostResource(Post::findOrFail(1));\nreturn PostResource::collection(Post::paginate());'],
+    ['API Rate Limiting','Limit request frequency.','RateLimiter::for(''api'', fn ($job) => Limit::perMinute(100)->by($job->user?->id ?: $job->ip()));\n\nRoute::middleware(''throttle:api'')->group(function () { });'],
+    ['API Versioning','Version your API routes.','Route::prefix(''v1'')->group(base_path(''routes/api_v1.php''));\nRoute::prefix(''v2'')->group(base_path(''routes/api_v2.php''));'],
+    ['JSON Error Responses','Consistent error format.','$this->renderable(function (AuthenticationException $e, $request) {\n    if ($request->expectsJson()) {\n        return response()->json([''message'' => ''Unauthenticated.''], 401);\n    }\n});'],
+    ['Response Macros','Reusable JSON response helpers.','Response::macro(''success'', fn ($data) => response()->json([''status'' => ''ok'', ''data'' => $data]));\n\nreturn response()->success($users);'],
+    ['CORS Configuration','Cross-origin request settings.','// config/cors.php\n''allowed_origins'' => [env(''FRONTEND_URL'', ''http://localhost:3000'')],\n''supports_credentials'' => true,'],
+    ['Sort & Filter Queries','Allow sort/filter via params.','$query->when($request->filled(''status''), fn ($q) => $q->where(''status'', $request->status));\n$query->when($request->filled(''sort''), fn ($q) => $q->orderBy($request->sort, $request->direction ?? ''asc''));\nreturn PostResource::collection($query->paginate(20));'],
+];
 
-  <!-- ==================== ROUTING ==================== -->
-  <section id="routing">
-    <h2><i class="bi bi-signpost-2 me-2"></i>Routing <span class="tip-count">32</span></h2>
-    <div class="card">
-      <div class="card-body">
-        <ul class="tip-list">
-          <li><a href="https://laraveldaily.com/tip/adding-global-middleware-3-ways" target="_blank">Adding a Global Middleware: 3 Ways</a></li>
-          <li><a href="https://laraveldaily.com/tip/skip-input-normalization" target="_blank">Skip Input Normalization</a></li>
-          <li><a href="https://laraveldaily.com/tip/assign-withtrashed-to-route-resource-method" target="_blank">Assign withTrashed() to Route::resource()</a></li>
-          <li><a href="https://laraveldaily.com/tip/declare-a-resolveroutebinding-method-in-your-model" target="_blank">Declare resolveRouteBinding() in your Model</a></li>
-          <li><a href="https://laraveldaily.com/tip/route-group-within-a-group" target="_blank">Route group within a group</a></li>
-          <li><a href="https://laraveldaily.com/tip/wildcard-subdomains" target="_blank">Wildcard subdomains</a></li>
-          <li><a href="https://laraveldaily.com/tip/whats-behind-the-routes" target="_blank">What's behind the routes in Laravel UI?</a></li>
-          <li><a href="https://laraveldaily.com/tip/route-model-binding-you-can-define-a-key" target="_blank">Route Model Binding: You can define a key</a></li>
-          <li><a href="https://laraveldaily.com/tip/route-fallback-when-no-other-route-is-matched" target="_blank">Route Fallback: When no Other Route is Matched</a></li>
-          <li><a href="https://laraveldaily.com/tip/route-parameters-validation-with-regexp" target="_blank">Route Parameters Validation with RegExp</a></li>
-          <li><a href="https://laraveldaily.com/tip/rate-limiting-global-and-for-guestsusers" target="_blank">Rate Limiting: Global and for Guests/Users</a></li>
-          <li><a href="https://laraveldaily.com/tip/query-string-parameters-to-routes" target="_blank">Query string parameters to Routes</a></li>
-          <li><a href="https://laraveldaily.com/tip/separate-routes-by-files" target="_blank">Separate Routes by Files</a></li>
-          <li><a href="https://laraveldaily.com/tip/translate-resource-verbs" target="_blank">Translate Resource Verbs</a></li>
-          <li><a href="https://laraveldaily.com/tip/custom-resource-route-names" target="_blank">Custom Resource Route Names</a></li>
-          <li><a href="https://laraveldaily.com/tip/eager-load-relationship" target="_blank">Eager load relationship in route</a></li>
-          <li><a href="https://laraveldaily.com/tip/easily-highlight-your-navbar-menus" target="_blank">Easily highlight your navbar menus</a></li>
-          <li><a href="https://laraveldaily.com/tip/generate-absolute-path-using-route-helper" target="_blank">Generate absolute path using route() helper</a></li>
-          <li><a href="https://laraveldaily.com/tip/override-the-route-binding-resolver-for-each-of-your-models" target="_blank">Override route binding resolver for each model</a></li>
-          <li><a href="https://laraveldaily.com/tip/if-you-need-public-url-but-you-want-them-to-be-secured" target="_blank">If you need public URL but want them secured</a></li>
-          <li><a href="https://laraveldaily.com/tip/using-gate-in-middleware-method" target="_blank">Using Gate in middleware method</a></li>
-          <li><a href="https://laraveldaily.com/tip/simple-route-with-arrow-function" target="_blank">Simple route with arrow function</a></li>
-          <li><a href="https://laraveldaily.com/tip/route-view" target="_blank">Route view</a></li>
-          <li><a href="https://laraveldaily.com/tip/route-directory-instead-of-route-file" target="_blank">Route directory instead of route file</a></li>
-          <li><a href="https://laraveldaily.com/tip/route-resources-grouping" target="_blank">Route resources grouping</a></li>
-          <li><a href="https://laraveldaily.com/tip/custom-route-bindings" target="_blank">Custom route bindings</a></li>
-          <li><a href="https://laraveldaily.com/tip/two-ways-to-check-the-route-name" target="_blank">Two ways to check the route name</a></li>
-          <li><a href="https://laraveldaily.com/tip/route-model-binding-soft-deleted-models" target="_blank">Route model binding soft-deleted models</a></li>
-          <li><a href="https://laraveldaily.com/tip/retrieve-the-url-without-query-parameters" target="_blank">Retrieve the URL without query parameters</a></li>
-          <li><a href="https://laraveldaily.com/tip/customizing-missing-model-behavior-in-route-model-bindings" target="_blank">Customizing Missing Model in route model bindings</a></li>
-          <li><a href="https://laraveldaily.com/tip/exclude-middleware-from-a-route" target="_blank">Exclude middleware from a route</a></li>
-          <li><a href="https://laraveldaily.com/tip/controller-groups" target="_blank">Controller groups</a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
+TIPS_DATA['mail'] = [
+    ['Create a Mailable','Generate a mailable class.','php artisan make:mail WelcomeMail --markdown=emails.welcome\n\nclass WelcomeMail extends Mailable {\n    use Queueable;\n    public function __construct(public User $user) {}\n    public function envelope(): Envelope { return new Envelope(subject: ''Welcome''); }\n    public function content(): Content { return new Content(view: ''emails.welcome''); }\n}'],
+    ['Markdown Mail','Beautiful HTML emails.','<x-mail::message>\n# Welcome {{ $user->name }}!\n<x-mail::button :url="$url" color="primary">Verify</x-mail::button>\nThanks,<br>{{ config(''app.name'') }}\n</x-mail::message>'],
+    ['Queued Mail','Send asynchronously.','Mail::to($user)->queue(new WelcomeMail($user));\nMail::to($user)->later(now()->addMinutes(10), new WelcomeMail($user));\n$this->onQueue(''emails'');'],
+    ['Multiple Mail Drivers','Use different drivers per scenario.','Mail::mailer(''ses'')->to($user)->send(new WelcomeMail($user));\nMail::mailer(''log'')->to($user)->send(new WelcomeMail($user));'],
+    ['Notifications','Mail + database + Slack channels.','class InvoicePaid extends Notification {\n    public function via($notifiable): array { return [''mail'', ''database'']; }\n    public function toMail($notifiable): MailMessage { return (new MailMessage)->line(''Paid!''); }\n    public function toDatabase($notifiable): array { return [''id'' => 1]; }\n}'],
+    ['Database Notifications','Stored for in-app display.','php artisan notifications:table && php artisan migrate\n$user->notify(new InvoicePaid($invoice));\n$user->unreadNotifications;\n$notification->markAsRead();'],
+    ['Mail Log Channel','Preview in log file.','// .env: MAIL_MAILER=log\n// Emails go to storage/logs/laravel.log'],
+    ['Mail Attachments','Attach files or embed images.','->attach(''/path/to/file.pdf'')\n->attachFromStorage(''/invoices/file.pdf'')\n<img src="{{ $message->embed(public_path(''logo.png'')) }}">'],
+    ['Mail Preview Route','Preview without sending.','Route::get(''/mail/preview'', fn () => new App\\Mail\\WelcomeMail(User::first()));'],
+    ['Queue-Specific Mail','Route mail to a specific queue.','public function __construct() { $this->onQueue(''emails''); }\n// Process: php artisan queue:work --queue=emails'],
+];
 
-  <!-- ==================== VALIDATION ==================== -->
-  <section id="validation">
-    <h2><i class="bi bi-check2-square me-2"></i>Validation <span class="tip-count">24</span></h2>
-    <div class="card">
-      <div class="card-body">
-        <ul class="tip-list">
-          <li><a href="https://laraveldaily.com/tip/rule-which-ensures-the-field-under-validation-is-required-if-another-field-is-accepted" target="_blank">Rule: field required if another field is accepted</a></li>
-          <li><a href="https://laraveldaily.com/tip/access-model-binding-in-form-requests" target="_blank">Access model binding in FormRequests</a></li>
-          <li><a href="https://laraveldaily.com/tip/add-values-to-the-form-request-after-validation" target="_blank">Add Values to Form Request After Validation</a></li>
-          <li><a href="https://laraveldaily.com/tip/image-validation" target="_blank">Image validation</a></li>
-          <li><a href="https://laraveldaily.com/tip/custom-validation-error-messages" target="_blank">Custom validation error messages</a></li>
-          <li><a href="https://laraveldaily.com/tip/validate-dates-with-now-or-yesterday-words" target="_blank">Validate dates with "now" or "yesterday" words</a></li>
-          <li><a href="https://laraveldaily.com/tip/validation-rule-with-some-conditions" target="_blank">Validation Rule with Some Conditions</a></li>
-          <li><a href="https://laraveldaily.com/tip/change-default-validation-messages" target="_blank">Change Default Validation Messages</a></li>
-          <li><a href="https://laraveldaily.com/tip/prepare-for-validation" target="_blank">Prepare for Validation</a></li>
-          <li><a href="https://laraveldaily.com/tip/stop-on-first-validation-error" target="_blank">Stop on First Validation Error</a></li>
-          <li><a href="https://laraveldaily.com/tip/throw-422-status-code-without-using-validate-or-form-request" target="_blank">Throw 422 without validate() or Form Request</a></li>
-          <li><a href="https://laraveldaily.com/tip/rules-depending-on-some-other-conditions" target="_blank">Rules depending on some other conditions</a></li>
-          <li><a href="https://laraveldaily.com/tip/with-rulewhen-we-can-conditionally-apply-validation-rules" target="_blank">Rule::when() to conditionally apply rules</a></li>
-          <li><a href="https://laraveldaily.com/tip/use-this-property-in-the-request-classes-to-stop-the-validation-of-the-whole-request-attributes" target="_blank">Stop validation of whole request on first failure</a></li>
-          <li><a href="https://laraveldaily.com/tip/ruleunique-doesnt-take-into-the-softdeletes-global-scope-applied-on-the-model" target="_blank">Rule::unique doesn't consider SoftDeletes scope</a></li>
-          <li><a href="https://laraveldaily.com/tip/validatorsometimes-method-allows-us-to-define-when-a-validation-rule-should-be-applied" target="_blank">Validator::sometimes() method</a></li>
-          <li><a href="https://laraveldaily.com/tip/array-elements-validation" target="_blank">Array elements validation</a></li>
-          <li><a href="https://laraveldaily.com/tip/passworddefaults-method" target="_blank">Password::defaults method</a></li>
-          <li><a href="https://laraveldaily.com/tip/form-requests-for-validation-redirection" target="_blank">Form Requests for validation redirection</a></li>
-          <li><a href="https://laraveldaily.com/tip/mac-validation-rule" target="_blank">MAC validation rule</a></li>
-          <li><a href="https://laraveldaily.com/tip/validate-email-with-tld-domain-required" target="_blank">Validate email with TLD domain required</a></li>
-          <li><a href="https://laraveldaily.com/tip/new-array-validation-rule-required-array-keys" target="_blank">New array validation: required_array_keys</a></li>
-          <li><a href="https://laraveldaily.com/tip/position-placeholder-in-validation-messages" target="_blank">Position placeholder in validation messages</a></li>
-          <li><a href="https://laraveldaily.com/tip/exclude-validation-value" target="_blank">Exclude validation value</a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
+TIPS_DATA['collections'] = [
+    ['Higher-Order Messages','Shortcut for common operations.','$users->each->markAsActive();\n$posts->map->only(''id'', ''title'');\n$users->filter->isAdmin();\n$names = $users->pluck->name;'],
+    ['Lazy Collections','Process without full memory load.','$logs = LogEntry::cursor();\n$errors = $logs->filter(fn ($e) => $e[''level''] === ''error'')->take(100);'],
+    ['tap() in Chains','Side-effects within a chain.','$collection->tap(fn ($c) => Log::info($c->count()))\n    ->filter(fn ($i) => $i->active);'],
+    ['when() Conditional','Apply operations conditionally.','collect($items)->when($request->has(''filter''), fn ($c) => $c->where(''status'', $request->filter));'],
+    ['chunk()','Split into smaller groups.','collect([1,2,3,4,5,6])->chunk(2)->each(fn ($chunk) => /* [1,2] then [3,4] */);'],
+    ['groupBy() Multi-Level','Nested grouping.','collect($orders)->groupBy([''status'', ''payment_method'']);'],
+    ['pluck() with Keys','Key by another column.','User::all()->pluck(''name'', ''email''); // [''john@ex.com'' => ''John'']'],
+    ['mapWithKeys()','Custom key mapping.','collect([1,2,3])->mapWithKeys(fn ($i) => [''k_''.$i => $i*10]);'],
+    ['partition()','Split by condition.','[$passed, $failed] = collect($results)->partition(fn ($r) => $r->score >= 60);'],
+    ['collapse()','Flatten one level.','collect([[1,2],[3,4]])->collapse()->all(); // [1,2,3,4]'],
+    ['crossJoin()','Cartesian product.','collect([1,2])->crossJoin([''a'',''b''])->all(); // [[1,''a''],[1,''b''],[2,''a''],[2,''b'']]'],
+    ['nth()','Every Nth element.','collect([1,2,3,4,5,6])->nth(2); // [1,3,5]'],
+    ['zip()','Merge element by element.','$names = collect([''John'',''Jane'']);\n$roles = collect([''Admin'',''Editor'']);\n$names->zip($roles);'],
+    ['undot()','Expand dot-notated keys.','collect([''user.name'' => ''John''])->undot()->all(); // [''user'' => [''name'' => ''John'']]'],
+    ['pipe()','Pass through a class/function.','collect([1,2,3])->pipe(fn ($c) => new Transformer($c))->transform();'],
+    ['toArray Export','CSV export from collections.','$stream = fopen(''php://temp'', ''r+'');\nforeach ($collection as $row) { fputcsv($stream, (array) $row); }'],
+];
 
-  <!-- ==================== VIEWS / BLADE ==================== -->
-  <section id="views">
-    <h2><i class="bi bi-eye me-2"></i>Views / Blade <span class="tip-count">20</span></h2>
-    <div class="card">
-      <div class="card-body">
-        <ul class="tip-list">
-          <li><a href="https://laraveldaily.com/tip/share-one-variable-with-multiple-views" target="_blank">Share one variable with multiple views</a></li>
-          <li><a href="https://laraveldaily.com/tip/short-attribute-syntax-for-blade-components" target="_blank">Short attribute syntax for Blade Components</a></li>
-          <li><a href="https://laraveldaily.com/tip/you-can-use-blade-to-generate-more-than-html" target="_blank">Use Blade to generate more than HTML</a></li>
-          <li><a href="https://laraveldaily.com/tip/loop-variable-in-foreach" target="_blank">$loop variable in foreach</a></li>
-          <li><a href="https://laraveldaily.com/tip/does-view-file-exist" target="_blank">Does view file exist?</a></li>
-          <li><a href="https://laraveldaily.com/tip/error-code-blade-pages" target="_blank">Error code Blade pages</a></li>
-          <li><a href="https://laraveldaily.com/tip/view-without-controllers" target="_blank">View without controllers</a></li>
-          <li><a href="https://laraveldaily.com/tip/blade-at-auth" target="_blank">Blade @auth</a></li>
-          <li><a href="https://laraveldaily.com/tip/two-level-loop-variable-in-blade" target="_blank">Two-level $loop variable in Blade</a></li>
-          <li><a href="https://laraveldaily.com/tip/create-your-own-blade-directive" target="_blank">Create Your Own Blade Directive</a></li>
-          <li><a href="https://laraveldaily.com/tip/blade-directives-includeif-includewhen-includefirst" target="_blank">Blade Directives: IncludeIf, IncludeWhen, IncludeFirst</a></li>
-          <li><a href="https://laraveldaily.com/tip/use-laravel-blade-x-variable-binding-to-save-even-more-space" target="_blank">Blade-X variable binding</a></li>
-          <li><a href="https://laraveldaily.com/tip/blade-components-props" target="_blank">Blade components props</a></li>
-          <li><a href="https://laraveldaily.com/tip/blade-autocomplete-typehint" target="_blank">Blade Autocomplete typehint</a></li>
-          <li><a href="https://laraveldaily.com/tip/component-syntax-tip" target="_blank">Component Syntax Tip</a></li>
-          <li><a href="https://laraveldaily.com/tip/automatically-highlight-nav-links" target="_blank">Automatically highlight nav links</a></li>
-          <li><a href="https://laraveldaily.com/tip/cleanup-loops" target="_blank">Cleanup loops</a></li>
-          <li><a href="https://laraveldaily.com/tip/simple-way-to-tidy-up-your-blade-views" target="_blank">Simple way to tidy up your Blade views</a></li>
-          <li><a href="https://laraveldaily.com/tip/checked-blade-directive" target="_blank">Checked blade directive</a></li>
-          <li><a href="https://laraveldaily.com/tip/selected-blade-directive" target="_blank">Selected blade directive</a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
+TIPS_DATA['artisan'] = [
+    ['Create a Command','Generate a new command.','php artisan make:command SendInvoices\n\nclass SendInvoices extends Command {\n    protected $signature = ''invoices:send {--dry-run}'';\n    public function handle(): int {\n        $this->info(''Sending...'');\n        return Command::SUCCESS;\n    }\n}'],
+    ['Arguments & Options','Define command inputs.','protected $signature = ''user:create {name : The name} {--admin} {--email=}'';\n$this->argument(''name'');\n$this->option(''email'');'],
+    ['Ask / Confirm','Interactive input.','$name = $this->ask(''Your name?'');\n$confirmed = $this->confirm(''Delete?'');'],
+    ['Progress Bar','Show progress.','$bar = $this->output->createProgressBar($count);\n$bar->start();\nforeach ($items as $item) { $bar->advance(); }\n$bar->finish();'],
+    ['Table Output','Tabular console display.','$this->table([''ID'', ''Name''], User::all([''id'', ''name''])->toArray());'],
+    ['Signal Handling','Handle Ctrl+C.','$this->trap(SIGINT, fn () => $this->info(''\\nInterrupted!''));'],
+    ['Run from Code','Call Artisan programmatically.','Artisan::call(''invoices:send'', [''--dry-run'' => true]);\n$output = Artisan::output();'],
+    ['Schedule Commands','Cron-style scheduling.','Schedule::command(''invoices:send'')->dailyAt(''08:00'');\nSchedule::command(''backup:run'')->cron(''0 2 * * *'');\nSchedule::command(''reports:generate'')->daily()->onOneServer();'],
+    ['Styled Output','Colorized console text.','$this->info(''Green'');\n$this->error(''Red'');\n$this->warn(''Yellow'');\n$this->question(''Blue'');'],
+    ['Environment Check','Limit to environments.','if (! app()->environment(''production'')) { return Command::FAILURE; }'],
+    ['Maintenance Check','Check maintenance mode.','if (app()->isDownForMaintenance()) { $this->warn(''Maintenance mode''); }'],
+    ['Progress with Details','Advance with extra info.','$bar->advance(1, [''name'' => $user->name]); // Shows current item info'],
+];
 
-  <!-- ==================== AUTH ==================== -->
-  <section id="auth">
-    <h2><i class="bi bi-shield-lock me-2"></i>Auth <span class="tip-count">7</span></h2>
-    <div class="card">
-      <div class="card-body">
-        <ul class="tip-list">
-          <li><a href="https://laraveldaily.com/tips/auth" target="_blank">Auth tips on Laravel Daily</a></li>
-        </ul>
-        <p class="text-muted small mt-2 mb-0">Visit <a href="https://laraveldaily.com/tips/auth" target="_blank">Laravel Daily Auth tips</a> for the full list.</p>
-      </div>
-    </div>
-  </section>
+<script>
+TIPS_DATA['testing'] = [
+    ['HTTP Tests','Send requests and assert.','$response = $this->get(''/api/users'');\n$response->assertStatus(200)->assertJsonStructure([''data'']);\n$this->post(''/api/users'', [''name'' => ''John''])->assertCreated();'],
+    ['Database Assertions','Check DB state.','$this->assertDatabaseHas(''users'', [''email'' => ''john@ex.com'']);\n$this->assertDatabaseMissing(''users'', [''email'' => ''x@y.com'']);\n$this->assertDatabaseCount(''users'', 5);'],
+    ['Factories in Tests','Create test data.','$user = User::factory()->create();\n$post = Post::factory()->for($user)->create();\nUser::factory()->count(10)->create();'],
+    ['Acting As User','Authenticate in tests.','$this->actingAs(User::factory()->create());\n$response = $this->get(''/dashboard'')->assertOk();'],
+    ['Faking Services','Mock mail, queue, HTTP.','Mail::fake();\nQueue::fake();\nHttp::fake([''api.github.com/*'' => Http::response([''id'' => 1])]);\n\nMail::assertSent(WelcomeMail::class);\nQueue::assertPushed(SendInvoice::class);'],
+    ['Event Fake','Assert events dispatched.','Event::fake([InvoicePaid::class]);\n// Perform action\nEvent::assertDispatched(InvoicePaid::class);\nEvent::assertNotDispatched(OrderShipped::class);'],
+    ['Notification Fake','Assert notifications sent.','Notification::fake();\n$user->notify(new InvoicePaid($invoice));\nNotification::assertSentTo($user, InvoicePaid::class);'],
+    ['Storage Fake','Test file uploads.','Storage::fake(''avatars'');\n$this->post(''/avatar'', [''avatar'' => UploadedFile::fake()->image(''photo.jpg'')]);\nStorage::disk(''avatars'')->assertExists(''photo.jpg'');'],
+    ['Data Providers','Parameterized tests.','/** @dataProvider userRolesProvider */\npublic function test_role(string $role, int $code) { }\npublic static function userRolesProvider(): array {\n    return [''admin'' => [''admin'', 200], ''user'' => [''user'', 403]];\n}'],
+    ['RefreshDatabase','Fresh DB per test.','use RefreshDatabase;\n// or use DatabaseMigrations;\n// or use DatabaseTruncation;'],
+    ['Custom Assertions','Response macros for tests.','TestResponse::macro(''assertCreated'', fn () => $this->assertStatus(201));\nTestResponse::macro(''assertPaginated'', fn () => $this->assertJsonStructure([''data'',''links'',''meta']));'],
+    ['Parallel Testing','Speed up test suite.','composer require --dev laravel/serializable-closure\nphp artisan test --parallel --processes=4'],
+];
 
-  <!-- ==================== API ==================== -->
-  <section id="api">
-    <h2><i class="bi bi-globe me-2"></i>API <span class="tip-count">9</span></h2>
-    <div class="card">
-      <div class="card-body">
-        <ul class="tip-list">
-          <li><a href="https://laraveldaily.com/tips/api" target="_blank">API tips on Laravel Daily</a></li>
-        </ul>
-        <p class="text-muted small mt-2 mb-0">Visit <a href="https://laraveldaily.com/tips/api" target="_blank">Laravel Daily API tips</a> for the full list.</p>
-      </div>
-    </div>
-  </section>
+TIPS_DATA['queues'] = [
+    ['Create a Job','Generate a job.','php artisan make:job SendWelcomeEmail\n\nclass SendWelcomeEmail implements ShouldQueue {\n    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;\n    public function __construct(public User $user) {}\n    public function handle(): void { Mail::to($this->user)->send(...); }\n}'],
+    ['Dispatch Jobs','Push to queue.','SendWelcomeEmail::dispatch($user);\nSendWelcomeEmail::dispatch($user)->delay(now()->addMinutes(10));\ndispatch(function () { })->afterResponse();'],
+    ['Job Chaining','Sequential execution.','Bus::chain([new ProcessOrder($order), new SendConfirmation($order)])->dispatch();'],
+    ['Job Batching','Track batch progress.','$batch = Bus::batch([new ProcessFile($f1), new ProcessFile($f2)])\n    ->then(fn (Batch $b) => { })\n    ->catch(fn (Batch $b, Throwable $e) => { })\n    ->finally(fn (Batch $b) => { })\n    ->dispatch();\necho $batch->progress(); // 0-100'],
+    ['Unique Jobs','Prevent duplicates.','use ShouldBeUnique;\npublic function uniqueId(): string { return $this->order->id; }\npublic $uniqueFor = 3600;'],
+    ['Job Middleware','Rate limit or throttle.','public function middleware(): array { return [new RateLimited()]; }'],
+    ['Failed Jobs','Handle failures.','php artisan queue:failed\nphp artisan queue:retry all\nphp artisan queue:flush\n\npublic function failed(Throwable $e): void { Log::error($e->getMessage()); }'],
+    ['Max Attempts','Configure retries.','public $tries = 5;\npublic $maxExceptions = 3;\npublic $backoff = 30;\npublic function backoff(): array { return [30, 60, 120]; }'],
+    ['Queue Worker','Worker options.','php artisan queue:work --queue=high,default --sleep=3 --tries=3 --timeout=120'],
+    ['Rate Limiting Jobs','Throttle execution.','Redis::throttle(''key'')->block(10)->allow(5)->every(60)\n    ->then(fn () => $next($job), fn () => $job->release(10));'],
+    ['After Response','Run after sending response.','dispatch(function () { $order->generateInvoice(); })->afterResponse();'],
+    ['Job Events','React to queue activity.','Queue::before(fn ($e) => Log::info(''Started''));\nQueue::after(fn ($e) => Log::info(''Done''));\nQueue::failing(fn ($e) => Log::error(''Failed''));'],
+];
 
-  <!-- ==================== MAIL ==================== -->
-  <section id="mail">
-    <h2><i class="bi bi-envelope me-2"></i>Mail <span class="tip-count">7</span></h2>
-    <div class="card">
-      <div class="card-body">
-        <ul class="tip-list">
-          <li><a href="https://laraveldaily.com/tips/mail" target="_blank">Mail tips on Laravel Daily</a></li>
-        </ul>
-        <p class="text-muted small mt-2 mb-0">Visit <a href="https://laraveldaily.com/tips/mail" target="_blank">Laravel Daily Mail tips</a> for the full list.</p>
-      </div>
-    </div>
-  </section>
+TIPS_DATA['events'] = [
+    ['Define Event','Create an event.','php artisan make:event OrderShipped\n\nclass OrderShipped {\n    use Dispatchable, InteractsWithSockets, SerializesModels;\n    public function __construct(public Order $order) {}\n}'],
+    ['Define Listener','Create a listener.','php artisan make:listener SendNotification --event=OrderShipped\n\nclass SendNotification {\n    public function handle(OrderShipped $event): void { }\n}'],
+    ['Event Discovery','Auto-detect listeners.','// In EventServiceProvider\npublic function shouldDiscoverEvents(): bool { return true; }\n// Scans Listeners/ for handle()'],
+    ['Manual Registration','Explicitly register events.','protected $listen = [\n    OrderShipped::class => [SendNotification::class, UpdateStatus::class],\n];'],
+    ['Queued Listeners','Async event processing.','class SendNotification implements ShouldQueue {\n    public $connection = ''redis'';\n    public $delay = 60;\n    public function handle(OrderShipped $event): void { }\n}'],
+    ['Dispatch Events','Fire events.','OrderShipped::dispatch($order);\nevent(new OrderShipped($order));'],
+    ['Event Subscriber','Multi-handler class.','class UserSubscriber {\n    public function handleLogin($event): void { }\n    public function handleLogout($event): void { }\n    public function subscribe(Dispatcher $events): void {\n        $events->listen(Login::class, [self::class, ''handleLogin'']);\n        $events->listen(Logout::class, [self::class, ''handleLogout'']);\n    }\n}'],
+    ['Model Observers','React to Eloquent events.','php artisan make:observer UserObserver --model=User\n\nclass UserObserver {\n    public function creating(User $user): void { $user->uuid = Str::uuid(); }\n    public function created(User $user): void { Log::info(''Created: ''. $user->id); }\n}\nUser::observe(UserObserver::class);'],
+    ['Observer Events','All lifecycle hooks.','retrieved, creating, created, updating, updated,\nsaving, saved, deleting, deleted, trashed,\nrestoring, restored, forceDeleting, forceDeleted, replicating'],
+    ['Event Broadcasting','WebSocket broadcasting.','php artisan make:event OrderUpdated --broadcast\n\nclass OrderUpdated implements ShouldBroadcast {\n    public function broadcastOn(): array { return [new PrivateChannel(''order.''.$this->id)]; }\n}'],
+];
 
-  <!-- ==================== COLLECTIONS ==================== -->
-  <section id="collections">
-    <h2><i class="bi bi-collection me-2"></i>Collections <span class="tip-count">8</span></h2>
-    <div class="card">
-      <div class="card-body">
-        <ul class="tip-list">
-          <li><a href="https://laraveldaily.com/tips/collections" target="_blank">Collections tips on Laravel Daily</a></li>
-        </ul>
-        <p class="text-muted small mt-2 mb-0">Visit <a href="https://laraveldaily.com/tips/collections" target="_blank">Laravel Daily Collections tips</a> for the full list.</p>
-      </div>
-    </div>
-  </section>
+TIPS_DATA['caching'] = [
+    ['Cache Basics','Store and retrieve.','Cache::put(''key'', ''value'', 3600);\n$val = Cache::get(''key'', ''default'');\nCache::has(''key'');\nCache::forget(''key'');\nCache::flush();'],
+    ['Cache Remember','Cache with callback.','Cache::remember(''users'', 3600, fn () => User::where(''active'', true)->get());\nCache::rememberForever(''settings'', fn () => Setting::all());'],
+    ['Cache Tags (Redis)','Group keys for flush.','Cache::tags([''users''])->put(''user_1'', $user, 3600);\nCache::tags(''users'')->flush();'],
+    ['Atomic Locks','Prevent race conditions.','$lock = Cache::lock(''order_''.$id, 10);\n$lock->get();\n$lock->release();\n$lock->block(5); // Wait up to 5s'],
+    ['Increment / Decrement','Atomic counters.','Cache::increment(''visitor_count'');\nCache::decrement(''stock_''.$product->id);'],
+    ['Cache Many','Multi-key operations.','Cache::putMany([''k1''=>''v1'', ''k2''=>''v2''], 3600);\n$vals = Cache::many([''k1'', ''k2'']);'],
+    ['Cache Drivers','Choose backend.','Cache::store(''redis'')->put(''key'', ''value'', 3600);\n// Drivers: file, database, redis, memcached, dynamodb'],
+    ['Cache Helper','Shortcut function.','cache([''key'' => ''value''], 3600);\n$val = cache(''key'');'],
+    ['Database Cache','Use DB as cache.','php artisan cache:table && php artisan migrate\n// config/cache.php: ''database'' => [''driver'' => ''database'', ''table'' => ''cache''],'],
+    ['Cache Prefix','Prefix all keys.','// config/cache.php\n''prefix'' => env(''CACHE_PREFIX'', ''myapp''),\n// Keys stored as: myapp_key_name'],
+];
 
-  <!-- ==================== ARTISAN ==================== -->
-  <section id="artisan">
-    <h2><i class="bi bi-terminal me-2"></i>Artisan <span class="tip-count">9</span></h2>
-    <div class="card">
-      <div class="card-body">
-        <ul class="tip-list">
-          <li><a href="https://laraveldaily.com/tips/artisan" target="_blank">Artisan tips on Laravel Daily</a></li>
-        </ul>
-        <p class="text-muted small mt-2 mb-0">Visit <a href="https://laraveldaily.com/tips/artisan" target="_blank">Laravel Daily Artisan tips</a> for the full list.</p>
-      </div>
-    </div>
-  </section>
+<script>
+TIPS_DATA['log-debug'] = [
+    ['Log Channels','Different outputs.','Log::channel(''slack'')->warning(''Alert!'');\nLog::channel(''daily'')->info(''Message'');\n// Channels: slack, daily, syslog, errorlog, stack, custom'],
+    ['Log Levels','Severity hierarchy.','Log::emergency(''System down'');\nLog::alert(''Action needed'');\nLog::critical(''Critical'');\nLog::error(''Broke'');\nLog::warning(''Warning'');\nLog::notice(''Notice'');\nLog::info(''Info'');\nLog::debug(''Debug'');'],
+    ['Contextual Data','Extra log context.','Log::info(''User action'', [''user_id'' => 1, ''duration'' => 150]);'],
+    ['dd() vs dump()','Debug output.','dd($var); // Dump and die\ndump($var); // Dump and continue\n@dump($var) // Blade\n@dd($var)   // Blade'],
+    ['Custom Log Channel','Build your own.','// config/logging.php\n''custom'' => [''driver'' => ''custom'', ''via'' => App\\Logging\\CustomLogger::class],'],
+    ['Log All Queries','Database query logging.','// AppServiceProvider\nDB::listen(fn ($q) => Log::debug($q->sql, [''time'' => $q->time.''ms'']));'],
+    ['Debugbar / Clockwork','Browser tools for Laravel.','composer require barryvdh/laravel-debugbar --dev\ncomposer require itsgoingd/clockwork --dev'],
+    ['Log to Stdout','For Docker/K8s.','''stdout'' => [''driver'' => ''monolog'', ''handler'' => StreamHandler::class,\n    ''with'' => [''stream'' => ''php://stdout'']],'],
+    ['Ray Debugging','Desktop debugging.','composer require spatie/laravel-ray --dev\nray($variable);\nray()->red()->blue();'],
+    ['Environment in Logs','Auto-include env info.','$record[''extra''][''env''] = app()->environment();\n$record[''extra''][''memory''] = memory_get_usage(true);'],
+];
 
-  <!-- ==================== LOG & DEBUG ==================== -->
-  <section id="log-debug">
-    <h2><i class="bi bi-bug me-2"></i>Log &amp; Debug <span class="tip-count">8</span></h2>
-    <div class="card">
-      <div class="card-body">
-        <ul class="tip-list">
-          <li><a href="https://laraveldaily.com/tips/log-and-debug" target="_blank">Log and Debug tips on Laravel Daily</a></li>
-        </ul>
-        <p class="text-muted small mt-2 mb-0">Visit <a href="https://laraveldaily.com/tips/log-and-debug" target="_blank">Laravel Daily Log &amp; Debug tips</a> for the full list.</p>
-      </div>
-    </div>
-  </section>
+TIPS_DATA['packages'] = [
+    ['Filament Resource','Admin CRUD resource.','php artisan make:filament-resource Post --generate\n\nclass PostResource extends Resource {\n    public static function form(Form $form): Form {\n        return $form->schema([TextInput::make(''title''), Toggle::make(''published'')]);\n    }\n}'],
+    ['Filament Actions','Inline actions.','Action::make(''approve'')->action(fn (Post $r) => $r->update([''status'' => ''approved'']))->color(''success'');\nBulkAction::make(''approveAll'')->action(fn (Collection $r) => $r->each->approve());'],
+    ['Filament Widgets','Dashboard cards.','php artisan make:filament-widget StatsOverview\n\nclass StatsOverview extends StatsOverviewWidget {\n    protected function getCards(): array {\n        return [Card::make(''Users'', User::count())];\n    }\n}'],
+    ['Filament Notifications','Flash messages.','Notification::make()->title(''Saved'')->success()->send();\nNotification::make()->title(''Update'')->actions([Action::make(''view'')->url(''/updates'')])->send();'],
+    ['Service Provider','Package structure.','class MyPackageProvider extends ServiceProvider {\n    public function register(): void { $this->mergeConfigFrom(...); }\n    public function boot(): void {\n        $this->publishes([...], ''config'');\n        $this->loadRoutesFrom(__DIR__.''/routes.php'');\n        $this->loadViewsFrom(__DIR__.''/views'', ''pkg'');\n        $this->loadMigrationsFrom(__DIR__.''/migrations'');\n    }\n}'],
+    ['Macroable','Extend core classes.','Stringable::macro(''slug'', fn () => Str::slug((string) $this));\nstr(''Hello World'')->slug(); // ''hello-world''\n\nCollection::macro(''toUpper'', fn () => $this->map(fn ($i) => strtoupper($i)));'],
+    ['Laravel Telescope','Debug dashboard.','composer require laravel/telescope --dev\nphp artisan telescope:install\nphp artisan migrate\n// Access: /telescope'],
+    ['Laravel Socialite','OAuth login.','composer require laravel/socialite\n\nreturn Socialite::driver(''github'')->redirect();\n$user = Socialite::driver(''github'')->user();'],
+    ['Laravel Excel','Import/export.','composer require maatwebsite/excel\nphp artisan make:export UsersExport --model=User\nreturn Excel::download(new UsersExport, ''users.xlsx'');'],
+    ['Laravel Horizon','Queue monitoring.','composer require laravel/horizon\nphp artisan horizon:install\nphp artisan migrate\nphp artisan horizon'],
+];
 
-  <!-- ==================== FILAMENT ==================== -->
-  <section id="filament">
-    <h2><i class="bi bi-columns-gap me-2"></i>Filament <span class="tip-count">20</span></h2>
-    <div class="card">
-      <div class="card-body">
-        <ul class="tip-list">
-          <li><a href="https://laraveldaily.com/tips/filament" target="_blank">Filament tips on Laravel Daily</a></li>
-        </ul>
-        <p class="text-muted small mt-2 mb-0">Visit <a href="https://laraveldaily.com/tips/filament" target="_blank">Laravel Daily Filament tips</a> for the full list.</p>
-      </div>
-    </div>
-  </section>
+TIPS_DATA['other'] = [
+    ['Helper Functions','Built-in PHP helpers.','data_get($data, ''user.name'', ''default'');\ndata_set($data, ''user.name'', ''Jane'');\nstr(''Hello'')->upper()->slug();\nStr::random(32);\nStr::orderedUuid();\npublic_path(''uploads'');\nstorage_path(''app/public'');'],
+    ['Environment Config','Access env values.','$value = env(''APP_NAME'', ''Laravel'');\n$debug = config(''app.debug'');\n$debug = filter_var(env(''APP_DEBUG''), FILTER_VALIDATE_BOOLEAN);'],
+    ['Config Caching','Cache in production.','php artisan config:cache\nphp artisan config:clear\n// Only use config() after caching, not env()'],
+    ['Schedule Tasks','Cron tasks.','Schedule::command(''backup:clean'')->daily()->at(''01:00'');\nSchedule::call(fn () => User::cleanupOld())->hourly();\n// crontab: * * * * * php artisan schedule:run >> /dev/null'],
+    ['Task Output','Log and email results.','Schedule::command(''reports:generate'')->daily()\n    ->sendOutputTo(storage_path(''logs/report.log''))\n    ->emailOutputTo(''admin@ex.com'');'],
+    ['Signed URLs','Tamper-proof URLs.','URL::signedRoute(''unsubscribe'', [''user'' => 1]);\nURL::temporarySignedRoute(''posts.show'', now()->addHour(), [''post'' => 1]);\n$request->hasValidSignature();'],
+    ['Flash Data','One-time session data.','session()->flash(''status'', ''Updated!'');\n@if (session(''status'')) <div>{{ session(''status'') }}</div> @endif'],
+    ['Facades vs Helpers','Choose syntax.','Cache::remember(''k'', 3600, fn () => ...);\ncache()->remember(''k'', 3600, fn () => ...);\n\nLog::info(''msg'');\nlogger()->info(''msg'');'],
+    ['Service Container','Auto-resolution.','class ReportService {\n    public function __construct(private PdfGenerator $pdf, private Logger $log) {}\n    public function go(): void { $this->log->info(''Start''); $this->pdf->generate(); }\n}'],
+    ['Maintenance Mode','Down for maintenance.','php artisan down --secret=my-token\nphp artisan up\nphp artisan down --render="errors::maintenance"\nphp artisan down --allow=127.0.0.1'],
+    ['Artisan Tinker','REPL console.','php artisan tinker\n> User::count()\n> $u = User::find(1)\n> $u->update([''name'' => ''New''])'],
+    ['Vite Integration','Asset bundling.','npm install && npm run dev\nnpm run build\n\n@vite(''resources/js/app.js'')'],
+    ['Laravel Pint','Code style fixer.','composer require laravel/pint --dev\nphp ./vendor/bin/pint\nphp ./vendor/bin/pint --test'],
+    ['Pagination','Customize paginator.','Paginator::useBootstrap();\nPaginator::defaultView(''vendor.pagination.custom'');'],
+    ['Str::mask()','Mask sensitive data.','Str::mask($email, ''*'', 3); // joh***@example.com\nStr::mask(''1234567890'', ''*'', -4, 4); // 123456****'],
+    ['Lottery Class','Probabilistic execution.','Lottery::odds(1, 100)->winner(fn () => Log::info(''Won!''))->choose();\n\nSchedule::command(''logs:cleanup'')->daily()->when(fn () => Lottery::odds(1, 7)->choose());'],
+    ['Conditional Clauses','Chain without if.','User::when($request->filled(''role''), fn ($q) => $q->where(''role'', $request->role))\n    ->unless($request->boolean(''incl''), fn ($q) => $q->where(''active'', true))\n    ->get();'],
+    ['Temporary Signed URLs','Time-limited access.','URL::temporarySignedRoute(\n    ''download'', now()->addHours(24), [''file'' => $file->id]\n);\n// Accessible for 24 hours only'],
+];
+</script>
 
-  <!-- ==================== OTHER ==================== -->
-  <section id="other">
-    <h2><i class="bi bi-three-dots me-2"></i>Other Tips <span class="tip-count">73</span></h2>
-    <div class="card">
-      <div class="card-body">
-        <ul class="tip-list">
-          <li><a href="https://laraveldaily.com/tips/other" target="_blank">Other tips on Laravel Daily</a></li>
-        </ul>
-        <p class="text-muted small mt-2 mb-0">Visit <a href="https://laraveldaily.com/tips/other" target="_blank">Laravel Daily Other tips</a> for the full list of 73 tips covering miscellaneous Laravel topics.</p>
-      </div>
-    </div>
-  </section>
-
-  <footer class="text-muted small border-top pt-3 mt-5">
-    <p class="mb-1"><strong>Laravel Tips</strong> &mdash; Curated from <a href="https://laraveldaily.com/tips" target="_blank">Laravel Daily</a>. 350+ quick, actionable tips.</p>
-    <p class="mb-0">Laravel 11.x &bull; Updated 2026 &bull; All credit to Povilas Korop and Laravel Daily team</p>
-  </footer>
-
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 const sidebar = document.getElementById('sidebar');
 const toggle = document.getElementById('sidebarToggle');
 toggle.addEventListener('click', () => sidebar.classList.toggle('show'));
+
 document.querySelectorAll('#sidebar .nav-link').forEach(link => {
-  link.addEventListener('click', () => sidebar.classList.remove('show'));
+    link.addEventListener('click', () => {
+        if (window.innerWidth <= 991.98) sidebar.classList.remove('show');
+    });
 });
+
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('#sidebar .nav-link');
+
 function setActiveNav() {
-  let current = '';
-  sections.forEach(section => {
-    const top = section.offsetTop - 100;
-    if (window.scrollY >= top) current = section.getAttribute('id');
-  });
-  navLinks.forEach(link => {
-    link.classList.remove('active');
-    if (link.getAttribute('href') === '#' + current) link.classList.add('active');
-  });
+    let current = '';
+    const scrollPos = window.scrollY + 120;
+    sections.forEach(section => {
+        const top = section.offsetTop;
+        if (scrollPos >= top) current = section.getAttribute('id');
+    });
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+    });
 }
 window.addEventListener('scroll', setActiveNav);
 setActiveNav();
-function filterTips(query) {
-  q = query.toLowerCase().trim();
-  document.querySelectorAll('.tip-list').forEach(list => {
-    list.querySelectorAll('li').forEach(li => {
-      const txt = li.textContent.toLowerCase();
-      li.style.display = (!q || txt.includes(q)) ? '' : 'none';
-    });
-  });
+
+function escapeHtml(str) {
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
 }
+
+function highlightCode(code) {
+    let h = escapeHtml(code);
+    h = h.replace(/(\/\/.*)/g, '<span class="hl-cm">$1</span>');
+    h = h.replace(/\b(function|return|if|else|foreach|for|while|class|public|private|protected|static|const|use|new|throw|catch|try|finally|switch|case|break|continue|default|true|false|null|void|int|string|bool|array|float|mixed|self|parent|readonly|abstract|final|match|enum|interface|trait|namespace|declare|extends|implements|instanceof|clone|die|echo|isset|empty|unset|include|require|list|and|or|xor|fn)\b/g, '<span class="hl-kw">$1</span>');
+    h = h.replace(/\b(__construct|__invoke|handle|boot|register|up|down|definition|rules|authorize|schedule|envelope|content|toArray|toMail|toDatabase|via|middleware|failed|uniqueId|broadcastOn|resolveRouteBinding|getRouteKeyName|create|update|delete|save|fresh|refresh|observe|dispatch|put|get|remember|forget|flush|increment|decrement|lock|block|release)\b/g, '<span class="hl-fn">$1</span>');
+    h = h.replace(/\b(Request|User|Post|Comment|Role|Cache|Log|Mail|Notification|Event|Job|Bus|Queue|Storage|Http|DB|Schema|Route|View|Str|Arr|Collection|Model|Factory|Paginator|HasOne|HasMany|BelongsTo|BelongsToMany|HasOneThrough|HasManyThrough|MorphTo|MorphMany|ShouldQueue|ShouldBeUnique|ShouldBroadcast|Dispatchable|InteractsWithQueue|Queueable|SerializesModels|SoftDeletes|Prunable|HasFactory|Builder|Blueprint|Mailable|MailMessage|Attribute|Rule|FormRequest)\b/g, '<span class="hl-fn">$1</span>');
+    h = h.replace(/''[^'']*''/g, '<span class="hl-str">$&</span>');
+    h = h.replace(/(?<!class=)"[^"]*"/g, '<span class="hl-str">$&</span>');
+    return h;
+}
+
+function renderTips() {
+    for (const [sectionId, tips] of Object.entries(TIPS_DATA)) {
+        const container = document.getElementById('list-' + sectionId);
+        if (!container) continue;
+        let html = '';
+        for (const [title, desc, code] of tips) {
+            const codeId = 'code_' + sectionId + '_' + Math.random().toString(36).substr(2, 6);
+            html += '<div class="tip-item">' +
+                '<div class="tip-title" onclick="toggleTip(this)" data-target="' + codeId + '">' +
+                title + '<span class="arrow">&#9654;</span></div>' +
+                '<div class="tip-body" id="' + codeId + '">' +
+                '<p class="mb-1">' + desc + '</p>' +
+                '<pre><code>' + highlightCode(code) + '</code>' +
+                '<button class="copy-btn" onclick="copyCode(this)">Copy</button></pre>' +
+                '</div></div>';
+        }
+        container.innerHTML = html;
+    }
+}
+
+function toggleTip(el) {
+    const targetId = el.dataset.target;
+    const body = document.getElementById(targetId);
+    if (!body) return;
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open');
+    el.classList.toggle('open');
+}
+
+function copyCode(btn) {
+    const code = btn.parentElement.querySelector('code');
+    let text = '';
+    code.childNodes.forEach(node => {
+        if (node.nodeType === 3) text += node.textContent;
+        if (node.nodeType === 1) text += node.textContent;
+    });
+    navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'Copied!';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 1500);
+    }).catch(() => {
+        // Fallback
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+        btn.textContent = 'Copied!';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 1500);
+    });
+}
+
+function filterTips() {
+    const query = document.getElementById('tipSearch').value.toLowerCase().trim();
+    let visible = 0;
+
+    document.querySelectorAll('.tip-item').forEach(item => {
+        const text = item.textContent.toLowerCase();
+        const match = !query || text.includes(query);
+        item.style.display = match ? '' : 'none';
+        if (match) visible++;
+    });
+
+    document.getElementById('searchStatus').textContent = query ?
+        visible + ' tip' + (visible !== 1 ? 's' : '') + ' found' :
+        'Showing all tips';
+}
+
+document.getElementById('tipSearch').addEventListener('input', filterTips);
+
+renderTips();
+setActiveNav();
 </script>
 </body>
 </html>
