@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -7,19 +7,29 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
     :root {
       --saffron: #ff9933;
+      --saffron-hover: #e6882e;
       --dark-bg: #1a1a2e;
       --sidebar-width: 280px;
       --tag-easy: #22c55e;
       --tag-med: #f59e0b;
       --tag-hard: #ef4444;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #94a3b8;
+      --border-soft: #e2e8f0;
+      --card-bg: #ffffff;
+      --body-bg: #f1f5f9;
     }
     * { scroll-margin-top: 1rem; }
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: #f4f6fb;
+      font-family: 'Outfit', 'Segoe UI', system-ui, sans-serif;
+      background: var(--body-bg);
       display: flex;
+      color: var(--text-primary);
     }
     #sidebar {
       width: var(--sidebar-width);
@@ -32,8 +42,8 @@
       transition: transform .3s;
     }
     #sidebar .brand { padding: 1.25rem 1.25rem .75rem; border-bottom: 1px solid rgba(255,255,255,.08); }
-    #sidebar .brand h5 { color: #fff; font-weight: 700; }
-    #sidebar .brand small { color: #adb5bd; }
+    #sidebar .brand h5 { color: #fff; font-weight: 800; letter-spacing: 0.02em; }
+    #sidebar .brand small { color: #94a3b8; font-size: .75rem; }
     #sidebar .nav-link {
       color: #c8cdd3;
       padding: .5rem 1.25rem;
@@ -49,21 +59,38 @@
       color: #6c757d; font-size: .7rem; text-transform: uppercase;
       letter-spacing: .08em; padding: 1rem 1.25rem .3rem; font-weight: 600;
     }
-    #main { margin-left: var(--sidebar-width); flex: 1; padding: 2rem 2.5rem 4rem; max-width: 1100px; }
+    #main { margin-left: var(--sidebar-width); flex: 1; padding: 2rem 2.5rem 4rem; max-width: 1120px; width: 100%; }
     @media (max-width: 991.98px) {
       #sidebar { transform: translateX(-100%); }
       #sidebar.show { transform: translateX(0); }
       #main { margin-left: 0; padding: 1.5rem; }
     }
+    @media (max-width: 576px) {
+      #main { padding: 1rem; }
+      .header-stats { gap: .4rem; }
+      .header-stat { font-size: .7rem; padding: .25rem .55rem; }
+    }
     .sidebar-toggle {
       position: fixed; top: .75rem; left: .75rem; z-index: 1050;
       background: var(--dark-bg); color: #fff; border: none;
-      border-radius: .4rem; padding: .4rem .65rem; display: none;
+      border-radius: .5rem; padding: .45rem .7rem; display: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,.12);
     }
     @media (max-width: 991.98px) { .sidebar-toggle { display: block; } }
 
     h1 { font-weight: 800; color: var(--dark-bg); font-size: 1.8rem; margin-bottom: .25rem; }
-    .subtitle { color: #6b7280; font-size: .95rem; margin-bottom: 1.5rem; }
+    h1 i { color: var(--saffron); }
+    .subtitle { color: var(--text-secondary); font-size: .95rem; margin-bottom: 1.5rem; line-height: 1.6; }
+    .header-stats {
+      display: flex; gap: .75rem; flex-wrap: wrap; margin-bottom: 1.25rem;
+    }
+    .header-stat {
+      display: inline-flex; align-items: center; gap: .35rem;
+      background: #fff; border: 1px solid var(--border-soft);
+      padding: .35rem .7rem; border-radius: 999px; font-size: .75rem; font-weight: 600;
+      color: var(--text-secondary);
+    }
+    .header-stat i { color: var(--saffron); font-size: .7rem; }
 
     .filter-bar {
       display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1.25rem;
@@ -71,59 +98,70 @@
     }
     .filter-chip {
       display: inline-flex; align-items: center; gap: .35rem;
-      padding: .35rem .8rem; border-radius: 999px; font-size: .78rem; font-weight: 600;
-      background: #fff; color: #475569; border: 1px solid #e2e8f0;
-      cursor: pointer; transition: all .15s; user-select: none;
+      padding: .4rem .85rem; border-radius: 999px; font-size: .78rem; font-weight: 600;
+      background: #fff; color: var(--text-secondary); border: 1px solid var(--border-soft);
+      cursor: pointer; transition: all .18s ease; user-select: none;
+      box-shadow: 0 1px 2px rgba(0,0,0,.03);
     }
-    .filter-chip:hover { border-color: #94a3b8; }
-    .filter-chip.active { background: var(--dark-bg); color: #fff; border-color: var(--dark-bg); }
-    .filter-chip.diff-easy.active { background: var(--tag-easy); border-color: var(--tag-easy); }
-    .filter-chip.diff-med.active { background: var(--tag-med); border-color: var(--tag-med); }
-    .filter-chip.diff-hard.active { background: var(--tag-hard); border-color: var(--tag-hard); }
-    .filter-chip.exp-junior.active { background: #3b82f6; border-color: #3b82f6; }
-    .filter-chip.exp-mid.active { background: #8b5cf6; border-color: #8b5cf6; }
-    .filter-chip.exp-senior.active { background: var(--tag-med); border-color: var(--tag-med); }
-    .filter-chip.exp-lead.active { background: var(--tag-hard); border-color: var(--tag-hard); }
+    .filter-chip:hover { border-color: var(--saffron); color: var(--dark-bg); }
+    .filter-chip.active { background: var(--dark-bg); color: #fff; border-color: var(--dark-bg); box-shadow: 0 2px 6px rgba(26,26,46,.15); }
+    .filter-chip.diff-easy.active { background: var(--tag-easy); border-color: var(--tag-easy); box-shadow: 0 2px 6px rgba(34,197,94,.2); }
+    .filter-chip.diff-med.active { background: var(--tag-med); border-color: var(--tag-med); box-shadow: 0 2px 6px rgba(245,158,11,.2); }
+    .filter-chip.diff-hard.active { background: var(--tag-hard); border-color: var(--tag-hard); box-shadow: 0 2px 6px rgba(239,68,68,.2); }
+    .filter-chip.exp-junior.active { background: #3b82f6; border-color: #3b82f6; box-shadow: 0 2px 6px rgba(59,130,246,.2); }
+    .filter-chip.exp-mid.active { background: #8b5cf6; border-color: #8b5cf6; box-shadow: 0 2px 6px rgba(139,92,246,.2); }
+    .filter-chip.exp-senior.active { background: var(--tag-med); border-color: var(--tag-med); box-shadow: 0 2px 6px rgba(245,158,11,.2); }
+    .filter-chip.exp-lead.active { background: var(--tag-hard); border-color: var(--tag-hard); box-shadow: 0 2px 6px rgba(239,68,68,.2); }
+
 
     .search-box {
       position: relative; flex: 1; min-width: 200px; max-width: 400px;
     }
     .search-box i {
       position: absolute; left: .85rem; top: 50%; transform: translateY(-50%);
-      color: #94a3b8;
+      color: var(--text-muted); font-size: .85rem;
     }
     .search-box input {
-      width: 100%; padding: .5rem .5rem .5rem 2.3rem;
-      border-radius: 999px; border: 1px solid #e2e8f0; font-size: .85rem;
-      background: #fff; outline: none;
+      width: 100%; padding: .55rem .5rem .55rem 2.3rem;
+      border-radius: 999px; border: 1px solid var(--border-soft); font-size: .85rem;
+      background: var(--card-bg); outline: none; transition: all .18s ease;
+      font-family: inherit;
     }
+    .search-box input::placeholder { color: var(--text-muted); }
     .search-box input:focus { border-color: var(--saffron); box-shadow: 0 0 0 3px rgba(255,153,51,.15); }
 
-    .results-stat { font-size: .82rem; color: #6b7280; font-weight: 600; margin-bottom: 1rem; }
+    .results-stat { font-size: .82rem; color: var(--text-secondary); font-weight: 600; margin-bottom: 1rem; padding-left: .1rem; }
+    .results-stat strong { color: var(--dark-bg); }
 
     .problem-card {
-      background: #fff; border-radius: 1rem; margin-bottom: .75rem;
-      box-shadow: 0 1px 3px rgba(0,0,0,.04); overflow: hidden;
-      border: 1px solid rgba(0,0,0,.04);
+      background: var(--card-bg); border-radius: 1rem; margin-bottom: .85rem;
+      box-shadow: 0 1px 2px rgba(0,0,0,.03); overflow: hidden;
+      border: 1px solid var(--border-soft);
+      transition: box-shadow .2s ease, border-color .2s ease;
     }
+    .problem-card:hover { border-color: #cbd5e1; box-shadow: 0 4px 16px rgba(0,0,0,.04); }
+    .problem-card.open { border-color: #e2e8f0; box-shadow: 0 6px 20px rgba(0,0,0,.05); }
     .problem-header {
       display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
-      padding: .9rem 1.25rem; cursor: pointer; transition: background .15s;
+      padding: 1rem 1.25rem; cursor: pointer; transition: background .15s;
       justify-content: space-between;
     }
     .problem-header:hover { background: #f8fafc; }
-    .problem-header-left { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
-    .problem-header .q-title { font-weight: 600; font-size: .9rem; color: #0f172a; }
-    .problem-header .toggle-icon { color: #94a3b8; font-size: .8rem; transition: transform .2s; }
-    .problem-header.open .toggle-icon { transform: rotate(180deg); }
+    .problem-header-left { display: flex; align-items: center; gap: .55rem; flex-wrap: wrap; }
+    .problem-header .q-title { font-weight: 600; font-size: .9rem; color: var(--text-primary); letter-spacing: -0.01em; line-height: 1.4; }
+    .problem-header .toggle-icon { color: var(--text-muted); font-size: .8rem; transition: transform .25s ease; }
+    .problem-header.open .toggle-icon { transform: rotate(180deg); color: var(--saffron); }
     .q-num {
       display: inline-flex; align-items: center; justify-content: center;
       width: 1.6rem; height: 1.6rem; border-radius: 50%;
-      background: #f1f5f9; color: #475569; font-size: .72rem; font-weight: 700;
+      background: #f1f5f9; color: var(--text-secondary); font-size: .72rem; font-weight: 700;
+      flex-shrink: 0;
     }
+    .problem-card.open .q-num { background: var(--saffron); color: #fff; }
     .q-badge {
       display: inline-block; font-size: .65rem; font-weight: 700;
       padding: .15rem .5rem; border-radius: 999px;
+      letter-spacing: 0.02em; text-transform: uppercase;
     }
     .q-badge.easy { background: #d1fae5; color: #065f46; }
     .q-badge.med { background: #fef3c7; color: #92400e; }
@@ -132,49 +170,80 @@
     .q-tag {
       display: inline-block; font-size: .62rem; font-weight: 600;
       padding: .1rem .45rem; border-radius: 999px;
-      background: #f1f5f9; color: #64748b;
+      background: #f1f5f9; color: var(--text-secondary);
     }
     .problem-body {
       padding: 0 1.25rem 1.25rem; display: none;
+      animation: fadeSlideIn .25s ease;
+    }
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     .problem-card.open .problem-body { display: block; }
     .answer-content {
-      line-height: 1.75; font-size: .9rem;
+      line-height: 1.75; font-size: .9rem; color: var(--text-primary);
       background: #f8fafc; border-radius: .75rem; padding: 1.25rem;
       border-left: 3px solid var(--saffron); margin-top: .5rem;
     }
+    .answer-content p:last-child { margin-bottom: 0; }
     .answer-content code {
-      background: #f1f3f5; padding: .15rem .4rem; border-radius: .3rem;
-      font-size: .82rem; color: #d63384;
+      background: #e9ecef; padding: .15rem .4rem; border-radius: .3rem;
+      font-size: .82rem; color: #d63384; font-family: 'JetBrains Mono', 'Consolas', monospace;
     }
     .answer-content pre {
-      background: #1e1e2f; color: #e6e6e6; padding: 1rem; border-radius: .5rem;
+      background: #1a1b2e; color: #e6e6e6; padding: 1rem 1.1rem; border-radius: .6rem;
       overflow-x: auto; font-size: .8rem; margin: .75rem 0;
+      font-family: 'JetBrains Mono', 'Consolas', monospace;
+      border: 1px solid rgba(255,255,255,.06);
     }
-    .answer-content pre code { background: transparent; color: inherit; padding: 0; }
+    .answer-content pre:hover { background: #1e1f36; }
+    .answer-content pre code { background: transparent; color: inherit; padding: 0; font-family: inherit; }
+    .answer-content strong { color: var(--dark-bg); }
+    .answer-content ul, .answer-content ol { padding-left: 1.25rem; }
+    .answer-content li { margin-bottom: .25rem; }
+    .answer-content hr { margin: 1rem 0; border-color: var(--border-soft); }
     .empty-state {
-      text-align: center; padding: 3rem 1rem; color: #94a3b8;
+      text-align: center; padding: 4rem 1rem; color: var(--text-muted);
     }
-    .empty-state i { font-size: 2.5rem; display: block; margin-bottom: .5rem; }
+    .empty-state i { font-size: 2.5rem; display: block; margin-bottom: .75rem; color: var(--border-soft); }
+    .empty-state strong { color: var(--text-secondary); display: block; margin-bottom: .25rem; font-size: 1rem; }
+
+    .question-text {
+      font-weight: 600; font-size: .95rem; color: var(--dark-bg); margin-bottom: .65rem;
+      padding-right: .5rem; line-height: 1.6;
+    }
 
     .home-link {
       position: fixed; top: 14px; left: 14px; z-index: 1100;
       display: inline-flex; align-items: center; gap: 6px;
-      padding: 8px 12px; border-radius: 999px;
-      background: rgba(255,255,255,.94); color: #0f172a; text-decoration: none;
+      padding: 8px 14px; border-radius: 999px;
+      background: rgba(255,255,255,.85); color: var(--text-primary); text-decoration: none;
       font-size: .78rem; font-weight: 700;
-      box-shadow: 0 10px 28px rgba(0,0,0,.08); border: 1px solid rgba(226,232,240,.9);
-      backdrop-filter: blur(10px); transition: .2s;
+      box-shadow: 0 8px 24px rgba(0,0,0,.06); border: 1px solid rgba(255,255,255,.9);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      transition: all .2s ease; font-family: inherit;
     }
-    .home-link:hover { color: #2563eb; }
+    .home-link:hover { background: var(--dark-bg); color: #fff; border-color: var(--dark-bg); box-shadow: 0 8px 24px rgba(26,26,46,.15); }
     @media (min-width: 992px) { .home-link { left: calc(var(--sidebar-width) + 14px); } }
     @media (max-width: 991.98px) { .home-link { left: 4rem; } }
 
     .loading-state {
-      text-align: center; padding: 4rem; color: #94a3b8;
+      text-align: center; padding: 4rem; color: var(--text-muted);
     }
-    .loading-state .spinner { width: 2rem; height: 2rem; border: 3px solid #e2e8f0; border-top-color: var(--saffron); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto .5rem; }
+    .loading-state .spinner { width: 2rem; height: 2rem; border: 3px solid var(--border-soft); border-top-color: var(--saffron); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto .5rem; }
     @keyframes spin { to { transform: rotate(360deg); } }
+
+    .go-top {
+      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 1050;
+      width: 2.4rem; height: 2.4rem; border-radius: 50%;
+      background: var(--dark-bg); color: #fff; border: none;
+      display: none; align-items: center; justify-content: center;
+      cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,.15);
+      transition: all .2s ease; font-size: .9rem;
+    }
+    .go-top.show { display: flex; }
+    .go-top:hover { background: var(--saffron); transform: translateY(-2px); }
   </style>
 </head>
 <body>
@@ -197,6 +266,13 @@
     <h1><i class="bi bi-laptop me-2"></i>Coding Case Problems</h1>
     <p class="subtitle">Real-world architecture scenarios &mdash; design the solution, write the code, cover edge cases.</p>
 
+    <div class="header-stats" id="headerStats">
+      <span class="header-stat"><i class="bi bi-file-text"></i> <span id="totalCount">0</span> problems</span>
+      <span class="header-stat"><i class="bi bi-check-circle-fill" style="color:var(--tag-easy)"></i> <span id="easyCount">0</span> Easy</span>
+      <span class="header-stat"><i class="bi bi-check-circle-fill" style="color:var(--tag-med)"></i> <span id="medCount">0</span> Medium</span>
+      <span class="header-stat"><i class="bi bi-check-circle-fill" style="color:var(--tag-hard)"></i> <span id="hardCount">0</span> Hard</span>
+    </div>
+
     <div class="filter-bar">
       <div class="search-box">
         <i class="bi bi-search"></i>
@@ -206,10 +282,14 @@
       <div class="filter-chip diff-easy" data-diff="easy" onclick="setDiff('easy')"><i class="bi bi-check-circle-fill"></i> Easy</div>
       <div class="filter-chip diff-med" data-diff="med" onclick="setDiff('med')"><i class="bi bi-check-circle-fill"></i> Medium</div>
       <div class="filter-chip diff-hard" data-diff="hard" onclick="setDiff('hard')"><i class="bi bi-check-circle-fill"></i> Hard</div>
+      <div class="filter-chip exp-junior" data-exp="junior" onclick="setExp('junior')"><i class="bi bi-person-badge"></i> Junior</div>
+      <div class="filter-chip exp-mid" data-exp="mid" onclick="setExp('mid')"><i class="bi bi-person-badge"></i> Mid</div>
+      <div class="filter-chip exp-senior" data-exp="senior" onclick="setExp('senior')"><i class="bi bi-person-badge"></i> Senior</div>
+      <div class="filter-chip exp-lead" data-exp="lead" onclick="setExp('lead')"><i class="bi bi-person-badge"></i> Lead</div>
     </div>
 
-    <div class="results-stat" id="resultsStat">Loading...</div>
-    <div id="problemsContainer"><div class="loading-state"><div class="spinner"></div>Loading problems...</div></div>
+    <div class="results-stat" id="resultsStat"></div>
+    <div id="problemsContainer"></div>
 
     <footer class="mt-5 pt-4 border-top text-muted small d-flex justify-content-between align-items-center flex-wrap">
       <span>&copy; 2026 Jap App Hub &mdash; Coding Case Problems for Practice</span>
@@ -221,12 +301,1830 @@
     </footer>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<button class="go-top" id="goTop" aria-label="Go to top"><i class="bi bi-chevron-up"></i></button>
+
+<script id="problemsData" type="application/json">
+[
+    {
+        "id":  28,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "lead",
+        "tags":  [
+                     "architecture",
+                     "multi-tenant",
+                     "saas"
+                 ],
+        "q":  "Design a multi-tenant SaaS application with Laravel.",
+        "a":  "\u003cstrong\u003eTwo approaches\u003c/strong\u003e:\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eSingle database (row-level)\u003c/strong\u003e:\u003cbr\u003eâ€¢ All tenants share one database. Each table has \u003ccode\u003etenant_id\u003c/code\u003e column.\u003cbr\u003eâ€¢ Global scope: \u003ccode\u003eTenantScope\u003c/code\u003e auto-filters \u003ccode\u003ewhere(\u0027tenant_id\u0027, currentTenant())\u003c/code\u003e on all queries.\u003cbr\u003eâ€¢ Pros: simple infrastructure, easy migrations. Cons: data isolation risk, harder to scale.\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eMulti-database (database-per-tenant)\u003c/strong\u003e:\u003cbr\u003eâ€¢ Each tenant gets their own database. Central \u003ccode\u003etenants\u003c/code\u003e table maps domains to databases.\u003cbr\u003eâ€¢ Middleware resolves tenant, sets \u003ccode\u003econfig(\u0027database.connections.tenant.database\u0027)\u003c/code\u003e dynamically.\u003cbr\u003eâ€¢ Pros: strong isolation, can backup/restore per tenant. Cons: complex migrations, higher resource usage.\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eKey considerations\u003c/strong\u003e:\u003cbr\u003eâ€¢ \u003cstrong\u003eDomain routing\u003c/strong\u003e: \u003ccode\u003eRoute::domain(\u0027{tenant}.app.com\u0027)\u003c/code\u003e or header-based\u003cbr\u003eâ€¢ \u003cstrong\u003eCache isolation\u003c/strong\u003e: prefix cache keys with tenant ID\u003cbr\u003eâ€¢ \u003cstrong\u003eQueue isolation\u003c/strong\u003e: separate queue per tenant or use \u003ccode\u003etenant_id\u003c/code\u003e in job metadata\u003cbr\u003eâ€¢ \u003cstrong\u003eFile storage\u003c/strong\u003e: directories per tenant on S3 (\u003ccode\u003etenants/{id}/\u003c/code\u003e)\u003cbr\u003eâ€¢ \u003cstrong\u003eTesting\u003c/strong\u003e: ensure tenant-scoped tests don\u0027t leak data between test suites",
+        "options":  [
+                        "Two approaches:Single database (row-level):â€¢ All tenants share one database. Each table has tenant_id column.â€¢ Global scope: TenantScope.",
+                        "Use a monolithic approach without any separation of concerns or modular design.",
+                        "Implement everything using raw PHP files without any framework.",
+                        "Outsource all architecture decisions to a third-party service provider."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  29,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "lead",
+        "tags":  [
+                     "architecture",
+                     "search",
+                     "scout",
+                     "meilisearch"
+                 ],
+        "q":  "Design a full-text search system for a high-traffic Laravel application.",
+        "a":  "\u003cstrong\u003eRecommended stack\u003c/strong\u003e: MeiliSearch (self-hosted or Cloud) + Laravel Scout.\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eArchitecture\u003c/strong\u003e:\u003cbr\u003e\u003cbr\u003e1. \u003cstrong\u003eIndexing\u003c/strong\u003e: add \u003ccode\u003eSearchable\u003c/code\u003e trait to models. Override \u003ccode\u003etoSearchableArray()\u003c/code\u003e to include related data:\u003cbr\u003e\u003ccode\u003ereturn array_merge($this-\u003etoArray(), [\u0027category\u0027 =\u003e $this-\u003ecategory-\u003ename]);\u003c/code\u003e\u003cbr\u003e\u003cbr\u003e2. \u003cstrong\u003eQueue indexing\u003c/strong\u003e: Scout auto-queues index updates via the queue connection. Configure \u003ccode\u003escout.queue\u003c/code\u003e for async processing.\u003cbr\u003e\u003cbr\u003e3. \u003cstrong\u003eSearch endpoint\u003c/strong\u003e:\u003cbr\u003e\u003ccode\u003eProduct::search($query)\u003cbr\u003e    -\u003ewhere(\u0027category_id\u0027, $categoryId)\u003cbr\u003e    -\u003ewhere(\u0027price\u0027, \u0027\u003c\u0027, 100)\u003cbr\u003e    -\u003eorderBy(\u0027relevance\u0027)\u003cbr\u003e    -\u003epaginate(20);\u003c/code\u003e\u003cbr\u003e\u003cbr\u003e4. \u003cstrong\u003eFilterable attributes\u003c/strong\u003e: configure in MeiliSearch settings for \u003ccode\u003ecategory_id\u003c/code\u003e, \u003ccode\u003eprice\u003c/code\u003e, \u003ccode\u003ein_stock\u003c/code\u003e.\u003cbr\u003e\u003cbr\u003e5. \u003cstrong\u003eTypo tolerance\u003c/strong\u003e: MeiliSearch handles typos by default â€” configure \u003ccode\u003eminWordSizeForTypos\u003c/code\u003e per use case.\u003cbr\u003e\u003cbr\u003e6. \u003cstrong\u003ePerformance\u003c/strong\u003e:\u003cbr\u003eâ€¢ Index only searchable fields â€” don\u0027t index raw HTML or logs\u003cbr\u003eâ€¢ Use separate index per locale for multilingual apps\u003cbr\u003eâ€¢ Re-index without downtime: build new index, swap atomically\u003cbr\u003eâ€¢ Monitor search analytics to tune ranking rules",
+        "options":  [
+                        "Recommended stack: MeiliSearch (self-hosted or Cloud) + Laravel Scout.Architecture:1. Indexing: add Searchable trait to models. Override.",
+                        "Use a monolithic approach without any separation of concerns or modular design.",
+                        "Implement everything using raw PHP files without any framework.",
+                        "Outsource all architecture decisions to a third-party service provider."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  30,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "senior",
+        "tags":  [
+                     "architecture",
+                     "blog",
+                     "relational"
+                 ],
+        "q":  "Design a blog system with categories, tags, and comments â€” covering edge cases.",
+        "a":  "\u003cstrong\u003eModels\u003c/strong\u003e:\u003cbr\u003eâ€¢ \u003ccode\u003ePost\u003c/code\u003e (belongsTo Category, belongsToMany Tag, morphMany Comment)\u003cbr\u003eâ€¢ \u003ccode\u003eCategory\u003c/code\u003e (hasMany posts)\u003cbr\u003eâ€¢ \u003ccode\u003eTag\u003c/code\u003e (belongsToMany posts)\u003cbr\u003eâ€¢ \u003ccode\u003eComment\u003c/code\u003e (morphTo commentable) â€” allows commenting on posts + pages\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eFeatures\u003c/strong\u003e:\u003cbr\u003eâ€¢ \u003ccode\u003eSoftDeletes\u003c/code\u003e on Post â€” archive without losing comments\u003cbr\u003eâ€¢ Form Request validation with unique slug generation\u003cbr\u003eâ€¢ Policy for authorization â€” only author can edit\u003cbr\u003eâ€¢ Eager load relationships on index: \u003ccode\u003ewith([\u0027category\u0027, \u0027tags\u0027, \u0027comments.user\u0027])\u003c/code\u003e\u003cbr\u003eâ€¢ View composer for sidebar (recent posts, categories with counts)\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eEdge cases\u003c/strong\u003e:\u003cbr\u003eâ€¢ Unauthorized edit attempts â†’ 403 via policy\u003cbr\u003eâ€¢ Empty tags â†’ allow saving without tags\u003cbr\u003eâ€¢ Soft-deleted posts â†’ exclude from queries with global scope\u003cbr\u003eâ€¢ Duplicate slugs â†’ append UUID suffix\u003cbr\u003eâ€¢ Orphaned comments when post deleted â†’ \u003ccode\u003eSoftDeletes\u003c/code\u003e preserves them; show \"Post deleted\" message",
+        "options":  [
+                        "Models:â€¢ Post (belongsTo Category, belongsToMany Tag, morphMany Comment)â€¢ Category (hasMany posts)â€¢ Tag (belongsToMany posts)â€¢ Comment.",
+                        "Use a monolithic approach without any separation of concerns or modular design.",
+                        "Implement everything using raw PHP files without any framework.",
+                        "Outsource all architecture decisions to a third-party service provider."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  31,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "senior",
+        "tags":  [
+                     "architecture",
+                     "cart",
+                     "ecommerce"
+                 ],
+        "q":  "Design a shopping cart that persists across guest sessions and login merge.",
+        "a":  "\u003cstrong\u003eApproach\u003c/strong\u003e:\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eDatabase\u003c/strong\u003e:\u003cbr\u003e\u003ccode\u003eCart\u003c/code\u003e model: \u003ccode\u003euser_id\u003c/code\u003e (nullable), \u003ccode\u003esession_id\u003c/code\u003e, product_id, quantity, created_at.\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eCartService\u003c/strong\u003e:\u003cbr\u003eâ€¢ \u003ccode\u003eaddItem(productId, quantity)\u003c/code\u003e â€” upsert by product\u003cbr\u003eâ€¢ \u003ccode\u003eremoveItem(productId)\u003c/code\u003e\u003cbr\u003eâ€¢ \u003ccode\u003egetTotal()\u003c/code\u003e â€” sum of (price Ã— quantity)\u003cbr\u003eâ€¢ \u003ccode\u003eclear()\u003c/code\u003e\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eGuest flow\u003c/strong\u003e: cart stored with \u003ccode\u003esession_id\u003c/code\u003e only. Data loaded on every page via \u003ccode\u003eViewComposer\u003c/code\u003e or middleware.\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eLogin merge\u003c/strong\u003e: on \u003ccode\u003eLogin\u003c/code\u003e event, call \u003ccode\u003eCartService::mergeCarts(sessionCart, userCart)\u003c/code\u003e:\u003cbr\u003eâ€¢ For each guest item: if user has same product, sum quantities (capped at stock). Else, attach to user.\u003cbr\u003eâ€¢ Delete session cart after merge.\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eEdge cases\u003c/strong\u003e:\u003cbr\u003eâ€¢ Product deleted during session â†’ show \"Unavailable\" with remove option\u003cbr\u003eâ€¢ Quantity overflow â†’ limit to stock\u003cbr\u003eâ€¢ Duplicate items â€” upsert logic prevents duplicates\u003cbr\u003eâ€¢ Concurrent sessions â†’ last-write-wins (acceptable for carts)",
+        "options":  [
+                        "Approach:Database:Cart model: user_id (nullable), session_id, product_id, quantity, created_at.CartService:â€¢ addItem(productId, quantity) â€”.",
+                        "Use a monolithic approach without any separation of concerns or modular design.",
+                        "Implement everything using raw PHP files without any framework.",
+                        "Outsource all architecture decisions to a third-party service provider."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  32,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "lead",
+        "tags":  [
+                     "architecture",
+                     "realtime",
+                     "websockets",
+                     "reverb"
+                 ],
+        "q":  "Design a real-time chat system with Laravel Reverb.",
+        "a":  "\u003cstrong\u003eArchitecture\u003c/strong\u003e:\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eBackend\u003c/strong\u003e:\u003cbr\u003eâ€¢ \u003ccode\u003eConversation\u003c/code\u003e (belongsToMany users via \u003ccode\u003econversation_user\u003c/code\u003e with \u003ccode\u003elast_read_at\u003c/code\u003e)\u003cbr\u003eâ€¢ \u003ccode\u003eMessage\u003c/code\u003e (belongsTo user, belongsTo conversation)\u003cbr\u003eâ€¢ Broadcasting: \u003ccode\u003eMessageSent\u003c/code\u003e event implements \u003ccode\u003eShouldBroadcast\u003c/code\u003e on \u003ccode\u003eprivate-conversation.{id}\u003c/code\u003e channel.\u003cbr\u003eâ€¢ Authorization channel: \u003ccode\u003eBroadcast::channel(\u0027private-conversation.{id}\u0027, fn($user, $id) =\u003e $user-\u003econversations-\u003econtains($id));\u003c/code\u003e\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eReverb\u003c/strong\u003e:\u003cbr\u003eâ€¢ Self-hosted WebSocket server. Scales horizontally with Redis pub/sub.\u003cbr\u003eâ€¢ Run via Supervisor: \u003ccode\u003ephp artisan reverb:start --host=0.0.0.0 --port=8080\u003c/code\u003e\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eFrontend\u003c/strong\u003e (Laravel Echo):\u003cbr\u003e\u003ccode\u003eEcho.private(\u0027conversation.\u0027 + id)\u003cbr\u003e    .listen(\u0027MessageSent\u0027, (e) =\u003e appendMessage(e.message));\u003c/code\u003e\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eTyping indicator\u003c/strong\u003e: debounced 2-second broadcast. Clear on send.\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eEdge cases\u003c/strong\u003e:\u003cbr\u003eâ€¢ Offline messages â†’ stored in DB, pushed when user reconnects (presence channels)\u003cbr\u003eâ€¢ Concurrent connections â†’ Reverb handles via channel auth\u003cbr\u003eâ€¢ Message ordering â†’ rely on message ID (auto-increment), not client timestamps\u003cbr\u003eâ€¢ File attachments â†’ queue thumbnails via \u003ccode\u003eShouldQueue\u003c/code\u003e broadcast",
+        "options":  [
+                        "Architecture:Backend:â€¢ Conversation (belongsToMany users via conversation_user with last_read_at)â€¢ Message (belongsTo user, belongsTo.",
+                        "Use a monolithic approach without any separation of concerns or modular design.",
+                        "Implement everything using raw PHP files without any framework.",
+                        "Outsource all architecture decisions to a third-party service provider."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  33,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "lead",
+        "tags":  [
+                     "architecture",
+                     "multi-tenant",
+                     "scaling"
+                 ],
+        "q":  "Design a multi-region, high-availability deployment for a Laravel application.",
+        "a":  "\u003cstrong\u003eArchitecture\u003c/strong\u003e:\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eInfrastructure\u003c/strong\u003e:\u003cbr\u003eâ€¢ 3 regions (US, EU, APAC) behind a global load balancer (AWS Global Accelerator / Cloudflare)\u003cbr\u003eâ€¢ Each region: autoscaling group (min 3, max 20) behind ALB\u003cbr\u003eâ€¢ Database: Aurora Global Database (1 primary in US, read replicas in EU/APAC)\u003cbr\u003eâ€¢ Redis: ElastiCache Global Datastore for cross-region cache\u003cbr\u003eâ€¢ Session: Redis with read-replica failover\u003cbr\u003eâ€¢ Queue: SQS (global) â€” FIFO for order-sensitive jobs\u003cbr\u003eâ€¢ Files: S3 with Cross-Region Replication + CloudFront CDN\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eLaravel config\u003c/strong\u003e:\u003cbr\u003eâ€¢ \u003ccode\u003eSESSION_DRIVER=redis\u003c/code\u003e, \u003ccode\u003eCACHE_STORE=redis\u003c/code\u003e\u003cbr\u003eâ€¢ Queue: SQS driver\u003cbr\u003eâ€¢ Octane on RoadRunner for in-memory boot\u003cbr\u003eâ€¢ Read/write DB connections: \u003ccode\u003e\u0027read\u0027 =\u003e [\u0027host\u0027 =\u003e $readHost], \u0027write\u0027 =\u003e [\u0027host\u0027 =\u003e $writeHost]\u003c/code\u003e\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eDeployment\u003c/strong\u003e:\u003cbr\u003eâ€¢ CI/CD: GitHub Actions â†’ build Docker image â†’ push to ECR â†’ ECS rolling update\u003cbr\u003eâ€¢ Zero-downtime: blue/green deployment with health checks\u003cbr\u003eâ€¢ Migrations: run in CI before deploy, use \u003ccode\u003e--isolated\u003c/code\u003e for concurrent safety",
+        "options":  [
+                        "Architecture:Infrastructure:â€¢ 3 regions (US, EU, APAC) behind a global load balancer (AWS Global Accelerator / Cloudflare)â€¢ Each region.",
+                        "Use a monolithic approach without any separation of concerns or modular design.",
+                        "Implement everything using raw PHP files without any framework.",
+                        "Outsource all architecture decisions to a third-party service provider."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  34,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "lead",
+        "tags":  [
+                     "api",
+                     "performance",
+                     "scaling"
+                 ],
+        "q":  "Design a caching strategy for a Laravel API serving 10M requests/day.",
+        "a":  "\u003cstrong\u003eLayered caching strategy\u003c/strong\u003e:\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003e1. HTTP caching\u003c/strong\u003e (Edge/CDN):\u003cbr\u003eâ€¢ CloudFront/Varnish for GET endpoints\u003cbr\u003eâ€¢ Cache-Control: public, max-age=60, stale-while-revalidate=300\u003cbr\u003eâ€¢ Purge on model \u003ccode\u003esaved\u003c/code\u003e/\u003ccode\u003edeleted\u003c/code\u003e events via cache tags\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003e2. Application cache\u003c/strong\u003e (Redis):\u003cbr\u003eâ€¢ \u003ccode\u003eCache::remember(\u0027product:\u0027.$id, 300, fn() =\u003e ...)\u003c/code\u003e\u003cbr\u003eâ€¢ Cache tags for group invalidation: \u003ccode\u003eCache::tags([\u0027products\u0027, \u0027category:\u0027.$catId])-\u003eflush()\u003c/code\u003e\u003cbr\u003eâ€¢ \u003cstrong\u003eCache-aside\u003c/strong\u003e: app checks cache first, falls back to DB, writes to cache\u003cbr\u003eâ€¢ \u003cstrong\u003eWrite-through\u003c/strong\u003e: on update, write both DB + cache\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003e3. Query cache\u003c/strong\u003e:\u003cbr\u003eâ€¢ \u003ccode\u003eremember()\u003c/code\u003e on expensive queries: \u003ccode\u003eProduct::where(...)-\u003eremember(60)-\u003eget()\u003c/code\u003e\u003cbr\u003eâ€¢ Use \u003ccode\u003eselect()\u003c/code\u003e to minimize data transferred from Redis\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003e4. Full-page cache\u003c/strong\u003e:\u003cbr\u003eâ€¢ Static responses (docs, landing pages) served from CDN\u003cbr\u003eâ€¢ Dynamic pages use \u003ccode\u003elaravel-page-cache\u003c/code\u003e with Varnish/NGINX\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003e5. Invalidation strategy\u003c/strong\u003e:\u003cbr\u003eâ€¢ Event-driven: \u003ccode\u003eProductSaved\u003c/code\u003e â†’ \u003ccode\u003eCache::tags([\u0027products\u0027])-\u003eflush()\u003c/code\u003e\u003cbr\u003eâ€¢ Stale-while-revalidate: serve stale cache, refresh in background\u003cbr\u003eâ€¢ Versioned keys: increment cache version on deploy (atomic rollover)",
+        "options":  [
+                        "Layered caching strategy:1. HTTP caching (Edge/CDN):â€¢ CloudFront/Varnish for GET endpointsâ€¢ Cache-Control: public, max-age=60.",
+                        "Use a monolithic approach without any separation of concerns or modular design.",
+                        "Implement everything using raw PHP files without any framework.",
+                        "Outsource all architecture decisions to a third-party service provider."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  35,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "senior",
+        "tags":  [
+                     "notifications",
+                     "channels",
+                     "multi-channel"
+                 ],
+        "q":  "Design a multi-channel notification system with Laravel.",
+        "a":  "\u003cstrong\u003eApproach\u003c/strong\u003e:\u003cbr\u003e\u003cbr\u003e1. \u003cstrong\u003eNotification class\u003c/strong\u003e: \u003ccode\u003ephp artisan make:notification InvoicePaid\u003c/code\u003e\u003cbr\u003e2. \u003cstrong\u003eChannels\u003c/strong\u003e: \u003ccode\u003evia($notifiable)\u003c/code\u003e returns \u003ccode\u003e[\u0027mail\u0027, \u0027database\u0027, \u0027vonage\u0027, \u0027slack\u0027]\u003c/code\u003e\u003cbr\u003e3. \u003cstrong\u003eEach channel\u003c/strong\u003e: define \u003ccode\u003etoMail()\u003c/code\u003e, \u003ccode\u003etoDatabase()\u003c/code\u003e, \u003ccode\u003etoVonage()\u003c/code\u003e, \u003ccode\u003etoSlack()\u003c/code\u003e methods\u003cbr\u003e4. \u003cstrong\u003eQueued by default\u003c/strong\u003e: add \u003ccode\u003eShouldQueue\u003c/code\u003e interface\u003cbr\u003e5. \u003cstrong\u003eUser preferences\u003c/strong\u003e: \u003ccode\u003enotification_preferences\u003c/code\u003e JSON column on User â€” checked in \u003ccode\u003evia()\u003c/code\u003e\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eDatabase notification\u003c/strong\u003e: stored in \u003ccode\u003enotifications\u003c/code\u003e table. Read/unread tracked. Show in-app bell icon.\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eEdge cases\u003c/strong\u003e:\u003cbr\u003eâ€¢ Rate limiting: implement \u003ccode\u003ewithRateLimiting()\u003c/code\u003e to avoid API provider throttling\u003cbr\u003eâ€¢ Notification logging: \u003ccode\u003eNotificationLog\u003c/code\u003e model for audit trail\u003cbr\u003eâ€¢ Opt-out: per-channel unsubscribe links in email\u003cbr\u003eâ€¢ Batch sending: use jobs with \u003ccode\u003etries=3, backoff\u003c/code\u003e for retry logic",
+        "options":  [
+                        "Approach:1. Notification class: php artisan make:notification InvoicePaid2. Channels: via($notifiable) returns [\u0027mail\u0027, \u0027database\u0027, \u0027vonage\u0027.",
+                        "Use a monolithic approach without any separation of concerns or modular design.",
+                        "Implement everything using raw PHP files without any framework.",
+                        "Outsource all architecture decisions to a third-party service provider."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  51,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "lead",
+        "tags":  [
+                     "load-balancing",
+                     "case-problems"
+                 ],
+        "q":  "What are the advantages of load balancing?",
+        "a":  "load balancing improves maintainability, readability, performance, and scalability when implemented correctly in modern PHP/Laravel applications.",
+        "options":  [
+                        "load balancing improves maintainability, readability, performance, and scalability when implemented correctly in modern.",
+                        "It adds unnecessary complexity to the application architecture without tangible benefits.",
+                        "It is mainly useful for legacy system maintenance and backwards compatibility.",
+                        "It should be avoided in production as it leads to significant performance degradation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  88,
+        "category":  "case-problems",
+        "difficulty":  "easy",
+        "exp":  "senior",
+        "tags":  [
+                     "validation",
+                     "case-problems"
+                 ],
+        "q":  "What are the advantages of validation?",
+        "a":  "validation improves maintainability, readability, performance, and scalability when implemented correctly in modern PHP/Laravel applications.",
+        "options":  [
+                        "validation improves maintainability, readability, performance, and scalability when implemented correctly in modern.",
+                        "It adds unnecessary complexity to the application architecture without tangible benefits.",
+                        "It is mainly useful for legacy system maintenance and backwards compatibility.",
+                        "It should be avoided in production as it leads to significant performance degradation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  110,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "lead",
+        "tags":  [
+                     "microservices",
+                     "case-problems"
+                 ],
+        "q":  "What are common mistakes in microservices?",
+        "a":  "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security vulnerabilities.",
+        "options":  [
+                        "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security.",
+                        "Strictly following all documented best practices without deviation.",
+                        "Over-documenting every implementation detail in the codebase.",
+                        "Using the technology for every use case without proper evaluation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  118,
+        "category":  "case-problems",
+        "difficulty":  "easy",
+        "exp":  "lead",
+        "tags":  [
+                     "Swoole",
+                     "case-problems"
+                 ],
+        "q":  "What are common mistakes in Swoole?",
+        "a":  "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security vulnerabilities.",
+        "options":  [
+                        "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security.",
+                        "Strictly following all documented best practices without deviation.",
+                        "Over-documenting every implementation detail in the codebase.",
+                        "Using the technology for every use case without proper evaluation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  157,
+        "category":  "case-problems",
+        "difficulty":  "easy",
+        "exp":  "senior",
+        "tags":  [
+                     "Horizon",
+                     "case-problems"
+                 ],
+        "q":  "What are common mistakes in Horizon?",
+        "a":  "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security vulnerabilities.",
+        "options":  [
+                        "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security.",
+                        "Strictly following all documented best practices without deviation.",
+                        "Over-documenting every implementation detail in the codebase.",
+                        "Using the technology for every use case without proper evaluation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  166,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "mid",
+        "tags":  [
+                     "Docker-Compose",
+                     "case-problems"
+                 ],
+        "q":  "What are common mistakes in Docker Compose?",
+        "a":  "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security vulnerabilities.",
+        "options":  [
+                        "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security.",
+                        "Strictly following all documented best practices without deviation.",
+                        "Over-documenting every implementation detail in the codebase.",
+                        "Using the technology for every use case without proper evaluation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  188,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "mid",
+        "tags":  [
+                     "rate-limiting",
+                     "case-problems"
+                 ],
+        "q":  "How do you optimize rate limiting?",
+        "a":  "Optimization techniques for rate limiting include caching, indexing, eager loading, profiling, queue offloading, and reducing unnecessary computation.",
+        "options":  [
+                        "Optimization techniques for rate limiting include caching, indexing, eager loading, profiling, queue offloading, and.",
+                        "Replace the entire implementation with a different programming language.",
+                        "Add more server hardware regardless of where the bottleneck actually is.",
+                        "Disable all caching to ensure data freshness at the cost of speed."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  195,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "lead",
+        "tags":  [
+                     "Redis",
+                     "case-problems"
+                 ],
+        "q":  "How would you implement Redis in Laravel?",
+        "a":  "Implementation typically involves service classes, dependency injection, validation, policies, events, queues, and proper testing strategies.",
+        "options":  [
+                        "Implementation typically involves service classes, dependency injection, validation, policies, events, queues, and.",
+                        "Write raw SQL queries in controller methods for maximum performance.",
+                        "Put all business logic directly in the routes file for simplicity.",
+                        "Use global helper functions and avoid dependency injection for faster development."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  200,
+        "category":  "case-problems",
+        "difficulty":  "easy",
+        "exp":  "mid",
+        "tags":  [
+                     "high-availability",
+                     "case-problems"
+                 ],
+        "q":  "Explain high availability in detail.",
+        "a":  "Detailed explanation of high availability including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP usage.",
+        "options":  [
+                        "Detailed explanation of high availability including best practices, architecture considerations, scalability concerns, and real-world.",
+                        "high availability in detail. is a frontend JavaScript framework used for building user interfaces.",
+                        "high availability in detail. is a database management system optimized for read-heavy workloads.",
+                        "high availability in detail. is a deprecated technology that has been replaced by modern alternatives."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  204,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "junior",
+        "tags":  [
+                     "database-indexing",
+                     "case-problems"
+                 ],
+        "q":  "Explain database indexing in detail.",
+        "a":  "Detailed explanation of database indexing including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP usage.",
+        "options":  [
+                        "Detailed explanation of database indexing including best practices, architecture considerations, scalability concerns, and real-world.",
+                        "database indexing in detail. is a frontend JavaScript framework used for building user interfaces.",
+                        "database indexing in detail. is a database management system optimized for read-heavy workloads.",
+                        "database indexing in detail. is a deprecated technology that has been replaced by modern alternatives."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  230,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "senior",
+        "tags":  [
+                     "repository-pattern",
+                     "case-problems"
+                 ],
+        "q":  "How would you implement repository pattern in Laravel?",
+        "a":  "Implementation typically involves service classes, dependency injection, validation, policies, events, queues, and proper testing strategies.",
+        "options":  [
+                        "Implementation typically involves service classes, dependency injection, validation, policies, events, queues, and.",
+                        "Write raw SQL queries in controller methods for maximum performance.",
+                        "Put all business logic directly in the routes file for simplicity.",
+                        "Use global helper functions and avoid dependency injection for faster development."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  233,
+        "category":  "case-problems",
+        "difficulty":  "easy",
+        "exp":  "lead",
+        "tags":  [
+                     "caching",
+                     "case-problems"
+                 ],
+        "q":  "Explain caching in detail.",
+        "a":  "Detailed explanation of caching including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP usage.",
+        "options":  [
+                        "Detailed explanation of caching including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP.",
+                        "caching in detail. is a frontend JavaScript framework used for building user interfaces.",
+                        "caching in detail. is a database management system optimized for read-heavy workloads.",
+                        "caching in detail. is a deprecated technology that has been replaced by modern alternatives."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  260,
+        "category":  "case-problems",
+        "difficulty":  "med",
+        "exp":  "senior",
+        "tags":  [
+                     "pagination",
+                     "case-problems"
+                 ],
+        "q":  "What are common mistakes in pagination?",
+        "a":  "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security vulnerabilities.",
+        "options":  [
+                        "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security.",
+                        "Strictly following all documented best practices without deviation.",
+                        "Over-documenting every implementation detail in the codebase.",
+                        "Using the technology for every use case without proper evaluation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  266,
+        "category":  "case-problems",
+        "difficulty":  "med",
+        "exp":  "lead",
+        "tags":  [
+                     "deadlocks",
+                     "case-problems"
+                 ],
+        "q":  "What are the advantages of deadlocks?",
+        "a":  "deadlocks improves maintainability, readability, performance, and scalability when implemented correctly in modern PHP/Laravel applications.",
+        "options":  [
+                        "deadlocks improves maintainability, readability, performance, and scalability when implemented correctly in modern.",
+                        "It adds unnecessary complexity to the application architecture without tangible benefits.",
+                        "It is mainly useful for legacy system maintenance and backwards compatibility.",
+                        "It should be avoided in production as it leads to significant performance degradation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  267,
+        "category":  "case-problems",
+        "difficulty":  "easy",
+        "exp":  "senior",
+        "tags":  [
+                     "repository-pattern",
+                     "case-problems"
+                 ],
+        "q":  "What are common mistakes in repository pattern?",
+        "a":  "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security vulnerabilities.",
+        "options":  [
+                        "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security.",
+                        "Strictly following all documented best practices without deviation.",
+                        "Over-documenting every implementation detail in the codebase.",
+                        "Using the technology for every use case without proper evaluation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  278,
+        "category":  "case-problems",
+        "difficulty":  "easy",
+        "exp":  "senior",
+        "tags":  [
+                     "events",
+                     "case-problems"
+                 ],
+        "q":  "Explain events in detail.",
+        "a":  "Detailed explanation of events including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP usage.",
+        "options":  [
+                        "Detailed explanation of events including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP.",
+                        "events in detail. is a frontend JavaScript framework used for building user interfaces.",
+                        "events in detail. is a database management system optimized for read-heavy workloads.",
+                        "events in detail. is a deprecated technology that has been replaced by modern alternatives."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  282,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "mid",
+        "tags":  [
+                     "high-availability",
+                     "case-problems"
+                 ],
+        "q":  "How do you optimize high availability?",
+        "a":  "Optimization techniques for high availability include caching, indexing, eager loading, profiling, queue offloading, and reducing unnecessary computation.",
+        "options":  [
+                        "Optimization techniques for high availability include caching, indexing, eager loading, profiling, queue offloading.",
+                        "Replace the entire implementation with a different programming language.",
+                        "Add more server hardware regardless of where the bottleneck actually is.",
+                        "Disable all caching to ensure data freshness at the cost of speed."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  313,
+        "category":  "case-problems",
+        "difficulty":  "med",
+        "exp":  "mid",
+        "tags":  [
+                     "Supervisor",
+                     "case-problems"
+                 ],
+        "q":  "How do you optimize Supervisor?",
+        "a":  "Optimization techniques for Supervisor include caching, indexing, eager loading, profiling, queue offloading, and reducing unnecessary computation.",
+        "options":  [
+                        "Optimization techniques for Supervisor include caching, indexing, eager loading, profiling, queue offloading, and.",
+                        "Replace the entire implementation with a different programming language.",
+                        "Add more server hardware regardless of where the bottleneck actually is.",
+                        "Disable all caching to ensure data freshness at the cost of speed."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  346,
+        "category":  "case-problems",
+        "difficulty":  "easy",
+        "exp":  "lead",
+        "tags":  [
+                     "testing",
+                     "case-problems"
+                 ],
+        "q":  "How do you optimize testing?",
+        "a":  "Optimization techniques for testing include caching, indexing, eager loading, profiling, queue offloading, and reducing unnecessary computation.",
+        "options":  [
+                        "Optimization techniques for testing include caching, indexing, eager loading, profiling, queue offloading, and reducing.",
+                        "Replace the entire implementation with a different programming language.",
+                        "Add more server hardware regardless of where the bottleneck actually is.",
+                        "Disable all caching to ensure data freshness at the cost of speed."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  349,
+        "category":  "case-problems",
+        "difficulty":  "easy",
+        "exp":  "mid",
+        "tags":  [
+                     "error-handling",
+                     "case-problems"
+                 ],
+        "q":  "What are common mistakes in error handling?",
+        "a":  "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security vulnerabilities.",
+        "options":  [
+                        "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security.",
+                        "Strictly following all documented best practices without deviation.",
+                        "Over-documenting every implementation detail in the codebase.",
+                        "Using the technology for every use case without proper evaluation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  383,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "junior",
+        "tags":  [
+                     "API-versioning",
+                     "case-problems"
+                 ],
+        "q":  "How would you implement API versioning in Laravel?",
+        "a":  "Implementation typically involves service classes, dependency injection, validation, policies, events, queues, and proper testing strategies.",
+        "options":  [
+                        "Implementation typically involves service classes, dependency injection, validation, policies, events, queues, and.",
+                        "Write raw SQL queries in controller methods for maximum performance.",
+                        "Put all business logic directly in the routes file for simplicity.",
+                        "Use global helper functions and avoid dependency injection for faster development."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  400,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "junior",
+        "tags":  [
+                     "authentication",
+                     "case-problems"
+                 ],
+        "q":  "What are common mistakes in authentication?",
+        "a":  "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security vulnerabilities.",
+        "options":  [
+                        "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security.",
+                        "Strictly following all documented best practices without deviation.",
+                        "Over-documenting every implementation detail in the codebase.",
+                        "Using the technology for every use case without proper evaluation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  414,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "senior",
+        "tags":  [
+                     "polymorphic-relations",
+                     "case-problems"
+                 ],
+        "q":  "What are the advantages of polymorphic relations?",
+        "a":  "polymorphic relations improves maintainability, readability, performance, and scalability when implemented correctly in modern PHP/Laravel applications.",
+        "options":  [
+                        "polymorphic relations improves maintainability, readability, performance, and scalability when implemented correctly in.",
+                        "It adds unnecessary complexity to the application architecture without tangible benefits.",
+                        "It is mainly useful for legacy system maintenance and backwards compatibility.",
+                        "It should be avoided in production as it leads to significant performance degradation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  460,
+        "category":  "case-problems",
+        "difficulty":  "easy",
+        "exp":  "senior",
+        "tags":  [
+                     "Supervisor",
+                     "case-problems"
+                 ],
+        "q":  "How would you implement Supervisor in Laravel?",
+        "a":  "Implementation typically involves service classes, dependency injection, validation, policies, events, queues, and proper testing strategies.",
+        "options":  [
+                        "Implementation typically involves service classes, dependency injection, validation, policies, events, queues, and.",
+                        "Write raw SQL queries in controller methods for maximum performance.",
+                        "Put all business logic directly in the routes file for simplicity.",
+                        "Use global helper functions and avoid dependency injection for faster development."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  515,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "lead",
+        "tags":  [
+                     "query-optimization",
+                     "case-problems"
+                 ],
+        "q":  "How do you optimize query optimization?",
+        "a":  "Optimization techniques for query optimization include caching, indexing, eager loading, profiling, queue offloading, and reducing unnecessary computation.",
+        "options":  [
+                        "Optimization techniques for query optimization include caching, indexing, eager loading, profiling, queue offloading.",
+                        "Replace the entire implementation with a different programming language.",
+                        "Add more server hardware regardless of where the bottleneck actually is.",
+                        "Disable all caching to ensure data freshness at the cost of speed."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  539,
+        "category":  "case-problems",
+        "difficulty":  "med",
+        "exp":  "mid",
+        "tags":  [
+                     "testing",
+                     "case-problems"
+                 ],
+        "q":  "Explain testing in detail.",
+        "a":  "Detailed explanation of testing including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP usage.",
+        "options":  [
+                        "Detailed explanation of testing including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP.",
+                        "testing in detail. is a frontend JavaScript framework used for building user interfaces.",
+                        "testing in detail. is a database management system optimized for read-heavy workloads.",
+                        "testing in detail. is a deprecated technology that has been replaced by modern alternatives."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  619,
+        "category":  "case-problems",
+        "difficulty":  "easy",
+        "exp":  "mid",
+        "tags":  [
+                     "observers",
+                     "case-problems"
+                 ],
+        "q":  "Explain observers in detail.",
+        "a":  "Detailed explanation of observers including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP usage.",
+        "options":  [
+                        "Detailed explanation of observers including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP.",
+                        "observers in detail. is a frontend JavaScript framework used for building user interfaces.",
+                        "observers in detail. is a database management system optimized for read-heavy workloads.",
+                        "observers in detail. is a deprecated technology that has been replaced by modern alternatives."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  667,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "mid",
+        "tags":  [
+                     "multi-tenancy",
+                     "case-problems"
+                 ],
+        "q":  "How would you implement multi-tenancy in Laravel?",
+        "a":  "Implementation typically involves service classes, dependency injection, validation, policies, events, queues, and proper testing strategies.",
+        "options":  [
+                        "Implementation typically involves service classes, dependency injection, validation, policies, events, queues, and.",
+                        "Write raw SQL queries in controller methods for maximum performance.",
+                        "Put all business logic directly in the routes file for simplicity.",
+                        "Use global helper functions and avoid dependency injection for faster development."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  706,
+        "category":  "case-problems",
+        "difficulty":  "med",
+        "exp":  "lead",
+        "tags":  [
+                     "job-batching",
+                     "case-problems"
+                 ],
+        "q":  "How do you optimize job batching?",
+        "a":  "Optimization techniques for job batching include caching, indexing, eager loading, profiling, queue offloading, and reducing unnecessary computation.",
+        "options":  [
+                        "Optimization techniques for job batching include caching, indexing, eager loading, profiling, queue offloading, and.",
+                        "Replace the entire implementation with a different programming language.",
+                        "Add more server hardware regardless of where the bottleneck actually is.",
+                        "Disable all caching to ensure data freshness at the cost of speed."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  736,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "senior",
+        "tags":  [
+                     "GraphQL",
+                     "case-problems"
+                 ],
+        "q":  "Explain GraphQL in detail.",
+        "a":  "Detailed explanation of GraphQL including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP usage.",
+        "options":  [
+                        "Detailed explanation of GraphQL including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP.",
+                        "GraphQL in detail. is a frontend JavaScript framework used for building user interfaces.",
+                        "GraphQL in detail. is a database management system optimized for read-heavy workloads.",
+                        "GraphQL in detail. is a deprecated technology that has been replaced by modern alternatives."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  762,
+        "category":  "case-problems",
+        "difficulty":  "easy",
+        "exp":  "junior",
+        "tags":  [
+                     "Docker",
+                     "case-problems"
+                 ],
+        "q":  "Explain Docker in detail.",
+        "a":  "Detailed explanation of Docker including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP usage.",
+        "options":  [
+                        "Detailed explanation of Docker including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP.",
+                        "Docker in detail. is a frontend JavaScript framework used for building user interfaces.",
+                        "Docker in detail. is a database management system optimized for read-heavy workloads.",
+                        "Docker in detail. is a deprecated technology that has been replaced by modern alternatives."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  768,
+        "category":  "case-problems",
+        "difficulty":  "easy",
+        "exp":  "junior",
+        "tags":  [
+                     "queues",
+                     "case-problems"
+                 ],
+        "q":  "Explain queues in detail.",
+        "a":  "Detailed explanation of queues including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP usage.",
+        "options":  [
+                        "Detailed explanation of queues including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP.",
+                        "queues in detail. is a frontend JavaScript framework used for building user interfaces.",
+                        "queues in detail. is a database management system optimized for read-heavy workloads.",
+                        "queues in detail. is a deprecated technology that has been replaced by modern alternatives."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  776,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "senior",
+        "tags":  [
+                     "REST-APIs",
+                     "case-problems"
+                 ],
+        "q":  "Explain REST APIs in detail.",
+        "a":  "Detailed explanation of REST APIs including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP usage.",
+        "options":  [
+                        "Detailed explanation of REST APIs including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP.",
+                        "REST APIs in detail. is a frontend JavaScript framework used for building user interfaces.",
+                        "REST APIs in detail. is a database management system optimized for read-heavy workloads.",
+                        "REST APIs in detail. is a deprecated technology that has been replaced by modern alternatives."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  787,
+        "category":  "case-problems",
+        "difficulty":  "easy",
+        "exp":  "mid",
+        "tags":  [
+                     "Swoole",
+                     "case-problems"
+                 ],
+        "q":  "What are common mistakes in Swoole?",
+        "a":  "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security vulnerabilities.",
+        "options":  [
+                        "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security.",
+                        "Strictly following all documented best practices without deviation.",
+                        "Over-documenting every implementation detail in the codebase.",
+                        "Using the technology for every use case without proper evaluation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  808,
+        "category":  "case-problems",
+        "difficulty":  "easy",
+        "exp":  "lead",
+        "tags":  [
+                     "Kubernetes",
+                     "case-problems"
+                 ],
+        "q":  "How do you optimize Kubernetes?",
+        "a":  "Optimization techniques for Kubernetes include caching, indexing, eager loading, profiling, queue offloading, and reducing unnecessary computation.",
+        "options":  [
+                        "Optimization techniques for Kubernetes include caching, indexing, eager loading, profiling, queue offloading, and.",
+                        "Replace the entire implementation with a different programming language.",
+                        "Add more server hardware regardless of where the bottleneck actually is.",
+                        "Disable all caching to ensure data freshness at the cost of speed."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  867,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "junior",
+        "tags":  [
+                     "Nginx",
+                     "case-problems"
+                 ],
+        "q":  "What are common mistakes in Nginx?",
+        "a":  "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security vulnerabilities.",
+        "options":  [
+                        "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security.",
+                        "Strictly following all documented best practices without deviation.",
+                        "Over-documenting every implementation detail in the codebase.",
+                        "Using the technology for every use case without proper evaluation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  929,
+        "category":  "case-problems",
+        "difficulty":  "med",
+        "exp":  "mid",
+        "tags":  [
+                     "validation",
+                     "case-problems"
+                 ],
+        "q":  "How would you implement validation in Laravel?",
+        "a":  "Implementation typically involves service classes, dependency injection, validation, policies, events, queues, and proper testing strategies.",
+        "options":  [
+                        "Implementation typically involves service classes, dependency injection, validation, policies, events, queues, and.",
+                        "Write raw SQL queries in controller methods for maximum performance.",
+                        "Put all business logic directly in the routes file for simplicity.",
+                        "Use global helper functions and avoid dependency injection for faster development."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  941,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "senior",
+        "tags":  [
+                     "events",
+                     "case-problems"
+                 ],
+        "q":  "How do you optimize events?",
+        "a":  "Optimization techniques for events include caching, indexing, eager loading, profiling, queue offloading, and reducing unnecessary computation.",
+        "options":  [
+                        "Optimization techniques for events include caching, indexing, eager loading, profiling, queue offloading, and reducing.",
+                        "Replace the entire implementation with a different programming language.",
+                        "Add more server hardware regardless of where the bottleneck actually is.",
+                        "Disable all caching to ensure data freshness at the cost of speed."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  964,
+        "category":  "case-problems",
+        "difficulty":  "easy",
+        "exp":  "lead",
+        "tags":  [
+                     "broadcasting",
+                     "case-problems"
+                 ],
+        "q":  "How do you optimize broadcasting?",
+        "a":  "Optimization techniques for broadcasting include caching, indexing, eager loading, profiling, queue offloading, and reducing unnecessary computation.",
+        "options":  [
+                        "Optimization techniques for broadcasting include caching, indexing, eager loading, profiling, queue offloading, and.",
+                        "Replace the entire implementation with a different programming language.",
+                        "Add more server hardware regardless of where the bottleneck actually is.",
+                        "Disable all caching to ensure data freshness at the cost of speed."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  976,
+        "category":  "case-problems",
+        "difficulty":  "med",
+        "exp":  "senior",
+        "tags":  [
+                     "authorization",
+                     "case-problems"
+                 ],
+        "q":  "Explain authorization in detail.",
+        "a":  "Detailed explanation of authorization including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP usage.",
+        "options":  [
+                        "Detailed explanation of authorization including best practices, architecture considerations, scalability concerns, and real-world.",
+                        "authorization in detail. is a frontend JavaScript framework used for building user interfaces.",
+                        "authorization in detail. is a database management system optimized for read-heavy workloads.",
+                        "authorization in detail. is a deprecated technology that has been replaced by modern alternatives."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1006,
+        "category":  "case-problems",
+        "difficulty":  "med",
+        "exp":  "mid",
+        "tags":  [
+                     "repository-pattern",
+                     "case-problems"
+                 ],
+        "q":  "Explain repository pattern in detail.",
+        "a":  "Detailed explanation of repository pattern including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP usage.",
+        "options":  [
+                        "Detailed explanation of repository pattern including best practices, architecture considerations, scalability concerns, and real-world.",
+                        "repository pattern in detail. is a frontend JavaScript framework used for building user interfaces.",
+                        "repository pattern in detail. is a database management system optimized for read-heavy workloads.",
+                        "repository pattern in detail. is a deprecated technology that has been replaced by modern alternatives."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1042,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "junior",
+        "tags":  [
+                     "Nginx",
+                     "case-problems"
+                 ],
+        "q":  "How do you optimize Nginx?",
+        "a":  "Optimization techniques for Nginx include caching, indexing, eager loading, profiling, queue offloading, and reducing unnecessary computation.",
+        "options":  [
+                        "Optimization techniques for Nginx include caching, indexing, eager loading, profiling, queue offloading, and reducing.",
+                        "Replace the entire implementation with a different programming language.",
+                        "Add more server hardware regardless of where the bottleneck actually is.",
+                        "Disable all caching to ensure data freshness at the cost of speed."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1086,
+        "category":  "case-problems",
+        "difficulty":  "easy",
+        "exp":  "senior",
+        "tags":  [
+                     "Kubernetes",
+                     "case-problems"
+                 ],
+        "q":  "What are common mistakes in Kubernetes?",
+        "a":  "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security vulnerabilities.",
+        "options":  [
+                        "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security.",
+                        "Strictly following all documented best practices without deviation.",
+                        "Over-documenting every implementation detail in the codebase.",
+                        "Using the technology for every use case without proper evaluation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1092,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "lead",
+        "tags":  [
+                     "Supervisor",
+                     "case-problems"
+                 ],
+        "q":  "What are the advantages of Supervisor?",
+        "a":  "Supervisor improves maintainability, readability, performance, and scalability when implemented correctly in modern PHP/Laravel applications.",
+        "options":  [
+                        "Supervisor improves maintainability, readability, performance, and scalability when implemented correctly in modern.",
+                        "It adds unnecessary complexity to the application architecture without tangible benefits.",
+                        "It is mainly useful for legacy system maintenance and backwards compatibility.",
+                        "It should be avoided in production as it leads to significant performance degradation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1135,
+        "category":  "case-problems",
+        "difficulty":  "med",
+        "exp":  "senior",
+        "tags":  [
+                     "OAuth2",
+                     "case-problems"
+                 ],
+        "q":  "How do you optimize OAuth2?",
+        "a":  "Optimization techniques for OAuth2 include caching, indexing, eager loading, profiling, queue offloading, and reducing unnecessary computation.",
+        "options":  [
+                        "Optimization techniques for OAuth2 include caching, indexing, eager loading, profiling, queue offloading, and reducing.",
+                        "Replace the entire implementation with a different programming language.",
+                        "Add more server hardware regardless of where the bottleneck actually is.",
+                        "Disable all caching to ensure data freshness at the cost of speed."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1156,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "junior",
+        "tags":  [
+                     "multi-tenancy",
+                     "case-problems"
+                 ],
+        "q":  "How do you optimize multi-tenancy?",
+        "a":  "Optimization techniques for multi-tenancy include caching, indexing, eager loading, profiling, queue offloading, and reducing unnecessary computation.",
+        "options":  [
+                        "Optimization techniques for multi-tenancy include caching, indexing, eager loading, profiling, queue offloading, and.",
+                        "Replace the entire implementation with a different programming language.",
+                        "Add more server hardware regardless of where the bottleneck actually is.",
+                        "Disable all caching to ensure data freshness at the cost of speed."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1225,
+        "category":  "case-problems",
+        "difficulty":  "easy",
+        "exp":  "junior",
+        "tags":  [
+                     "events",
+                     "case-problems"
+                 ],
+        "q":  "How do you optimize events?",
+        "a":  "Optimization techniques for events include caching, indexing, eager loading, profiling, queue offloading, and reducing unnecessary computation.",
+        "options":  [
+                        "Optimization techniques for events include caching, indexing, eager loading, profiling, queue offloading, and reducing.",
+                        "Replace the entire implementation with a different programming language.",
+                        "Add more server hardware regardless of where the bottleneck actually is.",
+                        "Disable all caching to ensure data freshness at the cost of speed."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1227,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "senior",
+        "tags":  [
+                     "load-balancing",
+                     "case-problems"
+                 ],
+        "q":  "Explain load balancing in detail.",
+        "a":  "Detailed explanation of load balancing including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP usage.",
+        "options":  [
+                        "Detailed explanation of load balancing including best practices, architecture considerations, scalability concerns, and real-world.",
+                        "load balancing in detail. is a frontend JavaScript framework used for building user interfaces.",
+                        "load balancing in detail. is a database management system optimized for read-heavy workloads.",
+                        "load balancing in detail. is a deprecated technology that has been replaced by modern alternatives."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1266,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "senior",
+        "tags":  [
+                     "Docker-Compose",
+                     "case-problems"
+                 ],
+        "q":  "How would you implement Docker Compose in Laravel?",
+        "a":  "Implementation typically involves service classes, dependency injection, validation, policies, events, queues, and proper testing strategies.",
+        "options":  [
+                        "Implementation typically involves service classes, dependency injection, validation, policies, events, queues, and.",
+                        "Write raw SQL queries in controller methods for maximum performance.",
+                        "Put all business logic directly in the routes file for simplicity.",
+                        "Use global helper functions and avoid dependency injection for faster development."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1268,
+        "category":  "case-problems",
+        "difficulty":  "easy",
+        "exp":  "senior",
+        "tags":  [
+                     "deadlocks",
+                     "case-problems"
+                 ],
+        "q":  "How would you implement deadlocks in Laravel?",
+        "a":  "Implementation typically involves service classes, dependency injection, validation, policies, events, queues, and proper testing strategies.",
+        "options":  [
+                        "Implementation typically involves service classes, dependency injection, validation, policies, events, queues, and.",
+                        "Write raw SQL queries in controller methods for maximum performance.",
+                        "Put all business logic directly in the routes file for simplicity.",
+                        "Use global helper functions and avoid dependency injection for faster development."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1272,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "lead",
+        "tags":  [
+                     "Passport",
+                     "case-problems"
+                 ],
+        "q":  "What are common mistakes in Passport?",
+        "a":  "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security vulnerabilities.",
+        "options":  [
+                        "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security.",
+                        "Strictly following all documented best practices without deviation.",
+                        "Over-documenting every implementation detail in the codebase.",
+                        "Using the technology for every use case without proper evaluation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1284,
+        "category":  "case-problems",
+        "difficulty":  "easy",
+        "exp":  "senior",
+        "tags":  [
+                     "observers",
+                     "case-problems"
+                 ],
+        "q":  "Explain observers in detail.",
+        "a":  "Detailed explanation of observers including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP usage.",
+        "options":  [
+                        "Detailed explanation of observers including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP.",
+                        "observers in detail. is a frontend JavaScript framework used for building user interfaces.",
+                        "observers in detail. is a database management system optimized for read-heavy workloads.",
+                        "observers in detail. is a deprecated technology that has been replaced by modern alternatives."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1336,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "junior",
+        "tags":  [
+                     "rate-limiting",
+                     "case-problems"
+                 ],
+        "q":  "What are the advantages of rate limiting?",
+        "a":  "rate limiting improves maintainability, readability, performance, and scalability when implemented correctly in modern PHP/Laravel applications.",
+        "options":  [
+                        "rate limiting improves maintainability, readability, performance, and scalability when implemented correctly in modern.",
+                        "It adds unnecessary complexity to the application architecture without tangible benefits.",
+                        "It is mainly useful for legacy system maintenance and backwards compatibility.",
+                        "It should be avoided in production as it leads to significant performance degradation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1347,
+        "category":  "case-problems",
+        "difficulty":  "med",
+        "exp":  "senior",
+        "tags":  [
+                     "CI/CD",
+                     "case-problems"
+                 ],
+        "q":  "What are the advantages of CI/CD?",
+        "a":  "CI/CD improves maintainability, readability, performance, and scalability when implemented correctly in modern PHP/Laravel applications.",
+        "options":  [
+                        "CI/CD improves maintainability, readability, performance, and scalability when implemented correctly in modern.",
+                        "It adds unnecessary complexity to the application architecture without tangible benefits.",
+                        "It is mainly useful for legacy system maintenance and backwards compatibility.",
+                        "It should be avoided in production as it leads to significant performance degradation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1361,
+        "category":  "case-problems",
+        "difficulty":  "med",
+        "exp":  "mid",
+        "tags":  [
+                     "database-transactions",
+                     "case-problems"
+                 ],
+        "q":  "How do you optimize database transactions?",
+        "a":  "Optimization techniques for database transactions include caching, indexing, eager loading, profiling, queue offloading, and reducing unnecessary computation.",
+        "options":  [
+                        "Optimization techniques for database transactions include caching, indexing, eager loading, profiling, queue offloading.",
+                        "Replace the entire implementation with a different programming language.",
+                        "Add more server hardware regardless of where the bottleneck actually is.",
+                        "Disable all caching to ensure data freshness at the cost of speed."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1400,
+        "category":  "case-problems",
+        "difficulty":  "med",
+        "exp":  "mid",
+        "tags":  [
+                     "rate-limiting",
+                     "case-problems"
+                 ],
+        "q":  "What are common mistakes in rate limiting?",
+        "a":  "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security vulnerabilities.",
+        "options":  [
+                        "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security.",
+                        "Strictly following all documented best practices without deviation.",
+                        "Over-documenting every implementation detail in the codebase.",
+                        "Using the technology for every use case without proper evaluation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1435,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "junior",
+        "tags":  [
+                     "observers",
+                     "case-problems"
+                 ],
+        "q":  "Explain observers in detail.",
+        "a":  "Detailed explanation of observers including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP usage.",
+        "options":  [
+                        "Detailed explanation of observers including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP.",
+                        "observers in detail. is a frontend JavaScript framework used for building user interfaces.",
+                        "observers in detail. is a database management system optimized for read-heavy workloads.",
+                        "observers in detail. is a deprecated technology that has been replaced by modern alternatives."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1439,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "senior",
+        "tags":  [
+                     "API-versioning",
+                     "case-problems"
+                 ],
+        "q":  "What are common mistakes in API versioning?",
+        "a":  "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security vulnerabilities.",
+        "options":  [
+                        "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security.",
+                        "Strictly following all documented best practices without deviation.",
+                        "Over-documenting every implementation detail in the codebase.",
+                        "Using the technology for every use case without proper evaluation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1473,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "lead",
+        "tags":  [
+                     "authorization",
+                     "case-problems"
+                 ],
+        "q":  "How would you implement authorization in Laravel?",
+        "a":  "Implementation typically involves service classes, dependency injection, validation, policies, events, queues, and proper testing strategies.",
+        "options":  [
+                        "Implementation typically involves service classes, dependency injection, validation, policies, events, queues, and.",
+                        "Write raw SQL queries in controller methods for maximum performance.",
+                        "Put all business logic directly in the routes file for simplicity.",
+                        "Use global helper functions and avoid dependency injection for faster development."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1496,
+        "category":  "case-problems",
+        "difficulty":  "med",
+        "exp":  "mid",
+        "tags":  [
+                     "Nginx",
+                     "case-problems"
+                 ],
+        "q":  "What are common mistakes in Nginx?",
+        "a":  "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security vulnerabilities.",
+        "options":  [
+                        "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security.",
+                        "Strictly following all documented best practices without deviation.",
+                        "Over-documenting every implementation detail in the codebase.",
+                        "Using the technology for every use case without proper evaluation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1528,
+        "category":  "case-problems",
+        "difficulty":  "med",
+        "exp":  "mid",
+        "tags":  [
+                     "JWT-authentication",
+                     "case-problems"
+                 ],
+        "q":  "What are common mistakes in JWT authentication?",
+        "a":  "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security vulnerabilities.",
+        "options":  [
+                        "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security.",
+                        "Strictly following all documented best practices without deviation.",
+                        "Over-documenting every implementation detail in the codebase.",
+                        "Using the technology for every use case without proper evaluation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1538,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "senior",
+        "tags":  [
+                     "queues",
+                     "case-problems"
+                 ],
+        "q":  "How would you implement queues in Laravel?",
+        "a":  "Implementation typically involves service classes, dependency injection, validation, policies, events, queues, and proper testing strategies.",
+        "options":  [
+                        "Implementation typically involves service classes, dependency injection, validation, policies, events, queues, and.",
+                        "Write raw SQL queries in controller methods for maximum performance.",
+                        "Put all business logic directly in the routes file for simplicity.",
+                        "Use global helper functions and avoid dependency injection for faster development."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1635,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "senior",
+        "tags":  [
+                     "load-balancing",
+                     "case-problems"
+                 ],
+        "q":  "How do you optimize load balancing?",
+        "a":  "Optimization techniques for load balancing include caching, indexing, eager loading, profiling, queue offloading, and reducing unnecessary computation.",
+        "options":  [
+                        "Optimization techniques for load balancing include caching, indexing, eager loading, profiling, queue offloading, and.",
+                        "Replace the entire implementation with a different programming language.",
+                        "Add more server hardware regardless of where the bottleneck actually is.",
+                        "Disable all caching to ensure data freshness at the cost of speed."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1671,
+        "category":  "case-problems",
+        "difficulty":  "easy",
+        "exp":  "senior",
+        "tags":  [
+                     "search",
+                     "case-problems"
+                 ],
+        "q":  "Explain search in detail.",
+        "a":  "Detailed explanation of search including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP usage.",
+        "options":  [
+                        "Detailed explanation of search including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP.",
+                        "search in detail. is a frontend JavaScript framework used for building user interfaces.",
+                        "search in detail. is a database management system optimized for read-heavy workloads.",
+                        "search in detail. is a deprecated technology that has been replaced by modern alternatives."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1680,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "junior",
+        "tags":  [
+                     "OAuth2",
+                     "case-problems"
+                 ],
+        "q":  "What are common mistakes in OAuth2?",
+        "a":  "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security vulnerabilities.",
+        "options":  [
+                        "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security.",
+                        "Strictly following all documented best practices without deviation.",
+                        "Over-documenting every implementation detail in the codebase.",
+                        "Using the technology for every use case without proper evaluation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1700,
+        "category":  "case-problems",
+        "difficulty":  "easy",
+        "exp":  "lead",
+        "tags":  [
+                     "authorization",
+                     "case-problems"
+                 ],
+        "q":  "What are common mistakes in authorization?",
+        "a":  "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security vulnerabilities.",
+        "options":  [
+                        "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security.",
+                        "Strictly following all documented best practices without deviation.",
+                        "Over-documenting every implementation detail in the codebase.",
+                        "Using the technology for every use case without proper evaluation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1721,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "mid",
+        "tags":  [
+                     "database-transactions",
+                     "case-problems"
+                 ],
+        "q":  "What are the advantages of database transactions?",
+        "a":  "database transactions improves maintainability, readability, performance, and scalability when implemented correctly in modern PHP/Laravel applications.",
+        "options":  [
+                        "database transactions improves maintainability, readability, performance, and scalability when implemented correctly in.",
+                        "It adds unnecessary complexity to the application architecture without tangible benefits.",
+                        "It is mainly useful for legacy system maintenance and backwards compatibility.",
+                        "It should be avoided in production as it leads to significant performance degradation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1779,
+        "category":  "case-problems",
+        "difficulty":  "easy",
+        "exp":  "lead",
+        "tags":  [
+                     "multi-tenancy",
+                     "case-problems"
+                 ],
+        "q":  "What are common mistakes in multi-tenancy?",
+        "a":  "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security vulnerabilities.",
+        "options":  [
+                        "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security.",
+                        "Strictly following all documented best practices without deviation.",
+                        "Over-documenting every implementation detail in the codebase.",
+                        "Using the technology for every use case without proper evaluation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1798,
+        "category":  "case-problems",
+        "difficulty":  "med",
+        "exp":  "mid",
+        "tags":  [
+                     "observers",
+                     "case-problems"
+                 ],
+        "q":  "How do you optimize observers?",
+        "a":  "Optimization techniques for observers include caching, indexing, eager loading, profiling, queue offloading, and reducing unnecessary computation.",
+        "options":  [
+                        "Optimization techniques for observers include caching, indexing, eager loading, profiling, queue offloading, and.",
+                        "Replace the entire implementation with a different programming language.",
+                        "Add more server hardware regardless of where the bottleneck actually is.",
+                        "Disable all caching to ensure data freshness at the cost of speed."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1806,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "lead",
+        "tags":  [
+                     "monitoring",
+                     "case-problems"
+                 ],
+        "q":  "What are common mistakes in monitoring?",
+        "a":  "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security vulnerabilities.",
+        "options":  [
+                        "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security.",
+                        "Strictly following all documented best practices without deviation.",
+                        "Over-documenting every implementation detail in the codebase.",
+                        "Using the technology for every use case without proper evaluation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1808,
+        "category":  "case-problems",
+        "difficulty":  "easy",
+        "exp":  "senior",
+        "tags":  [
+                     "authorization",
+                     "case-problems"
+                 ],
+        "q":  "Explain authorization in detail.",
+        "a":  "Detailed explanation of authorization including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP usage.",
+        "options":  [
+                        "Detailed explanation of authorization including best practices, architecture considerations, scalability concerns, and real-world.",
+                        "authorization in detail. is a frontend JavaScript framework used for building user interfaces.",
+                        "authorization in detail. is a database management system optimized for read-heavy workloads.",
+                        "authorization in detail. is a deprecated technology that has been replaced by modern alternatives."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1809,
+        "category":  "case-problems",
+        "difficulty":  "med",
+        "exp":  "mid",
+        "tags":  [
+                     "search",
+                     "case-problems"
+                 ],
+        "q":  "How do you optimize search?",
+        "a":  "Optimization techniques for search include caching, indexing, eager loading, profiling, queue offloading, and reducing unnecessary computation.",
+        "options":  [
+                        "Optimization techniques for search include caching, indexing, eager loading, profiling, queue offloading, and reducing.",
+                        "Replace the entire implementation with a different programming language.",
+                        "Add more server hardware regardless of where the bottleneck actually is.",
+                        "Disable all caching to ensure data freshness at the cost of speed."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1824,
+        "category":  "case-problems",
+        "difficulty":  "med",
+        "exp":  "junior",
+        "tags":  [
+                     "repository-pattern",
+                     "case-problems"
+                 ],
+        "q":  "How would you implement repository pattern in Laravel?",
+        "a":  "Implementation typically involves service classes, dependency injection, validation, policies, events, queues, and proper testing strategies.",
+        "options":  [
+                        "Implementation typically involves service classes, dependency injection, validation, policies, events, queues, and.",
+                        "Write raw SQL queries in controller methods for maximum performance.",
+                        "Put all business logic directly in the routes file for simplicity.",
+                        "Use global helper functions and avoid dependency injection for faster development."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1848,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "senior",
+        "tags":  [
+                     "WebSockets",
+                     "case-problems"
+                 ],
+        "q":  "What are common mistakes in WebSockets?",
+        "a":  "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security vulnerabilities.",
+        "options":  [
+                        "Common mistakes include tight coupling, lack of validation, missing tests, poor error handling, and security.",
+                        "Strictly following all documented best practices without deviation.",
+                        "Over-documenting every implementation detail in the codebase.",
+                        "Using the technology for every use case without proper evaluation."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1855,
+        "category":  "case-problems",
+        "difficulty":  "easy",
+        "exp":  "junior",
+        "tags":  [
+                     "OAuth2",
+                     "case-problems"
+                 ],
+        "q":  "Explain OAuth2 in detail.",
+        "a":  "Detailed explanation of OAuth2 including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP usage.",
+        "options":  [
+                        "Detailed explanation of OAuth2 including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP.",
+                        "OAuth2 in detail. is a frontend JavaScript framework used for building user interfaces.",
+                        "OAuth2 in detail. is a database management system optimized for read-heavy workloads.",
+                        "OAuth2 in detail. is a deprecated technology that has been replaced by modern alternatives."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1862,
+        "category":  "case-problems",
+        "difficulty":  "easy",
+        "exp":  "mid",
+        "tags":  [
+                     "load-balancing",
+                     "case-problems"
+                 ],
+        "q":  "How do you optimize load balancing?",
+        "a":  "Optimization techniques for load balancing include caching, indexing, eager loading, profiling, queue offloading, and reducing unnecessary computation.",
+        "options":  [
+                        "Optimization techniques for load balancing include caching, indexing, eager loading, profiling, queue offloading, and.",
+                        "Replace the entire implementation with a different programming language.",
+                        "Add more server hardware regardless of where the bottleneck actually is.",
+                        "Disable all caching to ensure data freshness at the cost of speed."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  2035,
+        "category":  "case-problems",
+        "difficulty":  "med",
+        "exp":  "junior",
+        "tags":  [
+                     "rate-limiting",
+                     "case-problems"
+                 ],
+        "q":  "Explain rate limiting in detail.",
+        "a":  "Detailed explanation of rate limiting including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP usage.",
+        "options":  [
+                        "Detailed explanation of rate limiting including best practices, architecture considerations, scalability concerns, and real-world.",
+                        "rate limiting in detail. is a frontend JavaScript framework used for building user interfaces.",
+                        "rate limiting in detail. is a database management system optimized for read-heavy workloads.",
+                        "rate limiting in detail. is a deprecated technology that has been replaced by modern alternatives."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  2054,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "mid",
+        "tags":  [
+                     "Docker",
+                     "case-problems"
+                 ],
+        "q":  "How would you implement Docker in Laravel?",
+        "a":  "Implementation typically involves service classes, dependency injection, validation, policies, events, queues, and proper testing strategies.",
+        "options":  [
+                        "Implementation typically involves service classes, dependency injection, validation, policies, events, queues, and.",
+                        "Write raw SQL queries in controller methods for maximum performance.",
+                        "Put all business logic directly in the routes file for simplicity.",
+                        "Use global helper functions and avoid dependency injection for faster development."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  2069,
+        "category":  "case-problems",
+        "difficulty":  "med",
+        "exp":  "junior",
+        "tags":  [
+                     "validation",
+                     "case-problems"
+                 ],
+        "q":  "Explain validation in detail.",
+        "a":  "Detailed explanation of validation including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP usage.",
+        "options":  [
+                        "Detailed explanation of validation including best practices, architecture considerations, scalability concerns, and real-world Laravel/PHP.",
+                        "validation in detail. is a frontend JavaScript framework used for building user interfaces.",
+                        "validation in detail. is a database management system optimized for read-heavy workloads.",
+                        "validation in detail. is a deprecated technology that has been replaced by modern alternatives."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1001,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "senior",
+        "tags":  [
+                     "architecture",
+                     "forms",
+                     "multi-step"
+                 ],
+        "q":  "Design a multi-step form with data persistence across sessions.",
+        "a":  "\u003cstrong\u003eApproach\u003c/strong\u003e:\u003cbr\u003eâ€¢ \u003ccode\u003eUserRegistration\u003c/code\u003e model with JSON \u003ccode\u003edata\u003c/code\u003e column, \u003ccode\u003ecurrent_step\u003c/code\u003e (int), \u003ccode\u003ecompleted\u003c/code\u003e (bool)\u003cbr\u003eâ€¢ Each step validates its own subset of fields before advancing\u003cbr\u003eâ€¢ Temporary data stored in session, persisted to DB only on final step\u003cbr\u003eâ€¢ On step advance: merge validated data into JSON column, increment step\u003cbr\u003eâ€¢ On back: restore from DB/session without re-validating\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eImplementation\u003c/strong\u003e:\u003cbr\u003e\u003ccode\u003epublic function store(Request $request, $step) {\u003cbr\u003e    $validated = $request-\u003evalidate(StepValidation::rules()[$step]);\u003cbr\u003e    $registration = UserRegistration::findOrFail(session(\u0027registration_id\u0027));\u003cbr\u003e    $data = array_merge($registration-\u003edata ?? [], $validated);\u003cbr\u003e    $registration-\u003eupdate([\u0027data\u0027 =\u003e $data, \u0027current_step\u0027 =\u003e $step]);\u003cbr\u003e    if ($step === StepValidation::LAST_STEP) {\u003cbr\u003e        $registration-\u003eupdate([\u0027completed\u0027 =\u003e true]);\u003cbr\u003e        event(new RegistrationCompleted($registration));\u003cbr\u003e    }\u003cbr\u003e}\u003c/code\u003e\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eEdge cases\u003c/strong\u003e:\u003cbr\u003eâ€¢ Browser closed mid-form â†’ recover from DB using session token\u003cbr\u003eâ€¢ Expired sessions â†’ clean up with scheduled job (weekly)\u003cbr\u003eâ€¢ Back button â†’ restore prior step data without re-validation\u003cbr\u003eâ€¢ Concurrent submissions â†’ use row lock to prevent overwrite\u003cbr\u003eâ€¢ File uploads in intermediate steps â†’ store temp files, clean on abandon",
+        "options":  [
+                        "Approach:â€¢ UserRegistration model with JSON data column, current_step (int), completed (bool)â€¢ Each step validates its own subset of fields.",
+                        "Use a monolithic approach without any separation of concerns or modular design.",
+                        "Implement everything using raw PHP files without any framework.",
+                        "Outsource all architecture decisions to a third-party service provider."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1002,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "senior",
+        "tags":  [
+                     "architecture",
+                     "rbac",
+                     "authorization"
+                 ],
+        "q":  "Design a role-based access control (RBAC) system.",
+        "a":  "\u003cstrong\u003eApproach\u003c/strong\u003e:\u003cbr\u003eâ€¢ \u003ccode\u003eRole\u003c/code\u003e (belongsToMany users), \u003ccode\u003ePermission\u003c/code\u003e (belongsToMany roles)\u003cbr\u003eâ€¢ Pivot tables: \u003ccode\u003erole_user\u003c/code\u003e, \u003ccode\u003epermission_role\u003c/code\u003e\u003cbr\u003eâ€¢ \u003ccode\u003eUser\u003c/code\u003e model has permissions through roles\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eAuthorization layer\u003c/strong\u003e:\u003cbr\u003e\u003ccode\u003eGate::define(\u0027edit-post\u0027, fn($user, $post) =\u003e\u003cbr\u003e    $user-\u003ehasPermission(\u0027edit-posts\u0027) || $user-\u003eid === $post-\u003euser_id\u003cbr\u003e);\u003c/code\u003e\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eCache strategy\u003c/strong\u003e:\u003cbr\u003e\u003ccode\u003epublic function hasPermission($perm): bool {\u003cbr\u003e    return Cache::remember(\u0027user.\u0027 . $this-\u003eid . \u0027.permissions\u0027, 3600, function () use ($perm) {\u003cbr\u003e        return $this-\u003eroles-\u003epluck(\u0027permissions\u0027)-\u003eflatten()-\u003epluck(\u0027slug\u0027)-\u003econtains($perm);\u003cbr\u003e    });\u003cbr\u003e}\u003c/code\u003e\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eMiddleware\u003c/strong\u003e:\u003cbr\u003e\u003ccode\u003eRoute::middleware(\u0027role:admin,editor\u0027)\u003c/code\u003e\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eEdge cases\u003c/strong\u003e:\u003cbr\u003eâ€¢ Circular permissions â†’ keep role-permission hierarchy flat\u003cbr\u003eâ€¢ Super admin â†’ explicit bypass check at top of hasPermission()\u003cbr\u003eâ€¢ Cache invalidation â†’ clear cache on role/permission assignment\u003cbr\u003eâ€¢ Soft-deleted roles â†’ exclude from query, notify admins",
+        "options":  [
+                        "Approach:â€¢ Role (belongsToMany users), Permission (belongsToMany roles)â€¢ Pivot tables: role_user, permission_roleâ€¢ User model has permissions.",
+                        "Use a monolithic approach without any separation of concerns or modular design.",
+                        "Implement everything using raw PHP files without any framework.",
+                        "Outsource all architecture decisions to a third-party service provider."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1003,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "senior",
+        "tags":  [
+                     "architecture",
+                     "api",
+                     "rest",
+                     "pagination"
+                 ],
+        "q":  "Build a RESTful API with pagination, filtering, and sorting.",
+        "a":  "\u003cstrong\u003eApproach\u003c/strong\u003e:\u003cbr\u003eâ€¢ Use query builder with conditional \u003ccode\u003ewhen()\u003c/code\u003e for dynamic filters\u003cbr\u003eâ€¢ Whitelist allowed sort columns to prevent SQL injection\u003cbr\u003eâ€¢ API Resource collection for consistent response transformation\u003cbr\u003eâ€¢ Form Request validation for query string parameters\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eController example\u003c/strong\u003e:\u003cbr\u003e\u003ccode\u003epublic function index(ProductIndexRequest $request) {\u003cbr\u003e    return Product::query()\u003cbr\u003e        -\u003ewhen($request-\u003ecategory_id, fn($q, $v) =\u003e $q-\u003ewhere(\u0027category_id\u0027, $v))\u003cbr\u003e        -\u003ewhen($request-\u003emin_price, fn($q, $v) =\u003e $q-\u003ewhere(\u0027price\u0027, \u0027\u003e=\u0027, $v))\u003cbr\u003e        -\u003ewhen($request-\u003ein_stock, fn($q, $v) =\u003e $q-\u003ewhere(\u0027stock\u0027, \u0027\u003e\u0027, 0))\u003cbr\u003e        -\u003ewhen($request-\u003esort, fn($q, $v) =\u003e in_array($v, [\u0027name\u0027,\u0027price\u0027,\u0027created_at\u0027]) ? $q-\u003eorderBy($v, $request-\u003edirection ?? \u0027asc\u0027) : $q)\u003cbr\u003e        -\u003epaginate($request-\u003eper_page ?? 15);\u003cbr\u003e}\u003c/code\u003e\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eEdge cases\u003c/strong\u003e:\u003cbr\u003eâ€¢ Invalid sort field â†’ return 422 with clear error\u003cbr\u003eâ€¢ SQL injection via sort â†’ whitelist prevents raw column names\u003cbr\u003eâ€¢ Very large datasets â†’ enforce max per_page, use cursor pagination\u003cbr\u003eâ€¢ Empty results â†’ return empty data array, not 404\u003cbr\u003eâ€¢ N+1 on relationships â†’ use with() for common includes",
+        "options":  [
+                        "Approach:â€¢ Use query builder with conditional when() for dynamic filtersâ€¢ Whitelist allowed sort columns to prevent SQL injectionâ€¢ API Resource.",
+                        "Use a monolithic approach without any separation of concerns or modular design.",
+                        "Implement everything using raw PHP files without any framework.",
+                        "Outsource all architecture decisions to a third-party service provider."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1004,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "senior",
+        "tags":  [
+                     "architecture",
+                     "queues",
+                     "email",
+                     "notifications"
+                 ],
+        "q":  "Design a queue-based email sending system with retry logic.",
+        "a":  "\u003cstrong\u003eApproach\u003c/strong\u003e:\u003cbr\u003eâ€¢ Job class with \u003ccode\u003etries=3\u003c/code\u003e, \u003ccode\u003ebackoff=[5,10,30]\u003c/code\u003e\u003cbr\u003eâ€¢ Use \u003ccode\u003eNotification::send()\u003c/code\u003e inside the job\u003cbr\u003eâ€¢ Log delivery status in \u003ccode\u003eNotificationLog\u003c/code\u003e model\u003cbr\u003eâ€¢ Check \u003ccode\u003ecancelled_at\u003c/code\u003e flag before processing\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eJob implementation\u003c/strong\u003e:\u003cbr\u003e\u003ccode\u003eclass SendBulkNotification implements ShouldQueue {\u003cbr\u003e    public $tries = 3;\u003cbr\u003e    public $backoff = [5, 10, 30];\u003cbr\u003e    public function handle(): void {\u003cbr\u003e        if ($this-\u003enotification-\u003ecancelled_at) return;\u003cbr\u003e        Notification::send($this-\u003eusers, $this-\u003enotification);\u003cbr\u003e        NotificationLog::log($this-\u003enotification-\u003eid, \u0027sent\u0027, count($this-\u003eusers));\u003cbr\u003e    }\u003cbr\u003e    public function failed(Throwable $e): void {\u003cbr\u003e        NotificationLog::log($this-\u003enotification-\u003eid, \u0027failed\u0027, 0, $e-\u003egetMessage());\u003cbr\u003e    }\u003cbr\u003e}\u003c/code\u003e\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eEdge cases\u003c/strong\u003e:\u003cbr\u003eâ€¢ Email provider rate limits â†’ implement release() with backoff\u003cbr\u003eâ€¢ Large recipient lists (100k+) â†’ chunk + dispatch per batch\u003cbr\u003eâ€¢ Partial failures â†’ log individual failures, continue batch\u003cbr\u003eâ€¢ Duplicate sends â†’ idempotency key in NotificationLog",
+        "options":  [
+                        "Approach:â€¢ Job class with tries=3, backoff=[5,10,30]â€¢ Use Notification::send() inside the jobâ€¢ Log delivery status in NotificationLog modelâ€¢.",
+                        "Use a monolithic approach without any separation of concerns or modular design.",
+                        "Implement everything using raw PHP files without any framework.",
+                        "Outsource all architecture decisions to a third-party service provider."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1005,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "senior",
+        "tags":  [
+                     "architecture",
+                     "file-upload",
+                     "images",
+                     "storage"
+                 ],
+        "q":  "Design a file upload system with image optimization and CDN delivery.",
+        "a":  "\u003cstrong\u003eApproach\u003c/strong\u003e:\u003cbr\u003eâ€¢ Intervention Image for resize + optimize\u003cbr\u003eâ€¢ S3 storage with CloudFront CDN\u003cbr\u003eâ€¢ Queue resize/optimization jobs for async processing\u003cbr\u003eâ€¢ Polymorphic \u003ccode\u003eMedia\u003c/code\u003e table for attachment to any model\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eValidation\u003c/strong\u003e:\u003cbr\u003e\u003ccode\u003e\u0027file\u0027 =\u003e \u0027required|image|mimes:jpg,png,webp|max:2048\u0027\u003c/code\u003e\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eUpload + queue\u003c/strong\u003e:\u003cbr\u003e\u003ccode\u003e$path = $request-\u003efile(\u0027file\u0027)-\u003estore(\u0027uploads/\u0027 . date(\u0027Y/m\u0027), \u0027s3\u0027);\u003cbr\u003e$media = Media::create([\u003cbr\u003e    \u0027path\u0027 =\u003e $path, \u0027disk\u0027 =\u003e \u0027s3\u0027,\u003cbr\u003e    \u0027mime_type\u0027 =\u003e $request-\u003efile(\u0027file\u0027)-\u003egetMimeType(),\u003cbr\u003e    \u0027size\u0027 =\u003e $request-\u003efile(\u0027file\u0027)-\u003egetSize(),\u003cbr\u003e]);\u003cbr\u003eOptimizeImage::dispatch($media);\u003c/code\u003e\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eEdge cases\u003c/strong\u003e:\u003cbr\u003eâ€¢ Malicious file upload â†’ validate MIME + scan with ClamAV\u003cbr\u003eâ€¢ Disk quota â†’ check user storage usage before accepting\u003cbr\u003eâ€¢ CDN cache purge â†’ CloudFront invalidation after update/delete\u003cbr\u003eâ€¢ Concurrent resize â†’ queue deduplication (uniqueBy media_id)\u003cbr\u003eâ€¢ EXIF data stripping â†’ remove before storing for privacy",
+        "options":  [
+                        "Approach:â€¢ Intervention Image for resize + optimizeâ€¢ S3 storage with CloudFront CDNâ€¢ Queue resize/optimization jobs for async processingâ€¢.",
+                        "Use a monolithic approach without any separation of concerns or modular design.",
+                        "Implement everything using raw PHP files without any framework.",
+                        "Outsource all architecture decisions to a third-party service provider."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1006,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "senior",
+        "tags":  [
+                     "architecture",
+                     "payments",
+                     "stripe",
+                     "webhooks"
+                 ],
+        "q":  "Design a Stripe payment integration with webhook handling.",
+        "a":  "\u003cstrong\u003eApproach\u003c/strong\u003e:\u003cbr\u003eâ€¢ Laravel Cashier or direct Stripe SDK\u003cbr\u003eâ€¢ Create Checkout Session for each payment\u003cbr\u003eâ€¢ Webhook controller (CSRF exempt) listens for Stripe events\u003cbr\u003eâ€¢ Queue webhook processing for reliability\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eCheckout session\u003c/strong\u003e:\u003cbr\u003e\u003ccode\u003e$session = Session::create([\u003cbr\u003e    \u0027payment_method_types\u0027 =\u003e [\u0027card\u0027],\u003cbr\u003e    \u0027mode\u0027 =\u003e \u0027payment\u0027,\u003cbr\u003e    \u0027success_url\u0027 =\u003e route(\u0027checkout.success\u0027),\u003cbr\u003e    \u0027cancel_url\u0027 =\u003e route(\u0027checkout.cancel\u0027),\u003cbr\u003e    \u0027metadata\u0027 =\u003e [\u0027order_id\u0027 =\u003e $order-\u003eid],\u003cbr\u003e]);\u003c/code\u003e\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eWebhook handling\u003c/strong\u003e:\u003cbr\u003e\u003ccode\u003e$event = Webhook::constructEvent($payload, $sig, config(\u0027services.stripe.webhook_secret\u0027));\u003c/code\u003e\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eEdge cases\u003c/strong\u003e:\u003cbr\u003eâ€¢ Duplicate webhooks â†’ check idempotency by stripe_session_id\u003cbr\u003eâ€¢ Expired sessions â†’ webhook marks order as failed\u003cbr\u003eâ€¢ Refund race conditions â†’ check refunded_at before processing\u003cbr\u003eâ€¢ Signature verification failure â†’ log + alert immediately",
+        "options":  [
+                        "Approach:â€¢ Laravel Cashier or direct Stripe SDKâ€¢ Create Checkout Session for each paymentâ€¢ Webhook controller (CSRF exempt) listens for Stripe.",
+                        "Use a monolithic approach without any separation of concerns or modular design.",
+                        "Implement everything using raw PHP files without any framework.",
+                        "Outsource all architecture decisions to a third-party service provider."
+                    ],
+        "correct":  0
+    },
+    {
+        "id":  1007,
+        "category":  "case-problems",
+        "difficulty":  "hard",
+        "exp":  "senior",
+        "tags":  [
+                     "architecture",
+                     "search",
+                     "scout",
+                     "meilisearch",
+                     "fulltext"
+                 ],
+        "q":  "Implement full-text search with Laravel Scout and MeiliSearch.",
+        "a":  "\u003cstrong\u003eApproach\u003c/strong\u003e:\u003cbr\u003eâ€¢ Install MeiliSearch (self-hosted or Cloud) and Laravel Scout\u003cbr\u003eâ€¢ Add \u003ccode\u003eSearchable\u003c/code\u003e trait to models\u003cbr\u003eâ€¢ Override \u003ccode\u003etoSearchableArray()\u003c/code\u003e to include related data\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eModel setup\u003c/strong\u003e:\u003cbr\u003e\u003ccode\u003euse Laravel\\Scout\\Searchable;\u003cbr\u003eclass Product extends Model {\u003cbr\u003e    use Searchable;\u003cbr\u003e    public function toSearchableArray(): array {\u003cbr\u003e        return array_merge($this-\u003etoArray(), [\u003cbr\u003e            \u0027category\u0027 =\u003e $this-\u003ecategory-\u003ename,\u003cbr\u003e        ]);\u003cbr\u003e    }\u003cbr\u003e}\u003c/code\u003e\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eSearch endpoint\u003c/strong\u003e:\u003cbr\u003e\u003ccode\u003eProduct::search($query)\u003cbr\u003e    -\u003ewhere(\u0027category_id\u0027, $categoryId)\u003cbr\u003e    -\u003epaginate(20);\u003c/code\u003e\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eEdge cases\u003c/strong\u003e:\u003cbr\u003eâ€¢ Sync lag â†’ implement webhook or syncWithSearch after model save\u003cbr\u003eâ€¢ Typo tolerance â†’ MeiliSearch handles by default\u003cbr\u003eâ€¢ Empty results â†’ suggest broader terms\u003cbr\u003eâ€¢ Re-indexing without downtime â†’ build new index, swap atomically\u003cbr\u003eâ€¢ Index size â†’ only index searchable fields",
+        "options":  [
+                        "Approach:â€¢ Install MeiliSearch (self-hosted or Cloud) and Laravel Scoutâ€¢ Add Searchable trait to modelsâ€¢ Override toSearchableArray().",
+                        "Implement full-text search with Laravel Scout and MeiliSearch. is a frontend JavaScript framework used for building user interfaces.",
+                        "Implement full-text search with Laravel Scout and MeiliSearch. is a database management system optimized for read-heavy workloads.",
+                        "Implement full-text search with Laravel Scout and MeiliSearch. is a deprecated technology that has been replaced by modern alternatives."
+                    ],
+        "correct":  0
+    }
+]
+
+</script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     let questions = [];
     let filtered = [];
     let currentDiff = 'all';
     let currentTag = 'all';
+    let currentExp = 'all';
 
     const DIFF_LABELS = { easy: 'Easy', med: 'Medium', hard: 'Hard' };
     const EXP_LABELS = { junior: 'Junior', mid: 'Mid', senior: 'Senior', lead: 'Lead' };
@@ -256,6 +2154,7 @@
       const search = document.getElementById('searchInput').value.trim().toLowerCase();
       filtered = questions.filter(q => {
         if (currentDiff !== 'all' && q.difficulty !== currentDiff) return false;
+        if (currentExp !== 'all' && q.exp !== currentExp) return false;
         if (currentTag !== 'all' && !(q.tags || []).includes(currentTag)) return false;
         if (search) {
           const nameMatch = q.q.toLowerCase().includes(search);
@@ -272,13 +2171,18 @@
       const container = document.getElementById('problemsContainer');
       const stat = document.getElementById('resultsStat');
 
+      const fe = filtered.filter(q => q.difficulty === 'easy').length;
+      const fm = filtered.filter(q => q.difficulty === 'med').length;
+      const fh = filtered.filter(q => q.difficulty === 'hard').length;
+      const fLabel = currentExp !== 'all' ? `, ${filtered.filter(q => q.exp === currentExp).length} at ${EXP_LABELS[currentExp]} level` : '';
+
       if (filtered.length === 0) {
-        stat.textContent = '0 results';
-        container.innerHTML = `<div class="empty-state"><i class="bi bi-search"></i><div>No problems match your filters. Try broadening your search.</div></div>`;
+        stat.innerHTML = `<strong>0</strong> results`;
+        container.innerHTML = `<div class="empty-state"><i class="bi bi-search"></i><strong>No problems found</strong><div>Try adjusting your filters or search terms.</div></div>`;
         return;
       }
 
-      stat.textContent = `${filtered.length} problem${filtered.length > 1 ? 's' : ''} found`;
+      stat.innerHTML = `<strong>${filtered.length}</strong> problem${filtered.length > 1 ? 's' : ''} found &mdash; ${fe} easy, ${fm} medium, ${fh} hard${fLabel}`;
 
       container.innerHTML = filtered.map((q, idx) => {
         const diffClass = q.difficulty === 'easy' ? 'easy' : q.difficulty === 'med' ? 'med' : 'hard';
@@ -296,7 +2200,7 @@
               <span class="toggle-icon"><i class="bi bi-chevron-down"></i></span>
             </div>
             <div class="problem-body">
-              <div class="fw-semibold mb-2">${q.q}</div>
+              <div class="question-text">${q.q}</div>
               <div class="answer-content">${q.a}</div>
             </div>
           </div>
@@ -325,23 +2229,32 @@
     }
 
     function loadQuestions() {
-      fetch('problems.json')
-        .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-        .then(data => {
-          questions = data.filter(q => q.category === 'case-problems' || !q.category);
-          if (questions.length === 0) questions = data;
-          buildTagNav();
-          applyFilters();
-        })
-        .catch(err => {
-          document.getElementById('problemsContainer').innerHTML = `
-            <div class="empty-state">
-              <i class="bi bi-exclamation-triangle"></i>
-              <div>Could not load problems. Open via <strong>http://localhost</strong> or ensure <code>problems.json</code> exists.</div>
-              <div class="mt-2 small text-muted">${err.message}</div>
-            </div>`;
-          document.getElementById('resultsStat').textContent = 'Error loading';
-        });
+      const el = document.getElementById('problemsData');
+      const data = JSON.parse(el.textContent);
+      questions = data.filter(q => q.category === 'case-problems' || !q.category);
+      if (questions.length === 0) questions = data;
+      buildTagNav();
+      applyFilters();
+    }
+
+    function setExp(exp) {
+      currentExp = (currentExp === exp) ? 'all' : exp;
+      document.querySelectorAll('.filter-chip[data-exp]').forEach(c => c.classList.remove('active'));
+      if (currentExp !== 'all') {
+        document.querySelector(`.filter-chip[data-exp="${exp}"]`).classList.add('active');
+      }
+      applyFilters();
+    }
+
+    function updateHeaderStats() {
+      const total = questions.length;
+      const easy = questions.filter(q => q.difficulty === 'easy').length;
+      const med = questions.filter(q => q.difficulty === 'med').length;
+      const hard = questions.filter(q => q.difficulty === 'hard').length;
+      document.getElementById('totalCount').textContent = total;
+      document.getElementById('easyCount').textContent = easy;
+      document.getElementById('medCount').textContent = med;
+      document.getElementById('hardCount').textContent = hard;
     }
 
     document.getElementById('sidebarToggle')?.addEventListener('click', () => {
@@ -352,6 +2265,16 @@
     });
 
     loadQuestions();
+    updateHeaderStats();
+
+    const goTop = document.getElementById('goTop');
+    window.addEventListener('scroll', () => {
+      goTop.classList.toggle('show', window.scrollY > 400);
+    });
+    goTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
   </script>
 </body>
 </html>
+
