@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laravel Tips — 350+ Quick Tips from Laravel Daily</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root { --laravel-red: #f9322c; --laravel-dark: #1a1a2e; --sidebar-width: 280px; }
+    * { scroll-margin-top: 1rem; }
+    body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #f4f6fb; display: flex; }
+    #sidebar { width: var(--sidebar-width); height: 100vh; position: fixed; top: 0; left: 0; background: var(--laravel-dark); overflow-y: auto; z-index: 1000; transition: transform .3s; }
+    #sidebar .brand { padding: 1.25rem 1.25rem .75rem; border-bottom: 1px solid rgba(255,255,255,.08); }
+    #sidebar .brand h5 { color: #fff; font-weight: 700; }
+    #sidebar .brand small { color: #adb5bd; }
+    #sidebar .nav-link { color: #c8cdd3; padding: .5rem 1.25rem; font-size: .88rem; border-left: 3px solid transparent; transition: all .15s; }
+    #sidebar .nav-link:hover { color: #fff; background: rgba(255,255,255,.05); }
+    #sidebar .nav-link.active { color: var(--laravel-red); border-left-color: var(--laravel-red); background: rgba(249,50,44,.08); }
+    #sidebar .nav-link i { width: 1.3rem; }
+    #sidebar .nav-section { color: #6c757d; font-size: .7rem; text-transform: uppercase; letter-spacing: .08em; padding: 1rem 1.25rem .3rem; font-weight: 600; }
+    #main { margin-left: var(--sidebar-width); flex: 1; padding: 2rem 2.5rem 4rem; max-width: 1100px; }
+    @media (max-width: 991.98px) { #sidebar { transform: translateX(-100%); } #sidebar.show { transform: translateX(0); } #main { margin-left: 0; padding: 1.5rem; } }
+    .sidebar-toggle { position: fixed; top: .75rem; left: .75rem; z-index: 1050; background: var(--laravel-dark); color: #fff; border: none; border-radius: .4rem; padding: .4rem .65rem; display: none; }
+    @media (max-width: 991.98px) { .sidebar-toggle { display: block; } }
+    h2 { font-weight: 700; color: var(--laravel-dark); margin-top: 2.5rem; padding-bottom: .5rem; border-bottom: 3px solid var(--laravel-red); }
+    h3 { font-weight: 600; color: #2c3e50; margin-top: 1.8rem; }
+    .card { border: none; border-radius: .75rem; box-shadow: 0 2px 8px rgba(0,0,0,.06); margin-bottom: 1.5rem; }
+    .card-header { background: #fff; border-bottom: 1px solid #e9ecef; font-weight: 600; padding: 1rem 1.25rem; display: flex; align-items: center; justify-content: space-between; }
+    .card-body { padding: 1.5rem; }
+    .tip-list { list-style: none; padding: 0; margin: 0; }
+    .tip-list li { padding: .4rem 0; border-bottom: 1px solid #f1f3f5; display: flex; align-items: baseline; gap: .5rem; }
+    .tip-list li:last-child { border-bottom: none; }
+    .tip-list li::before { content: "▹"; color: var(--laravel-red); font-weight: 700; flex-shrink: 0; }
+    .tip-list a { color: #1e293b; text-decoration: none; transition: color .15s; line-height: 1.4; }
+    .tip-list a:hover { color: var(--laravel-red); }
+    .tip-count { background: var(--laravel-red); color: #fff; font-size: .7rem; font-weight: 600; padding: .15rem .55rem; border-radius: 1rem; white-space: nowrap; }
+    .hl-box { background: #fef2f2; border-left: 4px solid var(--laravel-red); padding: 1rem 1.25rem; border-radius: .4rem; margin: 1rem 0; }
+    .badge-laravel { background: var(--laravel-red); color: #fff; }
+    .home-link { position: fixed; top: 14px; left: 14px; z-index: 1100; display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 999px; background: rgba(255,255,255,.94); color: #0f172a; text-decoration: none; font-size: .78rem; font-weight: 700; box-shadow: 0 10px 28px rgba(0,0,0,.08); border: 1px solid rgba(226,232,240,.9); backdrop-filter: blur(10px); transition: .2s; }
+    .home-link:hover { color: #2563eb; }
+    @media (min-width: 992px) { .home-link { left: calc(var(--sidebar-width) + 14px); } }
+    @media (max-width: 991.98px) { .home-link { left: 4rem; } }
+    .search-tips { margin-bottom: 1.5rem; }
+    .search-tips input { border-radius: 2rem; padding: .6rem 1.2rem; border: 1px solid #e2e8f0; width: 100%; font-size: .9rem; }
+    .search-tips input:focus { outline: none; border-color: var(--laravel-red); box-shadow: 0 0 0 3px rgba(249,50,44,.1); }
+    .source-link { font-size: .78rem; color: #6b7280; }
+    .source-link:hover { color: var(--laravel-red); }
+  </style>
+</head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
+<a href="index.html" class="home-link"><span>&larr;</span> Home</a>
+
+<nav id="sidebar">
+  <div class="brand">
+    <h5><i class="bi bi-lightning-charge-fill me-2" style="color:var(--laravel-red)"></i>Laravel Tips</h5>
+    <small class="d-block mt-1">Laravel Daily &mdash; 350+ Tips</small>
+  </div>
+  <div class="py-2">
+    <div class="nav-section">Eloquent &amp; DB</div>
+    <a class="nav-link" href="#db-models"><i class="bi bi-database"></i> DB Models &amp; Eloquent</a>
+    <a class="nav-link" href="#relations"><i class="bi bi-diagram-3"></i> Model Relations</a>
+    <a class="nav-link" href="#migrations"><i class="bi bi-arrow-up-circle"></i> Migrations</a>
+    <a class="nav-link" href="#factories"><i class="bi bi-gear"></i> Factories</a>
+
+    <div class="nav-section">Routing &amp; Controllers</div>
+    <a class="nav-link" href="#routing"><i class="bi bi-signpost-2"></i> Routing</a>
+    <a class="nav-link" href="#validation"><i class="bi bi-check2-square"></i> Validation</a>
+
+    <div class="nav-section">Views &amp; Frontend</div>
+    <a class="nav-link" href="#views"><i class="bi bi-eye"></i> Views / Blade</a>
+
+    <div class="nav-section">Ecosystem</div>
+    <a class="nav-link" href="#auth"><i class="bi bi-shield-lock"></i> Auth</a>
+    <a class="nav-link" href="#api"><i class="bi bi-globe"></i> API</a>
+    <a class="nav-link" href="#mail"><i class="bi bi-envelope"></i> Mail</a>
+    <a class="nav-link" href="#collections"><i class="bi bi-collection"></i> Collections</a>
+    <a class="nav-link" href="#artisan"><i class="bi bi-terminal"></i> Artisan</a>
+
+    <div class="nav-section">Debug &amp; More</div>
+    <a class="nav-link" href="#log-debug"><i class="bi bi-bug"></i> Log &amp; Debug</a>
+    <a class="nav-link" href="#filament"><i class="bi bi-columns-gap"></i> Filament</a>
+    <a class="nav-link" href="#other"><i class="bi bi-three-dots"></i> Other Tips</a>
+  </div>
+</nav>
+
+<div id="main">
+
+  <div class="d-flex align-items-center gap-3 mb-3 flex-wrap">
+    <div>
+      <h1 class="fw-bold mb-1" style="color:var(--laravel-dark)">
+        <i class="bi bi-lightning-charge-fill" style="color:var(--laravel-red)"></i>
+        Laravel Tips
+      </h1>
+      <p class="text-muted mb-0 fs-5">
+        Bite-sized tips from <a href="https://laraveldaily.com/tips" target="_blank" class="text-decoration-underline" style="color:var(--laravel-red)">Laravel Daily</a>
+        <span class="badge badge-laravel ms-2">350+ Tips</span>
+        <span class="badge bg-secondary ms-1">Laravel 11.x</span>
+      </p>
+    </div>
+  </div>
+
+  <p class="fs-5 text-muted mb-4">
+    Collection of quick, actionable Laravel tips organized by topic.
+    Each tip links to the full explanation on Laravel Daily. Click any tip to learn more.
+  </p>
+
+  <div class="search-tips">
+    <input type="text" id="tipSearch" placeholder="Search tips..." oninput="filterTips(this.value)">
+  </div>
+
+  <!-- ==================== DB MODELS & ELOQUENT ==================== -->
+  <section id="db-models">
+    <h2><i class="bi bi-database me-2"></i>DB Models &amp; Eloquent <span class="tip-count">99</span></h2>
+    <div class="card">
+      <div class="card-body">
+        <ul class="tip-list">
+          <li><a href="https://laraveldaily.com/tip/set-default-db-column-values-in-eloquent-model" target="_blank">Set Default DB Column Values in Eloquent Model</a></li>
+          <li><a href="https://laraveldaily.com/tip/controllers-auto-return-json-from-eloquent" target="_blank">Controllers Auto-Return JSON from Eloquent</a></li>
+          <li><a href="https://laraveldaily.com/tip/pass-a-raw-query-to-order-your-results" target="_blank">Pass a raw query to order your results</a></li>
+          <li><a href="https://laraveldaily.com/tip/load-data-completed-between-two-timestamps" target="_blank">Load data completed between two timestamps</a></li>
+          <li><a href="https://laraveldaily.com/tip/load-data-faster-when-the-targeted-value-is-an-integer" target="_blank">Load data faster when the targeted value is an integer</a></li>
+          <li><a href="https://laraveldaily.com/tip/new-rawvalue-method-since-laravel-937" target="_blank">New rawValue() method since Laravel 9.37</a></li>
+          <li><a href="https://laraveldaily.com/tip/eloquent-scopes-inside-of-other-relationships" target="_blank">Eloquent scopes inside of other relationships</a></li>
+          <li><a href="https://laraveldaily.com/tip/you-can-write-transaction-aware-code" target="_blank">You can write transaction-aware code</a></li>
+          <li><a href="https://laraveldaily.com/tip/perform-operation-without-modifying-updated-at-field" target="_blank">Perform operation without modifying updated_at field</a></li>
+          <li><a href="https://laraveldaily.com/tip/merging-eloquent-collections" target="_blank">Merging eloquent collections</a></li>
+          <li><a href="https://laraveldaily.com/tip/small-cheat-sheet-for-using-full-text-search-with-laravel-on-mysql" target="_blank">Full-Text Search with Laravel on MySQL cheat sheet</a></li>
+          <li><a href="https://laraveldaily.com/tip/remember-to-use-bindings-in-your-raw-queries" target="_blank">Remember to use bindings in your raw queries</a></li>
+          <li><a href="https://laraveldaily.com/tip/column-name-change" target="_blank">Column name change</a></li>
+          <li><a href="https://laraveldaily.com/tip/model-all-columns" target="_blank">Model all(): Specify Columns</a></li>
+          <li><a href="https://laraveldaily.com/tip/eloquent-where-date-methods" target="_blank">Eloquent where date methods</a></li>
+          <li><a href="https://laraveldaily.com/tip/increments-and-decrements" target="_blank">Increments and decrements</a></li>
+          <li><a href="https://laraveldaily.com/tip/no-timestamp-columns" target="_blank">No timestamp columns</a></li>
+          <li><a href="https://laraveldaily.com/tip/soft-deletes-multiple-restore" target="_blank">Soft-deletes: multiple restore</a></li>
+          <li><a href="https://laraveldaily.com/tip/to-fail-or-not-to-fail" target="_blank">To Fail or not to Fail</a></li>
+          <li><a href="https://laraveldaily.com/tip/change-default-timestamp-fields" target="_blank">Change Default Timestamp Fields</a></li>
+          <li><a href="https://laraveldaily.com/tip/quick-order-by-created-at" target="_blank">Quick Order by created_at</a></li>
+          <li><a href="https://laraveldaily.com/tip/no-need-to-convert-carbon" target="_blank">No Need to Convert Carbon</a></li>
+          <li><a href="https://laraveldaily.com/tip/reuse-or-clone-query" target="_blank">Clone Query to Re-Use It</a></li>
+          <li><a href="https://laraveldaily.com/tip/map-query-results" target="_blank">Map query results</a></li>
+          <li><a href="https://laraveldaily.com/tip/automatic-column-value-when-creating-records" target="_blank">Automatic Column Value When Creating Records</a></li>
+          <li><a href="https://laraveldaily.com/tip/db-raw-query-calculations-run-faster" target="_blank">DB Raw Query Calculations Run Faster</a></li>
+          <li><a href="https://laraveldaily.com/tip/more-than-one-scope" target="_blank">More than One Scope</a></li>
+          <li><a href="https://laraveldaily.com/tip/grouping-by-first-letter" target="_blank">Grouping by First Letter</a></li>
+          <li><a href="https://laraveldaily.com/tip/never-update-the-column" target="_blank">Never Update the Column</a></li>
+          <li><a href="https://laraveldaily.com/tip/find-many" target="_blank">Find() Many instead of whereIn()</a></li>
+          <li><a href="https://laraveldaily.com/tip/find-many-and-return-specific-columns" target="_blank">Find Many and return specific columns</a></li>
+          <li><a href="https://laraveldaily.com/tip/find-by-key" target="_blank">Find by Key</a></li>
+          <li><a href="https://laraveldaily.com/tip/use-uuid-instead-of-auto-increment" target="_blank">Use UUID instead of auto-increment</a></li>
+          <li><a href="https://laraveldaily.com/tip/sub-selects-in-laravel-way" target="_blank">Sub-selects in Laravel Way</a></li>
+          <li><a href="https://laraveldaily.com/tip/hide-some-columns" target="_blank">Hide Some Columns</a></li>
+          <li><a href="https://laraveldaily.com/tip/exact-db-error" target="_blank">Exact DB Error</a></li>
+          <li><a href="https://laraveldaily.com/tip/soft-deletes-with-query-builder" target="_blank">Soft-Deletes with Query Builder</a></li>
+          <li><a href="https://laraveldaily.com/tip/good-old-sql-query" target="_blank">Good Old SQL Query</a></li>
+          <li><a href="https://laraveldaily.com/tip/use-db-transactions" target="_blank">Use DB Transactions</a></li>
+          <li><a href="https://laraveldaily.com/tip/update-or-create" target="_blank">Update or Create</a></li>
+          <li><a href="https://laraveldaily.com/tip/forget-cache-on-save" target="_blank">Forget Cache on Save</a></li>
+          <li><a href="https://laraveldaily.com/tip/change-format-of-created-at-and-updated-at" target="_blank">Change Format Of created_at and updated_at</a></li>
+          <li><a href="https://laraveldaily.com/tip/storing-array-type-into-json" target="_blank">Storing Array Type into JSON</a></li>
+          <li><a href="https://laraveldaily.com/tip/make-a-copy-of-the-model" target="_blank">Make a Copy of the Model</a></li>
+          <li><a href="https://laraveldaily.com/tip/reduce-memory" target="_blank">Reduce Memory</a></li>
+          <li><a href="https://laraveldaily.com/tip/force-query-without-fillableguarded" target="_blank">Force query without $fillable/$guarded</a></li>
+          <li><a href="https://laraveldaily.com/tip/3-level-structure-of-parent-children" target="_blank">3-Level Parent-Children: with() and withCount()</a></li>
+          <li><a href="https://laraveldaily.com/tip/perform-any-action-on-failure" target="_blank">firstOr(): Perform any action on failure</a></li>
+          <li><a href="https://laraveldaily.com/tip/check-if-record-exists-or-show-404" target="_blank">Check if record exists or show 404</a></li>
+          <li><a href="https://laraveldaily.com/tip/abort-if-condition-failed" target="_blank">Abort if condition failed</a></li>
+          <li><a href="https://laraveldaily.com/tip/fill-a-column-automatically-while-you-persist-data-to-the-database" target="_blank">Fill a column automatically while persisting data</a></li>
+          <li><a href="https://laraveldaily.com/tip/extra-information-about-the-query" target="_blank">Extra information about the query</a></li>
+          <li><a href="https://laraveldaily.com/tip/using-the-doesntexist-method-in-laravel" target="_blank">Using the doesntExist() method</a></li>
+          <li><a href="https://laraveldaily.com/tip/trait-that-you-want-to-add-to-a-few-models-to-call-their-boot-method-automatically" target="_blank">Trait to auto-call boot() method on models</a></li>
+          <li><a href="https://laraveldaily.com/tip/there-are-two-common-ways-of-determining-if-a-table-is-empty-in-laravel" target="_blank">Don't use count() if you can use exists()</a></li>
+          <li><a href="https://laraveldaily.com/tip/how-to-prevent-property-of-non-object-error" target="_blank">withDefault(): Prevent "property of non-object" error</a></li>
+          <li><a href="https://laraveldaily.com/tip/get-original-attributes-after-mutating-an-eloquent-record" target="_blank">Get original attributes after mutating a record</a></li>
+          <li><a href="https://laraveldaily.com/tip/a-simple-way-to-seed-a-database" target="_blank">A simple way to seed a database</a></li>
+          <li><a href="https://laraveldaily.com/tip/the-crossjoinsub-method-of-the-query-constructor" target="_blank">The crossJoinSub method of the query constructor</a></li>
+          <li><a href="https://laraveldaily.com/tip/belongs-to-many-pivot-table-naming" target="_blank">Belongs to Many Pivot table naming</a></li>
+          <li><a href="https://laraveldaily.com/tip/order-by-pivot-fields" target="_blank">Order by Pivot Fields</a></li>
+          <li><a href="https://laraveldaily.com/tip/find-a-single-record-from-a-database" target="_blank">Find a single record from a database</a></li>
+          <li><a href="https://laraveldaily.com/tip/automatic-records-chunking" target="_blank">Automatic records chunking</a></li>
+          <li><a href="https://laraveldaily.com/tip/updating-the-model-without-dispatching-events" target="_blank">Updating the model without dispatching events</a></li>
+          <li><a href="https://laraveldaily.com/tip/periodic-cleaning-of-models-from-obsolete-records" target="_blank">Periodic cleaning of models from obsolete records</a></li>
+          <li><a href="https://laraveldaily.com/tip/immutable-dates-and-casting-to-them" target="_blank">Immutable dates and casting to them</a></li>
+          <li><a href="https://laraveldaily.com/tip/the-findorfail-method-also-accepts-a-list-of-ids" target="_blank">findOrFail() also accepts a list of ids</a></li>
+          <li><a href="https://laraveldaily.com/tip/prunable-trait-to-automatically-remove-models-from-your-database" target="_blank">Prunable trait to auto-remove old models</a></li>
+          <li><a href="https://laraveldaily.com/tip/withaggregate-method" target="_blank">withAggregate method</a></li>
+          <li><a href="https://laraveldaily.com/tip/date-convention" target="_blank">Date convention</a></li>
+          <li><a href="https://laraveldaily.com/tip/eloquent-multiple-upserts" target="_blank">Eloquent multiple upserts</a></li>
+          <li><a href="https://laraveldaily.com/tip/retrieve-the-query-builder-after-filtering-the-results" target="_blank">Retrieve the Query Builder after filtering</a></li>
+          <li><a href="https://laraveldaily.com/tip/custom-casts" target="_blank">Custom casts</a></li>
+          <li><a href="https://laraveldaily.com/tip/order-based-on-a-related-models-average-or-count" target="_blank">Order based on a related model's average or count</a></li>
+          <li><a href="https://laraveldaily.com/tip/return-transactions-result" target="_blank">Return Database Transactions Result</a></li>
+          <li><a href="https://laraveldaily.com/tip/remove-several-global-scopes-from-query" target="_blank">Remove several global scopes from query</a></li>
+          <li><a href="https://laraveldaily.com/tip/order-json-column-attribute" target="_blank">Order JSON column attribute</a></li>
+          <li><a href="https://laraveldaily.com/tip/get-single-columns-value-from-the-first-result" target="_blank">Get single column's value from the first result</a></li>
+          <li><a href="https://laraveldaily.com/tip/check-if-altered-value-changed-key" target="_blank">Check if altered value changed key</a></li>
+          <li><a href="https://laraveldaily.com/tip/new-way-to-define-accessor-and-mutator" target="_blank">Laravel 8+: New way to define accessor and mutator</a></li>
+          <li><a href="https://laraveldaily.com/tip/another-way-to-do-accessors-and-mutators" target="_blank">Custom Cases instead of accessors and mutators</a></li>
+          <li><a href="https://laraveldaily.com/tip/when-searching-for-the-first-record-you-can-perform-some-actions" target="_blank">When searching for the first record, perform actions</a></li>
+          <li><a href="https://laraveldaily.com/tip/directly-convert-created-at-date-to-human-readable-format" target="_blank">Directly convert created_at to human readable format</a></li>
+          <li><a href="https://laraveldaily.com/tip/ordering-by-an-eloquent-accessor" target="_blank">Ordering by an Eloquent Accessor</a></li>
+          <li><a href="https://laraveldaily.com/tip/check-for-specific-model-was-created-or-found" target="_blank">Check if model was created or found</a></li>
+          <li><a href="https://laraveldaily.com/tip/laravel-scout-with-database-driver" target="_blank">Laravel Scout with database driver</a></li>
+          <li><a href="https://laraveldaily.com/tip/make-use-of-the-value-method-on-the-query-builder" target="_blank">Make use of the value() method on the query builder</a></li>
+          <li><a href="https://laraveldaily.com/tip/pass-array-to-where-method" target="_blank">Pass array to where method</a></li>
+          <li><a href="https://laraveldaily.com/tip/return-the-primary-keys-from-models-collection" target="_blank">Return the primary keys from models collection</a></li>
+          <li><a href="https://laraveldaily.com/tip/force-laravel-to-use-eager-loading" target="_blank">Force Laravel to use eager loading</a></li>
+          <li><a href="https://laraveldaily.com/tip/make-all-your-models-mass-assignable" target="_blank">Make all your models mass assignable</a></li>
+          <li><a href="https://laraveldaily.com/tip/hiding-columns-in-select-all-statements" target="_blank">Hiding columns in select all statements</a></li>
+          <li><a href="https://laraveldaily.com/tip/json-where-clauses" target="_blank">JSON Where Clauses</a></li>
+          <li><a href="https://laraveldaily.com/tip/get-all-the-column-names-for-a-table" target="_blank">Get all the column names for a table</a></li>
+          <li><a href="https://laraveldaily.com/tip/compare-the-values-of-two-columns" target="_blank">Compare the values of two columns</a></li>
+          <li><a href="https://laraveldaily.com/tip/accessor-caching" target="_blank">Accessor Caching</a></li>
+          <li><a href="https://laraveldaily.com/tip/new-scalar-method" target="_blank">New scalar() method</a></li>
+          <li><a href="https://laraveldaily.com/tip/select-specific-columns" target="_blank">Select specific columns</a></li>
+          <li><a href="https://laraveldaily.com/tip/chain-conditional-clauses-to-the-query-without-writing-if-else-statements" target="_blank">Chain conditional clauses without if-else</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MODEL RELATIONS ==================== -->
+  <section id="relations">
+    <h2><i class="bi bi-diagram-3 me-2"></i>Model Relations <span class="tip-count">36</span></h2>
+    <div class="card">
+      <div class="card-body">
+        <ul class="tip-list">
+          <li><a href="https://laraveldaily.com/tip/get-the-newest-or-oldest-item-of-another-relation" target="_blank">Get the newest (or oldest) item of another relation</a></li>
+          <li><a href="https://laraveldaily.com/tip/add-where-statement-to-many-to-many-relation" target="_blank">Add where statement to Many-to-Many relation</a></li>
+          <li><a href="https://laraveldaily.com/tip/orderby-on-eloquent-relationships" target="_blank">OrderBy on Eloquent relationships</a></li>
+          <li><a href="https://laraveldaily.com/tip/conditional-relationships" target="_blank">Conditional relationships</a></li>
+          <li><a href="https://laraveldaily.com/tip/raw-db-queries-havingraw" target="_blank">Raw DB Queries: havingRaw()</a></li>
+          <li><a href="https://laraveldaily.com/tip/eloquent-has-deeper" target="_blank">Eloquent has() deeper</a></li>
+          <li><a href="https://laraveldaily.com/tip/has-many-how-many-exactly" target="_blank">Has Many. How many exactly?</a></li>
+          <li><a href="https://laraveldaily.com/tip/default-model" target="_blank">Default model</a></li>
+          <li><a href="https://laraveldaily.com/tip/use-hasmany-to-create-many" target="_blank">Use hasMany to create Many</a></li>
+          <li><a href="https://laraveldaily.com/tip/multi-level-eager-loading" target="_blank">Multi level Eager Loading</a></li>
+          <li><a href="https://laraveldaily.com/tip/eager-loading-with-exact-columns" target="_blank">Eager Loading with Exact Columns</a></li>
+          <li><a href="https://laraveldaily.com/tip/touch-parent-updated-at-easily" target="_blank">Touch parent updated_at easily</a></li>
+          <li><a href="https://laraveldaily.com/tip/always-check-if-relationship-exists" target="_blank">Always Check if Relationship Exists</a></li>
+          <li><a href="https://laraveldaily.com/tip/use-withcount-to-calculate-child-relationships-records" target="_blank">Use withCount() to Calculate Child Records</a></li>
+          <li><a href="https://laraveldaily.com/tip/extra-filter-query-on-relationships" target="_blank">Extra Filter Query on Relationships</a></li>
+          <li><a href="https://laraveldaily.com/tip/load-relationships-always-but-dynamically" target="_blank">Load Relationships Always, but Dynamically</a></li>
+          <li><a href="https://laraveldaily.com/tip/instead-of-belongsto-use-hasmany" target="_blank">Instead of belongsTo, use hasMany</a></li>
+          <li><a href="https://laraveldaily.com/tip/rename-pivot-table" target="_blank">Rename Pivot Table</a></li>
+          <li><a href="https://laraveldaily.com/tip/update-parent-in-one-line" target="_blank">Update Parent in One Line</a></li>
+          <li><a href="https://laraveldaily.com/tip/laravel-7-foreign-keys" target="_blank">Laravel 7+ Foreign Keys</a></li>
+          <li><a href="https://laraveldaily.com/tip/combine-two-wherehas" target="_blank">Combine "whereHas" with "orDoesntHave"</a></li>
+          <li><a href="https://laraveldaily.com/tip/check-if-relationship-method-exists" target="_blank">Check if Relationship Method Exists</a></li>
+          <li><a href="https://laraveldaily.com/tip/pivot-table-with-extra-relations" target="_blank">Pivot Table with Extra Relations</a></li>
+          <li><a href="https://laraveldaily.com/tip/load-count-on-the-fly" target="_blank">Load Count on-the-fly</a></li>
+          <li><a href="https://laraveldaily.com/tip/randomize-relationship-order" target="_blank">Randomize Relationship Order</a></li>
+          <li><a href="https://laraveldaily.com/tip/filter-hasmany-relationships" target="_blank">Filter hasMany relationships</a></li>
+          <li><a href="https://laraveldaily.com/tip/filter-by-many-to-many-relationship-pivot-column" target="_blank">Filter by many-to-many pivot column</a></li>
+          <li><a href="https://laraveldaily.com/tip/a-shorter-way-to-write-wherehas" target="_blank">A shorter way to write whereHas</a></li>
+          <li><a href="https://laraveldaily.com/tip/you-can-add-conditions-to-your-relationships" target="_blank">You can add conditions to your relationships</a></li>
+          <li><a href="https://laraveldaily.com/tip/new-wherebelongsto-eloquent-query-builder-method" target="_blank">New whereBelongsTo() Eloquent query builder method</a></li>
+          <li><a href="https://laraveldaily.com/tip/the-is-method-of-one-to-one-relationships-for-comparing-models" target="_blank">The is() method of one-to-one relationships</a></li>
+          <li><a href="https://laraveldaily.com/tip/wherehas-multiple-connections" target="_blank">whereHas() multiple connections</a></li>
+          <li><a href="https://laraveldaily.com/tip/update-an-existing-pivot-record" target="_blank">Update an existing pivot record</a></li>
+          <li><a href="https://laraveldaily.com/tip/relation-that-will-get-the-newest-or-oldest-item" target="_blank">Relation that gets the newest (or oldest) item</a></li>
+          <li><a href="https://laraveldaily.com/tip/replace-your-custom-queries-with-ofmany" target="_blank">Replace your custom queries with ofMany</a></li>
+          <li><a href="https://laraveldaily.com/tip/avoid-data-leakage-when-using-orwhere-on-a-relationship" target="_blank">Avoid data leakage when using orWhere on a relationship</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MIGRATIONS ==================== -->
+  <section id="migrations">
+    <h2><i class="bi bi-arrow-up-circle me-2"></i>Migrations <span class="tip-count">15</span></h2>
+    <div class="card">
+      <div class="card-body">
+        <ul class="tip-list">
+          <li><a href="https://laraveldaily.com/tip/order-of-migrations" target="_blank">Order of Migrations</a></li>
+          <li><a href="https://laraveldaily.com/tip/migration-fields-with-timezones" target="_blank">Migration fields with timezones</a></li>
+          <li><a href="https://laraveldaily.com/tip/database-migrations-column-types" target="_blank">Database migrations column types</a></li>
+          <li><a href="https://laraveldaily.com/tip/default-timestamp" target="_blank">Default Timestamp</a></li>
+          <li><a href="https://laraveldaily.com/tip/migration-status" target="_blank">Migration Status</a></li>
+          <li><a href="https://laraveldaily.com/tip/create-migration-with-spaces" target="_blank">Create Migration with Spaces</a></li>
+          <li><a href="https://laraveldaily.com/tip/create-column-after-another-column" target="_blank">Create Column after Another Column</a></li>
+          <li><a href="https://laraveldaily.com/tip/make-migration-for-existing-table" target="_blank">Make migration for existing table</a></li>
+          <li><a href="https://laraveldaily.com/tip/output-sql-before-running-migrations" target="_blank">Output SQL before running migrations</a></li>
+          <li><a href="https://laraveldaily.com/tip/anonymous-migrations" target="_blank">Anonymous Migrations</a></li>
+          <li><a href="https://laraveldaily.com/tip/you-can-add-comment-about-a-column-inside-your-migrations" target="_blank">Add "comment" about a column inside migrations</a></li>
+          <li><a href="https://laraveldaily.com/tip/checking-for-table-column-existence" target="_blank">Checking For Table / Column Existence</a></li>
+          <li><a href="https://laraveldaily.com/tip/group-columns-within-an-after-method" target="_blank">Group Columns within an After Method</a></li>
+          <li><a href="https://laraveldaily.com/tip/add-the-column-in-the-database-table-only-if-its-not-present-can-drop-it-if-its-present" target="_blank">Add column only if not present / drop if present</a></li>
+          <li><a href="https://laraveldaily.com/tip/method-to-set-the-default-value-for-current-timestamp" target="_blank">Method to set default value for current timestamp</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FACTORIES ==================== -->
+  <section id="factories">
+    <h2><i class="bi bi-gear me-2"></i>Factories <span class="tip-count">9</span></h2>
+    <div class="card">
+      <div class="card-body">
+        <ul class="tip-list">
+          <li><a href="https://laraveldaily.com/tip/factories" target="_blank">Factory generation tips on Laravel Daily</a></li>
+        </ul>
+        <p class="text-muted small mt-2 mb-0">Visit <a href="https://laraveldaily.com/tips/factories" target="_blank">Laravel Daily Factories tips page</a> for the full list.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ROUTING ==================== -->
+  <section id="routing">
+    <h2><i class="bi bi-signpost-2 me-2"></i>Routing <span class="tip-count">32</span></h2>
+    <div class="card">
+      <div class="card-body">
+        <ul class="tip-list">
+          <li><a href="https://laraveldaily.com/tip/adding-global-middleware-3-ways" target="_blank">Adding a Global Middleware: 3 Ways</a></li>
+          <li><a href="https://laraveldaily.com/tip/skip-input-normalization" target="_blank">Skip Input Normalization</a></li>
+          <li><a href="https://laraveldaily.com/tip/assign-withtrashed-to-route-resource-method" target="_blank">Assign withTrashed() to Route::resource()</a></li>
+          <li><a href="https://laraveldaily.com/tip/declare-a-resolveroutebinding-method-in-your-model" target="_blank">Declare resolveRouteBinding() in your Model</a></li>
+          <li><a href="https://laraveldaily.com/tip/route-group-within-a-group" target="_blank">Route group within a group</a></li>
+          <li><a href="https://laraveldaily.com/tip/wildcard-subdomains" target="_blank">Wildcard subdomains</a></li>
+          <li><a href="https://laraveldaily.com/tip/whats-behind-the-routes" target="_blank">What's behind the routes in Laravel UI?</a></li>
+          <li><a href="https://laraveldaily.com/tip/route-model-binding-you-can-define-a-key" target="_blank">Route Model Binding: You can define a key</a></li>
+          <li><a href="https://laraveldaily.com/tip/route-fallback-when-no-other-route-is-matched" target="_blank">Route Fallback: When no Other Route is Matched</a></li>
+          <li><a href="https://laraveldaily.com/tip/route-parameters-validation-with-regexp" target="_blank">Route Parameters Validation with RegExp</a></li>
+          <li><a href="https://laraveldaily.com/tip/rate-limiting-global-and-for-guestsusers" target="_blank">Rate Limiting: Global and for Guests/Users</a></li>
+          <li><a href="https://laraveldaily.com/tip/query-string-parameters-to-routes" target="_blank">Query string parameters to Routes</a></li>
+          <li><a href="https://laraveldaily.com/tip/separate-routes-by-files" target="_blank">Separate Routes by Files</a></li>
+          <li><a href="https://laraveldaily.com/tip/translate-resource-verbs" target="_blank">Translate Resource Verbs</a></li>
+          <li><a href="https://laraveldaily.com/tip/custom-resource-route-names" target="_blank">Custom Resource Route Names</a></li>
+          <li><a href="https://laraveldaily.com/tip/eager-load-relationship" target="_blank">Eager load relationship in route</a></li>
+          <li><a href="https://laraveldaily.com/tip/easily-highlight-your-navbar-menus" target="_blank">Easily highlight your navbar menus</a></li>
+          <li><a href="https://laraveldaily.com/tip/generate-absolute-path-using-route-helper" target="_blank">Generate absolute path using route() helper</a></li>
+          <li><a href="https://laraveldaily.com/tip/override-the-route-binding-resolver-for-each-of-your-models" target="_blank">Override route binding resolver for each model</a></li>
+          <li><a href="https://laraveldaily.com/tip/if-you-need-public-url-but-you-want-them-to-be-secured" target="_blank">If you need public URL but want them secured</a></li>
+          <li><a href="https://laraveldaily.com/tip/using-gate-in-middleware-method" target="_blank">Using Gate in middleware method</a></li>
+          <li><a href="https://laraveldaily.com/tip/simple-route-with-arrow-function" target="_blank">Simple route with arrow function</a></li>
+          <li><a href="https://laraveldaily.com/tip/route-view" target="_blank">Route view</a></li>
+          <li><a href="https://laraveldaily.com/tip/route-directory-instead-of-route-file" target="_blank">Route directory instead of route file</a></li>
+          <li><a href="https://laraveldaily.com/tip/route-resources-grouping" target="_blank">Route resources grouping</a></li>
+          <li><a href="https://laraveldaily.com/tip/custom-route-bindings" target="_blank">Custom route bindings</a></li>
+          <li><a href="https://laraveldaily.com/tip/two-ways-to-check-the-route-name" target="_blank">Two ways to check the route name</a></li>
+          <li><a href="https://laraveldaily.com/tip/route-model-binding-soft-deleted-models" target="_blank">Route model binding soft-deleted models</a></li>
+          <li><a href="https://laraveldaily.com/tip/retrieve-the-url-without-query-parameters" target="_blank">Retrieve the URL without query parameters</a></li>
+          <li><a href="https://laraveldaily.com/tip/customizing-missing-model-behavior-in-route-model-bindings" target="_blank">Customizing Missing Model in route model bindings</a></li>
+          <li><a href="https://laraveldaily.com/tip/exclude-middleware-from-a-route" target="_blank">Exclude middleware from a route</a></li>
+          <li><a href="https://laraveldaily.com/tip/controller-groups" target="_blank">Controller groups</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== VALIDATION ==================== -->
+  <section id="validation">
+    <h2><i class="bi bi-check2-square me-2"></i>Validation <span class="tip-count">24</span></h2>
+    <div class="card">
+      <div class="card-body">
+        <ul class="tip-list">
+          <li><a href="https://laraveldaily.com/tip/rule-which-ensures-the-field-under-validation-is-required-if-another-field-is-accepted" target="_blank">Rule: field required if another field is accepted</a></li>
+          <li><a href="https://laraveldaily.com/tip/access-model-binding-in-form-requests" target="_blank">Access model binding in FormRequests</a></li>
+          <li><a href="https://laraveldaily.com/tip/add-values-to-the-form-request-after-validation" target="_blank">Add Values to Form Request After Validation</a></li>
+          <li><a href="https://laraveldaily.com/tip/image-validation" target="_blank">Image validation</a></li>
+          <li><a href="https://laraveldaily.com/tip/custom-validation-error-messages" target="_blank">Custom validation error messages</a></li>
+          <li><a href="https://laraveldaily.com/tip/validate-dates-with-now-or-yesterday-words" target="_blank">Validate dates with "now" or "yesterday" words</a></li>
+          <li><a href="https://laraveldaily.com/tip/validation-rule-with-some-conditions" target="_blank">Validation Rule with Some Conditions</a></li>
+          <li><a href="https://laraveldaily.com/tip/change-default-validation-messages" target="_blank">Change Default Validation Messages</a></li>
+          <li><a href="https://laraveldaily.com/tip/prepare-for-validation" target="_blank">Prepare for Validation</a></li>
+          <li><a href="https://laraveldaily.com/tip/stop-on-first-validation-error" target="_blank">Stop on First Validation Error</a></li>
+          <li><a href="https://laraveldaily.com/tip/throw-422-status-code-without-using-validate-or-form-request" target="_blank">Throw 422 without validate() or Form Request</a></li>
+          <li><a href="https://laraveldaily.com/tip/rules-depending-on-some-other-conditions" target="_blank">Rules depending on some other conditions</a></li>
+          <li><a href="https://laraveldaily.com/tip/with-rulewhen-we-can-conditionally-apply-validation-rules" target="_blank">Rule::when() to conditionally apply rules</a></li>
+          <li><a href="https://laraveldaily.com/tip/use-this-property-in-the-request-classes-to-stop-the-validation-of-the-whole-request-attributes" target="_blank">Stop validation of whole request on first failure</a></li>
+          <li><a href="https://laraveldaily.com/tip/ruleunique-doesnt-take-into-the-softdeletes-global-scope-applied-on-the-model" target="_blank">Rule::unique doesn't consider SoftDeletes scope</a></li>
+          <li><a href="https://laraveldaily.com/tip/validatorsometimes-method-allows-us-to-define-when-a-validation-rule-should-be-applied" target="_blank">Validator::sometimes() method</a></li>
+          <li><a href="https://laraveldaily.com/tip/array-elements-validation" target="_blank">Array elements validation</a></li>
+          <li><a href="https://laraveldaily.com/tip/passworddefaults-method" target="_blank">Password::defaults method</a></li>
+          <li><a href="https://laraveldaily.com/tip/form-requests-for-validation-redirection" target="_blank">Form Requests for validation redirection</a></li>
+          <li><a href="https://laraveldaily.com/tip/mac-validation-rule" target="_blank">MAC validation rule</a></li>
+          <li><a href="https://laraveldaily.com/tip/validate-email-with-tld-domain-required" target="_blank">Validate email with TLD domain required</a></li>
+          <li><a href="https://laraveldaily.com/tip/new-array-validation-rule-required-array-keys" target="_blank">New array validation: required_array_keys</a></li>
+          <li><a href="https://laraveldaily.com/tip/position-placeholder-in-validation-messages" target="_blank">Position placeholder in validation messages</a></li>
+          <li><a href="https://laraveldaily.com/tip/exclude-validation-value" target="_blank">Exclude validation value</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== VIEWS / BLADE ==================== -->
+  <section id="views">
+    <h2><i class="bi bi-eye me-2"></i>Views / Blade <span class="tip-count">20</span></h2>
+    <div class="card">
+      <div class="card-body">
+        <ul class="tip-list">
+          <li><a href="https://laraveldaily.com/tip/share-one-variable-with-multiple-views" target="_blank">Share one variable with multiple views</a></li>
+          <li><a href="https://laraveldaily.com/tip/short-attribute-syntax-for-blade-components" target="_blank">Short attribute syntax for Blade Components</a></li>
+          <li><a href="https://laraveldaily.com/tip/you-can-use-blade-to-generate-more-than-html" target="_blank">Use Blade to generate more than HTML</a></li>
+          <li><a href="https://laraveldaily.com/tip/loop-variable-in-foreach" target="_blank">$loop variable in foreach</a></li>
+          <li><a href="https://laraveldaily.com/tip/does-view-file-exist" target="_blank">Does view file exist?</a></li>
+          <li><a href="https://laraveldaily.com/tip/error-code-blade-pages" target="_blank">Error code Blade pages</a></li>
+          <li><a href="https://laraveldaily.com/tip/view-without-controllers" target="_blank">View without controllers</a></li>
+          <li><a href="https://laraveldaily.com/tip/blade-at-auth" target="_blank">Blade @auth</a></li>
+          <li><a href="https://laraveldaily.com/tip/two-level-loop-variable-in-blade" target="_blank">Two-level $loop variable in Blade</a></li>
+          <li><a href="https://laraveldaily.com/tip/create-your-own-blade-directive" target="_blank">Create Your Own Blade Directive</a></li>
+          <li><a href="https://laraveldaily.com/tip/blade-directives-includeif-includewhen-includefirst" target="_blank">Blade Directives: IncludeIf, IncludeWhen, IncludeFirst</a></li>
+          <li><a href="https://laraveldaily.com/tip/use-laravel-blade-x-variable-binding-to-save-even-more-space" target="_blank">Blade-X variable binding</a></li>
+          <li><a href="https://laraveldaily.com/tip/blade-components-props" target="_blank">Blade components props</a></li>
+          <li><a href="https://laraveldaily.com/tip/blade-autocomplete-typehint" target="_blank">Blade Autocomplete typehint</a></li>
+          <li><a href="https://laraveldaily.com/tip/component-syntax-tip" target="_blank">Component Syntax Tip</a></li>
+          <li><a href="https://laraveldaily.com/tip/automatically-highlight-nav-links" target="_blank">Automatically highlight nav links</a></li>
+          <li><a href="https://laraveldaily.com/tip/cleanup-loops" target="_blank">Cleanup loops</a></li>
+          <li><a href="https://laraveldaily.com/tip/simple-way-to-tidy-up-your-blade-views" target="_blank">Simple way to tidy up your Blade views</a></li>
+          <li><a href="https://laraveldaily.com/tip/checked-blade-directive" target="_blank">Checked blade directive</a></li>
+          <li><a href="https://laraveldaily.com/tip/selected-blade-directive" target="_blank">Selected blade directive</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== AUTH ==================== -->
+  <section id="auth">
+    <h2><i class="bi bi-shield-lock me-2"></i>Auth <span class="tip-count">7</span></h2>
+    <div class="card">
+      <div class="card-body">
+        <ul class="tip-list">
+          <li><a href="https://laraveldaily.com/tips/auth" target="_blank">Auth tips on Laravel Daily</a></li>
+        </ul>
+        <p class="text-muted small mt-2 mb-0">Visit <a href="https://laraveldaily.com/tips/auth" target="_blank">Laravel Daily Auth tips</a> for the full list.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== API ==================== -->
+  <section id="api">
+    <h2><i class="bi bi-globe me-2"></i>API <span class="tip-count">9</span></h2>
+    <div class="card">
+      <div class="card-body">
+        <ul class="tip-list">
+          <li><a href="https://laraveldaily.com/tips/api" target="_blank">API tips on Laravel Daily</a></li>
+        </ul>
+        <p class="text-muted small mt-2 mb-0">Visit <a href="https://laraveldaily.com/tips/api" target="_blank">Laravel Daily API tips</a> for the full list.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MAIL ==================== -->
+  <section id="mail">
+    <h2><i class="bi bi-envelope me-2"></i>Mail <span class="tip-count">7</span></h2>
+    <div class="card">
+      <div class="card-body">
+        <ul class="tip-list">
+          <li><a href="https://laraveldaily.com/tips/mail" target="_blank">Mail tips on Laravel Daily</a></li>
+        </ul>
+        <p class="text-muted small mt-2 mb-0">Visit <a href="https://laraveldaily.com/tips/mail" target="_blank">Laravel Daily Mail tips</a> for the full list.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== COLLECTIONS ==================== -->
+  <section id="collections">
+    <h2><i class="bi bi-collection me-2"></i>Collections <span class="tip-count">8</span></h2>
+    <div class="card">
+      <div class="card-body">
+        <ul class="tip-list">
+          <li><a href="https://laraveldaily.com/tips/collections" target="_blank">Collections tips on Laravel Daily</a></li>
+        </ul>
+        <p class="text-muted small mt-2 mb-0">Visit <a href="https://laraveldaily.com/tips/collections" target="_blank">Laravel Daily Collections tips</a> for the full list.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ARTISAN ==================== -->
+  <section id="artisan">
+    <h2><i class="bi bi-terminal me-2"></i>Artisan <span class="tip-count">9</span></h2>
+    <div class="card">
+      <div class="card-body">
+        <ul class="tip-list">
+          <li><a href="https://laraveldaily.com/tips/artisan" target="_blank">Artisan tips on Laravel Daily</a></li>
+        </ul>
+        <p class="text-muted small mt-2 mb-0">Visit <a href="https://laraveldaily.com/tips/artisan" target="_blank">Laravel Daily Artisan tips</a> for the full list.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== LOG & DEBUG ==================== -->
+  <section id="log-debug">
+    <h2><i class="bi bi-bug me-2"></i>Log &amp; Debug <span class="tip-count">8</span></h2>
+    <div class="card">
+      <div class="card-body">
+        <ul class="tip-list">
+          <li><a href="https://laraveldaily.com/tips/log-and-debug" target="_blank">Log and Debug tips on Laravel Daily</a></li>
+        </ul>
+        <p class="text-muted small mt-2 mb-0">Visit <a href="https://laraveldaily.com/tips/log-and-debug" target="_blank">Laravel Daily Log &amp; Debug tips</a> for the full list.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FILAMENT ==================== -->
+  <section id="filament">
+    <h2><i class="bi bi-columns-gap me-2"></i>Filament <span class="tip-count">20</span></h2>
+    <div class="card">
+      <div class="card-body">
+        <ul class="tip-list">
+          <li><a href="https://laraveldaily.com/tips/filament" target="_blank">Filament tips on Laravel Daily</a></li>
+        </ul>
+        <p class="text-muted small mt-2 mb-0">Visit <a href="https://laraveldaily.com/tips/filament" target="_blank">Laravel Daily Filament tips</a> for the full list.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== OTHER ==================== -->
+  <section id="other">
+    <h2><i class="bi bi-three-dots me-2"></i>Other Tips <span class="tip-count">73</span></h2>
+    <div class="card">
+      <div class="card-body">
+        <ul class="tip-list">
+          <li><a href="https://laraveldaily.com/tips/other" target="_blank">Other tips on Laravel Daily</a></li>
+        </ul>
+        <p class="text-muted small mt-2 mb-0">Visit <a href="https://laraveldaily.com/tips/other" target="_blank">Laravel Daily Other tips</a> for the full list of 73 tips covering miscellaneous Laravel topics.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="text-muted small border-top pt-3 mt-5">
+    <p class="mb-1"><strong>Laravel Tips</strong> &mdash; Curated from <a href="https://laraveldaily.com/tips" target="_blank">Laravel Daily</a>. 350+ quick, actionable tips.</p>
+    <p class="mb-0">Laravel 11.x &bull; Updated 2026 &bull; All credit to Povilas Korop and Laravel Daily team</p>
+  </footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const sidebar = document.getElementById('sidebar');
+const toggle = document.getElementById('sidebarToggle');
+toggle.addEventListener('click', () => sidebar.classList.toggle('show'));
+document.querySelectorAll('#sidebar .nav-link').forEach(link => {
+  link.addEventListener('click', () => sidebar.classList.remove('show'));
+});
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('#sidebar .nav-link');
+function setActiveNav() {
+  let current = '';
+  sections.forEach(section => {
+    const top = section.offsetTop - 100;
+    if (window.scrollY >= top) current = section.getAttribute('id');
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+  });
+}
+window.addEventListener('scroll', setActiveNav);
+setActiveNav();
+function filterTips(query) {
+  q = query.toLowerCase().trim();
+  document.querySelectorAll('.tip-list').forEach(list => {
+    list.querySelectorAll('li').forEach(li => {
+      const txt = li.textContent.toLowerCase();
+      li.style.display = (!q || txt.includes(q)) ? '' : 'none';
+    });
+  });
+}
+</script>
+</body>
+</html>

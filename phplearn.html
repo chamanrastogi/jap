@@ -1,0 +1,1718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PHP 8.4 — Deep Learning: Beginner to Advanced with Practice Questions</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root { --php-blue: #4F5B93; --php-accent: #617cbe; --php-dark: #1a1a2e; --sidebar-width: 280px; }
+    * { scroll-margin-top: 1rem; }
+    body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #f4f6fb; display: flex; }
+    #sidebar { width: var(--sidebar-width); height: 100vh; position: fixed; top: 0; left: 0; background: var(--php-dark); overflow-y: auto; z-index: 1000; transition: transform .3s; }
+    #sidebar .brand { padding: 1.25rem 1.25rem .75rem; border-bottom: 1px solid rgba(255,255,255,.08); }
+    #sidebar .brand h5 { color: #fff; font-weight: 700; }
+    #sidebar .brand small { color: #adb5bd; }
+    #sidebar .nav-link { color: #c8cdd3; padding: .5rem 1.25rem; font-size: .88rem; border-left: 3px solid transparent; transition: all .15s; }
+    #sidebar .nav-link:hover { color: #fff; background: rgba(255,255,255,.05); }
+    #sidebar .nav-link.active { color: var(--php-accent); border-left-color: var(--php-accent); background: rgba(97,124,190,.08); }
+    #sidebar .nav-link i { width: 1.3rem; }
+    #sidebar .nav-section { color: #6c757d; font-size: .7rem; text-transform: uppercase; letter-spacing: .08em; padding: 1rem 1.25rem .3rem; font-weight: 600; }
+    #main { margin-left: var(--sidebar-width); flex: 1; padding: 2rem 2.5rem 4rem; max-width: 1100px; }
+    @media (max-width: 991.98px) { #sidebar { transform: translateX(-100%); } #sidebar.show { transform: translateX(0); } #main { margin-left: 0; padding: 1.5rem; } }
+    .sidebar-toggle { position: fixed; top: .75rem; left: .75rem; z-index: 1050; background: var(--php-dark); color: #fff; border: none; border-radius: .4rem; padding: .4rem .65rem; display: none; }
+    @media (max-width: 991.98px) { .sidebar-toggle { display: block; } }
+    h2 { font-weight: 700; color: var(--php-dark); margin-top: 2.5rem; padding-bottom: .5rem; border-bottom: 3px solid var(--php-accent); }
+    h3 { font-weight: 600; color: #2c3e50; margin-top: 1.8rem; }
+    .card { border: none; border-radius: .75rem; box-shadow: 0 2px 8px rgba(0,0,0,.06); margin-bottom: 1.5rem; }
+    .card-header { background: #fff; border-bottom: 1px solid #e9ecef; font-weight: 600; padding: 1rem 1.25rem; }
+    .card-body { padding: 1.5rem; }
+    pre { background: #1e1e2f; color: #e6e6e6; padding: 1rem 1.25rem; border-radius: .5rem; font-size: .82rem; overflow-x: auto; }
+    pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
+    .kw { color: #c792ea; } .fn { color: #82aaff; } .str { color: #c3e88d; } .cm { color: #546e7a; font-style: italic; } .num { color: #f78c6c; } .tp { color: #ffcb6b; }
+    .hl-box { background: #eef2ff; border-left: 4px solid var(--php-accent); padding: 1rem 1.25rem; border-radius: .4rem; margin: 1rem 0; }
+    .badge-php { background: var(--php-blue); color: #fff; }
+    .badge-new { background: #10b981; color: #fff; }
+    .home-link { position: fixed; top: 14px; left: 14px; z-index: 1100; display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 999px; background: rgba(255,255,255,.94); color: #0f172a; text-decoration: none; font-size: .78rem; font-weight: 700; box-shadow: 0 10px 28px rgba(0,0,0,.08); border: 1px solid rgba(226,232,240,.9); backdrop-filter: blur(10px); transition: .2s; }
+    .home-link:hover { color: #2563eb; }
+    @media (min-width: 992px) { .home-link { left: calc(var(--sidebar-width) + 14px); } }
+    @media (max-width: 991.98px) { .home-link { left: 4rem; } }
+    .accordion-item { border: none; margin-bottom: 0.25rem; border-radius: .5rem !important; }
+    .accordion-button { font-weight: 600; color: var(--php-dark); background: #fff; border-radius: .5rem !important; box-shadow: 0 1px 3px rgba(0,0,0,.04); }
+    .accordion-button:not(.collapsed) { background: #eef2ff; color: var(--php-blue); box-shadow: none; }
+    .accordion-button::after { background-size: 1rem; }
+    .accordion-body { background: #fff; border-radius: 0 0 .5rem .5rem; padding: 1.25rem; line-height: 1.7; }
+    .accordion-body code { background: #f1f3f5; padding: .15rem .4rem; border-radius: .3rem; font-size: .85rem; color: #d63384; }
+    .accordion-body pre { background: #1e1e2f; color: #e6e6e6; padding: 1rem; border-radius: .5rem; overflow-x: auto; font-size: .82rem; margin: .75rem 0; }
+    .accordion-body pre code { background: transparent; color: inherit; padding: 0; border-radius: 0; font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
+    .q-tag { display: inline-block; font-size: .65rem; font-weight: 600; padding: .15rem .5rem; border-radius: 1rem; margin-right: .4rem; vertical-align: middle; }
+    .tag-easy { background: #d1fae5; color: #065f46; }
+    .tag-med { background: #fef3c7; color: #92400e; }
+    .tag-hard { background: #fee2e2; color: #991b1b; }
+    .section-desc { color: #6b7280; font-size: .92rem; margin-bottom: 1.2rem; }
+    table { font-size: .9rem; }
+    thead { background: var(--php-dark); color: #fff; }
+    .practice-section { margin-top: 2rem; }
+  </style>
+</head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
+<a href="index.html" class="home-link"><span>&larr;</span> Home</a>
+
+<nav id="sidebar">
+  <div class="brand">
+    <h5><i class="bi bi-code-slash me-2" style="color:var(--php-accent)"></i>PHP</h5>
+    <small class="d-block mt-1">v8.4 &mdash; Deep Learning</small>
+  </div>
+  <div class="py-2">
+    <div class="nav-section">Fundamentals</div>
+    <a class="nav-link" href="#basics"><i class="bi bi-play-circle"></i> PHP Basics</a>
+    <a class="nav-link" href="#control-flow"><i class="bi bi-diagram-2"></i> Control Flow</a>
+    <a class="nav-link" href="#arrays"><i class="bi bi-collection"></i> Arrays</a>
+    <a class="nav-link" href="#functions"><i class="bi bi-activity"></i> Functions</a>
+    <div class="nav-section">Intermediate</div>
+    <a class="nav-link" href="#oop"><i class="bi bi-diagram-3"></i> OOP</a>
+    <a class="nav-link" href="#advanced-oop"><i class="bi bi-boxes"></i> Advanced OOP</a>
+    <a class="nav-link" href="#files"><i class="bi bi-folder"></i> Files &amp; Errors</a>
+    <a class="nav-link" href="#forms-sessions"><i class="bi bi-globe"></i> Forms &amp; Sessions</a>
+    <div class="nav-section">Database &amp; Security</div>
+    <a class="nav-link" href="#pdo"><i class="bi bi-database"></i> MySQL &amp; PDO</a>
+    <a class="nav-link" href="#security"><i class="bi bi-shield-lock"></i> Security</a>
+    <div class="nav-section">PHP 8+ Features</div>
+    <a class="nav-link" href="#php8-features"><i class="bi bi-stars"></i> PHP 8+ Features</a>
+    <a class="nav-link" href="#modern-php"><i class="bi bi-box-seam"></i> Modern PHP</a>
+    <div class="nav-section">Advanced</div>
+    <a class="nav-link" href="#dsa"><i class="bi bi-graph-up"></i> DSA</a>
+    <a class="nav-link" href="#patterns"><i class="bi bi-puzzle"></i> Design Patterns</a>
+    <a class="nav-link" href="#solid"><i class="bi bi-layers"></i> SOLID &amp; Advanced</a>
+    <div class="nav-section">Practice</div>
+    <a class="nav-link" href="#practice"><i class="bi bi-pencil-square"></i> Practice Questions</a>
+  </div>
+</nav>
+
+<div id="main">
+
+  <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+    <div>
+      <h1 class="fw-bold mb-1" style="color:var(--php-dark)">
+        <i class="bi bi-code-slash" style="color:var(--php-accent)"></i>
+        PHP
+      </h1>
+      <p class="text-muted mb-0 fs-5">
+        Deep Learning &mdash; Beginner to Advanced
+        <span class="badge badge-php ms-2">v8.4</span>
+        <span class="badge bg-warning text-dark ms-1">Server-side</span>
+        <span class="badge bg-success ms-1">70+ Practice Q's</span>
+      </p>
+    </div>
+  </div>
+
+  <p class="fs-5 text-muted mb-5">
+    Complete PHP learning path from syntax fundamentals to advanced concepts.
+    Each section includes <strong>theory</strong>, <strong>code examples</strong>, and
+    <strong>practice questions</strong> to test your understanding.
+    Covers PHP 8.0 through 8.4 features.
+  </p>
+
+  <!-- ==================== BASICS ==================== -->
+  <section id="basics">
+    <h2><i class="bi bi-play-circle me-2"></i>PHP Basics</h2>
+
+    <div class="card">
+      <div class="card-header">Syntax &amp; Variables</div>
+      <div class="card-body">
+        <p>PHP code is embedded in HTML using <code>&lt;?php ... ?&gt;</code> tags. Variables start with <code>$</code> and are loosely typed.</p>
+        <pre><code><span class="cm">&lt;?php</span>
+<span class="kw">$name</span> = <span class="str">"Alice"</span>;
+<span class="kw">$age</span> = 25;
+<span class="kw">$price</span> = 19.99;
+<span class="kw">$isActive</span> = true;
+
+<span class="cm">// Variable variables</span>
+<span class="kw">$varName</span> = <span class="str">"greeting"</span>;
+<span class="kw">$$varName</span> = <span class="str">"Hello"</span>; <span class="cm">// $greeting = "Hello"</span>
+
+<span class="cm">// Constants</span>
+<span class="fn">define</span>(<span class="str">"SITE_NAME"</span>, <span class="str">"MyApp"</span>);
+<span class="fn">const</span> <span class="tp">VERSION</span> = <span class="str">"1.0"</span>;
+
+<span class="cm">// Data types</span>
+<span class="fn">var_dump</span>(<span class="kw">$name</span>);   <span class="cm">// string(5) "Alice"</span>
+<span class="fn">echo</span> <span class="tp">PHP_VERSION</span>; <span class="cm">// 8.4.x</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Type System</div>
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead><tr><th>Type</th><th>Example</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>string</code></td><td><code>"hello"</code></td><td>Sequence of characters</td></tr>
+            <tr><td><code>int</code></td><td><code>42</code></td><td>Whole numbers</td></tr>
+            <tr><td><code>float</code></td><td><code>3.14</code></td><td>Floating point numbers</td></tr>
+            <tr><td><code>bool</code></td><td><code>true</code></td><td>Boolean value</td></tr>
+            <tr><td><code>array</code></td><td><code>[1, 2, 3]</code></td><td>Ordered map</td></tr>
+            <tr><td><code>object</code></td><td><code>new stdClass()</code></td><td>Class instance</td></tr>
+            <tr><td><code>null</code></td><td><code>null</code></td><td>No value</td></tr>
+            <tr><td><code>resource</code></td><td><code>fopen(...)</code></td><td>External resource</td></tr>
+          </tbody>
+        </table>
+        <p><strong>PHP 8.x:</strong> <code>mixed</code>, <code>never</code>, <code>void</code>, union types (<code>int|string</code>), intersection types (<code>Countable&amp;Stringable</code>), <code>true</code>/<code>false</code> as standalone types.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Operators</div>
+      <div class="card-body">
+        <pre><code><span class="cm">// Arithmetic</span>
+<span class="kw">$sum</span> = 10 + 5;  <span class="cm">// 15</span>
+<span class="kw">$pow</span> = 2 ** 8;  <span class="cm">// 256 (exponentiation)</span>
+
+<span class="cm">// Comparison</span>
+<span class="fn">var_dump</span>(5 == <span class="str">"5"</span>);   <span class="cm">// true  (loose)</span>
+<span class="fn">var_dump</span>(5 === <span class="str">"5"</span>);  <span class="cm">// false (strict)</span>
+<span class="fn">var_dump</span>(5 &lt;=&gt; 3);     <span class="cm">// 1    (spaceship)</span>
+
+<span class="cm">// Null coalescing</span>
+<span class="kw">$username</span> = <span class="kw">$_GET</span>[<span class="str">'user'</span>] ?? <span class="str">'guest'</span>;
+
+<span class="cm">// Null coalescing assignment (PHP 7.4+)</span>
+<span class="kw">$data</span>[<span class="str">'key'</span>] ??= <span class="str">'default'</span>;
+
+<span class="cm">// Match expression (PHP 8.0)</span>
+<span class="kw">$result</span> = <span class="fn">match</span>(<span class="kw">$status</span>) {
+    200 => <span class="str">'OK'</span>,
+    404 => <span class="str">'Not Found'</span>,
+    500 => <span class="str">'Server Error'</span>,
+    <span class="fn">default</span> => <span class="str">'Unknown'</span>,
+};</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CONTROL FLOW ==================== -->
+  <section id="control-flow">
+    <h2><i class="bi bi-diagram-2 me-2"></i>Control Flow</h2>
+
+    <div class="card">
+      <div class="card-header">Conditionals &amp; Loops</div>
+      <div class="card-body">
+        <pre><code><span class="cm">// if / elseif / else</span>
+<span class="kw">$score</span> = 85;
+<span class="kw">if</span> (<span class="kw">$score</span> >= 90) {
+    <span class="kw">echo</span> <span class="str">"A"</span>;
+} <span class="kw">elseif</span> (<span class="kw">$score</span> >= 75) {
+    <span class="kw">echo</span> <span class="str">"B"</span>;
+} <span class="kw">else</span> {
+    <span class="kw">echo</span> <span class="str">"C"</span>;
+}
+
+<span class="cm">// Switch</span>
+<span class="kw">switch</span> (<span class="kw">$day</span>) {
+    <span class="kw">case</span> <span class="str">"Mon"</span>: <span class="kw">echo</span> <span class="str">"Work"</span>; <span class="kw">break</span>;
+    <span class="kw">case</span> <span class="str">"Sat"</span>:
+    <span class="kw">case</span> <span class="str">"Sun"</span>: <span class="kw">echo</span> <span class="str">"Weekend"</span>; <span class="kw">break</span>;
+    <span class="kw">default</span>: <span class="kw">echo</span> <span class="str">"Unknown"</span>;
+}
+
+<span class="cm">// Match (PHP 8.0) - strict ===, returns value</span>
+<span class="kw">$status</span> = <span class="fn">match</span>(<span class="kw">$code</span>) {
+    1, 2, 3 => <span class="str">"low"</span>,
+    4, 5, 6 => <span class="str">"medium"</span>,
+    7, 8, 9 => <span class="str">"high"</span>,
+    <span class="fn">default</span> => <span class="str">"unknown"</span>,
+};
+
+<span class="cm">// Loops</span>
+<span class="kw">for</span> (<span class="kw">$i</span> = 0; <span class="kw">$i</span> &lt; 5; <span class="kw">$i</span>++) { <span class="fn">echo</span> <span class="kw">$i</span>; }
+
+<span class="kw">foreach</span> (<span class="kw">$items</span> <span class="kw">as</span> <span class="kw">$key</span> => <span class="kw">$value</span>) {
+    <span class="fn">echo</span> <span class="str">"$key: $value"</span>;
+}
+
+<span class="kw">while</span> (<span class="fn">condition</span>) { <span class="cm">/* ... */</span> }
+<span class="kw">do</span> { <span class="cm">/* runs at least once */</span> } <span class="kw">while</span> (<span class="fn">condition</span>);
+
+<span class="cm">// Alternative syntax for templates</span>
+<span class="kw">foreach</span> (<span class="kw">$users</span> <span class="kw">as</span> <span class="kw">$user</span>): <span class="fn">end</span>?&gt;
+    <span class="cm">&lt;li&gt;&lt;?= $user['name'] ?&gt;&lt;/li&gt;</span>
+<span class="kw">&lt;?php</span> <span class="fn">endforeach</span>;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ARRAYS ==================== -->
+  <section id="arrays">
+    <h2><i class="bi bi-collection me-2"></i>Arrays</h2>
+
+    <div class="card">
+      <div class="card-header">Indexed &amp; Associative Arrays</div>
+      <div class="card-body">
+        <pre><code><span class="cm">// Indexed array (short syntax)</span>
+<span class="kw">$colors</span> = [<span class="str">"red"</span>, <span class="str">"green"</span>, <span class="str">"blue"</span>];
+<span class="kw">$colors</span>[] = <span class="str">"yellow"</span>; <span class="cm">// append</span>
+
+<span class="cm">// Associative array</span>
+<span class="kw">$user</span> = [
+    <span class="str">"name"</span> => <span class="str">"Alice"</span>,
+    <span class="str">"role"</span> => <span class="str">"admin"</span>,
+    <span class="str">"skills"</span> => [<span class="str">"PHP"</span>, <span class="str">"JS"</span>],
+];
+
+<span class="cm">// Array destructuring (PHP 7.1+)</span>
+[<span class="kw">$a</span>, <span class="kw">$b</span>, <span class="kw">$c</span>] = <span class="kw">$colors</span>;
+[<span class="str">'name'</span> => <span class="kw">$name</span>, <span class="str">'role'</span> => <span class="kw">$role</span>] = <span class="kw">$user</span>;
+
+<span class="cm">// Spread (PHP 7.4+)</span>
+<span class="kw">$arr1</span> = [1, 2];
+<span class="kw">$arr2</span> = [3, ...<span class="kw">$arr1</span>, 4]; <span class="cm">// [3, 1, 2, 4]</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Key Array Functions</div>
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead><tr><th>Function</th><th>Description</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td><code>array_map()</code></td><td>Apply callback to each element</td><td><code>array_map(fn($n) => $n * 2, $nums)</code></td></tr>
+            <tr><td><code>array_filter()</code></td><td>Filter elements</td><td><code>array_filter($nums, fn($n) => $n > 0)</code></td></tr>
+            <tr><td><code>array_reduce()</code></td><td>Reduce to single value</td><td><code>array_reduce($nums, fn($c, $n) => $c + $n, 0)</code></td></tr>
+            <tr><td><code>array_merge()</code></td><td>Merge arrays</td><td><code>array_merge($arr1, $arr2)</code></td></tr>
+            <tr><td><code>array_column()</code></td><td>Extract column from 2D</td><td><code>array_column($users, 'name')</code></td></tr>
+            <tr><td><code>array_search()</code></td><td>Search value, return key</td><td><code>array_search('red', $colors)</code></td></tr>
+            <tr><td><code>in_array()</code></td><td>Check if value exists</td><td><code>in_array('php', $tags)</code></td></tr>
+            <tr><td><code>array_unique()</code></td><td>Remove duplicates</td><td><code>array_unique($items)</code></td></tr>
+            <tr><td><code>array_chunk()</code></td><td>Split into chunks</td><td><code>array_chunk($items, 3)</code></td></tr>
+            <tr><td><code>array_walk()</code></td><td>Modify in place</td><td><code>array_walk($arr, fn(&amp;$v) => $v .= '!')</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FUNCTIONS ==================== -->
+  <section id="functions">
+    <h2><i class="bi bi-activity me-2"></i>Functions</h2>
+
+    <div class="card">
+      <div class="card-header">User-defined &amp; Arrow Functions</div>
+      <div class="card-body">
+        <pre><code><span class="cm">// Named function with typed parameters</span>
+<span class="kw">function</span> <span class="fn">greet</span>(<span class="tp">string</span> <span class="kw">$name</span>, <span class="tp">string</span> <span class="kw">$prefix</span> = <span class="str">"Hello"</span>): <span class="tp">string</span> {
+    <span class="kw">return</span> <span class="str">"$prefix, $name!"</span>;
+}
+
+<span class="cm">// Strict types (declare at file top)</span>
+<span class="fn">declare</span>(<span class="tp">strict_types</span> = 1);
+
+<span class="cm">// Variadic arguments</span>
+<span class="kw">function</span> <span class="fn">sum</span>(<span class="tp">int</span> ...<span class="kw">$numbers</span>): <span class="tp">int</span> {
+    <span class="kw">return</span> <span class="fn">array_sum</span>(<span class="kw">$numbers</span>);
+}
+
+<span class="cm">// Named arguments (PHP 8.0)</span>
+<span class="fn">greet</span>(<span class="tp">prefix</span>: <span class="str">"Hi"</span>, <span class="tp">name</span>: <span class="str">"Bob"</span>);
+
+<span class="cm">// Arrow functions (PHP 7.4+)</span>
+<span class="kw">$double</span> = <span class="fn">fn</span>(<span class="kw">$n</span>) => <span class="kw">$n</span> * 2;
+
+<span class="cm">// Closures</span>
+<span class="kw">$greeter</span> = <span class="kw">function</span> (<span class="tp">string</span> <span class="kw">$name</span>) <span class="kw">use</span> (<span class="kw">$prefix</span>) {
+    <span class="kw">return</span> <span class="str">"$prefix $name"</span>;
+};</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Variable Scope &amp; Static</div>
+      <div class="card-body">
+        <pre><code><span class="kw">$global</span> = 10;
+
+<span class="kw">function</span> <span class="fn">test</span>() {
+    <span class="kw">global</span> <span class="kw">$global</span>;  <span class="cm">// access global</span>
+    <span class="kw">static</span> <span class="kw">$count</span> = 0; <span class="cm">// persists across calls</span>
+    <span class="kw">$count</span>++;
+    <span class="kw">return</span> <span class="kw">$count</span>;
+}
+
+<span class="cm">// Anonymous classes</span>
+<span class="kw">$obj</span> = <span class="kw">new</span> <span class="kw">class</span>(<span class="str">"value"</span>) {
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">__construct</span>(<span class="kw">public</span> <span class="tp">string</span> <span class="kw">$prop</span>) {}
+};</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== OOP ==================== -->
+  <section id="oop">
+    <h2><i class="bi bi-diagram-3 me-2"></i>Object-Oriented Programming</h2>
+
+    <div class="card">
+      <div class="card-header">Classes &amp; Constructor Promotion</div>
+      <div class="card-body">
+        <pre><code><span class="kw">class</span> <span class="tp">User</span>
+{
+    <span class="cm">// Promoted constructor properties (PHP 8.0)</span>
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">__construct</span>(
+        <span class="kw">private</span> <span class="tp">string</span> <span class="kw">$name</span>,
+        <span class="kw">public</span> <span class="tp">string</span> <span class="kw">$email</span>,
+        <span class="kw">protected</span> <span class="tp">int</span> <span class="kw">$age</span> = 0,
+    ) {}
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">getName</span>(): <span class="tp">string</span> {
+        <span class="kw">return</span> <span class="kw">$this</span>-><span class="tp">name</span>;
+    }
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">setName</span>(<span class="tp">string</span> <span class="kw">$name</span>): <span class="kw">static</span> {
+        <span class="kw">$this</span>-><span class="tp">name</span> = <span class="kw">$name</span>;
+        <span class="kw">return</span> <span class="kw">$this</span>; <span class="cm">// fluent interface</span>
+    }
+}
+
+<span class="kw">$user</span> = <span class="kw">new</span> <span class="tp">User</span>(<span class="str">"Alice"</span>, <span class="str">"alice@test.com"</span>, 30);
+<span class="fn">echo</span> <span class="kw">$user</span>-><span class="tp">email</span>; <span class="cm">// public property</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Inheritance, Interfaces &amp; Traits</div>
+      <div class="card-body">
+        <pre><code><span class="kw">interface</span> <span class="tp">Notifiable</span>
+{
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">notify</span>(<span class="tp">string</span> <span class="kw">$message</span>): <span class="tp">void</span>;
+}
+
+<span class="kw">trait</span> <span class="tp">Loggable</span>
+{
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">log</span>(<span class="tp">string</span> <span class="kw">$msg</span>): <span class="tp">void</span> {
+        <span class="fn">echo</span> <span class="str">"[LOG] $msg"</span>;
+    }
+}
+
+<span class="kw">class</span> <span class="tp">Admin</span> <span class="kw">extends</span> <span class="tp">User</span> <span class="kw">implements</span> <span class="tp">Notifiable</span>
+{
+    <span class="kw">use</span> <span class="tp">Loggable</span>;
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">notify</span>(<span class="tp">string</span> <span class="kw">$message</span>): <span class="tp">void</span> {
+        <span class="kw">$this</span>-><span class="fn">log</span>(<span class="str">"Sending: $message"</span>);
+    }
+
+    <span class="cm">// Covariant return type</span>
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">setName</span>(<span class="tp">string</span> <span class="kw">$name</span>): <span class="kw">static</span> {
+        <span class="kw">return</span> <span class="fn">parent</span>::<span class="fn">setName</span>(<span class="str">"Admin: $name"</span>);
+    }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ADVANCED OOP ==================== -->
+  <section id="advanced-oop">
+    <h2><i class="bi bi-boxes me-2"></i>Advanced OOP</h2>
+
+    <div class="card">
+      <div class="card-header">Abstract, Final, Readonly &amp; Magic Methods</div>
+      <div class="card-body">
+        <pre><code><span class="cm">// Abstract class</span>
+<span class="kw">abstract</span> <span class="kw">class</span> <span class="tp">Shape</span>
+{
+    <span class="kw">abstract</span> <span class="kw">public</span> <span class="kw">function</span> <span class="fn">area</span>(): <span class="tp">float</span>;
+}
+
+<span class="kw">final</span> <span class="kw">class</span> <span class="tp">Circle</span> <span class="kw">extends</span> <span class="tp">Shape</span>
+{
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">__construct</span>(
+        <span class="kw">private</span> <span class="kw">readonly</span> <span class="tp">float</span> <span class="kw">$radius</span>
+    ) {}
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">area</span>(): <span class="tp">float</span> {
+        <span class="kw">return</span> <span class="fn">pi</span>() * <span class="kw">$this</span>-><span class="tp">radius</span> ** 2;
+    }
+}
+
+<span class="cm">// Magic methods</span>
+<span class="kw">class</span> <span class="tp">Config</span>
+{
+    <span class="kw">private</span> <span class="kw">array</span> <span class="kw">$data</span> = [];
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">__get</span>(<span class="tp">string</span> <span class="kw">$key</span>): <span class="tp">mixed</span> {
+        <span class="kw">return</span> <span class="kw">$this</span>-><span class="tp">data</span>[<span class="kw">$key</span>] ?? <span class="kw">null</span>;
+    }
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">__set</span>(<span class="tp">string</span> <span class="kw">$key</span>, <span class="tp">mixed</span> <span class="kw">$value</span>): <span class="tp">void</span> {
+        <span class="kw">$this</span>-><span class="tp">data</span>[<span class="kw">$key</span>] = <span class="kw">$value</span>;
+    }
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">__toString</span>(): <span class="tp">string</span> {
+        <span class="kw">return</span> <span class="fn">json_encode</span>(<span class="kw">$this</span>-><span class="tp">data</span>);
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Namespaces &amp; Autoloading</div>
+      <div class="card-body">
+        <pre><code><span class="cm">// File: src/Http/Request.php</span>
+<span class="kw">namespace</span> <span class="tp">App\Http</span>;
+
+<span class="kw">class</span> <span class="tp">Request</span>
+{
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">method</span>(): <span class="tp">string</span> {
+        <span class="kw">return</span> <span class="kw">$_SERVER</span>[<span class="str">'REQUEST_METHOD'</span>];
+    }
+}
+
+<span class="cm">// Usage</span>
+<span class="kw">use</span> <span class="tp">App\Http\Request</span>;
+<span class="kw">use</span> <span class="tp">App\Http\Request</span> <span class="kw">as</span> <span class="tp">HttpRequest</span>;
+
+<span class="kw">$req</span> = <span class="kw">new</span> <span class="tp">Request</span>();
+
+<span class="cm">// composer.json PSR-4 autoloading</span>
+<span class="cm">// "autoload": { "psr-4": { "App\\": "src/" } }</span>
+<span class="kw">require</span> <span class="str">'vendor/autoload.php'</span>;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FILES & ERRORS ==================== -->
+  <section id="files">
+    <h2><i class="bi bi-folder me-2"></i>File Handling &amp; Error Handling</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="cm">// File read/write</span>
+<span class="kw">$content</span> = <span class="fn">file_get_contents</span>(<span class="str">'data.txt'</span>);
+<span class="fn">file_put_contents</span>(<span class="str">'output.txt'</span>, <span class="str">"Hello"</span>, <span class="tp">FILE_APPEND</span>);
+
+<span class="cm">// CSV parsing</span>
+<span class="kw">$rows</span> = <span class="fn">array_map</span>(<span class="fn">fn</span>(<span class="kw">$line</span>) => <span class="fn">str_getcsv</span>(<span class="kw">$line</span>), <span class="fn">file</span>(<span class="str">'data.csv'</span>));
+
+<span class="cm">// Error handling</span>
+<span class="kw">try</span> {
+    <span class="kw">throw</span> <span class="kw">new</span> <span class="tp">RuntimeException</span>(<span class="str">"Something broke"</span>);
+} <span class="kw">catch</span> (<span class="tp">RuntimeException</span> <span class="kw">$e</span>) {
+    <span class="fn">error_log</span>(<span class="kw">$e</span>-><span class="fn">getMessage</span>());
+} <span class="kw">finally</span> {
+    <span class="fn">echo</span> <span class="str">"Always runs"</span>;
+}
+
+<span class="cm">// Custom exception</span>
+<span class="kw">class</span> <span class="tp">ValidationException</span> <span class="kw">extends</span> <span class="tp">InvalidArgumentException</span> {}
+
+<span class="cm">// Multiple catch (PHP 7.1+)</span>
+<span class="kw">catch</span> (<span class="tp">RuntimeException</span>|<span class="tp">LogicException</span> <span class="kw">$e</span>) {}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FORMS & SESSIONS ==================== -->
+  <section id="forms-sessions">
+    <h2><i class="bi bi-globe me-2"></i>Forms, Sessions &amp; Cookies</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="fn">session_start</span>();
+
+<span class="cm">// Session data</span>
+<span class="kw">$_SESSION</span>[<span class="str">'user_id'</span>] = 42;
+<span class="kw">$userId</span> = <span class="kw">$_SESSION</span>[<span class="str">'user_id'</span>] ?? <span class="kw">null</span>;
+
+<span class="cm">// Cookie</span>
+<span class="fn">setcookie</span>(<span class="str">'theme'</span>, <span class="str">'dark'</span>, <span class="fn">time</span>() + 86400*30, <span class="str">'/'</span>, <span class="str">''</span>, <span class="kw">true</span>, <span class="kw">true</span>);
+
+<span class="cm">// Form handling</span>
+<span class="kw">if</span> (<span class="kw">$_SERVER</span>[<span class="str">'REQUEST_METHOD'</span>] === <span class="str">'POST'</span>) {
+    <span class="kw">$name</span> = <span class="fn">htmlspecialchars</span>(<span class="kw">$_POST</span>[<span class="str">'name'</span>] ?? <span class="str">''</span>, <span class="tp">ENT_QUOTES</span>, <span class="str">'UTF-8'</span>);
+    <span class="kw">$email</span> = <span class="fn">filter_input</span>(<span class="tp">INPUT_POST</span>, <span class="str">'email'</span>, <span class="tp">FILTER_VALIDATE_EMAIL</span>);
+}
+
+<span class="cm">// File upload</span>
+<span class="kw">if</span> (<span class="kw">$_FILES</span>[<span class="str">'avatar'</span>][<span class="str">'error'</span>] === <span class="tp">UPLOAD_ERR_OK</span>) {
+    <span class="fn">move_uploaded_file</span>(<span class="kw">$_FILES</span>[<span class="str">'avatar'</span>][<span class="str">'tmp_name'</span>], <span class="str">'uploads/avatar.jpg'</span>);
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MySQL & PDO ==================== -->
+  <section id="pdo">
+    <h2><i class="bi bi-database me-2"></i>MySQL &amp; PDO</h2>
+
+    <div class="card">
+      <div class="card-header">PDO Connection &amp; Prepared Statements</div>
+      <div class="card-body">
+        <pre><code><span class="kw">$dsn</span> = <span class="str">"mysql:host=localhost;dbname=test;charset=utf8mb4"</span>;
+<span class="kw">$pdo</span> = <span class="kw">new</span> <span class="tp">PDO</span>(<span class="kw">$dsn</span>, <span class="str">"root"</span>, <span class="str">""</span>, [
+    <span class="tp">PDO::ATTR_ERRMODE</span> => <span class="tp">PDO::ERRMODE_EXCEPTION</span>,
+    <span class="tp">PDO::ATTR_DEFAULT_FETCH_MODE</span> => <span class="tp">PDO::FETCH_ASSOC</span>,
+    <span class="tp">PDO::ATTR_EMULATE_PREPARES</span> => <span class="kw">false</span>,
+]);
+
+<span class="cm">// Prepared statement</span>
+<span class="kw">$stmt</span> = <span class="kw">$pdo</span>-><span class="fn">prepare</span>(<span class="str">"SELECT * FROM users WHERE email = :email"</span>);
+<span class="kw">$stmt</span>-><span class="fn">execute</span>([<span class="str">'email'</span> => <span class="kw">$email</span>]);
+<span class="kw">$user</span> = <span class="kw">$stmt</span>-><span class="fn">fetch</span>();
+
+<span class="cm">// Insert + return ID</span>
+<span class="kw">$pdo</span>-><span class="fn">prepare</span>(<span class="str">"INSERT INTO users (name) VALUES (:name)"</span>)-><span class="fn">execute</span>([<span class="str">'name'</span> => <span class="kw">$name</span>]);
+<span class="kw">$id</span> = <span class="kw">$pdo</span>-><span class="fn">lastInsertId</span>();
+
+<span class="cm">// Transaction</span>
+<span class="kw">$pdo</span>-><span class="fn">beginTransaction</span>();
+<span class="kw">try</span> {
+    <span class="cm">/* multiple queries */</span>
+    <span class="kw">$pdo</span>-><span class="fn">commit</span>();
+} <span class="kw">catch</span> (<span class="tp">PDOException</span> <span class="kw">$e</span>) {
+    <span class="kw">$pdo</span>-><span class="fn">rollBack</span>();
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">PDO Fetch Modes</div>
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead><tr><th>Mode</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>FETCH_ASSOC</code></td><td>Column-name-indexed array</td></tr>
+            <tr><td><code>FETCH_NUM</code></td><td>Column-number-indexed array</td></tr>
+            <tr><td><code>FETCH_BOTH</code></td><td>Both (default)</td></tr>
+            <tr><td><code>FETCH_OBJ</code></td><td>Anonymous object</td></tr>
+            <tr><td><code>FETCH_CLASS</code></td><td>Into a class instance</td></tr>
+            <tr><td><code>FETCH_KEY_PAIR</code></td><td>First col as key, second as value</td></tr>
+            <tr><td><code>FETCH_GROUP</code></td><td>Group by first column</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SECURITY ==================== -->
+  <section id="security">
+    <h2><i class="bi bi-shield-lock me-2"></i>Security</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="cm">// 1. XSS Prevention</span>
+<span class="fn">echo</span> <span class="fn">htmlspecialchars</span>(<span class="kw">$input</span>, <span class="tp">ENT_QUOTES</span>, <span class="str">'UTF-8'</span>);
+
+<span class="cm">// 2. SQL Injection - use prepared statements</span>
+<span class="kw">$stmt</span> = <span class="kw">$pdo</span>-><span class="fn">prepare</span>(<span class="str">"SELECT * FROM users WHERE id = ?"</span>);
+<span class="kw">$stmt</span>-><span class="fn">execute</span>([<span class="kw">$id</span>]);
+
+<span class="cm">// 3. Password hashing</span>
+<span class="kw">$hash</span> = <span class="fn">password_hash</span>(<span class="kw">$password</span>, <span class="tp">PASSWORD_BCRYPT</span>, [<span class="str">'cost'</span> => 12]);
+<span class="kw">if</span> (<span class="fn">password_verify</span>(<span class="kw">$input</span>, <span class="kw">$hash</span>)) { }
+
+<span class="cm">// 4. CSRF token</span>
+<span class="kw">$_SESSION</span>[<span class="str">'csrf'</span>] = <span class="fn">bin2hex</span>(<span class="fn">random_bytes</span>(32));
+
+<span class="cm">// 5. Input validation</span>
+<span class="kw">$email</span> = <span class="fn">filter_var</span>(<span class="kw">$_POST</span>[<span class="str">'email'</span>], <span class="tp">FILTER_VALIDATE_EMAIL</span>);
+<span class="kw">$age</span> = <span class="fn">filter_var</span>(<span class="kw">$_POST</span>[<span class="str">'age'</span>], <span class="tp">FILTER_VALIDATE_INT</span>, [<span class="str">'options'</span> => [<span class="str">'min_range'</span> => 1, <span class="str">'max_range'</span> => 120]]);
+
+<span class="cm">// 6. Secure session settings</span>
+<span class="fn">ini_set</span>(<span class="str">'session.cookie_httponly'</span>, 1);
+<span class="fn">ini_set</span>(<span class="str">'session.cookie_secure'</span>, 1);
+<span class="fn">ini_set</span>(<span class="str">'session.use_strict_mode'</span>, 1);</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PHP 8+ FEATURES ==================== -->
+  <section id="php8-features">
+    <h2><i class="bi bi-stars me-2"></i>PHP 8+ Features</h2>
+
+    <div class="card">
+      <div class="card-header">Version Feature Table</div>
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead><tr><th>Ver</th><th>Feature</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td>8.0</td><td>Named Arguments</td><td><code>foo(bar: 1, baz: 2)</code></td></tr>
+            <tr><td>8.0</td><td>Constructor Promotion</td><td><code>__construct(public string $name)</code></td></tr>
+            <tr><td>8.0</td><td>Match Expression</td><td><code>$r = match($x) { 1 => 'a', default => 'b' }</code></td></tr>
+            <tr><td>8.0</td><td>Union Types</td><td><code>int|string</code></td></tr>
+            <tr><td>8.0</td><td>Nullsafe Operator</td><td><code>$user?->profile?->bio</code></td></tr>
+            <tr><td>8.0</td><td>Attributes</td><td><code>#[Route('/api')]</code></td></tr>
+            <tr><td>8.1</td><td>Enums</td><td><code>enum Status { case Active; }</code></td></tr>
+            <tr><td>8.1</td><td>Readonly Properties</td><td><code>public readonly string $name</code></td></tr>
+            <tr><td>8.1</td><td>Fibers</td><td>Coroutines for async</td></tr>
+            <tr><td>8.2</td><td>Readonly Classes</td><td><code>readonly class Config</code></td></tr>
+            <tr><td>8.2</td><td>DNF Types</td><td><code>(A&amp;B)|C</code></td></tr>
+            <tr><td>8.3</td><td>JSON Validate</td><td><code>json_validate($str)</code></td></tr>
+            <tr><td>8.3</td><td>Override Attribute</td><td><code>#[Override]</code></td></tr>
+            <tr><td>8.4</td><td>Property Hooks</td><td><code>set => ucfirst($value)</code></td></tr>
+            <tr><td>8.4</td><td>Lazy Objects</td><td>Deferred init</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Enums &amp; Attributes</div>
+      <div class="card-body">
+        <pre><code><span class="cm">// Enums (PHP 8.1)</span>
+<span class="kw">enum</span> <span class="tp">Status</span>: <span class="tp">string</span>
+{
+    <span class="kw">case</span> <span class="tp">Pending</span> = <span class="str">'pending'</span>;
+    <span class="kw">case</span> <span class="tp">Active</span> = <span class="str">'active'</span>;
+    <span class="kw">case</span> <span class="tp">Archived</span> = <span class="str">'archived'</span>;
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">label</span>(): <span class="tp">string</span> {
+        <span class="kw">return</span> <span class="fn">ucfirst</span>(<span class="kw">$this</span>-><span class="tp">value</span>);
+    }
+}
+
+<span class="cm">// Attributes (PHP 8.0)</span>
+<span class="kw">#[Attribute(Attribute::TARGET_METHOD)]</span>
+<span class="kw">class</span> <span class="tp">Route</span>
+{
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">__construct</span>(
+        <span class="kw">public</span> <span class="tp">string</span> <span class="kw">$path</span>,
+        <span class="kw">public</span> <span class="tp">string</span> <span class="kw">$method</span> = <span class="str">'GET'</span>,
+    ) {}
+}
+
+<span class="cm">// Readonly class (PHP 8.2)</span>
+<span class="kw">readonly</span> <span class="kw">class</span> <span class="tp">ConfigDto</span>
+{
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">__construct</span>(
+        <span class="kw">public</span> <span class="tp">string</span> <span class="kw">$host</span>,
+        <span class="kw">public</span> <span class="tp">int</span> <span class="kw">$port</span>,
+    ) {}
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MODERN PHP ==================== -->
+  <section id="modern-php">
+    <h2><i class="bi bi-box-seam me-2"></i>Modern PHP Ecosystem</h2>
+
+    <div class="card">
+      <div class="card-header">Composer &amp; PSR Standards</div>
+      <div class="card-body">
+        <pre><code>{
+  <span class="str">"require"</span>: {
+    <span class="str">"php"</span>: <span class="str">">&gt;=8.1"</span>,
+    <span class="str">"monolog/monolog"</span>: <span class="str">"^3.0"</span>
+  },
+  <span class="str">"autoload"</span>: {
+    <span class="str">"psr-4"</span>: { <span class="str">"App\\"</span>: <span class="str">"src/"</span> }
+  }
+}</code></pre>
+        <p><strong>PSR Standards:</strong> PSR-1 (basic), PSR-4 (autoloading), PSR-7 (HTTP messages), PSR-11 (container), PSR-12 (coding style).</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Dev Tools</div>
+      <div class="card-body">
+        <pre><code><span class="cm"># Built-in dev server</span>
+php -S localhost:8000
+
+<span class="cm"># Interactive shell</span>
+php -a
+
+<span class="cm"># Lint</span>
+php -l file.php
+
+<span class="cm"># Code sniffer (PSR-12)</span>
+vendor/bin/phpcs --standard=PSR12 src/
+
+<span class="cm"># Static analysis</span>
+vendor/bin/phpstan analyse src/ --level=max
+
+<span class="cm"># Rector (auto upgrade PHP)</span>
+vendor/bin/rector process src/ --set php84</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== DSA ==================== -->
+  <section id="dsa">
+    <h2><i class="bi bi-graph-up me-2"></i>Data Structures &amp; Algorithms</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="cm">// Stack (array)</span>
+<span class="kw">$stack</span> = [];
+<span class="fn">array_push</span>(<span class="kw">$stack</span>, <span class="str">'a'</span>);
+<span class="kw">$top</span> = <span class="fn">array_pop</span>(<span class="kw">$stack</span>);
+
+<span class="cm">// Queue (SplQueue)</span>
+<span class="kw">$queue</span> = <span class="kw">new</span> <span class="tp">SplQueue</span>();
+<span class="kw">$queue</span>-><span class="fn">enqueue</span>(<span class="str">'a'</span>);
+<span class="kw">$front</span> = <span class="kw">$queue</span>-><span class="fn">dequeue</span>();
+
+<span class="cm">// Two Sum</span>
+<span class="kw">function</span> <span class="fn">twoSum</span>(<span class="kw">array</span> <span class="kw">$nums</span>, <span class="tp">int</span> <span class="kw">$target</span>): <span class="kw">array</span> {
+    <span class="kw">$map</span> = [];
+    <span class="kw">foreach</span> (<span class="kw">$nums</span> <span class="kw">as</span> <span class="kw">$i</span> => <span class="kw">$num</span>) {
+        <span class="kw">$diff</span> = <span class="kw">$target</span> - <span class="kw">$num</span>;
+        <span class="kw">if</span> (<span class="fn">isset</span>(<span class="kw">$map</span>[<span class="kw">$diff</span>])) <span class="kw">return</span> [<span class="kw">$map</span>[<span class="kw">$diff</span>], <span class="kw">$i</span>];
+        <span class="kw">$map</span>[<span class="kw">$num</span>] = <span class="kw">$i</span>;
+    }
+    <span class="kw">return</span> [];
+}
+
+<span class="cm">// Binary search</span>
+<span class="kw">function</span> <span class="fn">binarySearch</span>(<span class="kw">array</span> <span class="kw">$arr</span>, <span class="tp">int</span> <span class="kw">$target</span>): <span class="tp">int</span> {
+    <span class="kw">$left</span> = 0; <span class="kw">$right</span> = <span class="fn">count</span>(<span class="kw">$arr</span>) - 1;
+    <span class="kw">while</span> (<span class="kw">$left</span> &lt;= <span class="kw">$right</span>) {
+        <span class="kw">$mid</span> = <span class="fn">intdiv</span>(<span class="kw">$left</span> + <span class="kw">$right</span>, 2);
+        <span class="kw">if</span> (<span class="kw">$arr</span>[<span class="kw">$mid</span>] === <span class="kw">$target</span>) <span class="kw">return</span> <span class="kw">$mid</span>;
+        <span class="kw">if</span> (<span class="kw">$arr</span>[<span class="kw">$mid</span>] &lt; <span class="kw">$target</span>) <span class="kw">$left</span> = <span class="kw">$mid</span> + 1;
+        <span class="kw">else</span> <span class="kw">$right</span> = <span class="kw">$mid</span> - 1;
+    }
+    <span class="kw">return</span> -1;
+}
+
+<span class="cm">// Fibonacci (DP)</span>
+<span class="kw">function</span> <span class="fn">fib</span>(<span class="tp">int</span> <span class="kw">$n</span>): <span class="tp">int</span> {
+    <span class="kw">$dp</span> = [0, 1];
+    <span class="kw">for</span> (<span class="kw">$i</span> = 2; <span class="kw">$i</span> &lt;= <span class="kw">$n</span>; <span class="kw">$i</span>++)
+        <span class="kw">$dp</span>[<span class="kw">$i</span>] = <span class="kw">$dp</span>[<span class="kw">$i</span>-1] + <span class="kw">$dp</span>[<span class="kw">$i</span>-2];
+    <span class="kw">return</span> <span class="kw">$dp</span>[<span class="kw">$n</span>];
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== DESIGN PATTERNS ==================== -->
+  <section id="patterns">
+    <h2><i class="bi bi-puzzle me-2"></i>Design Patterns</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="cm">// Singleton</span>
+<span class="kw">final</span> <span class="kw">class</span> <span class="tp">Database</span>
+{
+    <span class="kw">private</span> <span class="kw">static</span> ?<span class="tp">Database</span> <span class="kw">$instance</span> = <span class="kw">null</span>;
+    <span class="kw">private</span> <span class="kw">function</span> <span class="fn">__construct</span>() {}
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">function</span> <span class="fn">getInstance</span>(): <span class="tp">Database</span> {
+        <span class="kw">return</span> <span class="kw">self</span>::<span class="kw">$instance</span> ??= <span class="kw">new</span> <span class="kw">self</span>();
+    }
+}
+
+<span class="cm">// Factory</span>
+<span class="kw">class</span> <span class="tp">LoggerFactory</span>
+{
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">function</span> <span class="fn">create</span>(<span class="tp">string</span> <span class="kw">$type</span>): <span class="tp">Logger</span> {
+        <span class="kw">return</span> <span class="fn">match</span>(<span class="kw">$type</span>) {
+            <span class="str">'file'</span> => <span class="kw">new</span> <span class="tp">FileLogger</span>,
+            <span class="str">'db'</span> => <span class="kw">new</span> <span class="tp">DbLogger</span>,
+            <span class="str">'cloud'</span> => <span class="kw">new</span> <span class="tp">CloudLogger</span>,
+        };
+    }
+}
+
+<span class="cm">// Repository</span>
+<span class="kw">interface</span> <span class="tp">UserRepository</span> {
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">findById</span>(<span class="tp">int</span> <span class="kw">$id</span>): ?<span class="tp">User</span>;
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">save</span>(<span class="tp">User</span> <span class="kw">$user</span>): <span class="tp">void</span>;
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SOLID & ADVANCED ==================== -->
+  <section id="solid">
+    <h2><i class="bi bi-layers me-2"></i>SOLID &amp; Advanced Topics</h2>
+
+    <div class="card">
+      <div class="card-header">SOLID Principles</div>
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead><tr><th>Principle</th><th>Meaning</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td><strong>S</strong>RP</td><td>Single Responsibility</td><td>Separate <code>ReportGenerator</code> from <code>PdfPrinter</code></td></tr>
+            <tr><td><strong>O</strong>CP</td><td>Open/Closed</td><td>Use interfaces + strategy pattern</td></tr>
+            <tr><td><strong>L</strong>SP</td><td>Liskov Substitution</td><td>Don't narrow return types in subclasses</td></tr>
+            <tr><td><strong>I</strong>SP</td><td>Interface Segregation</td><td>Many specific interfaces over one general</td></tr>
+            <tr><td><strong>D</strong>IP</td><td>Dependency Inversion</td><td>Inject <code>LoggerInterface</code>, not <code>FileLogger</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Dependency Injection &amp; PHPUnit</div>
+      <div class="card-body">
+        <pre><code><span class="cm">// Dependency Injection</span>
+<span class="kw">class</span> <span class="tp">UserService</span>
+{
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">__construct</span>(
+        <span class="kw">private</span> <span class="tp">UserRepository</span> <span class="kw">$users</span>,
+        <span class="kw">private</span> <span class="tp">MailerInterface</span> <span class="kw">$mailer</span>,
+    ) {}
+}
+
+<span class="cm">// PHPUnit test</span>
+<span class="kw">class</span> <span class="tp">UserServiceTest</span> <span class="kw">extends</span> <span class="tp">TestCase</span>
+{
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">testRegisterSendsEmail</span>(): <span class="tp">void</span>
+    {
+        <span class="kw">$repo</span> = <span class="kw">$this</span>-><span class="fn">createMock</span>(<span class="tp">UserRepository</span>::<span class="kw">class</span>);
+        <span class="kw">$mailer</span> = <span class="kw">$this</span>-><span class="fn">createMock</span>(<span class="tp">MailerInterface</span>::<span class="kw">class</span>);
+        <span class="kw">$service</span> = <span class="kw">new</span> <span class="tp">UserService</span>(<span class="kw">$repo</span>, <span class="kw">$mailer</span>);
+        <span class="kw">$result</span> = <span class="kw">$service</span>-><span class="fn">register</span>(<span class="str">'test@test.com'</span>);
+        <span class="kw">$this</span>-><span class="fn">assertTrue</span>(<span class="kw">$result</span>);
+    }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PRACTICE QUESTIONS ==================== -->
+  <section id="practice">
+    <h2><i class="bi bi-pencil-square me-2"></i>Practice Questions</h2>
+    <p class="fs-5 text-muted mb-4">70+ questions covering every topic. Click to reveal the answer.</p>
+
+    <!-- SECTION 1: BASICS -->
+    <div class="practice-section">
+      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">1</span>PHP Basics</h3>
+      <div class="section-desc">Variables, types, operators, syntax.</div>
+      <div class="accordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq1">
+              <span class="q-tag tag-easy">Easy</span> Q1: What is the difference between echo and print?
+            </button>
+          </h2>
+          <div id="pq1" class="accordion-collapse collapse">
+            <div class="accordion-body"><code>echo</code> can output multiple strings separated by commas and is slightly faster. <code>print</code> returns 1 and can be used in expressions. Both are language constructs.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq2">
+              <span class="q-tag tag-easy">Easy</span> Q2: What does isset() vs empty() do?
+            </button>
+          </h2>
+          <div id="pq2" class="accordion-collapse collapse">
+            <div class="accordion-body"><code>isset()</code> checks if a variable is declared and not null. <code>empty()</code> returns true for "", 0, "0", null, false, [], or unset variables.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq3">
+              <span class="q-tag tag-med">Medium</span> Q3: Explain == vs === and type juggling.
+            </button>
+          </h2>
+          <div id="pq3" class="accordion-collapse collapse">
+            <div class="accordion-body"><code>==</code> coerces types before comparing ("5" == 5 is true). <code>===</code> checks value and type ("5" === 5 is false). PHP 8.0+ made comparisons stricter (no longer treats 0 == "abc" as true).</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq4">
+              <span class="q-tag tag-easy">Easy</span> Q4: define() vs const — what's the difference?
+            </button>
+          </h2>
+          <div id="pq4" class="accordion-collapse collapse">
+            <div class="accordion-body"><code>define("NAME", value)</code> runs at runtime and can be used anywhere. <code>const NAME = value</code> is compile-time and can be used inside classes. const is slightly faster. PHP 8.3 allows const with dynamic expressions.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq5">
+              <span class="q-tag tag-easy">Easy</span> Q5: List PHP's primitive data types.
+            </button>
+          </h2>
+          <div id="pq5" class="accordion-collapse collapse">
+            <div class="accordion-body">8 types: string, int, float, bool, array, object, null, resource. PHP 8.2 added true/false as standalone types. Union types (int|string) and intersection types (Countable&amp;Stringable) are also supported.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq6">
+              <span class="q-tag tag-med">Medium</span> Q6: What is null coalescing (??) and null coalescing assignment (??=)?
+            </button>
+          </h2>
+          <div id="pq6" class="accordion-collapse collapse">
+            <div class="accordion-body"><code>$x = $a ?? $b ?? 'default'</code> returns first non-null. <code>$data['key'] ??= 'default'</code> (PHP 7.4+) assigns only if null. Both replace lengthy ternary + isset() patterns.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2: CONTROL FLOW -->
+    <div class="practice-section">
+      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">2</span>Control Flow</h3>
+      <div class="section-desc">Conditionals, loops, match.</div>
+      <div class="accordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq7">
+              <span class="q-tag tag-easy">Easy</span> Q7: foreach vs for vs while — when to use each?
+            </button>
+          </h2>
+          <div id="pq7" class="accordion-collapse collapse">
+            <div class="accordion-body">foreach: iterate arrays/objects. for: known iteration count. while: unknown iterations, condition at start. do-while: guarantees at least one iteration.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq8">
+              <span class="q-tag tag-med">Medium</span> Q8: Compare switch vs match (PHP 8.0).
+            </button>
+          </h2>
+          <div id="pq8" class="accordion-collapse collapse">
+            <div class="accordion-body">match uses strict (===), returns a value, supports multiple conditions per arm (1, 2 => 'x'), throws UnhandledMatchError if no match. switch uses loose comparison, needs break, doesn't return a value.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq9">
+              <span class="q-tag tag-hard">Hard</span> Q9: How does the spaceship operator (&lt;=&gt;) work?
+            </button>
+          </h2>
+          <div id="pq9" class="accordion-collapse collapse">
+            <div class="accordion-body">Returns -1, 0, or 1. Used in usort callbacks: usort($arr, fn($a, $b) => $a &lt;=&gt; $b). Works with strings, numbers, arrays, and objects.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq10">
+              <span class="q-tag tag-easy">Easy</span> Q10: What is the alternative syntax for control structures?
+            </button>
+          </h2>
+          <div id="pq10" class="accordion-collapse collapse">
+            <div class="accordion-body">Uses : instead of { with endif/endfor/endforeach/endwhile. Useful in templates: &lt;?php foreach($items as $item): ?&gt; ... &lt;?php endforeach; ?&gt;</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: ARRAYS -->
+    <div class="practice-section">
+      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">3</span>Arrays</h3>
+      <div class="section-desc">Indexed, associative, functions, spread.</div>
+      <div class="accordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq11">
+              <span class="q-tag tag-easy">Easy</span> Q11: How to add/remove elements from front/back of array?
+            </button>
+          </h2>
+          <div id="pq11" class="accordion-collapse collapse">
+            <div class="accordion-body">array_unshift($arr, $v) / $arr[] = $v (or array_push) for adding. array_shift() / array_pop() for removing.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq12">
+              <span class="q-tag tag-med">Medium</span> Q12: Explain array_map, array_filter, array_reduce.
+            </button>
+          </h2>
+          <div id="pq12" class="accordion-collapse collapse">
+            <div class="accordion-body">array_map applies callback, returns new array. array_filter filters by truthy callback. array_reduce reduces to single value. All are immutable.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq13">
+              <span class="q-tag tag-med">Medium</span> Q13: What does array_column() do?
+            </button>
+          </h2>
+          <div id="pq13" class="accordion-collapse collapse">
+            <div class="accordion-body">Extracts a column from a 2D array. array_column($users, 'name') returns ['Alice', 'Bob']. Third param sets key column: array_column($users, 'name', 'id').</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq14">
+              <span class="q-tag tag-hard">Hard</span> Q14: How does the spread operator work with arrays?
+            </button>
+          </h2>
+          <div id="pq14" class="accordion-collapse collapse">
+            <div class="accordion-body">Unpacks arrays: $arr = [1, ...$middle, 4]. Works with Traversable objects (PHP 8.1+). Supports string keys (PHP 8.1+). Also used in function calls to unpack argument arrays.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq15">
+              <span class="q-tag tag-easy">Easy</span> Q15: How to check if a key exists in an array?
+            </button>
+          </h2>
+          <div id="pq15" class="accordion-collapse collapse">
+            <div class="accordion-body">array_key_exists('key', $arr) checks key existence (even if value is null). isset($arr['key']) returns false if value is null. Use array_key_exists when null vs missing matters.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 4: FUNCTIONS -->
+    <div class="practice-section">
+      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">4</span>Functions</h3>
+      <div class="section-desc">User-defined, arrow, closures, scope.</div>
+      <div class="accordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq16">
+              <span class="q-tag tag-easy">Easy</span> Q16: Function vs method — what's the difference?
+            </button>
+          </h2>
+          <div id="pq16" class="accordion-collapse collapse">
+            <div class="accordion-body">Functions are standalone callables. Methods are functions inside a class with access to $this and visibility modifiers (public/private/protected).</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq17">
+              <span class="q-tag tag-med">Medium</span> Q17: What are named arguments in PHP 8.0?
+            </button>
+          </h2>
+          <div id="pq17" class="accordion-collapse collapse">
+            <div class="accordion-body">Pass by parameter name: func(name: 'Alice', age: 30). Skip optional params. Named must come after positional. Breaks BC if param names change.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq18">
+              <span class="q-tag tag-med">Medium</span> Q18: Arrow functions vs closures?
+            </button>
+          </h2>
+          <div id="pq18" class="accordion-collapse collapse">
+            <div class="accordion-body">Arrow functions (fn($x) => $x*2) are single-expression, auto-capture by value. Closures use function + use() syntax, support multiple statements, can capture by reference (&amp;$var).</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq19">
+              <span class="q-tag tag-hard">Hard</span> Q19: How does variable scope work in PHP?
+            </button>
+          </h2>
+          <div id="pq19" class="accordion-collapse collapse">
+            <div class="accordion-body">Local, global, static scope. Globals need "global $var" or $GLOBALS['var'] inside functions. "static $count" persists between calls. Superglobals ($_GET, $_POST, etc.) are always accessible.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq20">
+              <span class="q-tag tag-hard">Hard</span> Q20: Write recursive factorial. Does PHP optimize tail recursion?
+            </button>
+          </h2>
+          <div id="pq20" class="accordion-collapse collapse">
+            <div class="accordion-body"><pre><code>function factorial(int $n): int {
+    return $n <= 1 ? 1 : $n * factorial($n - 1);
+}</code></pre>No, PHP does not optimize tail recursion. Deep recursion (&gt;10k depth) causes stack overflow. Use iteration or trampolines.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 5: OOP -->
+    <div class="practice-section">
+      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">5</span>Object-Oriented Programming</h3>
+      <div class="section-desc">Classes, inheritance, interfaces, traits, magic methods.</div>
+      <div class="accordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq21">
+              <span class="q-tag tag-easy">Easy</span> Q21: What is constructor promotion (PHP 8.0)?
+            </button>
+          </h2>
+          <div id="pq21" class="accordion-collapse collapse">
+            <div class="accordion-body">Define and initialize properties directly in the constructor: __construct(private string $name, public int $age). Eliminates separate property declarations.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq22">
+              <span class="q-tag tag-med">Medium</span> Q22: Abstract class vs interface?
+            </button>
+          </h2>
+          <div id="pq22" class="accordion-collapse collapse">
+            <div class="accordion-body">Abstract classes can have implementations + properties; extends one only. Interfaces define contracts; implement many. PHP 8+ allows interface constants and abstract private methods.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq23">
+              <span class="q-tag tag-med">Medium</span> Q23: How do traits work?
+            </button>
+          </h2>
+          <div id="pq23" class="accordion-collapse collapse">
+            <div class="accordion-body">Traits are reusable code blocks used via "use Loggable, Timestampable;". They solve the diamond problem, support abstract methods and properties. Conflict resolution via insteadof/as.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq24">
+              <span class="q-tag tag-hard">Hard</span> Q24: List PHP magic methods and their purposes.
+            </button>
+          </h2>
+          <div id="pq24" class="accordion-collapse collapse">
+            <div class="accordion-body">__construct (instantiation), __destruct (cleanup), __get/__set (dynamic props), __call/__callStatic (dynamic methods), __toString (string conversion), __invoke (callable object), __clone (deep copy), __debugInfo (var_dump), __serialize/__unserialize (PHP 7.4+).</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq25">
+              <span class="q-tag tag-hard">Hard</span> Q25: Explain covariance and contravariance.
+            </button>
+          </h2>
+          <div id="pq25" class="accordion-collapse collapse">
+            <div class="accordion-body">Covariance: subclass method returns more specific type (Admin vs User). Contravariance: subclass method accepts less specific parameter (Animal vs Dog). Supported in PHP 7.4+.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 6: ADVANCED OOP -->
+    <div class="practice-section">
+      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">6</span>Advanced OOP</h3>
+      <div class="section-desc">Namespaces, autoloading, readonly, anonymous classes.</div>
+      <div class="accordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq26">
+              <span class="q-tag tag-med">Medium</span> Q26: How do PHP namespaces work?
+            </button>
+          </h2>
+          <div id="pq26" class="accordion-collapse collapse">
+            <div class="accordion-body">Declared with "namespace App\Http;". Use via "use App\Http\Request;" or FQCN "\App\Http\Request". Support aliasing: "use ... as HttpRequest". Prevents name collisions.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq27">
+              <span class="q-tag tag-med">Medium</span> Q27: Explain PSR-4 autoloading.
+            </button>
+          </h2>
+          <div id="pq27" class="accordion-collapse collapse">
+            <div class="accordion-body">PSR-4 maps namespace prefixes to directories. "App\\": "src/" means App\Http\Request loads from src/Http/Request.php. Composer generates vendor/autoload.php. Run "composer dump-autoload" to regenerate.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq28">
+              <span class="badge badge-new">8.1</span> Q28: What are readonly properties and classes?
+            </button>
+          </h2>
+          <div id="pq28" class="accordion-collapse collapse">
+            <div class="accordion-body">readonly properties (PHP 8.1) set once in constructor. readonly classes (PHP 8.2) make all properties readonly implicitly. Great for DTOs. Cannot combine with static or untyped properties.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq29">
+              <span class="q-tag tag-easy">Easy</span> Q29: What is stdClass?
+            </button>
+          </h2>
+          <div id="pq29" class="accordion-collapse collapse">
+            <div class="accordion-body">PHP's generic empty class. Used when casting arrays to objects: (object) ['name' => 'Alice'] or json_decode() without the second argument.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq30">
+              <span class="q-tag tag-hard">Hard</span> Q30: When to use anonymous classes?
+            </button>
+          </h2>
+          <div id="pq30" class="accordion-collapse collapse">
+            <div class="accordion-body">For one-off implementations: new class extends Logger { ... }. Useful in tests (mocks), callbacks, or when a full class definition is overkill. Supports constructors and inheritance.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 7: PDO -->
+    <div class="practice-section">
+      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">7</span>MySQL &amp; PDO</h3>
+      <div class="section-desc">PDO, prepared statements, transactions.</div>
+      <div class="accordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq31">
+              <span class="q-tag tag-easy">Easy</span> Q31: What is PDO and why use it?
+            </button>
+          </h2>
+          <div id="pq31" class="accordion-collapse collapse">
+            <div class="accordion-body">PDO provides a consistent interface for MySQL, PostgreSQL, SQLite, etc. Supports prepared statements, named parameters, transactions, and multiple fetch modes. Safer and more portable than mysqli.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq32">
+              <span class="q-tag tag-med">Medium</span> Q32: How do prepared statements prevent SQL injection?
+            </button>
+          </h2>
+          <div id="pq32" class="accordion-collapse collapse">
+            <div class="accordion-body">Query and data are sent separately. SQL template is compiled first; parameters are bound as data only. Even malicious input cannot alter query structure. Set PDO::ATTR_EMULATE_PREPARES to false for real prepared statements.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq33">
+              <span class="q-tag tag-med">Medium</span> Q33: Explain PDO transactions.
+            </button>
+          </h2>
+          <div id="pq33" class="accordion-collapse collapse">
+            <div class="accordion-body">beginTransaction() → execute queries → commit()/rollBack(). Wrap in try/catch. Nested transactions not natively supported (use savepoints).</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq34">
+              <span class="q-tag tag-hard">Hard</span> Q34: PDO fetch modes and when to use each?
+            </button>
+          </h2>
+          <div id="pq34" class="accordion-collapse collapse">
+            <div class="accordion-body">FETCH_ASSOC (column names), FETCH_NUM (numbered), FETCH_BOTH, FETCH_OBJ (object), FETCH_CLASS (class instance), FETCH_KEY_PAIR (key-value), FETCH_GROUP (grouped). Use ASSOC for general, CLASS for ORM.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq35">
+              <span class="q-tag tag-hard">Hard</span> Q35: How to handle the N+1 query problem in PHP?
+            </button>
+          </h2>
+          <div id="pq35" class="accordion-collapse collapse">
+            <div class="accordion-body">Use JOINs or WHERE id IN (...) to batch-load relations. E.g., SELECT u.*, p.* FROM users u LEFT JOIN posts p ON p.user_id = u.id WHERE u.id IN (:ids).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 8: SECURITY -->
+    <div class="practice-section">
+      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">8</span>Security</h3>
+      <div class="section-desc">XSS, SQL injection, CSRF, hashing.</div>
+      <div class="accordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq36">
+              <span class="q-tag tag-easy">Easy</span> Q36: How to prevent XSS attacks in PHP?
+            </button>
+          </h2>
+          <div id="pq36" class="accordion-collapse collapse">
+            <div class="accordion-body">Escape output with htmlspecialchars($data, ENT_QUOTES, 'UTF-8'). Use template engines that auto-escape. Set Content-Type header, X-Content-Type-Options, and CSP headers.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq37">
+              <span class="q-tag tag-med">Medium</span> Q37: How does password_hash() work?
+            </button>
+          </h2>
+          <div id="pq37" class="accordion-collapse collapse">
+            <div class="accordion-body">password_hash($pwd, PASSWORD_BCRYPT) creates 60-char hash with random salt. PASSWORD_ARGON2ID (PHP 7.3+) is more secure. Use password_verify() to check. Adjust cost: BCrypt=12, Argon2: memory=1024K.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq38">
+              <span class="q-tag tag-med">Medium</span> Q38: What is CSRF and how to prevent it?
+            </button>
+          </h2>
+          <div id="pq38" class="accordion-collapse collapse">
+            <div class="accordion-body">CSRF tricks users into unwanted actions. Mitigate with: CSRF tokens in forms (bin2hex(random_bytes(32))), SameSite=Lax cookie attribute, custom AJAX headers, Origin/Referer checking.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq39">
+              <span class="q-tag tag-hard">Hard</span> Q39: Write safe file upload handling code.
+            </button>
+          </h2>
+          <div id="pq39" class="accordion-collapse collapse">
+            <div class="accordion-body"><pre><code>function handleUpload(array $file): string {
+    $allowed = ['image/jpeg', 'image/png'];
+    $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+    if (!in_array($file['type'], $allowed) || !in_array($ext, ['jpg','png']))
+        throw new RuntimeException('Invalid');
+    $name = bin2hex(random_bytes(16)).'.'.$ext;
+    move_uploaded_file($file['tmp_name'], 'uploads/'.$name);
+    return $name;
+}</code></pre>Never trust $_FILES['type']. Validate MIME with finfo, regenerate filenames.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq40">
+              <span class="q-tag tag-med">Medium</span> Q40: What is filter_var() used for?
+            </button>
+          </h2>
+          <div id="pq40" class="accordion-collapse collapse">
+            <div class="accordion-body">Validates and sanitizes input: FILTER_VALIDATE_EMAIL, FILTER_VALIDATE_URL, FILTER_VALIDATE_INT with min/max range, FILTER_SANITIZE_EMAIL, etc. Use for all external input.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 9: PHP 8+ -->
+    <div class="practice-section">
+      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">9</span>PHP 8+ Features</h3>
+      <div class="section-desc">Enums, attributes, fibers, property hooks.</div>
+      <div class="accordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq41">
+              <span class="badge badge-new">8.1</span> Q41: How do PHP enums work?
+            </button>
+          </h2>
+          <div id="pq41" class="accordion-collapse collapse">
+            <div class="accordion-body">Enums define named constants. Backed enums (enum Status: string) have scalar values. Pure enums have none. Support methods, static methods, and interfaces.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq42">
+              <span class="q-tag tag-med">Medium</span> Q42: What are PHP attributes and how to create custom ones?
+            </button>
+          </h2>
+          <div id="pq42" class="accordion-collapse collapse">
+            <div class="accordion-body">Attributes add metadata. #[Attribute] on a class, then #[Route('/path')] on methods. Read via reflection: $ref->getAttributes(Route::class). Used in modern frameworks for routing, validation, etc.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq43">
+              <span class="q-tag tag-hard">Hard</span> Q43: Explain PHP 8.4 property hooks.
+            </button>
+          </h2>
+          <div id="pq43" class="accordion-collapse collapse">
+            <div class="accordion-body"><pre><code>class User {
+    public string $name {
+        set => ucfirst(strtolower($value));
+        get => $this->name ?? 'guest';
+    }
+}</code></pre>Supports set/get/isset/unset hooks with asymmetric visibility.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq44">
+              <span class="q-tag tag-hard">Hard</span> Q44: What are Fibers (PHP 8.1)?
+            </button>
+          </h2>
+          <div id="pq44" class="accordion-collapse collapse">
+            <div class="accordion-body">Fibers are single-thread coroutines. Pause with Fiber::suspend(), resume later. Useful for async I/O, generators, custom schedulers. Enables non-blocking patterns within PHP.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq45">
+              <span class="q-tag tag-med">Medium</span> Q45: What is #[Override] (PHP 8.3)?
+            </button>
+          </h2>
+          <div id="pq45" class="accordion-collapse collapse">
+            <div class="accordion-body">Marks intentional override. PHP throws error if no matching parent/interface method exists. Prevents silent breakage if parent method is renamed or removed.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 10: MODERN PHP -->
+    <div class="practice-section">
+      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">10</span>Modern PHP &amp; Ecosystem</h3>
+      <div class="section-desc">Composer, PSR, testing, static analysis.</div>
+      <div class="accordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq46">
+              <span class="q-tag tag-easy">Easy</span> Q46: What is Composer?
+            </button>
+          </h2>
+          <div id="pq46" class="accordion-collapse collapse">
+            <div class="accordion-body">PHP's dependency manager. "composer require vendor/package" adds to composer.json. "composer install" installs. vendor/autoload.php enables PSR-4 autoloading.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq47">
+              <span class="q-tag tag-med">Medium</span> Q47: Name 5 PSR standards.
+            </button>
+          </h2>
+          <div id="pq47" class="accordion-collapse collapse">
+            <div class="accordion-body">PSR-1 (basic coding), PSR-4 (autoloading), PSR-7 (HTTP messages), PSR-11 (container interface), PSR-12 (extended coding style).</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq48">
+              <span class="q-tag tag-med">Medium</span> Q48: How to write a PHPUnit test with mocks?
+            </button>
+          </h2>
+          <div id="pq48" class="accordion-collapse collapse">
+            <div class="accordion-body">$this->createMock(Interface::class) → set up expectations with expects/with/willReturn → inject into tested class → assert with assertTrue/assertEquals.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq49">
+              <span class="q-tag tag-hard">Hard</span> Q49: What is PHPStan and what are levels?
+            </button>
+          </h2>
+          <div id="pq49" class="accordion-collapse collapse">
+            <div class="accordion-body">Static analysis tool. Levels 0-9: 0 (basic), 6 (strict types, generics), 9 (full precision). Configure via phpstan.neon. Run: vendor/bin/phpstan analyse src/ --level=max.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq50">
+              <span class="q-tag tag-med">Medium</span> Q50: How to start PHP's built-in web server?
+            </button>
+          </h2>
+          <div id="pq50" class="accordion-collapse collapse">
+            <div class="accordion-body">php -S localhost:8000 starts a dev server. Use -t public/ for doc root. php -S localhost:8000 router.php for a router script. Development use only.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 11: DSA -->
+    <div class="practice-section">
+      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">11</span>Data Structures &amp; Algorithms</h3>
+      <div class="section-desc">Stacks, queues, sorting, searching, DP.</div>
+      <div class="accordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq51">
+              <span class="q-tag tag-easy">Easy</span> Q51: Implement a stack using PHP arrays.
+            </button>
+          </h2>
+          <div id="pq51" class="accordion-collapse collapse">
+            <div class="accordion-body"><pre><code>$stack = [];
+array_push($stack, 'a');
+$top = array_pop($stack);</code></pre>Or use SplStack for an OOP approach.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq52">
+              <span class="q-tag tag-med">Medium</span> Q52: Implement binary search in PHP.
+            </button>
+          </h2>
+          <div id="pq52" class="accordion-collapse collapse">
+            <div class="accordion-body"><pre><code>function binarySearch(array $arr, int $target): int {
+    $l = 0; $r = count($arr) - 1;
+    while ($l <= $r) {
+        $mid = intdiv($l + $r, 2);
+        if ($arr[$mid] === $target) return $mid;
+        if ($arr[$mid] < $target) $l = $mid + 1;
+        else $r = $mid - 1;
+    }
+    return -1;
+}</code></pre></div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq53">
+              <span class="q-tag tag-hard">Hard</span> Q53: Solve Two Sum using a hash map in PHP.
+            </button>
+          </h2>
+          <div id="pq53" class="accordion-collapse collapse">
+            <div class="accordion-body"><pre><code>function twoSum(array $nums, int $target): array {
+    $map = [];
+    foreach ($nums as $i => $num) {
+        $diff = $target - $num;
+        if (isset($map[$diff])) return [$map[$diff], $i];
+        $map[$num] = $i;
+    }
+    return [];
+}</code></pre>O(n) time complexity.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq54">
+              <span class="q-tag tag-hard">Hard</span> Q54: Implement Fibonacci using dynamic programming.
+            </button>
+          </h2>
+          <div id="pq54" class="accordion-collapse collapse">
+            <div class="accordion-body"><pre><code>function fib(int $n): int {
+    $dp = [0, 1];
+    for ($i = 2; $i <= $n; $i++)
+        $dp[$i] = $dp[$i-1] + $dp[$i-2];
+    return $dp[$n];
+}</code></pre>O(n) time, O(n) space. Can optimize to O(1) space with two variables.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq55">
+              <span class="q-tag tag-hard">Hard</span> Q55: What is the time complexity of array_push() and why?
+            </button>
+          </h2>
+          <div id="pq55" class="accordion-collapse collapse">
+            <div class="accordion-body">O(1) amortized. PHP arrays are hashtables internally. array_push (or $arr[] =) appends to the end with amortized O(1). array_unshift is O(n) because it reindexes.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 12: DESIGN PATTERNS -->
+    <div class="practice-section">
+      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">12</span>Design Patterns</h3>
+      <div class="section-desc">Singleton, Factory, Repository, DI.</div>
+      <div class="accordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq56">
+              <span class="q-tag tag-med">Medium</span> Q56: Implement Singleton in PHP.
+            </button>
+          </h2>
+          <div id="pq56" class="accordion-collapse collapse">
+            <div class="accordion-body"><pre><code>final class Database {
+    private static ?Database $instance = null;
+    private function __construct() {}
+    public static function getInstance(): Database {
+        return self::$instance ??= new self();
+    }
+}</code></pre>Private constructor + clone prevents external instantiation.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq57">
+              <span class="q-tag tag-med">Medium</span> Q57: Implement Factory pattern for loggers.
+            </button>
+          </h2>
+          <div id="pq57" class="accordion-collapse collapse">
+            <div class="accordion-body"><pre><code>class LoggerFactory {
+    public static function create(string $type): Logger {
+        return match($type) {
+            'file' => new FileLogger,
+            'db' => new DbLogger,
+            'cloud' => new CloudLogger,
+        };
+    }
+}</code></pre>Centralizes object creation, allows easy extension.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq58">
+              <span class="q-tag tag-med">Medium</span> Q58: What problem does the Repository pattern solve?
+            </button>
+          </h2>
+          <div id="pq58" class="accordion-collapse collapse">
+            <div class="accordion-body">Abstracts data access logic behind an interface. Controllers don't know about PDO/ORM — they call $repo->findById(). Swappable implementations (MySQL, Redis, in-memory). Testable with mocks.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq59">
+              <span class="q-tag tag-hard">Hard</span> Q59: What is Dependency Injection vs Service Locator?
+            </button>
+          </h2>
+          <div id="pq59" class="accordion-collapse collapse">
+            <div class="accordion-body">DI: dependencies passed via constructor (explicit, testable). Service Locator: dependencies requested from a container inside the class (hidden coupling). DI is preferred — follows Inversion of Control.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq60">
+              <span class="q-tag tag-hard">Hard</span> Q60: When would you use Strategy pattern over a switch statement?
+            </button>
+          </h2>
+          <div id="pq60" class="accordion-collapse collapse">
+            <div class="accordion-body">Strategy pattern allows runtime algorithm swapping without modification. Each strategy is a separate class implementing an interface. Better than switch when algorithms are complex, need testing in isolation, or need dynamic selection.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 13: SOLID -->
+    <div class="practice-section">
+      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">13</span>SOLID &amp; Advanced</h3>
+      <div class="section-desc">SOLID, PHPUnit, static analysis, async.</div>
+      <div class="accordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq61">
+              <span class="q-tag tag-easy">Easy</span> Q61: What does SRP stand for and why is it important?
+            </button>
+          </h2>
+          <div id="pq61" class="accordion-collapse collapse">
+            <div class="accordion-body">Single Responsibility Principle — a class should have one reason to change. Makes code easier to understand, test, and maintain. If a class does too much, split it into separate classes.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq62">
+              <span class="q-tag tag-med">Medium</span> Q62: Explain OCP with an example.
+            </button>
+          </h2>
+          <div id="pq62" class="accordion-collapse collapse">
+            <div class="accordion-body">Open/Closed: open for extension, closed for modification. Example: instead of modifying a PaymentProcessor to add PayPal, create a PayPalPayment implements PaymentMethod. Add new methods without changing existing code.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq63">
+              <span class="q-tag tag-med">Medium</span> Q63: What is LSP and what violates it?
+            </button>
+          </h2>
+          <div id="pq63" class="accordion-collapse collapse">
+            <div class="accordion-body">Liskov Substitution: subtypes should replace their base types without breaking behavior. Violation: Square extends Rectangle — setting width on a Square also changes height, breaking Rectangle expectations.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq64">
+              <span class="q-tag tag-hard">Hard</span> Q64: How would you structure a large PHP application?
+            </button>
+          </h2>
+          <div id="pq64" class="accordion-collapse collapse">
+            <div class="accordion-body">Use a framework (Laravel/Symfony). Structure: src/ (PSR-4), tests/, public/, config/, routes/. Follow SOLID, use DI, repositories, services, and value objects. Automated CI with PHPUnit, PHPStan, PHP-CS-Fixer.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq65">
+              <span class="q-tag tag-hard">Hard</span> Q65: How would you handle 10,000 concurrent requests in PHP?
+            </button>
+          </h2>
+          <div id="pq65" class="accordion-collapse collapse">
+            <div class="accordion-body">PHP-FPM handles concurrent requests via process pool. For high concurrency: use OPcache, async processing (Queues + workers), read replicas, connection pooling, HTTP caching (Varnish/CDN), horizontal scaling (multiple servers behind load balancer). Consider Swoole/ReactPHP for long-running async apps.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="text-muted small border-top pt-3 mt-5">
+    <p class="mb-1"><strong>PHP Deep Learning Guide</strong> &mdash; Beginner to Advanced with 70+ Practice Questions.</p>
+    <p class="mb-0">PHP 8.4 &bull; Updated 2026 &bull; Open source</p>
+  </footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const sidebar = document.getElementById('sidebar');
+const toggle = document.getElementById('sidebarToggle');
+toggle.addEventListener('click', () => sidebar.classList.toggle('show'));
+document.querySelectorAll('#sidebar .nav-link').forEach(link => {
+  link.addEventListener('click', () => sidebar.classList.remove('show'));
+});
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('#sidebar .nav-link');
+function setActiveNav() {
+  let current = '';
+  sections.forEach(section => {
+    const top = section.offsetTop - 100;
+    if (window.scrollY >= top) current = section.getAttribute('id');
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+  });
+}
+window.addEventListener('scroll', setActiveNav);
+setActiveNav();
+</script>
+</body>
+</html>
