@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jap App Hub</title>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet" />
 
@@ -443,10 +443,22 @@
             <div class="col-6 col-md-4 col-lg-2">
               <a class="quick-chip w-100 justify-content-center" href="phplearn.html"><i class="bi bi-code-slash"></i> PHP Deep Learn</a>
             </div>
-            <div class="col-6 col-md-4 col-lg-2">
-              <a class="quick-chip w-100 justify-content-center" href="laravel-tips.html"><i class="bi bi-lightning-charge-fill"></i> Laravel Tips</a>
-            </div>
-         </div>
+    <div class="col-6 col-md-4 col-lg-2">
+      <a class="quick-chip w-100 justify-content-center" href="laravel-tips.html"><i class="bi bi-lightning-charge-fill"></i> Laravel Tips</a>
+    </div>
+    <div class="col-6 col-md-4 col-lg-2">
+      <a class="quick-chip w-100 justify-content-center" href="bt.html"><i class="fas fa-pen-ruler"></i> BS 5.3 + TW 4</a>
+    </div>
+    <div class="col-6 col-md-4 col-lg-2">
+      <a class="quick-chip w-100 justify-content-center" href="grep.html"><i class="fas fa-terminal"></i> grep Command</a>
+    </div>
+    <div class="col-6 col-md-4 col-lg-2">
+      <a class="quick-chip w-100 justify-content-center" href="ls.html"><i class="bi bi-folder2-open"></i> ls Command</a>
+    </div>
+    <div class="col-6 col-md-4 col-lg-2">
+      <a class="quick-chip w-100 justify-content-center" href="html-css.html"><i class="fas fa-code"></i> HTML + CSS</a>
+    </div>
+  </div>
       </section>
 
       <section class="section-panel mt-3" id="apps">
@@ -631,14 +643,46 @@
            tags: ['php', 'learning', 'oop', 'pdo', 'practice', 'backend', 'web']
          },
            {
-          name: 'Laravel Tips',
-          file: 'laravel-tips.html',
-          icon: 'fa-bolt',
-          category: 'Learning',
-          desc: '350+ quick Laravel tips curated from Laravel Daily. Covers Eloquent, Routing, Validation, Blade, Migrations, Auth, API, and more.',
-          tags: ['laravel', 'tips', 'eloquent', 'blade', 'routing', 'validation', 'php']
-          },
-        ];
+           name: 'Laravel Tips',
+           file: 'laravel-tips.html',
+           icon: 'fa-bolt',
+           category: 'Learning',
+           desc: '350+ quick Laravel tips curated from Laravel Daily. Covers Eloquent, Routing, Validation, Blade, Migrations, Auth, API, and more.',
+           tags: ['laravel', 'tips', 'eloquent', 'blade', 'routing', 'validation', 'php']
+           },
+           {
+           name: 'Tailwind CSS 4 Guide',
+           file: 'bt.html',
+           icon: 'fa-pen-ruler',
+           category: 'Learning',
+           desc: 'Tailwind CSS 4 for Bootstrap developers — every BS class translated to Tailwind with utility reference, patterns & responsive design.',
+            tags: ['tailwind', 'css', 'frontend', 'design', 'bootstrap', 'utility']
+            },
+             {
+             name: 'grep Command Guide',
+             file: 'grep.html',
+             icon: 'fa-terminal',
+             category: 'Learning',
+             desc: 'Complete grep command reference — syntax, 30+ flags, BRE/ERE/PCRE regex, practical examples, comparisons with ripgrep/ag/ack, and shell pro tips.',
+             tags: ['grep', 'regex', 'terminal', 'cli', 'linux', 'bash', 'unix']
+             },
+             {
+             name: 'ls Command Guide',
+             file: 'ls.html',
+             icon: 'bi-folder2-open',
+             category: 'Learning',
+             desc: 'Complete ls command reference — every flag (a–z), output formats, sorting, filtering, globs, CMD `dir` & PowerShell equivalents, WSL/Git Bash tips, recipes and a one-page cheat sheet.',
+             tags: ['ls', 'dir', 'terminal', 'cli', 'linux', 'bash', 'unix', 'windows', 'cmd', 'powershell']
+             },
+            {
+            name: 'Modern HTML & CSS',
+            file: 'html-css.html',
+            icon: 'fa-code',
+            category: 'Learning',
+            desc: 'Modern HTML & CSS features guide — semantic elements, interactive APIs, container queries, :has() selector, view transitions, scroll-driven animations, OKLCH colors & more.',
+            tags: ['html', 'css', 'frontend', 'web', 'design', 'accessibility']
+            },
+          ];
 
     let currentCategory = 'All';
 
@@ -724,6 +768,7 @@
       if (!quickAccessPanel) return;
 
       const staticLinks = [
+        { file: 'bt.html', icon: 'fa-pen-ruler', label: 'BS + TW Guide' },
         { file: 'laravel13.html', icon: 'fa-bolt', label: 'Laravel 13' },
         { file: 'angular21.html', icon: 'fa-shield', label: 'Angular 21' },
         { file: 'game.html', icon: 'fa-cube', label: 'Game' },

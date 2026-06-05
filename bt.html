@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tailwind CSS 4 — Bootstrap Developer's Guide</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --tw-cyan: #06b6d4;
+      --tw-indigo: #6366f1;
+      --sidebar-bg: #0f172a;
+      --sidebar-width: 280px;
+    }
+    * { scroll-margin-top: 1rem; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f4f6fb;
+      display: flex;
+    }
+    #sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0; left: 0;
+      background: var(--sidebar-bg);
+      overflow-y: auto;
+      z-index: 1000;
+      transition: transform .3s;
+    }
+    #sidebar .brand {
+      padding: 1.25rem 1.25rem .75rem;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    #sidebar .brand h5 { color: #fff; font-weight: 700; }
+    #sidebar .brand small { color: #94a3b8; }
+    #sidebar .nav-link {
+      color: #c8cdd3;
+      padding: .5rem 1.25rem;
+      font-size: .88rem;
+      border-left: 3px solid transparent;
+      transition: all .15s;
+      text-decoration: none;
+      display: block;
+    }
+    #sidebar .nav-link:hover {
+      color: #fff;
+      background: rgba(255,255,255,.05);
+    }
+    #sidebar .nav-link i { width: 1.3rem; }
+    #sidebar .nav-section {
+      color: #64748b;
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      padding: 1rem 1.25rem .3rem;
+      font-weight: 600;
+    }
+    .nav-link.tw-link { border-left-color: var(--tw-cyan); }
+    .nav-link.tw-link:hover { border-left-color: #22d3ee; }
+    #main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 2rem 2.5rem 4rem;
+      max-width: 1100px;
+    }
+    @media (max-width: 991.98px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.show { transform: translateX(0); }
+      #main { margin-left: 0; padding: 1.5rem; }
+    }
+    .sidebar-toggle {
+      position: fixed;
+      top: .75rem; left: .75rem;
+      z-index: 1050;
+      background: var(--sidebar-bg);
+      color: #fff;
+      border: none;
+      border-radius: .4rem;
+      padding: .4rem .65rem;
+      display: none;
+    }
+    @media (max-width: 991.98px) {
+      .sidebar-toggle { display: block; }
+    }
+    h2 {
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: 2.5rem;
+      padding-bottom: .5rem;
+      border-bottom: 3px solid #e2e8f0;
+    }
+    h2.tw-heading { border-bottom-color: var(--tw-cyan); }
+    h3 {
+      font-weight: 600;
+      color: #1e293b;
+      margin-top: 1.8rem;
+    }
+    .card {
+      border: none;
+      border-radius: .75rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      margin-bottom: 1.5rem;
+    }
+    .card-header {
+      background: #fff;
+      border-bottom: 1px solid #e9ecef;
+      font-weight: 600;
+      padding: 1rem 1.25rem;
+    }
+    .card-body { padding: 1.5rem; }
+    pre {
+      background: #1e1e2f;
+      color: #e6e6e6;
+      padding: 1rem 1.25rem;
+      border-radius: .5rem;
+      font-size: .82rem;
+      overflow-x: auto;
+      position: relative;
+    }
+    pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
+    .highlight-box {
+      padding: 1rem 1.25rem;
+      border-radius: .4rem;
+      margin: 1rem 0;
+    }
+    .highlight-box.tw-box {
+      background: #ecfeff;
+      border-left: 4px solid var(--tw-cyan);
+    }
+    .highlight-box.bs-box {
+      background: #f0f0ff;
+      border-left: 4px solid var(--tw-indigo);
+    }
+    .home-link {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 1100;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.94);
+      color: #0f172a;
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 700;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: 0.2s;
+    }
+    .home-link:hover { color: #2563eb; }
+    @media (min-width: 992px) {
+      .home-link { left: calc(var(--sidebar-width) + 14px); }
+    }
+    @media (max-width: 991.98px) {
+      .home-link { left: 4rem; }
+    }
+    .version-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: .85rem;
+    }
+    .trans-table th:first-child,
+    .trans-table td:first-child {
+      font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+      font-size: .82rem;
+      white-space: nowrap;
+      color: #6366f1;
+    }
+    .trans-table td:last-child {
+      font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+      font-size: .82rem;
+    }
+    .trans-table .tw-cell { color: #0891b2; }
+    .tw-preview-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: .75rem;
+      padding: 1.5rem;
+      margin: 1rem 0;
+    }
+    .live-demo {
+      border: 2px dashed #cbd5e1;
+      border-radius: .75rem;
+      padding: 1.5rem;
+      margin: 1rem 0;
+    }
+    .badge-trans { font-size: .65rem; }
+  </style>
+</head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
+<a href="index.html" class="home-link" aria-label="Go back to home page"><span>←</span> Home</a>
+
+<!-- ===== SIDEBAR ===== -->
+<nav id="sidebar">
+  <div class="brand">
+    <h5><i class="bi bi-wind me-2" style="color:var(--tw-cyan)"></i>TW Guide</h5>
+    <small class="d-block mt-1">Tailwind CSS 4 &mdash; for Bootstrap Devs</small>
+  </div>
+  <div class="py-2">
+    <a class="nav-link tw-link" href="#cheatsheet"><i class="bi bi-lightning-charge"></i> Quick Translation</a>
+    <a class="nav-link tw-link" href="#setup"><i class="bi bi-gear"></i> Setup</a>
+    <a class="nav-link tw-link" href="#concepts"><i class="bi bi-lightbulb"></i> Core Concepts</a>
+    <a class="nav-link tw-link" href="#layout"><i class="bi bi-layout-three-columns"></i> Layout</a>
+    <a class="nav-link tw-link" href="#typography"><i class="bi bi-fonts"></i> Typography</a>
+    <a class="nav-link tw-link" href="#spacing"><i class="bi bi-arrows-expand"></i> Spacing &amp; Sizing</a>
+    <a class="nav-link tw-link" href="#colors"><i class="bi bi-palette"></i> Colors &amp; Backgrounds</a>
+    <a class="nav-link tw-link" href="#borders"><i class="bi bi-border-all"></i> Borders, Shadows &amp; Rings</a>
+    <a class="nav-link tw-link" href="#effects"><i class="bi bi-stars"></i> Effects &amp; Animation</a>
+    <a class="nav-link tw-link" href="#forms"><i class="bi bi-input-cursor"></i> Forms &amp; Inputs</a>
+    <a class="nav-link tw-link" href="#dark"><i class="bi bi-moon"></i> Dark Mode</a>
+    <a class="nav-link tw-link" href="#custom"><i class="bi bi-sliders"></i> Customization</a>
+    <a class="nav-link tw-link" href="#patterns"><i class="bi bi-puzzle"></i> Common Patterns</a>
+    <a class="nav-link tw-link" href="#responsive"><i class="bi bi-phone"></i> Responsive Design</a>
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<div id="main">
+
+  <!-- HERO -->
+  <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+    <div>
+      <h1 class="fw-bold mb-1" style="color:#0f172a">
+        <i class="bi bi-wind" style="color:var(--tw-cyan)"></i>
+        Tailwind CSS <span style="color:var(--tw-cyan)">4</span>
+        <span class="mx-2 text-muted" style="font-size:1rem;font-weight:400">for Bootstrap Developers</span>
+      </h1>
+      <p class="text-muted mb-0 fs-5">Every Bootstrap class you know &mdash; translated to Tailwind</p>
+    </div>
+    <div class="ms-auto d-flex gap-2">
+      <span class="version-chip" style="background:#f0f0ff;color:var(--tw-indigo)">
+        <i class="bi bi-bootstrap-fill"></i> BS 5.3
+      </span>
+      <span class="version-chip" style="background:#ecfeff;color:#0891b2">
+        <i class="bi bi-wind"></i> TW 4
+      </span>
+    </div>
+  </div>
+
+  <!-- ===== QUICK TRANSLATION CHEATSHEET ===== -->
+  <section id="cheatsheet">
+    <h2 class="tw-heading"><i class="bi bi-lightning-charge me-2" style="color:var(--tw-cyan)"></i>Quick Translation Cheatsheet</h2>
+    <p class="text-muted">Your Bootstrap class &rarr; Tailwind equivalent. Bookmark this.</p>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-grid-3x3 me-1"></i> Layout &amp; Grid</div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-sm table-bordered mb-0 trans-table">
+            <thead class="table-light"><tr><th>Bootstrap</th><th>Tailwind</th></tr></thead>
+            <tbody>
+              <tr><td>.container</td><td class="tw-cell">container mx-auto max-w-7xl</td></tr>
+              <tr><td>.container-fluid</td><td class="tw-cell">w-full</td></tr>
+              <tr><td>.row</td><td class="tw-cell">grid grid-cols-12 gap-4</td></tr>
+              <tr><td>.col-6</td><td class="tw-cell">col-span-6</td></tr>
+              <tr><td>.col-md-4</td><td class="tw-cell">md:col-span-4</td></tr>
+              <tr><td>.col-lg-3</td><td class="tw-cell">lg:col-span-3</td></tr>
+              <tr><td>.col-12</td><td class="tw-cell">col-span-12</td></tr>
+              <tr><td>.g-3</td><td class="tw-cell">gap-3</td></tr>
+              <tr><td>.gx-3</td><td class="tw-cell">gap-x-3</td></tr>
+              <tr><td>.gy-3</td><td class="tw-cell">gap-y-3</td></tr>
+              <tr><td>.mx-auto</td><td class="tw-cell">mx-auto</td></tr>
+              <tr><td>.w-100 / .h-100</td><td class="tw-cell">w-full / h-full</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-ui-checks me-1"></i> Buttons</div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-sm table-bordered mb-0 trans-table">
+            <thead class="table-light"><tr><th>Bootstrap</th><th>Tailwind</th></tr></thead>
+            <tbody>
+              <tr><td>.btn</td><td class="tw-cell">inline-flex items-center px-4 py-2 rounded-lg font-medium text-sm transition-colors</td></tr>
+              <tr><td>.btn-primary</td><td class="tw-cell">bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500</td></tr>
+              <tr><td>.btn-secondary</td><td class="tw-cell">bg-gray-500 text-white hover:bg-gray-600</td></tr>
+              <tr><td>.btn-success</td><td class="tw-cell">bg-green-600 text-white hover:bg-green-700</td></tr>
+              <tr><td>.btn-danger</td><td class="tw-cell">bg-red-600 text-white hover:bg-red-700</td></tr>
+              <tr><td>.btn-warning</td><td class="tw-cell">bg-yellow-500 text-black hover:bg-yellow-600</td></tr>
+              <tr><td>.btn-outline-primary</td><td class="tw-cell">border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white</td></tr>
+              <tr><td>.btn-lg</td><td class="tw-cell">px-6 py-3 text-lg</td></tr>
+              <tr><td>.btn-sm</td><td class="tw-cell">px-3 py-1.5 text-sm</td></tr>
+              <tr><td>.btn-block / .d-grid</td><td class="tw-cell">w-full</td></tr>
+              <tr><td>.disabled</td><td class="tw-cell">opacity-50 pointer-events-none</td></tr>
+              <tr><td>.btn-group</td><td class="tw-cell">inline-flex -space-x-px (or gap-0)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-card-text me-1"></i> Card</div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-sm table-bordered mb-0 trans-table">
+            <thead class="table-light"><tr><th>Bootstrap</th><th>Tailwind</th></tr></thead>
+            <tbody>
+              <tr><td>.card</td><td class="tw-cell">bg-white rounded-xl shadow-md overflow-hidden</td></tr>
+              <tr><td>.card-body</td><td class="tw-cell">p-6</td></tr>
+              <tr><td>.card-header</td><td class="tw-cell">px-6 py-4 border-b border-gray-200 bg-gray-50</td></tr>
+              <tr><td>.card-footer</td><td class="tw-cell">px-6 py-4 border-t border-gray-200 bg-gray-50</td></tr>
+              <tr><td>.card-title</td><td class="tw-cell">text-xl font-semibold text-gray-900</td></tr>
+              <tr><td>.card-text</td><td class="tw-cell">text-gray-600</td></tr>
+              <tr><td>.card-img-top</td><td class="tw-cell">w-full h-48 object-cover rounded-t-xl</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-fonts me-1"></i> Typography &amp; Text</div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-sm table-bordered mb-0 trans-table">
+            <thead class="table-light"><tr><th>Bootstrap</th><th>Tailwind</th></tr></thead>
+            <tbody>
+              <tr><td>h1 / .h1</td><td class="tw-cell">text-4xl font-bold tracking-tight</td></tr>
+              <tr><td>h2 / .h2</td><td class="tw-cell">text-3xl font-bold</td></tr>
+              <tr><td>h3 / .h3</td><td class="tw-cell">text-2xl font-semibold</td></tr>
+              <tr><td>h4 / .h4</td><td class="tw-cell">text-xl font-semibold</td></tr>
+              <tr><td>h5 / .h5</td><td class="tw-cell">text-lg font-medium</td></tr>
+              <tr><td>h6 / .h6</td><td class="tw-cell">text-base font-medium</td></tr>
+              <tr><td>.display-1</td><td class="tw-cell">text-6xl font-extrabold</td></tr>
+              <tr><td>.lead</td><td class="tw-cell">text-lg text-gray-600</td></tr>
+              <tr><td>.small</td><td class="tw-cell">text-sm text-gray-500</td></tr>
+              <tr><td>.text-muted</td><td class="tw-cell">text-gray-500</td></tr>
+              <tr><td>.fw-bold</td><td class="tw-cell">font-bold</td></tr>
+              <tr><td>.fw-normal</td><td class="tw-cell">font-normal</td></tr>
+              <tr><td>.fst-italic</td><td class="tw-cell">italic</td></tr>
+              <tr><td>.text-start/center/end</td><td class="tw-cell">text-left/center/right</td></tr>
+              <tr><td>.text-nowrap</td><td class="tw-cell">whitespace-nowrap</td></tr>
+              <tr><td>.text-truncate</td><td class="tw-cell">truncate</td></tr>
+              <tr><td>.text-uppercase/lowercase</td><td class="tw-cell">uppercase/lowercase</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-palette me-1"></i> Colors &amp; Backgrounds</div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-sm table-bordered mb-0 trans-table">
+            <thead class="table-light"><tr><th>Bootstrap</th><th>Tailwind</th></tr></thead>
+            <tbody>
+              <tr><td>.text-primary</td><td class="tw-cell">text-blue-600</td></tr>
+              <tr><td>.text-danger</td><td class="tw-cell">text-red-600</td></tr>
+              <tr><td>.text-success</td><td class="tw-cell">text-green-600</td></tr>
+              <tr><td>.text-warning</td><td class="tw-cell">text-yellow-500</td></tr>
+              <tr><td>.text-info</td><td class="tw-cell">text-cyan-500</td></tr>
+              <tr><td>.bg-primary</td><td class="tw-cell">bg-blue-600</td></tr>
+              <tr><td>.bg-light</td><td class="tw-cell">bg-gray-100</td></tr>
+              <tr><td>.bg-dark</td><td class="tw-cell">bg-gray-900</td></tr>
+              <tr><td>.bg-white</td><td class="tw-cell">bg-white</td></tr>
+              <tr><td>.bg-transparent</td><td class="tw-cell">bg-transparent</td></tr>
+              <tr><td>.bg-gradient</td><td class="tw-cell">bg-gradient-to-r from-{color} to-{color}</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-border-all me-1"></i> Border &amp; Shadow</div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-sm table-bordered mb-0 trans-table">
+            <thead class="table-light"><tr><th>Bootstrap</th><th>Tailwind</th></tr></thead>
+            <tbody>
+              <tr><td>.border</td><td class="tw-cell">border border-gray-300</td></tr>
+              <tr><td>.border-0</td><td class="tw-cell">border-0</td></tr>
+              <tr><td>.border-2</td><td class="tw-cell">border-2</td></tr>
+              <tr><td>.border-primary</td><td class="tw-cell">border-blue-600</td></tr>
+              <tr><td>.rounded</td><td class="tw-cell">rounded</td></tr>
+              <tr><td>.rounded-1</td><td class="tw-cell">rounded-sm</td></tr>
+              <tr><td>.rounded-2</td><td class="tw-cell">rounded</td></tr>
+              <tr><td>.rounded-3</td><td class="tw-cell">rounded-lg</td></tr>
+              <tr><td>.rounded-circle</td><td class="tw-cell">rounded-full</td></tr>
+              <tr><td>.rounded-pill</td><td class="tw-cell">rounded-full</td></tr>
+              <tr><td>.shadow-sm</td><td class="tw-cell">shadow-sm</td></tr>
+              <tr><td>.shadow</td><td class="tw-cell">shadow-md</td></tr>
+              <tr><td>.shadow-lg</td><td class="tw-cell">shadow-lg</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-layout-three-columns me-1"></i> Display &amp; Flex</div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-sm table-bordered mb-0 trans-table">
+            <thead class="table-light"><tr><th>Bootstrap</th><th>Tailwind</th></tr></thead>
+            <tbody>
+              <tr><td>.d-none</td><td class="tw-cell">hidden</td></tr>
+              <tr><td>.d-block</td><td class="tw-cell">block</td></tr>
+              <tr><td>.d-flex</td><td class="tw-cell">flex</td></tr>
+              <tr><td>.d-inline-flex</td><td class="tw-cell">inline-flex</td></tr>
+              <tr><td>.d-grid</td><td class="tw-cell">grid</td></tr>
+              <tr><td>.flex-row / .flex-column</td><td class="tw-cell">flex-row / flex-col</td></tr>
+              <tr><td>.justify-content-center</td><td class="tw-cell">justify-center</td></tr>
+              <tr><td>.justify-content-between</td><td class="tw-cell">justify-between</td></tr>
+              <tr><td>.align-items-center</td><td class="tw-cell">items-center</td></tr>
+              <tr><td>.flex-wrap</td><td class="tw-cell">flex-wrap</td></tr>
+              <tr><td>.flex-grow-1</td><td class="tw-cell">flex-1</td></tr>
+              <tr><td>.order-*</td><td class="tw-cell">order-*</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-input-cursor me-1"></i> Forms</div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-sm table-bordered mb-0 trans-table">
+            <thead class="table-light"><tr><th>Bootstrap</th><th>Tailwind</th></tr></thead>
+            <tbody>
+              <tr><td>.form-control</td><td class="tw-cell">w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500</td></tr>
+              <tr><td>.form-select</td><td class="tw-cell">w-full px-3 py-2 border border-gray-300 rounded-lg bg-white</td></tr>
+              <tr><td>.form-label</td><td class="tw-cell">block text-sm font-medium text-gray-700 mb-1</td></tr>
+              <tr><td>.form-text</td><td class="tw-cell">text-sm text-gray-500 mt-1</td></tr>
+              <tr><td>.form-check</td><td class="tw-cell">flex items-center gap-2</td></tr>
+              <tr><td>.form-check-input</td><td class="tw-cell">h-4 w-4 text-blue-600 border-gray-300 rounded</td></tr>
+              <tr><td>.form-switch</td><td class="tw-cell">relative w-9 h-5 rounded-full</td></tr>
+              <tr><td>.input-group</td><td class="tw-cell">flex</td></tr>
+              <tr><td>.invalid-feedback</td><td class="tw-cell">text-sm text-red-600 mt-1</td></tr>
+              <tr><td>.form-floating</td><td class="tw-cell">relative (label absolute top-0)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-exclamation-triangle me-1"></i> Alerts, Badges &amp; Tables</div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-sm table-bordered mb-0 trans-table">
+            <thead class="table-light"><tr><th>Bootstrap</th><th>Tailwind</th></tr></thead>
+            <tbody>
+              <tr><td>.alert-primary</td><td class="tw-cell">bg-blue-100 text-blue-800 border border-blue-200 px-4 py-3 rounded-lg</td></tr>
+              <tr><td>.alert-danger</td><td class="tw-cell">bg-red-100 text-red-800 border border-red-200 px-4 py-3 rounded-lg</td></tr>
+              <tr><td>.alert-dismissible</td><td class="tw-cell">+ relative and close button</td></tr>
+              <tr><td>.badge bg-primary</td><td class="tw-cell">inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800</td></tr>
+              <tr><td>.badge bg-danger</td><td class="tw-cell">same with bg-red-100 text-red-800</td></tr>
+              <tr><td>.table</td><td class="tw-cell">min-w-full divide-y divide-gray-200</td></tr>
+              <tr><td>.table-striped</td><td class="tw-cell">even:bg-gray-50</td></tr>
+              <tr><td>.table-hover</td><td class="tw-cell">hover:bg-gray-100</td></tr>
+              <tr><td>.table-bordered</td><td class="tw-cell">border border-gray-200</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-list-ul me-1"></i> Navigation &amp; Modal</div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-sm table-bordered mb-0 trans-table">
+            <thead class="table-light"><tr><th>Bootstrap</th><th>Tailwind</th></tr></thead>
+            <tbody>
+              <tr><td>.navbar</td><td class="tw-cell">flex items-center justify-between px-4 py-3</td></tr>
+              <tr><td>.navbar-brand</td><td class="tw-cell">text-xl font-bold</td></tr>
+              <tr><td>.navbar-nav</td><td class="tw-cell">flex items-center gap-4</td></tr>
+              <tr><td>.nav-link</td><td class="tw-cell">px-3 py-2 text-sm font-medium rounded-lg hover:bg-gray-100</td></tr>
+              <tr><td>.modal-content</td><td class="tw-cell">bg-white rounded-xl shadow-2xl w-full max-w-lg mx-4</td></tr>
+              <tr><td>.modal-header</td><td class="tw-cell">flex items-center justify-between px-6 py-4 border-b</td></tr>
+              <tr><td>.modal-body</td><td class="tw-cell">px-6 py-4</td></tr>
+              <tr><td>.modal-footer</td><td class="tw-cell">flex items-center justify-end gap-2 px-6 py-4 border-t</td></tr>
+              <tr><td>.modal-backdrop</td><td class="tw-cell">fixed inset-0 bg-black/50</td></tr>
+              <tr><td>.nav-tabs</td><td class="tw-cell">flex border-b border-gray-200</td></tr>
+              <tr><td>.nav-tabs .nav-link.active</td><td class="tw-cell">border-b-2 border-blue-600 text-blue-600</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SETUP ===== -->
+  <section id="setup">
+    <h2 class="tw-heading"><i class="bi bi-gear me-2" style="color:var(--tw-cyan)"></i>Setup</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-terminal me-1"></i> Quick Start</div>
+      <div class="card-body">
+        <table class="table table-sm table-bordered mb-0">
+          <thead class="table-light"><tr><th>Approach</th><th>Command / Code</th></tr></thead>
+          <tbody>
+            <tr><td>Play CDN (dev)</td><td><code>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</code></td></tr>
+            <tr><td>NPM install</td><td><code>npm install tailwindcss @tailwindcss/cli</code></td></tr>
+            <tr><td>CSS entry</td><td><code>@import "tailwindcss";</code></td></tr>
+            <tr><td>Build</td><td><code>npx @tailwindcss/cli -i input.css -o output.css --watch</code></td></tr>
+          </tbody>
+        </table>
+
+        <div class="highlight-box tw-box mt-3">
+          <strong><i class="bi bi-star-fill me-1"></i> v4 Change:</strong> No <code>tailwind.config.js</code> needed by default. Configuration is CSS-first using <code>@theme</code>. The old PostCSS config is optional.
+        </div>
+
+        <div class="highlight-box bs-box mt-2">
+          <strong>BS → TW:</strong> Bootstrap drops CSS + JS via <code>&lt;link&gt;</code>. Tailwind is pure CSS — no JS needed for components. Addiclick interactivity yourself (or use Alpine, HTMX, etc.).
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CORE CONCEPTS ===== -->
+  <section id="concepts">
+    <h2 class="tw-heading"><i class="bi bi-lightbulb me-2" style="color:var(--tw-cyan)"></i>Core Concepts</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-bezier2 me-1"></i> Utility-First vs Component Classes</div>
+      <div class="card-body">
+        <p>Bootstrap gives you <strong>pre-built components</strong> (<code>.card</code>, <code>.navbar</code>). Tailwind gives you <strong>primitive utilities</strong> you compose together.</p>
+        <pre><code>&lt;!-- Bootstrap --&gt;
+&lt;div class="card shadow-sm"&gt;
+  &lt;div class="card-body"&gt;
+    &lt;h5 class="card-title"&gt;Card&lt;/h5&gt;
+    &lt;p class="card-text"&gt;Content&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Tailwind — same result, built from utilities --&gt;
+&lt;div class="bg-white rounded-xl shadow-md overflow-hidden"&gt;
+  &lt;div class="p-6"&gt;
+    &lt;h2 class="text-xl font-semibold text-gray-900"&gt;Card&lt;/h2&gt;
+    &lt;p class="mt-2 text-gray-600"&gt;Content&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+        <div class="highlight-box tw-box">
+          <strong>Mindset shift:</strong> Instead of searching for "the right BS class", you <em>compose</em> tiny single-purpose classes. <code>.card</code> (1 class) → <code>bg-white rounded-xl shadow-md overflow-hidden</code> (4 classes).
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-sliders2 me-1"></i> Responsive &amp; State Variants</div>
+      <div class="card-body">
+        <p>Like Bootstrap's breakpoint prefixes (<code>.col-md-6</code>), Tailwind uses <strong>prefixes on any utility</strong>:</p>
+        <pre><code>&lt;!-- Bootstrap --&gt;
+&lt;div class="col-12 col-md-6 col-lg-4"&gt;...&lt;/div&gt;
+
+&lt;!-- Tailwind --&gt;
+&lt;div class="w-full md:w-1/2 lg:w-1/3"&gt;...&lt;/div&gt;
+
+&lt;!-- State variants work on ANY class --&gt;
+&lt;button class="bg-blue-600 hover:bg-blue-700 focus:ring-2
+               active:scale-95 disabled:opacity-50"&gt;
+  Click
+&lt;/button&gt;
+
+&lt;!-- Group hover (BS doesn't have this) --&gt;
+&lt;div class="group"&gt;
+  &lt;h3 class="group-hover:text-blue-600"&gt;Title&lt;/h3&gt;
+&lt;/div&gt;</code></pre>
+        <div class="highlight-box tw-box">
+          <strong>Key difference:</strong> In BS, <code>hover:</code> only works on some components. In Tailwind, <strong>every utility</strong> gets every variant: <code>sm:md:lg:xl:2xl:</code>, <code>hover:focus:active:visited:disabled:</code>, <code>dark:print:portrait:landscape:</code>, <code>group-hover:peer-checked:</code>, and custom ones via <code>@custom-variant</code>.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LAYOUT ===== -->
+  <section id="layout">
+    <h2 class="tw-heading"><i class="bi bi-layout-three-columns me-2" style="color:var(--tw-cyan)"></i>Layout</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-grid-3x3 me-1"></i> Grid System</div>
+      <div class="card-body">
+        <p>Bootstrap's 12-column grid becomes Tailwind's <code>grid-cols-*</code>:</p>
+        <pre><code>&lt;!-- Bootstrap: 3 equal columns with gap --&gt;
+&lt;div class="container"&gt;
+  &lt;div class="row g-4"&gt;
+    &lt;div class="col-md-4"&gt;Column 1&lt;/div&gt;
+    &lt;div class="col-md-4"&gt;Column 2&lt;/div&gt;
+    &lt;div class="col-md-4"&gt;Column 3&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Tailwind: same layout --&gt;
+&lt;div class="container mx-auto max-w-7xl px-4"&gt;
+  &lt;div class="grid grid-cols-1 md:grid-cols-3 gap-4"&gt;
+    &lt;div&gt;Column 1&lt;/div&gt;
+    &lt;div&gt;Column 2&lt;/div&gt;
+    &lt;div&gt;Column 3&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Mixed column widths (12-col style) --&gt;
+&lt;div class="grid grid-cols-12 gap-4"&gt;
+  &lt;div class="col-span-12 md:col-span-8"&gt;Main&lt;/div&gt;
+  &lt;div class="col-span-12 md:col-span-4"&gt;Sidebar&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        <div class="highlight-box tw-box">
+          <strong>Flexbox alternative:</strong> <code>flex flex-wrap gap-4</code> with <code>w-1/3</code> works too — more like BS row/col.
+        </div>
+
+        <div class="highlight-box bs-box mt-2">
+          <strong>BS → TW:</strong> <code>.container</code> = <code>container mx-auto max-w-7xl</code> (or <code>max-w-6xl</code>). <code>.row</code> = <code>grid grid-cols-12 gap-4</code> (or <code>flex flex-wrap</code>). <code>.col-md-4</code> = <code>md:col-span-4</code>.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-arrows-expand me-1"></i> Container &amp; Sizing</div>
+      <div class="card-body">
+        <pre><code>&lt;!-- Containers --&gt;
+&lt;div class="container mx-auto px-4 max-w-7xl"&gt;Full container&lt;/div&gt;
+&lt;div class="max-w-4xl mx-auto px-4"&gt;Narrow content&lt;/div&gt;
+&lt;div class="w-full"&gt;Fluid (container-fluid)&lt;/div&gt;
+
+&lt;!-- Width / Height --&gt;
+.w-full / .w-1/2 / .w-1/3 / .w-3/4
+.max-w-md / .max-w-lg / .max-w-3xl / .max-w-7xl
+.h-full / .h-screen / .h-64 / .min-h-screen
+
+&lt;!-- Arbitrary values --&gt;
+.w-[420px] / .h-[calc(100vh-4rem)] / .max-w-[900px]</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TYPOGRAPHY ===== -->
+  <section id="typography">
+    <h2 class="tw-heading"><i class="bi bi-fonts me-2" style="color:var(--tw-cyan)"></i>Typography</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-text-paragraph me-1"></i> Heading &amp; Text Scale</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-sm table-bordered">
+            <thead class="table-light"><tr><th>Bootstrap</th><th>Tailwind</th></tr></thead>
+            <tbody>
+              <tr><td>h1</td><td><code>text-4xl font-bold tracking-tight</code></td></tr>
+              <tr><td>h2</td><td><code>text-3xl font-bold</code></td></tr>
+              <tr><td>h3</td><td><code>text-2xl font-semibold</code></td></tr>
+              <tr><td>h4</td><td><code>text-xl font-semibold</code></td></tr>
+              <tr><td>h5</td><td><code>text-lg font-medium</code></td></tr>
+              <tr><td>h6</td><td><code>text-base font-medium</code></td></tr>
+              <tr><td>.lead</td><td><code>text-lg text-gray-600</code></td></tr>
+              <tr><td>.small</td><td><code>text-sm text-gray-500</code></td></tr>
+              <tr><td>.text-muted</td><td><code>text-gray-500</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <pre class="mt-3"><code>&lt;!-- Bold --&gt;
+.font-thin (100) / .font-light (300) / .font-normal (400)
+.font-medium (500) / .font-semibold (600)
+.font-bold (700) / .font-extrabold (800) / .font-black (900)
+
+&lt;!-- Extra utilities BS doesn't have --&gt;
+.tracking-tight / .tracking-wide    /* letter-spacing */
+.leading-tight / .leading-relaxed   /* line-height */
+.truncate                           /* text-truncate */
+.line-clamp-2                       /* clamp to 2 lines */
+.whitespace-nowrap                  /* text-nowrap */
+.antialiased                        /* font-smoothing */</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SPACING & SIZING ===== -->
+  <section id="spacing">
+    <h2 class="tw-heading"><i class="bi bi-arrows-expand me-2" style="color:var(--tw-cyan)"></i>Spacing &amp; Sizing</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-rulers me-1"></i> Margin, Padding, Gap</div>
+      <div class="card-body">
+        <p><strong>Good news:</strong> Tailwind uses the same scale as Bootstrap (0–5 = 0–3rem).</p>
+        <pre><code>&lt;!-- Identical syntax --&gt;
+.m-0 / .m-1 / .m-2 / .m-3 / .m-4 / .m-5    /* 0–3rem */
+.p-0 / .p-1 / .p-2 / .p-3 / .p-4 / .p-5
+.mt- / .mb- / .ml- / .mr- / .pt- / .pb- / .pl- / .pr-
+
+&lt;!-- EXCEPT Tailwind uses 's' not 's' for start/end --&gt;
+.ps-3 = .pl-3 (or .ms-3 for margin-inline-start)
+.pe-3 = .pr-3
+.ms-auto                              /* margin-left: auto */
+.mx-auto                              /* center block */
+
+&lt;!-- Gap (same as BS .g-*) --&gt;
+.gap-2 / .gap-4 / .gap-x-6 / .gap-y-8
+
+&lt;!-- Space between children (BS doesn't have) --&gt;
+.space-y-4 / .space-x-4
+
+&lt;!-- Extra values BS doesn't have --&gt;
+.p-6 (1.5rem) / .p-8 (2rem) / .p-10 (2.5rem) / .p-12 (3rem)
+.p-16 (4rem) / .p-20 (5rem) / .p-24 (6rem)
+
+&lt;!-- Arbitrary --&gt;
+.p-[17px] / .mt-[calc(100vh-80px)]</code></pre>
+
+        <div class="highlight-box bs-box mt-2">
+          <strong>BS → TW:</strong> The spacing scale 0–5 is identical. Tailwind adds 6, 8, 10, 12, 14, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 72, 80, 96. So <code>.mt-3</code> works in both — you already know it.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== COLORS & BACKGROUNDS ===== -->
+  <section id="colors">
+    <h2 class="tw-heading"><i class="bi bi-palette me-2" style="color:var(--tw-cyan)"></i>Colors &amp; Backgrounds</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-eyedropper me-1"></i> Tailwind Color Palette</div>
+      <div class="card-body">
+        <p>Bootstrap has 8 named colors (primary, secondary, success, danger, warning, info, light, dark). Tailwind has <strong>22 color families</strong>, each with 10–11 shades (50–950).</p>
+
+        <pre><code>&lt;!-- Text --&gt;
+.text-gray-500 / .text-blue-600 / .text-red-500
+.text-emerald-400 / .text-violet-600 / .text-amber-500
+.text-rose-600 / .text-teal-500 / .text-sky-400
+.hover:text-blue-700 / .dark:text-white
+
+&lt;!-- Background --&gt;
+.bg-gray-100 / .bg-blue-50 / .bg-red-600
+.bg-gradient-to-r from-cyan-500 to-blue-600
+.bg-gradient-to-br from-purple-600 to-pink-500
+
+&lt;!-- Opacity modifiers --&gt;
+.bg-black/50        /* 50% opacity black */
+.text-white/80      /* 80% opacity white */
+.bg-blue-500/20     /* 20% opacity blue-500 */
+.hover:bg-black/10  /* 10% on hover */
+
+&lt;!-- BS color mapping --&gt;
+.text-primary  → text-blue-600
+.text-danger   → text-red-600
+.text-success  → text-green-600
+.text-warning  → text-yellow-500
+.text-info     → text-cyan-500
+.text-dark     → text-gray-900
+.text-light    → text-gray-100</code></pre>
+
+        <div class="d-flex gap-2 flex-wrap mt-3">
+          <span style="display:inline-block;width:2rem;height:2rem;border-radius:.375rem;background:#6b7280" title="gray-500"></span>
+          <span style="display:inline-block;width:2rem;height:2rem;border-radius:.375rem;background:#dc2626" title="red-600"></span>
+          <span style="display:inline-block;width:2rem;height:2rem;border-radius:.375rem;background:#2563eb" title="blue-600"></span>
+          <span style="display:inline-block;width:2rem;height:2rem;border-radius:.375rem;background:#059669" title="emerald-600"></span>
+          <span style="display:inline-block;width:2rem;height:2rem;border-radius:.375rem;background:#7c3aed" title="violet-600"></span>
+          <span style="display:inline-block;width:2rem;height:2rem;border-radius:.375rem;background:#d97706" title="amber-500"></span>
+          <span style="display:inline-block;width:2rem;height:2rem;border-radius:.375rem;background:#06b6d4" title="cyan-500"></span>
+          <span style="display:inline-block;width:2rem;height:2rem;border-radius:.375rem;background:#f43f5e" title="rose-500"></span>
+          <span style="display:inline-block;width:2rem;height:2rem;border-radius:.375rem;background:#14b8a6" title="teal-500"></span>
+          <span style="display:inline-block;width:2rem;height:2rem;border-radius:.375rem;background:#f97316" title="orange-500"></span>
+          <span style="display:inline-block;width:2rem;height:2rem;border-radius:.375rem;background:#e11d48" title="pink-600"></span>
+          <span style="display:inline-block;width:2rem;height:2rem;border-radius:.375rem;background:#0ea5e9" title="sky-500"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-droplet me-1"></i> Ring (BS doesn't have this)</div>
+      <div class="card-body">
+        <p>Tailwind's <code>ring</code> utilities replace focus outlines:</p>
+        <pre><code>&lt;!-- Focus ring (like Bootstrap's :focus but better) --&gt;
+.focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+
+&lt;!-- Always-visible ring (BS has no equivalent) --&gt;
+.ring-2 ring-blue-500 ring-offset-2 ring-offset-gray-100</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BORDERS, SHADOWS & RINGS ===== -->
+  <section id="borders">
+    <h2 class="tw-heading"><i class="bi bi-border-all me-2" style="color:var(--tw-cyan)"></i>Borders, Shadows &amp; Rings</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-border-outer me-1"></i> Borders</div>
+      <div class="card-body">
+        <pre><code>&lt;!-- Same concept, more control --&gt;
+.border               /* add border-gray-300 too */
+.border-2 border-blue-500
+.border-t-4 border-emerald-400
+.border-b border-dashed border-gray-300
+
+&lt;!-- Radius --&gt;
+.rounded-none  → .rounded-0
+.rounded-sm    → .rounded-1
+.rounded       → .rounded-2
+.rounded-md    → (no BS equivalent, .375rem)
+.rounded-lg    → .rounded-3
+.rounded-xl    → (no BS equivalent, .75rem)
+.rounded-2xl   → (no BS equivalent, 1rem)
+.rounded-3xl   → (no BS equivalent, 1.5rem)
+.rounded-full  → .rounded-circle / .rounded-pill</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-box me-1"></i> Shadows</div>
+      <div class="card-body">
+        <p>Same naming but more options:</p>
+        <pre><code>.shadow-sm    → .shadow-sm        /* identical */
+.shadow       → .shadow           /* BS = TW shadow-md-ish */
+.shadow-lg    → .shadow-lg        /* identical */
+.shadow-md    → (BS has no .shadow-md)
+.shadow-xl    → (BS has no .shadow-xl)
+.shadow-2xl   → (BS has no .shadow-2xl)
+.shadow-inner → (BS has no .shadow-inner)</code></pre>
+        <div class="d-flex gap-2 flex-wrap mt-2">
+          <span style="padding:.5rem .75rem;background:#fff;border-radius:.375rem;box-shadow:0 1px 2px rgba(0,0,0,.05);font-size:.75rem">sm</span>
+          <span style="padding:.5rem .75rem;background:#fff;border-radius:.375rem;box-shadow:0 1px 3px rgba(0,0,0,.1);font-size:.75rem">default</span>
+          <span style="padding:.5rem .75rem;background:#fff;border-radius:.375rem;box-shadow:0 4px 6px rgba(0,0,0,.07);font-size:.75rem">md</span>
+          <span style="padding:.5rem .75rem;background:#fff;border-radius:.375rem;box-shadow:0 10px 15px rgba(0,0,0,.1);font-size:.75rem">lg</span>
+          <span style="padding:.5rem .75rem;background:#fff;border-radius:.375rem;box-shadow:0 20px 25px rgba(0,0,0,.12);font-size:.75rem">xl</span>
+          <span style="padding:.5rem .75rem;background:#fff;border-radius:.375rem;box-shadow:0 25px 50px rgba(0,0,0,.2);font-size:.75rem">2xl</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== EFFECTS & ANIMATION ===== -->
+  <section id="effects">
+    <h2 class="tw-heading"><i class="bi bi-stars me-2" style="color:var(--tw-cyan)"></i>Effects &amp; Animation</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-play-circle me-1"></i> Transitions &amp; Transforms</div>
+      <div class="card-body">
+        <p><strong>This is where Tailwind massively outshines Bootstrap.</strong> BS has no built-in transition/transform utilities.</p>
+        <pre><code>&lt;!-- Transition (BS has NO equivalent) --&gt;
+&lt;button class="transition-all duration-300 ease-in-out
+               hover:scale-105 hover:shadow-lg
+               active:scale-95"&gt;
+  Smooth hover
+&lt;/button&gt;
+
+&lt;!-- Animation utilities --&gt;
+.animate-spin          /* rotate 360° */
+.animate-ping          /* radar ping */
+.animate-pulse         /* fade pulse */
+.animate-bounce        /* bounce */
+.animate-none
+
+&lt;!-- Opacity --&gt;
+.opacity-0 → .invisible (hidden)
+.opacity-50 / .opacity-100
+.hover:opacity-80
+
+&lt;!-- Filters --&gt;
+.blur-sm / .blur-lg / .grayscale / .brightness-110
+.contrast-125 / .drop-shadow-lg / .sepia
+.hover:saturate-150
+
+&lt;!-- Backdrop filters (glassmorphism) --&gt;
+.backdrop-blur-sm / .backdrop-blur-lg
+.backdrop-brightness-50</code></pre>
+
+        <div class="live-demo">
+          <p class="mb-2 fw-bold small">Hover the card:</p>
+          <div class="p-4 bg-white rounded-xl shadow hover:shadow-xl transition-all duration-300 hover:-translate-y-1" style="max-width:200px;cursor:default">
+            <div class="small fw-semibold">Hover me</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FORMS & INPUTS ===== -->
+  <section id="forms">
+    <h2 class="tw-heading"><i class="bi bi-input-cursor me-2" style="color:var(--tw-cyan)"></i>Forms &amp; Inputs</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-ui-checks me-1"></i> Styled Form Controls</div>
+      <div class="card-body">
+        <p>Bootstrap's <code>.form-control</code> = a composed set of Tailwind utilities:</p>
+        <pre><code>&lt;!-- Bootstrap .form-control --&gt;
+&lt;input class="form-control" placeholder="Name"&gt;
+
+&lt;!-- Tailwind equivalent --&gt;
+&lt;input class="w-full px-3 py-2 border border-gray-300
+       rounded-lg shadow-sm
+       focus:outline-none focus:ring-2 focus:ring-blue-500
+       focus:border-transparent
+       placeholder:text-gray-400" placeholder="Name"&gt;
+
+&lt;!-- Select --&gt;
+&lt;select class="w-full px-3 py-2 border border-gray-300
+              rounded-lg bg-white"&gt;
+  &lt;option&gt;Option&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;!-- Checkbox --&gt;
+&lt;label class="flex items-center gap-2"&gt;
+  &lt;input type="checkbox" class="h-4 w-4 text-blue-600
+         border-gray-300 rounded focus:ring-blue-500"&gt;
+  &lt;span class="text-sm text-gray-700"&gt;Remember me&lt;/span&gt;
+&lt;/label&gt;
+
+&lt;!-- Switch toggle (native) --&gt;
+&lt;label class="relative inline-flex items-center cursor-pointer"&gt;
+  &lt;input type="checkbox" class="sr-only peer"&gt;
+  &lt;div class="w-9 h-5 bg-gray-200 peer-checked:bg-blue-600
+              rounded-full peer-focus:ring-2 peer-focus:ring-blue-300
+              after:content-[''] after:absolute after:top-0.5
+              after:left-0.5 after:bg-white after:rounded-full
+              after:h-4 after:w-4 after:transition-all
+              peer-checked:after:translate-x-4"&gt;&lt;/div&gt;
+  &lt;span class="ml-2 text-sm"&gt;Toggle&lt;/span&gt;
+&lt;/label&gt;
+
+&lt;!-- Input group --&gt;
+&lt;div class="flex"&gt;
+  &lt;span class="inline-flex items-center px-3 bg-gray-100
+               border border-r-0 border-gray-300 rounded-l-lg"&gt;
+    @
+  &lt;/span&gt;
+  &lt;input class="flex-1 px-3 py-2 border border-gray-300
+               rounded-r-lg focus:ring-2 focus:ring-blue-500
+               focus:outline-none" placeholder="Username"&gt;
+&lt;/div&gt;</code></pre>
+
+        <div class="highlight-box bs-box">
+          <strong>BS → TW:</strong> Bootstrap's <code>.form-control</code> handles focus, border, padding in one class. Tailwind makes you compose 5–7 utilities — but you get total control over every detail (focus ring color, border radius per side, placeholder styling).
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DARK MODE ===== -->
+  <section id="dark">
+    <h2 class="tw-heading"><i class="bi bi-moon me-2" style="color:var(--tw-cyan)"></i>Dark Mode</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-moon-stars me-1"></i> Dark Variant</div>
+      <div class="card-body">
+        <p>Bootstrap uses <code>data-bs-theme="dark"</code>. Tailwind uses the <code>dark:</code> prefix with a class on <code>&lt;html&gt;</code>.</p>
+        <pre><code>&lt;!-- Bootstrap --&gt;
+&lt;html data-bs-theme="dark"&gt;
+&lt;div class="bg-dark text-light"&gt;Dark section&lt;/div&gt;
+
+&lt;!-- Tailwind --&gt;
+&lt;html class="dark"&gt;
+&lt;div class="bg-gray-900 text-gray-100 dark:bg-black dark:text-white"&gt;
+  Dark section
+&lt;/div&gt;
+
+&lt;!-- Every utility can be toggled --&gt;
+&lt;div class="bg-white dark:bg-gray-800
+            text-gray-900 dark:text-gray-100
+            border border-gray-200 dark:border-gray-700
+            shadow-md dark:shadow-none"&gt;
+  Theme-aware card
+&lt;/div&gt;
+
+&lt;!-- JS toggle --&gt;
+document.documentElement.classList.toggle('dark');
+localStorage.setItem('theme', 'dark');</code></pre>
+        <div class="highlight-box tw-box">
+          <strong>Key difference:</strong> BS's dark mode is opt-in per component (<code>data-bs-theme</code> overrides). Tailwind's <code>dark:</code> lets you toggle <em>individual properties</em> — much finer control.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CUSTOMIZATION ===== -->
+  <section id="custom">
+    <h2 class="tw-heading"><i class="bi bi-sliders me-2" style="color:var(--tw-cyan)"></i>Customization</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-palette me-1"></i> CSS-First Config via @theme (v4)</div>
+      <div class="card-body">
+        <p>Bootstrap uses <code>--bs-*</code> CSS vars or SASS. Tailwind v4 uses the <code>@theme</code> directive — no config file needed.</p>
+        <pre><code>@import "tailwindcss";
+
+@theme {
+  /* Colors — like --bs-primary */
+  --color-primary: #ff6600;
+  --color-primary-dark: #cc5200;
+
+  /* Spacing — extend the scale */
+  --spacing-18: 4.5rem;
+
+  /* Fonts */
+  --font-family-display: 'Cinzel', serif;
+
+  /* Border radius */
+  --radius-4xl: 2rem;
+
+  /* Shadows */
+  --shadow-glow: 0 0 20px rgba(255, 102, 0, 0.3);
+
+  /* Breakpoints */
+  --breakpoint-3xl: 2000px;
+}
+
+/* Then use anywhere: bg-primary, font-display, shadow-glow */</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-diagram-2 me-1"></i> @apply &amp; Layers (like BS component classes)</div>
+      <div class="card-body">
+        <p>Use <code>@apply</code> to create Bootstrap-style component classes from utilities:</p>
+        <pre><code>@layer components {
+  .btn-primary {
+    @apply inline-flex items-center px-4 py-2
+           bg-blue-600 text-white font-medium text-sm
+           rounded-lg hover:bg-blue-700
+           transition-colors duration-200;
+  }
+
+  .card-bs {
+    @apply bg-white rounded-xl shadow-md overflow-hidden;
+  }
+
+  .card-body {
+    @apply p-6;
+  }
+}
+
+@layer base {
+  h1 { @apply text-4xl font-bold tracking-tight; }
+  body { @apply antialiased text-gray-900; }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+}</code></pre>
+        <div class="highlight-box bs-box mt-2">
+          <strong>BS → TW:</strong> BS gives you <code>.btn-primary</code> out of the box. Tailwind makes you define it yourself via <code>@apply</code>. More work upfront, but you control everything — no "Bootstrap look" limitation.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== COMMON PATTERNS ===== -->
+  <section id="patterns">
+    <h2 class="tw-heading"><i class="bi bi-puzzle me-2" style="color:var(--tw-cyan)"></i>Common Patterns</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-card-text me-1"></i> Card with Header + Footer</div>
+      <div class="card-body">
+        <pre><code>&lt;div class="bg-white rounded-xl shadow-md overflow-hidden"&gt;
+  &lt;div class="px-6 py-4 border-b border-gray-200 bg-gray-50"&gt;
+    &lt;h3 class="text-lg font-semibold text-gray-900"&gt;Header&lt;/h3&gt;
+  &lt;/div&gt;
+  &lt;div class="p-6"&gt;
+    &lt;p class="text-gray-600"&gt;Body content here.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="px-6 py-4 border-t border-gray-200 bg-gray-50
+              flex items-center justify-end gap-2"&gt;
+    &lt;button class="px-4 py-2 text-sm rounded-lg
+                   bg-blue-600 text-white hover:bg-blue-700"&gt;
+      Save
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        <div class="highlight-box tw-box">
+          Compare to BS: <code>.card</code> → <code>bg-white rounded-xl shadow-md overflow-hidden</code>. Same visual, you just write the primitives.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-list-ul me-1"></i> Navbar (Dark)</div>
+      <div class="card-body">
+        <pre><code>&lt;nav class="flex items-center justify-between px-4 py-3
+            bg-gray-900 text-white"&gt;
+  &lt;a href="#" class="text-xl font-bold"&gt;Brand&lt;/a&gt;
+
+  &lt;!-- Desktop nav --&gt;
+  &lt;div class="hidden md:flex items-center gap-4"&gt;
+    &lt;a href="#" class="px-3 py-2 text-sm font-medium
+                       rounded-lg hover:bg-gray-800"&gt;Home&lt;/a&gt;
+    &lt;a href="#" class="px-3 py-2 text-sm font-medium
+                       rounded-lg hover:bg-gray-800"&gt;About&lt;/a&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Mobile hamburger --&gt;
+  &lt;button class="md:hidden p-2 rounded-lg hover:bg-gray-800"&gt;
+    &lt;svg class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+         stroke="currentColor"&gt;
+      &lt;path stroke-linecap="round" stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"/&gt;
+    &lt;/svg&gt;
+  &lt;/button&gt;
+&lt;/nav&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-window me-1"></i> Modal Dialog</div>
+      <div class="card-body">
+        <pre><code>&lt;!-- Backdrop --&gt;
+&lt;div class="fixed inset-0 bg-black/50 z-40"&gt;&lt;/div&gt;
+
+&lt;!-- Modal --&gt;
+&lt;div class="fixed inset-0 z-50 flex items-center justify-center p-4"&gt;
+  &lt;div class="bg-white rounded-xl shadow-2xl w-full max-w-lg"&gt;
+
+    &lt;!-- Header --&gt;
+    &lt;div class="flex items-center justify-between px-6 py-4
+                border-b border-gray-200"&gt;
+      &lt;h3 class="text-lg font-semibold"&gt;Modal Title&lt;/h3&gt;
+      &lt;button class="text-gray-400 hover:text-gray-600 text-2xl
+                     leading-none"&gt;&amp;times;&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Body --&gt;
+    &lt;div class="px-6 py-4"&gt;
+      &lt;p class="text-gray-600"&gt;Content here.&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Footer --&gt;
+    &lt;div class="flex items-center justify-end gap-2 px-6 py-4
+                border-t border-gray-200"&gt;
+      &lt;button class="px-4 py-2 text-sm rounded-lg
+                     border border-gray-300 hover:bg-gray-50"&gt;
+        Cancel
+      &lt;/button&gt;
+      &lt;button class="px-4 py-2 text-sm rounded-lg
+                     bg-blue-600 text-white hover:bg-blue-700"&gt;
+        Confirm
+      &lt;/button&gt;
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        <div class="highlight-box bs-box">
+          <strong>Note:</strong> BS handles modal open/close with JS. Tailwind just toggles <code>hidden</code> / <code>fixed</code> classes — you need your own JS or a library like Alpine.js.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-ui-checks me-1"></i> Button Group</div>
+      <div class="card-body">
+        <pre><code>&lt;div class="inline-flex rounded-lg overflow-hidden
+            border border-gray-300 divide-x divide-gray-300"&gt;
+  &lt;button class="px-4 py-2 text-sm font-medium
+                 bg-white hover:bg-gray-50"&gt;Left&lt;/button&gt;
+  &lt;button class="px-4 py-2 text-sm font-medium
+                 bg-blue-600 text-white"&gt;Middle&lt;/button&gt;
+  &lt;button class="px-4 py-2 text-sm font-medium
+                 bg-white hover:bg-gray-50"&gt;Right&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-exclamation-triangle me-1"></i> Alerts (Dismissible)</div>
+      <div class="card-body">
+        <pre><code>&lt;div class="relative px-4 py-3 rounded-lg
+            bg-red-100 text-red-800 border border-red-200"&gt;
+  &lt;div class="flex items-center justify-between"&gt;
+    &lt;span&gt;&lt;strong&gt;Error:&lt;/strong&gt; Something went wrong.&lt;/span&gt;
+    &lt;button class="text-red-600 hover:text-red-800 text-xl
+                   leading-none"&gt;&amp;times;&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Color variants --&gt;
+.bg-blue-100 text-blue-800 border-blue-200  /* primary */
+.bg-green-100 text-green-800 border-green-200 /* success */
+.bg-yellow-100 text-yellow-800 border-yellow-200 /* warning */
+.bg-cyan-100 text-cyan-800 border-cyan-200  /* info */</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RESPONSIVE DESIGN ===== -->
+  <section id="responsive">
+    <h2 class="tw-heading"><i class="bi bi-phone me-2" style="color:var(--tw-cyan)"></i>Responsive Design</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-layout-three-columns me-1"></i> Responsive Grid Patterns</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-sm table-bordered">
+            <thead class="table-light"><tr><th>Bootstrap</th><th>Tailwind</th></tr></thead>
+            <tbody>
+              <tr><td><code>.col-12 .col-md-6 .col-lg-4</code></td><td><code>.grid-cols-1 .md:grid-cols-2 .lg:grid-cols-3</code></td></tr>
+              <tr><td><code>.d-none .d-md-block</code></td><td><code>.hidden .md:block</code></td></tr>
+              <tr><td><code>.d-flex .flex-column .flex-lg-row</code></td><td><code>.flex .flex-col .lg:flex-row</code></td></tr>
+              <tr><td><code>.text-center .text-md-start</code></td><td><code>.text-center .md:text-left</code></td></tr>
+              <tr><td><code>.order-2 .order-md-1</code></td><td><code>.order-2 .md:order-1</code></td></tr>
+              <tr><td><code>.offset-md-2</code></td><td><code>.md:col-start-3</code> (grid) or <code>.md:ml-[16.666%]</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <pre class="mt-3"><code>&lt;!-- Bootstrap responsive layout --&gt;
+&lt;div class="container"&gt;
+  &lt;div class="row"&gt;
+    &lt;div class="col-12 col-md-8"&gt;Main&lt;/div&gt;
+    &lt;div class="col-12 col-md-4"&gt;Sidebar&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Tailwind responsive layout --&gt;
+&lt;div class="container mx-auto max-w-7xl px-4"&gt;
+  &lt;div class="grid grid-cols-1 md:grid-cols-12 gap-6"&gt;
+    &lt;main class="md:col-span-8"&gt;Main&lt;/main&gt;
+    &lt;aside class="md:col-span-4"&gt;Sidebar&lt;/aside&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Responsive text + spacing --&gt;
+&lt;div class="p-4 md:p-8 text-sm md:text-base lg:text-lg
+            text-center md:text-left"&gt;
+  Responsive padding, font-size, alignment
+&lt;/div&gt;
+
+&lt;!-- Responsive visibility (like d-none d-md-block) --&gt;
+&lt;div class="hidden md:block"&gt;Visible on md+&lt;/div&gt;
+&lt;div class="block md:hidden"&gt;Visible on mobile only&lt;/div&gt;</code></pre>
+
+        <div class="highlight-box tw-box">
+          <strong>Same mental model:</strong> BS <code>{property}-{breakpoint}-{value}</code> → TW <code>{breakpoint}:{utility}</code>. The breakpoints are the same names (<code>sm md lg xl 2xl</code>). The difference: TW applies the pattern to <em>every</em> utility, not just grid.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="mt-5 pt-4 border-top">
+    <div class="row align-items-center">
+      <div class="col-md-6">
+        <p class="small text-muted mb-1">
+          <strong>Quick Links</strong> &middot;
+          <a href="https://tailwindcss.com/docs" target="_blank" class="text-decoration-none">
+            <i class="bi bi-book me-1"></i> Tailwind Docs
+          </a>
+          &middot;
+          <a href="https://getbootstrap.com/docs/5.3/getting-started/introduction/" target="_blank" class="text-decoration-none">
+            <i class="bi bi-book me-1"></i> Bootstrap Docs
+          </a>
+          &middot;
+          <a href="https://github.com/tailwindlabs/tailwindcss" target="_blank" class="text-decoration-none">
+            <i class="bi bi-github me-1"></i> GitHub
+          </a>
+        </p>
+        <p class="small mb-0 text-muted">
+          Tailwind CSS 4 &copy; Tailwind Labs &middot; Bootstrap 5.3 reference &copy; Bootstrap Team
+        </p>
+      </div>
+      <div class="col-md-6 text-md-end mt-2 mt-md-0">
+        <button id="themeToggle" class="btn btn-outline-secondary btn-sm">
+          <i class="bi bi-moon-fill me-1"></i> Toggle Theme
+        </button>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.getElementById('sidebarToggle')?.addEventListener('click', function () {
+    document.getElementById('sidebar').classList.toggle('show');
+  });
+  document.querySelectorAll('#sidebar .nav-link').forEach(function (link) {
+    link.addEventListener('click', function () {
+      document.getElementById('sidebar').classList.remove('show');
+    });
+  });
+
+  const themeToggle = document.getElementById('themeToggle');
+  if (themeToggle) {
+    const stored = localStorage.getItem('bt-guide-theme');
+    if (stored === 'dark') {
+      document.documentElement.setAttribute('data-bs-theme', 'dark');
+      themeToggle.innerHTML = '<i class="bi bi-sun-fill me-1"></i> Light Mode';
+    }
+    themeToggle.addEventListener('click', function () {
+      const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+      const next = isDark ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-bs-theme', next);
+      themeToggle.innerHTML = next === 'dark'
+        ? '<i class="bi bi-sun-fill me-1"></i> Light Mode'
+        : '<i class="bi bi-moon-fill me-1"></i> Toggle Theme';
+      localStorage.setItem('bt-guide-theme', next);
+    });
+  }
+</script>
+</body>
+</html>

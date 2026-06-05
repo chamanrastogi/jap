@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modern HTML & CSS — Latest Features Guide</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --coral: #ff6b6b;
+      --indigo: #4f46e5;
+      --amber: #f59e0b;
+      --sidebar-bg: #1e1b4b;
+      --sidebar-width: 280px;
+    }
+    * { scroll-margin-top: 1rem; }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: #f8fafc;
+      display: flex;
+    }
+    #sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0; left: 0;
+      background: var(--sidebar-bg);
+      overflow-y: auto;
+      z-index: 1000;
+      transition: transform .3s;
+    }
+    #sidebar .brand {
+      padding: 1.25rem 1.25rem .75rem;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    #sidebar .brand h5 { color: #fff; font-weight: 700; }
+    #sidebar .brand small { color: #a5b4fc; }
+    #sidebar .nav-link {
+      color: #c7d2fe;
+      padding: .5rem 1.25rem;
+      font-size: .88rem;
+      border-left: 3px solid transparent;
+      transition: all .15s;
+      text-decoration: none;
+      display: block;
+    }
+    #sidebar .nav-link:hover {
+      color: #fff;
+      background: rgba(255,255,255,.05);
+    }
+    #sidebar .nav-link i { width: 1.3rem; }
+    #sidebar .nav-section {
+      color: #6366f1;
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      padding: 1rem 1.25rem .3rem;
+      font-weight: 600;
+    }
+    .nav-link.hc-link { border-left-color: var(--coral); }
+    .nav-link.hc-link:hover { border-left-color: #fca5a5; }
+    #main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 2rem 2.5rem 4rem;
+      max-width: 1100px;
+    }
+    @media (max-width: 991.98px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.show { transform: translateX(0); }
+      #main { margin-left: 0; padding: 1.5rem; }
+    }
+    .sidebar-toggle {
+      position: fixed;
+      top: .75rem; left: .75rem;
+      z-index: 1050;
+      background: var(--sidebar-bg);
+      color: #fff;
+      border: none;
+      border-radius: .4rem;
+      padding: .4rem .65rem;
+      display: none;
+    }
+    @media (max-width: 991.98px) {
+      .sidebar-toggle { display: block; }
+    }
+    h2 {
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: 2.5rem;
+      padding-bottom: .5rem;
+      border-bottom: 3px solid #e2e8f0;
+    }
+    h2.hc-heading { border-bottom-color: var(--coral); }
+    h2.html-heading { border-bottom-color: var(--indigo); }
+    h2.css-heading { border-bottom-color: var(--amber); }
+    h3 {
+      font-weight: 600;
+      color: #1e293b;
+      margin-top: 1.8rem;
+    }
+    .card {
+      border: none;
+      border-radius: .75rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      margin-bottom: 1.5rem;
+    }
+    .card-header {
+      background: #fff;
+      border-bottom: 1px solid #e9ecef;
+      font-weight: 600;
+      padding: 1rem 1.25rem;
+    }
+    .card-body { padding: 1.5rem; }
+    pre {
+      background: #1e1e2f;
+      color: #e6e6e6;
+      padding: 1rem 1.25rem;
+      border-radius: .5rem;
+      font-size: .82rem;
+      overflow-x: auto;
+      position: relative;
+    }
+    pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
+    pre .tag { color: #f07178; }
+    pre .attr { color: #c792ea; }
+    pre .val { color: #c3e88d; }
+    pre .prop { color: #82aaff; }
+    pre .func { color: #ffcb6b; }
+    .highlight-box {
+      padding: 1rem 1.25rem;
+      border-radius: .4rem;
+      margin: 1rem 0;
+    }
+    .highlight-box.html-box {
+      background: #eef2ff;
+      border-left: 4px solid var(--indigo);
+    }
+    .highlight-box.css-box {
+      background: #fffbeb;
+      border-left: 4px solid var(--amber);
+    }
+    .highlight-box.new-box {
+      background: #fef2f2;
+      border-left: 4px solid var(--coral);
+    }
+    .home-link {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 1100;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.94);
+      color: #0f172a;
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 700;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: 0.2s;
+    }
+    .home-link:hover { color: var(--coral); }
+    @media (min-width: 992px) {
+      .home-link { left: calc(var(--sidebar-width) + 14px); }
+    }
+    @media (max-width: 991.98px) {
+      .home-link { left: 4rem; }
+    }
+    .version-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: .85rem;
+    }
+    .new-badge {
+      background: var(--coral);
+      color: #fff;
+      font-size: .65rem;
+      font-weight: 600;
+      padding: .15rem .5rem;
+      border-radius: 1rem;
+      vertical-align: middle;
+    }
+    .hot-badge {
+      background: var(--amber);
+      color: #fff;
+      font-size: .65rem;
+      font-weight: 600;
+      padding: .15rem .5rem;
+      border-radius: 1rem;
+      vertical-align: middle;
+    }
+    .side-by-side {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .side-by-side pre {
+      margin: 0;
+      height: 100%;
+    }
+    @media (max-width: 768px) {
+      .side-by-side { grid-template-columns: 1fr; }
+    }
+    .label-old, .label-new {
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      font-weight: 700;
+      margin-bottom: .25rem;
+    }
+    .label-old { color: #94a3b8; }
+    .label-new { color: var(--coral); }
+    .code-comment { color: #676e95; font-style: italic; }
+  </style>
+</head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
+<a href="index.html" class="home-link" aria-label="Go back to home page"><span>←</span> Home</a>
+
+<!-- ===== SIDEBAR ===== -->
+<nav id="sidebar">
+  <div class="brand">
+    <h5><i class="bi bi-code-slash me-2" style="color:var(--coral)"></i>HTML &amp; CSS</h5>
+    <small class="d-block mt-1">Modern Features Guide</small>
+  </div>
+  <div class="py-2">
+    <div class="nav-section">HTML</div>
+    <a class="nav-link hc-link" href="#html-semantic"><i class="bi bi-layout-text-window"></i> Semantic Elements</a>
+    <a class="nav-link hc-link" href="#html-forms"><i class="bi bi-input-cursor"></i> Forms &amp; Inputs</a>
+    <a class="nav-link hc-link" href="#html-interactive"><i class="bi bi-window-stack"></i> Interactive Elements</a>
+    <a class="nav-link hc-link" href="#html-attributes"><i class="bi bi-tags"></i> Modern Attributes</a>
+
+    <div class="nav-section">CSS Layout</div>
+    <a class="nav-link hc-link" href="#css-flexbox"><i class="bi bi-arrows-expand"></i> Flexbox</a>
+    <a class="nav-link hc-link" href="#css-grid"><i class="bi bi-grid-3x3"></i> Grid &amp; Subgrid</a>
+    <a class="nav-link hc-link" href="#css-containers"><i class="bi bi-box-seam"></i> Container Queries</a>
+
+    <div class="nav-section">CSS Selectors &amp; Cascade</div>
+    <a class="nav-link hc-link" href="#css-selectors"><i class="bi bi-diagram-3"></i> Modern Selectors</a>
+    <a class="nav-link hc-link" href="#css-cascade"><i class="bi bi-layers"></i> Layers &amp; Nesting</a>
+
+    <div class="nav-section">CSS Design</div>
+    <a class="nav-link hc-link" href="#css-typography"><i class="bi bi-fonts"></i> Typography</a>
+    <a class="nav-link hc-link" href="#css-colors"><i class="bi bi-palette"></i> Colors &amp; Gradients</a>
+    <a class="nav-link hc-link" href="#css-units"><i class="bi bi-rulers"></i> Units &amp; Sizing</a>
+    <a class="nav-link hc-link" href="#css-animation"><i class="bi bi-play-circle"></i> Animation &amp; Transitions</a>
+    <a class="nav-link hc-link" href="#css-effects"><i class="bi bi-stars"></i> Visual Effects</a>
+
+    <div class="nav-section">Accessibility</div>
+    <a class="nav-link hc-link" href="#a11y"><i class="bi bi-universal-access"></i> ARIA &amp; A11y</a>
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<div id="main">
+
+  <!-- HERO -->
+  <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+    <div>
+      <h1 class="fw-bold mb-1" style="color:#0f172a">
+        <span style="color:var(--indigo)">HTML</span>
+        <span class="text-muted mx-1">&amp;</span>
+        <span style="color:var(--amber)">CSS</span>
+        <span class="text-muted" style="font-size:1rem;font-weight:400"> — Modern Features</span>
+      </h1>
+      <p class="text-muted mb-0 fs-5">What works in browsers today — HTML5+ and CSS3+ latest</p>
+    </div>
+    <div class="ms-auto d-flex gap-2">
+      <span class="version-chip" style="background:#eef2ff;color:var(--indigo)">
+        <i class="bi bi-code-slash"></i> HTML Living Standard
+      </span>
+      <span class="version-chip" style="background:#fffbeb;color:var(--amber)">
+        <i class="bi bi-brush"></i> CSS 2026
+      </span>
+    </div>
+  </div>
+
+  <!-- ===================== HTML ===================== -->
+
+  <!-- HTML Semantics -->
+  <section id="html-semantic">
+    <h2 class="html-heading"><i class="bi bi-layout-text-window me-2" style="color:var(--indigo)"></i>Semantic Elements</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-diagram-2 me-1"></i> Structure</div>
+      <div class="card-body">
+        <p>Semantic HTML gives meaning to content — better for SEO, accessibility, and code readability.</p>
+        <pre><code>&lt;header&gt;  &lt;!-- site/page header --&gt;
+&lt;nav&gt;     &lt;!-- navigation block --&gt;
+&lt;main&gt;    &lt;!-- primary content (1 per page) --&gt;
+&lt;article&gt; &lt;!-- self-contained content --&gt;
+&lt;section&gt; &lt;!-- themed content group --&gt;
+&lt;aside&gt;   &lt;!-- tangential / sidebar --&gt;
+&lt;figure&gt;  &lt;!-- image + figcaption wrapper --&gt;
+  &lt;figcaption&gt;Caption text&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;footer&gt;  &lt;!-- site/page footer --&gt;</code></pre>
+        <div class="side-by-side mt-3">
+          <div>
+            <div class="label-old">&lt;div&gt;-based (old)</div>
+            <pre style="font-size:.75rem"><code>&lt;div id="header"&gt;
+  &lt;div id="nav"&gt;...&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="content"&gt;
+  &lt;div class="post"&gt;...&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="footer"&gt;...&lt;/div&gt;</code></pre>
+          </div>
+          <div>
+            <div class="label-new">Semantic (modern)</div>
+            <pre style="font-size:.75rem"><code>&lt;header&gt;
+  &lt;nav&gt;...&lt;/nav&gt;
+&lt;/header&gt;
+&lt;main&gt;
+  &lt;article&gt;...&lt;/article&gt;
+&lt;/main&gt;
+&lt;footer&gt;...&lt;/footer&gt;</code></pre>
+          </div>
+        </div>
+        <div class="highlight-box html-box mt-3">
+          <strong>Key rule:</strong> Use <code>&lt;div&gt;</code> only for styling hooks. Everything meaningful gets a semantic element. <code>&lt;main&gt;</code> should be unique per page. <code>&lt;article&gt;</code> should make sense in an RSS feed.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-image me-1"></i> Media Elements</div>
+      <div class="card-body">
+        <pre><code>&lt;picture&gt;
+  &lt;source srcset="img.avif" type="image/avif"&gt;
+  &lt;source srcset="img.webp" type="image/webp"&gt;
+  &lt;img src="img.jpg" alt="Description"
+       loading="lazy" decoding="async"
+       fetchpriority="high"&gt;
+&lt;/picture&gt;
+
+&lt;video controls poster="thumb.jpg"&gt;
+  &lt;source src="video.mp4" type="video/mp4"&gt;
+  &lt;track kind="subtitles" src="subs.vtt" srclang="en"&gt;
+&lt;/video&gt;
+
+&lt;audio controls&gt;
+  &lt;source src="audio.ogg" type="audio/ogg"&gt;
+&lt;/audio&gt;</code></pre>
+        <div class="highlight-box new-box">
+          <strong><i class="bi bi-star-fill me-1"></i> New:</strong> <code>loading="lazy"</code> defers offscreen images. <code>decoding="async"</code> avoids blocking render. <code>fetchpriority="high"</code> hints which image to load first (LCP optimization). <code>&lt;track&gt;</code> for captions/subtitles in video.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HTML Forms -->
+  <section id="html-forms">
+    <h2 class="html-heading"><i class="bi bi-input-cursor me-2" style="color:var(--indigo)"></i>Forms &amp; Inputs</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-ui-checks me-1"></i> Input Types</div>
+      <div class="card-body">
+        <pre><code>&lt;!-- Native validation built-in --&gt;
+&lt;input type="email" placeholder="email@example.com"&gt;
+&lt;input type="url" placeholder="https://example.com"&gt;
+&lt;input type="tel" placeholder="+1-555-555-5555"&gt;
+&lt;input type="number" min="0" max="100" step="1"&gt;
+&lt;input type="range" min="0" max="100" value="50"&gt;
+&lt;input type="date"&gt;  &lt;!-- date picker --&gt;
+&lt;input type="datetime-local"&gt;  &lt;!-- date+time --&gt;
+&lt;input type="month"&gt; &lt;input type="week"&gt;
+&lt;input type="time"&gt; &lt;input type="color"&gt;
+&lt;input type="search"&gt;  &lt;!-- search semantics --&gt;
+&lt;input type="file" accept="image/*" multiple&gt;
+
+&lt;!-- Datalist (autocomplete) --&gt;
+&lt;input list="countries"&gt;
+&lt;datalist id="countries"&gt;
+  &lt;option value="India"&gt;
+  &lt;option value="Japan"&gt;
+&lt;/datalist&gt;
+
+&lt;!-- Output element --&gt;
+&lt;form oninput="result.value=a.valueAsNumber+b.valueAsNumber"&gt;
+  &lt;input type="range" id="a" value="50"&gt; +
+  &lt;input type="number" id="b" value="25"&gt; =
+  &lt;output name="result"&gt;75&lt;/output&gt;
+&lt;/form&gt;</code></pre>
+        <div class="highlight-box html-box">
+          <strong>Why these matter:</strong> Native <code>type="email"</code> validates format without JS. <code>type="date"</code> gives a date picker on mobile. <code>type="search"</code> adds a clear button. <code>&lt;datalist&gt;</code> autocompletes without a JS library.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-asterisk me-1"></i> Form Attributes</div>
+      <div class="card-body">
+        <pre><code>&lt;!-- Validation attributes --&gt;
+&lt;input required pattern="[A-Za-z]{3,}"
+       minlength="3" maxlength="20"
+       autocomplete="given-name"&gt;
+
+&lt;!-- Better mobile UX --&gt;
+&lt;input inputmode="numeric"&gt;     &lt;!-- shows number keyboard --&gt;
+&lt;input inputmode="email"&gt;       &lt;!-- shows @ and .com keys --&gt;
+&lt;input inputmode="decimal"&gt;     &lt;!-- shows decimal key --&gt;
+&lt;input enterkeyhint="done"&gt;     &lt;!-- "Done" on keyboard --&gt;
+&lt;input enterkeyhint="search"&gt;   &lt;!-- "Search" button --&gt;
+&lt;input autocapitalize="sentences"&gt;
+&lt;textarea autocomplete="off"&gt;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- HTML Interactive -->
+  <section id="html-interactive">
+    <h2 class="html-heading"><i class="bi bi-window-stack me-2" style="color:var(--indigo)"></i>Interactive Elements</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-window me-1"></i> Dialog &amp; Details</div>
+      <div class="card-body">
+        <pre><code>&lt;!-- Modal dialog (native!) --&gt;
+&lt;dialog id="myModal"&gt;
+  &lt;form method="dialog"&gt;
+    &lt;p&gt;Are you sure?&lt;/p&gt;
+    &lt;menu&gt;
+      &lt;button value="cancel"&gt;Cancel&lt;/button&gt;
+      &lt;button value="confirm" autofocus&gt;OK&lt;/button&gt;
+    &lt;/menu&gt;
+  &lt;/form&gt;
+&lt;/dialog&gt;
+&lt;button onclick="myModal.showModal()"&gt;Open Modal&lt;/button&gt;
+
+&lt;!-- Details / Summary (collapsible) --&gt;
+&lt;details&gt;
+  &lt;summary&gt;Click to expand&lt;/summary&gt;
+  &lt;p&gt;Hidden content here.&lt;/p&gt;
+&lt;/details&gt;
+
+&lt;!-- Popover API (new!) --&gt;
+&lt;button popovertarget="myPopover"&gt;Toggle Popover&lt;/button&gt;
+&lt;div id="myPopover" popover&gt;
+  &lt;p&gt;Popover content.&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+        <div class="highlight-box new-box">
+          <strong><i class="bi bi-star-fill me-1"></i> Popover API:</strong> New in 2024 — no JS needed for tooltips/menus/popups. <code>popover="auto"</code> (light dismiss) or <code>popover="manual"</code> (stay open). Use <code>popovertarget</code> on triggers. Supported in all modern browsers.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-box me-1"></i> Template &amp; Slot</div>
+      <div class="card-body">
+        <pre><code>&lt;!-- Template (inert HTML fragment) --&gt;
+&lt;template id="card-template"&gt;
+  &lt;div class="card"&gt;
+    &lt;slot name="title"&gt;&lt;/slot&gt;
+    &lt;slot name="content"&gt;&lt;/slot&gt;
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre>
+        <div class="highlight-box html-box">
+          <code>&lt;template&gt;</code> content is not rendered, not loaded, not parsed for resources. Clone with <code>document.getElementById('card-template').content.cloneNode(true)</code>. Used by all major frameworks internally.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HTML Attributes -->
+  <section id="html-attributes">
+    <h2 class="html-heading"><i class="bi bi-tags me-2" style="color:var(--indigo)"></i>Modern Attributes</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-sliders me-1"></i> Global Attributes</div>
+      <div class="card-body">
+        <table class="table table-sm table-bordered">
+          <thead class="table-light"><tr><th>Attribute</th><th>Use</th></tr></thead>
+          <tbody>
+            <tr><td><code>contenteditable</code></td><td>Make any element editable in-page</td></tr>
+            <tr><td><code>inert</code> <span class="new-badge">NEW</span></td><td>Disable interaction + hide from a11y tree (great for modals)</td></tr>
+            <tr><td><code>spellcheck</code></td><td>Enable/disable native spellcheck</td></tr>
+            <tr><td><code>enterkeyhint</code></td><td>Label the Enter key on mobile keyboards</td></tr>
+            <tr><td><code>inputmode</code></td><td>Which mobile keyboard to show</td></tr>
+            <tr><td><code>autocapitalize</code></td><td>Auto-capitalization behavior</td></tr>
+            <tr><td><code>data-*</code></td><td>Custom data attributes for JS hooks</td></tr>
+            <tr><td><code>loading="lazy/eager"</code></td><td>Lazy-load images/iframes</td></tr>
+            <tr><td><code>decoding="async/sync/auto"</code></td><td>Image decode timing</td></tr>
+            <tr><td><code>fetchpriority="high/low/auto"</code></td><td>Resource loading priority</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CSS ===================== -->
+
+  <!-- CSS Flexbox -->
+  <section id="css-flexbox">
+    <h2 class="css-heading"><i class="bi bi-arrows-expand me-2" style="color:var(--amber)"></i>Flexbox</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-bezier2 me-1"></i> Quick Reference</div>
+      <div class="card-body">
+        <p class="mb-2">One-dimensional layout. Best for nav bars, centering, card rows, toolbars.</p>
+        <pre><code>.container {
+  display: flex;              /* or inline-flex */
+  flex-direction: row;        /* row | row-reverse | column | column-reverse */
+  flex-wrap: wrap;            /* nowrap | wrap | wrap-reverse */
+  justify-content: center;    /* flex-start | flex-end | center | between | around | evenly */
+  align-items: center;        /* stretch | flex-start | flex-end | center | baseline */
+  align-content: center;      /* (multi-line only) */
+  gap: 1rem;                  /* row-gap + column-gap shorthand */
+}
+
+.item {
+  flex: 1 1 0%;              /* grow | shrink | basis */
+  align-self: center;         /* override alignment */
+  order: -1;                  /* reorder visually */</code></pre>
+        <div class="highlight-box css-box">
+          <strong><code>gap</code></strong> on flexbox is fully supported in all modern browsers. No more margin hacks on children.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CSS Grid -->
+  <section id="css-grid">
+    <h2 class="css-heading"><i class="bi bi-grid-3x3 me-2" style="color:var(--amber)"></i>Grid &amp; Subgrid</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-layout-three-columns me-1"></i> Grid Reference</div>
+      <div class="card-body">
+        <pre><code>.container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);    /* 3 equal cols */
+  grid-template-rows: auto 1fr auto;         /* header / main / footer */
+  gap: 1.5rem;
+  grid-template-areas:
+    "header header header"
+    "sidebar main   main"
+    "footer footer footer";
+}
+
+.item-header { grid-area: header; }
+.item-sidebar { grid-area: sidebar; }
+
+.item:nth-child(2) {
+  grid-column: 2 / 4;      /* span across */
+  grid-row: 1 / 3;
+}</code></pre>
+
+        <div class="highlight-box new-box mt-3">
+          <strong><i class="bi bi-star-fill me-1"></i> Subgrid</strong> — inherits track sizing from parent grid:
+          <pre style="margin-top:.5rem"><code>.parent {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.child {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;  /* matches parent tracks */
+  /* child's columns now align with parent */
+}</code></pre>
+          <p class="mt-2 mb-0">Useful for aligning cards in a grid where each card has a different content height.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Container Queries -->
+  <section id="css-containers">
+    <h2 class="css-heading"><i class="bi bi-box-seam me-2" style="color:var(--amber)"></i>Container Queries</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-arrows-angle-expand me-1"></i> Component-Level Responsiveness</div>
+      <div class="card-body">
+        <p>The biggest CSS game-changer since Flexbox. Respond to the parent container's size, not the viewport.</p>
+        <pre><code>/* 1. Define a containment context */
+.card-wrapper {
+  container-type: inline-size;
+  container-name: card;
+}
+
+/* 2. Query the container */
+@container card (min-width: 400px) {
+  .card {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+  }
+}
+
+@container card (max-width: 399px) {
+  .card {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/* Container query units */
+.cqw  /* 1% of container width */
+.cqh  /* 1% of container height */
+.cqi  /* 1% of container inline size */
+.cqb  /* 1% of container block size */
+.cqmin / .cqmax  /* smaller/larger of cqi/cqb */</code></pre>
+        <div class="side-by-side mt-3">
+          <div>
+            <div class="label-old">Media Queries (viewport)</div>
+            <pre style="font-size:.75rem"><code>/* 🚫 Depends on screen size */
+@media (max-width: 768px) {
+  .sidebar-card {
+    flex-direction: column;
+  }
+}</code></pre>
+          </div>
+          <div>
+            <div class="label-new">Container Queries</div>
+            <pre style="font-size:.75rem"><code>/* ✅ Depends on container size */
+@container (max-width: 400px) {
+  .sidebar-card {
+    flex-direction: column;
+  }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CSS Selectors -->
+  <section id="css-selectors">
+    <h2 class="css-heading"><i class="bi bi-diagram-3 me-2" style="color:var(--amber)"></i>Modern Selectors</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-magic me-1"></i> :has() — The Parent Selector</div>
+      <div class="card-body">
+        <pre><code>/* Select a card that CONTAINS an image */
+.card:has(img) {
+  grid-template-rows: 200px 1fr;
+}
+
+/* Style a form group that has an error */
+.form-group:has(.error) label {
+  color: red;
+}
+
+/* Previous sibling! (h2 that comes before p) */
+h2:has(+ p) {
+  margin-bottom: 0;
+}
+
+/* All modern browsers support :has() */
+/* Chain it: :has(:has(...)) works too */</code></pre>
+        <div class="highlight-box new-box">
+          <strong><i class="bi bi-star-fill me-1"></i> Game changer:</strong> <code>:has()</code> finally lets us select a parent based on its children. Also enables <em>previous-sibling</em> selectors. Supported in all major browsers since early 2024.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-scissors me-1"></i> :where(), :is(), :not()</div>
+      <div class="card-body">
+        <pre><code>/* :where() — zero specificity (great for resets) */
+:where(h1, h2, h3) { margin: 0; }     /* specificity = 0 */
+h1 { margin: 1rem; }                   /* wins (specificity = 0,0,1) */
+
+/* :is() — same as :where() but keeps specificity */
+:is(h1, h2, h3) { color: blue; }      /* specificity = 0,0,1 */
+
+/* :not() now supports selector lists */
+:not(.error, .warning, .disabled) { opacity: 1; }
+
+/* Combo — style cards that have images AND are not disabled */
+.card:has(img):not(.disabled) {
+  opacity: 1;
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-plus-circle me-1"></i> CSS Nesting</div>
+      <div class="card-body">
+        <div class="side-by-side">
+          <div>
+            <div class="label-old">Without nesting</div>
+            <pre style="font-size:.75rem"><code>.card { }
+.card .title { }
+.card .body { }
+.card .body p { }
+.card:hover { }
+.card:hover .title { }</code></pre>
+          </div>
+          <div>
+            <div class="label-new">With nesting <span class="new-badge">NEW</span></div>
+            <pre style="font-size:.75rem"><code>.card {
+  .title { }
+  .body {
+    p { }
+  }
+  &amp;:hover {
+    .title { }
+  }
+}</code></pre>
+          </div>
+        </div>
+        <p class="mt-2 small text-muted">Native CSS nesting (no preprocessor needed). The <code>&amp;</code> refers to the parent selector. Supported in all modern browsers.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CSS Cascade Layers -->
+  <section id="css-cascade">
+    <h2 class="css-heading"><i class="bi bi-layers me-2" style="color:var(--amber)"></i>Layers &amp; Nesting</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-stack me-1"></i> @layer — Cascade Control</div>
+      <div class="card-body">
+        <p>Control the cascade explicitly — framework styles never override your components.</p>
+        <pre><code>@layer reset, base, components, utilities;
+
+@layer reset {
+  *, *::before, *::after { box-sizing: border-box; margin: 0; }
+}
+
+@layer base {
+  body { font-family: system-ui; line-height: 1.6; }
+  a { color: blue; }
+}
+
+@layer components {
+  .btn { padding: 0.5rem 1rem; border-radius: 0.25rem; }
+}
+
+@layer utilities {
+  .text-center { text-align: center; }
+  .mt-4 { margin-top: 1rem; }
+}
+
+/* Later layers override earlier ones — even with lower specificity */</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-asterisk me-1"></i> @property — Registered Custom Properties</div>
+      <div class="card-body">
+        <p>Define typed CSS variables for animation, fallbacks, and validation.</p>
+        <pre><code>@property --primary-color {
+  syntax: "&lt;color&gt;";
+  inherits: true;
+  initial-value: #4f46e5;
+}
+
+@property --spacing {
+  syntax: "&lt;length&gt;";
+  inherits: false;
+  initial-value: 1rem;
+}
+
+/* Now you can animate custom properties! */
+.card {
+  --primary-color: blue;
+  transition: --primary-color 0.3s;
+}
+.card:hover {
+  --primary-color: red;
+}</code></pre>
+        <div class="highlight-box css-box">
+          Without <code>@property</code>, CSS animations on custom properties don't work — the browser doesn't know the type. With <code>@property</code>, it can interpolate between colors/lengths/angles.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CSS Typography -->
+  <section id="css-typography">
+    <h2 class="css-heading"><i class="bi bi-fonts me-2" style="color:var(--amber)"></i>Typography</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-text-paragraph me-1"></i> Modern Text Features</div>
+      <div class="card-body">
+        <pre><code>/* Balanced text wrapping (new!) */
+h1, h2, h3 {
+  text-wrap: balance;    /* equal-width lines, great for headings */
+}
+p {
+  text-wrap: pretty;     /* avoid orphan words on last line */
+}
+.text-nowrap {
+  text-wrap: nowrap;
+}
+
+/* Initial letter (drop cap) */
+p::first-letter {
+  initial-letter: 2;    /* 2 lines tall */
+  font-weight: 700;
+  color: var(--coral);
+}
+
+/* Line clamp (multi-line truncation) */
+.card-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Variable fonts */
+@font-face {
+  font-family: 'MyVariableFont';
+  src: url('font.woff2') format('woff2-variations');
+  font-weight: 100 900;         /* weight axis range */
+  font-stretch: 75% 125%;       /* width axis range */
+}
+body {
+  font-family: 'MyVariableFont', sans-serif;
+  font-weight: 400;             /* or 372 — any value in range */
+}</code></pre>
+        <div class="highlight-box new-box">
+          <strong><i class="bi bi-star-fill me-1"></i> text-wrap: balance</strong> — single line of CSS and your headings look like a designer typeset them. <code>pretty</code> prevents orphans. Both are supported in Chrome 117+, Safari 17.5+, Firefox 121+.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CSS Colors -->
+  <section id="css-colors">
+    <h2 class="css-heading"><i class="bi bi-palette me-2" style="color:var(--amber)"></i>Colors &amp; Gradients</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-eyedropper me-1"></i> Modern Color Spaces</div>
+      <div class="card-body">
+        <pre><code>/* OKLCH — perceptually uniform, wider gamut */
+.primary {
+  background: oklch(0.6 0.2 280);   /* lightness, chroma, hue */
+}
+.oklch-example {
+  color: oklch(0.4 0.15 200);       /* dark cyan */
+}
+
+/* color-mix() — blend two colors */
+.mixed {
+  background: color-mix(in oklch, red 40%, blue 60%);
+}
+.hover-effect {
+  background: color-mix(in srgb, var(--primary), white 30%);
+}
+
+/* Relative colors (modify an existing color) */
+.lighter {
+  --primary: #4f46e5;
+  background: oklch(from var(--primary) l c h / 0.5);
+  /* Keep hue/chroma, change alpha */
+}
+
+/* P3 wide gamut (brighter displays) */
+@media (color-gamut: p3) {
+  .vibrant {
+    color: color(display-p3 0 0.8 0.6);
+  }
+}
+
+/* accent-color for form controls */
+input[type="checkbox"] {
+  accent-color: var(--coral);
+}</code></pre>
+        <div class="highlight-box new-box">
+          <strong><i class="bi bi-star-fill me-1"></i> OKLCH</strong> is the color space of the future — perceptually uniform, works like HSL but actually looks right. <code>color-mix()</code> replaces preprocessor darken/lighten. Supported in all modern browsers.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CSS Units -->
+  <section id="css-units">
+    <h2 class="css-heading"><i class="bi bi-rulers me-2" style="color:var(--amber)"></i>Units &amp; Sizing</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-arrows-expand me-1"></i> Modern CSS Units</div>
+      <div class="card-body">
+        <table class="table table-sm table-bordered">
+          <thead class="table-light"><tr><th>Unit</th><th>Meaning</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td><code>dvh</code></td><td>Dynamic viewport height (contracts on mobile)</td><td><code>height: 100dvh;</code></td></tr>
+            <tr><td><code>svh</code></td><td>Small viewport height (shortest)</td><td><code>height: 100svh;</code></td></tr>
+            <tr><td><code>lvh</code></td><td>Large viewport height (full screen)</td><td><code>height: 100lvh;</code></td></tr>
+            <tr><td><code>dvw</code></td><td>Dynamic viewport width</td><td><code>width: 100dvw;</code></td></tr>
+            <tr><td><code>lh</code></td><td>Line height of current element</td><td><code>padding: 1lh;</code></td></tr>
+            <tr><td><code>rlh</code></td><td>Line height of root element</td><td><code>margin: 2rlh;</code></td></tr>
+            <tr><td><code>cqw / cqh</code></td><td>Container query width/height</td><td><code>font-size: 5cqw;</code></td></tr>
+            <tr><td><code>cqi / cqb</code></td><td>Container inline/block size</td><td><code>padding: 2cqi;</code></td></tr>
+          </tbody>
+        </table>
+
+        <pre class="mt-3"><code>/* Smooth sizing with clamp() */
+.responsive-text {
+  font-size: clamp(1rem, 2.5vw + 1rem, 2rem);
+}
+.responsive-padding {
+  padding: clamp(1rem, 3vw, 3rem);
+}
+
+/* Similar min() / max() / minmax() helpers */
+.sidebar {
+  width: min(300px, 30vw);       /* whichever is smaller */
+}
+.content {
+  flex: 1 1 minmax(200px, 1fr); /* Grid auto-fit trick */
+}</code></pre>
+        <div class="highlight-box css-box">
+          <strong><code>dvh</code></strong> solves the infamous mobile 100vh problem (Chrome mobile address bar). Use <code>min-height: 100dvh</code> for full-screen sections.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-aspect-ratio me-1"></i> aspect-ratio</div>
+      <div class="card-body">
+        <pre><code>/* Maintain aspect ratio without padding hacks */
+img, video {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  height: auto;
+}
+.square {
+  aspect-ratio: 1;
+  width: 100px;
+}
+.wide {
+  aspect-ratio: 2 / 1;
+}</code></pre>
+        <div class="highlight-box css-box">
+          No more <code>padding-bottom: 56.25%</code> hacks. <code>aspect-ratio</code> is supported in all modern browsers.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CSS Animation -->
+  <section id="css-animation">
+    <h2 class="css-heading"><i class="bi bi-play-circle me-2" style="color:var(--amber)"></i>Animation &amp; Transitions</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-arrow-repeat me-1"></i> View Transitions API</div>
+      <div class="card-body">
+        <pre><code>/* SPA-like page transitions with one line */
+@view-transition {
+  navigation: auto;
+}
+
+/* Or manual for specific transitions */
+document.startViewTransition(() => {
+  updateDOM();
+});
+
+/* Style individual transition elements */
+::view-transition-old(page) {
+  animation: fade-out 0.3s;
+}
+::view-transition-new(page) {
+  animation: fade-in 0.3s;
+}
+
+/* Cross-fade between elements with the same view-transition-name */
+.thumbnail {
+  view-transition-name: gallery-image;
+}
+.lightbox {
+  view-transition-name: gallery-image;
+}</code></pre>
+        <div class="highlight-box new-box">
+          <strong><i class="bi bi-star-fill me-1"></i> View Transitions API</strong> — smooth animations between DOM states. The browser handles the complexity. Supported in Chrome 111+, Safari 18+, and coming to Firefox.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-timeline me-1"></i> Scroll-Driven Animations</div>
+      <div class="card-body">
+        <pre><code>/* Animate based on scroll position — no JS intersection observer */
+@keyframes fade-in {
+  from { opacity: 0; scale: 0.8; }
+  to { opacity: 1; scale: 1; }
+}
+
+.card {
+  animation: fade-in linear;
+  animation-timeline: view();        /* triggers based on element visibility */
+  animation-range: entry 0% entry 100%;  /* animate during entry */
+}
+
+/* Progress indicator linked to scroll */
+@keyframes shrink-header {
+  from { height: 120px; font-size: 2rem; }
+  to { height: 60px; font-size: 1rem; }
+}
+
+header {
+  animation: shrink-header linear;
+  animation-timeline: scroll();
+  position: sticky;
+  top: 0;
+}
+
+/* @starting-style — animate elements entering the DOM */
+@starting-style {
+  .toast {
+    opacity: 0;
+    translate: 0 100%;
+  }
+}
+.toast {
+  opacity: 1;
+  translate: 0 0;
+  transition: opacity 0.3s, translate 0.3s;
+}
+
+/* overlay + allow-discrete for entry/exit */
+.modal {
+  overlay: auto;
+  transition: opacity 0.3s, overlay 0.3s allow-discrete;
+}
+@starting-style {
+  .modal { opacity: 0; }
+}</code></pre>
+        <div class="highlight-box new-box">
+          <strong><i class="bi bi-star-fill me-1"></i> Scroll-driven animations</strong> are the future of scroll-based effects. <code>@starting-style</code> solves the "can't animate on mount" problem. <code>transition-behavior: allow-discrete</code> enables animation of discrete properties like <code>overlay</code> and <code>display</code>.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CSS Effects -->
+  <section id="css-effects">
+    <h2 class="css-heading"><i class="bi bi-stars me-2" style="color:var(--amber)"></i>Visual Effects</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-brush me-1"></i> Modern Visual Utilities</div>
+      <div class="card-body">
+        <pre><code>/* Backdrop blur (glassmorphism) */
+.glass {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Scrollbar gutter (prevent layout shift) */
+.layout {
+  scrollbar-gutter: stable;    /* always reserve scrollbar space */
+}
+
+/* Overscroll behavior */
+.sidebar {
+  overscroll-behavior: contain;  /* stop scroll chaining */
+}
+body {
+  overscroll-behavior: none;     /* disable pull-to-refresh */
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hyphenation */
+p {
+  hyphens: auto;
+}
+
+/* content-visibility (performance) */
+.lazy-section {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
+}</code></pre>
+        <div class="highlight-box css-box">
+          <strong><code>content-visibility: auto</code></strong> — skip rendering of offscreen elements. Major performance boost for long pages. <code>contain-intrinsic-size</code> prevents scrollbar jank by reserving space.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Accessibility -->
+  <section id="a11y">
+    <h2 class="hc-heading"><i class="bi bi-universal-access me-2" style="color:var(--coral)"></i>ARIA &amp; Accessibility</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-mic me-1"></i> ARIA Landmarks</div>
+      <div class="card-body">
+        <pre><code>&lt;!-- Use semantic elements first, ARIA as fallback --&gt;
+&lt;header role="banner"&gt;...&lt;/header&gt;
+&lt;nav role="navigation" aria-label="Main"&gt;...&lt;/nav&gt;
+&lt;main role="main"&gt;...&lt;/main&gt;
+&lt;aside role="complementary"&gt;...&lt;/aside&gt;
+&lt;footer role="contentinfo"&gt;...&lt;/footer&gt;
+
+&lt;!-- Live regions (dynamic content) --&gt;
+&lt;div role="alert" aria-live="assertive"&gt;Error occurred&lt;/div&gt;
+&lt;div aria-live="polite"&gt;3 new messages&lt;/div&gt;
+
+&lt;!-- Screen-reader-only text --&gt;
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-list-check me-1"></i> A11y Checklist</div>
+      <div class="card-body">
+        <div class="row g-2">
+          <div class="col-md-6">
+            <ul class="small mb-0">
+              <li><strong>Every <code>&lt;img&gt;</code> needs <code>alt</code></strong> (even <code>alt=""</code> for decorative)</li>
+              <li><strong>Color contrast</strong> — 4.5:1 for text, 3:1 for large text (18px+)</li>
+              <li><strong>Focus indicators</strong> — never <code>outline: none</code> without replacement</li>
+              <li><strong>Labels on form inputs</strong> — use <code>&lt;label&gt;</code> or <code>aria-label</code></li>
+              <li><strong>Heading hierarchy</strong> — h1 → h2 → h3 (never skip levels)</li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <ul class="small mb-0">
+              <li><strong>aria-expanded</strong> on expandable elements (accordions, menus)</li>
+              <li><strong>aria-current="page"</strong> on current nav item</li>
+              <li><strong>role="button"</strong> on clickable divs (better: use <code>&lt;button&gt;</code>)</li>
+              <li><strong>Focus management</strong> — trap focus in modals, return on close</li>
+              <li><strong>Reduce motion</strong> — respect <code>prefers-reduced-motion</code></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="mt-5 pt-4 border-top">
+    <div class="row align-items-center">
+      <div class="col-md-6">
+        <p class="small text-muted mb-1">
+          <strong>Quick Links</strong> &middot;
+          <a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank" class="text-decoration-none">
+            <i class="bi bi-book me-1"></i> MDN HTML
+          </a>
+          &middot;
+          <a href="https://developer.mozilla.org/en-US/docs/Web/CSS" target="_blank" class="text-decoration-none">
+            <i class="bi bi-book me-1"></i> MDN CSS
+          </a>
+          &middot;
+          <a href="https://caniuse.com/" target="_blank" class="text-decoration-none">
+            <i class="bi bi-graph-up me-1"></i> Can I Use
+          </a>
+          &middot;
+          <a href="https://web.dev/learn" target="_blank" class="text-decoration-none">
+            <i class="bi bi-mortarboard me-1"></i> web.dev
+          </a>
+        </p>
+        <p class="small mb-0 text-muted">
+          HTML Living Standard &middot; CSS 2026 &mdash; Always check <a href="https://caniuse.com" target="_blank">caniuse.com</a> for feature support
+        </p>
+      </div>
+      <div class="col-md-6 text-md-end mt-2 mt-md-0">
+        <button id="themeToggle" class="btn btn-outline-secondary btn-sm">
+          <i class="bi bi-moon-fill me-1"></i> Toggle Theme
+        </button>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.getElementById('sidebarToggle')?.addEventListener('click', function () {
+    document.getElementById('sidebar').classList.toggle('show');
+  });
+  document.querySelectorAll('#sidebar .nav-link').forEach(function (link) {
+    link.addEventListener('click', function () {
+      document.getElementById('sidebar').classList.remove('show');
+    });
+  });
+
+  const themeToggle = document.getElementById('themeToggle');
+  if (themeToggle) {
+    const stored = localStorage.getItem('hc-guide-theme');
+    if (stored === 'dark') {
+      document.documentElement.setAttribute('data-bs-theme', 'dark');
+      themeToggle.innerHTML = '<i class="bi bi-sun-fill me-1"></i> Light Mode';
+    }
+    themeToggle.addEventListener('click', function () {
+      const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+      const next = isDark ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-bs-theme', next);
+      themeToggle.innerHTML = next === 'dark'
+        ? '<i class="bi bi-sun-fill me-1"></i> Light Mode'
+        : '<i class="bi bi-moon-fill me-1"></i> Toggle Theme';
+      localStorage.setItem('hc-guide-theme', next);
+    });
+  }
+</script>
+</body>
+</html>
