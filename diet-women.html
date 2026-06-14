@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Indian Diet Chart — 40-Year-Old Working Man</title>
+  <title>Indian Diet Chart — 39-Year-Old Woman</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <style>
     :root {
-      --diet-green: #2d8a4e;
-      --diet-dark: #0f1f14;
+      --diet-purple: #7c3aed;
+      --diet-dark: #1a0f2e;
       --sidebar-width: 280px;
     }
     * { scroll-margin-top: 1rem; }
     body {
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: #f4f8f5;
+      background: #f8f4fc;
       display: flex;
     }
     [data-bs-theme="dark"] body { background: #0f172a; }
@@ -25,7 +25,7 @@
     [data-bs-theme="dark"] .table-light { background: #334155; color: #e2e8f0; }
     [data-bs-theme="dark"] .table-hover tbody tr:hover { color: #f1f5f9; background: rgba(255,255,255,.04); }
     [data-bs-theme="dark"] .text-muted { color: #94a3b8 !important; }
-    [data-bs-theme="dark"] .highlight-box { background: rgba(45,138,78,.12); border-left-color: var(--diet-green); }
+    [data-bs-theme="dark"] .highlight-box { background: rgba(124,58,237,.12); border-left-color: var(--diet-purple); }
     [data-bs-theme="dark"] .home-link, [data-bs-theme="dark"] .theme-btn { background: rgba(30,41,59,.93); color: #e2e8f0; border-color: #334155; }
     [data-bs-theme="dark"] .theme-btn:hover { background: #334155; }
     #sidebar {
@@ -94,11 +94,11 @@
       color: var(--diet-dark);
       margin-top: 2.5rem;
       padding-bottom: .5rem;
-      border-bottom: 3px solid var(--diet-green);
+      border-bottom: 3px solid var(--diet-purple);
     }
     h3 {
       font-weight: 600;
-      color: #1e3a2e;
+      color: #2e1a47;
       margin-top: 1.8rem;
     }
     .card {
@@ -115,10 +115,10 @@
     }
     [data-bs-theme="dark"] .card-header { background: #1e293b; border-bottom-color: #334155; }
     .card-body { padding: 1.5rem; }
-    .badge-diet { background: var(--diet-green); color: #fff; }
+    .badge-diet { background: var(--diet-purple); color: #fff; }
     .highlight-box {
-      background: #e8f5e9;
-      border-left: 4px solid var(--diet-green);
+      background: #f0e6ff;
+      border-left: 4px solid var(--diet-purple);
       padding: 1rem 1.25rem;
       border-radius: .4rem;
       margin: 1rem 0;
@@ -144,7 +144,7 @@
       -webkit-backdrop-filter: blur(10px);
       transition: 0.2s;
     }
-    .home-link:hover { color: #2563eb; }
+    .home-link:hover { color: #7c3aed; }
     @media (min-width: 992px) {
       .home-link { left: calc(var(--sidebar-width) + 14px); }
     }
@@ -170,10 +170,10 @@
       color: #0f172a;
     }
     .theme-btn:hover { transform: scale(1.08); }
-    .day-table thead th { background: var(--diet-green); color: #fff; font-weight: 600; }
-    .cal-cell { font-weight: 700; color: var(--diet-green); }
-    .table-summary { background: #f0faf3; }
-    [data-bs-theme="dark"] .table-summary { background: #1a2e1a; }
+    .day-table thead th { background: var(--diet-purple); color: #fff; font-weight: 600; }
+    .cal-cell { font-weight: 700; color: var(--diet-purple); }
+    .table-summary { background: #f3edfc; }
+    [data-bs-theme="dark"] .table-summary { background: #2a1a3e; }
     .avoid-list { list-style: none; padding: 0; }
     .avoid-list li { padding: .4rem 0; border-bottom: 1px solid rgba(0,0,0,.05); }
     .avoid-list li:last-child { border-bottom: none; }
@@ -193,15 +193,14 @@
 <!-- ===== SIDEBAR ===== -->
 <nav id="sidebar">
   <div class="brand">
-    <h5><i class="bi bi-heart-pulse-fill me-2" style="color:var(--diet-green)"></i>Diet Chart</h5>
-    <small class="d-block mt-1">Indian Weight Loss Plan</small>
+    <h5><i class="bi bi-flower2 me-2" style="color:var(--diet-purple)"></i>Diet Chart</h5>
+    <small class="d-block mt-1">Women's Weight Loss Plan</small>
   </div>
   <div class="py-2">
     <div class="nav-section">Plan Overview</div>
     <a class="nav-link" href="#profile"><i class="bi bi-person-badge"></i> Profile Summary</a>
     <a class="nav-link" href="#habits"><i class="bi bi-check2-square"></i> Daily Non-Negotiables</a>
     <a class="nav-link" href="#avoid"><i class="bi bi-x-octagon"></i> Foods to Avoid</a>
-    <a class="nav-link" href="#meal-ideas"><i class="bi bi-images"></i> Meal Ideas (Photos)</a>
 
     <div class="nav-section">7-Day Meal Plan</div>
     <a class="nav-link" href="#mon"><i class="bi bi-1-circle"></i> Monday</a>
@@ -213,7 +212,6 @@
     <a class="nav-link" href="#sun"><i class="bi bi-7-circle"></i> Sunday</a>
 
     <div class="nav-section">Extras</div>
-    <a class="nav-link" href="#nonveg"><i class="bi bi-egg-fried"></i> Non-Veg Protein Swaps</a>
     <a class="nav-link" href="#exercise"><i class="bi bi-activity"></i> Exercise Plan</a>
     <a class="nav-link" href="#home-exercise"><i class="bi bi-house-heart"></i> Yoga & Home Exercise</a>
     <a class="nav-link" href="#prep"><i class="bi bi-clock-history"></i> Meal Prep Tips</a>
@@ -228,21 +226,21 @@
   <div class="d-flex align-items-center gap-3 mb-3 flex-wrap">
     <div>
       <h1 class="fw-bold mb-1" style="color:var(--diet-dark)">
-        <i class="bi bi-heart-pulse-fill" style="color:var(--diet-green)"></i>
+        <i class="bi bi-flower2" style="color:var(--diet-purple)"></i>
         Indian Diet Chart
       </h1>
       <p class="text-muted mb-0 fs-5">
-        40-Year-Old Working Man — Weight Loss Plan
-        <span class="badge badge-diet ms-2">~1,850 kcal</span>
+        39-Year-Old Woman — Weight Loss Plan
+        <span class="badge badge-diet ms-2">~1,500 kcal</span>
         <span class="badge bg-warning text-dark ms-1">High Protein</span>
       </p>
     </div>
   </div>
 
   <p class="fs-5 text-muted mb-5">
-    A sustainable 7-day Indian diet plan for belly fat reduction and weight loss
-    (<strong>75 kg → 65–68 kg</strong>) with <strong>high protein</strong>,
-    <strong>low sugar</strong>, and easy-to-cook meals for a sedentary office worker.
+    A sustainable 7-day Indian vegetarian diet plan for healthy weight loss
+    (<strong>69 kg → 58–62 kg</strong>) with <strong>high protein</strong>,
+    <strong>low sugar</strong>, and easy-to-cook meals tailored for women.
   </p>
 
   <!-- ==================== PROFILE ==================== -->
@@ -251,14 +249,14 @@
     <div class="card">
       <div class="card-body">
         <div class="row g-3">
-          <div class="col-6 col-md-3"><strong>Age</strong><br><span class="text-muted">40 years</span></div>
-          <div class="col-6 col-md-3"><strong>Gender</strong><br><span class="text-muted">Male</span></div>
-          <div class="col-6 col-md-3"><strong>Weight</strong><br><span class="text-muted">75 kg</span></div>
-          <div class="col-6 col-md-3"><strong>Height</strong><br><span class="text-muted">163 cm (5'4")</span></div>
-          <div class="col-6 col-md-3"><strong>BMI</strong><br><span class="text-muted">28.2 (Overweight)</span></div>
-          <div class="col-6 col-md-3"><strong>Target</strong><br><span class="text-muted">65–68 kg</span></div>
-          <div class="col-6 col-md-3"><strong>Calorie Target</strong><br><span class="text-muted">~1,800–2,000 kcal/day</span></div>
-          <div class="col-6 col-md-3"><strong>Protein Target</strong><br><span class="text-muted">90–100 g/day</span></div>
+          <div class="col-6 col-md-3"><strong>Age</strong><br><span class="text-muted">39 years</span></div>
+          <div class="col-6 col-md-3"><strong>Gender</strong><br><span class="text-muted">Female</span></div>
+          <div class="col-6 col-md-3"><strong>Weight</strong><br><span class="text-muted">69 kg</span></div>
+          <div class="col-6 col-md-3"><strong>Height</strong><br><span class="text-muted">152 cm (5'0")</span></div>
+          <div class="col-6 col-md-3"><strong>BMI</strong><br><span class="text-muted">29.9 (Overweight)</span></div>
+          <div class="col-6 col-md-3"><strong>Target</strong><br><span class="text-muted">58–62 kg</span></div>
+          <div class="col-6 col-md-3"><strong>Calorie Target</strong><br><span class="text-muted">~1,500–1,600 kcal/day</span></div>
+          <div class="col-6 col-md-3"><strong>Protein Target</strong><br><span class="text-muted">70–80 g/day</span></div>
         </div>
       </div>
     </div>
@@ -270,46 +268,46 @@
     <div class="row g-4">
       <div class="col-md-6">
         <div class="card h-100">
-          <div class="card-header"><i class="bi bi-droplet me-1" style="color:var(--diet-green)"></i> Hydration</div>
+          <div class="card-header"><i class="bi bi-droplet me-1" style="color:var(--diet-purple)"></i> Hydration</div>
           <div class="card-body">
             <ul class="mb-0">
-              <li><strong>3–4 litres</strong> of water daily</li>
+              <li><strong>2.5–3 litres</strong> of water daily</li>
               <li>2 glasses right after waking up</li>
               <li>1 glass before every meal</li>
-              <li>Carry a 1L bottle to office</li>
+              <li>Carry a water bottle everywhere</li>
             </ul>
           </div>
         </div>
       </div>
       <div class="col-md-6">
         <div class="card h-100">
-          <div class="card-header"><i class="bi bi-walk me-1" style="color:var(--diet-green)"></i> Movement</div>
+          <div class="card-header"><i class="bi bi-walk me-1" style="color:var(--diet-purple)"></i> Movement</div>
           <div class="card-body">
             <ul class="mb-0">
-              <li><strong>10,000 steps/day</strong> (track with phone)</li>
-              <li>30-min brisk walk in morning</li>
-              <li>15–20 min walk after dinner</li>
-              <li>Take stairs, walk while on calls</li>
+              <li><strong>8,000–10,000 steps/day</strong> (track with phone)</li>
+              <li>30-min brisk walk or yoga in morning</li>
+              <li>10–15 min walk after dinner</li>
+              <li>Take stairs, park farther away</li>
             </ul>
           </div>
         </div>
       </div>
       <div class="col-md-6">
         <div class="card h-100">
-          <div class="card-header"><i class="bi bi-moon-stars me-1" style="color:var(--diet-green)"></i> Sleep</div>
+          <div class="card-header"><i class="bi bi-moon-stars me-1" style="color:var(--diet-purple)"></i> Sleep</div>
           <div class="card-body">
             <ul class="mb-0">
               <li><strong>7–8 hours</strong> every night</li>
-              <li>11 PM – 7 AM schedule</li>
+              <li>10:30 PM – 6:30 AM schedule</li>
               <li>No phone 30 min before bed</li>
-              <li>Consistent timing = better metabolism</li>
+              <li>Consistent timing = balanced hormones</li>
             </ul>
           </div>
         </div>
       </div>
       <div class="col-md-6">
         <div class="card h-100">
-          <div class="card-header"><i class="bi bi-emoji-smile me-1" style="color:var(--diet-green)"></i> Cheat Meal</div>
+          <div class="card-header"><i class="bi bi-emoji-smile me-1" style="color:var(--diet-purple)"></i> Cheat Meal</div>
           <div class="card-body">
             <ul class="mb-0">
               <li><strong>1 small cheat meal per week</strong></li>
@@ -337,10 +335,10 @@
               <tr><td class="fw-semibold text-danger"><i class="bi bi-cup-straw me-1"></i> Sugary Drinks</td><td>Soda, packaged juice, sweetened lassi, energy drinks</td></tr>
               <tr><td class="fw-semibold text-danger"><i class="bi bi-bread-slice me-1"></i> Refined Carbs</td><td>White bread, maida, white rice (limit), pasta, biscuits</td></tr>
               <tr><td class="fw-semibold text-danger"><i class="bi bi-fire me-1"></i> Fried Food</td><td>Samosa, pakora, chips, vada, bhatura, paratha (excess ghee)</td></tr>
-              <tr><td class="fw-semibold text-danger"><i class="bi bi-egg-fried me-1"></i> Processed Meat</td><td>Sausages, salami, bacon</td></tr>
               <tr><td class="fw-semibold text-danger"><i class="bi bi-cake me-1"></i> High Sugar</td><td>Mithai, ice cream, chocolate bars, sweetened cereals</td></tr>
-              <tr><td class="fw-semibold text-danger"><i class="bi bi-cup me-1"></i> Alcohol</td><td>Beer (beer belly), sugary cocktails, excessive wine</td></tr>
-              <tr><td class="fw-semibold text-danger"><i class="bi bi-box-seam me-1"></i> Packaged Snacks</td><td>Namkeen, kurkure, instant noodles</td></tr>
+              <tr><td class="fw-semibold text-danger"><i class="bi bi-cup me-1"></i> Alcohol</td><td>Beer, sugary cocktails, excessive wine</td></tr>
+              <tr><td class="fw-semibold text-danger"><i class="bi bi-box-seam me-1"></i> Packaged Snacks</td><td>Namkeen, kurkure, instant noodles, packaged soups</td></tr>
+              <tr><td class="fw-semibold text-danger"><i class="bi bi-database me-1"></i> Hidden Sugar</td><td>Flavoured yoghurt, breakfast cereals, protein bars, ketchup</td></tr>
             </tbody>
           </table>
         </div>
@@ -348,113 +346,33 @@
     </div>
   </section>
 
-  <!-- ==================== MEAL IDEAS ==================== -->
-  <section id="meal-ideas">
-    <h2><i class="bi bi-images me-2"></i>Veg & Non-Veg Meal Ideas</h2>
-    <p class="text-muted">Visual reference of meals featured in this plan — all can be prepared at home with simple ingredients.</p>
-    <div class="row g-4">
-      <div class="col-md-6 col-lg-4">
-        <div class="card h-100">
-          <img src="https://images.unsplash.com/photo-1505253758473-96b7015fcd40?w=400&h=240&fit=crop&auto=format" class="card-img-top" alt="Indian Veg Thali" loading="lazy" style="height:170px;object-fit:cover">
-          <div class="card-body">
-            <div class="d-flex align-items-center gap-2 mb-2">
-              <span class="badge bg-success">Veg</span>
-              <h6 class="fw-bold mb-0">Veg Thali — Dal, Roti, Sabzi</h6>
-            </div>
-            <p class="small text-muted mb-0">The core lunch/dinner template. 2 whole wheat rotis + 1 katori dal + mix veg sabzi + salad + curd = ~500 kcal, 25g protein.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-4">
-        <div class="card h-100">
-          <img src="https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400&h=240&fit=crop&auto=format" class="card-img-top" alt="Paneer Dish" loading="lazy" style="height:170px;object-fit:cover">
-          <div class="card-body">
-            <div class="d-flex align-items-center gap-2 mb-2">
-              <span class="badge bg-success">Veg</span>
-              <h6 class="fw-bold mb-0">Paneer / Soya — High Protein</h6>
-            </div>
-            <p class="small text-muted mb-0">Palak paneer, paneer tikka, soya chunk curry — 150g provides 16-24g protein. Perfect for dinner or lunch protein boost.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-4">
-        <div class="card h-100">
-          <img src="https://images.unsplash.com/photo-1604503468506-a8da13d82791?w=400&h=240&fit=crop&auto=format" class="card-img-top" alt="Grilled Chicken" loading="lazy" style="height:170px;object-fit:cover">
-          <div class="card-body">
-            <div class="d-flex align-items-center gap-2 mb-2">
-              <span class="badge bg-danger">Non-Veg</span>
-              <h6 class="fw-bold mb-0">Grilled Chicken / Fish</h6>
-            </div>
-            <p class="small text-muted mb-0">150g chicken breast = ~35g protein. Tandoori, grilled, or curry. Fish like rohu/pomfret gives ~25g protein with omega-3s.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-4">
-        <div class="card h-100">
-          <img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=400&h=240&fit=crop&auto=format" class="card-img-top" alt="Eggs Breakfast" loading="lazy" style="height:170px;object-fit:cover">
-          <div class="card-body">
-            <div class="d-flex align-items-center gap-2 mb-2">
-              <span class="badge bg-danger">Non-Veg</span>
-              <h6 class="fw-bold mb-0">Eggs — The Perfect Protein</h6>
-            </div>
-            <p class="small text-muted mb-0">2 whole eggs + 1 white = ~18g protein. Egg bhurji, boiled, or omelette. Quick breakfast or dinner protein in under 5 minutes.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-4">
-        <div class="card h-100">
-          <img src="https://images.unsplash.com/photo-1559628233-100c798642d4?w=400&h=240&fit=crop&auto=format" class="card-img-top" alt="Indian Breakfast" loading="lazy" style="height:170px;object-fit:cover">
-          <div class="card-body">
-            <div class="d-flex align-items-center gap-2 mb-2">
-              <span class="badge bg-success">Veg</span>
-              <h6 class="fw-bold mb-0">Vegetarian Breakfasts</h6>
-            </div>
-            <p class="small text-muted mb-0">Poha, daliya, oats upma, idli-sambhar, moong dal chilla — all under 300 kcal with 6-16g protein. Rotate through the week.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-4">
-        <div class="card h-100">
-          <img src="https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?w=400&h=240&fit=crop&auto=format" class="card-img-top" alt="Fruits and Snacks" loading="lazy" style="height:170px;object-fit:cover">
-          <div class="card-body">
-            <div class="d-flex align-items-center gap-2 mb-2">
-              <span class="badge bg-success">Veg</span>
-              <h6 class="fw-bold mb-0">Fruits, Nuts & Snacks</h6>
-            </div>
-            <p class="small text-muted mb-0">Apple, banana, pomegranate, guava — paired with almonds, walnuts, roasted chana, or makhana for midday energy without sugar spikes.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ==================== MONDAY ==================== -->
   <section id="mon">
-    <h2><i class="bi bi-1-circle me-2"></i>Monday — ~1,850 kcal | Protein: ~92g</h2>
+    <h2><i class="bi bi-1-circle me-2"></i>Monday — ~1,550 kcal | Protein: ~74g</h2>
     <div class="card">
       <div class="table-responsive">
         <table class="table table-hover mb-0 day-table">
           <thead><tr><th>Time</th><th>Meal</th><th>Items</th><th>Portion</th><th>Cal</th><th>Prot</th></tr></thead>
           <tbody>
             <tr><td>7:00 AM</td><td>Warm water</td><td>Lemon + honey water</td><td>1 glass</td><td>15</td><td>0g</td></tr>
-            <tr><td>7:30 AM</td><td>Exercise</td><td>Brisk walk 30 min + stretching</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>8:30 AM</td><td>Breakfast</td><td>Poha + peanuts + veggies</td><td>1 medium bowl (200g)</td><td>280</td><td>8g</td></tr>
+            <tr><td>7:30 AM</td><td>Exercise</td><td>Yoga / brisk walk 30 min + stretching</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>8:30 AM</td><td>Breakfast</td><td>Veg poha + peanuts + veggies</td><td>1 medium bowl (180g)</td><td>250</td><td>7g</td></tr>
             <tr><td></td><td></td><td>Curd (low-fat)</td><td>1 small cup (100ml)</td><td>50</td><td>4g</td></tr>
             <tr><td></td><td></td><td>Green tea (no sugar)</td><td>1 cup</td><td>2</td><td>0g</td></tr>
-            <tr><td>11:00 AM</td><td>Mid-snack</td><td>Mixed nuts (almonds 5 + walnuts 2)</td><td>1 handful (20g)</td><td>120</td><td>4g</td></tr>
-            <tr><td></td><td></td><td>Apple</td><td>1 medium</td><td>95</td><td>0g</td></tr>
+            <tr><td>11:00 AM</td><td>Mid-snack</td><td>Apple</td><td>1 medium</td><td>95</td><td>0g</td></tr>
+            <tr><td></td><td></td><td>Almonds (soaked)</td><td>5 pieces</td><td>60</td><td>2g</td></tr>
             <tr><td>1:30 PM</td><td>Lunch</td><td>Roti (whole wheat)</td><td>2 medium</td><td>240</td><td>8g</td></tr>
             <tr><td></td><td></td><td>Dal tadka (moong/toor)</td><td>1 katori (150ml)</td><td>150</td><td>9g</td></tr>
             <tr><td></td><td></td><td>Mix veg sabzi (low oil)</td><td>1 katori (150g)</td><td>100</td><td>4g</td></tr>
             <tr><td></td><td></td><td>Salad (cucumber + tomato + onion)</td><td>1 bowl</td><td>40</td><td>2g</td></tr>
             <tr><td></td><td></td><td>Curd (low-fat)</td><td>1 katori (100ml)</td><td>50</td><td>4g</td></tr>
-            <tr><td>4:30 PM</td><td>Evening</td><td>Roasted chana / makhana</td><td>1 handful (30g)</td><td>110</td><td>5g</td></tr>
+            <tr><td>4:30 PM</td><td>Evening</td><td>Roasted makhana (fox nuts)</td><td>1 handful (25g)</td><td>85</td><td>4g</td></tr>
             <tr><td></td><td></td><td>Green tea (no sugar)</td><td>1 cup</td><td>2</td><td>0g</td></tr>
-            <tr><td>8:00 PM</td><td>Dinner</td><td>Besan chilla (gramflour pancake) veg stuffing</td><td>2 medium</td><td>250</td><td>14g</td></tr>
-            <tr><td></td><td></td><td>Mint chutney</td><td>2 tbsp</td><td>10</td><td>0g</td></tr>
+            <tr><td>8:00 PM</td><td>Dinner</td><td>Palak paneer (low-oil)</td><td>1 katori (150g)</td><td>200</td><td>16g</td></tr>
+            <tr><td></td><td></td><td>Jowar / bajra roti</td><td>1 medium</td><td>140</td><td>4g</td></tr>
             <tr><td></td><td></td><td>Salad</td><td>1 bowl</td><td>40</td><td>2g</td></tr>
-            <tr><td>10:00 PM</td><td>Bedtime</td><td>Warm milk (low-fat/turmeric)</td><td>1 glass (200ml)</td><td>100</td><td>8g</td></tr>
-            <tr class="table-summary fw-bold"><td colspan="3">Total</td><td></td><td class="cal-cell">~1,854</td><td class="cal-cell">~92g</td></tr>
+            <tr><td>10:00 PM</td><td>Bedtime</td><td>Warm turmeric milk (low-fat)</td><td>1 glass (200ml)</td><td>100</td><td>8g</td></tr>
+            <tr class="table-summary fw-bold"><td colspan="3">Total</td><td></td><td class="cal-cell">~1,569</td><td class="cal-cell">~74g</td></tr>
           </tbody>
         </table>
       </div>
@@ -463,30 +381,29 @@
 
   <!-- ==================== TUESDAY ==================== -->
   <section id="tue">
-    <h2><i class="bi bi-2-circle me-2"></i>Tuesday — ~1,880 kcal | Protein: ~95g</h2>
+    <h2><i class="bi bi-2-circle me-2"></i>Tuesday — ~1,520 kcal | Protein: ~76g</h2>
     <div class="card">
       <div class="table-responsive">
         <table class="table table-hover mb-0 day-table">
           <thead><tr><th>Time</th><th>Meal</th><th>Items</th><th>Portion</th><th>Cal</th><th>Prot</th></tr></thead>
           <tbody>
             <tr><td>7:00 AM</td><td>Warm water</td><td>Jeera (cumin) water (soaked overnight)</td><td>1 glass</td><td>5</td><td>0g</td></tr>
-            <tr><td>7:30 AM</td><td>Exercise</td><td>Surya Namaskar (12 rounds) + planks</td><td>20 min</td><td>—</td><td>—</td></tr>
-            <tr><td>8:30 AM</td><td>Breakfast</td><td>Veg daliya (broken wheat upma)</td><td>1 medium bowl (200g)</td><td>260</td><td>8g</td></tr>
-            <tr><td></td><td></td><td>Sprouts salad (moong/moth)</td><td>1 small bowl (50g)</td><td>40</td><td>4g</td></tr>
+            <tr><td>7:30 AM</td><td>Exercise</td><td>Surya Namaskar (10 rounds) + planks</td><td>20 min</td><td>—</td><td>—</td></tr>
+            <tr><td>8:30 AM</td><td>Breakfast</td><td>Moong dal chilla (green gram pancake)</td><td>2 medium</td><td>240</td><td>16g</td></tr>
+            <tr><td></td><td></td><td>Mint chutney</td><td>2 tbsp</td><td>10</td><td>0g</td></tr>
             <tr><td></td><td></td><td>Green tea</td><td>1 cup</td><td>2</td><td>0g</td></tr>
-            <tr><td>11:00 AM</td><td>Mid-snack</td><td>Banana</td><td>1 medium</td><td>105</td><td>1g</td></tr>
-            <tr><td></td><td></td><td>Buttermilk (no salt/sugar)</td><td>1 glass (200ml)</td><td>60</td><td>3g</td></tr>
+            <tr><td>11:00 AM</td><td>Mid-snack</td><td>Pear</td><td>1 medium</td><td>100</td><td>1g</td></tr>
             <tr><td>1:30 PM</td><td>Lunch</td><td>Roti (multigrain / jowar)</td><td>2 medium</td><td>240</td><td>8g</td></tr>
             <tr><td></td><td></td><td>Soya chunk curry (nuggets)</td><td>1 katori (150g)</td><td>180</td><td>14g</td></tr>
             <tr><td></td><td></td><td>Lauki (bottle gourd) sabzi</td><td>1 katori (150g)</td><td>70</td><td>2g</td></tr>
             <tr><td></td><td></td><td>Salad</td><td>1 bowl</td><td>40</td><td>2g</td></tr>
             <tr><td>4:30 PM</td><td>Evening</td><td>Sprouts bhel (steamed moong + veggies + lemon)</td><td>1 cup</td><td>120</td><td>6g</td></tr>
-            <tr><td></td><td></td><td>Black coffee (no sugar)</td><td>1 cup</td><td>5</td><td>0g</td></tr>
-            <tr><td>8:00 PM</td><td>Dinner</td><td>Grilled paneer tikka + capsicum/onion</td><td>150g paneer + veggies</td><td>300</td><td>24g</td></tr>
+            <tr><td></td><td></td><td>Green tea</td><td>1 cup</td><td>2</td><td>0g</td></tr>
+            <tr><td>8:00 PM</td><td>Dinner</td><td>Grilled paneer tikka + capsicum/onion</td><td>120g paneer + veggies</td><td>240</td><td>20g</td></tr>
             <tr><td></td><td></td><td>Tawa roti (small)</td><td>1</td><td>90</td><td>3g</td></tr>
             <tr><td></td><td></td><td>Salad</td><td>1 bowl</td><td>40</td><td>2g</td></tr>
             <tr><td>10:00 PM</td><td>Bedtime</td><td>Warm turmeric milk (low-fat)</td><td>1 glass</td><td>100</td><td>8g</td></tr>
-            <tr class="table-summary fw-bold"><td colspan="3">Total</td><td></td><td class="cal-cell">~1,877</td><td class="cal-cell">~95g</td></tr>
+            <tr class="table-summary fw-bold"><td colspan="3">Total</td><td></td><td class="cal-cell">~1,519</td><td class="cal-cell">~76g</td></tr>
           </tbody>
         </table>
       </div>
@@ -495,30 +412,30 @@
 
   <!-- ==================== WEDNESDAY ==================== -->
   <section id="wed">
-    <h2><i class="bi bi-3-circle me-2"></i>Wednesday — ~1,840 kcal | Protein: ~94g</h2>
+    <h2><i class="bi bi-3-circle me-2"></i>Wednesday — ~1,540 kcal | Protein: ~72g</h2>
     <div class="card">
       <div class="table-responsive">
         <table class="table table-hover mb-0 day-table">
           <thead><tr><th>Time</th><th>Meal</th><th>Items</th><th>Portion</th><th>Cal</th><th>Prot</th></tr></thead>
           <tbody>
             <tr><td>7:00 AM</td><td>Warm water</td><td>Lemon + honey water</td><td>1 glass</td><td>15</td><td>0g</td></tr>
-            <tr><td>8:30 AM</td><td>Breakfast</td><td>Veg oats upma (with peas, carrot, beans)</td><td>1 medium bowl (200g)</td><td>240</td><td>8g</td></tr>
-            <tr><td></td><td></td><td>Boiled egg white*</td><td>2</td><td>34</td><td>7g</td></tr>
+            <tr><td>8:30 AM</td><td>Breakfast</td><td>Veg daliya (broken wheat upma)</td><td>1 medium bowl (180g)</td><td>240</td><td>7g</td></tr>
+            <tr><td></td><td></td><td>Sprouts salad (moong/moth)</td><td>1 small bowl (50g)</td><td>40</td><td>4g</td></tr>
             <tr><td></td><td></td><td>Green tea</td><td>1 cup</td><td>2</td><td>0g</td></tr>
-            <tr><td>11:00 AM</td><td>Mid-snack</td><td>Pear</td><td>1 medium</td><td>100</td><td>1g</td></tr>
-            <tr><td></td><td></td><td>Mixed seeds (pumpkin + melon + sunflower)</td><td>1 tbsp (15g)</td><td>85</td><td>4g</td></tr>
+            <tr><td>11:00 AM</td><td>Mid-snack</td><td>Pomegranate</td><td>1 cup (100g)</td><td>80</td><td>2g</td></tr>
+            <tr><td></td><td></td><td>Mixed seeds (pumpkin + melon)</td><td>1 tbsp (12g)</td><td>70</td><td>3g</td></tr>
             <tr><td>1:30 PM</td><td>Lunch</td><td>Brown rice</td><td>1 small katori (100g cooked)</td><td>180</td><td>4g</td></tr>
             <tr><td></td><td></td><td>Sambhar (thin)</td><td>1 katori (150ml)</td><td>120</td><td>6g</td></tr>
-            <tr><td></td><td></td><td>Baingan bharta (low-oil)</td><td>1 katori (100g)</td><td>80</td><td>3g</td></tr>
+            <tr><td></td><td></td><td>Bhindi (okra) sabzi (low-oil)</td><td>1 katori (100g)</td><td>80</td><td>3g</td></tr>
             <tr><td></td><td></td><td>Curd (low-fat)</td><td>1 katori (100ml)</td><td>50</td><td>4g</td></tr>
             <tr><td></td><td></td><td>Cucumber salad</td><td>1 bowl</td><td>20</td><td>1g</td></tr>
-            <tr><td>4:30 PM</td><td>Evening</td><td>Makhana (fox nuts) roasted</td><td>1 handful (30g)</td><td>100</td><td>5g</td></tr>
+            <tr><td>4:30 PM</td><td>Evening</td><td>Roasted chana</td><td>1 handful (25g)</td><td>90</td><td>5g</td></tr>
             <tr><td></td><td></td><td>Green tea</td><td>1 cup</td><td>2</td><td>0g</td></tr>
-            <tr><td>8:00 PM</td><td>Dinner</td><td>Palak paneer (low-oil)</td><td>1 katori (150g)</td><td>200</td><td>16g</td></tr>
-            <tr><td></td><td></td><td>Jowar / bajra roti</td><td>1 medium</td><td>140</td><td>4g</td></tr>
+            <tr><td>8:00 PM</td><td>Dinner</td><td>Besan chilla (gramflour pancake) veg stuffing</td><td>2 medium</td><td>250</td><td>14g</td></tr>
+            <tr><td></td><td></td><td>Mint chutney</td><td>2 tbsp</td><td>10</td><td>0g</td></tr>
             <tr><td></td><td></td><td>Salad</td><td>1 bowl</td><td>40</td><td>2g</td></tr>
             <tr><td>10:00 PM</td><td>Bedtime</td><td>Warm milk (low-fat)</td><td>1 glass</td><td>100</td><td>8g</td></tr>
-            <tr class="table-summary fw-bold"><td colspan="3">Total</td><td></td><td class="cal-cell">~1,838</td><td class="cal-cell">~94g</td></tr>
+            <tr class="table-summary fw-bold"><td colspan="3">Total</td><td></td><td class="cal-cell">~1,539</td><td class="cal-cell">~72g</td></tr>
           </tbody>
         </table>
       </div>
@@ -527,29 +444,29 @@
 
   <!-- ==================== THURSDAY ==================== -->
   <section id="thu">
-    <h2><i class="bi bi-4-circle me-2"></i>Thursday — ~1,910 kcal | Protein: ~97g</h2>
+    <h2><i class="bi bi-4-circle me-2"></i>Thursday — ~1,530 kcal | Protein: ~75g</h2>
     <div class="card">
       <div class="table-responsive">
         <table class="table table-hover mb-0 day-table">
           <thead><tr><th>Time</th><th>Meal</th><th>Items</th><th>Portion</th><th>Cal</th><th>Prot</th></tr></thead>
           <tbody>
             <tr><td>7:00 AM</td><td>Warm water</td><td>Soaked methi seed water</td><td>1 glass</td><td>5</td><td>0g</td></tr>
-            <tr><td>8:30 AM</td><td>Breakfast</td><td>Moong dal chilla (green gram pancake)</td><td>2 medium</td><td>240</td><td>16g</td></tr>
-            <tr><td></td><td></td><td>Mint chutney</td><td>2 tbsp</td><td>10</td><td>0g</td></tr>
+            <tr><td>8:30 AM</td><td>Breakfast</td><td>Veg oats upma (with peas, carrot, beans)</td><td>1 medium bowl (180g)</td><td>220</td><td>7g</td></tr>
+            <tr><td></td><td></td><td>Buttermilk (no salt)</td><td>1 glass (200ml)</td><td>60</td><td>3g</td></tr>
             <tr><td></td><td></td><td>Green tea</td><td>1 cup</td><td>2</td><td>0g</td></tr>
-            <tr><td>11:00 AM</td><td>Mid-snack</td><td>Pomegranate</td><td>1 cup (100g)</td><td>80</td><td>2g</td></tr>
+            <tr><td>11:00 AM</td><td>Mid-snack</td><td>Guava (eat with seeds)</td><td>1 medium</td><td>80</td><td>2g</td></tr>
             <tr><td></td><td></td><td>Almonds (soaked)</td><td>6 pieces</td><td>60</td><td>2g</td></tr>
             <tr><td>1:30 PM</td><td>Lunch</td><td>Roti (whole wheat)</td><td>2 medium</td><td>240</td><td>8g</td></tr>
             <tr><td></td><td></td><td>Chana masala (chickpea, light gravy)</td><td>1 small katori (100g)</td><td>170</td><td>8g</td></tr>
             <tr><td></td><td></td><td>Tori (ridge gourd) sabzi</td><td>1 katori (150g)</td><td>70</td><td>2g</td></tr>
             <tr><td></td><td></td><td>Salad + lemon dressing</td><td>1 bowl</td><td>40</td><td>2g</td></tr>
-            <tr><td>4:30 PM</td><td>Evening</td><td>Roasted chana</td><td>1 handful (25g)</td><td>90</td><td>5g</td></tr>
-            <tr><td></td><td></td><td>Black coffee</td><td>1 cup</td><td>5</td><td>0g</td></tr>
-            <tr><td>8:00 PM</td><td>Dinner</td><td>Grilled fish (pomfret / rohu)* OR tofu tikka</td><td>150g</td><td>200</td><td>25g</td></tr>
-            <tr><td></td><td></td><td>Stir-fried veggies (broccoli, zucchini)</td><td>1 bowl (150g)</td><td>80</td><td>3g</td></tr>
+            <tr><td>4:30 PM</td><td>Evening</td><td>Makhana (fox nuts) roasted</td><td>1 handful (25g)</td><td>85</td><td>4g</td></tr>
+            <tr><td></td><td></td><td>Green tea</td><td>1 cup</td><td>2</td><td>0g</td></tr>
+            <tr><td>8:00 PM</td><td>Dinner</td><td>Paneer bhurji (scrambled, low-oil)</td><td>1 katori (150g)</td><td>220</td><td>18g</td></tr>
+            <tr><td></td><td></td><td>Roti (small)</td><td>1</td><td>90</td><td>3g</td></tr>
             <tr><td></td><td></td><td>Salad</td><td>1 bowl</td><td>40</td><td>2g</td></tr>
             <tr><td>10:00 PM</td><td>Bedtime</td><td>Warm milk (low-fat)</td><td>1 glass</td><td>100</td><td>8g</td></tr>
-            <tr class="table-summary fw-bold"><td colspan="3">Total</td><td></td><td class="cal-cell">~1,912</td><td class="cal-cell">~97g</td></tr>
+            <tr class="table-summary fw-bold"><td colspan="3">Total</td><td></td><td class="cal-cell">~1,534</td><td class="cal-cell">~75g</td></tr>
           </tbody>
         </table>
       </div>
@@ -558,7 +475,7 @@
 
   <!-- ==================== FRIDAY ==================== -->
   <section id="fri">
-    <h2><i class="bi bi-5-circle me-2"></i>Friday — ~1,830 kcal | Protein: ~91g</h2>
+    <h2><i class="bi bi-5-circle me-2"></i>Friday — ~1,480 kcal | Protein: ~72g</h2>
     <div class="card">
       <div class="table-responsive">
         <table class="table table-hover mb-0 day-table">
@@ -569,19 +486,19 @@
             <tr><td></td><td></td><td>Sambhar</td><td>1 katori (150ml)</td><td>120</td><td>6g</td></tr>
             <tr><td></td><td></td><td>Coconut chutney (dry/coriander)</td><td>1 tbsp</td><td>30</td><td>0g</td></tr>
             <tr><td></td><td></td><td>Green tea</td><td>1 cup</td><td>2</td><td>0g</td></tr>
-            <tr><td>11:00 AM</td><td>Mid-snack</td><td>Guava (eat with seeds)</td><td>1 medium</td><td>80</td><td>2g</td></tr>
-            <tr><td></td><td></td><td>Buttermilk (no salt)</td><td>1 glass (200ml)</td><td>60</td><td>3g</td></tr>
+            <tr><td>11:00 AM</td><td>Mid-snack</td><td>Mosambi (sweet lime)</td><td>1 medium</td><td>80</td><td>1g</td></tr>
+            <tr><td></td><td></td><td>Mixed nuts (almonds 4 + walnuts 2)</td><td>1 small handful (15g)</td><td>90</td><td>3g</td></tr>
             <tr><td>1:30 PM</td><td>Lunch</td><td>Roti (bajra/ragi)</td><td>2 medium</td><td>280</td><td>8g</td></tr>
-            <tr><td></td><td></td><td>Lauki, chana dal</td><td>1 katori (150g)</td><td>150</td><td>8g</td></tr>
+            <tr><td></td><td></td><td>Dal (masoor/red lentil)</td><td>1 katori (150ml)</td><td>130</td><td>8g</td></tr>
             <tr><td></td><td></td><td>Karela (bitter gourd) sabzi</td><td>1 small katori (80g)</td><td>50</td><td>2g</td></tr>
             <tr><td></td><td></td><td>Salad</td><td>1 bowl</td><td>40</td><td>2g</td></tr>
             <tr><td>4:30 PM</td><td>Evening</td><td>Sprouts chaat (boiled chana/moong)</td><td>1 cup</td><td>120</td><td>8g</td></tr>
             <tr><td></td><td></td><td>Green tea</td><td>1 cup</td><td>2</td><td>0g</td></tr>
             <tr><td>8:00 PM</td><td>Dinner</td><td>Mix veg soup (tomato + carrot + lauki)</td><td>1 bowl (200ml)</td><td>80</td><td>3g</td></tr>
-            <tr><td></td><td></td><td>Paneer bhurji (scrambled, low-oil)</td><td>1 katori (150g)</td><td>220</td><td>18g</td></tr>
-            <tr><td></td><td></td><td>Roti (small)</td><td>1</td><td>90</td><td>3g</td></tr>
+            <tr><td></td><td></td><td>Soya tikka / grilled tofu</td><td>100g</td><td>160</td><td>17g</td></tr>
+            <tr><td></td><td></td><td>Salad</td><td>1 bowl</td><td>40</td><td>2g</td></tr>
             <tr><td>10:00 PM</td><td>Bedtime</td><td>Warm milk (low-fat)</td><td>1 glass</td><td>100</td><td>8g</td></tr>
-            <tr class="table-summary fw-bold"><td colspan="3">Total</td><td></td><td class="cal-cell">~1,829</td><td class="cal-cell">~91g</td></tr>
+            <tr class="table-summary fw-bold"><td colspan="3">Total</td><td></td><td class="cal-cell">~1,479</td><td class="cal-cell">~72g</td></tr>
           </tbody>
         </table>
       </div>
@@ -590,29 +507,29 @@
 
   <!-- ==================== SATURDAY ==================== -->
   <section id="sat">
-    <h2><i class="bi bi-6-circle me-2"></i>Saturday — ~1,860 kcal | Protein: ~90g</h2>
+    <h2><i class="bi bi-6-circle me-2"></i>Saturday — ~1,520 kcal | Protein: ~73g</h2>
     <div class="card">
       <div class="table-responsive">
         <table class="table table-hover mb-0 day-table">
           <thead><tr><th>Time</th><th>Meal</th><th>Items</th><th>Portion</th><th>Cal</th><th>Prot</th></tr></thead>
           <tbody>
             <tr><td>7:00 AM</td><td>Warm water</td><td>Jeera water</td><td>1 glass</td><td>5</td><td>0g</td></tr>
-            <tr><td>8:30 AM</td><td>Breakfast</td><td>Egg bhurji (2 whole eggs + 1 white)</td><td>1 plate (150g)</td><td>210</td><td>20g</td></tr>
-            <tr><td></td><td></td><td>Brown bread toast (multigrain)</td><td>2 slices</td><td>150</td><td>6g</td></tr>
+            <tr><td>8:30 AM</td><td>Breakfast</td><td>Paneer stuffed paratha (low-oil)</td><td>1 medium</td><td>240</td><td>14g</td></tr>
+            <tr><td></td><td></td><td>Curd (low-fat)</td><td>1 small cup (100ml)</td><td>50</td><td>4g</td></tr>
             <tr><td></td><td></td><td>Green tea</td><td>1 cup</td><td>2</td><td>0g</td></tr>
-            <tr><td>11:00 AM</td><td>Mid-snack</td><td>Mosambi (sweet lime)</td><td>1 medium</td><td>80</td><td>1g</td></tr>
-            <tr><td></td><td></td><td>Mixed nuts</td><td>1 handful (20g)</td><td>120</td><td>4g</td></tr>
+            <tr><td>11:00 AM</td><td>Mid-snack</td><td>Banana</td><td>1 medium</td><td>105</td><td>1g</td></tr>
+            <tr><td></td><td></td><td>Buttermilk (no salt)</td><td>1 glass (200ml)</td><td>60</td><td>3g</td></tr>
             <tr><td>1:30 PM</td><td>Lunch</td><td>Veg pulao (brown rice, veggies, minimal ghee)</td><td>1 medium katori (150g)</td><td>220</td><td>5g</td></tr>
             <tr><td></td><td></td><td>Dal (masoor/red lentil)</td><td>1 katori (150ml)</td><td>130</td><td>8g</td></tr>
             <tr><td></td><td></td><td>Cucumber raita (low-fat curd)</td><td>1 katori (100g)</td><td>50</td><td>3g</td></tr>
             <tr><td></td><td></td><td>Salad</td><td>1 bowl</td><td>40</td><td>2g</td></tr>
             <tr><td>4:30 PM</td><td>Evening</td><td>Murmura (puffed rice) bhel (lemon only)</td><td>1 cup</td><td>90</td><td>2g</td></tr>
-            <tr><td></td><td></td><td>Black coffee</td><td>1 cup</td><td>5</td><td>0g</td></tr>
-            <tr><td>8:00 PM</td><td>Dinner</td><td>Grilled tandoori chicken (skinless)* / mushroom + paneer skewers</td><td>150g</td><td>250</td><td>28g</td></tr>
-            <tr><td></td><td></td><td>Mint chutney + salad</td><td>1 bowl</td><td>60</td><td>2g</td></tr>
-            <tr><td></td><td></td><td>No roti (low-carb dinner)</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td></td><td></td><td>Green tea</td><td>1 cup</td><td>2</td><td>0g</td></tr>
+            <tr><td>8:00 PM</td><td>Dinner</td><td>Soya chunk curry (nuggets)</td><td>1 katori (120g)</td><td>150</td><td>12g</td></tr>
+            <tr><td></td><td></td><td>Grilled veggies (broccoli, zucchini, capsicum)</td><td>1 bowl (150g)</td><td>80</td><td>3g</td></tr>
+            <tr><td></td><td></td><td>Salad</td><td>1 bowl</td><td>40</td><td>2g</td></tr>
             <tr><td>10:00 PM</td><td>Bedtime</td><td>Warm milk (low-fat)</td><td>1 glass</td><td>100</td><td>8g</td></tr>
-            <tr class="table-summary fw-bold"><td colspan="3">Total</td><td></td><td class="cal-cell">~1,862</td><td class="cal-cell">~90g</td></tr>
+            <tr class="table-summary fw-bold"><td colspan="3">Total</td><td></td><td class="cal-cell">~1,524</td><td class="cal-cell">~73g</td></tr>
           </tbody>
         </table>
       </div>
@@ -621,7 +538,7 @@
 
   <!-- ==================== SUNDAY ==================== -->
   <section id="sun">
-    <h2><i class="bi bi-7-circle me-2"></i>Sunday — ~1,800 kcal | Protein: ~88g (Lighter Day)</h2>
+    <h2><i class="bi bi-7-circle me-2"></i>Sunday — ~1,420 kcal | Protein: ~68g (Lighter Day)</h2>
     <div class="card">
       <div class="table-responsive">
         <table class="table table-hover mb-0 day-table">
@@ -632,9 +549,9 @@
             <tr><td></td><td></td><td>Oats + milk (low-fat) + 1 tsp chia seeds</td><td>1 bowl (200ml)</td><td>250</td><td>10g</td></tr>
             <tr><td></td><td></td><td>Green tea</td><td>1 cup</td><td>2</td><td>0g</td></tr>
             <tr><td>11:00 AM</td><td>Mid-snack</td><td>Coconut water</td><td>1 glass (200ml)</td><td>45</td><td>0g</td></tr>
-            <tr><td></td><td></td><td>Soaked almonds</td><td>6 pieces</td><td>60</td><td>2g</td></tr>
+            <tr><td></td><td></td><td>Soaked almonds</td><td>5 pieces</td><td>60</td><td>2g</td></tr>
             <tr><td>1:30 PM</td><td>Lunch</td><td>Roti (whole wheat)</td><td>1 medium</td><td>120</td><td>4g</td></tr>
-            <tr><td></td><td></td><td>Chicken curry (home-style, light oil)* / soya chunk curry</td><td>1 katori (150g)</td><td>250</td><td>20g</td></tr>
+            <tr><td></td><td></td><td>Paneer butter masala (light, low-oil)</td><td>1 katori (100g)</td><td>180</td><td>14g</td></tr>
             <tr><td></td><td></td><td>Lauki sabzi</td><td>1 katori (150g)</td><td>70</td><td>2g</td></tr>
             <tr><td></td><td></td><td>Salad</td><td>1 bowl</td><td>40</td><td>2g</td></tr>
             <tr><td>4:30 PM</td><td>Evening</td><td>Apple + peanut butter (no sugar, 1 tsp)</td><td>1 medium + 1 tsp</td><td>160</td><td>5g</td></tr>
@@ -642,27 +559,7 @@
             <tr><td></td><td></td><td>Khichdi (moong dal + rice, 1:3 ratio)</td><td>1 medium katori (150g)</td><td>180</td><td>6g</td></tr>
             <tr><td></td><td></td><td>Curd (low-fat)</td><td>1 katori (100ml)</td><td>50</td><td>4g</td></tr>
             <tr><td>10:00 PM</td><td>Bedtime</td><td>Warm milk (low-fat)</td><td>1 glass</td><td>100</td><td>8g</td></tr>
-            <tr class="table-summary fw-bold"><td colspan="3">Total</td><td></td><td class="cal-cell">~1,797</td><td class="cal-cell">~88g</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==================== NON-VEG SWAPS ==================== -->
-  <section id="nonveg">
-    <h2><i class="bi bi-egg-fried me-2"></i>Non-Vegetarian Protein Swaps</h2>
-    <p class="text-muted">Replace paneer / soya with any of these options for higher bioavailability protein.</p>
-    <div class="card">
-      <div class="table-responsive">
-        <table class="table table-hover mb-0">
-          <thead class="table-light"><tr><th>Meal</th><th>Swap</th><th>Protein Equivalent</th></tr></thead>
-          <tbody>
-            <tr><td>Breakfast</td><td>2 whole eggs + 1 egg white</td><td>~18g protein</td></tr>
-            <tr><td>Lunch / Dinner</td><td>Grilled chicken breast (150g)</td><td>~35g protein</td></tr>
-            <tr><td>Lunch / Dinner</td><td>Grilled fish (150g) — rohu, pomfret, tuna</td><td>~25g protein</td></tr>
-            <tr><td>Dinner</td><td>Egg curry (2 eggs, thin gravy)</td><td>~14g protein</td></tr>
-            <tr><td>Evening snack</td><td>Tuna sandwich (multigrain bread)</td><td>~20g protein</td></tr>
+            <tr class="table-summary fw-bold"><td colspan="3">Total</td><td></td><td class="cal-cell">~1,427</td><td class="cal-cell">~68g</td></tr>
           </tbody>
         </table>
       </div>
@@ -672,19 +569,19 @@
   <!-- ==================== EXERCISE ==================== -->
   <section id="exercise">
     <h2><i class="bi bi-activity me-2"></i>Weekly Exercise Plan</h2>
-    <p class="text-muted">30 minutes daily, 5 days a week. No gym required — all bodyweight exercises.</p>
+    <p class="text-muted">30 minutes daily, 5–6 days a week. Mix of yoga, cardio, and strength — no gym required.</p>
     <div class="card">
       <div class="table-responsive">
         <table class="table table-hover mb-0">
           <thead class="table-light"><tr><th>Day</th><th>Morning (20–30 min)</th><th>Evening (10–15 min)</th></tr></thead>
           <tbody>
-            <tr><td class="fw-semibold">Mon</td><td>Brisk walk 30 min + stretching</td><td>Bodyweight squats (3×15), push-ups (3×10)</td></tr>
-            <tr><td class="fw-semibold">Tue</td><td>Surya Namaskar 12 rounds (15 min) + plank (3×30s)</td><td>Walk 20 min</td></tr>
-            <tr><td class="fw-semibold">Wed</td><td>Yoga — cat-cow, downward dog, boat pose + walk 20 min</td><td>Plank + crunches (3×15)</td></tr>
-            <tr><td class="fw-semibold">Thu</td><td>Brisk walk 30 min + jumping jacks (3×20)</td><td>Walk 20 min</td></tr>
-            <tr><td class="fw-semibold">Fri</td><td>HIIT: squats, lunges, burpees (20 min)</td><td>Rest / light walk 15 min</td></tr>
-            <tr><td class="fw-semibold">Sat</td><td>Surya Namaskar + planks + core workout</td><td>Walk 20 min</td></tr>
-            <tr><td class="fw-semibold">Sun</td><td>Rest / leisure walk</td><td>Rest</td></tr>
+            <tr><td class="fw-semibold">Mon</td><td>Yoga — Surya Namaskar (8 rounds) + cat-cow, downward dog</td><td>Brisk walk 20 min</td></tr>
+            <tr><td class="fw-semibold">Tue</td><td>Brisk walk 30 min + stretching</td><td>Bodyweight squats (3×12), lunges (3×10 each)</td></tr>
+            <tr><td class="fw-semibold">Wed</td><td>Pilates — leg raises, glute bridges, clam shells + walk 15 min</td><td>Plank (3×20s) + crunches (3×12)</td></tr>
+            <tr><td class="fw-semibold">Thu</td><td>Yoga flow — warrior poses, triangle, tree pose (20 min)</td><td>Walk 20 min</td></tr>
+            <tr><td class="fw-semibold">Fri</td><td>HIIT: jumping jacks, squats, lunges, burpees (20 min)</td><td>Rest / light walk 15 min</td></tr>
+            <tr><td class="fw-semibold">Sat</td><td>Surya Namaskar + core workout + stretching</td><td>Walk 20 min</td></tr>
+            <tr><td class="fw-semibold">Sun</td><td>Rest / leisure walk + deep stretching</td><td>Rest</td></tr>
           </tbody>
         </table>
       </div>
@@ -696,77 +593,77 @@
     <h2><i class="bi bi-house-heart me-2"></i>At-Home Exercise & Yoga Guide</h2>
     <p class="text-muted">Simple poses and bodyweight exercises you can do at home with zero equipment. Follow along daily for best results.</p>
 
-    <h3><i class="bi bi-sunrise me-1" style="color:var(--diet-green)"></i> Morning Yoga Flow</h3>
+    <h3><i class="bi bi-sunrise me-1" style="color:var(--diet-purple)"></i> Morning Yoga Flow</h3>
     <div class="row g-4 mb-4">
       <div class="col-md-4">
         <div class="card h-100">
-          <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=250&fit=crop&auto=format" class="card-img-top" alt="Tree Pose Yoga" loading="lazy" style="height:180px;object-fit:cover">
+          <img src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=400&h=250&fit=crop&auto=format" class="card-img-top" alt="Downward Dog Pose" loading="lazy" style="height:180px;object-fit:cover">
           <div class="card-body">
-            <h5 class="fw-bold"><i class="bi bi-arrow-up-short me-1" style="color:var(--diet-green)"></i> Tree Pose</h5>
-            <p class="small text-muted mb-2">Balance & stability — strengthens legs and core</p>
+            <h5 class="fw-bold"><i class="bi bi-arrow-up-short me-1" style="color:var(--diet-purple)"></i> Downward Dog</h5>
+            <p class="small text-muted mb-2">Full body stretch — hamstrings, shoulders, spine</p>
             <ol class="small mb-2 ps-3">
-              <li>Stand tall, shift weight to left foot</li>
-              <li>Place right foot on inner left thigh or calf</li>
-              <li>Bring hands to prayer at chest, then overhead</li>
-              <li>Hold 5 breaths, switch sides</li>
+              <li>Start on hands and knees, tuck toes under</li>
+              <li>Lift hips up and back, straighten legs</li>
+              <li>Press heels gently toward floor, hold 5 deep breaths</li>
+              <li>Pedal your feet to loosen hamstrings</li>
             </ol>
             <div class="highlight-box py-2 px-3 mb-0 small">
-              <i class="bi bi-lightbulb me-1"></i> <strong>Tip:</strong> Focus on a fixed point ahead to stay balanced
+              <i class="bi bi-lightbulb me-1"></i> <strong>Tip:</strong> Keep a slight bend in knees if hamstrings feel tight
             </div>
           </div>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card h-100">
-          <img src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=400&h=250&fit=crop&auto=format" class="card-img-top" alt="Seated Forward Fold" loading="lazy" style="height:180px;object-fit:cover">
+          <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=250&fit=crop&auto=format" class="card-img-top" alt="Cat-Cow Stretch" loading="lazy" style="height:180px;object-fit:cover">
           <div class="card-body">
-            <h5 class="fw-bold"><i class="bi bi-arrow-left-right me-1" style="color:var(--diet-green)"></i> Seated Forward Fold</h5>
-            <p class="small text-muted mb-2">Hamstring stretch — relieves lower back tension</p>
+            <h5 class="fw-bold"><i class="bi bi-arrow-left-right me-1" style="color:var(--diet-purple)"></i> Cat-Cow Stretch</h5>
+            <p class="small text-muted mb-2">Spine mobility — relieves back stiffness</p>
             <ol class="small mb-2 ps-3">
-              <li>Sit with legs extended straight ahead</li>
-              <li>Inhale, lengthen spine, reach arms up</li>
-              <li>Exhale, hinge at hips, reach toward feet</li>
-              <li>Hold edge of feet or shins, breathe for 30s</li>
+              <li>Start on hands and knees, spine neutral</li>
+              <li><strong>Cat:</strong> Round spine up, tuck chin, engage core</li>
+              <li><strong>Cow:</strong> Drop belly, lift chest and tailbone</li>
+              <li>Alternate slowly with breath — 10 rounds</li>
             </ol>
             <div class="highlight-box py-2 px-3 mb-0 small">
-              <i class="bi bi-lightbulb me-1"></i> <strong>Tip:</strong> Keep spine long — bend knees slightly if hamstrings are tight
+              <i class="bi bi-lightbulb me-1"></i> <strong>Tip:</strong> Move with your breath — inhale cow, exhale cat
             </div>
           </div>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card h-100">
-          <img src="https://images.unsplash.com/photo-1507120878965-54b2d3939100?w=400&h=250&fit=crop&auto=format" class="card-img-top" alt="Meditation" loading="lazy" style="height:180px;object-fit:cover">
+          <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400&h=250&fit=crop&auto=format" class="card-img-top" alt="Child's Pose" loading="lazy" style="height:180px;object-fit:cover">
           <div class="card-body">
-            <h5 class="fw-bold"><i class="bi bi-moon me-1" style="color:var(--diet-green)"></i> Surya Namaskar</h5>
-            <p class="small text-muted mb-2">12-step sun salutation — full body warm-up</p>
+            <h5 class="fw-bold"><i class="bi bi-moon me-1" style="color:var(--diet-purple)"></i> Child's Pose</h5>
+            <p class="small text-muted mb-2">Restorative pose — relaxes lower back and mind</p>
             <ol class="small mb-2 ps-3">
-              <li>Start in mountain pose, arms up</li>
-              <li>Flow through forward fold, plank, cobra</li>
-              <li>Repeat 8-12 rounds, synchronising with breath</li>
-              <li>Completes in ~10 min — perfect morning routine</li>
+              <li>Kneel on floor, touch big toes together</li>
+              <li>Sit back on heels, extend arms forward</li>
+              <li>Rest forehead on mat, breathe deeply for 60s</li>
+              <li>Walk fingertips to one side to stretch obliques</li>
             </ol>
             <div class="highlight-box py-2 px-3 mb-0 small">
-              <i class="bi bi-lightbulb me-1"></i> <strong>Tip:</strong> Move slowly at first — speed comes with practice
+              <i class="bi bi-lightbulb me-1"></i> <strong>Tip:</strong> Place a pillow under thighs if knees feel pressure
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <h3><i class="bi bi-lightning me-1" style="color:var(--diet-green)"></i> Bodyweight Circuit</h3>
+    <h3><i class="bi bi-lightning me-1" style="color:var(--diet-purple)"></i> Bodyweight Circuit</h3>
     <div class="row g-4 mb-4">
       <div class="col-md-4">
         <div class="card h-100">
-          <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&h=250&fit=crop&auto=format" class="card-img-top" alt="Squats" loading="lazy" style="height:180px;object-fit:cover">
+          <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=250&fit=crop&auto=format" class="card-img-top" alt="Squats" loading="lazy" style="height:180px;object-fit:cover">
           <div class="card-body">
-            <h5 class="fw-bold"><i class="bi bi-arrows-vertical me-1" style="color:var(--diet-green)"></i> Bodyweight Squats</h5>
-            <p class="small text-muted mb-2">Legs, glutes, core — essential for fat loss</p>
+            <h5 class="fw-bold"><i class="bi bi-arrows-vertical me-1" style="color:var(--diet-purple)"></i> Squats</h5>
+            <p class="small text-muted mb-2">Legs, glutes, core — the king of lower body moves</p>
             <ol class="small mb-2 ps-3">
               <li>Stand feet shoulder-width apart, toes slightly out</li>
               <li>Sit back as if sitting in a chair, keep chest up</li>
               <li>Go down until thighs parallel to floor</li>
-              <li>Press through heels to stand — 3 sets of 15</li>
+              <li>Press through heels to stand up — 3 sets of 12</li>
             </ol>
             <div class="highlight-box py-2 px-3 mb-0 small">
               <i class="bi bi-lightbulb me-1"></i> <strong>Tip:</strong> Keep knees tracking over toes, not collapsing inward
@@ -776,14 +673,14 @@
       </div>
       <div class="col-md-4">
         <div class="card h-100">
-          <img src="https://images.unsplash.com/photo-1599058917765-a780eda07d3e?w=400&h=250&fit=crop&auto=format" class="card-img-top" alt="Plank" loading="lazy" style="height:180px;object-fit:cover">
+          <img src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=400&h=250&fit=crop&auto=format" class="card-img-top" alt="Plank" loading="lazy" style="height:180px;object-fit:cover">
           <div class="card-body">
-            <h5 class="fw-bold"><i class="bi bi-dash-lg me-1" style="color:var(--diet-green)"></i> Plank Hold</h5>
+            <h5 class="fw-bold"><i class="bi bi-dash-lg me-1" style="color:var(--diet-purple)"></i> Plank</h5>
             <p class="small text-muted mb-2">Core, shoulders, stability — total body tension</p>
             <ol class="small mb-2 ps-3">
               <li>Start in push-up position, hands under shoulders</li>
               <li>Engage glutes and core, body in a straight line</li>
-              <li>Hold without dropping hips — 3 sets of 30-45s</li>
+              <li>Hold without dropping hips — 3 sets of 20-30s</li>
               <li>Progress to side plank for obliques</li>
             </ol>
             <div class="highlight-box py-2 px-3 mb-0 small">
@@ -794,30 +691,30 @@
       </div>
       <div class="col-md-4">
         <div class="card h-100">
-          <img src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=400&h=250&fit=crop&auto=format" class="card-img-top" alt="Walking" loading="lazy" style="height:180px;object-fit:cover">
+          <img src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=400&h=250&fit=crop&auto=format" class="card-img-top" alt="Walking Lunges" loading="lazy" style="height:180px;object-fit:cover">
           <div class="card-body">
-            <h5 class="fw-bold"><i class="bi bi-arrow-right me-1" style="color:var(--diet-green)"></i> Brisk Walking</h5>
-            <p class="small text-muted mb-2">Low-impact cardio — burns fat, boosts metabolism</p>
+            <h5 class="fw-bold"><i class="bi bi-arrow-right me-1" style="color:var(--diet-purple)"></i> Walking Lunges</h5>
+            <p class="small text-muted mb-2">Legs, glutes, balance — functional movement</p>
             <ol class="small mb-2 ps-3">
-              <li>Aim for 10,000 steps daily (track with phone)</li>
-              <li>Walk at a pace where talking is slightly difficult</li>
-              <li>Swing arms, keep posture tall and engaged</li>
-              <li>Add incline or stairs for extra burn</li>
+              <li>Stand tall, step forward with right leg</li>
+              <li>Lower until both knees are at 90 degrees</li>
+              <li>Front knee over ankle, back knee hovering</li>
+              <li>Push off back foot and step forward — 3 sets of 10 each leg</li>
             </ol>
             <div class="highlight-box py-2 px-3 mb-0 small">
-              <i class="bi bi-lightbulb me-1"></i> <strong>Tip:</strong> Break it up — 20 min morning + 20 min after dinner
+              <i class="bi bi-lightbulb me-1"></i> <strong>Tip:</strong> Keep torso upright, don't lean forward
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <h3><i class="bi bi-info-circle me-1" style="color:var(--diet-green)"></i> Home Workout Tips</h3>
+    <h3><i class="bi bi-info-circle me-1" style="color:var(--diet-purple)"></i> Home Workout Tips</h3>
     <div class="row g-4">
       <div class="col-md-6">
         <div class="card h-100">
           <div class="card-body d-flex align-items-start gap-3">
-            <div class="flex-shrink-0" style="width:48px;height:48px;background:rgba(45,138,78,.12);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:var(--diet-green)">
+            <div class="flex-shrink-0" style="width:48px;height:48px;background:rgba(124,58,237,.12);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:var(--diet-purple)">
               <i class="bi bi-play-circle"></i>
             </div>
             <div>
@@ -830,7 +727,7 @@
       <div class="col-md-6">
         <div class="card h-100">
           <div class="card-body d-flex align-items-start gap-3">
-            <div class="flex-shrink-0" style="width:48px;height:48px;background:rgba(45,138,78,.12);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:var(--diet-green)">
+            <div class="flex-shrink-0" style="width:48px;height:48px;background:rgba(124,58,237,.12);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:var(--diet-purple)">
               <i class="bi bi-bullseye"></i>
             </div>
             <div>
@@ -843,7 +740,7 @@
       <div class="col-md-6">
         <div class="card h-100">
           <div class="card-body d-flex align-items-start gap-3">
-            <div class="flex-shrink-0" style="width:48px;height:48px;background:rgba(45,138,78,.12);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:var(--diet-green)">
+            <div class="flex-shrink-0" style="width:48px;height:48px;background:rgba(124,58,237,.12);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:var(--diet-purple)">
               <i class="bi bi-music-note-beamed"></i>
             </div>
             <div>
@@ -856,7 +753,7 @@
       <div class="col-md-6">
         <div class="card h-100">
           <div class="card-body d-flex align-items-start gap-3">
-            <div class="flex-shrink-0" style="width:48px;height:48px;background:rgba(45,138,78,.12);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:var(--diet-green)">
+            <div class="flex-shrink-0" style="width:48px;height:48px;background:rgba(124,58,237,.12);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:var(--diet-purple)">
               <i class="bi bi-skip-end-circle"></i>
             </div>
             <div>
@@ -868,38 +765,39 @@
       </div>
     </div>
 
+    <!-- Add some extra breathing/meditation practice -->
     <div class="highlight-box mt-4 d-flex align-items-start gap-3">
-      <div style="font-size:2rem;color:var(--diet-green);flex-shrink:0"><i class="bi bi-wind"></i></div>
+      <div style="font-size:2rem;color:var(--diet-purple);flex-shrink:0"><i class="bi bi-wind"></i></div>
       <div>
-        <strong class="d-block mb-1">Quick Recovery — 4-7-8 Breathing</strong>
-        <p class="small mb-0">Close your eyes. Inhale through nose for 4 counts. Hold breath for 7 counts. Exhale slowly through mouth for 8 counts. Repeat 4 times. Lowers cortisol, speeds recovery, and supports belly fat loss.</p>
+        <strong class="d-block mb-1">Quick Relaxation — 4-7-8 Breathing</strong>
+        <p class="small mb-0">Close your eyes. Inhale through nose for 4 counts. Hold breath for 7 counts. Exhale slowly through mouth for 8 counts. Repeat 4 times. Lowers stress, improves digestion, and supports weight loss.</p>
       </div>
     </div>
   </section>
 
   <!-- ==================== PREP ==================== -->
   <section id="prep">
-    <h2><i class="bi bi-clock-history me-2"></i>Meal Prep Tips for Office</h2>
+    <h2><i class="bi bi-clock-history me-2"></i>Meal Prep Tips</h2>
     <div class="row g-4">
       <div class="col-md-6">
         <div class="card h-100">
-          <div class="card-header"><i class="bi bi-calendar-week me-1" style="color:var(--diet-green)"></i> Sunday Prep</div>
+          <div class="card-header"><i class="bi bi-calendar-week me-1" style="color:var(--diet-purple)"></i> Weekend Prep</div>
           <div class="card-body">
             <ul class="mb-0">
-              <li>Chop veggies for the week, store in airtight boxes</li>
-              <li>Boil eggs, roast chana/makhana, portion nuts into 20g packets</li>
+              <li>Chop and store veggies for the week in airtight boxes</li>
+              <li>Roast chana/makhana, portion nuts into small packets</li>
               <li>Cook and refrigerate dal for 2–3 days</li>
-              <li>Prepare roti dough; it stays fresh in fridge for 2 days</li>
+              <li>Prepare and refrigerate roti dough (stays fresh 2 days)</li>
             </ul>
           </div>
         </div>
       </div>
       <div class="col-md-6">
         <div class="card h-100">
-          <div class="card-header"><i class="bi bi-backpack me-1" style="color:var(--diet-green)"></i> Office Carry Kit</div>
+          <div class="card-header"><i class="bi bi-backpack me-1" style="color:var(--diet-purple)"></i> Carry Kit</div>
           <div class="card-body">
             <ul class="mb-0">
-              <li>Pack of roasted chana / makhana</li>
+              <li>Pack of roasted chana / makhana for hunger pangs</li>
               <li>Green tea bags + your own cup</li>
               <li>1L water bottle (refill twice)</li>
               <li>Cut cucumber / carrot sticks for sudden hunger</li>
@@ -909,7 +807,7 @@
       </div>
       <div class="col-md-6">
         <div class="card h-100">
-          <div class="card-header"><i class="bi bi-moon me-1" style="color:var(--diet-green)"></i> Night Rituals</div>
+          <div class="card-header"><i class="bi bi-moon me-1" style="color:var(--diet-purple)"></i> Night Rituals</div>
           <div class="card-body">
             <ul class="mb-0">
               <li>Soak almonds + methi seeds for next morning</li>
@@ -921,7 +819,7 @@
       </div>
       <div class="col-md-6">
         <div class="card h-100">
-          <div class="card-header"><i class="bi bi-lightbulb me-1" style="color:var(--diet-green)"></i> Smart Hacks</div>
+          <div class="card-header"><i class="bi bi-lightbulb me-1" style="color:var(--diet-purple)"></i> Smart Hacks</div>
           <div class="card-body">
             <ul class="mb-0">
               <li>Never grocery shop on an empty stomach</li>
@@ -945,8 +843,8 @@
           <tbody>
             <tr><td><strong>Weight</strong></td><td>Weekly (Sunday morning, empty stomach)</td><td>0.5–1 kg loss / week</td></tr>
             <tr><td><strong>Waist circumference</strong></td><td>Every 2 weeks</td><td>Reduce 1–2 inches monthly</td></tr>
-            <tr><td><strong>Steps</strong></td><td>Daily (phone / pedometer)</td><td>10,000 steps</td></tr>
-            <tr><td><strong>Water intake</strong></td><td>Daily (track with bottle)</td><td>3–4 litres</td></tr>
+            <tr><td><strong>Steps</strong></td><td>Daily (phone / pedometer)</td><td>8,000–10,000 steps</td></tr>
+            <tr><td><strong>Water intake</strong></td><td>Daily (track with bottle)</td><td>2.5–3 litres</td></tr>
             <tr><td><strong>Sleep</strong></td><td>Daily</td><td>7–8 hours</td></tr>
           </tbody>
         </table>
@@ -954,7 +852,7 @@
     </div>
 
     <div class="highlight-box">
-      <strong><i class="bi bi-exclamation-triangle me-1"></i> Disclaimer:</strong> This diet chart is a general guideline. Consult a qualified nutritionist or doctor before starting any weight loss program, especially if you have pre-existing health conditions (diabetes, hypertension, thyroid, kidney issues, etc.). Individual calorie needs may vary. Sustainable weight loss is a marathon, not a sprint.
+      <strong><i class="bi bi-exclamation-triangle me-1"></i> Disclaimer:</strong> This diet chart is a general guideline. Consult a qualified nutritionist or doctor before starting any weight loss program, especially if you have pre-existing health conditions, are pregnant, or are breastfeeding. Individual calorie needs may vary. Sustainable weight loss is a marathon, not a sprint.
     </div>
   </section>
 
