@@ -119,6 +119,18 @@
       position: relative;
     }
     pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
+    .kw { color: #c792ea; }
+    .fn { color: #82aaff; }
+    .str { color: #c3e88d; }
+    .cm { color: #546e7a; font-style: italic; }
+    .num { color: #f78c6c; }
+    .tp { color: #ffcb6b; }
+    [data-bs-theme="dark"] .kw { color: #c792ea; }
+    [data-bs-theme="dark"] .fn { color: #82aaff; }
+    [data-bs-theme="dark"] .str { color: #c3e88d; }
+    [data-bs-theme="dark"] .cm { color: #546e7a; }
+    [data-bs-theme="dark"] .num { color: #f78c6c; }
+    [data-bs-theme="dark"] .tp { color: #ffcb6b; }
     .cmd-table td:first-child {
       font-family: 'JetBrains Mono', monospace;
       font-size: .82rem;
@@ -249,30 +261,30 @@
     <div class="card">
       <div class="card-body">
         <pre><code># Install Angular CLI globally
-npm install -g @angular/cli
+npm install -g <span class="tp">@angular</span>/cli
 
-# Create a new Angular application
-ng new myapp
+# Create a <span class="kw">new</span> Angular application
+ng <span class="kw">new</span> myapp
 # Prompts: SSR, SCSS/Tailwind, etc.
 
-# Create with specific options
-ng new myapp --standalone --routing --style=scss
-ng new myapp --standalone --ssr=false --style=tailwind
+# Create <span class="kw">with</span> specific options
+ng <span class="kw">new</span> myapp --standalone --routing --style=scss
+ng <span class="kw">new</span> myapp --standalone --ssr=<span class="kw">false</span> --style=tailwind
 
 # Start development server
 ng serve
 
 # Start on specific port
-ng serve --port 4200
+ng serve --port <span class="num">4200</span>
 
-# Build for production
+# Build <span class="kw">for</span> production
 ng build
 
-# Build with optimization
+# Build <span class="kw">with</span> optimization
 ng build --configuration production
 
-# Create project without CLI (Vite + analog)
-npm create analog@latest</code></pre>
+# Create project without <span class="fn">CLI</span> (Vite + analog)
+npm create analog<span class="tp">@latest</span></code></pre>
       </div>
     </div>
 
@@ -280,20 +292,20 @@ npm create analog@latest</code></pre>
       <div class="card-header">dependencies in package.json</div>
       <div class="card-body">
         <pre><code>{
-  "dependencies": {
-    "@angular/core": "^21.2.12",
-    "@angular/router": "^21.2.12",
-    "@angular/forms": "^21.2.12",
-    "@angular/platform-browser": "^21.2.12",
-    "@angular/common": "^21.2.12",
-    "@angular/compiler": "^21.2.12",
-    "rxjs": "~7.8.0"
+  <span class="str">"dependencies"</span>: {
+    <span class="str">"@angular/core"</span>: <span class="str">"^21.2.12"</span>,
+    <span class="str">"@angular/router"</span>: <span class="str">"^21.2.12"</span>,
+    <span class="str">"@angular/forms"</span>: <span class="str">"^21.2.12"</span>,
+    <span class="str">"@angular/platform-browser"</span>: <span class="str">"^21.2.12"</span>,
+    <span class="str">"@angular/common"</span>: <span class="str">"^21.2.12"</span>,
+    <span class="str">"@angular/compiler"</span>: <span class="str">"^21.2.12"</span>,
+    <span class="str">"rxjs"</span>: <span class="str">"~7.8.0"</span>
   },
-  "devDependencies": {
-    "@angular/build": "^21.2.12",
-    "@angular/cli": "^21.2.12",
-    "@angular/compiler-cli": "^21.2.12",
-    "typescript": "~5.8.0"
+  <span class="str">"devDependencies"</span>: {
+    <span class="str">"@angular/build"</span>: <span class="str">"^21.2.12"</span>,
+    <span class="str">"@angular/cli"</span>: <span class="str">"^21.2.12"</span>,
+    <span class="str">"@angular/compiler-cli"</span>: <span class="str">"^21.2.12"</span>,
+    <span class="str">"typescript"</span>: <span class="str">"~5.8.0"</span>
   }
 }</code></pre>
       </div>
@@ -373,33 +385,33 @@ npm create analog@latest</code></pre>
     <div class="card">
       <div class="card-header">Basic Standalone Component</div>
       <div class="card-body">
-        <pre><code>import { Component, Input, Output, EventEmitter } from '@angular/core';
+        <pre><code><span class="kw">import</span> { <span class="tp">Component</span>, <span class="tp">Input</span>, <span class="tp">Output</span>, <span class="tp">EventEmitter</span> } <span class="kw">from</span> <span class="str">'@angular/core'</span>;
 
-@Component({
-  selector: 'app-counter',
-  standalone: true,
-  imports: [],  // import other standalone components, pipes, directives
-  template: `
+<span class="tp">@Component</span>({
+  selector: <span class="str">'app-counter'</span>,
+  standalone: <span class="kw">true</span>,
+  imports: [],  <span class="cm">// import other standalone components, pipes, directives</span>
+  template: <span class="str">`
     &lt;div class="counter"&gt;
       &lt;h2&gt;{{ title }}&lt;/h2&gt;
       &lt;p&gt;Count: {{ count }}&lt;/p&gt;
       &lt;button (click)="increment()"&gt;+1&lt;/button&gt;
       &lt;button (click)="countChange.emit(count)"&gt;Emit&lt;/button&gt;
     &lt;/div&gt;
-  `,
-  styles: [`
+  `</span>,
+  styles: [<span class="str">`
     .counter { text-align: center; padding: 1rem; }
     button { margin: 0.25rem; }
-  `],
+  `</span>],
 })
-export class CounterComponent {
-  @Input({ required: true }) title!: string;
-  @Input() count = 0;
-  @Output() countChange = new EventEmitter&lt;number&gt;();
+<span class="kw">export</span> <span class="kw">class</span> CounterComponent {
+  <span class="tp">@Input</span>({ required: <span class="kw">true</span> }) title!: <span class="tp">string</span>;
+  <span class="tp">@Input</span>() count = <span class="num">0</span>;
+  <span class="tp">@Output</span>() countChange = <span class="kw">new</span> <span class="tp">EventEmitter</span>&lt;<span class="kw">number</span>&gt;();
 
-  increment() {
-    this.count++;
-    this.countChange.emit(this.count);
+  <span class="fn">increment</span>() {
+    <span class="kw">this</span>.count++;
+    <span class="kw">this</span>.countChange.<span class="fn">emit</span>(<span class="kw">this</span>.count);
   }
 }</code></pre>
       </div>
@@ -408,30 +420,30 @@ export class CounterComponent {
     <div class="card">
       <div class="card-header">Component with Signals</div>
       <div class="card-body">
-        <pre><code>import { Component, signal, computed, effect } from '@angular/core';
-import { CommonModule } from '@angular/common';
+        <pre><code><span class="kw">import</span> { <span class="tp">Component</span>, signal, computed, effect } <span class="kw">from</span> <span class="str">'@angular/core'</span>;
+<span class="kw">import</span> { CommonModule } <span class="kw">from</span> <span class="str">'@angular/common'</span>;
 
-@Component({
-  selector: 'app-signal-counter',
-  standalone: true,
+<span class="tp">@Component</span>({
+  selector: <span class="str">'app-signal-counter'</span>,
+  standalone: <span class="kw">true</span>,
   imports: [CommonModule],
-  template: `
+  template: <span class="str">`
     &lt;p&gt;Count: {{ count() }}&lt;/p&gt;
     &lt;p&gt;Double: {{ double() }}&lt;/p&gt;
     &lt;button (click)="increment()"&gt;+1&lt;/button&gt;
     &lt;p *ngIf="count() &gt; 10"&gt;Over 10!&lt;/p&gt;
-  `,
+  `</span>,
 })
-export class SignalCounterComponent {
-  readonly count = signal(0);
-  readonly double = computed(() =&gt; this.count() * 2);
+<span class="kw">export</span> <span class="kw">class</span> SignalCounterComponent {
+  <span class="kw">readonly</span> count = <span class="fn">signal</span>(<span class="num">0</span>);
+  <span class="kw">readonly</span> double = <span class="fn">computed</span>(() =&gt; <span class="kw">this</span>.<span class="fn">count</span>() * <span class="num">2</span>);
 
-  private logEffect = effect(() =&gt; {
-    console.log(`Count changed to: ${this.count()}`);
+  <span class="kw">private</span> logEffect = <span class="fn">effect</span>(() =&gt; {
+    console.<span class="fn">log</span>(<span class="str">`Count changed to: ${this.count()}`</span>);
   });
 
-  increment() {
-    this.count.update(c =&gt; c + 1);
+  <span class="fn">increment</span>() {
+    <span class="kw">this</span>.count.<span class="fn">update</span>(c =&gt; c + <span class="num">1</span>);
   }
 }</code></pre>
       </div>
@@ -440,32 +452,32 @@ export class SignalCounterComponent {
     <div class="card">
       <div class="card-header">Component Lifecycle</div>
       <div class="card-body">
-        <pre><code>import { Component, OnInit, OnDestroy, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
+        <pre><code><span class="kw">import</span> { <span class="tp">Component</span>, <span class="tp">OnInit</span>, <span class="tp">OnDestroy</span>, <span class="tp">AfterViewInit</span>, <span class="tp">OnChanges</span>, <span class="tp">SimpleChanges</span> } <span class="kw">from</span> <span class="str">'@angular/core'</span>;
 
-@Component({...})
-export class MyComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
-  @Input() data: any;
+<span class="tp">@Component</span>({...})
+<span class="kw">export</span> <span class="kw">class</span> MyComponent <span class="kw">implements</span> <span class="tp">OnInit</span>, <span class="tp">OnDestroy</span>, <span class="tp">AfterViewInit</span>, <span class="tp">OnChanges</span> {
+  <span class="tp">@Input</span>() data: <span class="tp">any</span>;
 
-  // Called before ngOnInit, when input bindings change
-  ngOnChanges(changes: SimpleChanges) {
-    console.log('Input changed:', changes);
+  <span class="cm">// Called before ngOnInit, when input bindings change</span>
+  <span class="fn">ngOnChanges</span>(changes: <span class="tp">SimpleChanges</span>) {
+    console.<span class="fn">log</span>(<span class="str">'Input changed:'</span>, changes);
   }
 
-  // Called once after first ngOnChanges
-  ngOnInit() {
-    console.log('Component initialized');
+  <span class="cm">// Called once after first ngOnChanges</span>
+  <span class="fn">ngOnInit</span>() {
+    console.<span class="fn">log</span>(<span class="str">'Component initialized'</span>);
   }
 
-  // Called after component's view is fully initialized
-  ngAfterViewInit() {
-    console.log('View initialized');
+  <span class="cm">// Called after component's view is fully initialized</span>
+  <span class="fn">ngAfterViewInit</span>() {
+    console.<span class="fn">log</span>(<span class="str">'View initialized'</span>);
   }
 
-  // Called just before Angular destroys the component
-  ngOnDestroy() {
-    console.log('Component destroyed');
-    // Clean up subscriptions
-    this.subscription?.unsubscribe();
+  <span class="cm">// Called just before Angular destroys the component</span>
+  <span class="fn">ngOnDestroy</span>() {
+    console.<span class="fn">log</span>(<span class="str">'Component destroyed'</span>);
+    <span class="cm">// Clean up subscriptions</span>
+    <span class="kw">this</span>.subscription?.<span class="fn">unsubscribe</span>();
   }
 }</code></pre>
       </div>
@@ -479,75 +491,75 @@ export class MyComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges 
     <div class="card">
       <div class="card-body">
         <pre><code>&lt;!-- Interpolation --&gt;
-&lt;h1&gt;{{ title }}&lt;/h1&gt;
-&lt;p&gt;{{ 1 + 1 }}&lt;/p&gt;
-&lt;p&gt;{{ user.name | uppercase }}&lt;/p&gt;
+&lt;<span class="kw">h1</span>&gt;<span class="str">{{ title }}</span>&lt;/h1&gt;
+&lt;<span class="kw">p</span>&gt;<span class="str">{{ 1 + 1 }}</span>&lt;/p&gt;
+&lt;<span class="kw">p</span>&gt;<span class="str">{{ user.name | uppercase }}</span>&lt;/p&gt;
 
 &lt;!-- Property binding --&gt;
-&lt;img [src]="imageUrl" [alt]="altText" /&gt;
-&lt;button [disabled]="isSaving"&gt;Submit&lt;/button&gt;
-&lt;div [class.active]="isActive"&gt;&lt;/div&gt;
-&lt;div [style.color]="textColor"&gt;Styled&lt;/div&gt;
+&lt;<span class="kw">img</span> <span class="fn">[src</span>]="<span class="fn">imageUrl</span>" <span class="fn">[alt</span>]="<span class="fn">altText</span>" /&gt;
+&lt;<span class="kw">button</span> <span class="fn">[disabled</span>]="<span class="fn">isSaving</span>"&gt;Submit&lt;/button&gt;
+&lt;<span class="kw">div</span> <span class="fn">[class</span>.<span class="fn">active</span>]="<span class="fn">isActive</span>"&gt;&lt;/div&gt;
+&lt;<span class="kw">div</span> <span class="fn">[style</span>.<span class="fn">color</span>]="<span class="fn">textColor</span>"&gt;Styled&lt;/div&gt;
 
 &lt;!-- Event binding --&gt;
-&lt;button (click)="handleClick($event)"&gt;Click&lt;/button&gt;
-&lt;input (input)="onInput($event)" /&gt;
-&lt;input (keyup.enter)="submit()" /&gt;
+&lt;<span class="kw">button</span> <span class="fn">(click</span>)="<span class="fn">handleClick</span><span class="fn">(</span>$<span class="fn">event</span>)"&gt;Click&lt;/button&gt;
+&lt;<span class="kw">input</span> <span class="fn">(input</span>)="<span class="fn">onInput</span><span class="fn">(</span>$<span class="fn">event</span>)" /&gt;
+&lt;<span class="kw">input</span> <span class="fn">(keyup</span>.<span class="fn">enter</span>)="<span class="fn">submit</span>()" /&gt;
 
 &lt;!-- Two-way binding --&gt;
-&lt;input [(ngModel)]="name" /&gt;
-&lt;input [ngModel]="name" (ngModelChange)="name = $event" /&gt;  &lt;!-- desugared --&gt;
+&lt;<span class="kw">input</span> <span class="fn">[</span><span class="fn">(ngModel</span>)]="<span class="fn">name</span>" /&gt;
+&lt;<span class="kw">input</span> <span class="fn">[ngModel</span>]="<span class="fn">name</span>" <span class="fn">(ngModelChange</span>)="<span class="fn">name</span>= $<span class="fn">event</span>" /&gt;  &lt;!-- desugared --&gt;
 
-&lt;!-- Two-way binding with signals --&gt;
-&lt;input [(ngModel)]="nameSignal" /&gt;  &lt;!-- works with WritableSignal --&gt;
+&lt;!-- Two-way binding <span class="kw">with</span> signals --&gt;
+&lt;<span class="kw">input</span> <span class="fn">[</span><span class="fn">(ngModel</span>)]="<span class="fn">nameSignal</span>" /&gt;  &lt;!-- works <span class="kw">with</span> <span class="tp">WritableSignal</span> --&gt;
 
 &lt;!-- Template reference variables --&gt;
-&lt;input #myInput (keyup)="onKey(myInput.value)" /&gt;
-&lt;button (click)="myInput.focus()"&gt;Focus Input&lt;/button&gt;</code></pre>
+&lt;<span class="kw">input</span> <span class="fn">#myInput</span> <span class="fn">(keyup</span>)="<span class="fn">onKey</span><span class="fn">(myInput</span>.<span class="fn">value</span>)" /&gt;
+&lt;<span class="kw">button</span> <span class="fn">(click</span>)="<span class="fn">myInput</span>.<span class="fn">focus</span>()"&gt;Focus <span class="tp">Input</span>&lt;/button&gt;</code></pre>
       </div>
     </div>
 
     <div class="card">
       <div class="card-header">Control Flow (@ syntax — Angular 17+)</div>
       <div class="card-body">
-        <pre><code>&lt;!-- @if --&gt;
-@if (isLoggedIn) {
-  &lt;h1&gt;Welcome, {{ user.name }}!&lt;/h1&gt;
-} @else {
-  &lt;button (click)="login()"&gt;Sign In&lt;/button&gt;
+        <pre><code>&lt;!-- <span class="tp">@if</span> --&gt;
+<span class="tp">@if</span> (isLoggedIn) {
+  &lt;<span class="kw">h1</span>&gt;Welcome, <span class="str">{{ user.name }}</span>!&lt;/h1&gt;
+} <span class="tp">@else</span> {
+  &lt;<span class="kw">button</span> <span class="fn">(click</span>)="<span class="fn">login</span>()"&gt;Sign In&lt;/button&gt;
 }
 
-&lt;!-- @for (with built-in track) --&gt;
-@for (item of items; track item.id; let i = $index, first = $first, last = $last) {
-  &lt;li [class.first]="first" [class.last]="last"&gt;
-    {{ i }}: {{ item.name }}
+&lt;!-- <span class="tp">@for</span> (<span class="kw">with</span> built-<span class="kw">in</span> track) --&gt;
+<span class="tp">@for</span> (item <span class="kw">of</span> items; track item.id; <span class="kw">let</span> i = $index, first = $first, last = $last) {
+  &lt;<span class="kw">li</span> <span class="fn">[class</span>.<span class="fn">first</span>]="<span class="fn">first</span>" <span class="fn">[class</span>.<span class="fn">last</span>]="<span class="fn">last</span>"&gt;
+    <span class="str">{{ i }}</span>: <span class="str">{{ item.name }}</span>
   &lt;/li&gt;
-} @empty {
-  &lt;li&gt;No items found&lt;/li&gt;
+} <span class="tp">@empty</span> {
+  &lt;<span class="kw">li</span>&gt;No items found&lt;/li&gt;
 }
 
-&lt;!-- @switch --&gt;
-@switch (status) {
-  @case ('loading') {
-    &lt;app-spinner /&gt;
+&lt;!-- <span class="tp">@switch</span> --&gt;
+<span class="tp">@switch</span> (status) {
+  <span class="tp">@case</span> (<span class="str">'loading'</span>) {
+    &lt;<span class="kw">app</span>-<span class="fn">spinner</span> /&gt;
   }
-  @case ('error') {
-    &lt;app-error [message]="errorMessage" /&gt;
+  <span class="tp">@case</span> (<span class="str">'error'</span>) {
+    &lt;<span class="kw">app</span>-<span class="fn">error</span> <span class="fn">[message</span>]="<span class="fn">errorMessage</span>" /&gt;
   }
-  @default {
-    &lt;app-content /&gt;
+  <span class="tp">@default</span> {
+    &lt;<span class="kw">app</span>-<span class="fn">content</span> /&gt;
   }
 }
 
-&lt;!-- Defer (lazy loading with placeholder) --&gt;
-@defer (on viewport) {
-  &lt;heavy-component /&gt;
-} @placeholder {
-  &lt;p&gt;Loading...&lt;/p&gt;
-} @loading (minimum 500ms) {
-  &lt;mat-spinner /&gt;
-} @error {
-  &lt;p&gt;Failed to load component&lt;/p&gt;
+&lt;!-- <span class="fn">Defer</span> (lazy <span class="kw">loading</span> <span class="kw">with</span> <span class="kw">placeholder</span>) --&gt;
+<span class="tp">@defer</span> (on viewport) {
+  &lt;<span class="kw">heavy</span>-<span class="fn">component</span> /&gt;
+} <span class="tp">@placeholder</span> {
+  &lt;<span class="kw">p</span>&gt;Loading...&lt;/p&gt;
+} <span class="tp">@loading</span> (minimum <span class="num">500</span>ms) {
+  &lt;<span class="kw">mat</span>-<span class="fn">spinner</span> /&gt;
+} <span class="tp">@error</span> {
+  &lt;<span class="kw">p</span>&gt;Failed to load component&lt;/p&gt;
 }</code></pre>
       </div>
     </div>
@@ -593,32 +605,32 @@ export class MyComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges 
     <h3>Custom Directive</h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+        <pre><code><span class="kw">import</span> { <span class="tp">Directive</span>, <span class="tp">ElementRef</span>, <span class="tp">HostListener</span>, <span class="tp">Input</span> } <span class="kw">from</span> <span class="str">'@angular/core'</span>;
 
-@Directive({
-  selector: '[appHighlight]',
-  standalone: true,
+<span class="tp">@Directive</span>({
+  selector: <span class="str">'[appHighlight]'</span>,
+  standalone: <span class="kw">true</span>,
 })
-export class HighlightDirective {
-  @Input('appHighlight') highlightColor = 'yellow';
+<span class="kw">export</span> <span class="kw">class</span> HighlightDirective {
+  <span class="tp">@Input</span>(<span class="str">'appHighlight'</span>) highlightColor = <span class="str">'yellow'</span>;
 
-  constructor(private el: ElementRef) {}
+  <span class="fn">constructor</span>(<span class="kw">private</span> el: <span class="tp">ElementRef</span>) {}
 
-  @HostListener('mouseenter') onMouseEnter() {
-    this.highlight(this.highlightColor);
+  <span class="tp">@HostListener</span>(<span class="str">'mouseenter'</span>) <span class="fn">onMouseEnter</span>() {
+    <span class="kw">this</span>.<span class="fn">highlight</span>(<span class="kw">this</span>.highlightColor);
   }
 
-  @HostListener('mouseleave') onMouseLeave() {
-    this.highlight(null);
+  <span class="tp">@HostListener</span>(<span class="str">'mouseleave'</span>) <span class="fn">onMouseLeave</span>() {
+    <span class="kw">this</span>.<span class="fn">highlight</span>(<span class="kw">null</span>);
   }
 
-  private highlight(color: string | null) {
-    this.el.nativeElement.style.backgroundColor = color;
+  <span class="kw">private</span> <span class="fn">highlight</span>(color: <span class="tp">string</span> | <span class="kw">null</span>) {
+    <span class="kw">this</span>.el.nativeElement.style.backgroundColor = color;
   }
 }
 
-// Usage
-&lt;p appHighlight="lightblue"&gt;Hover me&lt;/p&gt;</code></pre>
+<span class="cm">// Usage</span>
+&lt;<span class="kw">p</span> <span class="fn">appHighlight</span>=<span class="str">"lightblue"</span>&gt;Hover me&lt;/p&gt;</code></pre>
       </div>
     </div>
   </section>
@@ -651,23 +663,23 @@ export class HighlightDirective {
     <div class="card">
       <div class="card-header">Custom Pipe</div>
       <div class="card-body">
-        <pre><code>import { Pipe, PipeTransform } from '@angular/core';
+        <pre><code><span class="kw">import</span> { <span class="tp">Pipe</span>, <span class="tp">PipeTransform</span> } <span class="kw">from</span> <span class="str">'@angular/core'</span>;
 
-@Pipe({
-  name: 'truncate',
-  standalone: true,
+<span class="tp">@Pipe</span>({
+  name: <span class="str">'truncate'</span>,
+  standalone: <span class="kw">true</span>,
 })
-export class TruncatePipe implements PipeTransform {
-  transform(value: string, maxLength = 100, suffix = '...'): string {
-    if (!value) return '';
-    return value.length &gt; maxLength
-      ? value.substring(0, maxLength) + suffix
+<span class="kw">export</span> <span class="kw">class</span> TruncatePipe <span class="kw">implements</span> <span class="tp">PipeTransform</span> {
+  <span class="fn">transform</span>(value: <span class="tp">string</span>, maxLength = <span class="num">100</span>, suffix = <span class="str">'...'</span>): <span class="tp">string</span> {
+    <span class="kw">if</span> (!value) <span class="kw">return</span> <span class="str">''</span>;
+    <span class="kw">return</span> value.length &gt; maxLength
+      ? value.<span class="fn">substring</span>(<span class="num">0</span>, maxLength) + suffix
       : value;
   }
 }
 
-// Usage
-&lt;p&gt;{{ longText | truncate:50:'... read more' }}&lt;/p&gt;</code></pre>
+<span class="cm">// Usage</span>
+&lt;<span class="kw">p</span>&gt;<span class="str">{{ longText | truncate:50:'... read more' }}</span>&lt;/p&gt;</code></pre>
       </div>
     </div>
   </section>
@@ -679,35 +691,35 @@ export class TruncatePipe implements PipeTransform {
 
     <div class="card">
       <div class="card-body">
-        <pre><code>import { signal, computed, effect, linkedSignal } from '@angular/core';
+        <pre><code><span class="kw">import</span> { signal, computed, effect, linkedSignal } <span class="kw">from</span> <span class="str">'@angular/core'</span>;
 
-// signal — writable reactive value
-const count = signal(0);
-count.set(5);              // set directly
-count.update(c =&gt; c + 1); // update based on current
-console.log(count());      // read (signal is a getter function)
+<span class="cm">// signal — writable reactive value</span>
+<span class="kw">const</span> count = <span class="fn">signal</span>(<span class="num">0</span>);
+count.<span class="fn">set</span>(<span class="num">5</span>);              <span class="cm">// set directly</span>
+count.<span class="fn">update</span>(c =&gt; c + <span class="num">1</span>); <span class="cm">// update based on current</span>
+console.<span class="fn">log</span>(<span class="fn">count</span>());      <span class="cm">// read (signal is a getter function)</span>
 
-// computed — derived value (read-only, lazy)
-const double = computed(() =&gt; count() * 2);
+<span class="cm">// computed — derived value (read-only, lazy)</span>
+<span class="kw">const</span> double = <span class="fn">computed</span>(() =&gt; <span class="fn">count</span>() * <span class="num">2</span>);
 
-// effect — runs side effects when signals change
-const logEffect = effect(() =&gt; {
-  console.log(`Count is: ${count()}`);
+<span class="cm">// effect — runs side effects when signals change</span>
+<span class="kw">const</span> logEffect = <span class="fn">effect</span>(() =&gt; {
+  console.<span class="fn">log</span>(<span class="str">`Count is: ${count()}`</span>);
 });
-// Effects run during change detection by default
-// Cleanup: logEffect.destroy()
+<span class="cm">// Effects run during change detection by default</span>
+<span class="cm">// Cleanup: logEffect.destroy()</span>
 
-// linkedSignal — writable signal derived from another (Angular 20+)
-const firstName = signal('John');
-const lastName = signal('Doe');
-const fullName = linkedSignal({
-  source: () =&gt; [firstName(), lastName()] as const,
-  computation: () =&gt; `${firstName()} ${lastName()}`,
+<span class="cm">// linkedSignal — writable signal derived from another (Angular 20+)</span>
+<span class="kw">const</span> firstName = <span class="fn">signal</span>(<span class="str">'John'</span>);
+<span class="kw">const</span> lastName = <span class="fn">signal</span>(<span class="str">'Doe'</span>);
+<span class="kw">const</span> fullName = <span class="fn">linkedSignal</span>({
+  source: () =&gt; [<span class="fn">firstName</span>(), <span class="fn">lastName</span>()] <span class="kw">as</span> <span class="kw">const</span>,
+  computation: () =&gt; <span class="str">`${firstName()} ${lastName()}`</span>,
 });
 
-// Signal equality (custom compare)
-const items = signal([1, 2, 3], {
-  equal: (a, b) =&gt; a.length === b.length &amp;&amp; a.every((v, i) =&gt; v === b[i]),
+<span class="cm">// Signal equality (custom compare)</span>
+<span class="kw">const</span> items = <span class="fn">signal</span>([<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>], {
+  equal: (a, b) =&gt; a.length === b.length &amp;&amp; a.<span class="fn">every</span>((v, i) =&gt; v === b[i]),
 });</code></pre>
       </div>
     </div>
@@ -715,21 +727,21 @@ const items = signal([1, 2, 3], {
     <div class="card">
       <div class="card-header">Signals in Services</div>
       <div class="card-body">
-        <pre><code>import { Injectable, signal, computed } from '@angular/core';
+        <pre><code><span class="kw">import</span> { <span class="tp">Injectable</span>, signal, computed } <span class="kw">from</span> <span class="str">'@angular/core'</span>;
 
-@Injectable({ providedIn: 'root' })
-export class UserStore {
-  private user = signal&lt;User | null&gt;(null);
-  readonly isLoggedIn = computed(() =&gt; this.user() !== null);
-  readonly displayName = computed(() =&gt; this.user()?.name ?? 'Guest');
+<span class="tp">@Injectable</span>({ providedIn: <span class="str">'root'</span> })
+<span class="kw">export</span> <span class="kw">class</span> UserStore {
+  <span class="kw">private</span> user = signal&lt;<span class="kw">User</span> | <span class="fn">null</span>&gt;(<span class="kw">null</span>);
+  <span class="kw">readonly</span> isLoggedIn = <span class="fn">computed</span>(() =&gt; <span class="kw">this</span>.<span class="fn">user</span>() !== <span class="kw">null</span>);
+  <span class="kw">readonly</span> displayName = <span class="fn">computed</span>(() =&gt; <span class="kw">this</span>.<span class="fn">user</span>()?.name ?? <span class="str">'Guest'</span>);
 
-  login(email: string, password: string) {
-    // API call...
-    this.user.set({ id: 1, name: 'Alice', email });
+  <span class="fn">login</span>(email: <span class="tp">string</span>, password: <span class="tp">string</span>) {
+    <span class="cm">// API call...</span>
+    <span class="kw">this</span>.user.<span class="fn">set</span>({ id: <span class="num">1</span>, name: <span class="str">'Alice'</span>, email });
   }
 
-  logout() {
-    this.user.set(null);
+  <span class="fn">logout</span>() {
+    <span class="kw">this</span>.user.<span class="fn">set</span>(<span class="kw">null</span>);
   }
 }</code></pre>
       </div>
@@ -738,25 +750,25 @@ export class UserStore {
     <div class="card">
       <div class="card-header">Signals with Component Inputs</div>
       <div class="card-body">
-        <pre><code>import { Component, input, output } from '@angular/core';
+        <pre><code><span class="kw">import</span> { <span class="tp">Component</span>, input, output } <span class="kw">from</span> <span class="str">'@angular/core'</span>;
 
-@Component({...})
-export class UserCardComponent {
-  // Signal-based inputs (Angular 17.1+)
-  readonly user = input.required&lt;User&gt;();
-  readonly variant = input&lt;'compact' | 'full'&gt;('full');
+<span class="tp">@Component</span>({...})
+<span class="kw">export</span> <span class="kw">class</span> UserCardComponent {
+  <span class="cm">// Signal-based inputs (Angular 17.1+)</span>
+  <span class="kw">readonly</span> user = input.required&lt;<span class="kw">User</span>&gt;();
+  <span class="kw">readonly</span> variant = input&lt;<span class="str">'compact'</span> | <span class="str">'full'</span>&gt;(<span class="str">'full'</span>);
 
-  // Signal-based output
-  readonly selected = output&lt;number&gt;();
+  <span class="cm">// Signal-based output</span>
+  <span class="kw">readonly</span> selected = output&lt;<span class="kw">number</span>&gt;();
 
-  // Effect to react to input changes
-  private logEffect = effect(() =&gt; {
-    console.log('User changed:', this.user());
+  <span class="cm">// Effect to react to input changes</span>
+  <span class="kw">private</span> logEffect = <span class="fn">effect</span>(() =&gt; {
+    console.<span class="fn">log</span>(<span class="str">'User changed:'</span>, <span class="kw">this</span>.<span class="fn">user</span>());
   });
 }
 
-// Usage
-&lt;app-user-card [user]="currentUser" (selected)="onUserSelected($event)" /&gt;</code></pre>
+<span class="cm">// Usage</span>
+&lt;<span class="kw">app</span>-<span class="fn">user</span>-<span class="fn">card</span> <span class="fn">[user</span>]="<span class="fn">currentUser</span>" <span class="fn">(selected</span>)="<span class="fn">onUserSelected</span><span class="fn">(</span>$<span class="fn">event</span>)" /&gt;</code></pre>
       </div>
     </div>
   </section>
@@ -767,53 +779,53 @@ export class UserCardComponent {
 
     <div class="card">
       <div class="card-body">
-        <pre><code>import { Injectable, InjectionToken, inject } from '@angular/core';
+        <pre><code><span class="kw">import</span> { <span class="tp">Injectable</span>, <span class="tp">InjectionToken</span>, inject } <span class="kw">from</span> <span class="str">'@angular/core'</span>;
 
-// Service with providedIn
-@Injectable({
-  providedIn: 'root',  // singleton across app
+<span class="cm">// Service with providedIn</span>
+<span class="tp">@Injectable</span>({
+  providedIn: <span class="str">'root'</span>,  <span class="cm">// singleton across app</span>
 })
-export class ApiService {
-  constructor() {}
-  getData() { return fetch('/api/data'); }
+<span class="kw">export</span> <span class="kw">class</span> ApiService {
+  <span class="fn">constructor</span>() {}
+  <span class="fn">getData</span>() { <span class="kw">return</span> <span class="fn">fetch</span>(<span class="str">'/api/data'</span>); }
 }
 
-// Injection token for non-class dependencies
-export const API_URL = new InjectionToken&lt;string&gt;('API_URL', {
-  providedIn: 'root',
-  factory: () =&gt; 'https://api.example.com',
+<span class="cm">// Injection token for non-class dependencies</span>
+<span class="kw">export</span> <span class="kw">const</span> API_URL = <span class="kw">new</span> <span class="tp">InjectionToken</span>&lt;<span class="kw">string</span>&gt;(<span class="str">'API_URL'</span>, {
+  providedIn: <span class="str">'root'</span>,
+  factory: () =&gt; <span class="str">'https://api.example.com'</span>,
 });
 
-// inject() function (Angular 14+, preferred in functions)
-@Injectable()
-export class UserService {
-  private api = inject(ApiService);
-  private apiUrl = inject(API_URL);
+<span class="cm">// inject() function (Angular 14+, preferred in functions)</span>
+<span class="tp">@Injectable</span>()
+<span class="kw">export</span> <span class="kw">class</span> UserService {
+  <span class="kw">private</span> api = <span class="fn">inject</span>(ApiService);
+  <span class="kw">private</span> apiUrl = <span class="fn">inject</span>(API_URL);
 
-  fetchUsers() {
-    return this.api.getData();
+  <span class="fn">fetchUsers</span>() {
+    <span class="kw">return</span> <span class="kw">this</span>.api.<span class="fn">getData</span>();
   }
 }
 
-// Component-level providers
-@Component({
-  selector: 'app-users',
-  standalone: true,
-  providers: [UserService],  // new instance per component
-  template: `...`,
+<span class="cm">// Component-level providers</span>
+<span class="tp">@Component</span>({
+  selector: <span class="str">'app-users'</span>,
+  standalone: <span class="kw">true</span>,
+  providers: [UserService],  <span class="cm">// new instance per component</span>
+  template: <span class="str">`...`</span>,
 })
-export class UsersComponent {
-  private userService = inject(UserService);
+<span class="kw">export</span> <span class="kw">class</span> UsersComponent {
+  <span class="kw">private</span> userService = <span class="fn">inject</span>(UserService);
 }
 
-// Factory provider
-export const LOGGER = new InjectionToken&lt;Logger&gt;('logger', {
-  factory: () =&gt; new ConsoleLogger(),
+<span class="cm">// Factory provider</span>
+<span class="kw">export</span> <span class="kw">const</span> LOGGER = <span class="kw">new</span> <span class="tp">InjectionToken</span>&lt;<span class="kw">Logger</span>&gt;(<span class="str">'logger'</span>, {
+  factory: () =&gt; <span class="kw">new</span> <span class="fn">ConsoleLogger</span>(),
 });
 
-// Optional dependency
-import { Optional } from '@angular/core';
-constructor(@Optional() private config?: ConfigService) {}</code></pre>
+<span class="cm">// Optional dependency</span>
+<span class="kw">import</span> { <span class="tp">Optional</span> } <span class="kw">from</span> <span class="str">'@angular/core'</span>;
+<span class="fn">constructor</span>(<span class="tp">@Optional</span>() <span class="kw">private</span> config?: ConfigService) {}</code></pre>
       </div>
     </div>
   </section>
@@ -824,73 +836,73 @@ constructor(@Optional() private config?: ConfigService) {}</code></pre>
 
     <div class="card">
       <div class="card-body">
-        <pre><code>// app.config.ts (with standalone)
-import { ApplicationConfig } from '@angular/core';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
+        <pre><code><span class="cm">// app.config.ts (with standalone)</span>
+<span class="kw">import</span> { <span class="tp">ApplicationConfig</span> } <span class="kw">from</span> <span class="str">'@angular/core'</span>;
+<span class="kw">import</span> { provideRouter, withComponentInputBinding } <span class="kw">from</span> <span class="str">'@angular/router'</span>;
 
-export const appConfig: ApplicationConfig = {
+<span class="kw">export</span> <span class="kw">const</span> appConfig: <span class="tp">ApplicationConfig</span> = {
   providers: [
-    provideRouter(
+    <span class="fn">provideRouter</span>(
       [
-        { path: '', redirectTo: '/home', pathMatch: 'full' },
-        { path: 'home', component: HomeComponent },
+        { path: <span class="str">''</span>, redirectTo: <span class="str">'/home'</span>, pathMatch: <span class="str">'full'</span> },
+        { path: <span class="str">'home'</span>, component: HomeComponent },
         {
-          path: 'users',
+          path: <span class="str">'users'</span>,
           children: [
-            { path: '', component: UserListComponent },
-            { path: ':id', component: UserProfileComponent },
+            { path: <span class="str">''</span>, component: UserListComponent },
+            { path: <span class="str">':id'</span>, component: UserProfileComponent },
           ],
         },
         {
-          path: 'dashboard',
-          loadComponent: () =&gt; import('./dashboard/dashboard.component'),
+          path: <span class="str">'dashboard'</span>,
+          loadComponent: () =&gt; <span class="kw">import</span>(<span class="str">'./dashboard/dashboard.component'</span>),
           canActivate: [authGuard],
         },
-        { path: '**', component: NotFoundComponent },
+        { path: <span class="str">'**'</span>, component: NotFoundComponent },
       ],
-      withComponentInputBinding(),  // bind route params to @Input
+      <span class="fn">withComponentInputBinding</span>(),  <span class="cm">// bind route params to @Input</span>
     ),
   ],
 };
 
-// Router outlet
-&lt;router-outlet /&gt;
+<span class="cm">// Router outlet</span>
+&lt;<span class="kw">router</span>-<span class="fn">outlet</span> /&gt;
 
-// Navigation
-&lt;a routerLink="/home"&gt;Home&lt;/a&gt;
-&lt;a [routerLink]="['/users', user.id]"&gt;Profile&lt;/a&gt;
-&lt;button (click)="goBack()"&gt;Back&lt;/button&gt;
+<span class="cm">// Navigation</span>
+&lt;<span class="kw">a</span> <span class="fn">routerLink</span>=<span class="str">"/home"</span>&gt;Home&lt;/a&gt;
+&lt;<span class="kw">a</span> <span class="fn">[routerLink</span>]="<span class="fn">[</span>'/<span class="fn">users</span>', <span class="fn">user</span>.<span class="fn">id</span>]"&gt;Profile&lt;/a&gt;
+&lt;<span class="kw">button</span> <span class="fn">(click</span>)="<span class="fn">goBack</span>()"&gt;Back&lt;/button&gt;
 
-// Component
-import { Component, inject } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+<span class="cm">// Component</span>
+<span class="kw">import</span> { <span class="tp">Component</span>, inject } <span class="kw">from</span> <span class="str">'@angular/core'</span>;
+<span class="kw">import</span> { <span class="tp">Router</span>, <span class="tp">ActivatedRoute</span> } <span class="kw">from</span> <span class="str">'@angular/router'</span>;
 
-@Component({...})
-export class UserProfileComponent {
-  // With withComponentInputBinding:
-  // @Input() id!: string;
+<span class="tp">@Component</span>({...})
+<span class="kw">export</span> <span class="kw">class</span> UserProfileComponent {
+  <span class="cm">// With withComponentInputBinding:</span>
+  <span class="cm">// @Input() id!: string;</span>
 
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
+  <span class="kw">private</span> router = <span class="fn">inject</span>(<span class="tp">Router</span>);
+  <span class="kw">private</span> route = <span class="fn">inject</span>(<span class="tp">ActivatedRoute</span>);
 
-  ngOnInit() {
-    this.route.params.subscribe(params =&gt; {
-      console.log('User ID:', params['id']);
+  <span class="fn">ngOnInit</span>() {
+    <span class="kw">this</span>.route.params.<span class="fn">subscribe</span>(params =&gt; {
+      console.<span class="fn">log</span>(<span class="str">'User ID:'</span>, params[<span class="str">'id'</span>]);
     });
   }
 
-  goBack() {
-    this.router.navigate(['/users']);
+  <span class="fn">goBack</span>() {
+    <span class="kw">this</span>.router.<span class="fn">navigate</span>([<span class="str">'/users'</span>]);
   }
 
-  // Route guard
-  import { inject } from '@angular/core';
-  import { CanActivateFn, Router } from '@angular/router';
+  <span class="cm">// Route guard</span>
+  <span class="kw">import</span> { inject } <span class="kw">from</span> <span class="str">'@angular/core'</span>;
+  <span class="kw">import</span> { <span class="tp">CanActivateFn</span>, <span class="tp">Router</span> } <span class="kw">from</span> <span class="str">'@angular/router'</span>;
 
-  export const authGuard: CanActivateFn = (route, state) =&gt; {
-    const auth = inject(AuthService);
-    const router = inject(Router);
-    return auth.isLoggedIn() ? true : router.parseUrl('/login');
+  <span class="kw">export</span> <span class="kw">const</span> authGuard: <span class="tp">CanActivateFn</span> = (route, state) =&gt; {
+    <span class="kw">const</span> auth = <span class="fn">inject</span>(AuthService);
+    <span class="kw">const</span> router = <span class="fn">inject</span>(<span class="tp">Router</span>);
+    <span class="kw">return</span> auth.<span class="fn">isLoggedIn</span>() ? <span class="kw">true</span> : router.<span class="fn">parseUrl</span>(<span class="str">'/login'</span>);
   };
 }</code></pre>
       </div>
@@ -905,14 +917,14 @@ export class UserProfileComponent {
     <h3>Reactive Forms</h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+        <pre><code><span class="kw">import</span> { <span class="tp">Component</span>, inject } <span class="kw">from</span> <span class="str">'@angular/core'</span>;
+<span class="kw">import</span> { <span class="tp">FormBuilder</span>, <span class="tp">FormGroup</span>, <span class="tp">Validators</span>, ReactiveFormsModule } <span class="kw">from</span> <span class="str">'@angular/forms'</span>;
 
-@Component({
-  selector: 'app-user-form',
-  standalone: true,
+<span class="tp">@Component</span>({
+  selector: <span class="str">'app-user-form'</span>,
+  standalone: <span class="kw">true</span>,
   imports: [ReactiveFormsModule],
-  template: `
+  template: <span class="str">`
     &lt;form [formGroup]="userForm" (ngSubmit)="onSubmit()"&gt;
       &lt;input formControlName="name" placeholder="Name" /&gt;
       &lt;div *ngIf="userForm.get('name')?.invalid &amp;&amp; userForm.get('name')?.touched"&gt;
@@ -932,43 +944,43 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 
       &lt;button type="submit" [disabled]="userForm.invalid"&gt;Submit&lt;/button&gt;
     &lt;/form&gt;
-  `,
+  `</span>,
 })
-export class UserFormComponent {
-  private fb = inject(FormBuilder);
+<span class="kw">export</span> <span class="kw">class</span> UserFormComponent {
+  <span class="kw">private</span> fb = <span class="fn">inject</span>(<span class="tp">FormBuilder</span>);
 
-  userForm: FormGroup = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(2)]],
-    email: ['', [Validators.required, Validators.email]],
-    role: ['user'],
-    agree: [false, Validators.requiredTrue],
+  userForm: <span class="tp">FormGroup</span> = <span class="kw">this</span>.fb.<span class="fn">group</span>({
+    name: [<span class="str">''</span>, [<span class="tp">Validators</span>.required, <span class="tp">Validators</span>.<span class="fn">minLength</span>(<span class="num">2</span>)]],
+    email: [<span class="str">''</span>, [<span class="tp">Validators</span>.required, <span class="tp">Validators</span>.email]],
+    role: [<span class="str">'user'</span>],
+    agree: [<span class="kw">false</span>, <span class="tp">Validators</span>.requiredTrue],
   });
 
-  get nameControl() { return this.userForm.get('name'); }
+  get <span class="fn">nameControl</span>() { <span class="kw">return</span> <span class="kw">this</span>.userForm.<span class="fn">get</span>(<span class="str">'name'</span>); }
 
-  onSubmit() {
-    if (this.userForm.valid) {
-      console.log('Form submitted:', this.userForm.value);
+  <span class="fn">onSubmit</span>() {
+    <span class="kw">if</span> (<span class="kw">this</span>.userForm.valid) {
+      console.<span class="fn">log</span>(<span class="str">'Form submitted:'</span>, <span class="kw">this</span>.userForm.value);
     }
   }
 }
 
-// FormBuilder with signals
-import { formControl, formGroup, validators } from '@angular/forms/signals';</code></pre>
+<span class="cm">// FormBuilder with signals</span>
+<span class="kw">import</span> { formControl, formGroup, validators } <span class="kw">from</span> <span class="str">'@angular/forms/signals'</span>;</code></pre>
       </div>
     </div>
 
     <h3>Template-Driven Forms</h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+        <pre><code><span class="kw">import</span> { <span class="tp">Component</span> } <span class="kw">from</span> <span class="str">'@angular/core'</span>;
+<span class="kw">import</span> { FormsModule } <span class="kw">from</span> <span class="str">'@angular/forms'</span>;
 
-@Component({
-  selector: 'app-login',
-  standalone: true,
+<span class="tp">@Component</span>({
+  selector: <span class="str">'app-login'</span>,
+  standalone: <span class="kw">true</span>,
   imports: [FormsModule],
-  template: `
+  template: <span class="str">`
     &lt;form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)"&gt;
       &lt;input name="email" [(ngModel)]="model.email" #email="ngModel" required email /&gt;
       &lt;div *ngIf="email.invalid &amp;&amp; email.touched"&gt;Valid email required&lt;/div&gt;
@@ -978,20 +990,20 @@ import { FormsModule } from '@angular/forms';
 
       &lt;button type="submit" [disabled]="loginForm.invalid"&gt;Log In&lt;/button&gt;
     &lt;/form&gt;
-  `,
+  `</span>,
 })
-export class LoginComponent {
-  model = { email: '', password: '' };
+<span class="kw">export</span> <span class="kw">class</span> LoginComponent {
+  model = { email: <span class="str">''</span>, password: <span class="str">''</span> };
 
-  onSubmit(form: NgForm) {
-    if (form.valid) console.log('Login:', this.model);
+  <span class="fn">onSubmit</span>(form: NgForm) {
+    <span class="kw">if</span> (form.valid) console.<span class="fn">log</span>(<span class="str">'Login:'</span>, <span class="kw">this</span>.model);
   }
 }
 
-// Custom validator
-export function forbiddenNameValidator(name: string): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null =&gt; {
-    return control.value === name ? { forbiddenName: { value: control.value } } : null;
+<span class="cm">// Custom validator</span>
+<span class="kw">export</span> <span class="kw">function</span> <span class="fn">forbiddenNameValidator</span>(name: <span class="tp">string</span>): <span class="tp">ValidatorFn</span> {
+  <span class="kw">return</span> (control: <span class="tp">AbstractControl</span>): <span class="tp">ValidationErrors</span> | <span class="kw">null</span> =&gt; {
+    <span class="kw">return</span> control.value === name ? { forbiddenName: { value: control.value } } : <span class="kw">null</span>;
   };
 }</code></pre>
       </div>
@@ -1004,82 +1016,82 @@ export function forbiddenNameValidator(name: string): ValidatorFn {
 
     <div class="card">
       <div class="card-body">
-        <pre><code>import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpParams, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { catchError, map, retry } from 'rxjs/operators';
+        <pre><code><span class="kw">import</span> { <span class="tp">Injectable</span>, inject } <span class="kw">from</span> <span class="str">'@angular/core'</span>;
+<span class="kw">import</span> { <span class="tp">HttpClient</span>, <span class="tp">HttpParams</span>, <span class="tp">HttpHeaders</span>, <span class="tp">HttpErrorResponse</span> } <span class="kw">from</span> <span class="str">'@angular/common/http'</span>;
+<span class="kw">import</span> { <span class="tp">Observable</span>, <span class="kw">of</span> } <span class="kw">from</span> <span class="str">'rxjs'</span>;
+<span class="kw">import</span> { catchError, map, retry } <span class="kw">from</span> <span class="str">'rxjs/operators'</span>;
 
-@Injectable({ providedIn: 'root' })
-export class ArticleService {
-  private http = inject(HttpClient);
-  private baseUrl = '/api/articles';
+<span class="tp">@Injectable</span>({ providedIn: <span class="str">'root'</span> })
+<span class="kw">export</span> <span class="kw">class</span> ArticleService {
+  <span class="kw">private</span> http = <span class="fn">inject</span>(<span class="tp">HttpClient</span>);
+  <span class="kw">private</span> baseUrl = <span class="str">'/api/articles'</span>;
 
-  // GET with params
-  getArticles(page = 1, size = 20): Observable&lt;PaginatedResponse&lt;Article&gt;&gt; {
-    const params = new HttpParams()
-      .set('page', page.toString())
-      .set('size', size.toString());
+  <span class="cm">// GET with params</span>
+  <span class="fn">getArticles</span>(page = <span class="num">1</span>, size = <span class="num">20</span>): <span class="tp">Observable</span>&lt;<span class="kw">PaginatedResponse</span>&<span class="fn">lt</span>;<span class="fn">Article</span>&gt;&gt; {
+    <span class="kw">const</span> params = <span class="kw">new</span> <span class="tp">HttpParams</span>()
+      .<span class="fn">set</span>(<span class="str">'page'</span>, page.<span class="fn">toString</span>())
+      .<span class="fn">set</span>(<span class="str">'size'</span>, size.<span class="fn">toString</span>());
 
-    return this.http.get&lt;PaginatedResponse&lt;Article&gt;&gt;(this.baseUrl, { params })
-      .pipe(
-        retry(2),
-        catchError(this.handleError)
+    <span class="kw">return</span> <span class="kw">this</span>.http.get&lt;<span class="kw">PaginatedResponse</span>&<span class="fn">lt</span>;<span class="fn">Article</span>&gt;&gt;(<span class="kw">this</span>.baseUrl, { params })
+      .<span class="fn">pipe</span>(
+        <span class="fn">retry</span>(<span class="num">2</span>),
+        <span class="fn">catchError</span>(<span class="kw">this</span>.handleError)
       );
   }
 
-  // GET by ID
-  getArticle(id: number): Observable&lt;Article&gt; {
-    return this.http.get&lt;Article&gt;(`${this.baseUrl}/${id}`);
+  <span class="cm">// GET by ID</span>
+  <span class="fn">getArticle</span>(id: <span class="tp">number</span>): <span class="tp">Observable</span>&lt;<span class="kw">Article</span>&gt; {
+    <span class="kw">return</span> <span class="kw">this</span>.http.get&lt;<span class="kw">Article</span>&gt;(<span class="str">`${this.baseUrl}/${id}`</span>);
   }
 
-  // POST
-  createArticle(article: Partial&lt;Article&gt;): Observable&lt;Article&gt; {
-    return this.http.post&lt;Article&gt;(this.baseUrl, article, {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+  <span class="cm">// POST</span>
+  <span class="fn">createArticle</span>(article: Partial&lt;<span class="kw">Article</span>&gt;): <span class="tp">Observable</span>&lt;<span class="kw">Article</span>&gt; {
+    <span class="kw">return</span> <span class="kw">this</span>.http.post&lt;<span class="kw">Article</span>&gt;(<span class="kw">this</span>.baseUrl, article, {
+      headers: <span class="kw">new</span> <span class="tp">HttpHeaders</span>({ <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span> }),
     });
   }
 
-  // PUT
-  updateArticle(id: number, article: Partial&lt;Article&gt;): Observable&lt;Article&gt; {
-    return this.http.put&lt;Article&gt;(`${this.baseUrl}/${id}`, article);
+  <span class="cm">// PUT</span>
+  <span class="fn">updateArticle</span>(id: <span class="tp">number</span>, article: Partial&lt;<span class="kw">Article</span>&gt;): <span class="tp">Observable</span>&lt;<span class="kw">Article</span>&gt; {
+    <span class="kw">return</span> <span class="kw">this</span>.http.put&lt;<span class="kw">Article</span>&gt;(<span class="str">`${this.baseUrl}/${id}`</span>, article);
   }
 
-  // DELETE
-  deleteArticle(id: number): Observable&lt;void&gt; {
-    return this.http.delete&lt;void&gt;(`${this.baseUrl}/${id}`);
+  <span class="cm">// DELETE</span>
+  <span class="fn">deleteArticle</span>(id: <span class="tp">number</span>): <span class="tp">Observable</span>&lt;<span class="kw">void</span>&gt; {
+    <span class="kw">return</span> <span class="kw">this</span>.http.delete&lt;<span class="kw">void</span>&gt;(<span class="str">`${this.baseUrl}/${id}`</span>);
   }
 
-  private handleError(error: HttpErrorResponse) {
-    const message = error.error?.message || 'Server error';
-    console.error('API Error:', message);
-    return of({ error: message } as any);
+  <span class="kw">private</span> <span class="fn">handleError</span>(<span class="kw">error</span>: <span class="tp">HttpErrorResponse</span>) {
+    <span class="kw">const</span> message = <span class="kw">error</span>.<span class="kw">error</span>?.message || <span class="str">'Server error'</span>;
+    console.<span class="kw">error</span>(<span class="str">'API Error:'</span>, message);
+    <span class="kw">return</span> <span class="kw">of</span>({ <span class="kw">error</span>: message } <span class="kw">as</span> <span class="tp">any</span>);
   }
 }
 
-// HTTP Interceptor
-import { HttpInterceptorFn } from '@angular/common/http';
+<span class="cm">// HTTP Interceptor</span>
+<span class="kw">import</span> { <span class="tp">HttpInterceptorFn</span> } <span class="kw">from</span> <span class="str">'@angular/common/http'</span>;
 
-export const authInterceptor: HttpInterceptorFn = (req, next) =&gt; {
-  const auth = inject(AuthService);
-  const token = auth.token();
-  const headers = token
-    ? req.headers.set('Authorization', `Bearer ${token}`)
+<span class="kw">export</span> <span class="kw">const</span> authInterceptor: <span class="tp">HttpInterceptorFn</span> = (req, next) =&gt; {
+  <span class="kw">const</span> auth = <span class="fn">inject</span>(AuthService);
+  <span class="kw">const</span> token = auth.<span class="fn">token</span>();
+  <span class="kw">const</span> headers = token
+    ? req.headers.<span class="fn">set</span>(<span class="str">'Authorization'</span>, <span class="str">`Bearer ${token}`</span>)
     : req.headers;
 
-  return next(req.clone({ headers })).pipe(
-    catchError((error: HttpErrorResponse) =&gt; {
-      if (error.status === 401) auth.logout();
-      throw error;
+  <span class="kw">return</span> <span class="fn">next</span>(req.<span class="fn">clone</span>({ headers })).<span class="fn">pipe</span>(
+    <span class="fn">catchError</span>((<span class="kw">error</span>: <span class="tp">HttpErrorResponse</span>) =&gt; {
+      <span class="kw">if</span> (<span class="kw">error</span>.status === <span class="num">401</span>) auth.<span class="fn">logout</span>();
+      <span class="kw">throw</span> <span class="kw">error</span>;
     })
   );
 };
 
-// Provide interceptor
-// app.config.ts
-export const appConfig: ApplicationConfig = {
+<span class="cm">// Provide interceptor</span>
+<span class="cm">// app.config.ts</span>
+<span class="kw">export</span> <span class="kw">const</span> appConfig: <span class="tp">ApplicationConfig</span> = {
   providers: [
-    provideHttpClient(
-      withInterceptors([authInterceptor]),
+    <span class="fn">provideHttpClient</span>(
+      <span class="fn">withInterceptors</span>([authInterceptor]),
     ),
   ],
 };</code></pre>
@@ -1094,46 +1106,46 @@ export const appConfig: ApplicationConfig = {
 
     <div class="card">
       <div class="card-body">
-        <pre><code>// Enable zoneless in app.config.ts
-import { provideExperimentalZonelessChangeDetection } from '@angular/core';
-// In Angular 20+, use:
-import { provideZonelessChangeDetection } from '@angular/core';
+        <pre><code><span class="cm">// Enable zoneless in app.config.ts</span>
+<span class="kw">import</span> { provideExperimentalZonelessChangeDetection } <span class="kw">from</span> <span class="str">'@angular/core'</span>;
+<span class="cm">// In Angular 20+, use:</span>
+<span class="kw">import</span> { provideZonelessChangeDetection } <span class="kw">from</span> <span class="str">'@angular/core'</span>;
 
-export const appConfig: ApplicationConfig = {
+<span class="kw">export</span> <span class="kw">const</span> appConfig: <span class="tp">ApplicationConfig</span> = {
   providers: [
-    provideZonelessChangeDetection(),
-    // ... other providers
+    <span class="fn">provideZonelessChangeDetection</span>(),
+    <span class="cm">// ... other providers</span>
   ],
 };
 
-// Remove zone.js from polyfills and angular.json
-// "polyfills": []  (remove zone.js)
+<span class="cm">// Remove zone.js from polyfills and angular.json</span>
+<span class="cm">// "polyfills": []  (remove zone.js)</span>
 
-// With zoneless, change detection is triggered by:
-// 1. Signal changes (signal.set() / signal.update())
-// 2. Async pipe updates
-// 3. @Output() events
-// 4. Manual changeRef.detectChanges()
+<span class="cm">// With zoneless, change detection is triggered by:</span>
+<span class="cm">// 1. Signal changes (signal.set() / signal.update())</span>
+<span class="cm">// 2. Async pipe updates</span>
+<span class="cm">// 3. @Output() events</span>
+<span class="cm">// 4. Manual changeRef.detectChanges()</span>
 
-// Benefits:
-// - Smaller bundle (no zone.js)
-// - Better debugging (no zone.js wrapping)
-// - Faster change detection (targeted updates)
-// - Better interop with non-Angular libraries
+<span class="cm">// Benefits:</span>
+<span class="cm">// - Smaller bundle (no zone.js)</span>
+<span class="cm">// - Better debugging (no zone.js wrapping)</span>
+<span class="cm">// - Faster change detection (targeted updates)</span>
+<span class="cm">// - Better interop with non-Angular libraries</span>
 
-@Component({...})
-export class MyComponent {
-  // Signals automatically trigger change detection
-  readonly count = signal(0);
+<span class="tp">@Component</span>({...})
+<span class="kw">export</span> <span class="kw">class</span> MyComponent {
+  <span class="cm">// Signals automatically trigger change detection</span>
+  <span class="kw">readonly</span> count = <span class="fn">signal</span>(<span class="num">0</span>);
 
-  increment() {
-    this.count.update(c =&gt; c + 1);  // triggers CD
+  <span class="fn">increment</span>() {
+    <span class="kw">this</span>.count.<span class="fn">update</span>(c =&gt; c + <span class="num">1</span>);  <span class="cm">// triggers CD</span>
   }
 
-  // Manual change detection (if needed)
-  private cdr = inject(ChangeDetectorRef);
-  forceUpdate() {
-    this.cdr.detectChanges();
+  <span class="cm">// Manual change detection (if needed)</span>
+  <span class="kw">private</span> cdr = <span class="fn">inject</span>(<span class="tp">ChangeDetectorRef</span>);
+  <span class="fn">forceUpdate</span>() {
+    <span class="kw">this</span>.cdr.<span class="fn">detectChanges</span>();
   }
 }</code></pre>
       </div>
@@ -1146,47 +1158,47 @@ export class MyComponent {
 
     <div class="card">
       <div class="card-body">
-        <pre><code>// Enable SSR when creating project
-ng new myapp --ssr
+        <pre><code><span class="cm">// Enable SSR when creating project</span>
+ng <span class="kw">new</span> myapp --ssr
 
-// Or add to existing project
-ng add @angular/ssr
+<span class="cm">// Or add to existing project</span>
+ng add <span class="tp">@angular</span>/ssr
 
-// Route-level render mode (Angular 20+ stable)
-// Configure render mode per route in app.routes.ts
-import { renderMode } from '@angular/ssr';
+<span class="cm">// Route-level render mode (Angular 20+ stable)</span>
+<span class="cm">// Configure render mode per route in app.routes.ts</span>
+<span class="kw">import</span> { <span class="tp">renderMode</span> } <span class="kw">from</span> <span class="str">'@angular/ssr'</span>;
 
-export const routes: Routes = [
+<span class="kw">export</span> <span class="kw">const</span> routes: <span class="tp">Routes</span> = [
   {
-    path: 'about',
+    path: <span class="str">'about'</span>,
     component: AboutComponent,
-    data: { renderMode: renderMode.ClientSide }, // CSR only
+    data: { <span class="tp">renderMode</span>: <span class="tp">renderMode</span>.ClientSide }, <span class="cm">// CSR only</span>
   },
   {
-    path: 'pricing',
+    path: <span class="str">'pricing'</span>,
     component: PricingComponent,
-    data: { renderMode: renderMode.ServerSide }, // SSR always
+    data: { <span class="tp">renderMode</span>: <span class="tp">renderMode</span>.ServerSide }, <span class="cm">// SSR always</span>
   },
   {
-    path: 'blog/:slug',
+    path: <span class="str">'blog/:slug'</span>,
     component: BlogPostComponent,
-    data: { renderMode: renderMode.Prerender },  // SSG
+    data: { <span class="tp">renderMode</span>: <span class="tp">renderMode</span>.Prerender },  <span class="cm">// SSG</span>
   },
 ];
 
-// Incremental hydration (Angular 20+ stable)
-@defer (on interaction) {
-  &lt;heavy-chart /&gt;
-} @placeholder {
-  &lt;div class="chart-placeholder"&gt;Click to load chart&lt;/div&gt;
+<span class="cm">// Incremental hydration (Angular 20+ stable)</span>
+<span class="tp">@defer</span> (on interaction) {
+  &lt;<span class="kw">heavy</span>-<span class="fn">chart</span> /&gt;
+} <span class="tp">@placeholder</span> {
+  &lt;<span class="kw">div</span> <span class="fn">class</span>=<span class="str">"chart-placeholder"</span>&gt;Click to load chart&lt;/div&gt;
 }
 
-// Hydration configuration
-import { provideClientHydration, withIncrementalHydration } from '@angular/platform-browser';
+<span class="cm">// Hydration configuration</span>
+<span class="kw">import</span> { provideClientHydration, withIncrementalHydration } <span class="kw">from</span> <span class="str">'@angular/platform-browser'</span>;
 
-export const appConfig: ApplicationConfig = {
+<span class="kw">export</span> <span class="kw">const</span> appConfig: <span class="tp">ApplicationConfig</span> = {
   providers: [
-    provideClientHydration(withIncrementalHydration()),
+    <span class="fn">provideClientHydration</span>(<span class="fn">withIncrementalHydration</span>()),
   ],
 };</code></pre>
       </div>
@@ -1200,85 +1212,85 @@ export const appConfig: ApplicationConfig = {
 
     <div class="card">
       <div class="card-body">
-        <pre><code>// Component test with TestBed
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CounterComponent } from './counter.component';
+        <pre><code><span class="cm">// Component test with TestBed</span>
+<span class="kw">import</span> { <span class="tp">ComponentFixture</span>, <span class="tp">TestBed</span> } <span class="kw">from</span> <span class="str">'@angular/core/testing'</span>;
+<span class="kw">import</span> { CounterComponent } <span class="kw">from</span> <span class="str">'./counter.component'</span>;
 
-describe('CounterComponent', () =&gt; {
-  let component: CounterComponent;
-  let fixture: ComponentFixture&lt;CounterComponent&gt;;
+<span class="fn">describe</span>(<span class="str">'CounterComponent'</span>, () =&gt; {
+  <span class="kw">let</span> component: CounterComponent;
+  <span class="kw">let</span> fixture: <span class="tp">ComponentFixture</span>&lt;<span class="kw">CounterComponent</span>&gt;;
 
-  beforeEach(async () =&gt; {
-    await TestBed.configureTestingModule({
-      imports: [CounterComponent],  // standalone
-    }).compileComponents();
+  <span class="fn">beforeEach</span>(<span class="kw">async</span> () =&gt; {
+    <span class="kw">await</span> <span class="tp">TestBed</span>.<span class="fn">configureTestingModule</span>({
+      imports: [CounterComponent],  <span class="cm">// standalone</span>
+    }).<span class="fn">compileComponents</span>();
 
-    fixture = TestBed.createComponent(CounterComponent);
+    fixture = <span class="tp">TestBed</span>.<span class="fn">createComponent</span>(CounterComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    fixture.<span class="fn">detectChanges</span>();
   });
 
-  it('renders initial count', () =&gt; {
-    component.count = 5;
-    fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector('p');
-    expect(el.textContent).toContain('5');
+  <span class="fn">it</span>(<span class="str">'renders initial count'</span>, () =&gt; {
+    component.count = <span class="num">5</span>;
+    fixture.<span class="fn">detectChanges</span>();
+    <span class="kw">const</span> el = fixture.nativeElement.<span class="fn">querySelector</span>(<span class="str">'p'</span>);
+    <span class="fn">expect</span>(el.textContent).<span class="fn">toContain</span>(<span class="str">'5'</span>);
   });
 
-  it('increments count on button click', () =&gt; {
-    const button = fixture.nativeElement.querySelector('button');
-    button.click();
-    fixture.detectChanges();
-    expect(component.count).toBe(1);
-    const el = fixture.nativeElement.querySelector('p');
-    expect(el.textContent).toContain('1');
+  <span class="fn">it</span>(<span class="str">'increments count on button click'</span>, () =&gt; {
+    <span class="kw">const</span> button = fixture.nativeElement.<span class="fn">querySelector</span>(<span class="str">'button'</span>);
+    button.<span class="fn">click</span>();
+    fixture.<span class="fn">detectChanges</span>();
+    <span class="fn">expect</span>(component.count).<span class="fn">toBe</span>(<span class="num">1</span>);
+    <span class="kw">const</span> el = fixture.nativeElement.<span class="fn">querySelector</span>(<span class="str">'p'</span>);
+    <span class="fn">expect</span>(el.textContent).<span class="fn">toContain</span>(<span class="str">'1'</span>);
   });
 
-  it('emits countChange event', () =&gt; {
-    spyOn(component.countChange, 'emit');
-    component.count = 10;
-    fixture.nativeElement.querySelectorAll('button')[1].click();
-    expect(component.countChange.emit).toHaveBeenCalledWith(10);
+  <span class="fn">it</span>(<span class="str">'emits countChange event'</span>, () =&gt; {
+    <span class="fn">spyOn</span>(component.countChange, <span class="str">'emit'</span>);
+    component.count = <span class="num">10</span>;
+    fixture.nativeElement.<span class="fn">querySelectorAll</span>(<span class="str">'button'</span>)[<span class="num">1</span>].<span class="fn">click</span>();
+    <span class="fn">expect</span>(component.countChange.emit).<span class="fn">toHaveBeenCalledWith</span>(<span class="num">10</span>);
   });
 });
 
-// Service test
-import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+<span class="cm">// Service test</span>
+<span class="kw">import</span> { <span class="tp">TestBed</span> } <span class="kw">from</span> <span class="str">'@angular/core/testing'</span>;
+<span class="kw">import</span> { HttpClientTestingModule, <span class="tp">HttpTestingController</span> } <span class="kw">from</span> <span class="str">'@angular/common/http/testing'</span>;
 
-describe('ArticleService', () =&gt; {
-  let service: ArticleService;
-  let httpMock: HttpTestingController;
+<span class="fn">describe</span>(<span class="str">'ArticleService'</span>, () =&gt; {
+  <span class="kw">let</span> service: ArticleService;
+  <span class="kw">let</span> httpMock: <span class="tp">HttpTestingController</span>;
 
-  beforeEach(() =&gt; {
-    TestBed.configureTestingModule({
+  <span class="fn">beforeEach</span>(() =&gt; {
+    <span class="tp">TestBed</span>.<span class="fn">configureTestingModule</span>({
       imports: [HttpClientTestingModule],
       providers: [ArticleService],
     });
-    service = TestBed.inject(ArticleService);
-    httpMock = TestBed.inject(HttpTestingController);
+    service = <span class="tp">TestBed</span>.<span class="fn">inject</span>(ArticleService);
+    httpMock = <span class="tp">TestBed</span>.<span class="fn">inject</span>(<span class="tp">HttpTestingController</span>);
   });
 
-  afterEach(() =&gt; httpMock.verify());
+  <span class="fn">afterEach</span>(() =&gt; httpMock.<span class="fn">verify</span>());
 
-  it('fetches articles', () =&gt; {
-    const mockArticles = [{ id: 1, title: 'Test' }];
+  <span class="fn">it</span>(<span class="str">'fetches articles'</span>, () =&gt; {
+    <span class="kw">const</span> mockArticles = [{ id: <span class="num">1</span>, title: <span class="str">'Test'</span> }];
 
-    service.getArticles().subscribe(articles =&gt; {
-      expect(articles.length).toBe(1);
-      expect(articles[0].title).toBe('Test');
+    service.<span class="fn">getArticles</span>().<span class="fn">subscribe</span>(articles =&gt; {
+      <span class="fn">expect</span>(articles.length).<span class="fn">toBe</span>(<span class="num">1</span>);
+      <span class="fn">expect</span>(articles[<span class="num">0</span>].title).<span class="fn">toBe</span>(<span class="str">'Test'</span>);
     });
 
-    const req = httpMock.expectOne('/api/articles?page=1&size=20');
-    expect(req.request.method).toBe('GET');
-    req.flush(mockArticles);
+    <span class="kw">const</span> req = httpMock.<span class="fn">expectOne</span>(<span class="str">'/api/articles?page=1&size=20'</span>);
+    <span class="fn">expect</span>(req.request.method).<span class="fn">toBe</span>(<span class="str">'GET'</span>);
+    req.<span class="fn">flush</span>(mockArticles);
   });
 });
 
-// With Vitest
-// Install: npm install -D @analogjs/vite-plugin-angular @analogjs/platform vitest
-// Configure vite.config.ts with analog plugin
-// Same API as TestBed, but faster execution</code></pre>
+<span class="cm">// With Vitest</span>
+<span class="cm">// Install: npm install -D @analogjs/vite-plugin-angular @analogjs/platform vitest</span>
+<span class="cm">// Configure vite.config.ts with analog plugin</span>
+<span class="cm">// Same API as TestBed, but faster execution</span></code></pre>
       </div>
     </div>
   </section>
@@ -1301,14 +1313,14 @@ describe('ArticleService', () =&gt; {
     components/      # Shared components
       header/
       sidebar/
-    pages/           # Route-level components
+    pages/           # <span class="tp">Route</span>-level components
       home/
       users/
       dashboard/
     services/        # API services
       api.service.ts
       auth.service.ts
-    guards/          # Route guards
+    guards/          # <span class="tp">Route</span> guards
       auth.guard.ts
     interceptors/    # HTTP interceptors
       auth.interceptor.ts
@@ -1317,7 +1329,7 @@ describe('ArticleService', () =&gt; {
     directives/      # Custom directives
       highlight.directive.ts
     models/          # Interfaces/types
-      user.interface.ts
+      user.<span class="kw">interface</span>.ts
     app.config.ts    # App configuration
     app.component.ts # Root component
   assets/

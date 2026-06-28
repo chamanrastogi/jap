@@ -114,6 +114,19 @@
       position: relative;
     }
     pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
+    .kw { color: #c792ea; }
+    .fn { color: #82aaff; }
+    .str { color: #c3e88d; }
+    .cm { color: #546e7a; font-style: italic; }
+    .num { color: #f78c6c; }
+    .tp { color: #ffcb6b; }
+    [data-bs-theme="dark"] .kw { color: #c792ea; }
+    [data-bs-theme="dark"] .fn { color: #82aaff; }
+    [data-bs-theme="dark"] .str { color: #c3e88d; }
+    [data-bs-theme="dark"] .cm { color: #546e7a; }
+    [data-bs-theme="dark"] .num { color: #f78c6c; }
+    [data-bs-theme="dark"] .tp { color: #ffcb6b; }
+
     .cmd-table td:first-child {
       font-family: 'JetBrains Mono', monospace;
       font-size: .82rem;
@@ -236,24 +249,24 @@
     <h2><i class="bi bi-download me-2"></i>Installation</h2>
     <div class="card">
       <div class="card-body">
-        <pre><code># Create a new Laravel 13 application
-composer create-project laravel/laravel myapp
+        <pre><code><span class="cm"># Create a new Laravel 13 application</span>
+<span class="kw">composer</span> create-project laravel/laravel myapp
 
-# Or via the Laravel installer
-laravel new myapp
+<span class="cm"># Or via the Laravel installer</span>
+laravel <span class="kw">new</span> myapp
 
-# Start the development server
-php artisan serve
+<span class="cm"># Start the development server</span>
+<span class="kw">php</span> <span class="kw">artisan</span> serve
 
-# Start with Laravel Sail (Docker)
+<span class="cm"># Start with Laravel Sail (Docker)</span>
 ./vendor/bin/sail up
 
-# Install common packages
-composer require laravel/breeze   # Auth scaffolding
-composer require laravel/horizon  # Queue dashboard
-composer require laravel/sanctum  # API tokens
-composer require laravel/pennant  # Feature flags
-composer require laravel/pint     # Code style fixer</code></pre>
+<span class="cm"># Install common packages</span>
+<span class="kw">composer</span> <span class="kw">require</span> laravel/breeze   # <span class="tp">Auth</span> scaffolding
+<span class="kw">composer</span> <span class="kw">require</span> laravel/horizon  # <span class="tp">Queue</span> dashboard
+<span class="kw">composer</span> <span class="kw">require</span> laravel/sanctum  # API tokens
+<span class="kw">composer</span> <span class="kw">require</span> laravel/pennant  # Feature flags
+<span class="kw">composer</span> <span class="kw">require</span> laravel/pint     # Code style fixer</code></pre>
       </div>
     </div>
   </section>
@@ -459,25 +472,25 @@ composer require laravel/pint     # Code style fixer</code></pre>
       <div class="card-body">
         <pre><code>myapp/
   app/
-    Http/
-      Controllers/
-      Middleware/
-      Requests/
-    Jobs/
-    Mail/
-    Models/
-    Notifications/
-    Policies/
-    Providers/
-    Queue/Job/          <-- PHP Attributes style
-    Rules/
+    <span class="tp">Http</span>/
+      <span class="tp">Controllers</span>/
+      <span class="tp">Middleware</span>/
+      <span class="tp">Requests</span>/
+    <span class="tp">Jobs</span>/
+    <span class="tp">Mail</span>/
+    <span class="tp">Models</span>/
+    <span class="tp">Notifications</span>/
+    <span class="tp">Policies</span>/
+    <span class="tp">Providers</span>/
+    <span class="tp">Queue</span>/<span class="tp">Job</span>/          <-- PHP Attributes style
+    <span class="tp">Rules</span>/
   bootstrap/
   config/
   database/
     factories/
     migrations/
     seeders/
-  public/
+  <span class="kw">public</span>/
   resources/
     views/
       components/
@@ -503,37 +516,37 @@ composer require laravel/pint     # Code style fixer</code></pre>
     <div class="card">
       <div class="card-header">routes/web.php &mdash; Examples</div>
       <div class="card-body">
-        <pre><code>// Basic GET route
-Route::get('/articles', [ArticleController::class, 'index']);
+        <pre><code><span class="cm">// Basic GET route</span>
+<span class="tp">Route</span>::<span class="fn">get</span>(<span class="str">'/articles'</span>, [ArticleController::<span class="kw">class</span>, <span class="str">'index'</span>]);
 
-// Named route
-Route::get('/articles/{slug}', [ArticleController::class, 'view'])
-    ->name('articles.show');
+<span class="cm">// Named route</span>
+<span class="tp">Route</span>::<span class="fn">get</span>(<span class="str">'/articles/{slug}'</span>, [ArticleController::<span class="kw">class</span>, <span class="str">'view'</span>])
+    -><span class="fn">name</span>(<span class="str">'articles.show'</span>);
 
-// Route with parameters
-Route::get('/user/{id}', function (string $id) {
-    return 'User '.$id;
-})->where('id', '[0-9]+');
+<span class="cm">// Route with parameters</span>
+<span class="tp">Route</span>::<span class="fn">get</span>(<span class="str">'/user/{id}'</span>, <span class="kw">function</span> (<span class="tp">string</span> <span class="kw">$id</span>) {
+    <span class="kw">return</span> <span class="str">'User '</span>.<span class="kw">$id</span>;
+})-><span class="fn">where</span>(<span class="str">'id'</span>, <span class="str">'[0-9]+'</span>);
 
-// Route groups with middleware
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index']);
-    Route::resource('articles', ArticleController::class);
+<span class="cm">// Route groups with middleware</span>
+<span class="tp">Route</span>::<span class="fn">middleware</span>([<span class="str">'auth'</span>])-><span class="fn">group</span>(<span class="kw">function</span> () {
+    <span class="tp">Route</span>::<span class="fn">get</span>(<span class="str">'/dashboard'</span>, [<span class="tp">DashboardController</span>::<span class="kw">class</span>, <span class="str">'index'</span>]);
+    <span class="tp">Route</span>::<span class="fn">resource</span>(<span class="str">'articles'</span>, ArticleController::<span class="kw">class</span>);
 });
 
-// Resourceful routes
-Route::resource('articles', ArticleController::class);
-// Generates: index, create, store, show, edit, update, destroy
+<span class="cm">// Resourceful routes</span>
+<span class="tp">Route</span>::<span class="fn">resource</span>(<span class="str">'articles'</span>, ArticleController::<span class="kw">class</span>);
+<span class="cm">// Generates: index, create, store, show, edit, update, destroy</span>
 
-// API resource (no create/edit views)
-Route::apiResource('articles', ArticleController::class);
+<span class="cm">// API resource (no create/edit views)</span>
+<span class="tp">Route</span>::<span class="fn">apiResource</span>(<span class="str">'articles'</span>, ArticleController::<span class="kw">class</span>);
 
-// Nested resource
-Route::resource('articles.comments', CommentController::class);
+<span class="cm">// Nested resource</span>
+<span class="tp">Route</span>::<span class="fn">resource</span>(<span class="str">'articles.comments'</span>, CommentController::<span class="kw">class</span>);
 
-// Route with prefix
-Route::prefix('admin')->group(function () {
-    Route::get('/users', [AdminController::class, 'users']);
+<span class="cm">// Route with prefix</span>
+<span class="tp">Route</span>::<span class="fn">prefix</span>(<span class="str">'admin'</span>)-><span class="fn">group</span>(<span class="kw">function</span> () {
+    <span class="tp">Route</span>::<span class="fn">get</span>(<span class="str">'/users'</span>, [<span class="tp">AdminController</span>::<span class="kw">class</span>, <span class="str">'users'</span>]);
 });</code></pre>
       </div>
     </div>
@@ -566,59 +579,59 @@ Route::prefix('admin')->group(function () {
     <div class="card">
       <div class="card-header">ArticleController &mdash; Resource Full CRUD</div>
       <div class="card-body">
-        <pre><code>namespace App\Http\Controllers;
+        <pre><code><span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Http</span>\<span class="tp">Controllers</span>;
 
-use App\Models\Article;
-use App\Http\Requests\StoreArticleRequest;
-use App\Http\Requests\UpdateArticleRequest;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
+<span class="kw">use</span> <span class="tp">App</span>\<span class="tp">Models</span>\<span class="tp">Article</span>;
+<span class="kw">use</span> <span class="tp">App</span>\<span class="tp">Http</span>\<span class="tp">Requests</span>\StoreArticleRequest;
+<span class="kw">use</span> <span class="tp">App</span>\<span class="tp">Http</span>\<span class="tp">Requests</span>\UpdateArticleRequest;
+<span class="kw">use</span> <span class="tp">Illuminate</span>\<span class="tp">Http</span>\<span class="tp">RedirectResponse</span>;
+<span class="kw">use</span> <span class="tp">Illuminate</span>\<span class="tp">View</span>\<span class="tp">View</span>;
 
-class ArticleController extends Controller
+<span class="kw">class</span> ArticleController <span class="kw">extends</span> <span class="tp">Controller</span>
 {
-    public function index(): View
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">index</span>(): <span class="tp">View</span>
     {
-        $articles = Article::with('author', 'tags')
-            ->latest()
-            ->paginate(20);
-        return view('articles.index', compact('articles'));
+        <span class="kw">$articles</span> = <span class="tp">Article</span>::<span class="fn">with</span>(<span class="str">'author'</span>, <span class="str">'tags'</span>)
+            -><span class="fn">latest</span>()
+            -><span class="fn">paginate</span>(<span class="num">20</span>);
+        <span class="kw">return</span> <span class="fn">view</span>(<span class="str">'articles.index'</span>, <span class="fn">compact</span>(<span class="str">'articles'</span>));
     }
 
-    public function create(): View
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">create</span>(): <span class="tp">View</span>
     {
-        return view('articles.create');
+        <span class="kw">return</span> <span class="fn">view</span>(<span class="str">'articles.create'</span>);
     }
 
-    public function store(StoreArticleRequest $request): RedirectResponse
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">store</span>(StoreArticleRequest <span class="kw">$request</span>): <span class="tp">RedirectResponse</span>
     {
-        $article = auth()->user()->articles()
-            ->create($request->validated());
-        return redirect()->route('articles.show', $article)
-            ->with('success', 'Article created.');
+        <span class="kw">$article</span> = <span class="fn">auth</span>()-><span class="fn">user</span>()-><span class="fn">articles</span>()
+            -><span class="fn">create</span>(<span class="kw">$request</span>-><span class="fn">validated</span>());
+        <span class="kw">return</span> <span class="fn">redirect</span>()-><span class="fn">route</span>(<span class="str">'articles.show'</span>, <span class="kw">$article</span>)
+            -><span class="fn">with</span>(<span class="str">'success'</span>, <span class="str">'Article created.'</span>);
     }
 
-    public function show(Article $article): View
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">show</span>(<span class="tp">Article</span> <span class="kw">$article</span>): <span class="tp">View</span>
     {
-        return view('articles.show', compact('article'));
+        <span class="kw">return</span> <span class="fn">view</span>(<span class="str">'articles.show'</span>, <span class="fn">compact</span>(<span class="str">'article'</span>));
     }
 
-    public function edit(Article $article): View
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">edit</span>(<span class="tp">Article</span> <span class="kw">$article</span>): <span class="tp">View</span>
     {
-        return view('articles.edit', compact('article'));
+        <span class="kw">return</span> <span class="fn">view</span>(<span class="str">'articles.edit'</span>, <span class="fn">compact</span>(<span class="str">'article'</span>));
     }
 
-    public function update(UpdateArticleRequest $request, Article $article): RedirectResponse
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">update</span>(UpdateArticleRequest <span class="kw">$request</span>, <span class="tp">Article</span> <span class="kw">$article</span>): <span class="tp">RedirectResponse</span>
     {
-        $article->update($request->validated());
-        return redirect()->route('articles.show', $article)
-            ->with('success', 'Article updated.');
+        <span class="kw">$article</span>-><span class="fn">update</span>(<span class="kw">$request</span>-><span class="fn">validated</span>());
+        <span class="kw">return</span> <span class="fn">redirect</span>()-><span class="fn">route</span>(<span class="str">'articles.show'</span>, <span class="kw">$article</span>)
+            -><span class="fn">with</span>(<span class="str">'success'</span>, <span class="str">'Article updated.'</span>);
     }
 
-    public function destroy(Article $article): RedirectResponse
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">destroy</span>(<span class="tp">Article</span> <span class="kw">$article</span>): <span class="tp">RedirectResponse</span>
     {
-        $article->delete();
-        return redirect()->route('articles.index')
-            ->with('success', 'Article deleted.');
+        <span class="kw">$article</span>-><span class="fn">delete</span>();
+        <span class="kw">return</span> <span class="fn">redirect</span>()-><span class="fn">route</span>(<span class="str">'articles.index'</span>)
+            -><span class="fn">with</span>(<span class="str">'success'</span>, <span class="str">'Article deleted.'</span>);
     }
 }</code></pre>
       </div>
@@ -635,16 +648,16 @@ class ArticleController extends Controller
         <div class="card h-100">
           <div class="card-header">Before (Laravel 12) &mdash; Properties</div>
           <div class="card-body">
-            <pre><code>class Invoice extends Model
+            <pre><code><span class="kw">class</span> <span class="tp">Invoice</span> <span class="kw">extends</span> <span class="tp">Model</span>
 {
-    protected $table = 'invoices';
-    protected $primaryKey = 'invoice_id';
-    protected $keyType = 'string';
-    public $incrementing = false;
-    protected $fillable = [
-        'amount', 'status', 'user_id',
+    <span class="kw">protected</span> <span class="kw">$table</span> = <span class="str">'invoices'</span>;
+    <span class="kw">protected</span> <span class="kw">$primaryKey</span> = <span class="str">'invoice_id'</span>;
+    <span class="kw">protected</span> <span class="kw">$keyType</span> = <span class="str">'string'</span>;
+    <span class="kw">public</span> <span class="kw">$incrementing</span> = <span class="kw">false</span>;
+    <span class="kw">protected</span> <span class="kw">$fillable</span> = [
+        <span class="str">'amount'</span>, <span class="str">'status'</span>, <span class="str">'user_id'</span>,
     ];
-    protected $hidden = ['internal_notes'];
+    <span class="kw">protected</span> <span class="kw">$hidden</span> = [<span class="str">'internal_notes'</span>];
 }</code></pre>
           </div>
         </div>
@@ -653,20 +666,20 @@ class ArticleController extends Controller
         <div class="card h-100">
           <div class="card-header">After (Laravel 13) &mdash; Attributes</div>
           <div class="card-body">
-            <pre><code>use Illuminate\Database\Eloquent\Attributes\{
-    Table, PrimaryKey, KeyType, Incrementing,
+            <pre><code><span class="kw">use</span> <span class="tp">Illuminate</span>\<span class="tp">Database</span>\<span class="tp">Eloquent</span>\<span class="tp">Attributes</span>\{
+    <span class="tp">Table</span>, PrimaryKey, KeyType, Incrementing,
     Fillable, Hidden,
 };
 
-#[Table('invoices')]
-#[PrimaryKey('invoice_id')]
-#[KeyType('string')]
-#[Incrementing(false)]
-#[Fillable(['amount', 'status', 'user_id'])]
-#[Hidden(['internal_notes'])]
-class Invoice extends Model
+#[<span class="tp">Table</span>(<span class="str">'invoices'</span>)]
+#[<span class="fn">PrimaryKey</span>(<span class="str">'invoice_id'</span>)]
+#[<span class="fn">KeyType</span>(<span class="str">'string'</span>)]
+#[<span class="fn">Incrementing</span>(<span class="kw">false</span>)]
+#[<span class="fn">Fillable</span>([<span class="str">'amount'</span>, <span class="str">'status'</span>, <span class="str">'user_id'</span>])]
+#[<span class="fn">Hidden</span>([<span class="str">'internal_notes'</span>])]
+<span class="kw">class</span> <span class="tp">Invoice</span> <span class="kw">extends</span> <span class="tp">Model</span>
 {
-    // Clean class body
+    <span class="cm">// Clean class body</span>
 }</code></pre>
           </div>
         </div>
@@ -676,34 +689,34 @@ class Invoice extends Model
     <div class="card">
       <div class="card-header">More Attribute Examples</div>
       <div class="card-body">
-        <pre><code>use App\Models\Article;
-use Illuminate\Queue\Attributes\Job;
-use Illuminate\Console\Attributes\Command;
+        <pre><code><span class="kw">use</span> <span class="tp">App</span>\<span class="tp">Models</span>\<span class="tp">Article</span>;
+<span class="kw">use</span> <span class="tp">Illuminate</span>\<span class="tp">Queue</span>\<span class="tp">Attributes</span>\<span class="tp">Job</span>;
+<span class="kw">use</span> <span class="tp">Illuminate</span>\<span class="tp">Console</span>\<span class="tp">Attributes</span>\<span class="tp">Command</span>;
 
-// Job with Attributes
-#[Job(queue: 'emails', tries: 3, backoff: 30)]
-class SendWelcomeEmail implements ShouldQueue
+<span class="cm">// Job with Attributes</span>
+#[<span class="tp">Job</span>(queue: <span class="str">'emails'</span>, tries: <span class="num">3</span>, backoff: <span class="num">30</span>)]
+<span class="kw">class</span> SendWelcomeEmail <span class="kw">implements</span> <span class="tp">ShouldQueue</span>
 {
-    public function handle(): void
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">handle</span>(): <span class="tp">void</span>
     {
-        // ...
+        <span class="cm">// ...</span>
     }
 }
 
-// Artisan Command with Attributes
-#[Command(name: 'app:send-emails', description: 'Send queued emails')]
-class SendEmails extends Command
+<span class="cm">// Artisan Command with Attributes</span>
+#[<span class="tp">Command</span>(name: <span class="str">'app:send-emails'</span>, description: <span class="str">'Send queued emails'</span>)]
+<span class="kw">class</span> SendEmails <span class="kw">extends</span> <span class="tp">Command</span>
 {
-    #[Argument(description: 'User ID')]
-    public string $userId;
+    #[<span class="fn">Argument</span>(description: <span class="str">'User ID'</span>)]
+    <span class="kw">public</span> <span class="tp">string</span> <span class="kw">$userId</span>;
 
-    #[Option(description: 'Send via batch')]
-    public bool $batch;
+    #[<span class="fn">Option</span>(description: <span class="str">'Send via batch'</span>)]
+    <span class="kw">public</span> <span class="tp">bool</span> <span class="kw">$batch</span>;
 
-    public function handle(): int
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">handle</span>(): <span class="tp">int</span>
     {
-        // ...
-        return self::SUCCESS;
+        <span class="cm">// ...</span>
+        <span class="kw">return</span> <span class="kw">self</span>::SUCCESS;
     }
 }</code></pre>
       </div>
@@ -718,61 +731,61 @@ class SendEmails extends Command
     <div class="card">
       <div class="card-header">Article.php</div>
       <div class="card-body">
-        <pre><code>namespace App\Models;
+        <pre><code><span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Models</span>;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+<span class="kw">use</span> <span class="tp">Illuminate</span>\<span class="tp">Database</span>\<span class="tp">Eloquent</span>\<span class="tp">Model</span>;
+<span class="kw">use</span> <span class="tp">Illuminate</span>\<span class="tp">Database</span>\<span class="tp">Eloquent</span>\<span class="tp">Relations</span>\<span class="tp">BelongsTo</span>;
+<span class="kw">use</span> <span class="tp">Illuminate</span>\<span class="tp">Database</span>\<span class="tp">Eloquent</span>\<span class="tp">Relations</span>\<span class="tp">BelongsToMany</span>;
+<span class="kw">use</span> <span class="tp">Illuminate</span>\<span class="tp">Database</span>\<span class="tp">Eloquent</span>\<span class="tp">Relations</span>\<span class="tp">HasMany</span>;
 
-class Article extends Model
+<span class="kw">class</span> <span class="tp">Article</span> <span class="kw">extends</span> <span class="tp">Model</span>
 {
-    protected $fillable = [
-        'title', 'body', 'author_id', 'published',
+    <span class="kw">protected</span> <span class="kw">$fillable</span> = [
+        <span class="str">'title'</span>, <span class="str">'body'</span>, <span class="str">'author_id'</span>, <span class="str">'published'</span>,
     ];
 
-    protected $casts = [
-        'published' => 'boolean',
-        'created_at' => 'datetime',
+    <span class="kw">protected</span> <span class="kw">$casts</span> = [
+        <span class="str">'published'</span> => <span class="str">'boolean'</span>,
+        <span class="str">'created_at'</span> => <span class="str">'datetime'</span>,
     ];
 
-    // Accessor
-    public function getExcerptAttribute(): string
+    <span class="cm">// Accessor</span>
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">getExcerptAttribute</span>(): <span class="tp">string</span>
     {
-        return substr($this->body, 0, 150) . '...';
+        <span class="kw">return</span> <span class="fn">substr</span>(<span class="kw">$this</span>-><span class="fn">body</span>, <span class="num">0</span>, <span class="num">150</span>) . <span class="str">'...'</span>;
     }
 
-    // Mutator
-    public function setTitleAttribute(string $value): void
+    <span class="cm">// Mutator</span>
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">setTitleAttribute</span>(<span class="tp">string</span> <span class="kw">$value</span>): <span class="tp">void</span>
     {
-        $this->attributes['title'] = trim($value);
+        <span class="kw">$this</span>-><span class="fn">attributes</span>[<span class="str">'title'</span>] = <span class="fn">trim</span>(<span class="kw">$value</span>);
     }
 
-    // Relationships
-    public function author(): BelongsTo
+    <span class="cm">// Relationships</span>
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">author</span>(): <span class="tp">BelongsTo</span>
     {
-        return $this->belongsTo(User::class, 'author_id');
+        <span class="kw">return</span> <span class="kw">$this</span>-><span class="fn">belongsTo</span>(<span class="tp">User</span>::<span class="kw">class</span>, <span class="str">'author_id'</span>);
     }
 
-    public function tags(): BelongsToMany
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">tags</span>(): <span class="tp">BelongsToMany</span>
     {
-        return $this->belongsToMany(Tag::class);
+        <span class="kw">return</span> <span class="kw">$this</span>-><span class="fn">belongsToMany</span>(<span class="tp">Tag</span>::<span class="kw">class</span>);
     }
 
-    public function comments(): HasMany
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">comments</span>(): <span class="tp">HasMany</span>
     {
-        return $this->hasMany(Comment::class);
+        <span class="kw">return</span> <span class="kw">$this</span>-><span class="fn">hasMany</span>(<span class="tp">Comment</span>::<span class="kw">class</span>);
     }
 
-    // Local scope
-    public function scopePublished($query)
+    <span class="cm">// Local scope</span>
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">scopePublished</span>(<span class="kw">$query</span>)
     {
-        return $query->where('published', true);
+        <span class="kw">return</span> <span class="kw">$query</span>-><span class="fn">where</span>(<span class="str">'published'</span>, <span class="kw">true</span>);
     }
 
-    public function scopeRecent($query)
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">scopeRecent</span>(<span class="kw">$query</span>)
     {
-        return $query->orderBy('created_at', 'desc');
+        <span class="kw">return</span> <span class="kw">$query</span>-><span class="fn">orderBy</span>(<span class="str">'created_at'</span>, <span class="str">'desc'</span>);
     }
 }</code></pre>
       </div>
@@ -781,29 +794,29 @@ class Article extends Model
     <h3>Migration</h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+        <pre><code><span class="kw">use</span> <span class="tp">Illuminate</span>\<span class="tp">Database</span>\<span class="tp">Migrations</span>\<span class="tp">Migration</span>;
+<span class="kw">use</span> <span class="tp">Illuminate</span>\<span class="tp">Database</span>\<span class="tp">Schema</span>\<span class="tp">Blueprint</span>;
+<span class="kw">use</span> <span class="tp">Illuminate</span>\<span class="tp">Support</span>\<span class="tp">Facades</span>\<span class="tp">Schema</span>;
 
-return new class extends Migration
+<span class="kw">return</span> <span class="kw">new</span> <span class="kw">class</span> <span class="kw">extends</span> <span class="tp">Migration</span>
 {
-    public function up(): void
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">up</span>(): <span class="tp">void</span>
     {
-        Schema::create('articles', function (Blueprint $table) {
-            $table->id();
-            $table->string('title', 255);
-            $table->text('body');
-            $table->foreignId('author_id')
-                ->constrained('users')->cascadeOnDelete();
-            $table->boolean('published')->default(false);
-            $table->timestamps();
-            $table->softDeletes();
+        <span class="tp">Schema</span>::<span class="fn">create</span>(<span class="str">'articles'</span>, <span class="kw">function</span> (<span class="tp">Blueprint</span> <span class="kw">$table</span>) {
+            <span class="kw">$table</span>-><span class="fn">id</span>();
+            <span class="kw">$table</span>-><span class="fn">string</span>(<span class="str">'title'</span>, <span class="num">255</span>);
+            <span class="kw">$table</span>-><span class="fn">text</span>(<span class="str">'body'</span>);
+            <span class="kw">$table</span>-><span class="fn">foreignId</span>(<span class="str">'author_id'</span>)
+                -><span class="fn">constrained</span>(<span class="str">'users'</span>)-><span class="fn">cascadeOnDelete</span>();
+            <span class="kw">$table</span>-><span class="fn">boolean</span>(<span class="str">'published'</span>)-><span class="fn">default</span>(<span class="kw">false</span>);
+            <span class="kw">$table</span>-><span class="fn">timestamps</span>();
+            <span class="kw">$table</span>-><span class="fn">softDeletes</span>();
         });
     }
 
-    public function down(): void
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">down</span>(): <span class="tp">void</span>
     {
-        Schema::dropIfExists('articles');
+        <span class="tp">Schema</span>::<span class="fn">dropIfExists</span>(<span class="str">'articles'</span>);
     }
 };</code></pre>
       </div>
@@ -812,66 +825,66 @@ return new class extends Migration
     <h3>Query Builder Examples</h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>use App\Models\Article;
+        <pre><code><span class="kw">use</span> <span class="tp">App</span>\<span class="tp">Models</span>\<span class="tp">Article</span>;
 
-// All records
-$articles = Article::all();
+<span class="cm">// All records</span>
+<span class="kw">$articles</span> = <span class="tp">Article</span>::<span class="fn">all</span>();
 
-// With eager loading
-$articles = Article::with('author', 'tags')
-    ->where('published', true)
-    ->latest()
-    ->get();
+<span class="cm">// With eager loading</span>
+<span class="kw">$articles</span> = <span class="tp">Article</span>::<span class="fn">with</span>(<span class="str">'author'</span>, <span class="str">'tags'</span>)
+    -><span class="fn">where</span>(<span class="str">'published'</span>, <span class="kw">true</span>)
+    -><span class="fn">latest</span>()
+    -><span class="fn">get</span>();
 
-// Find by ID
-$article = Article::findOrFail(1);
+<span class="cm">// Find by ID</span>
+<span class="kw">$article</span> = <span class="tp">Article</span>::<span class="fn">findOrFail</span>(<span class="num">1</span>);
 
-// Scopes
-$recent = Article::published()->recent()->get();
+<span class="cm">// Scopes</span>
+<span class="kw">$recent</span> = <span class="tp">Article</span>::<span class="fn">published</span>()-><span class="fn">recent</span>()-><span class="fn">get</span>();
 
-// Pagination
-$paginated = Article::with('author')
-    ->published()
-    ->paginate(20);
+<span class="cm">// Pagination</span>
+<span class="kw">$paginated</span> = <span class="tp">Article</span>::<span class="fn">with</span>(<span class="str">'author'</span>)
+    -><span class="fn">published</span>()
+    -><span class="fn">paginate</span>(<span class="num">20</span>);
 
-// Lazy loading
-$article = Article::find(1);
-$article->load('comments.author');
+<span class="cm">// Lazy loading</span>
+<span class="kw">$article</span> = <span class="tp">Article</span>::<span class="fn">find</span>(<span class="num">1</span>);
+<span class="kw">$article</span>-><span class="fn">load</span>(<span class="str">'comments.author'</span>);
 
-// Create
-$article = Article::create([
-    'title' => 'New Article',
-    'body' => 'Content here',
-    'author_id' => 1,
+<span class="cm">// Create</span>
+<span class="kw">$article</span> = <span class="tp">Article</span>::<span class="fn">create</span>([
+    <span class="str">'title'</span> => <span class="str">'New Article'</span>,
+    <span class="str">'body'</span> => <span class="str">'Content here'</span>,
+    <span class="str">'author_id'</span> => <span class="num">1</span>,
 ]);
 
-// Update
-$article->update(['title' => 'Updated Title']);
+<span class="cm">// Update</span>
+<span class="kw">$article</span>-><span class="fn">update</span>([<span class="str">'title'</span> => <span class="str">'Updated Title'</span>]);
 
-// Delete
-$article->delete();
+<span class="cm">// Delete</span>
+<span class="kw">$article</span>-><span class="fn">delete</span>();
 
-// Aggregates
-$count = Article::where('published', true)->count();
-$latest = Article::whereDate('created_at', '>', now()->subDays(7))
-    ->orderBy('views', 'desc')
-    ->first();
+<span class="cm">// Aggregates</span>
+<span class="kw">$count</span> = <span class="tp">Article</span>::<span class="fn">where</span>(<span class="str">'published'</span>, <span class="kw">true</span>)-><span class="fn">count</span>();
+<span class="kw">$latest</span> = <span class="tp">Article</span>::<span class="fn">whereDate</span>(<span class="str">'created_at'</span>, <span class="str">'>'</span>, <span class="fn">now</span>()-><span class="fn">subDays</span>(<span class="num">7</span>))
+    -><span class="fn">orderBy</span>(<span class="str">'views'</span>, <span class="str">'desc'</span>)
+    -><span class="fn">first</span>();
 
-// Where between
-$articles = Article::whereBetween('created_at', [
-    now()->startOfMonth(), now()->endOfMonth(),
-])->get();
+<span class="cm">// Where between</span>
+<span class="kw">$articles</span> = <span class="tp">Article</span>::<span class="fn">whereBetween</span>(<span class="str">'created_at'</span>, [
+    <span class="fn">now</span>()-><span class="fn">startOfMonth</span>(), <span class="fn">now</span>()-><span class="fn">endOfMonth</span>(),
+])-><span class="fn">get</span>();
 
-// Where in
-$selected = Article::whereIn('id', [1, 3, 5])->get();
+<span class="cm">// Where in</span>
+<span class="kw">$selected</span> = <span class="tp">Article</span>::<span class="fn">whereIn</span>(<span class="str">'id'</span>, [<span class="num">1</span>, <span class="num">3</span>, <span class="num">5</span>])-><span class="fn">get</span>();
 
-// Raw where
-$search = Article::where('title', 'like', '%Laravel%')->get();
+<span class="cm">// Raw where</span>
+<span class="kw">$search</span> = <span class="tp">Article</span>::<span class="fn">where</span>(<span class="str">'title'</span>, <span class="str">'like'</span>, <span class="str">'%Laravel%'</span>)-><span class="fn">get</span>();
 
-// Chunk (for large datasets)
-Article::chunk(100, function ($articles) {
-    foreach ($articles as $article) {
-        // process
+<span class="cm">// Chunk (for large datasets)</span>
+<span class="tp">Article</span>::<span class="fn">chunk</span>(<span class="num">100</span>, <span class="kw">function</span> (<span class="kw">$articles</span>) {
+    <span class="kw">foreach</span> (<span class="kw">$articles</span> <span class="kw">as</span> <span class="kw">$article</span>) {
+        <span class="cm">// process</span>
     }
 });</code></pre>
       </div>
@@ -886,12 +899,12 @@ Article::chunk(100, function ($articles) {
         <div class="card h-100">
           <div class="card-header">BelongsTo</div>
           <div class="card-body">
-            <pre><code>// articles.author_id -> users.id
-public function author(): BelongsTo
+            <pre><code><span class="cm">// articles.author_id -> users.id</span>
+<span class="kw">public</span> <span class="kw">function</span> <span class="fn">author</span>(): <span class="tp">BelongsTo</span>
 {
-    return $this->belongsTo(User::class);
+    <span class="kw">return</span> <span class="kw">$this</span>-><span class="fn">belongsTo</span>(<span class="tp">User</span>::<span class="kw">class</span>);
 }
-// $article->author->name</code></pre>
+<span class="cm">// $article->author->name</span></code></pre>
           </div>
         </div>
       </div>
@@ -899,12 +912,12 @@ public function author(): BelongsTo
         <div class="card h-100">
           <div class="card-header">HasMany</div>
           <div class="card-body">
-            <pre><code>// articles.id -> comments.article_id
-public function comments(): HasMany
+            <pre><code><span class="cm">// articles.id -> comments.article_id</span>
+<span class="kw">public</span> <span class="kw">function</span> <span class="fn">comments</span>(): <span class="tp">HasMany</span>
 {
-    return $this->hasMany(Comment::class);
+    <span class="kw">return</span> <span class="kw">$this</span>-><span class="fn">hasMany</span>(<span class="tp">Comment</span>::<span class="kw">class</span>);
 }
-// $article->comments[0]->body</code></pre>
+<span class="cm">// $article->comments[0]->body</span></code></pre>
           </div>
         </div>
       </div>
@@ -912,12 +925,12 @@ public function comments(): HasMany
         <div class="card h-100">
           <div class="card-header">HasOne</div>
           <div class="card-body">
-            <pre><code>// users.id -> profiles.user_id
-public function profile(): HasOne
+            <pre><code><span class="cm">// users.id -> profiles.user_id</span>
+<span class="kw">public</span> <span class="kw">function</span> <span class="fn">profile</span>(): <span class="tp">HasOne</span>
 {
-    return $this->hasOne(Profile::class);
+    <span class="kw">return</span> <span class="kw">$this</span>-><span class="fn">hasOne</span>(<span class="tp">Profile</span>::<span class="kw">class</span>);
 }
-// $user->profile->avatar</code></pre>
+<span class="cm">// $user->profile->avatar</span></code></pre>
           </div>
         </div>
       </div>
@@ -925,12 +938,12 @@ public function profile(): HasOne
         <div class="card h-100">
           <div class="card-header">BelongsToMany</div>
           <div class="card-body">
-            <pre><code>// articles_tags pivot table
-public function tags(): BelongsToMany
+            <pre><code><span class="cm">// articles_tags pivot table</span>
+<span class="kw">public</span> <span class="kw">function</span> <span class="fn">tags</span>(): <span class="tp">BelongsToMany</span>
 {
-    return $this->belongsToMany(Tag::class);
+    <span class="kw">return</span> <span class="kw">$this</span>-><span class="fn">belongsToMany</span>(<span class="tp">Tag</span>::<span class="kw">class</span>);
 }
-// $article->tags[0]->name</code></pre>
+<span class="cm">// $article->tags[0]->name</span></code></pre>
           </div>
         </div>
       </div>
@@ -944,57 +957,57 @@ public function tags(): BelongsToMany
     <div class="card">
       <div class="card-header">FormRequest &mdash; StoreArticleRequest.php</div>
       <div class="card-body">
-        <pre><code>namespace App\Http\Requests;
+        <pre><code><span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Http</span>\<span class="tp">Requests</span>;
 
-use Illuminate\Foundation\Http\FormRequest;
+<span class="kw">use</span> <span class="tp">Illuminate</span>\<span class="tp">Foundation</span>\<span class="tp">Http</span>\<span class="tp">FormRequest</span>;
 
-class StoreArticleRequest extends FormRequest
+<span class="kw">class</span> StoreArticleRequest <span class="kw">extends</span> <span class="tp">FormRequest</span>
 {
-    public function authorize(): bool
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">authorize</span>(): <span class="tp">bool</span>
     {
-        return true; // or Gate check
+        <span class="kw">return</span> <span class="kw">true</span>; <span class="cm">// or Gate check</span>
     }
 
-    public function rules(): array
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">rules</span>(): <span class="tp">array</span>
     {
-        return [
-            'title' => ['required', 'string', 'max:255', 'min:5'],
-            'body' => ['required', 'string', 'min:50'],
-            'author_id' => ['required', 'exists:users,id'],
-            'published' => ['boolean'],
-            'tags' => ['array'],
-            'tags.*' => ['exists:tags,id'],
-            'email' => ['required', 'email:rfc,dns'],
-            'publish_date' => ['date', 'after:today'],
+        <span class="kw">return</span> [
+            <span class="str">'title'</span> => [<span class="str">'required'</span>, <span class="str">'string'</span>, <span class="str">'max:255'</span>, <span class="str">'min:5'</span>],
+            <span class="str">'body'</span> => [<span class="str">'required'</span>, <span class="str">'string'</span>, <span class="str">'min:50'</span>],
+            <span class="str">'author_id'</span> => [<span class="str">'required'</span>, <span class="str">'exists:users,id'</span>],
+            <span class="str">'published'</span> => [<span class="str">'boolean'</span>],
+            <span class="str">'tags'</span> => [<span class="str">'array'</span>],
+            <span class="str">'tags.*'</span> => [<span class="str">'exists:tags,id'</span>],
+            <span class="str">'email'</span> => [<span class="str">'required'</span>, <span class="str">'email:rfc,dns'</span>],
+            <span class="str">'publish_date'</span> => [<span class="str">'date'</span>, <span class="str">'after:today'</span>],
         ];
     }
 
-    public function messages(): array
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">messages</span>(): <span class="tp">array</span>
     {
-        return [
-            'title.required' => 'A title is required.',
-            'body.min' => 'Body must be at least 50 characters.',
+        <span class="kw">return</span> [
+            <span class="str">'title.required'</span> => <span class="str">'A title is required.'</span>,
+            <span class="str">'body.min'</span> => <span class="str">'Body must be at least 50 characters.'</span>,
         ];
     }
 
-    // After validation
-    public function withValidator($validator): void
+    <span class="cm">// After validation</span>
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">withValidator</span>(<span class="kw">$validator</span>): <span class="tp">void</span>
     {
-        $validator->after(function ($validator) {
-            if ($this->hasSpam($this->input('body'))) {
-                $validator->errors()->add(
-                    'body', 'Content contains spam.'
+        <span class="kw">$validator</span>-><span class="fn">after</span>(<span class="kw">function</span> (<span class="kw">$validator</span>) {
+            <span class="kw">if</span> (<span class="kw">$this</span>-><span class="fn">hasSpam</span>(<span class="kw">$this</span>-><span class="fn">input</span>(<span class="str">'body'</span>))) {
+                <span class="kw">$validator</span>-><span class="fn">errors</span>()-><span class="fn">add</span>(
+                    <span class="str">'body'</span>, <span class="str">'Content contains spam.'</span>
                 );
             }
         });
     }
 }
 
-// In controller:
-public function store(StoreArticleRequest $request)
+<span class="cm">// In controller:</span>
+<span class="kw">public</span> <span class="kw">function</span> <span class="fn">store</span>(StoreArticleRequest <span class="kw">$request</span>)
 {
-    // $request->validated() returns validated data
-    Article::create($request->validated());
+    <span class="cm">// $request->validated() returns validated data</span>
+    <span class="tp">Article</span>::<span class="fn">create</span>(<span class="kw">$request</span>-><span class="fn">validated</span>());
 }</code></pre>
       </div>
     </div>
@@ -1002,16 +1015,16 @@ public function store(StoreArticleRequest $request)
     <div class="card">
       <div class="card-header">Inline Validation in Controller</div>
       <div class="card-body">
-        <pre><code>public function store(Request $request)
+        <pre><code><span class="kw">public</span> <span class="kw">function</span> <span class="fn">store</span>(<span class="tp">Request</span> <span class="kw">$request</span>)
 {
-    $validated = $request->validate([
-        'title' => 'required|string|max:255',
-        'body' => 'required|string',
-        'author_id' => 'required|exists:users,id',
-        'published' => 'boolean',
+    <span class="kw">$validated</span> = <span class="kw">$request</span>-><span class="fn">validate</span>([
+        <span class="str">'title'</span> => <span class="str">'required|string|max:255'</span>,
+        <span class="str">'body'</span> => <span class="str">'required|string'</span>,
+        <span class="str">'author_id'</span> => <span class="str">'required|exists:users,id'</span>,
+        <span class="str">'published'</span> => <span class="str">'boolean'</span>,
     ]);
 
-    Article::create($validated);
+    <span class="tp">Article</span>::<span class="fn">create</span>(<span class="kw">$validated</span>);
 }</code></pre>
       </div>
     </div>
@@ -1028,17 +1041,17 @@ public function store(StoreArticleRequest $request)
 &lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
-    &lt;title&gt;@yield('title', 'My App')&lt;/title&gt;
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    &lt;title&gt;<span class="tp">@yield</span>(<span class="str">'title'</span>, <span class="str">'My App'</span>)&lt;/title&gt;
+    <span class="tp">@vite</span>([<span class="str">'resources/css/app.css'</span>, <span class="str">'resources/js/app.js'</span>])
 &lt;/head&gt;
 &lt;body&gt;
-    &lt;nav class="navbar"&gt;...&lt;/nav&gt;
+    &lt;nav <span class="kw">class</span>=<span class="str">"navbar"</span>&gt;...&lt;/nav&gt;
 
-    &lt;main class="container"&gt;
-        @yield('content')
+    &lt;main <span class="kw">class</span>=<span class="str">"container"</span>&gt;
+        <span class="tp">@yield</span>(<span class="str">'content'</span>)
     &lt;/main&gt;
 
-    @stack('scripts')
+    <span class="tp">@stack</span>(<span class="str">'scripts'</span>)
 &lt;/body&gt;
 &lt;/html&gt;</code></pre>
       </div>
@@ -1047,81 +1060,81 @@ public function store(StoreArticleRequest $request)
     <div class="card">
       <div class="card-header">Articles Index &mdash; articles/index.blade.php</div>
       <div class="card-body">
-        <pre><code>@extends('layouts.app')
+        <pre><code><span class="tp">@extends</span>(<span class="str">'layouts.app'</span>)
 
-@section('title', 'Articles')
+<span class="tp">@section</span>(<span class="str">'title'</span>, <span class="str">'Articles'</span>)
 
-@section('content')
+<span class="tp">@section</span>(<span class="str">'content'</span>)
     &lt;h1&gt;Articles&lt;/h1&gt;
-    &lt;a href="{{ route('articles.create') }}" class="btn btn-primary"&gt;Add&lt;/a&gt;
+    &lt;a href=<span class="str">"{{ route('articles.create') }}"</span> <span class="kw">class</span>=<span class="str">"btn btn-primary"</span>&gt;Add&lt;/a&gt;
 
-    &lt;table class="table"&gt;
+    &lt;table <span class="kw">class</span>=<span class="str">"table"</span>&gt;
         &lt;thead&gt;
             &lt;tr&gt;
                 &lt;th&gt;Title&lt;/th&gt;
-                &lt;th&gt;Author&lt;/th&gt;
+                &lt;th&gt;<span class="tp">Author</span>&lt;/th&gt;
                 &lt;th&gt;Created&lt;/th&gt;
-                &lt;th&gt;Actions&lt;/th&gt;
+                &lt;th&gt;<span class="tp">Actions</span>&lt;/th&gt;
             &lt;/tr&gt;
         &lt;/thead&gt;
         &lt;tbody&gt;
-            @foreach($articles as $article)
+            <span class="tp">@foreach</span>(<span class="kw">$articles</span> <span class="kw">as</span> <span class="kw">$article</span>)
             &lt;tr&gt;
-                &lt;td&gt;{{ $article->title }}&lt;/td&gt;
-                &lt;td&gt;{{ $article->author->name }}&lt;/td&gt;
-                &lt;td&gt;{{ $article->created_at->diffForHumans() }}&lt;/td&gt;
+                &lt;td&gt;<span class="str">{{ $article->title }}</span>&lt;/td&gt;
+                &lt;td&gt;<span class="str">{{ $article->author->name }}</span>&lt;/td&gt;
+                &lt;td&gt;<span class="str">{{ $article->created_at->diffForHumans() }}</span>&lt;/td&gt;
                 &lt;td&gt;
-                    &lt;a href="{{ route('articles.show', $article) }}"&gt;View&lt;/a&gt;
-                    &lt;a href="{{ route('articles.edit', $article) }}"&gt;Edit&lt;/a&gt;
-                    &lt;form method="POST"
-                          action="{{ route('articles.destroy', $article) }}"
-                          style="display:inline"&gt;
-                        @csrf @method('DELETE')
-                        &lt;button type="submit"&gt;Delete&lt;/button&gt;
+                    &lt;a href=<span class="str">"{{ route('articles.show', $article) }}"</span>&gt;<span class="tp">View</span>&lt;/a&gt;
+                    &lt;a href=<span class="str">"{{ route('articles.edit', $article) }}"</span>&gt;Edit&lt;/a&gt;
+                    &lt;form <span class="kw">method</span>=<span class="str">"POST"</span>
+                          action=<span class="str">"{{ route('articles.destroy', $article) }}"</span>
+                          style=<span class="str">"display:inline"</span>&gt;
+                        <span class="tp">@csrf</span> <span class="tp">@method</span>(<span class="str">'DELETE'</span>)
+                        &lt;button type=<span class="str">"submit"</span>&gt;Delete&lt;/button&gt;
                     &lt;/form&gt;
                 &lt;/td&gt;
             &lt;/tr&gt;
-            @endforeach
+            <span class="tp">@endforeach</span>
         &lt;/tbody&gt;
     &lt;/table&gt;
 
-    {{ $articles->links() }}
-@endsection</code></pre>
+    <span class="str">{{ $articles->links() }}</span>
+<span class="tp">@endsection</span></code></pre>
       </div>
     </div>
 
     <div class="card">
       <div class="card-header">Form &mdash; articles/create.blade.php</div>
       <div class="card-body">
-        <pre><code>@extends('layouts.app')
+        <pre><code><span class="tp">@extends</span>(<span class="str">'layouts.app'</span>)
 
-@section('content')
-    &lt;h1&gt;Create Article&lt;/h1&gt;
+<span class="tp">@section</span>(<span class="str">'content'</span>)
+    &lt;h1&gt;Create <span class="tp">Article</span>&lt;/h1&gt;
 
-    &lt;form method="POST" action="{{ route('articles.store') }}"&gt;
-        @csrf
+    &lt;form <span class="kw">method</span>=<span class="str">"POST"</span> action=<span class="str">"{{ route('articles.store') }}"</span>&gt;
+        <span class="tp">@csrf</span>
 
-        &lt;div class="mb-3"&gt;
-            &lt;label for="title"&gt;Title&lt;/label&gt;
-            &lt;input id="title" name="title" class="form-control"
-                   value="{{ old('title') }}"&gt;
-            @error('title')
-                &lt;div class="text-danger"&gt;{{ $message }}&lt;/div&gt;
-            @enderror
+        &lt;div <span class="kw">class</span>=<span class="str">"mb-3"</span>&gt;
+            &lt;label <span class="kw">for</span>=<span class="str">"title"</span>&gt;Title&lt;/label&gt;
+            &lt;input id=<span class="str">"title"</span> name=<span class="str">"title"</span> <span class="kw">class</span>=<span class="str">"form-control"</span>
+                   value=<span class="str">"{{ old('title') }}"</span>&gt;
+            <span class="tp">@error</span>(<span class="str">'title'</span>)
+                &lt;div <span class="kw">class</span>=<span class="str">"text-danger"</span>&gt;<span class="str">{{ $message }}</span>&lt;/div&gt;
+            <span class="tp">@enderror</span>
         &lt;/div&gt;
 
-        &lt;div class="mb-3"&gt;
-            &lt;label for="body"&gt;Body&lt;/label&gt;
-            &lt;textarea id="body" name="body" class="form-control"
-                      rows="10"&gt;{{ old('body') }}&lt;/textarea&gt;
-            @error('body')
-                &lt;div class="text-danger"&gt;{{ $message }}&lt;/div&gt;
-            @enderror
+        &lt;div <span class="kw">class</span>=<span class="str">"mb-3"</span>&gt;
+            &lt;label <span class="kw">for</span>=<span class="str">"body"</span>&gt;Body&lt;/label&gt;
+            &lt;textarea id=<span class="str">"body"</span> name=<span class="str">"body"</span> <span class="kw">class</span>=<span class="str">"form-control"</span>
+                      rows=<span class="str">"10"</span>&gt;<span class="str">{{ old('body') }}</span>&lt;/textarea&gt;
+            <span class="tp">@error</span>(<span class="str">'body'</span>)
+                &lt;div <span class="kw">class</span>=<span class="str">"text-danger"</span>&gt;<span class="str">{{ $message }}</span>&lt;/div&gt;
+            <span class="tp">@enderror</span>
         &lt;/div&gt;
 
-        &lt;button type="submit" class="btn btn-primary"&gt;Save&lt;/button&gt;
+        &lt;button type=<span class="str">"submit"</span> <span class="kw">class</span>=<span class="str">"btn btn-primary"</span>&gt;Save&lt;/button&gt;
     &lt;/form&gt;
-@endsection</code></pre>
+<span class="tp">@endsection</span></code></pre>
       </div>
     </div>
   </section>
@@ -1133,74 +1146,74 @@ public function store(StoreArticleRequest $request)
     <div class="card">
       <div class="card-header">Breeze &mdash; Quick Auth Scaffolding</div>
       <div class="card-body">
-        <pre><code># Install Breeze with Blade
-composer require laravel/breeze
-php artisan breeze:install blade
-php artisan migrate
-npm install && npm run dev
+        <pre><code><span class="cm"># Install Breeze with Blade</span>
+<span class="kw">composer</span> <span class="kw">require</span> laravel/breeze
+<span class="kw">php</span> <span class="kw">artisan</span> breeze:<span class="kw">install</span> blade
+<span class="kw">php</span> <span class="kw">artisan</span> migrate
+<span class="kw">npm</span> <span class="kw">install</span> && <span class="kw">npm</span> <span class="kw">run</span> <span class="kw">dev</span>
 
-# Or with React/Inertia
-php artisan breeze:install react
+<span class="cm"># Or with React/Inertia</span>
+<span class="kw">php</span> <span class="kw">artisan</span> breeze:<span class="kw">install</span> react
 
-# Or with Vue/Inertia
-php artisan breeze:install vue
+<span class="cm"># Or with Vue/Inertia</span>
+<span class="kw">php</span> <span class="kw">artisan</span> breeze:<span class="kw">install</span> vue
 
-# API-only Sanctum
-php artisan breeze:install api
+<span class="cm"># API-only Sanctum</span>
+<span class="kw">php</span> <span class="kw">artisan</span> breeze:<span class="kw">install</span> api
 
-# Passkey support (Laravel 13)
-php artisan breeze:install blade --passkey</code></pre>
+<span class="cm"># Passkey support (Laravel 13)</span>
+<span class="kw">php</span> <span class="kw">artisan</span> breeze:<span class="kw">install</span> blade --passkey</code></pre>
       </div>
     </div>
 
     <div class="card">
       <div class="card-header">Passkey Authentication <span class="new-badge">NEW in 13</span></div>
       <div class="card-body">
-        <pre><code>// Laravel 13 adds passkey (WebAuthn) support
-// Use with Breeze:
-php artisan breeze:install blade --passkey
+        <pre><code><span class="cm">// Laravel 13 adds passkey (WebAuthn) support</span>
+<span class="cm">// Use with Breeze:</span>
+<span class="kw">php</span> <span class="kw">artisan</span> breeze:<span class="kw">install</span> blade --passkey
 
-// Or manually via Sanctum + Passkey
-composer require laravel/sanctum
+<span class="cm">// Or manually via Sanctum + Passkey</span>
+<span class="kw">composer</span> <span class="kw">require</span> laravel/sanctum
 
-// config/sanctum.php includes passkey config
-// Credentials are stored in the new passkeys table
+<span class="cm">// config/sanctum.php includes passkey config</span>
+<span class="cm">// Credentials are stored in the new passkeys table</span>
 
-// Frontend uses navigator.credentials.get() / create()
-// Simple Blade directive:
-@passkeyScripts</code></pre>
+<span class="cm">// Frontend uses navigator.credentials.get() / create()</span>
+<span class="cm">// Simple Blade directive:</span>
+<span class="tp">@passkeyScripts</span></code></pre>
       </div>
     </div>
 
     <div class="card">
       <div class="card-header">Sanctum &mdash; API Token Auth</div>
       <div class="card-body">
-        <pre><code>// routes/api.php
-Route::middleware('auth:sanctum')->get('/user',
-    fn(Request $r) => $r->user()
+        <pre><code><span class="cm">// routes/api.php</span>
+<span class="tp">Route</span>::<span class="fn">middleware</span>(<span class="str">'auth:sanctum'</span>)-><span class="fn">get</span>(<span class="str">'/user'</span>,
+    <span class="kw">fn</span>(<span class="tp">Request</span> <span class="kw">$r</span>) => <span class="kw">$r</span>-><span class="fn">user</span>()
 );
 
-// Issuing tokens
-$token = $user->createToken('api-token')->plainTextToken;
+<span class="cm">// Issuing tokens</span>
+<span class="kw">$token</span> = <span class="kw">$user</span>-><span class="fn">createToken</span>(<span class="str">'api-token'</span>)-><span class="fn">plainTextToken</span>;
 
-// Login controller
-public function login(Request $request)
+<span class="cm">// Login controller</span>
+<span class="kw">public</span> <span class="kw">function</span> <span class="fn">login</span>(<span class="tp">Request</span> <span class="kw">$request</span>)
 {
-    $credentials = $request->validate([
-        'email' => 'required|email',
-        'password' => 'required',
+    <span class="kw">$credentials</span> = <span class="kw">$request</span>-><span class="fn">validate</span>([
+        <span class="str">'email'</span> => <span class="str">'required|email'</span>,
+        <span class="str">'password'</span> => <span class="str">'required'</span>,
     ]);
 
-    if (Auth::attempt($credentials)) {
-        $token = $request->user()->createToken('api');
-        return response()->json([
-            'token' => $token->plainTextToken,
+    <span class="kw">if</span> (<span class="tp">Auth</span>::<span class="fn">attempt</span>(<span class="kw">$credentials</span>)) {
+        <span class="kw">$token</span> = <span class="kw">$request</span>-><span class="fn">user</span>()-><span class="fn">createToken</span>(<span class="str">'api'</span>);
+        <span class="kw">return</span> <span class="fn">response</span>()-><span class="fn">json</span>([
+            <span class="str">'token'</span> => <span class="kw">$token</span>-><span class="fn">plainTextToken</span>,
         ]);
     }
 
-    return response()->json([
-        'message' => 'Invalid credentials',
-    ], 401);
+    <span class="kw">return</span> <span class="fn">response</span>()-><span class="fn">json</span>([
+        <span class="str">'message'</span> => <span class="str">'Invalid credentials'</span>,
+    ], <span class="num">401</span>);
 }</code></pre>
       </div>
     </div>
@@ -1213,63 +1226,63 @@ public function login(Request $request)
     <div class="card">
       <div class="card-header">Policy &mdash; ArticlePolicy.php</div>
       <div class="card-body">
-        <pre><code>namespace App\Policies;
+        <pre><code><span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Policies</span>;
 
-use App\Models\Article;
-use App\Models\User;
+<span class="kw">use</span> <span class="tp">App</span>\<span class="tp">Models</span>\<span class="tp">Article</span>;
+<span class="kw">use</span> <span class="tp">App</span>\<span class="tp">Models</span>\<span class="tp">User</span>;
 
-class ArticlePolicy
+<span class="kw">class</span> ArticlePolicy
 {
-    public function viewAny(?User $user): bool
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">viewAny</span>(?<span class="tp">User</span> <span class="kw">$user</span>): <span class="tp">bool</span>
     {
-        return true;
+        <span class="kw">return</span> <span class="kw">true</span>;
     }
 
-    public function view(?User $user, Article $article): bool
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">view</span>(?<span class="tp">User</span> <span class="kw">$user</span>, <span class="tp">Article</span> <span class="kw">$article</span>): <span class="tp">bool</span>
     {
-        return true; // public articles
+        <span class="kw">return</span> <span class="kw">true</span>; <span class="cm">// public articles</span>
     }
 
-    public function create(User $user): bool
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">create</span>(<span class="tp">User</span> <span class="kw">$user</span>): <span class="tp">bool</span>
     {
-        return true; // any authenticated user
+        <span class="kw">return</span> <span class="kw">true</span>; <span class="cm">// any authenticated user</span>
     }
 
-    public function update(User $user, Article $article): bool
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">update</span>(<span class="tp">User</span> <span class="kw">$user</span>, <span class="tp">Article</span> <span class="kw">$article</span>): <span class="tp">bool</span>
     {
-        return $user->id === $article->author_id;
+        <span class="kw">return</span> <span class="kw">$user</span>-><span class="fn">id</span> === <span class="kw">$article</span>-><span class="fn">author_id</span>;
     }
 
-    public function delete(User $user, Article $article): bool
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">delete</span>(<span class="tp">User</span> <span class="kw">$user</span>, <span class="tp">Article</span> <span class="kw">$article</span>): <span class="tp">bool</span>
     {
-        return $this->update($user, $article);
+        <span class="kw">return</span> <span class="kw">$this</span>-><span class="fn">update</span>(<span class="kw">$user</span>, <span class="kw">$article</span>);
     }
 }
 
-// Register in AuthServiceProvider:
-protected $policies = [
-    Article::class => ArticlePolicy::class,
+<span class="cm">// Register in AuthServiceProvider:</span>
+<span class="kw">protected</span> <span class="kw">$policies</span> = [
+    <span class="tp">Article</span>::<span class="kw">class</span> => ArticlePolicy::<span class="kw">class</span>,
 ];</code></pre>
       </div>
     </div>
 
     <div class="card">
       <div class="card-body">
-        <pre><code>// In controller:
-public function update(Request $request, Article $article)
+        <pre><code><span class="cm">// In controller:</span>
+<span class="kw">public</span> <span class="kw">function</span> <span class="fn">update</span>(<span class="tp">Request</span> <span class="kw">$request</span>, <span class="tp">Article</span> <span class="kw">$article</span>)
 {
-    $this->authorize('update', $article);
-    // proceeds only if authorized
+    <span class="kw">$this</span>-><span class="fn">authorize</span>(<span class="str">'update'</span>, <span class="kw">$article</span>);
+    <span class="cm">// proceeds only if authorized</span>
 }
 
-// In Blade:
-@can('update', $article)
-    &lt;a href="{{ route('articles.edit', $article) }}"&gt;Edit&lt;/a&gt;
-@endcan
+<span class="cm">// In Blade:</span>
+<span class="tp">@can</span>(<span class="str">'update'</span>, <span class="kw">$article</span>)
+    &lt;a href=<span class="str">"{{ route('articles.edit', $article) }}"</span>&gt;Edit&lt;/a&gt;
+<span class="tp">@endcan</span>
 
-// With Gate facade:
-Gate::define('view-dashboard', function (User $user) {
-    return $user->isAdmin();
+<span class="cm">// With Gate facade:</span>
+Gate::<span class="fn">define</span>(<span class="str">'view-dashboard'</span>, <span class="kw">function</span> (<span class="tp">User</span> <span class="kw">$user</span>) {
+    <span class="kw">return</span> <span class="kw">$user</span>-><span class="fn">isAdmin</span>();
 });</code></pre>
       </div>
     </div>
@@ -1284,27 +1297,27 @@ Gate::define('view-dashboard', function (User $user) {
     <div class="card">
       <div class="card-header">app/Jobs/SendWelcomeEmail.php</div>
       <div class="card-body">
-        <pre><code>namespace App\Jobs;
+        <pre><code><span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Jobs</span>;
 
-use App\Models\User;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Queue\Queueable;
-use Illuminate\Queue\Attributes\Job; // Laravel 13
+<span class="kw">use</span> <span class="tp">App</span>\<span class="tp">Models</span>\<span class="tp">User</span>;
+<span class="kw">use</span> <span class="tp">Illuminate</span>\<span class="tp">Contracts</span>\<span class="tp">Queue</span>\<span class="tp">ShouldQueue</span>;
+<span class="kw">use</span> <span class="tp">Illuminate</span>\<span class="tp">Foundation</span>\<span class="tp">Queue</span>\<span class="tp">Queueable</span>;
+<span class="kw">use</span> <span class="tp">Illuminate</span>\<span class="tp">Queue</span>\<span class="tp">Attributes</span>\<span class="tp">Job</span>; <span class="cm">// Laravel 13</span>
 
-#[Job(queue: 'emails', tries: 3, backoff: 30)]
-class SendWelcomeEmail implements ShouldQueue
+#[<span class="tp">Job</span>(queue: <span class="str">'emails'</span>, tries: <span class="num">3</span>, backoff: <span class="num">30</span>)]
+<span class="kw">class</span> SendWelcomeEmail <span class="kw">implements</span> <span class="tp">ShouldQueue</span>
 {
-    use Queueable;
+    <span class="kw">use</span> <span class="tp">Queueable</span>;
 
-    public function __construct(
-        public User $user
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">__construct</span>(
+        <span class="kw">public</span> <span class="tp">User</span> <span class="kw">$user</span>
     ) {}
 
-    public function handle(): void
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">handle</span>(): <span class="tp">void</span>
     {
-        // Send email
-        Mail::to($this->user->email)
-            ->send(new WelcomeMail($this->user));
+        <span class="cm">// Send email</span>
+        <span class="tp">Mail</span>::<span class="fn">to</span>(<span class="kw">$this</span>-><span class="fn">user</span>-><span class="fn">email</span>)
+            -><span class="fn">send</span>(<span class="kw">new</span> <span class="fn">WelcomeMail</span>(<span class="kw">$this</span>-><span class="fn">user</span>));
     }
 }</code></pre>
       </div>
@@ -1313,36 +1326,36 @@ class SendWelcomeEmail implements ShouldQueue
     <h3>2. Dispatch Jobs</h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>// Simple dispatch
-SendWelcomeEmail::dispatch($user);
+        <pre><code><span class="cm">// Simple dispatch</span>
+SendWelcomeEmail::<span class="fn">dispatch</span>(<span class="kw">$user</span>);
 
-// With delay
-SendWelcomeEmail::dispatch($user)->delay(now()->addMinutes(10));
+<span class="cm">// With delay</span>
+SendWelcomeEmail::<span class="fn">dispatch</span>(<span class="kw">$user</span>)-><span class="fn">delay</span>(<span class="fn">now</span>()-><span class="fn">addMinutes</span>(<span class="num">10</span>));
 
-// On a specific queue
-SendWelcomeEmail::dispatch($user)->onQueue('emails');
+<span class="cm">// On a specific queue</span>
+SendWelcomeEmail::<span class="fn">dispatch</span>(<span class="kw">$user</span>)-><span class="fn">onQueue</span>(<span class="str">'emails'</span>);
 
-// Job chains (sequential)
-Bus::chain([
-    new ProcessPodcast($podcast),
-    new OptimizePodcast($podcast),
-    new SendNotification($podcast),
-])->dispatch();
+<span class="cm">// Job chains (sequential)</span>
+<span class="tp">Bus</span>::<span class="fn">chain</span>([
+    <span class="kw">new</span> <span class="fn">ProcessPodcast</span>(<span class="kw">$podcast</span>),
+    <span class="kw">new</span> <span class="fn">OptimizePodcast</span>(<span class="kw">$podcast</span>),
+    <span class="kw">new</span> <span class="fn">SendNotification</span>(<span class="kw">$podcast</span>),
+])-><span class="fn">dispatch</span>();
 
-// Job batches
-Bus::batch([
-    new ProcessFile($file1),
-    new ProcessFile($file2),
-])->then(function () {
-    // All jobs complete
-})->dispatch();
+<span class="cm">// Job batches</span>
+<span class="tp">Bus</span>::<span class="fn">batch</span>([
+    <span class="kw">new</span> <span class="fn">ProcessFile</span>(<span class="kw">$file1</span>),
+    <span class="kw">new</span> <span class="fn">ProcessFile</span>(<span class="kw">$file2</span>),
+])-><span class="fn">then</span>(<span class="kw">function</span> () {
+    <span class="cm">// All jobs complete</span>
+})-><span class="fn">dispatch</span>();
 
-// From controller:
-public function register(Request $request)
+<span class="cm">// From controller:</span>
+<span class="kw">public</span> <span class="kw">function</span> <span class="fn">register</span>(<span class="tp">Request</span> <span class="kw">$request</span>)
 {
-    $user = User::create($request->validated());
-    SendWelcomeEmail::dispatch($user);
-    return redirect()->home();
+    <span class="kw">$user</span> = <span class="tp">User</span>::<span class="fn">create</span>(<span class="kw">$request</span>-><span class="fn">validated</span>());
+    SendWelcomeEmail::<span class="fn">dispatch</span>(<span class="kw">$user</span>);
+    <span class="kw">return</span> <span class="fn">redirect</span>()-><span class="fn">home</span>();
 }</code></pre>
       </div>
     </div>
@@ -1351,29 +1364,29 @@ public function register(Request $request)
     <div class="card">
       <div class="card-header">Worker Commands</div>
       <div class="card-body">
-        <pre><code># Start queue worker (processes jobs)
-php artisan queue:work
+        <pre><code><span class="cm"># Start queue worker (processes jobs)</span>
+<span class="kw">php</span> <span class="kw">artisan</span> queue:work
 
-# With specific queue and options
-php artisan queue:work redis \
-    --queue=high,default,low \
-    --max-jobs=100 \
-    --max-time=3600 \
-    --memory=256 \
-    --tries=3 \
-    --backoff=30 \
-    --sleep=3
+<span class="cm"># With specific queue and options</span>
+<span class="kw">php</span> <span class="kw">artisan</span> queue:work redis \
+    --queue=high,<span class="kw">default</span>,low \
+    --max-jobs=<span class="num">100</span> \
+    --max-time=<span class="num">3600</span> \
+    --memory=<span class="num">256</span> \
+    --tries=<span class="num">3</span> \
+    --backoff=<span class="num">30</span> \
+    --sleep=<span class="num">3</span>
 
-# Start Horizon (dashboard at /horizon)
-php artisan horizon
+<span class="cm"># Start Horizon (dashboard at /horizon)</span>
+<span class="kw">php</span> <span class="kw">artisan</span> horizon
 
-# Supervisor config (production)
+<span class="cm"># Supervisor config (production)</span>
 [program:laravel-worker]
 process_name=%(program_name)s_%(process_num)02d
-command=php /var/www/artisan queue:work redis --sleep=3 --tries=3
-autostart=true
-autorestart=true
-numprocs=4
+command=<span class="kw">php</span> /<span class="kw">var</span>/www/<span class="kw">artisan</span> queue:work redis --sleep=<span class="num">3</span> --tries=<span class="num">3</span>
+autostart=<span class="kw">true</span>
+autorestart=<span class="kw">true</span>
+numprocs=<span class="num">4</span>
 user=forge</code></pre>
       </div>
     </div>
@@ -1381,54 +1394,54 @@ user=forge</code></pre>
     <h3>4. Failed Jobs</h3>
     <div class="card">
       <div class="card-body">
-        <pre><code># Table for failed jobs
-php artisan queue:failed-table
-php artisan migrate
+        <pre><code><span class="cm"># Table for failed jobs</span>
+<span class="kw">php</span> <span class="kw">artisan</span> queue:failed-table
+<span class="kw">php</span> <span class="kw">artisan</span> migrate
 
-# List failed jobs
-php artisan queue:failed
+<span class="cm"># List failed jobs</span>
+<span class="kw">php</span> <span class="kw">artisan</span> queue:failed
 
-# Retry a specific job
-php artisan queue:retry 1
+<span class="cm"># Retry a specific job</span>
+<span class="kw">php</span> <span class="kw">artisan</span> queue:retry <span class="num">1</span>
 
-# Retry all
-php artisan queue:retry all
+<span class="cm"># Retry all</span>
+<span class="kw">php</span> <span class="kw">artisan</span> queue:retry all
 
-# Forget a single failed job
-php artisan queue:forget 1
+<span class="cm"># Forget a single failed job</span>
+<span class="kw">php</span> <span class="kw">artisan</span> queue:forget <span class="num">1</span>
 
-# Delete all failed jobs
-php artisan queue:flush</code></pre>
+<span class="cm"># Delete all failed jobs</span>
+<span class="kw">php</span> <span class="kw">artisan</span> queue:flush</code></pre>
       </div>
     </div>
 
     <h3>Queue Configuration</h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>// config/queue.php
-'connections' => [
-    'redis' => [
-        'driver' => 'redis',
-        'connection' => 'default',
-        'queue' => env('REDIS_QUEUE', 'default'),
-        'retry_after' => 90,
-        'block_for' => null,
-        'after_commit' => true,
+        <pre><code><span class="cm">// config/queue.php</span>
+<span class="str">'connections'</span> => [
+    <span class="str">'redis'</span> => [
+        <span class="str">'driver'</span> => <span class="str">'redis'</span>,
+        <span class="str">'connection'</span> => <span class="str">'default'</span>,
+        <span class="str">'queue'</span> => <span class="fn">env</span>(<span class="str">'REDIS_QUEUE'</span>, <span class="str">'default'</span>),
+        <span class="str">'retry_after'</span> => <span class="num">90</span>,
+        <span class="str">'block_for'</span> => <span class="kw">null</span>,
+        <span class="str">'after_commit'</span> => <span class="kw">true</span>,
     ],
 
-    'database' => [
-        'driver' => 'database',
-        'table' => 'jobs',
-        'queue' => 'default',
-        'retry_after' => 90,
-        'after_commit' => true,
+    <span class="str">'database'</span> => [
+        <span class="str">'driver'</span> => <span class="str">'database'</span>,
+        <span class="str">'table'</span> => <span class="str">'jobs'</span>,
+        <span class="str">'queue'</span> => <span class="str">'default'</span>,
+        <span class="str">'retry_after'</span> => <span class="num">90</span>,
+        <span class="str">'after_commit'</span> => <span class="kw">true</span>,
     ],
 
-    'sqs' => [
-        'driver' => 'sqs',
-        'key' => env('AWS_ACCESS_KEY_ID'),
-        'secret' => env('AWS_SECRET_ACCESS_KEY'),
-        'queue' => env('SQS_QUEUE_URL'),
+    <span class="str">'sqs'</span> => [
+        <span class="str">'driver'</span> => <span class="str">'sqs'</span>,
+        <span class="str">'key'</span> => <span class="fn">env</span>(<span class="str">'AWS_ACCESS_KEY_ID'</span>),
+        <span class="str">'secret'</span> => <span class="fn">env</span>(<span class="str">'AWS_SECRET_ACCESS_KEY'</span>),
+        <span class="str">'queue'</span> => <span class="fn">env</span>(<span class="str">'SQS_QUEUE_URL'</span>),
     ],
 ],</code></pre>
       </div>
@@ -1442,13 +1455,13 @@ php artisan queue:flush</code></pre>
     <div class="card">
       <div class="card-header">API Routes</div>
       <div class="card-body">
-        <pre><code>// routes/api.php
-Route::apiResource('articles', ArticleController::class);
+        <pre><code><span class="cm">// routes/api.php</span>
+<span class="tp">Route</span>::<span class="fn">apiResource</span>(<span class="str">'articles'</span>, ArticleController::<span class="kw">class</span>);
 
-// With Sanctum auth
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', fn(Request $r) => $r->user());
-    Route::apiResource('articles', ArticleController::class);
+<span class="cm">// With Sanctum auth</span>
+<span class="tp">Route</span>::<span class="fn">middleware</span>(<span class="str">'auth:sanctum'</span>)-><span class="fn">group</span>(<span class="kw">function</span> () {
+    <span class="tp">Route</span>::<span class="fn">get</span>(<span class="str">'/user'</span>, <span class="kw">fn</span>(<span class="tp">Request</span> <span class="kw">$r</span>) => <span class="kw">$r</span>-><span class="fn">user</span>());
+    <span class="tp">Route</span>::<span class="fn">apiResource</span>(<span class="str">'articles'</span>, ArticleController::<span class="kw">class</span>);
 });</code></pre>
       </div>
     </div>
@@ -1456,54 +1469,54 @@ Route::middleware('auth:sanctum')->group(function () {
     <div class="card">
       <div class="card-header">API Resource Controller</div>
       <div class="card-body">
-        <pre><code>namespace App\Http\Controllers\Api;
+        <pre><code><span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Http</span>\<span class="tp">Controllers</span>\<span class="tp">Api</span>;
 
-use App\Models\Article;
-use App\Http\Resources\ArticleResource;
-use App\Http\Requests\StoreArticleRequest;
-use Illuminate\Http\JsonResponse;
+<span class="kw">use</span> <span class="tp">App</span>\<span class="tp">Models</span>\<span class="tp">Article</span>;
+<span class="kw">use</span> <span class="tp">App</span>\<span class="tp">Http</span>\<span class="tp">Resources</span>\ArticleResource;
+<span class="kw">use</span> <span class="tp">App</span>\<span class="tp">Http</span>\<span class="tp">Requests</span>\StoreArticleRequest;
+<span class="kw">use</span> <span class="tp">Illuminate</span>\<span class="tp">Http</span>\<span class="tp">JsonResponse</span>;
 
-class ArticleController extends Controller
+<span class="kw">class</span> ArticleController <span class="kw">extends</span> <span class="tp">Controller</span>
 {
-    public function index(): JsonResponse
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">index</span>(): <span class="tp">JsonResponse</span>
     {
-        $articles = Article::with('author', 'tags')
-            ->latest()
-            ->paginate(20);
+        <span class="kw">$articles</span> = <span class="tp">Article</span>::<span class="fn">with</span>(<span class="str">'author'</span>, <span class="str">'tags'</span>)
+            -><span class="fn">latest</span>()
+            -><span class="fn">paginate</span>(<span class="num">20</span>);
 
-        return ArticleResource::collection($articles)
-            ->response();
+        <span class="kw">return</span> ArticleResource::<span class="fn">collection</span>(<span class="kw">$articles</span>)
+            -><span class="fn">response</span>();
     }
 
-    public function show(Article $article): JsonResponse
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">show</span>(<span class="tp">Article</span> <span class="kw">$article</span>): <span class="tp">JsonResponse</span>
     {
-        $article->load('author', 'tags');
-        return (new ArticleResource($article))
-            ->response();
+        <span class="kw">$article</span>-><span class="fn">load</span>(<span class="str">'author'</span>, <span class="str">'tags'</span>);
+        <span class="kw">return</span> (<span class="kw">new</span> <span class="fn">ArticleResource</span>(<span class="kw">$article</span>))
+            -><span class="fn">response</span>();
     }
 
-    public function store(StoreArticleRequest $request): JsonResponse
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">store</span>(StoreArticleRequest <span class="kw">$request</span>): <span class="tp">JsonResponse</span>
     {
-        $article = auth()->user()->articles()
-            ->create($request->validated());
+        <span class="kw">$article</span> = <span class="fn">auth</span>()-><span class="fn">user</span>()-><span class="fn">articles</span>()
+            -><span class="fn">create</span>(<span class="kw">$request</span>-><span class="fn">validated</span>());
 
-        return (new ArticleResource($article))
-            ->response()
-            ->setStatusCode(201);
+        <span class="kw">return</span> (<span class="kw">new</span> <span class="fn">ArticleResource</span>(<span class="kw">$article</span>))
+            -><span class="fn">response</span>()
+            -><span class="fn">setStatusCode</span>(<span class="num">201</span>);
     }
 
-    public function update(UpdateArticleRequest $request, Article $article): JsonResponse
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">update</span>(UpdateArticleRequest <span class="kw">$request</span>, <span class="tp">Article</span> <span class="kw">$article</span>): <span class="tp">JsonResponse</span>
     {
-        $article->update($request->validated());
-        return (new ArticleResource($article))->response();
+        <span class="kw">$article</span>-><span class="fn">update</span>(<span class="kw">$request</span>-><span class="fn">validated</span>());
+        <span class="kw">return</span> (<span class="kw">new</span> <span class="fn">ArticleResource</span>(<span class="kw">$article</span>))-><span class="fn">response</span>();
     }
 
-    public function destroy(Article $article): JsonResponse
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">destroy</span>(<span class="tp">Article</span> <span class="kw">$article</span>): <span class="tp">JsonResponse</span>
     {
-        $article->delete();
-        return response()->json([
-            'message' => 'Deleted',
-        ], 200);
+        <span class="kw">$article</span>-><span class="fn">delete</span>();
+        <span class="kw">return</span> <span class="fn">response</span>()-><span class="fn">json</span>([
+            <span class="str">'message'</span> => <span class="str">'Deleted'</span>,
+        ], <span class="num">200</span>);
     }
 }</code></pre>
       </div>
@@ -1512,25 +1525,25 @@ class ArticleController extends Controller
     <div class="card">
       <div class="card-header">API Resource &mdash; ArticleResource.php</div>
       <div class="card-body">
-        <pre><code>namespace App\Http\Resources;
+        <pre><code><span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Http</span>\<span class="tp">Resources</span>;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+<span class="kw">use</span> <span class="tp">Illuminate</span>\<span class="tp">Http</span>\<span class="tp">Request</span>;
+<span class="kw">use</span> <span class="tp">Illuminate</span>\<span class="tp">Http</span>\<span class="tp">Resources</span>\<span class="tp">Json</span>\<span class="tp">JsonResource</span>;
 
-class ArticleResource extends JsonResource
+<span class="kw">class</span> ArticleResource <span class="kw">extends</span> <span class="tp">JsonResource</span>
 {
-    public function toArray(Request $request): array
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">toArray</span>(<span class="tp">Request</span> <span class="kw">$request</span>): <span class="tp">array</span>
     {
-        return [
-            'id' => $this->id,
-            'title' => $this->title,
-            'body' => $this->body,
-            'excerpt' => $this->excerpt,
-            'published' => $this->published,
-            'author' => new UserResource($this->whenLoaded('author')),
-            'tags' => TagResource::collection($this->whenLoaded('tags')),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+        <span class="kw">return</span> [
+            <span class="str">'id'</span> => <span class="kw">$this</span>-><span class="fn">id</span>,
+            <span class="str">'title'</span> => <span class="kw">$this</span>-><span class="fn">title</span>,
+            <span class="str">'body'</span> => <span class="kw">$this</span>-><span class="fn">body</span>,
+            <span class="str">'excerpt'</span> => <span class="kw">$this</span>-><span class="fn">excerpt</span>,
+            <span class="str">'published'</span> => <span class="kw">$this</span>-><span class="fn">published</span>,
+            <span class="str">'author'</span> => <span class="kw">new</span> <span class="fn">UserResource</span>(<span class="kw">$this</span>-><span class="fn">whenLoaded</span>(<span class="str">'author'</span>)),
+            <span class="str">'tags'</span> => TagResource::<span class="fn">collection</span>(<span class="kw">$this</span>-><span class="fn">whenLoaded</span>(<span class="str">'tags'</span>)),
+            <span class="str">'created_at'</span> => <span class="kw">$this</span>-><span class="fn">created_at</span>,
+            <span class="str">'updated_at'</span> => <span class="kw">$this</span>-><span class="fn">updated_at</span>,
         ];
     }
 }</code></pre>
@@ -1540,30 +1553,30 @@ class ArticleResource extends JsonResource
     <div class="card">
       <div class="card-header">API Request / Response Examples</div>
       <div class="card-body">
-        <pre><code>// GET /api/articles?page=1
-// Response:
+        <pre><code><span class="cm">// GET /api/articles?page=1</span>
+<span class="cm">// Response:</span>
 {
-    "data": [
+    <span class="str">"data"</span>: [
         {
-            "id": 1,
-            "title": "Hello Laravel 13",
-            "excerpt": "...",
-            "author": { "id": 1, "name": "John" },
-            "created_at": "2026-05-14T10:00:00Z"
+            <span class="str">"id"</span>: <span class="num">1</span>,
+            <span class="str">"title"</span>: <span class="str">"Hello Laravel 13"</span>,
+            <span class="str">"excerpt"</span>: <span class="str">"..."</span>,
+            <span class="str">"author"</span>: { <span class="str">"id"</span>: <span class="num">1</span>, <span class="str">"name"</span>: <span class="str">"John"</span> },
+            <span class="str">"created_at"</span>: <span class="str">"2026-05-14T10:00:00Z"</span>
         }
     ],
-    "meta": {
-        "current_page": 1,
-        "last_page": 5,
-        "per_page": 20,
-        "total": 100
+    <span class="str">"meta"</span>: {
+        <span class="str">"current_page"</span>: <span class="num">1</span>,
+        <span class="str">"last_page"</span>: <span class="num">5</span>,
+        <span class="str">"per_page"</span>: <span class="num">20</span>,
+        <span class="str">"total"</span>: <span class="num">100</span>
     }
 }
 
-// POST /api/articles
-// Headers: Authorization: Bearer {token}, Content-Type: application/json
-// Body: {"title": "New", "body": "Content...", "author_id": 1}
-// Response (201): {"data": {"id": 2, "title": "New", ...}}</code></pre>
+<span class="cm">// POST /api/articles</span>
+<span class="cm">// Headers: Authorization: Bearer {token}, Content-Type: application/json</span>
+<span class="cm">// Body: {"title": "New", "body": "Content...", "author_id": 1}</span>
+<span class="cm">// Response (201): {"data": {"id": 2, "title": "New", ...}}</span></code></pre>
       </div>
     </div>
   </section>
@@ -1576,34 +1589,34 @@ class ArticleResource extends JsonResource
     <div class="card">
       <div class="card-header">Text Generation &amp; Agents</div>
       <div class="card-body">
-        <pre><code>use App\Ai\Agents\SalesCoach;
-use Laravel\Ai\Image;
-use Laravel\Ai\Audio;
+        <pre><code><span class="kw">use</span> <span class="tp">App</span>\<span class="tp">Ai</span>\<span class="tp">Agents</span>\<span class="tp">SalesCoach</span>;
+<span class="kw">use</span> <span class="tp">Laravel</span>\<span class="tp">Ai</span>\<span class="tp">Image</span>;
+<span class="kw">use</span> <span class="tp">Laravel</span>\<span class="tp">Ai</span>\<span class="tp">Audio</span>;
 
-// Basic text generation
-$response = SalesCoach::make()
-    ->prompt('Analyze this sales transcript...');
-return (string) $response;
+<span class="cm">// Basic text generation</span>
+<span class="kw">$response</span> = <span class="tp">SalesCoach</span>::<span class="fn">make</span>()
+    -><span class="fn">prompt</span>(<span class="str">'Analyze this sales transcript...'</span>);
+<span class="kw">return</span> (<span class="tp">string</span>) <span class="kw">$response</span>;
 
-// Image generation
-$image = Image::of('A donut sitting on the kitchen counter')
-    ->generate();
-$rawContent = (string) $image;
+<span class="cm">// Image generation</span>
+<span class="kw">$image</span> = <span class="tp">Image</span>::<span class="fn">of</span>(<span class="str">'A donut sitting on the kitchen counter'</span>)
+    -><span class="fn">generate</span>();
+<span class="kw">$rawContent</span> = (<span class="tp">string</span>) <span class="kw">$image</span>;
 
-// Audio synthesis
-$audio = Audio::of('I love coding with Laravel.')
-    ->generate();
-$rawContent = (string) $audio;
+<span class="cm">// Audio synthesis</span>
+<span class="kw">$audio</span> = <span class="tp">Audio</span>::<span class="fn">of</span>(<span class="str">'I love coding with Laravel.'</span>)
+    -><span class="fn">generate</span>();
+<span class="kw">$rawContent</span> = (<span class="tp">string</span>) <span class="kw">$audio</span>;
 
-// Configuration in config/ai.php:
-return [
-    'default' => env('AI_PROVIDER', 'openai'),
-    'providers' => [
-        'openai' => [
-            'api_key' => env('OPENAI_API_KEY'),
+<span class="cm">// Configuration in config/ai.php:</span>
+<span class="kw">return</span> [
+    <span class="str">'default'</span> => <span class="fn">env</span>(<span class="str">'AI_PROVIDER'</span>, <span class="str">'openai'</span>),
+    <span class="str">'providers'</span> => [
+        <span class="str">'openai'</span> => [
+            <span class="str">'api_key'</span> => <span class="fn">env</span>(<span class="str">'OPENAI_API_KEY'</span>),
         ],
-        'anthropic' => [
-            'api_key' => env('ANTHROPIC_API_KEY'),
+        <span class="str">'anthropic'</span> => [
+            <span class="str">'api_key'</span> => <span class="fn">env</span>(<span class="str">'ANTHROPIC_API_KEY'</span>),
         ],
     ],
 ];</code></pre>
@@ -1618,58 +1631,58 @@ return [
     <div class="card">
       <div class="card-header">Custom Middleware &mdash; CorsMiddleware.php</div>
       <div class="card-body">
-        <pre><code>namespace App\Http\Middleware;
+        <pre><code><span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Http</span>\<span class="tp">Middleware</span>;
 
-use Closure;
-use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+<span class="kw">use</span> <span class="tp">Closure</span>;
+<span class="kw">use</span> <span class="tp">Illuminate</span>\<span class="tp">Http</span>\<span class="tp">Request</span>;
+<span class="kw">use</span> <span class="tp">Symfony</span>\<span class="tp">Component</span>\<span class="tp">HttpFoundation</span>\<span class="tp">Response</span>;
 
-class CorsMiddleware
+<span class="kw">class</span> CorsMiddleware
 {
-    public function handle(Request $request, Closure $next): Response
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">handle</span>(<span class="tp">Request</span> <span class="kw">$request</span>, <span class="tp">Closure</span> <span class="kw">$next</span>): <span class="tp">Response</span>
     {
-        $response = $next($request);
+        <span class="kw">$response</span> = <span class="kw">$next</span>(<span class="kw">$request</span>);
 
-        $response->headers->set('Access-Control-Allow-Origin', '*');
-        $response->headers->set(
-            'Access-Control-Allow-Headers',
-            'X-Requested-With, Content-Type, Authorization'
+        <span class="kw">$response</span>-><span class="fn">headers</span>-><span class="fn">set</span>(<span class="str">'Access-Control-Allow-Origin'</span>, <span class="str">'*'</span>);
+        <span class="kw">$response</span>-><span class="fn">headers</span>-><span class="fn">set</span>(
+            <span class="str">'Access-Control-Allow-Headers'</span>,
+            <span class="str">'X-Requested-With, Content-Type, Authorization'</span>
         );
-        $response->headers->set(
-            'Access-Control-Allow-Methods',
-            'GET, POST, PUT, DELETE, PATCH, OPTIONS'
+        <span class="kw">$response</span>-><span class="fn">headers</span>-><span class="fn">set</span>(
+            <span class="str">'Access-Control-Allow-Methods'</span>,
+            <span class="str">'GET, POST, PUT, DELETE, PATCH, OPTIONS'</span>
         );
 
-        return $response;
+        <span class="kw">return</span> <span class="kw">$response</span>;
     }
 }
 
-// Register in Kernel:
-// protected $middleware = [\App\Http\Middleware\CorsMiddleware::class];</code></pre>
+<span class="cm">// Register in Kernel:</span>
+<span class="cm">// protected $middleware = [\App\Http\Middleware\CorsMiddleware::class];</span></code></pre>
       </div>
     </div>
 
     <div class="card">
       <div class="card-header">Built-in Middleware</div>
       <div class="card-body">
-        <pre><code>// In routes/web.php:
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index']);
+        <pre><code><span class="cm">// In routes/web.php:</span>
+<span class="tp">Route</span>::<span class="fn">middleware</span>([<span class="str">'auth'</span>, <span class="str">'verified'</span>])-><span class="fn">group</span>(<span class="kw">function</span> () {
+    <span class="tp">Route</span>::<span class="fn">get</span>(<span class="str">'/dashboard'</span>, [<span class="tp">DashboardController</span>::<span class="kw">class</span>, <span class="str">'index'</span>]);
 });
 
-// In routes/api.php:
-Route::middleware('auth:sanctum')->get('/user', function (Request $r) {
-    return $r->user();
+<span class="cm">// In routes/api.php:</span>
+<span class="tp">Route</span>::<span class="fn">middleware</span>(<span class="str">'auth:sanctum'</span>)-><span class="fn">get</span>(<span class="str">'/user'</span>, <span class="kw">function</span> (<span class="tp">Request</span> <span class="kw">$r</span>) {
+    <span class="kw">return</span> <span class="kw">$r</span>-><span class="fn">user</span>();
 });
 
-// Throttle API routes:
-Route::middleware('throttle:60,1')->group(function () {
-    Route::apiResource('articles', ArticleController::class);
+<span class="cm">// Throttle API routes:</span>
+<span class="tp">Route</span>::<span class="fn">middleware</span>(<span class="str">'throttle:60,1'</span>)-><span class="fn">group</span>(<span class="kw">function</span> () {
+    <span class="tp">Route</span>::<span class="fn">apiResource</span>(<span class="str">'articles'</span>, ArticleController::<span class="kw">class</span>);
 });
 
-// Force JSON responses for API:
-Route::middleware('api')->group(function () {
-    // api middleware group includes: throttle, bindings, etc.
+<span class="cm">// Force JSON responses for API:</span>
+<span class="tp">Route</span>::<span class="fn">middleware</span>(<span class="str">'api'</span>)-><span class="fn">group</span>(<span class="kw">function</span> () {
+    <span class="cm">// api middleware group includes: throttle, bindings, etc.</span>
 });</code></pre>
       </div>
     </div>
@@ -1683,29 +1696,29 @@ Route::middleware('api')->group(function () {
     <div class="card">
       <div class="card-header">Model Factory</div>
       <div class="card-body">
-        <pre><code>// database/factories/ArticleFactory.php
-namespace Database\Factories;
+        <pre><code><span class="cm">// database/factories/ArticleFactory.php</span>
+<span class="kw">namespace</span> <span class="tp">Database</span>\<span class="tp">Factories</span>;
 
-use App\Models\Article;
-use Illuminate\Database\Eloquent\Factories\Factory;
+<span class="kw">use</span> <span class="tp">App</span>\<span class="tp">Models</span>\<span class="tp">Article</span>;
+<span class="kw">use</span> <span class="tp">Illuminate</span>\<span class="tp">Database</span>\<span class="tp">Eloquent</span>\<span class="tp">Factories</span>\<span class="tp">Factory</span>;
 
-class ArticleFactory extends Factory
+<span class="kw">class</span> ArticleFactory <span class="kw">extends</span> <span class="tp">Factory</span>
 {
-    protected $model = Article::class;
+    <span class="kw">protected</span> <span class="kw">$model</span> = <span class="tp">Article</span>::<span class="kw">class</span>;
 
-    public function definition(): array
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">definition</span>(): <span class="tp">array</span>
     {
-        return [
-            'title' => fake()->sentence(),
-            'body' => fake()->paragraphs(3, true),
-            'author_id' => User::factory(),
-            'published' => fake()->boolean(),
+        <span class="kw">return</span> [
+            <span class="str">'title'</span> => <span class="fn">fake</span>()-><span class="fn">sentence</span>(),
+            <span class="str">'body'</span> => <span class="fn">fake</span>()-><span class="fn">paragraphs</span>(<span class="num">3</span>, <span class="kw">true</span>),
+            <span class="str">'author_id'</span> => <span class="tp">User</span>::<span class="fn">factory</span>(),
+            <span class="str">'published'</span> => <span class="fn">fake</span>()-><span class="fn">boolean</span>(),
         ];
     }
 
-    public function published(): static
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">published</span>(): <span class="kw">static</span>
     {
-        return $this->state(['published' => true]);
+        <span class="kw">return</span> <span class="kw">$this</span>-><span class="fn">state</span>([<span class="str">'published'</span> => <span class="kw">true</span>]);
     }
 }</code></pre>
       </div>
@@ -1714,56 +1727,56 @@ class ArticleFactory extends Factory
     <div class="card">
       <div class="card-header">Feature Test</div>
       <div class="card-body">
-        <pre><code>namespace Tests\Feature;
+        <pre><code><span class="kw">namespace</span> <span class="tp">Tests</span>\Feature;
 
-use App\Models\Article;
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+<span class="kw">use</span> <span class="tp">App</span>\<span class="tp">Models</span>\<span class="tp">Article</span>;
+<span class="kw">use</span> <span class="tp">App</span>\<span class="tp">Models</span>\<span class="tp">User</span>;
+<span class="kw">use</span> <span class="tp">Illuminate</span>\<span class="tp">Foundation</span>\<span class="tp">Testing</span>\RefreshDatabase;
+<span class="kw">use</span> <span class="tp">Tests</span>\<span class="tp">TestCase</span>;
 
-class ArticleTest extends TestCase
+<span class="kw">class</span> ArticleTest <span class="kw">extends</span> <span class="tp">TestCase</span>
 {
-    use RefreshDatabase;
+    <span class="kw">use</span> RefreshDatabase;
 
-    public function test_articles_list_can_be_rendered(): void
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">test_articles_list_can_be_rendered</span>(): <span class="tp">void</span>
     {
-        Article::factory()->count(3)->published()->create();
+        <span class="tp">Article</span>::<span class="fn">factory</span>()-><span class="fn">count</span>(<span class="num">3</span>)-><span class="fn">published</span>()-><span class="fn">create</span>();
 
-        $response = $this->get('/articles');
+        <span class="kw">$response</span> = <span class="kw">$this</span>-><span class="fn">get</span>(<span class="str">'/articles'</span>);
 
-        $response->assertOk();
-        $response->assertSee('Articles');
+        <span class="kw">$response</span>-><span class="fn">assertOk</span>();
+        <span class="kw">$response</span>-><span class="fn">assertSee</span>(<span class="str">'Articles'</span>);
     }
 
-    public function test_authenticated_user_can_create_article(): void
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">test_authenticated_user_can_create_article</span>(): <span class="tp">void</span>
     {
-        $user = User::factory()->create();
+        <span class="kw">$user</span> = <span class="tp">User</span>::<span class="fn">factory</span>()-><span class="fn">create</span>();
 
-        $response = $this->actingAs($user)->post('/articles', [
-            'title' => 'Test Article',
-            'body' => 'Content for the test article.',
-            'published' => true,
+        <span class="kw">$response</span> = <span class="kw">$this</span>-><span class="fn">actingAs</span>(<span class="kw">$user</span>)-><span class="fn">post</span>(<span class="str">'/articles'</span>, [
+            <span class="str">'title'</span> => <span class="str">'Test Article'</span>,
+            <span class="str">'body'</span> => <span class="str">'Content for the test article.'</span>,
+            <span class="str">'published'</span> => <span class="kw">true</span>,
         ]);
 
-        $response->assertRedirect();
-        $this->assertDatabaseHas('articles', [
-            'title' => 'Test Article',
-            'author_id' => $user->id,
+        <span class="kw">$response</span>-><span class="fn">assertRedirect</span>();
+        <span class="kw">$this</span>-><span class="fn">assertDatabaseHas</span>(<span class="str">'articles'</span>, [
+            <span class="str">'title'</span> => <span class="str">'Test Article'</span>,
+            <span class="str">'author_id'</span> => <span class="kw">$user</span>-><span class="fn">id</span>,
         ]);
     }
 
-    public function test_unauthenticated_user_cannot_create(): void
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">test_unauthenticated_user_cannot_create</span>(): <span class="tp">void</span>
     {
-        $response = $this->postJson('/api/articles', [
-            'title' => 'Test',
-            'body' => 'Content',
+        <span class="kw">$response</span> = <span class="kw">$this</span>-><span class="fn">postJson</span>(<span class="str">'/api/articles'</span>, [
+            <span class="str">'title'</span> => <span class="str">'Test'</span>,
+            <span class="str">'body'</span> => <span class="str">'Content'</span>,
         ]);
 
-        $response->assertUnauthorized();
+        <span class="kw">$response</span>-><span class="fn">assertUnauthorized</span>();
     }
 }
 
-// Run: php artisan test</code></pre>
+<span class="cm">// Run: php artisan test</span></code></pre>
       </div>
     </div>
   </section>
@@ -1807,30 +1820,30 @@ class ArticleTest extends TestCase
         <div class="card h-100">
           <div class="card-header">Quick Commands Cheat Sheet</div>
           <div class="card-body">
-            <pre><code># Model + Migration + Factory + Controller
-php artisan make:model Article
+            <pre><code><span class="cm"># Model + Migration + Factory + Controller</span>
+<span class="kw">php</span> <span class="kw">artisan</span> make:model <span class="tp">Article</span>
     -m --factory --resource --requests
 
-# Run everything
-php artisan migrate
-php artisan db:seed
-php artisan queue:work
-php artisan serve
+<span class="cm"># Run everything</span>
+<span class="kw">php</span> <span class="kw">artisan</span> migrate
+<span class="kw">php</span> <span class="kw">artisan</span> db:seed
+<span class="kw">php</span> <span class="kw">artisan</span> queue:work
+<span class="kw">php</span> <span class="kw">artisan</span> serve
 
-# Cache for production
-php artisan optimize
+<span class="cm"># Cache for production</span>
+<span class="kw">php</span> <span class="kw">artisan</span> optimize
 
-# Clear everything
-php artisan optimize:clear
+<span class="cm"># Clear everything</span>
+<span class="kw">php</span> <span class="kw">artisan</span> optimize:clear
 
-# Test
-php artisan test
+<span class="cm"># Test</span>
+<span class="kw">php</span> <span class="kw">artisan</span> test
 
-# List routes
-php artisan route:list
+<span class="cm"># List routes</span>
+<span class="kw">php</span> <span class="kw">artisan</span> route:<span class="kw">list</span>
 
-# Tinker REPL
-php artisan tinker</code></pre>
+<span class="cm"># Tinker REPL</span>
+<span class="kw">php</span> <span class="kw">artisan</span> tinker</code></pre>
           </div>
         </div>
       </div>

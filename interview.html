@@ -66,6 +66,18 @@
     .accordion-body code { background: #f1f3f5; padding: .15rem .4rem; border-radius: .3rem; font-size: .85rem; color: #d63384; }
     .accordion-body pre { background: #1e1e2f; color: #e6e6e6; padding: 1rem; border-radius: .5rem; overflow-x: auto; font-size: .82rem; margin: .75rem 0; }
     .accordion-body pre code { background: transparent; color: inherit; padding: 0; border-radius: 0; font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
+    .kw { color: #c792ea; }
+    .fn { color: #82aaff; }
+    .str { color: #c3e88d; }
+    .cm { color: #546e7a; font-style: italic; }
+    .num { color: #f78c6c; }
+    .tp { color: #ffcb6b; }
+    [data-bs-theme="dark"] .kw { color: #c792ea; }
+    [data-bs-theme="dark"] .fn { color: #82aaff; }
+    [data-bs-theme="dark"] .str { color: #c3e88d; }
+    [data-bs-theme="dark"] .cm { color: #546e7a; }
+    [data-bs-theme="dark"] .num { color: #f78c6c; }
+    [data-bs-theme="dark"] .tp { color: #ffcb6b; }
     .q-tag { display: inline-block; font-size: .65rem; font-weight: 600; padding: .15rem .5rem; border-radius: 1rem; margin-right: .4rem; vertical-align: middle; }
     .tag-easy { background: #d1fae5; color: #065f46; }
     .tag-med { background: #fef3c7; color: #92400e; }
@@ -1717,6 +1729,36 @@ ullsafe operator?
   document.querySelectorAll('#sidebar .nav-link').forEach(link => {
     link.addEventListener('click', () => document.getElementById('sidebar').classList.remove('show'));
   });
+
+  function highlightCode() {
+    document.querySelectorAll('.accordion-body pre code').forEach(block => {
+      let html = block.innerHTML;
+      html = html
+        // Comments first (prevent false matches inside)
+        .replace(/(\/\/.*?)(?:\n|$)/g, '<span class="cm">$1</span>\n')
+        .replace(/(\/\*[\s\S]*?\*\/)/g, '<span class="cm">$1</span>')
+        .replace(/(#[^\n]*)/g, '<span class="cm">$1</span>')
+        .replace(/(&lt;\?php)/g, '<span class="cm">$1</span>')
+        // Strings (single & double quotes)
+        .replace(/(&quot;(?:[^&]|&(?!quot;))*?&quot;|'(?:[^'\\]|\\.)*')/g, '<span class="str">$1</span>')
+        // Numbers
+        .replace(/\b(\d+(?:\.\d+)?)\b/g, '<span class="num">$1</span>')
+        // Type hints
+        .replace(/\b(string|int|float|bool|array|void|mixed|never|self|static|callable|iterable|object|Resource|null|true|false)\b(?!\s*\()/g, '<span class="tp">$1</span>')
+        // Keywords
+        .replace(/\b(if|else|for|foreach|while|function|return|new|class|public|private|protected|static|readonly|use|namespace|extends|implements|const|echo|fn|as|abstract|final|trait|interface|enum|throw|try|catch|finally|switch|case|default|break|continue|declare|strict_types|global|include|require|list|isset|unset|die|exit|array|instanceof|clone|match)\b/g, '<span class="kw">$1</span>')
+        // Variables ($var)
+        .replace(/(\$[\w]+)/g, '<span class="kw">$1</span>')
+        // Function calls
+        .replace(/\b(dd|dump|response|view|redirect|route|auth|bcrypt|collect|array_merge|count|implode|json_encode|json_decode|strlen|substr|str_replace|preg_match|preg_replace|explode|in_array|array_key_exists|method_exists|property_exists|spl_autoload_register|class_exists|interface_exists|trait_exists|enum_exists|array_map|array_filter|array_reduce|array_keys|array_values|array_search|sort|array_unique|array_chunk|array_column|array_find|array_any|array_all|session_start)\(/g, '<span class="fn">$1</span>(')
+        // Match expression
+        .replace(/\bmatch\s*\(/g, '<span class="fn">match</span>(')
+        // Arrow functions
+        .replace(/\bfn\s*\(/g, '<span class="kw">fn</span>(');
+      block.innerHTML = html;
+    });
+  }
+  document.addEventListener('DOMContentLoaded', highlightCode);
 </script>
 </body>
 </html>

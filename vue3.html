@@ -119,6 +119,18 @@
       position: relative;
     }
     pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
+    .kw { color: #c792ea; }
+    .fn { color: #82aaff; }
+    .str { color: #c3e88d; }
+    .cm { color: #546e7a; font-style: italic; }
+    .num { color: #f78c6c; }
+    .tp { color: #ffcb6b; }
+    [data-bs-theme="dark"] .kw { color: #c792ea; }
+    [data-bs-theme="dark"] .fn { color: #82aaff; }
+    [data-bs-theme="dark"] .str { color: #c3e88d; }
+    [data-bs-theme="dark"] .cm { color: #546e7a; }
+    [data-bs-theme="dark"] .num { color: #f78c6c; }
+    [data-bs-theme="dark"] .tp { color: #ffcb6b; }
     .cmd-table td:first-child {
       font-family: 'JetBrains Mono', monospace;
       font-size: .82rem;
@@ -244,15 +256,15 @@
     <h2><i class="bi bi-download me-2"></i>Installation</h2>
     <div class="card">
       <div class="card-body">
-        <pre><code># Create a new Vue application with Vite (recommended)
-npm create vue@latest myapp
+        <pre><code># Create a <span class="kw">new</span> Vue application <span class="kw">with</span> <span class="fn">Vite</span> (recommended)
+npm create vue<span class="tp">@latest</span> myapp
 
-# Interactive prompts: TypeScript, JSX, Router, Pinia, etc.
+# Interactive prompts: TypeScript, JSX, <span class="tp">Router</span>, Pinia, etc.
 
-# Or create manually with Vite
-npm create vite@latest myapp -- --template vue
+# Or create manually <span class="kw">with</span> Vite
+npm create vite<span class="tp">@latest</span> myapp -- --template vue
 # With TypeScript
-npm create vite@latest myapp -- --template vue-ts
+npm create vite<span class="tp">@latest</span> myapp -- --template vue-ts
 
 # Install dependencies
 cd myapp
@@ -261,7 +273,7 @@ npm install
 # Start development server
 npm run dev
 
-# Build for production
+# Build <span class="kw">for</span> production
 npm run build
 
 # Preview production build
@@ -273,21 +285,21 @@ npm run preview</code></pre>
       <div class="card-header">package.json Scripts (Vite)</div>
       <div class="card-body">
         <pre><code>{
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "lint": "eslint ."
+  <span class="str">"scripts"</span>: {
+    <span class="str">"dev"</span>: <span class="str">"vite"</span>,
+    <span class="str">"build"</span>: <span class="str">"vite build"</span>,
+    <span class="str">"preview"</span>: <span class="str">"vite preview"</span>,
+    <span class="str">"lint"</span>: <span class="str">"eslint ."</span>
   },
-  "dependencies": {
-    "vue": "^3.5.34",
-    "vue-router": "^4.4.0",
-    "pinia": "^2.2.0"
+  <span class="str">"dependencies"</span>: {
+    <span class="str">"vue"</span>: <span class="str">"^3.5.34"</span>,
+    <span class="str">"vue-router"</span>: <span class="str">"^4.4.0"</span>,
+    <span class="str">"pinia"</span>: <span class="str">"^2.2.0"</span>
   },
-  "devDependencies": {
-    "@vitejs/plugin-vue": "^5.2.0",
-    "vite": "^6.0.0",
-    "typescript": "^5.6.0"
+  <span class="str">"devDependencies"</span>: {
+    <span class="str">"@vitejs/plugin-vue"</span>: <span class="str">"^5.2.0"</span>,
+    <span class="str">"vite"</span>: <span class="str">"^6.0.0"</span>,
+    <span class="str">"typescript"</span>: <span class="str">"^5.6.0"</span>
   }
 }</code></pre>
       </div>
@@ -342,23 +354,23 @@ npm run preview</code></pre>
     <div class="card">
       <div class="card-header">Basic SFC Structure</div>
       <div class="card-body">
-        <pre><code>&lt;script setup&gt;
-import { ref } from 'vue'
+        <pre><code>&lt;<span class="kw">script</span> <span class="fn">setup</span>&gt;
+<span class="kw">import</span> { ref } <span class="kw">from</span> <span class="str">'vue'</span>
 
-const count = ref(0)
+<span class="kw">const</span> count = <span class="fn">ref</span>(<span class="num">0</span>)
 &lt;/script&gt;
 
-&lt;template&gt;
-  &lt;div class="counter"&gt;
-    &lt;h1&gt;Hello Vue!&lt;/h1&gt;
-    &lt;p&gt;Count: {{ count }}&lt;/p&gt;
-    &lt;button @click="count++"&gt;Increment&lt;/button&gt;
+&lt;<span class="kw">template</span>&gt;
+  &lt;<span class="kw">div</span> <span class="fn">class</span>=<span class="str">"counter"</span>&gt;
+    &lt;<span class="kw">h1</span>&gt;Hello Vue!&lt;/h1&gt;
+    &lt;<span class="kw">p</span>&gt;Count: <span class="str">{{ count }}</span>&lt;/p&gt;
+    &lt;<span class="kw">button</span> <span class="kw">@click</span>="<span class="fn">count</span>++"&gt;Increment&lt;/button&gt;
   &lt;/div&gt;
 &lt;/template&gt;
 
-&lt;style scoped&gt;
+&lt;<span class="kw">style</span> <span class="fn">scoped</span>&gt;
 .counter { text-align: center; }
-h1 { color: #42b883; }
+h1 { color: #<span class="num">42</span>b883; }
 &lt;/style&gt;</code></pre>
       </div>
     </div>
@@ -366,27 +378,27 @@ h1 { color: #42b883; }
     <div class="card">
       <div class="card-header">SFC Features</div>
       <div class="card-body">
-        <pre><code>&lt;!-- &lt;script setup&gt; -- shorthand Composition API --&gt;
-&lt;script setup lang="ts"&gt;
-import { ref, onMounted } from 'vue'
-defineProps&lt;{ title: string }&gt;()
-const emit = defineEmits&lt;{ update: [value: string] }&gt;()
+        <pre><code>&lt;!-- &lt;<span class="kw">script</span> <span class="fn">setup</span>&gt; -- shorthand Composition API --&gt;
+&lt;<span class="kw">script</span> <span class="fn">setup</span> <span class="fn">lang</span>=<span class="str">"ts"</span>&gt;
+<span class="kw">import</span> { ref, <span class="kw">onMounted</span> } <span class="kw">from</span> <span class="str">'vue'</span>
+defineProps&lt;{ title: <span class="tp">string</span> }&gt;()
+<span class="kw">const</span> emit = defineEmits&lt;{ update: [value: <span class="tp">string</span>] }&gt;()
 &lt;/script&gt;
 
 &lt;!-- Scoped CSS -- isolated styles --&gt;
-&lt;style scoped&gt;
+&lt;<span class="kw">style</span> <span class="fn">scoped</span>&gt;
 .parent &gt; .child { font-weight: bold; }
-/* Deep selector for child components */
-:deep(.child-component) { color: red; }
-/* Slotted content */
-:slotted(span) { text-decoration: underline; }
-/* Global selector within scoped */
-:global(.global-class) { font-size: 2rem; }
+<span class="cm">/* Deep selector for child components */</span>
+:<span class="fn">deep</span>(.child-component) { color: red; }
+<span class="cm">/* Slotted content */</span>
+:<span class="fn">slotted</span>(span) { text-decoration: underline; }
+<span class="cm">/* Global selector within scoped */</span>
+:<span class="fn">global</span>(.global-<span class="kw">class</span>) { font-size: <span class="num">2</span>rem; }
 &lt;/style&gt;
 
 &lt;!-- Multiple style blocks --&gt;
-&lt;style module&gt;
-.blue { color: blue; }  /* $style.blue in template */
+&lt;<span class="kw">style</span> <span class="fn">module</span>&gt;
+.blue { color: blue; }  <span class="cm">/* $style.blue in template */</span>
 &lt;/style&gt;</code></pre>
       </div>
     </div>
@@ -399,57 +411,57 @@ const emit = defineEmits&lt;{ update: [value: string] }&gt;()
     <div class="card">
       <div class="card-body">
         <pre><code>&lt;!-- Text interpolation --&gt;
-&lt;p&gt;{{ message }}&lt;/p&gt;
+&lt;<span class="kw">p</span>&gt;<span class="str">{{ message }}</span>&lt;/p&gt;
 
-&lt;!-- Raw HTML (use cautiously) --&gt;
-&lt;div v-html="rawHtml"&gt;&lt;/div&gt;
+&lt;!-- Raw <span class="fn">HTML</span> (<span class="kw">use</span> cautiously) --&gt;
+&lt;<span class="kw">div</span> <span class="fn">v</span>-<span class="fn">html</span>=<span class="str">"rawHtml"</span>&gt;&lt;/div&gt;
 
 &lt;!-- Attribute bindings --&gt;
-&lt;img :src="imageUrl" :alt="altText" /&gt;
-&lt;div :id="dynamicId" :class="{ active: isActive }"&gt;&lt;/div&gt;
+&lt;<span class="kw">img</span> <span class="fn">:src</span>=<span class="str">"imageUrl"</span> <span class="fn">:alt</span>=<span class="str">"altText"</span> /&gt;
+&lt;<span class="kw">div</span> <span class="fn">:id</span>=<span class="str">"dynamicId"</span> <span class="fn">:class</span>=<span class="str">"{ active: isActive }"</span>&gt;&lt;/div&gt;
 
 &lt;!-- Dynamic attribute names --&gt;
-&lt;button :[attributeName]="value"&gt;Dynamic&lt;/button&gt;
+&lt;<span class="kw">button</span> <span class="fn">:</span><span class="fn">[attributeName</span>]="<span class="fn">value</span>"&gt;Dynamic&lt;/button&gt;
 
 &lt;!-- Class &amp; Style bindings --&gt;
-&lt;div :class="['static', { active: isActive }, dynamicClass]"&gt;&lt;/div&gt;
-&lt;div :style="{ color: textColor, fontSize: size + 'px' }"&gt;&lt;/div&gt;
+&lt;<span class="kw">div</span> <span class="fn">:class</span>=<span class="str">"['static', { active: isActive }, dynamicClass]"</span>&gt;&lt;/div&gt;
+&lt;<span class="kw">div</span> <span class="fn">:style</span>=<span class="str">"{ color: textColor, fontSize: size + 'px' }"</span>&gt;&lt;/div&gt;
 
 &lt;!-- Event handlers --&gt;
-&lt;button @click="handleClick"&gt;Click&lt;/button&gt;
-&lt;button @click="count++"&gt;Inline&lt;/button&gt;
-&lt;input @keyup.enter="submit" /&gt;
+&lt;<span class="kw">button</span> <span class="kw">@click</span>="<span class="fn">handleClick</span>"&gt;Click&lt;/button&gt;
+&lt;<span class="kw">button</span> <span class="kw">@click</span>="<span class="fn">count</span>++"&gt;Inline&lt;/button&gt;
+&lt;<span class="kw">input</span> <span class="kw">@keyup</span>.<span class="fn">enter</span>=<span class="str">"submit"</span> /&gt;
 
 &lt;!-- Event modifiers --&gt;
-&lt;form @submit.prevent="onSubmit"&gt;...&lt;/form&gt;
-&lt;a @click.stop="doThis" href="#"&gt;Stop&lt;/a&gt;
-&lt;div @click.once="fireOnce"&gt;Once&lt;/div&gt;
+&lt;<span class="kw">form</span> <span class="kw">@submit</span>.<span class="fn">prevent</span>=<span class="str">"onSubmit"</span>&gt;...&lt;/form&gt;
+&lt;<span class="kw">a</span> <span class="kw">@click</span>.<span class="fn">stop</span>=<span class="str">"doThis"</span> <span class="fn">href</span>=<span class="str">"#"</span>&gt;Stop&lt;/a&gt;
+&lt;<span class="kw">div</span> <span class="kw">@click</span>.<span class="fn">once</span>=<span class="str">"fireOnce"</span>&gt;Once&lt;/div&gt;
 
 &lt;!-- Mouse / keyboard modifiers --&gt;
-&lt;input @keydown.ctrl.enter="save" /&gt;
-&lt;div @mousemove.self="move"&gt;Self only&lt;/div&gt;
+&lt;<span class="kw">input</span> <span class="kw">@keydown</span>.<span class="fn">ctrl</span>.<span class="fn">enter</span>=<span class="str">"save"</span> /&gt;
+&lt;<span class="kw">div</span> <span class="kw">@mousemove</span>.<span class="fn">self</span>=<span class="str">"move"</span>&gt;<span class="tp">Self</span> only&lt;/div&gt;
 
 &lt;!-- Conditional rendering --&gt;
-&lt;div v-if="visible"&gt;Visible&lt;/div&gt;
-&lt;div v-else-if="otherCondition"&gt;Other&lt;/div&gt;
-&lt;div v-else&gt;Hidden&lt;/div&gt;
-&lt;template v-if="loading"&gt;&lt;Spinner /&gt;&lt;/template&gt;
+&lt;<span class="kw">div</span> <span class="fn">v</span>-<span class="fn">if</span>=<span class="str">"visible"</span>&gt;Visible&lt;/div&gt;
+&lt;<span class="kw">div</span> <span class="fn">v</span>-<span class="fn">else</span>-<span class="fn">if</span>=<span class="str">"otherCondition"</span>&gt;Other&lt;/div&gt;
+&lt;<span class="kw">div</span> <span class="fn">v</span>-<span class="fn">else</span>&gt;Hidden&lt;/div&gt;
+&lt;<span class="kw">template</span> <span class="fn">v</span>-<span class="fn">if</span>=<span class="str">"loading"</span>&gt;&lt;<span class="kw">Spinner</span> /&gt;&lt;/template&gt;
 
-&lt;!-- v-show (toggles display: none) --&gt;
-&lt;div v-show="visible"&gt;Shown/Hidden&lt;/div&gt;
+&lt;!-- v-<span class="fn">show</span> (toggles display: none) --&gt;
+&lt;<span class="kw">div</span> <span class="fn">v</span>-<span class="fn">show</span>=<span class="str">"visible"</span>&gt;Shown/Hidden&lt;/div&gt;
 
 &lt;!-- List rendering --&gt;
-&lt;ul&gt;
-  &lt;li v-for="item in items" :key="item.id"&gt;
-    {{ item.text }}
+&lt;<span class="kw">ul</span>&gt;
+  &lt;<span class="kw">li</span> <span class="fn">v</span>-<span class="fn">for</span>=<span class="str">"item in items"</span> <span class="fn">:key</span>=<span class="str">"item.id"</span>&gt;
+    <span class="str">{{ item.text }}</span>
   &lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;!-- With index --&gt;
-&lt;li v-for="(item, index) in items" :key="index"&gt;{{ index }}: {{ item }}&lt;/li&gt;
+&lt;<span class="kw">li</span> <span class="fn">v</span>-<span class="fn">for</span>=<span class="str">"(item, index) in items"</span> <span class="fn">:key</span>=<span class="str">"index"</span>&gt;<span class="str">{{ index }}</span>: <span class="str">{{ item }}</span>&lt;/li&gt;
 
 &lt;!-- Over object --&gt;
-&lt;li v-for="(value, key) in object" :key="key"&gt;{{ key }}: {{ value }}&lt;/li&gt;</code></pre>
+&lt;<span class="kw">li</span> <span class="fn">v</span>-<span class="fn">for</span>=<span class="str">"(value, key) in object"</span> <span class="fn">:key</span>=<span class="str">"key"</span>&gt;<span class="str">{{ key }}</span>: <span class="str">{{ value }}</span>&lt;/li&gt;</code></pre>
       </div>
     </div>
   </section>
@@ -462,37 +474,37 @@ const emit = defineEmits&lt;{ update: [value: string] }&gt;()
     <h3>ref &amp; reactive</h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>import { ref, reactive, computed, watch, watchEffect } from 'vue'
+        <pre><code><span class="kw">import</span> { ref, reactive, computed, watch, watchEffect } <span class="kw">from</span> <span class="str">'vue'</span>
 
-// ref — wraps primitive values (and objects)
-const count = ref(0)
-count.value = 5  // access via .value
-console.log(count.value)
+<span class="cm">// ref — wraps primitive values (and objects)</span>
+<span class="kw">const</span> count = <span class="fn">ref</span>(<span class="num">0</span>)
+count.value = <span class="num">5</span>  <span class="cm">// access via .value</span>
+console.<span class="fn">log</span>(count.value)
 
-// reactive — wraps objects only
-const state = reactive({
-  name: 'Vue',
-  version: 3.5,
+<span class="cm">// reactive — wraps objects only</span>
+<span class="kw">const</span> state = <span class="fn">reactive</span>({
+  name: <span class="str">'Vue'</span>,
+  version: <span class="num">3.5</span>,
 })
-state.name = 'Vue.js'  // direct property access
+state.name = <span class="str">'Vue.js'</span>  <span class="cm">// direct property access</span>
 
-// ref with objects (automatically becomes .value)
-const user = ref({ name: 'Alice', age: 30 })
-user.value.age = 31
+<span class="cm">// ref with objects (automatically becomes .value)</span>
+<span class="kw">const</span> user = <span class="fn">ref</span>({ name: <span class="str">'Alice'</span>, age: <span class="num">30</span> })
+user.value.age = <span class="num">31</span>
 
-// Template auto-unwraps refs
-// &lt;p&gt;{{ count }}&lt;/p&gt;  — no .value needed in template
+<span class="cm">// Template auto-unwraps refs</span>
+<span class="cm">// &lt;p&gt;{{ count }}&lt;/p&gt;  — no .value needed in template</span>
 
-// computed
-const double = computed(() =&gt; count.value * 2)
+<span class="cm">// computed</span>
+<span class="kw">const</span> double = <span class="fn">computed</span>(() =&gt; count.value * <span class="num">2</span>)
 
-// writable computed
-const fullName = computed({
-  get: () =&gt; `${firstName.value} ${lastName.value}`,
+<span class="cm">// writable computed</span>
+<span class="kw">const</span> fullName = <span class="fn">computed</span>({
+  get: () =&gt; <span class="str">`${firstName.value} ${lastName.value}`</span>,
   set: (val) =&gt; {
-    const parts = val.split(' ')
-    firstName.value = parts[0]
-    lastName.value = parts[1]
+    <span class="kw">const</span> parts = val.<span class="fn">split</span>(<span class="str">' '</span>)
+    firstName.value = parts[<span class="num">0</span>]
+    lastName.value = parts[<span class="num">1</span>]
   },
 })</code></pre>
       </div>
@@ -501,37 +513,37 @@ const fullName = computed({
     <h3>Watch</h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>import { watch, watchEffect } from 'vue'
+        <pre><code><span class="kw">import</span> { watch, watchEffect } <span class="kw">from</span> <span class="str">'vue'</span>
 
-// Watch a single source
-watch(count, (newVal, oldVal) =&gt; {
-  console.log(`count changed from ${oldVal} to ${newVal}`)
+<span class="cm">// Watch a single source</span>
+<span class="fn">watch</span>(count, (newVal, oldVal) =&gt; {
+  console.<span class="fn">log</span>(<span class="str">`count changed from ${oldVal} to ${newVal}`</span>)
 })
 
-// Watch multiple sources
-watch([firstName, lastName], ([newFirst, newLast], [oldFirst, oldLast]) =&gt; {
-  console.log('Name changed')
+<span class="cm">// Watch multiple sources</span>
+<span class="fn">watch</span>([firstName, lastName], ([newFirst, newLast], [oldFirst, oldLast]) =&gt; {
+  console.<span class="fn">log</span>(<span class="str">'Name changed'</span>)
 })
 
-// Watch with deep option
-watch(user, (newVal) =&gt; {
-  console.log('User deeply changed', newVal)
-}, { deep: true, immediate: true })
+<span class="cm">// Watch with deep option</span>
+<span class="fn">watch</span>(user, (newVal) =&gt; {
+  console.<span class="fn">log</span>(<span class="str">'User deeply changed'</span>, newVal)
+}, { deep: <span class="kw">true</span>, immediate: <span class="kw">true</span> })
 
-// flush: 'post' — run after DOM update
-watch(count, callback, { flush: 'post' })
+<span class="cm">// flush: 'post' — run after DOM update</span>
+<span class="fn">watch</span>(count, callback, { flush: <span class="str">'post'</span> })
 
-// watchEffect — auto-tracks dependencies
-watchEffect(() =&gt; {
-  console.log(`Count is: ${count.value}`)
-  // auto-tracks any reactive refs used inside
+<span class="cm">// watchEffect — auto-tracks dependencies</span>
+<span class="fn">watchEffect</span>(() =&gt; {
+  console.<span class="fn">log</span>(<span class="str">`Count is: ${count.value}`</span>)
+  <span class="cm">// auto-tracks any reactive refs used inside</span>
 })
 
-// Async watcher — oneShot
-watch(source, (newVal, oldVal, onCleanup) =&gt; {
-  const controller = new AbortController()
-  onCleanup(() =&gt; controller.abort())
-  fetch(`/api?q=${newVal}`, { signal: controller.signal })
+<span class="cm">// Async watcher — oneShot</span>
+<span class="fn">watch</span>(source, (newVal, oldVal, onCleanup) =&gt; {
+  <span class="kw">const</span> controller = <span class="kw">new</span> <span class="fn">AbortController</span>()
+  <span class="fn">onCleanup</span>(() =&gt; controller.<span class="fn">abort</span>())
+  <span class="fn">fetch</span>(<span class="str">`/api?q=${newVal}`</span>, { signal: controller.signal })
 })</code></pre>
       </div>
     </div>
@@ -539,18 +551,18 @@ watch(source, (newVal, oldVal, onCleanup) =&gt; {
     <h3>toRef &amp; toRefs</h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>import { toRefs, toRef, reactive } from 'vue'
+        <pre><code><span class="kw">import</span> { toRefs, toRef, reactive } <span class="kw">from</span> <span class="str">'vue'</span>
 
-const state = reactive({ x: 0, y: 0 })
+<span class="kw">const</span> state = <span class="fn">reactive</span>({ x: <span class="num">0</span>, y: <span class="num">0</span> })
 
-// Convert all properties to refs
-const { x, y } = toRefs(state)
+<span class="cm">// Convert all properties to refs</span>
+<span class="kw">const</span> { x, y } = <span class="fn">toRefs</span>(state)
 
-// Convert a single property to a ref
-const xRef = toRef(state, 'x')
+<span class="cm">// Convert a single property to a ref</span>
+<span class="kw">const</span> xRef = <span class="fn">toRef</span>(state, <span class="str">'x'</span>)
 
-// Keeps reactivity linked to original state
-x.value = 10  // also updates state.x</code></pre>
+<span class="cm">// Keeps reactivity linked to original state</span>
+x.value = <span class="num">10</span>  <span class="cm">// also updates state.x</span></code></pre>
       </div>
     </div>
   </section>
@@ -562,52 +574,52 @@ x.value = 10  // also updates state.x</code></pre>
 
     <div class="card">
       <div class="card-body">
-        <pre><code>&lt;script setup lang="ts"&gt;
-import { ref, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+        <pre><code>&lt;<span class="kw">script</span> <span class="fn">setup</span> <span class="fn">lang</span>=<span class="str">"ts"</span>&gt;
+<span class="kw">import</span> { ref, computed, <span class="kw">onMounted</span> } <span class="kw">from</span> <span class="str">'vue'</span>
+<span class="kw">import</span> { useRouter } <span class="kw">from</span> <span class="str">'vue-router'</span>
 
-// Props (no need to import defineProps)
-const props = defineProps&lt;{
-  title: string
-  initialCount?: number
+<span class="cm">// Props (no need to import defineProps)</span>
+<span class="kw">const</span> props = defineProps&lt;{
+  title: <span class="tp">string</span>
+  initialCount?: <span class="tp">number</span>
 }&gt;()
 
-// Emits
-const emit = defineEmits&lt;{
-  update: [value: number]
-  delete: [id: string]
+<span class="cm">// Emits</span>
+<span class="kw">const</span> emit = defineEmits&lt;{
+  update: [value: <span class="tp">number</span>]
+  delete: [id: <span class="tp">string</span>]
 }&gt;()
 
-// Expose
-defineExpose({ reset })
+<span class="cm">// Expose</span>
+<span class="fn">defineExpose</span>({ reset })
 
-// Reactive state
-const count = ref(props.initialCount ?? 0)
-const double = computed(() =&gt; count.value * 2)
+<span class="cm">// Reactive state</span>
+<span class="kw">const</span> count = <span class="fn">ref</span>(props.initialCount ?? <span class="num">0</span>)
+<span class="kw">const</span> double = <span class="fn">computed</span>(() =&gt; count.value * <span class="num">2</span>)
 
-// Methods
-function increment() {
+<span class="cm">// Methods</span>
+<span class="kw">function</span> <span class="fn">increment</span>() {
   count.value++
-  emit('update', count.value)
+  <span class="fn">emit</span>(<span class="str">'update'</span>, count.value)
 }
 
-// Lifecycle
-onMounted(() =&gt; {
-  console.log('Mounted!')
+<span class="cm">// Lifecycle</span>
+<span class="kw">onMounted</span>(() =&gt; {
+  console.<span class="fn">log</span>(<span class="str">'Mounted!'</span>)
 })
 
-// Router
-const router = useRouter()
-function navigate() {
-  router.push('/dashboard')
+<span class="cm">// Router</span>
+<span class="kw">const</span> router = <span class="fn">useRouter</span>()
+<span class="kw">function</span> <span class="fn">navigate</span>() {
+  router.<span class="fn">push</span>(<span class="str">'/dashboard'</span>)
 }
 &lt;/script&gt;
 
-&lt;template&gt;
-  &lt;div&gt;
-    &lt;h1&gt;{{ title }}&lt;/h1&gt;
-    &lt;p&gt;Count: {{ count }} (double: {{ double }})&lt;/p&gt;
-    &lt;button @click="increment"&gt;+1&lt;/button&gt;
+&lt;<span class="kw">template</span>&gt;
+  &lt;<span class="kw">div</span>&gt;
+    &lt;<span class="kw">h1</span>&gt;<span class="str">{{ title }}</span>&lt;/h1&gt;
+    &lt;<span class="kw">p</span>&gt;Count: <span class="str">{{ count }}</span> (double: <span class="str">{{ double }}</span>)&lt;/p&gt;
+    &lt;<span class="kw">button</span> <span class="kw">@click</span>="<span class="fn">increment</span>"&gt;+<span class="num">1</span>&lt;/button&gt;
   &lt;/div&gt;
 &lt;/template&gt;</code></pre>
       </div>
@@ -616,19 +628,19 @@ function navigate() {
     <div class="card">
       <div class="card-header">Options API (Legacy - still supported)</div>
       <div class="card-body">
-        <pre><code>export default {
-  props: ['title'],
-  emits: ['update'],
-  data() {
-    return { count: 0 }
+        <pre><code><span class="kw">export</span> <span class="kw">default</span> {
+  props: [<span class="str">'title'</span>],
+  emits: [<span class="str">'update'</span>],
+  <span class="fn">data</span>() {
+    <span class="kw">return</span> { count: <span class="num">0</span> }
   },
   computed: {
-    double() { return this.count * 2 }
+    <span class="fn">double</span>() { <span class="kw">return</span> <span class="kw">this</span>.count * <span class="num">2</span> }
   },
   methods: {
-    increment() { this.count++; this.$emit('update', this.count) }
+    <span class="fn">increment</span>() { <span class="kw">this</span>.count++; <span class="kw">this</span>.<span class="fn">$emit</span>(<span class="str">'update'</span>, <span class="kw">this</span>.count) }
   },
-  mounted() { console.log('Mounted!') }
+  <span class="fn">mounted</span>() { console.<span class="fn">log</span>(<span class="str">'Mounted!'</span>) }
 }</code></pre>
       </div>
     </div>
@@ -659,22 +671,22 @@ function navigate() {
 
     <div class="card">
       <div class="card-body">
-        <pre><code>import { onMounted, onUnmounted, onBeforeUnmount } from 'vue'
+        <pre><code><span class="kw">import</span> { <span class="kw">onMounted</span>, <span class="kw">onUnmounted</span>, <span class="kw">onBeforeUnmount</span> } <span class="kw">from</span> <span class="str">'vue'</span>
 
-function useEventListener(target, event, callback) {
-  onMounted(() =&gt; target.addEventListener(event, callback))
-  onBeforeUnmount(() =&gt; target.removeEventListener(event, callback))
+<span class="kw">function</span> <span class="fn">useEventListener</span>(target, event, callback) {
+  <span class="kw">onMounted</span>(() =&gt; target.<span class="fn">addEventListener</span>(event, callback))
+  <span class="kw">onBeforeUnmount</span>(() =&gt; target.<span class="fn">removeEventListener</span>(event, callback))
 }
 
-// Usage in component
-onMounted(async () =&gt; {
-  const data = await fetch('/api/data')
-  // Component is ready
+<span class="cm">// Usage in component</span>
+<span class="kw">onMounted</span>(<span class="kw">async</span> () =&gt; {
+  <span class="kw">const</span> data = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'/api/data'</span>)
+  <span class="cm">// Component is ready</span>
 })
 
-onUnmounted(() =&gt; {
-  // Cleanup timers, subscriptions
-  clearInterval(timerId)
+<span class="kw">onUnmounted</span>(() =&gt; {
+  <span class="cm">// Cleanup timers, subscriptions</span>
+  <span class="fn">clearInterval</span>(timerId)
 })</code></pre>
       </div>
     </div>
@@ -710,23 +722,23 @@ onUnmounted(() =&gt; {
     <div class="card">
       <div class="card-body">
         <pre><code>&lt;!-- v-model -- two-way binding --&gt;
-&lt;input v-model="name" /&gt;
-&lt;textarea v-model="message"&gt;&lt;/textarea&gt;
-&lt;select v-model="selected"&gt;
-  &lt;option value="a"&gt;A&lt;/option&gt;
+&lt;<span class="kw">input</span> <span class="fn">v</span>-<span class="fn">model</span>=<span class="str">"name"</span> /&gt;
+&lt;<span class="kw">textarea</span> <span class="fn">v</span>-<span class="fn">model</span>=<span class="str">"message"</span>&gt;&lt;/textarea&gt;
+&lt;<span class="kw">select</span> <span class="fn">v</span>-<span class="fn">model</span>=<span class="str">"selected"</span>&gt;
+  &lt;<span class="kw">option</span> <span class="fn">value</span>=<span class="str">"a"</span>&gt;A&lt;/option&gt;
 &lt;/select&gt;
 
 &lt;!-- v-model modifiers --&gt;
-&lt;input v-model.trim="name" /&gt;        &lt;!-- trim whitespace --&gt;
-&lt;input v-model.number="age" /&gt;       &lt;!-- convert to number --&gt;
-&lt;input v-model.lazy="name" /&gt;        &lt;!-- sync on change not input --&gt;
+&lt;<span class="kw">input</span> <span class="fn">v</span>-<span class="fn">model</span>.<span class="fn">trim</span>=<span class="str">"name"</span> /&gt;        &lt;!-- trim whitespace --&gt;
+&lt;<span class="kw">input</span> <span class="fn">v</span>-<span class="fn">model</span>.<span class="fn">number</span>=<span class="str">"age"</span> /&gt;       &lt;!-- convert to <span class="tp">number</span> --&gt;
+&lt;<span class="kw">input</span> <span class="fn">v</span>-<span class="fn">model</span>.<span class="fn">lazy</span>=<span class="str">"name"</span> /&gt;        &lt;!-- sync on change not input --&gt;
 
 &lt;!-- Custom component v-model --&gt;
-&lt;MyInput v-model="search" /&gt;
-// Child: defineModel() returns a ref
-const model = defineModel()
-// Or: defineProps(['modelValue'])
-//     defineEmits(['update:modelValue'])</code></pre>
+&lt;<span class="kw">MyInput</span> <span class="fn">v</span>-<span class="fn">model</span>=<span class="str">"search"</span> /&gt;
+<span class="cm">// Child: defineModel() returns a ref</span>
+<span class="kw">const</span> model = <span class="fn">defineModel</span>()
+<span class="cm">// Or: defineProps(['modelValue'])</span>
+<span class="cm">//     defineEmits(['update:modelValue'])</span></code></pre>
       </div>
     </div>
   </section>
@@ -738,36 +750,36 @@ const model = defineModel()
     <div class="card">
       <div class="card-header">Props &amp; Emits</div>
       <div class="card-body">
-        <pre><code>&lt;!-- Child Component --&gt;
-&lt;script setup lang="ts"&gt;
-// Type-based props
+        <pre><code>&lt;!-- Child <span class="tp">Component</span> --&gt;
+&lt;<span class="kw">script</span> <span class="fn">setup</span> <span class="fn">lang</span>=<span class="str">"ts"</span>&gt;
+<span class="cm">// Type-based props</span>
 defineProps&lt;{
-  title: string
-  items: string[]
-  count?: number          // optional
-  status: 'active' | 'inactive'
+  title: <span class="tp">string</span>
+  items: <span class="tp">string</span>[]
+  count?: <span class="tp">number</span>          <span class="cm">// optional</span>
+  status: <span class="str">'active'</span> | <span class="str">'inactive'</span>
 }&gt;()
 
-// With defaults
-interface Props { title?: string; count?: number }
-const props = withDefaults(defineProps&lt;Props&gt;(), {
-  title: 'Default Title',
-  count: 0,
+<span class="cm">// With defaults</span>
+<span class="kw">interface</span> Props { title?: <span class="tp">string</span>; count?: <span class="tp">number</span> }
+<span class="kw">const</span> props = <span class="fn">withDefaults</span>(defineProps&lt;<span class="kw">Props</span>&gt;(), {
+  title: <span class="str">'Default Title'</span>,
+  count: <span class="num">0</span>,
 })
 
-// Emits
-const emit = defineEmits&lt;{
-  (e: 'update', id: number): void
-  (e: 'delete', id: number): void
+<span class="cm">// Emits</span>
+<span class="kw">const</span> emit = defineEmits&lt;{
+  (e: <span class="str">'update'</span>, id: <span class="tp">number</span>): <span class="kw">void</span>
+  (e: <span class="str">'delete'</span>, id: <span class="tp">number</span>): <span class="kw">void</span>
 }&gt;()
 
-// Or simpler syntax
-const emit = defineEmits&lt;{
-  update: [id: number]
-  delete: [id: number]
+<span class="cm">// Or simpler syntax</span>
+<span class="kw">const</span> emit = defineEmits&lt;{
+  update: [id: <span class="tp">number</span>]
+  delete: [id: <span class="tp">number</span>]
 }&gt;()
 
-emit('update', 42)
+<span class="fn">emit</span>(<span class="str">'update'</span>, <span class="num">42</span>)
 &lt;/script&gt;</code></pre>
       </div>
     </div>
@@ -775,16 +787,16 @@ emit('update', 42)
     <div class="card">
       <div class="card-header">Dynamic Components</div>
       <div class="card-body">
-        <pre><code>&lt;script setup&gt;
-import { shallowRef } from 'vue'
-import HomePage from './HomePage.vue'
-import AboutPage from './AboutPage.vue'
+        <pre><code>&lt;<span class="kw">script</span> <span class="fn">setup</span>&gt;
+<span class="kw">import</span> { shallowRef } <span class="kw">from</span> <span class="str">'vue'</span>
+<span class="kw">import</span> HomePage <span class="kw">from</span> <span class="str">'./HomePage.vue'</span>
+<span class="kw">import</span> AboutPage <span class="kw">from</span> <span class="str">'./AboutPage.vue'</span>
 
-const currentTab = shallowRef(HomePage)
+<span class="kw">const</span> currentTab = <span class="fn">shallowRef</span>(HomePage)
 &lt;/script&gt;
 
-&lt;template&gt;
-  &lt;component :is="currentTab"&gt;&lt;/component&gt;
+&lt;<span class="kw">template</span>&gt;
+  &lt;<span class="kw">component</span> <span class="fn">:is</span>=<span class="str">"currentTab"</span>&gt;&lt;/component&gt;
 &lt;/template&gt;</code></pre>
       </div>
     </div>
@@ -792,16 +804,16 @@ const currentTab = shallowRef(HomePage)
     <div class="card">
       <div class="card-header">KeepAlive</div>
       <div class="card-body">
-        <pre><code>&lt;template&gt;
-  &lt;KeepAlive :max="10"&gt;
-    &lt;component :is="activeComponent" /&gt;
+        <pre><code>&lt;<span class="kw">template</span>&gt;
+  &lt;<span class="kw">KeepAlive</span> <span class="fn">:max</span>=<span class="str">"10"</span>&gt;
+    &lt;<span class="kw">component</span> <span class="fn">:is</span>=<span class="str">"activeComponent"</span> /&gt;
   &lt;/KeepAlive&gt;
 &lt;/template&gt;
 
-// KeepAlive hooks in child:
-import { onActivated, onDeactivated } from 'vue'
-onActivated(() =&gt; { /* component reactivated */ })
-onDeactivated(() =&gt; { /* component deactivated */ })</code></pre>
+<span class="cm">// KeepAlive hooks in child:</span>
+<span class="kw">import</span> { <span class="kw">onActivated</span>, <span class="kw">onDeactivated</span> } <span class="kw">from</span> <span class="str">'vue'</span>
+<span class="kw">onActivated</span>(() =&gt; { <span class="cm">/* component reactivated */</span> })
+<span class="kw">onDeactivated</span>(() =&gt; { <span class="cm">/* component deactivated */</span> })</code></pre>
       </div>
     </div>
   </section>
@@ -812,39 +824,39 @@ onDeactivated(() =&gt; { /* component deactivated */ })</code></pre>
 
     <div class="card">
       <div class="card-body">
-        <pre><code>&lt;!-- Child Component (BaseLayout.vue) --&gt;
-&lt;div class="layout"&gt;
-  &lt;header&gt;
-    &lt;slot name="header"&gt;Default header&lt;/slot&gt;
+        <pre><code>&lt;!-- Child <span class="tp">Component</span> (BaseLayout.vue) --&gt;
+&lt;<span class="kw">div</span> <span class="fn">class</span>=<span class="str">"layout"</span>&gt;
+  &lt;<span class="kw">header</span>&gt;
+    &lt;<span class="kw">slot</span> <span class="fn">name</span>=<span class="str">"header"</span>&gt;Default header&lt;/slot&gt;
   &lt;/header&gt;
-  &lt;main&gt;
-    &lt;slot /&gt;  &lt;!-- default slot --&gt;
+  &lt;<span class="kw">main</span>&gt;
+    &lt;<span class="kw">slot</span> /&gt;  &lt;!-- <span class="kw">default</span> slot --&gt;
   &lt;/main&gt;
-  &lt;footer&gt;
-    &lt;slot name="footer" /&gt;
+  &lt;<span class="kw">footer</span>&gt;
+    &lt;<span class="kw">slot</span> <span class="fn">name</span>=<span class="str">"footer"</span> /&gt;
   &lt;/footer&gt;
 &lt;/div&gt;
 
 &lt;!-- Parent usage --&gt;
-&lt;BaseLayout&gt;
-  &lt;template #header&gt;
-    &lt;h1&gt;Custom Header&lt;/h1&gt;
+&lt;<span class="kw">BaseLayout</span>&gt;
+  &lt;<span class="kw">template</span> <span class="fn">#header</span>&gt;
+    &lt;<span class="kw">h1</span>&gt;Custom Header&lt;/h1&gt;
   &lt;/template&gt;
 
-  &lt;p&gt;Default slot content&lt;/p&gt;
+  &lt;<span class="kw">p</span>&gt;Default slot content&lt;/p&gt;
 
-  &lt;template #footer="{ year }"&gt;
-    &lt;footer&gt;&amp;copy; {{ year }}&lt;/footer&gt;
+  &lt;<span class="kw">template</span> <span class="fn">#footer</span>="{ <span class="fn">year</span> }"&gt;
+    &lt;<span class="kw">footer</span>&gt;&amp;copy; <span class="str">{{ year }}</span>&lt;/footer&gt;
   &lt;/template&gt;
 &lt;/BaseLayout&gt;
 
 &lt;!-- Scoped slots -- passing data back to parent --&gt;
 &lt;!-- Child --&gt;
-&lt;slot name="item" :item="item" :index="index" /&gt;
+&lt;<span class="kw">slot</span> <span class="fn">name</span>=<span class="str">"item"</span> <span class="fn">:item</span>=<span class="str">"item"</span> <span class="fn">:index</span>=<span class="str">"index"</span> /&gt;
 
 &lt;!-- Parent --&gt;
-&lt;template #item="{ item, index }"&gt;
-  &lt;li&gt;{{ index }}: {{ item.name }}&lt;/li&gt;
+&lt;<span class="kw">template</span> <span class="fn">#item</span>="{ <span class="fn">item</span>, <span class="fn">index</span> }"&gt;
+  &lt;<span class="kw">li</span>&gt;<span class="str">{{ index }}</span>: <span class="str">{{ item.name }}</span>&lt;/li&gt;
 &lt;/template&gt;</code></pre>
       </div>
     </div>
@@ -856,23 +868,23 @@ onDeactivated(() =&gt; { /* component deactivated */ })</code></pre>
 
     <div class="card">
       <div class="card-body">
-        <pre><code>import { provide, inject, type InjectionKey } from 'vue'
+        <pre><code><span class="kw">import</span> { provide, inject, <span class="kw">type</span> <span class="tp">InjectionKey</span> } <span class="kw">from</span> <span class="str">'vue'</span>
 
-// Define injection key
-const USER_KEY = Symbol('user') as InjectionKey&lt;User&gt;
+<span class="cm">// Define injection key</span>
+<span class="kw">const</span> USER_KEY = <span class="fn">Symbol</span>(<span class="str">'user'</span>) <span class="kw">as</span> <span class="tp">InjectionKey</span>&lt;<span class="kw">User</span>&gt;
 
-// Provider (ancestor)
-provide('theme', 'dark')
-provide(USER_KEY, { name: 'Alice', role: 'admin' })
+<span class="cm">// Provider (ancestor)</span>
+<span class="fn">provide</span>(<span class="str">'theme'</span>, <span class="str">'dark'</span>)
+<span class="fn">provide</span>(USER_KEY, { name: <span class="str">'Alice'</span>, role: <span class="str">'admin'</span> })
 
-// Injector (descendant)
-const theme = inject('theme', 'light')  // with default
-const user = inject(USER_KEY)           // typed
+<span class="cm">// Injector (descendant)</span>
+<span class="kw">const</span> theme = <span class="fn">inject</span>(<span class="str">'theme'</span>, <span class="str">'light'</span>)  <span class="cm">// with default</span>
+<span class="kw">const</span> user = <span class="fn">inject</span>(USER_KEY)           <span class="cm">// typed</span>
 
-// Reactive provide
-const count = ref(0)
-provide('count', readonly(count))  // prevent mutation
-count.value++                       // child still reacts</code></pre>
+<span class="cm">// Reactive provide</span>
+<span class="kw">const</span> count = <span class="fn">ref</span>(<span class="num">0</span>)
+<span class="fn">provide</span>(<span class="str">'count'</span>, <span class="kw">readonly</span>(count))  <span class="cm">// prevent mutation</span>
+count.value++                       <span class="cm">// child still reacts</span></code></pre>
       </div>
     </div>
   </section>
@@ -883,69 +895,69 @@ count.value++                       // child still reacts</code></pre>
 
     <div class="card">
       <div class="card-body">
-        <pre><code>// router/index.ts
-import { createRouter, createWebHistory } from 'vue-router'
+        <pre><code><span class="cm">// router/index.ts</span>
+<span class="kw">import</span> { createRouter, createWebHistory } <span class="kw">from</span> <span class="str">'vue-router'</span>
 
-const router = createRouter({
-  history: createWebHistory(),
+<span class="kw">const</span> router = <span class="fn">createRouter</span>({
+  history: <span class="fn">createWebHistory</span>(),
   routes: [
-    { path: '/', name: 'home', component: () =&gt; import('@/views/Home.vue') },
-    { path: '/about', name: 'about', component: () =&gt; import('@/views/About.vue') },
+    { path: <span class="str">'/'</span>, name: <span class="str">'home'</span>, component: () =&gt; <span class="kw">import</span>(<span class="str">'@/views/Home.vue'</span>) },
+    { path: <span class="str">'/about'</span>, name: <span class="str">'about'</span>, component: () =&gt; <span class="kw">import</span>(<span class="str">'@/views/About.vue'</span>) },
     {
-      path: '/users',
+      path: <span class="str">'/users'</span>,
       children: [
-        { path: '', name: 'users', component: () =&gt; import('@/views/UserList.vue') },
-        { path: ':id', name: 'user', component: () =&gt; import('@/views/UserProfile.vue'), props: true },
+        { path: <span class="str">''</span>, name: <span class="str">'users'</span>, component: () =&gt; <span class="kw">import</span>(<span class="str">'@/views/UserList.vue'</span>) },
+        { path: <span class="str">':id'</span>, name: <span class="str">'user'</span>, component: () =&gt; <span class="kw">import</span>(<span class="str">'@/views/UserProfile.vue'</span>), props: <span class="kw">true</span> },
       ],
     },
-    { path: '/:pathMatch(.*)*', name: 'not-found', component: () =&gt; import('@/views/NotFound.vue') },
+    { path: <span class="str">'/:pathMatch(.*)*'</span>, name: <span class="str">'not-found'</span>, component: () =&gt; <span class="kw">import</span>(<span class="str">'@/views/NotFound.vue'</span>) },
   ],
-  scrollBehavior(to, from, savedPosition) {
-    if (savedPosition) return savedPosition
-    return { top: 0 }
+  <span class="fn">scrollBehavior</span>(to, <span class="kw">from</span>, savedPosition) {
+    <span class="kw">if</span> (savedPosition) <span class="kw">return</span> savedPosition
+    <span class="kw">return</span> { top: <span class="num">0</span> }
   },
 })
 
-// Navigation guard
-router.beforeEach(async (to, from) =&gt; {
-  const auth = useAuthStore()
-  if (to.meta.requiresAuth &amp;&amp; !auth.isAuthenticated) {
-    return { name: 'login', query: { redirect: to.fullPath } }
+<span class="cm">// Navigation guard</span>
+router.<span class="fn">beforeEach</span>(<span class="kw">async</span> (to, <span class="kw">from</span>) =&gt; {
+  <span class="kw">const</span> auth = <span class="fn">useAuthStore</span>()
+  <span class="kw">if</span> (to.meta.requiresAuth &amp;&amp; !auth.isAuthenticated) {
+    <span class="kw">return</span> { name: <span class="str">'login'</span>, query: { redirect: to.fullPath } }
   }
 })
 
-export default router</code></pre>
+<span class="kw">export</span> <span class="kw">default</span> router</code></pre>
       </div>
     </div>
 
     <div class="card">
       <div class="card-header">Component Usage</div>
       <div class="card-body">
-        <pre><code>&lt;script setup lang="ts"&gt;
-import { useRouter, useRoute } from 'vue-router'
+        <pre><code>&lt;<span class="kw">script</span> <span class="fn">setup</span> <span class="fn">lang</span>=<span class="str">"ts"</span>&gt;
+<span class="kw">import</span> { useRouter, useRoute } <span class="kw">from</span> <span class="str">'vue-router'</span>
 
-const router = useRouter()
-const route = useRoute()
+<span class="kw">const</span> router = <span class="fn">useRouter</span>()
+<span class="kw">const</span> route = <span class="fn">useRoute</span>()
 
-// Navigation
-router.push('/users/42')
-router.push({ name: 'user', params: { id: '42' }, query: { tab: 'profile' } })
-router.replace('/login')   // no history entry
-router.back()              // go back
+<span class="cm">// Navigation</span>
+router.<span class="fn">push</span>(<span class="str">'/users/42'</span>)
+router.<span class="fn">push</span>({ name: <span class="str">'user'</span>, params: { id: <span class="str">'42'</span> }, query: { tab: <span class="str">'profile'</span> } })
+router.<span class="fn">replace</span>(<span class="str">'/login'</span>)   <span class="cm">// no history entry</span>
+router.<span class="fn">back</span>()              <span class="cm">// go back</span>
 
-// Route params
-const id = route.params.id        // string | string[]
-const tab = route.query.tab       // string | undefined
+<span class="cm">// Route params</span>
+<span class="kw">const</span> id = route.params.id        <span class="cm">// string | string[]</span>
+<span class="kw">const</span> tab = route.query.tab       <span class="cm">// string | undefined</span>
 &lt;/script&gt;
 
-&lt;template&gt;
-  &lt;nav&gt;
-    &lt;RouterLink to="/"&gt;Home&lt;/RouterLink&gt;
-    &lt;RouterLink :to="{ name: 'about' }"&gt;About&lt;/RouterLink&gt;
+&lt;<span class="kw">template</span>&gt;
+  &lt;<span class="kw">nav</span>&gt;
+    &lt;<span class="kw">RouterLink</span> <span class="fn">to</span>=<span class="str">"/"</span>&gt;Home&lt;/RouterLink&gt;
+    &lt;<span class="kw">RouterLink</span> <span class="fn">:to</span>=<span class="str">"{ name: 'about' }"</span>&gt;About&lt;/RouterLink&gt;
   &lt;/nav&gt;
-  &lt;RouterView v-slot="{ Component }"&gt;
-    &lt;Transition name="fade" mode="out-in"&gt;
-      &lt;component :is="Component" /&gt;
+  &lt;<span class="kw">RouterView</span> <span class="fn">v</span>-<span class="fn">slot</span>=<span class="str">"{ Component }"</span>&gt;
+    &lt;<span class="kw">Transition</span> <span class="fn">name</span>=<span class="str">"fade"</span> <span class="fn">mode</span>=<span class="str">"out-in"</span>&gt;
+      &lt;<span class="kw">component</span> <span class="fn">:is</span>=<span class="str">"Component"</span> /&gt;
     &lt;/Transition&gt;
   &lt;/RouterView&gt;
 &lt;/template&gt;</code></pre>
@@ -960,39 +972,39 @@ const tab = route.query.tab       // string | undefined
 
     <div class="card">
       <div class="card-body">
-        <pre><code>// stores/counter.ts
-import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+        <pre><code><span class="cm">// stores/counter.ts</span>
+<span class="kw">import</span> { defineStore } <span class="kw">from</span> <span class="str">'pinia'</span>
+<span class="kw">import</span> { ref, computed } <span class="kw">from</span> <span class="str">'vue'</span>
 
-export const useCounterStore = defineStore('counter', () =&gt; {
-  // State
-  const count = ref(0)
-  const name = ref('Counter')
+<span class="kw">export</span> <span class="kw">const</span> useCounterStore = <span class="fn">defineStore</span>(<span class="str">'counter'</span>, () =&gt; {
+  <span class="cm">// State</span>
+  <span class="kw">const</span> count = <span class="fn">ref</span>(<span class="num">0</span>)
+  <span class="kw">const</span> name = <span class="fn">ref</span>(<span class="str">'Counter'</span>)
 
-  // Getters
-  const double = computed(() =&gt; count.value * 2)
+  <span class="cm">// Getters</span>
+  <span class="kw">const</span> double = <span class="fn">computed</span>(() =&gt; count.value * <span class="num">2</span>)
 
-  // Actions
-  function increment() { count.value++ }
-  async function fetchAndSet() {
-    const data = await fetch('/api/count')
-    count.value = await data.json()
+  <span class="cm">// Actions</span>
+  <span class="kw">function</span> <span class="fn">increment</span>() { count.value++ }
+  <span class="kw">async</span> <span class="kw">function</span> <span class="fn">fetchAndSet</span>() {
+    <span class="kw">const</span> data = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'/api/count'</span>)
+    count.value = <span class="kw">await</span> data.<span class="fn">json</span>()
   }
 
-  return { count, name, double, increment, fetchAndSet }
+  <span class="kw">return</span> { count, name, double, increment, fetchAndSet }
 })
 
-// Component usage
-import { useCounterStore } from '@/stores/counter'
+<span class="cm">// Component usage</span>
+<span class="kw">import</span> { useCounterStore } <span class="kw">from</span> <span class="str">'@/stores/counter'</span>
 
-const store = useCounterStore()
-store.count       // reactive state
-store.double      // computed getter
-store.increment() // action
+<span class="kw">const</span> store = <span class="fn">useCounterStore</span>()
+store.count       <span class="cm">// reactive state</span>
+store.double      <span class="cm">// computed getter</span>
+store.<span class="fn">increment</span>() <span class="cm">// action</span>
 
-// Destructure with reactivity
-const { count, double } = storeToRefs(store)
-const { increment } = store // destructure action directly</code></pre>
+<span class="cm">// Destructure with reactivity</span>
+<span class="kw">const</span> { count, double } = <span class="fn">storeToRefs</span>(store)
+<span class="kw">const</span> { increment } = store <span class="cm">// destructure action directly</span></code></pre>
       </div>
     </div>
   </section>
@@ -1004,58 +1016,58 @@ const { increment } = store // destructure action directly</code></pre>
 
     <div class="card">
       <div class="card-body">
-        <pre><code>// composables/useFetch.ts
-import { ref, onUnmounted } from 'vue'
+        <pre><code><span class="cm">// composables/useFetch.ts</span>
+<span class="kw">import</span> { ref, <span class="kw">onUnmounted</span> } <span class="kw">from</span> <span class="str">'vue'</span>
 
-export function useFetch&lt;T&gt;(url: string) {
-  const data = ref&lt;T | null&gt;(null)
-  const error = ref&lt;string | null&gt;(null)
-  const loading = ref(true)
-  const controller = new AbortController()
+<span class="kw">export</span> <span class="kw">function</span> useFetch&lt;<span class="kw">T</span>&gt;(url: <span class="tp">string</span>) {
+  <span class="kw">const</span> data = ref&lt;<span class="kw">T</span> | <span class="fn">null</span>&gt;(<span class="kw">null</span>)
+  <span class="kw">const</span> <span class="kw">error</span> = ref&lt;<span class="kw">string</span> | <span class="fn">null</span>&gt;(<span class="kw">null</span>)
+  <span class="kw">const</span> <span class="kw">loading</span> = <span class="fn">ref</span>(<span class="kw">true</span>)
+  <span class="kw">const</span> controller = <span class="kw">new</span> <span class="fn">AbortController</span>()
 
-  async function execute() {
-    loading.value = true
-    error.value = null
-    try {
-      const res = await fetch(url, { signal: controller.signal })
-      if (!res.ok) throw new Error('Failed to fetch')
-      data.value = await res.json()
-    } catch (err: any) {
-      if (err.name !== 'AbortError') error.value = err.message
-    } finally {
-      loading.value = true &amp;&amp; false  // force
-      loading.value = false
+  <span class="kw">async</span> <span class="kw">function</span> <span class="fn">execute</span>() {
+    <span class="kw">loading</span>.value = <span class="kw">true</span>
+    <span class="kw">error</span>.value = <span class="kw">null</span>
+    <span class="kw">try</span> {
+      <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(url, { signal: controller.signal })
+      <span class="kw">if</span> (!res.ok) <span class="kw">throw</span> <span class="kw">new</span> <span class="fn">Error</span>(<span class="str">'Failed to fetch'</span>)
+      data.value = <span class="kw">await</span> res.<span class="fn">json</span>()
+    } <span class="kw">catch</span> (err: <span class="tp">any</span>) {
+      <span class="kw">if</span> (err.name !== <span class="str">'AbortError'</span>) <span class="kw">error</span>.value = err.message
+    } <span class="kw">finally</span> {
+      <span class="kw">loading</span>.value = <span class="kw">true</span> &amp;&amp; <span class="kw">false</span>  <span class="cm">// force</span>
+      <span class="kw">loading</span>.value = <span class="kw">false</span>
     }
   }
 
-  onUnmounted(() =&gt; controller.abort())
+  <span class="kw">onUnmounted</span>(() =&gt; controller.<span class="fn">abort</span>())
 
-  execute()
+  <span class="fn">execute</span>()
 
-  return { data, error, loading, refresh: execute }
+  <span class="kw">return</span> { data, <span class="kw">error</span>, <span class="kw">loading</span>, refresh: execute }
 }
 
-// composables/useMouse.ts
-import { ref, onMounted, onUnmounted } from 'vue'
+<span class="cm">// composables/useMouse.ts</span>
+<span class="kw">import</span> { ref, <span class="kw">onMounted</span>, <span class="kw">onUnmounted</span> } <span class="kw">from</span> <span class="str">'vue'</span>
 
-export function useMouse() {
-  const x = ref(0)
-  const y = ref(0)
+<span class="kw">export</span> <span class="kw">function</span> <span class="fn">useMouse</span>() {
+  <span class="kw">const</span> x = <span class="fn">ref</span>(<span class="num">0</span>)
+  <span class="kw">const</span> y = <span class="fn">ref</span>(<span class="num">0</span>)
 
-  function update(e: MouseEvent) {
+  <span class="kw">function</span> <span class="fn">update</span>(e: MouseEvent) {
     x.value = e.pageX
     y.value = e.pageY
   }
 
-  onMounted(() =&gt; window.addEventListener('mousemove', update))
-  onUnmounted(() =&gt; window.removeEventListener('mousemove', update))
+  <span class="kw">onMounted</span>(() =&gt; window.<span class="fn">addEventListener</span>(<span class="str">'mousemove'</span>, update))
+  <span class="kw">onUnmounted</span>(() =&gt; window.<span class="fn">removeEventListener</span>(<span class="str">'mousemove'</span>, update))
 
-  return { x, y }
+  <span class="kw">return</span> { x, y }
 }
 
-// Usage in component
-const { data: todos, loading, error } = useFetch&lt;Todo[]&gt;('/api/todos')
-const { x, y } = useMouse()</code></pre>
+<span class="cm">// Usage in component</span>
+<span class="kw">const</span> { data: todos, <span class="kw">loading</span>, <span class="kw">error</span> } = useFetch&lt;<span class="kw">Todo</span>[]&gt;(<span class="str">'/api/todos'</span>)
+<span class="kw">const</span> { x, y } = <span class="fn">useMouse</span>()</code></pre>
       </div>
     </div>
   </section>
@@ -1067,43 +1079,43 @@ const { x, y } = useMouse()</code></pre>
     <div class="card">
       <div class="card-body">
         <pre><code>&lt;!-- Single element/component --&gt;
-&lt;Transition name="fade" mode="out-in"&gt;
-  &lt;p v-if="visible"&gt;Hello&lt;/p&gt;
+&lt;<span class="kw">Transition</span> <span class="fn">name</span>=<span class="str">"fade"</span> <span class="fn">mode</span>=<span class="str">"out-in"</span>&gt;
+  &lt;<span class="kw">p</span> <span class="fn">v</span>-<span class="fn">if</span>=<span class="str">"visible"</span>&gt;Hello&lt;/p&gt;
 &lt;/Transition&gt;
 
 &lt;!-- List transitions --&gt;
-&lt;TransitionGroup name="list" tag="ul"&gt;
-  &lt;li v-for="item in items" :key="item.id"&gt;{{ item.text }}&lt;/li&gt;
+&lt;<span class="kw">TransitionGroup</span> <span class="fn">name</span>=<span class="str">"list"</span> <span class="fn">tag</span>=<span class="str">"ul"</span>&gt;
+  &lt;<span class="kw">li</span> <span class="fn">v</span>-<span class="fn">for</span>=<span class="str">"item in items"</span> <span class="fn">:key</span>=<span class="str">"item.id"</span>&gt;<span class="str">{{ item.text }}</span>&lt;/li&gt;
 &lt;/TransitionGroup&gt;
 
 &lt;!-- CSS classes generated by transition name --&gt;
 .fade-enter-active, .fade-leave-active {
-  transition: opacity 0.3s ease;
+  transition: opacity <span class="num">0.3</span>s ease;
 }
-.fade-enter-from, .fade-leave-to {
-  opacity: 0;
+.fade-enter-<span class="kw">from</span>, .fade-leave-to {
+  opacity: <span class="num">0</span>;
 }
 
-/* List move animation */
+<span class="cm">/* List move animation */</span>
 .list-enter-active, .list-leave-active {
-  transition: all 0.4s ease;
+  transition: all <span class="num">0.4</span>s ease;
 }
-.list-enter-from, .list-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
+.list-enter-<span class="kw">from</span>, .list-leave-to {
+  opacity: <span class="num">0</span>;
+  transform: <span class="fn">translateX</span>(<span class="num">30</span>px);
 }
 .list-move {
-  transition: transform 0.4s ease;
+  transition: transform <span class="num">0.4</span>s ease;
 }
 
 &lt;!-- JavaScript hooks --&gt;
-&lt;Transition
-  @before-enter="onBeforeEnter"
-  @enter="onEnter"
-  @after-enter="onAfterEnter"
-  @leave="onLeave"
+&lt;<span class="kw">Transition</span>
+  <span class="kw">@before</span>-<span class="fn">enter</span>=<span class="str">"onBeforeEnter"</span>
+  <span class="kw">@enter</span>="<span class="fn">onEnter</span>"
+  <span class="kw">@after</span>-<span class="fn">enter</span>=<span class="str">"onAfterEnter"</span>
+  <span class="kw">@leave</span>="<span class="fn">onLeave</span>"
 &gt;
-  &lt;div v-if="show"&gt;&lt;/div&gt;
+  &lt;<span class="kw">div</span> <span class="fn">v</span>-<span class="fn">if</span>=<span class="str">"show"</span>&gt;&lt;/div&gt;
 &lt;/Transition&gt;</code></pre>
       </div>
     </div>
@@ -1115,70 +1127,70 @@ const { x, y } = useMouse()</code></pre>
 
     <div class="card">
       <div class="card-body">
-        <pre><code>&lt;script setup lang="ts"&gt;
-import { ref, reactive } from 'vue'
+        <pre><code>&lt;<span class="kw">script</span> <span class="fn">setup</span> <span class="fn">lang</span>=<span class="str">"ts"</span>&gt;
+<span class="kw">import</span> { ref, reactive } <span class="kw">from</span> <span class="str">'vue'</span>
 
-const form = reactive({
-  name: '',
-  email: '',
-  password: '',
-  category: 'general',
-  agree: false,
+<span class="kw">const</span> form = <span class="fn">reactive</span>({
+  name: <span class="str">''</span>,
+  email: <span class="str">''</span>,
+  password: <span class="str">''</span>,
+  category: <span class="str">'general'</span>,
+  agree: <span class="kw">false</span>,
 })
 
-const errors = ref&lt;Record&lt;string, string&gt;&gt;({})
+<span class="kw">const</span> errors = ref&lt;<span class="kw">Record</span>&<span class="fn">lt</span>;<span class="fn">string</span>, <span class="fn">string</span>&gt;&gt;({})
 
-function validate(): boolean {
-  const errs: Record&lt;string, string&gt; = {}
-  if (!form.name.trim()) errs.name = 'Name is required'
-  if (!form.email.includes('@')) errs.email = 'Invalid email'
-  if (form.password.length &lt; 6) errs.password = 'Min 6 characters'
+<span class="kw">function</span> <span class="fn">validate</span>(): <span class="tp">boolean</span> {
+  <span class="kw">const</span> errs: Record&lt;<span class="kw">string</span>, <span class="fn">string</span>&gt; = {}
+  <span class="kw">if</span> (!form.name.<span class="fn">trim</span>()) errs.name = <span class="str">'Name is required'</span>
+  <span class="kw">if</span> (!form.email.<span class="fn">includes</span>(<span class="str">'@'</span>)) errs.email = <span class="str">'Invalid email'</span>
+  <span class="kw">if</span> (form.password.length &lt; <span class="num">6</span>) errs.password = <span class="str">'Min 6 characters'</span>
   errors.value = errs
-  return Object.keys(errs).length === 0
+  <span class="kw">return</span> Object.<span class="fn">keys</span>(errs).length === <span class="num">0</span>
 }
 
-function handleSubmit() {
-  if (!validate()) return
-  console.log('Submit:', form)
-  // API call...
+<span class="kw">function</span> <span class="fn">handleSubmit</span>() {
+  <span class="kw">if</span> (!<span class="fn">validate</span>()) <span class="kw">return</span>
+  console.<span class="fn">log</span>(<span class="str">'Submit:'</span>, form)
+  <span class="cm">// API call...</span>
 }
 
-// VeeValidate integration (popular)
-import { useForm, useField } from 'vee-validate'
-import { toTypedSchema } from '@vee-validate/zod'
-import { z } from 'zod'
+<span class="cm">// VeeValidate integration (popular)</span>
+<span class="kw">import</span> { useForm, useField } <span class="kw">from</span> <span class="str">'vee-validate'</span>
+<span class="kw">import</span> { toTypedSchema } <span class="kw">from</span> <span class="str">'@vee-validate/zod'</span>
+<span class="kw">import</span> { z } <span class="kw">from</span> <span class="str">'zod'</span>
 
-const schema = toTypedSchema(z.object({
-  name: z.string().min(2),
-  email: z.string().email(),
+<span class="kw">const</span> schema = <span class="fn">toTypedSchema</span>(z.<span class="fn">object</span>({
+  name: z.<span class="tp">string</span>().<span class="fn">min</span>(<span class="num">2</span>),
+  email: z.<span class="tp">string</span>().<span class="fn">email</span>(),
 }))
 
-const { handleSubmit: vHandleSubmit } = useForm({
+<span class="kw">const</span> { handleSubmit: vHandleSubmit } = <span class="fn">useForm</span>({
   validationSchema: schema,
 })
 
-const { value: name, errorMessage: nameError } = useField('name')
-const { value: email, errorMessage: emailError } = useField('email')
+<span class="kw">const</span> { value: name, errorMessage: nameError } = <span class="fn">useField</span>(<span class="str">'name'</span>)
+<span class="kw">const</span> { value: email, errorMessage: emailError } = <span class="fn">useField</span>(<span class="str">'email'</span>)
 &lt;/script&gt;
 
-&lt;template&gt;
-  &lt;form @submit.prevent="handleSubmit"&gt;
-    &lt;input v-model="form.name" placeholder="Name" /&gt;
-    &lt;span v-if="errors.name"&gt;{{ errors.name }}&lt;/span&gt;
+&lt;<span class="kw">template</span>&gt;
+  &lt;<span class="kw">form</span> <span class="kw">@submit</span>.<span class="fn">prevent</span>=<span class="str">"handleSubmit"</span>&gt;
+    &lt;<span class="kw">input</span> <span class="fn">v</span>-<span class="fn">model</span>=<span class="str">"form.name"</span> <span class="fn">placeholder</span>=<span class="str">"Name"</span> /&gt;
+    &lt;<span class="kw">span</span> <span class="fn">v</span>-<span class="fn">if</span>=<span class="str">"errors.name"</span>&gt;<span class="str">{{ errors.name }}</span>&lt;/span&gt;
 
-    &lt;input v-model="form.email" type="email" placeholder="Email" /&gt;
-    &lt;span v-if="errors.email"&gt;{{ errors.email }}&lt;/span&gt;
+    &lt;<span class="kw">input</span> <span class="fn">v</span>-<span class="fn">model</span>=<span class="str">"form.email"</span> <span class="fn">type</span>=<span class="str">"email"</span> <span class="fn">placeholder</span>=<span class="str">"Email"</span> /&gt;
+    &lt;<span class="kw">span</span> <span class="fn">v</span>-<span class="fn">if</span>=<span class="str">"errors.email"</span>&gt;<span class="str">{{ errors.email }}</span>&lt;/span&gt;
 
-    &lt;select v-model="form.category"&gt;
-      &lt;option value="general"&gt;General&lt;/option&gt;
-      &lt;option value="support"&gt;Support&lt;/option&gt;
+    &lt;<span class="kw">select</span> <span class="fn">v</span>-<span class="fn">model</span>=<span class="str">"form.category"</span>&gt;
+      &lt;<span class="kw">option</span> <span class="fn">value</span>=<span class="str">"general"</span>&gt;General&lt;/option&gt;
+      &lt;<span class="kw">option</span> <span class="fn">value</span>=<span class="str">"support"</span>&gt;Support&lt;/option&gt;
     &lt;/select&gt;
 
-    &lt;label&gt;
-      &lt;input v-model="form.agree" type="checkbox" /&gt; I agree
+    &lt;<span class="kw">label</span>&gt;
+      &lt;<span class="kw">input</span> <span class="fn">v</span>-<span class="fn">model</span>=<span class="str">"form.agree"</span> <span class="fn">type</span>=<span class="str">"checkbox"</span> /&gt; I agree
     &lt;/label&gt;
 
-    &lt;button type="submit"&gt;Submit&lt;/button&gt;
+    &lt;<span class="kw">button</span> <span class="fn">type</span>=<span class="str">"submit"</span>&gt;Submit&lt;/button&gt;
   &lt;/form&gt;
 &lt;/template&gt;</code></pre>
       </div>
@@ -1191,43 +1203,43 @@ const { value: email, errorMessage: emailError } = useField('email')
 
     <div class="card">
       <div class="card-body">
-        <pre><code>&lt;script setup lang="ts"&gt;
-// Props typing
-interface Props {
-  title: string
+        <pre><code>&lt;<span class="kw">script</span> <span class="fn">setup</span> <span class="fn">lang</span>=<span class="str">"ts"</span>&gt;
+<span class="cm">// Props typing</span>
+<span class="kw">interface</span> Props {
+  title: <span class="tp">string</span>
   items?: Todo[]
-  status: 'loading' | 'loaded' | 'error'
+  status: <span class="str">'loading'</span> | <span class="str">'loaded'</span> | <span class="str">'error'</span>
 }
-const props = withDefaults(defineProps&lt;Props&gt;(), {
+<span class="kw">const</span> props = <span class="fn">withDefaults</span>(defineProps&lt;<span class="kw">Props</span>&gt;(), {
   items: () =&gt; [],
 })
 
-// Emits typing
-const emit = defineEmits&lt;{
-  change: [value: string]
-  update: [id: number, data: Partial&lt;Todo&gt;]
+<span class="cm">// Emits typing</span>
+<span class="kw">const</span> emit = defineEmits&lt;{
+  change: [value: <span class="tp">string</span>]
+  update: [id: <span class="tp">number</span>, data: Partial&lt;<span class="kw">Todo</span>&gt;]
 }&gt;()
 
-// Refs with generics
-const user = ref&lt;User | null&gt;(null)
-const todos = ref&lt;Todo[]&gt;([])
-const input = ref&lt;HTMLInputElement | null&gt;(null)
+<span class="cm">// Refs with generics</span>
+<span class="kw">const</span> user = ref&lt;<span class="kw">User</span> | <span class="fn">null</span>&gt;(<span class="kw">null</span>)
+<span class="kw">const</span> todos = ref&lt;<span class="kw">Todo</span>[]&gt;([])
+<span class="kw">const</span> input = ref&lt;<span class="kw">HTMLInputElement</span> | <span class="fn">null</span>&gt;(<span class="kw">null</span>)
 
-// Template ref typing
-const myForm = ref&lt;InstanceType&lt;typeof MyForm&gt; | null&gt;(null)
+<span class="cm">// Template ref typing</span>
+<span class="kw">const</span> myForm = ref&lt;<span class="kw">InstanceType</span>&<span class="fn">lt</span>;<span class="fn">typeof</span> <span class="fn">MyForm</span>&gt; | <span class="kw">null</span>&gt;(<span class="kw">null</span>)
 
-// Computed
-const double = computed&lt;number&gt;(() =&gt; count.value * 2)
+<span class="cm">// Computed</span>
+<span class="kw">const</span> double = computed&lt;<span class="kw">number</span>&gt;(() =&gt; count.value * <span class="num">2</span>)
 
-// Provide/Inject
-const LOCALE_KEY = Symbol() as InjectionKey&lt;Ref&lt;string&gt;&gt;
-provide(LOCALE_KEY, ref('en'))
-const locale = inject(LOCALE_KEY)!
+<span class="cm">// Provide/Inject</span>
+<span class="kw">const</span> LOCALE_KEY = <span class="fn">Symbol</span>() <span class="kw">as</span> <span class="tp">InjectionKey</span>&lt;<span class="kw">Ref</span>&<span class="fn">lt</span>;<span class="fn">string</span>&gt;&gt;
+<span class="fn">provide</span>(LOCALE_KEY, <span class="fn">ref</span>(<span class="str">'en'</span>))
+<span class="kw">const</span> locale = <span class="fn">inject</span>(LOCALE_KEY)!
 
-// Define component options
-defineOptions({
-  inheritAttrs: false,
-  name: 'MyComponent',
+<span class="cm">// Define component options</span>
+<span class="fn">defineOptions</span>({
+  inheritAttrs: <span class="kw">false</span>,
+  name: <span class="str">'MyComponent'</span>,
 })</code></pre>
       </div>
     </div>
@@ -1239,51 +1251,51 @@ defineOptions({
 
     <div class="card">
       <div class="card-body">
-        <pre><code>// Component test with Vitest + Vue Test Utils
-import { mount } from '@vue/test-utils'
-import { describe, it, expect } from 'vitest'
-import Counter from './Counter.vue'
+        <pre><code><span class="cm">// Component test with Vitest + Vue Test Utils</span>
+<span class="kw">import</span> { mount } <span class="kw">from</span> <span class="str">'@vue/test-utils'</span>
+<span class="kw">import</span> { describe, it, expect } <span class="kw">from</span> <span class="str">'vitest'</span>
+<span class="kw">import</span> Counter <span class="kw">from</span> <span class="str">'./Counter.vue'</span>
 
-describe('Counter.vue', () =&gt; {
-  it('renders initial count', () =&gt; {
-    const wrapper = mount(Counter, { props: { initialCount: 5 } })
-    expect(wrapper.text()).toContain('5')
+<span class="fn">describe</span>(<span class="str">'Counter.vue'</span>, () =&gt; {
+  <span class="fn">it</span>(<span class="str">'renders initial count'</span>, () =&gt; {
+    <span class="kw">const</span> wrapper = <span class="fn">mount</span>(Counter, { props: { initialCount: <span class="num">5</span> } })
+    <span class="fn">expect</span>(wrapper.<span class="fn">text</span>()).<span class="fn">toContain</span>(<span class="str">'5'</span>)
   })
 
-  it('increments on button click', async () =&gt; {
-    const wrapper = mount(Counter)
-    await wrapper.find('button').trigger('click')
-    expect(wrapper.text()).toContain('1')
+  <span class="fn">it</span>(<span class="str">'increments on button click'</span>, <span class="kw">async</span> () =&gt; {
+    <span class="kw">const</span> wrapper = <span class="fn">mount</span>(Counter)
+    <span class="kw">await</span> wrapper.<span class="fn">find</span>(<span class="str">'button'</span>).<span class="fn">trigger</span>(<span class="str">'click'</span>)
+    <span class="fn">expect</span>(wrapper.<span class="fn">text</span>()).<span class="fn">toContain</span>(<span class="str">'1'</span>)
   })
 
-  it('emits update event', async () =&gt; {
-    const wrapper = mount(Counter)
-    await wrapper.find('button').trigger('click')
-    expect(wrapper.emitted('update')).toBeTruthy()
-    expect(wrapper.emitted('update')![0]).toEqual([1])
+  <span class="fn">it</span>(<span class="str">'emits update event'</span>, <span class="kw">async</span> () =&gt; {
+    <span class="kw">const</span> wrapper = <span class="fn">mount</span>(Counter)
+    <span class="kw">await</span> wrapper.<span class="fn">find</span>(<span class="str">'button'</span>).<span class="fn">trigger</span>(<span class="str">'click'</span>)
+    <span class="fn">expect</span>(wrapper.<span class="fn">emitted</span>(<span class="str">'update'</span>)).<span class="fn">toBeTruthy</span>()
+    <span class="fn">expect</span>(wrapper.<span class="fn">emitted</span>(<span class="str">'update'</span>)![<span class="num">0</span>]).<span class="fn">toEqual</span>([<span class="num">1</span>])
   })
 })
 
-// Composition API test
-import { ref, computed } from 'vue'
+<span class="cm">// Composition API test</span>
+<span class="kw">import</span> { ref, computed } <span class="kw">from</span> <span class="str">'vue'</span>
 
-function useCounter(initial = 0) {
-  const count = ref(initial)
-  const double = computed(() =&gt; count.value * 2)
-  const increment = () =&gt; count.value++
-  return { count, double, increment }
+<span class="kw">function</span> <span class="fn">useCounter</span>(initial = <span class="num">0</span>) {
+  <span class="kw">const</span> count = <span class="fn">ref</span>(initial)
+  <span class="kw">const</span> double = <span class="fn">computed</span>(() =&gt; count.value * <span class="num">2</span>)
+  <span class="kw">const</span> increment = () =&gt; count.value++
+  <span class="kw">return</span> { count, double, increment }
 }
 
-describe('useCounter', () =&gt; {
-  it('starts at initial value', () =&gt; {
-    const { count } = useCounter(10)
-    expect(count.value).toBe(10)
+<span class="fn">describe</span>(<span class="str">'useCounter'</span>, () =&gt; {
+  <span class="fn">it</span>(<span class="str">'starts at initial value'</span>, () =&gt; {
+    <span class="kw">const</span> { count } = <span class="fn">useCounter</span>(<span class="num">10</span>)
+    <span class="fn">expect</span>(count.value).<span class="fn">toBe</span>(<span class="num">10</span>)
   })
 
-  it('increments correctly', () =&gt; {
-    const { count, increment } = useCounter()
-    increment()
-    expect(count.value).toBe(1)
+  <span class="fn">it</span>(<span class="str">'increments correctly'</span>, () =&gt; {
+    <span class="kw">const</span> { count, increment } = <span class="fn">useCounter</span>()
+    <span class="fn">increment</span>()
+    <span class="fn">expect</span>(count.value).<span class="fn">toBe</span>(<span class="num">1</span>)
   })
 })</code></pre>
       </div>

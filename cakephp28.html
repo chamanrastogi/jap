@@ -114,6 +114,18 @@
       position: relative;
     }
     pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
+    .kw { color: #c792ea; }
+    .fn { color: #82aaff; }
+    .str { color: #c3e88d; }
+    .cm { color: #546e7a; font-style: italic; }
+    .num { color: #f78c6c; }
+    .tp { color: #ffcb6b; }
+    [data-bs-theme="dark"] .kw { color: #c792ea; }
+    [data-bs-theme="dark"] .fn { color: #82aaff; }
+    [data-bs-theme="dark"] .str { color: #c3e88d; }
+    [data-bs-theme="dark"] .cm { color: #546e7a; }
+    [data-bs-theme="dark"] .num { color: #f78c6c; }
+    [data-bs-theme="dark"] .tp { color: #ffcb6b; }
     .cmd-table td:first-child {
       font-family: 'JetBrains Mono', monospace;
       font-size: .82rem;
@@ -1451,6 +1463,68 @@ Console/cake testsuite app All</code></pre>
       document.getElementById('sidebar').classList.remove('show');
     });
   });
+
+  // Syntax highlighting for code blocks
+  (function() {
+    var kw = /\b(if|else|elseif|foreach|for|while|do|switch|case|break|continue|function|return|new|class|public|private|protected|static|use|namespace|extends|implements|const|echo|print|true|false|null|var|array|as|throw|try|catch|finally|interface|trait|final|abstract|clone|die|exit|include|require|declare|list|unset|isset|empty|self|parent|default|instanceof|and|or|xor)\b/g;
+    var sql = /\b(SELECT|FROM|WHERE|INSERT|UPDATE|DELETE|JOIN|ON|CREATE|TABLE|INDEX|LIMIT|ORDER|BY|GROUP|SET|VALUES|IN|AS|CASE|WHEN|THEN|END|AND|OR|NOT|NULL|LEFT|RIGHT|INNER|OUTER|HAVING|DISTINCT|COUNT|SUM|AVG|MIN|MAX|EXISTS|BETWEEN|LIKE|ALTER|ADD|COLUMN|DROP|PRIMARY|KEY|FOREIGN|REFERENCES|DESC|ASC|UNION|ALL|INTO|OFFSET|DEFAULT|CASCADE)\b/g;
+    var skipFn = { 'if':1,'else':1,'foreach':1,'for':1,'while':1,'switch':1,'catch':1,'isset':1,'unset':1,'empty':1,'array':1,'function':1,'return':1,'echo':1,'print':1,'throw':1,'list':1 };
+
+    document.querySelectorAll('pre code').forEach(function(block) {
+      var h = block.innerHTML;
+
+      // 1. <?php and <?=
+      h = h.replace(/(&lt;\?php|&lt;\?=)/g, '<span class="cm">$1</span>');
+
+      // 2. // line comments
+      h = h.replace(/(\/\/[^\n]*)/g, '<span class="cm">$1</span>');
+
+      // 3. # line comments (shell)
+      h = h.replace(/^(#.*)$/gm, '<span class="cm">$1</span>');
+
+      // 4. /* */ block comments
+      h = h.replace(/\/\*[\s\S]*?\*\//g, '<span class="cm">$&</span>');
+
+      // 5. Single-quoted strings
+      h = h.replace(/'[^']*'/g, '<span class="str">$&</span>');
+
+      // 6. Double-quoted strings
+      h = h.replace(/"[^"]*"/g, '<span class="str">$&</span>');
+
+      // 7. PHP variables
+      h = h.replace(/(\$[a-zA-Z_]\w*)/g, '<span class="kw">$1</span>');
+
+      // 8. Numbers
+      h = h.replace(/\b(\d+\.?\d*)\b/g, '<span class="num">$1</span>');
+
+      // 9. PHP keywords
+      h = h.replace(kw, '<span class="kw">$1</span>');
+
+      // 10. SQL keywords
+      h = h.replace(sql, '<span class="kw">$1</span>');
+
+      // 11. Method calls: ->method(  and ::method(
+      h = h.replace(/(-&gt;|::)\s*([a-zA-Z_]\w*)(\s*\()/g, '$1<span class="fn">$2</span>$3');
+
+      // 12. Shell command names
+      h = h.replace(/\b(Console\/cake|bin\/cake|composer|npm|php)\b/g, '<span class="fn">$1</span>');
+
+      // 13. Function calls - word followed by (
+      h = h.replace(/\b([a-zA-Z_]\w*)\s*\(/g, function(m, n) {
+        return skipFn[n] ? m : '<span class="fn">' + n + '</span>(';
+      });
+
+      // 14. Class/type names - Uppercase-starting words (not after -> or ::, not SQL)
+      h = h.replace(/\b([A-Z][a-zA-Z0-9_]*)\b(?!\s*\()/g, function(m, n) {
+        // Don't re-tag SQL keywords
+        if (n === n.toUpperCase() && /^(SELECT|FROM|WHERE|INSERT|UPDATE|DELETE|JOIN|ON|CREATE|TABLE|INDEX|LIMIT|ORDER|BY|GROUP|SET|VALUES|IN|AS|CASE|WHEN|THEN|END|AND|OR|NOT|NULL|LEFT|RIGHT|INNER|OUTER|HAVING|DISTINCT|COUNT|SUM|AVG|MIN|MAX|EXISTS|BETWEEN|LIKE|ALTER|ADD|COLUMN|DROP|PRIMARY|KEY|FOREIGN|REFERENCES|DESC|ASC|UNION|ALL|INTO|OFFSET|DEFAULT|CASCADE)$/.test(n)) return m;
+        // Don't re-tag already wrapped things  
+        return '<span class="tp">' + n + '</span>';
+      });
+
+      block.innerHTML = h;
+    });
+  })();
 </script>
 </body>
 </html>

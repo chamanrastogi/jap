@@ -120,7 +120,21 @@
       position: relative;
     }
     pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', 'Consolas', monospace; }
-    .term-output {
+
+    .kw { color: #c792ea; }
+    .fn { color: #82aaff; }
+    .str { color: #c3e88d; }
+    .cm { color: #546e7a; font-style: italic; }
+    .num { color: #f78c6c; }
+    .tp { color: #ffcb6b; }
+    [data-bs-theme="dark"] .kw { color: #c792ea; }
+    [data-bs-theme="dark"] .fn { color: #82aaff; }
+    [data-bs-theme="dark"] .str { color: #c3e88d; }
+    [data-bs-theme="dark"] .cm { color: #546e7a; }
+    [data-bs-theme="dark"] .num { color: #f78c6c; }
+    [data-bs-theme="dark"] .tp { color: #ffcb6b; }
+
+.term-output {
       color: #8b949e;
     }
     .term-output .match { color: var(--green); font-weight: 700; }
@@ -241,9 +255,9 @@
 
         <p>Created by Ken Thompson in 1974. Every Unix/Linux/macOS system has it. Windows has it via WSL, Git Bash, or direct ports.</p>
 
-        <pre><code>$ grep --version
-grep (GNU grep) 3.11
-Copyright (C) 2023 Free Software Foundation, Inc.</code></pre>
+        <pre><code>$ <span class="kw">grep</span> <span class="fn">--version</span>
+<span class="kw">grep</span> (GNU <span class="kw">grep</span>) <span class="num">3.11</span>
+Copyright (C) <span class="num">2023</span> Free Software Foundation, Inc.</code></pre>
       </div>
     </div>
 
@@ -270,8 +284,8 @@ Copyright (C) 2023 Free Software Foundation, Inc.</code></pre>
     <div class="card">
       <div class="card-header"><i class="bi bi-command me-1"></i> Basic Usage</div>
       <div class="card-body">
-        <pre><code>grep [options] pattern [file...]
-command | grep [options] pattern</code></pre>
+        <pre><code><span class="kw">grep</span> [options] pattern [file...]
+command | <span class="kw">grep</span> [options] pattern</code></pre>
 
         <div class="row g-3 mt-2">
           <div class="col-md-6">
@@ -409,16 +423,16 @@ command | grep [options] pattern</code></pre>
     <div class="card">
       <div class="card-header"><i class="bi bi-info-circle me-1"></i> BRE vs ERE Quick Rule</div>
       <div class="card-body">
-        <pre><code># BRE (default) — need backslash for + ? { } ( ) |
-grep 'foo\|bar' file
-grep '\(ab\)\+' file
+        <pre><code><span class="cm"># BRE (default) — need backslash for + ? { } ( ) |</span>
+<span class="kw">grep</span> <span class="str">'foo\|bar'</span> file
+<span class="kw">grep</span> <span class="str">'\(ab\)\+'</span> file
 
-# ERE (-E) — no backslash needed
-grep -E 'foo|bar' file
-grep -E '(ab)+' file
+<span class="cm"># ERE (-E) — no backslash needed</span>
+<span class="kw">grep</span> <span class="fn">-E</span> <span class="str">'foo|bar'</span> file
+<span class="kw">grep</span> <span class="fn">-E</span> <span class="str">'(ab)+'</span> file
 
-# PCRE (-P) — Perl-like
-grep -P '\d{3}-\d{4}' file</code></pre>
+<span class="cm"># PCRE (-P) — Perl-like</span>
+<span class="kw">grep</span> <span class="fn">-P</span> <span class="str">'\d{3}-\d{4}'</span> file</code></pre>
         <div class="highlight-box gr-box">
           <strong>Pro tip:</strong> Default to <code>-E</code> unless you need PCRE features (<code>\d \b (?= )</code> etc.). It avoids the confusing backslash rules of BRE.
         </div>
@@ -433,77 +447,77 @@ grep -P '\d{3}-\d{4}' file</code></pre>
     <div class="card">
       <div class="card-header"><i class="bi bi-bezier2 me-1"></i> Everyday Search</div>
       <div class="card-body">
-        <pre><code># Case-insensitive search
-grep -i "error" app.log
+        <pre><code><span class="cm"># Case-insensitive search</span>
+<span class="kw">grep</span> <span class="fn">-i</span> <span class="str">"error"</span> app.log
 
-# Show line numbers with matches
-grep -rn "TODO" src/
+<span class="cm"># Show line numbers with matches</span>
+<span class="kw">grep</span> <span class="fn">-rn</span> <span class="str">"TODO"</span> src/
 
-# Count matches per file
-grep -c "class" *.php
+<span class="cm"># Count matches per file</span>
+<span class="kw">grep</span> <span class="fn">-c</span> <span class="str">"class"</span> *.<span class="kw">php</span>
 
-# Search only .py files recursively
-grep -r --include="*.py" "def " lib/
+<span class="cm"># Search only .py files recursively</span>
+<span class="kw">grep</span> <span class="fn">-r</span> <span class="fn">--include</span>=<span class="str">"*.py"</span> <span class="str">"def "</span> lib/
 
-# Exclude node_modules
-grep -r --exclude-dir=node_modules "require(" .
+<span class="cm"># Exclude node_modules</span>
+<span class="kw">grep</span> <span class="fn">-r</span> <span class="fn">--exclude-dir</span>=node_modules <span class="str">"require("</span> .
 
-# Whole word only (not substring)
-grep -w "is" file.txt</code></pre>
+<span class="cm"># Whole word only (not substring)</span>
+<span class="kw">grep</span> <span class="fn">-w</span> <span class="str">"is"</span> file.txt</code></pre>
       </div>
     </div>
 
     <div class="card">
       <div class="card-header"><i class="bi bi-funnel me-1"></i> Filtering &amp; Inversion</div>
       <div class="card-body">
-        <pre><code># Remove blank lines
-grep -v '^$' file
+        <pre><code><span class="cm"># Remove blank lines</span>
+<span class="kw">grep</span> <span class="fn">-v</span> <span class="str">'^$'</span> file
 
-# Remove comments (lines starting with #)
-grep -v '^#' config.ini
+<span class="cm"># Remove comments (lines starting with #)</span>
+<span class="kw">grep</span> <span class="fn">-v</span> <span class="str">'^#'</span> config.ini
 
-# Show non-matching files
-grep -L "use strict" *.js
+<span class="cm"># Show non-matching files</span>
+<span class="kw">grep</span> <span class="fn">-L</span> <span class="str">"use strict"</span> *.js
 
-# Invert + lines with context
-grep -vB 2 "INFO" log.txt</code></pre>
+<span class="cm"># Invert + lines with context</span>
+<span class="kw">grep</span> <span class="fn">-vB</span> <span class="num">2</span> <span class="str">"INFO"</span> log.txt</code></pre>
       </div>
     </div>
 
     <div class="card">
       <div class="card-header"><i class="bi bi-boundary me-1"></i> Context &amp; Surrounding</div>
       <div class="card-body">
-        <pre><code># 3 lines after each match
-grep -A 3 "Stack trace" error.log
+        <pre><code><span class="cm"># 3 lines after each match</span>
+<span class="kw">grep</span> <span class="fn">-A</span> <span class="num">3</span> <span class="str">"Stack trace"</span> error.log
 
-# 2 lines before
-grep -B 2 "FATAL" log.txt
+<span class="cm"># 2 lines before</span>
+<span class="kw">grep</span> <span class="fn">-B</span> <span class="num">2</span> <span class="str">"FATAL"</span> log.txt
 
-# 5 lines around (before + after)
-grep -C 5 "SELECT" query.log
+<span class="cm"># 5 lines around (before + after)</span>
+<span class="kw">grep</span> <span class="fn">-C</span> <span class="num">5</span> <span class="str">"SELECT"</span> query.log
 
-# Highlight matches (add --color)
-grep --color -rin "TODO" src/</code></pre>
+<span class="cm"># Highlight matches (add --color)</span>
+<span class="kw">grep</span> <span class="fn">--color</span> <span class="fn">-rin</span> <span class="str">"TODO"</span> src/</code></pre>
       </div>
     </div>
 
     <div class="card">
       <div class="card-header"><i class="bi bi-magic me-1"></i> Pattern Extraction</div>
       <div class="card-body">
-        <pre><code># Extract email addresses
-grep -oE '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}' file
+        <pre><code><span class="cm"># Extract email addresses</span>
+<span class="kw">grep</span> <span class="fn">-oE</span> <span class="str">'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'</span> file
 
-# Extract IP addresses
-grep -oE '([0-9]{1,3}\.){3}[0-9]{1,3}' access.log
+<span class="cm"># Extract IP addresses</span>
+<span class="kw">grep</span> <span class="fn">-oE</span> <span class="str">'([0-9]{1,3}\.){3}[0-9]{1,3}'</span> access.log
 
-# Extract URLs
-grep -oE 'https?://[^ ]+' file
+<span class="cm"># Extract URLs</span>
+<span class="kw">grep</span> <span class="fn">-oE</span> <span class="str">'https?://[^ ]+'</span> file
 
-# Extract phone numbers (US)
-grep -oP '\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}' file
+<span class="cm"># Extract phone numbers (US)</span>
+<span class="kw">grep</span> <span class="fn">-oP</span> <span class="str">'\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}'</span> file
 
-# Word after a keyword
-grep -oP 'class \K\w+' file.php</code></pre>
+<span class="cm"># Word after a keyword</span>
+<span class="kw">grep</span> <span class="fn">-oP</span> <span class="str">'class \K\w+'</span> file.<span class="kw">php</span></code></pre>
         <div class="highlight-box gr-box">
           <strong><code>\K</code> trick (PCRE):</strong> Everything before <code>\K</code> is used for matching but excluded from output. Great for extracting values after a known prefix.
         </div>
@@ -513,46 +527,46 @@ grep -oP 'class \K\w+' file.php</code></pre>
     <div class="card">
       <div class="card-header"><i class="bi bi-file-earmark me-1"></i> File &amp; Multi-Input</div>
       <div class="card-body">
-        <pre><code># Find files containing a pattern
-grep -rl "function" app/
+        <pre><code><span class="cm"># Find files containing a pattern</span>
+<span class="kw">grep</span> <span class="fn">-rl</span> <span class="str">"function"</span> app/
 
-# Find files NOT containing a pattern
-grep -L "<?php" *.php
+<span class="cm"># Find files NOT containing a pattern</span>
+<span class="kw">grep</span> <span class="fn">-L</span> <span class="str">"<?php"</span> *.<span class="kw">php</span>
 
-# Search multiple patterns from a file
-grep -f patterns.txt data.csv
+<span class="cm"># Search multiple patterns from a file</span>
+<span class="kw">grep</span> <span class="fn">-f</span> patterns.txt data.csv
 
-# Multiple patterns on command line
-grep -E 'error|warning|fatal' log.txt
+<span class="cm"># Multiple patterns on command line</span>
+<span class="kw">grep</span> <span class="fn">-E</span> <span class="str">'error|warning|fatal'</span> log.txt
 
-# Limit output
-grep -m 10 "error" huge.log
+<span class="cm"># Limit output</span>
+<span class="kw">grep</span> <span class="fn">-m</span> <span class="num">10</span> <span class="str">"error"</span> huge.log
 
-# Binary files (show match with context)
-grep -a "text" binary_file
+<span class="cm"># Binary files (show match with context)</span>
+<span class="kw">grep</span> <span class="fn">-a</span> <span class="str">"text"</span> binary_file
 
-# Zip archives (combine with zgrep)
-zgrep "error" archive.log.gz</code></pre>
+<span class="cm"># Zip archives (combine with zgrep)</span>
+<span class="kw">zgrep</span> <span class="str">"error"</span> archive.log.gz</code></pre>
       </div>
     </div>
 
     <div class="card">
       <div class="card-header"><i class="bi bi-archive me-1"></i> Pipeline Recipes</div>
       <div class="card-body">
-        <pre><code># Filter process list
-ps aux | grep nginx
+        <pre><code><span class="cm"># Filter process list</span>
+<span class="kw">ps</span> aux | <span class="kw">grep</span> nginx
 
-# Find large files and filter
-find . -type f -size +10M | grep "\.log$"
+<span class="cm"># Find large files and filter</span>
+<span class="kw">find</span> . <span class="fn">-type</span> f <span class="fn">-size</span> +<span class="num">10</span>M | <span class="kw">grep</span> <span class="str">"\.log$"</span>
 
-# Grep + xargs to process matches
-grep -rlZ "old_api" src/ | xargs -0 sed -i 's/old_api/new_api/g'
+<span class="cm"># Grep + xargs to process matches</span>
+<span class="kw">grep</span> <span class="fn">-rlZ</span> <span class="str">"old_api"</span> src/ | <span class="kw">xargs</span> <span class="fn">-0</span> <span class="kw">sed</span> <span class="fn">-i</span> <span class="str">'s/old_api/new_api/g'</span>
 
-# Unique sorted matches
-grep -oE '\w+' file | sort | uniq -c | sort -rn | head -20
+<span class="cm"># Unique sorted matches</span>
+<span class="kw">grep</span> <span class="fn">-oE</span> <span class="str">'\w+'</span> file | <span class="kw">sort</span> | <span class="kw">uniq</span> <span class="fn">-c</span> | <span class="kw">sort</span> <span class="fn">-rn</span> | <span class="kw">head</span> <span class="fn">-20</span>
 
-# Grep in git history
-git log --oneline | grep "fix:"</code></pre>
+<span class="cm"># Grep in git history</span>
+<span class="kw">git</span> log <span class="fn">--oneline</span> | <span class="kw">grep</span> <span class="str">"fix:"</span></code></pre>
       </div>
     </div>
   </section>
@@ -602,13 +616,13 @@ git log --oneline | grep "fix:"</code></pre>
         <div class="card h-100">
           <div class="card-header"><i class="bi bi-gear me-1"></i> Shell Aliases</div>
           <div class="card-body">
-            <pre><code># Add to ~/.bashrc or ~/.zshrc
-alias grep='grep --color=auto'
-alias grepi='grep -i'
-alias grepr='grep -rn'
-alias greprw='grep -rnw'
-alias grepc='grep -c'
-alias ngrep='grep -rn --exclude-dir=node_modules --exclude-dir=.git --exclude="*.min.*"'</code></pre>
+            <pre><code><span class="cm"># Add to ~/.bashrc or ~/.zshrc</span>
+<span class="kw">alias</span> <span class="kw">grep</span>=<span class="str">'grep --color=auto'</span>
+<span class="kw">alias</span> grepi=<span class="str">'grep -i'</span>
+<span class="kw">alias</span> grepr=<span class="str">'grep -rn'</span>
+<span class="kw">alias</span> greprw=<span class="str">'grep -rnw'</span>
+<span class="kw">alias</span> grepc=<span class="str">'grep -c'</span>
+<span class="kw">alias</span> ngrep=<span class="str">'grep -rn --exclude-dir=node_modules --exclude-dir=.git --exclude="*.min.*"'</span></code></pre>
           </div>
         </div>
       </div>
@@ -616,17 +630,17 @@ alias ngrep='grep -rn --exclude-dir=node_modules --exclude-dir=.git --exclude="*
         <div class="card h-100">
           <div class="card-header"><i class="bi bi-tools me-1"></i> Common Patterns</div>
           <div class="card-body">
-            <pre><code># Between timestamps
-sed -n '/2026-06-01 10:00/,/2026-06-01 11:00/p' log
+            <pre><code><span class="cm"># Between timestamps</span>
+<span class="kw">sed</span> <span class="fn">-n</span> <span class="str">'/2026-06-01 10:00/,/2026-06-01 11:00/p'</span> log
 
-# Find duplicate lines
-sort file | uniq -d | grep -F -f - file
+<span class="cm"># Find duplicate lines</span>
+<span class="kw">sort</span> file | <span class="kw">uniq</span> <span class="fn">-d</span> | <span class="kw">grep</span> <span class="fn">-F</span> <span class="fn">-f</span> - file
 
-# CSV column extraction
-grep -oP '^[^,]+' data.csv
+<span class="cm"># CSV column extraction</span>
+<span class="kw">grep</span> <span class="fn">-oP</span> <span class="str">'^[^,]+'</span> data.csv
 
-# Non-ASCII characters
-grep -Pn '[^\x00-\x7F]' file</code></pre>
+<span class="cm"># Non-ASCII characters</span>
+<span class="kw">grep</span> <span class="fn">-Pn</span> <span class="str">'[^\x00-\x7F]'</span> file</code></pre>
           </div>
         </div>
       </div>

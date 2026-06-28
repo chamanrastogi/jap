@@ -124,7 +124,21 @@
       position: relative;
     }
     pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
-    pre .tag { color: #f07178; }
+
+    .kw { color: #c792ea; }
+    .fn { color: #82aaff; }
+    .str { color: #c3e88d; }
+    .cm { color: #546e7a; font-style: italic; }
+    .num { color: #f78c6c; }
+    .tp { color: #ffcb6b; }
+    [data-bs-theme="dark"] .kw { color: #c792ea; }
+    [data-bs-theme="dark"] .fn { color: #82aaff; }
+    [data-bs-theme="dark"] .str { color: #c3e88d; }
+    [data-bs-theme="dark"] .cm { color: #546e7a; }
+    [data-bs-theme="dark"] .num { color: #f78c6c; }
+    [data-bs-theme="dark"] .tp { color: #ffcb6b; }
+
+pre .tag { color: #f07178; }
     pre .attr { color: #c792ea; }
     pre .val { color: #c3e88d; }
     pre .prop { color: #82aaff; }
@@ -298,36 +312,36 @@
       <div class="card-header"><i class="bi bi-diagram-2 me-1"></i> Structure</div>
       <div class="card-body">
         <p>Semantic HTML gives meaning to content — better for SEO, accessibility, and code readability.</p>
-        <pre><code>&lt;header&gt;  &lt;!-- site/page header --&gt;
-&lt;nav&gt;     &lt;!-- navigation block --&gt;
-&lt;main&gt;    &lt;!-- primary content (1 per page) --&gt;
-&lt;article&gt; &lt;!-- self-contained content --&gt;
-&lt;section&gt; &lt;!-- themed content group --&gt;
-&lt;aside&gt;   &lt;!-- tangential / sidebar --&gt;
-&lt;figure&gt;  &lt;!-- image + figcaption wrapper --&gt;
-  &lt;figcaption&gt;Caption text&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;footer&gt;  &lt;!-- site/page footer --&gt;</code></pre>
+        <pre><code><span class="kw">&lt;header</span><span class="kw">&gt;</span>  <span class="cm">&lt;!-- site/page header --&gt;</span>
+<span class="kw">&lt;nav</span><span class="kw">&gt;</span>     <span class="cm">&lt;!-- navigation block --&gt;</span>
+<span class="kw">&lt;main</span><span class="kw">&gt;</span>    <span class="cm">&lt;!-- primary content (1 per page) --&gt;</span>
+<span class="kw">&lt;article</span><span class="kw">&gt;</span> <span class="cm">&lt;!-- self-contained content --&gt;</span>
+<span class="kw">&lt;section</span><span class="kw">&gt;</span> <span class="cm">&lt;!-- themed content group --&gt;</span>
+<span class="kw">&lt;aside</span><span class="kw">&gt;</span>   <span class="cm">&lt;!-- tangential / sidebar --&gt;</span>
+<span class="kw">&lt;figure</span><span class="kw">&gt;</span>  <span class="cm">&lt;!-- image + figcaption wrapper --&gt;</span>
+  <span class="kw">&lt;figcaption</span><span class="kw">&gt;</span>Caption text<span class="kw">&lt;/figcaption</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/figure</span><span class="kw">&gt;</span>
+<span class="kw">&lt;footer</span><span class="kw">&gt;</span>  <span class="cm">&lt;!-- site/page footer --&gt;</span></code></pre>
         <div class="side-by-side mt-3">
           <div>
             <div class="label-old">&lt;div&gt;-based (old)</div>
-            <pre style="font-size:.75rem"><code>&lt;div id="header"&gt;
-  &lt;div id="nav"&gt;...&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id="content"&gt;
-  &lt;div class="post"&gt;...&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id="footer"&gt;...&lt;/div&gt;</code></pre>
+            <pre style="font-size:.75rem"><code><span class="kw">&lt;div</span> <span class="fn">id</span>=<span class="str">"header"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span> <span class="fn">id</span>=<span class="str">"nav"</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">id</span>=<span class="str">"content"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"post"</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">id</span>=<span class="str">"footer"</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div</span><span class="kw">&gt;</span></code></pre>
           </div>
           <div>
             <div class="label-new">Semantic (modern)</div>
-            <pre style="font-size:.75rem"><code>&lt;header&gt;
-  &lt;nav&gt;...&lt;/nav&gt;
-&lt;/header&gt;
-&lt;main&gt;
-  &lt;article&gt;...&lt;/article&gt;
-&lt;/main&gt;
-&lt;footer&gt;...&lt;/footer&gt;</code></pre>
+            <pre style="font-size:.75rem"><code><span class="kw">&lt;header</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;nav</span><span class="kw">&gt;</span>...<span class="kw">&lt;/nav</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/header</span><span class="kw">&gt;</span>
+<span class="kw">&lt;main</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;article</span><span class="kw">&gt;</span>...<span class="kw">&lt;/article</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/main</span><span class="kw">&gt;</span>
+<span class="kw">&lt;footer</span><span class="kw">&gt;</span>...<span class="kw">&lt;/footer</span><span class="kw">&gt;</span></code></pre>
           </div>
         </div>
         <div class="highlight-box html-box mt-3">
@@ -339,22 +353,22 @@
     <div class="card">
       <div class="card-header"><i class="bi bi-image me-1"></i> Media Elements</div>
       <div class="card-body">
-        <pre><code>&lt;picture&gt;
-  &lt;source srcset="img.avif" type="image/avif"&gt;
-  &lt;source srcset="img.webp" type="image/webp"&gt;
-  &lt;img src="img.jpg" alt="Description"
+        <pre><code><span class="kw">&lt;picture</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;source</span> <span class="fn">srcset</span>=<span class="str">"img.avif"</span> <span class="fn">type</span>=<span class="str">"image/avif"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;source</span> <span class="fn">srcset</span>=<span class="str">"img.webp"</span> <span class="fn">type</span>=<span class="str">"image/webp"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;img</span> <span class="fn">src</span>=<span class="str">"img.jpg"</span> <span class="fn">alt</span>=<span class="str">"Description"</span>
        loading="lazy" decoding="async"
        fetchpriority="high"&gt;
-&lt;/picture&gt;
+<span class="kw">&lt;/picture</span><span class="kw">&gt;</span>
 
-&lt;video controls poster="thumb.jpg"&gt;
-  &lt;source src="video.mp4" type="video/mp4"&gt;
-  &lt;track kind="subtitles" src="subs.vtt" srclang="en"&gt;
-&lt;/video&gt;
+<span class="kw">&lt;video</span> <span class="fn">controls</span> <span class="fn">poster</span>=<span class="str">"thumb.jpg"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;source</span> <span class="fn">src</span>=<span class="str">"video.mp4"</span> <span class="fn">type</span>=<span class="str">"video/mp4"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;track</span> <span class="fn">kind</span>=<span class="str">"subtitles"</span> <span class="fn">src</span>=<span class="str">"subs.vtt"</span> <span class="fn">srclang</span>=<span class="str">"en"</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/video</span><span class="kw">&gt;</span>
 
-&lt;audio controls&gt;
-  &lt;source src="audio.ogg" type="audio/ogg"&gt;
-&lt;/audio&gt;</code></pre>
+<span class="kw">&lt;audio</span> <span class="fn">controls</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;source</span> <span class="fn">src</span>=<span class="str">"audio.ogg"</span> <span class="fn">type</span>=<span class="str">"audio/ogg"</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/audio</span><span class="kw">&gt;</span></code></pre>
         <div class="highlight-box new-box">
           <strong><i class="bi bi-star-fill me-1"></i> New:</strong> <code>loading="lazy"</code> defers offscreen images. <code>decoding="async"</code> avoids blocking render. <code>fetchpriority="high"</code> hints which image to load first (LCP optimization). <code>&lt;track&gt;</code> for captions/subtitles in video.
         </div>
@@ -369,32 +383,32 @@
     <div class="card">
       <div class="card-header"><i class="bi bi-ui-checks me-1"></i> Input Types</div>
       <div class="card-body">
-        <pre><code>&lt;!-- Native validation built-in --&gt;
-&lt;input type="email" placeholder="email@example.com"&gt;
-&lt;input type="url" placeholder="https://example.com"&gt;
-&lt;input type="tel" placeholder="+1-555-555-5555"&gt;
-&lt;input type="number" min="0" max="100" step="1"&gt;
-&lt;input type="range" min="0" max="100" value="50"&gt;
-&lt;input type="date"&gt;  &lt;!-- date picker --&gt;
-&lt;input type="datetime-local"&gt;  &lt;!-- date+time --&gt;
-&lt;input type="month"&gt; &lt;input type="week"&gt;
-&lt;input type="time"&gt; &lt;input type="color"&gt;
-&lt;input type="search"&gt;  &lt;!-- search semantics --&gt;
-&lt;input type="file" accept="image/*" multiple&gt;
+        <pre><code><span class="cm">&lt;!-- Native validation built-in --&gt;</span>
+<span class="kw">&lt;input</span> <span class="fn">type</span>=<span class="str">"email"</span> <span class="fn">placeholder</span>=<span class="str">"email@example.com"</span><span class="kw">&gt;</span>
+<span class="kw">&lt;input</span> <span class="fn">type</span>=<span class="str">"url"</span> <span class="fn">placeholder</span>=<span class="str">"https://example.com"</span><span class="kw">&gt;</span>
+<span class="kw">&lt;input</span> <span class="fn">type</span>=<span class="str">"tel"</span> <span class="fn">placeholder</span>=<span class="str">"+1-555-555-5555"</span><span class="kw">&gt;</span>
+<span class="kw">&lt;input</span> <span class="fn">type</span>=<span class="str">"number"</span> <span class="fn">min</span>=<span class="str">"0"</span> <span class="fn">max</span>=<span class="str">"100"</span> <span class="fn">step</span>=<span class="str">"1"</span><span class="kw">&gt;</span>
+<span class="kw">&lt;input</span> <span class="fn">type</span>=<span class="str">"range"</span> <span class="fn">min</span>=<span class="str">"0"</span> <span class="fn">max</span>=<span class="str">"100"</span> <span class="fn">value</span>=<span class="str">"50"</span><span class="kw">&gt;</span>
+<span class="kw">&lt;input</span> <span class="fn">type</span>=<span class="str">"date"</span><span class="kw">&gt;</span>  <span class="cm">&lt;!-- date picker --&gt;</span>
+<span class="kw">&lt;input</span> <span class="fn">type</span>=<span class="str">"datetime-local"</span><span class="kw">&gt;</span>  <span class="cm">&lt;!-- date+time --&gt;</span>
+<span class="kw">&lt;input</span> <span class="fn">type</span>=<span class="str">"month"</span><span class="kw">&gt;</span> <span class="kw">&lt;input</span> <span class="fn">type</span>=<span class="str">"week"</span><span class="kw">&gt;</span>
+<span class="kw">&lt;input</span> <span class="fn">type</span>=<span class="str">"time"</span><span class="kw">&gt;</span> <span class="kw">&lt;input</span> <span class="fn">type</span>=<span class="str">"color"</span><span class="kw">&gt;</span>
+<span class="kw">&lt;input</span> <span class="fn">type</span>=<span class="str">"search"</span><span class="kw">&gt;</span>  <span class="cm">&lt;!-- search semantics --&gt;</span>
+<span class="kw">&lt;input</span> <span class="fn">type</span>=<span class="str">"file"</span> <span class="fn">accept</span>=<span class="str">"image/*"</span> <span class="fn">multiple</span><span class="kw">&gt;</span>
 
-&lt;!-- Datalist (autocomplete) --&gt;
-&lt;input list="countries"&gt;
-&lt;datalist id="countries"&gt;
-  &lt;option value="India"&gt;
-  &lt;option value="Japan"&gt;
-&lt;/datalist&gt;
+<span class="cm">&lt;!-- Datalist (autocomplete) --&gt;</span>
+<span class="kw">&lt;input</span> <span class="fn">list</span>=<span class="str">"countries"</span><span class="kw">&gt;</span>
+<span class="kw">&lt;datalist</span> <span class="fn">id</span>=<span class="str">"countries"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;option</span> <span class="fn">value</span>=<span class="str">"India"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;option</span> <span class="fn">value</span>=<span class="str">"Japan"</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/datalist</span><span class="kw">&gt;</span>
 
-&lt;!-- Output element --&gt;
-&lt;form oninput="result.value=a.valueAsNumber+b.valueAsNumber"&gt;
-  &lt;input type="range" id="a" value="50"&gt; +
-  &lt;input type="number" id="b" value="25"&gt; =
-  &lt;output name="result"&gt;75&lt;/output&gt;
-&lt;/form&gt;</code></pre>
+<span class="cm">&lt;!-- Output element --&gt;</span>
+<span class="kw">&lt;form</span> <span class="fn">oninput</span>=<span class="str">"result.value=a.valueAsNumber+b.valueAsNumber"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;input</span> <span class="fn">type</span>=<span class="str">"range"</span> <span class="fn">id</span>=<span class="str">"a"</span> <span class="fn">value</span>=<span class="str">"50"</span><span class="kw">&gt;</span> +
+  <span class="kw">&lt;input</span> <span class="fn">type</span>=<span class="str">"number"</span> <span class="fn">id</span>=<span class="str">"b"</span> <span class="fn">value</span>=<span class="str">"25"</span><span class="kw">&gt;</span> =
+  <span class="kw">&lt;output</span> <span class="fn">name</span>=<span class="str">"result"</span><span class="kw">&gt;</span><span class="num">75</span><span class="kw">&lt;/output</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/form</span><span class="kw">&gt;</span></code></pre>
         <div class="highlight-box html-box">
           <strong>Why these matter:</strong> Native <code>type="email"</code> validates format without JS. <code>type="date"</code> gives a date picker on mobile. <code>type="search"</code> adds a clear button. <code>&lt;datalist&gt;</code> autocompletes without a JS library.
         </div>
@@ -404,19 +418,19 @@
     <div class="card">
       <div class="card-header"><i class="bi bi-asterisk me-1"></i> Form Attributes</div>
       <div class="card-body">
-        <pre><code>&lt;!-- Validation attributes --&gt;
-&lt;input required pattern="[A-Za-z]{3,}"
-       minlength="3" maxlength="20"
+        <pre><code><span class="cm">&lt;!-- Validation attributes --&gt;</span>
+<span class="kw">&lt;input</span> <span class="fn">required</span> <span class="fn">pattern</span>=<span class="str">"[A-Za-z]{3,}"</span>
+       minlength="<span class="num">3</span>" maxlength="<span class="num">20</span>"
        autocomplete="given-name"&gt;
 
-&lt;!-- Better mobile UX --&gt;
-&lt;input inputmode="numeric"&gt;     &lt;!-- shows number keyboard --&gt;
-&lt;input inputmode="email"&gt;       &lt;!-- shows @ and .com keys --&gt;
-&lt;input inputmode="decimal"&gt;     &lt;!-- shows decimal key --&gt;
-&lt;input enterkeyhint="done"&gt;     &lt;!-- "Done" on keyboard --&gt;
-&lt;input enterkeyhint="search"&gt;   &lt;!-- "Search" button --&gt;
-&lt;input autocapitalize="sentences"&gt;
-&lt;textarea autocomplete="off"&gt;</code></pre>
+<span class="cm">&lt;!-- Better mobile UX --&gt;</span>
+<span class="kw">&lt;input</span> <span class="fn">inputmode</span>=<span class="str">"numeric"</span><span class="kw">&gt;</span>     <span class="cm">&lt;!-- shows number keyboard --&gt;</span>
+<span class="kw">&lt;input</span> <span class="fn">inputmode</span>=<span class="str">"email"</span><span class="kw">&gt;</span>       <span class="cm">&lt;!-- shows @ and .com keys --&gt;</span>
+<span class="kw">&lt;input</span> <span class="fn">inputmode</span>=<span class="str">"decimal"</span><span class="kw">&gt;</span>     <span class="cm">&lt;!-- shows decimal key --&gt;</span>
+<span class="kw">&lt;input</span> <span class="fn">enterkeyhint</span>=<span class="str">"done"</span><span class="kw">&gt;</span>     <span class="cm">&lt;!-- "Done" on keyboard --&gt;</span>
+<span class="kw">&lt;input</span> <span class="fn">enterkeyhint</span>=<span class="str">"search"</span><span class="kw">&gt;</span>   <span class="cm">&lt;!-- "Search" button --&gt;</span>
+<span class="kw">&lt;input</span> <span class="fn">autocapitalize</span>=<span class="str">"sentences"</span><span class="kw">&gt;</span>
+<span class="kw">&lt;textarea</span> <span class="fn">autocomplete</span>=<span class="str">"off"</span><span class="kw">&gt;</span></code></pre>
       </div>
     </div>
   </section>
@@ -428,29 +442,29 @@
     <div class="card">
       <div class="card-header"><i class="bi bi-window me-1"></i> Dialog &amp; Details</div>
       <div class="card-body">
-        <pre><code>&lt;!-- Modal dialog (native!) --&gt;
-&lt;dialog id="myModal"&gt;
-  &lt;form method="dialog"&gt;
-    &lt;p&gt;Are you sure?&lt;/p&gt;
-    &lt;menu&gt;
-      &lt;button value="cancel"&gt;Cancel&lt;/button&gt;
-      &lt;button value="confirm" autofocus&gt;OK&lt;/button&gt;
-    &lt;/menu&gt;
-  &lt;/form&gt;
-&lt;/dialog&gt;
-&lt;button onclick="myModal.showModal()"&gt;Open Modal&lt;/button&gt;
+        <pre><code><span class="cm">&lt;!-- Modal dialog (native!) --&gt;</span>
+<span class="kw">&lt;dialog</span> <span class="fn">id</span>=<span class="str">"myModal"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;form</span> <span class="fn">method</span>=<span class="str">"dialog"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;p</span><span class="kw">&gt;</span>Are you sure?<span class="kw">&lt;/p</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;menu</span><span class="kw">&gt;</span>
+      <span class="kw">&lt;button</span> <span class="fn">value</span>=<span class="str">"cancel"</span><span class="kw">&gt;</span>Cancel<span class="kw">&lt;/button</span><span class="kw">&gt;</span>
+      <span class="kw">&lt;button</span> <span class="fn">value</span>=<span class="str">"confirm"</span> <span class="fn">autofocus</span><span class="kw">&gt;</span>OK<span class="kw">&lt;/button</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;/menu</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;/form</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/dialog</span><span class="kw">&gt;</span>
+<span class="kw">&lt;button</span> <span class="fn">onclick</span>=<span class="str">"myModal.showModal()"</span><span class="kw">&gt;</span>Open Modal<span class="kw">&lt;/button</span><span class="kw">&gt;</span>
 
-&lt;!-- Details / Summary (collapsible) --&gt;
-&lt;details&gt;
-  &lt;summary&gt;Click to expand&lt;/summary&gt;
-  &lt;p&gt;Hidden content here.&lt;/p&gt;
-&lt;/details&gt;
+<span class="cm">&lt;!-- Details / Summary (collapsible) --&gt;</span>
+<span class="kw">&lt;details</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;summary</span><span class="kw">&gt;</span>Click to expand<span class="kw">&lt;/summary</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;p</span><span class="kw">&gt;</span>Hidden content here.<span class="kw">&lt;/p</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/details</span><span class="kw">&gt;</span>
 
-&lt;!-- Popover API (new!) --&gt;
-&lt;button popovertarget="myPopover"&gt;Toggle Popover&lt;/button&gt;
-&lt;div id="myPopover" popover&gt;
-  &lt;p&gt;Popover content.&lt;/p&gt;
-&lt;/div&gt;</code></pre>
+<span class="cm">&lt;!-- Popover API (new!) --&gt;</span>
+<span class="kw">&lt;button</span> <span class="fn">popovertarget</span>=<span class="str">"myPopover"</span><span class="kw">&gt;</span>Toggle Popover<span class="kw">&lt;/button</span><span class="kw">&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">id</span>=<span class="str">"myPopover"</span> <span class="fn">popover</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;p</span><span class="kw">&gt;</span>Popover content.<span class="kw">&lt;/p</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/div</span><span class="kw">&gt;</span></code></pre>
         <div class="highlight-box new-box">
           <strong><i class="bi bi-star-fill me-1"></i> Popover API:</strong> New in 2024 — no JS needed for tooltips/menus/popups. <code>popover="auto"</code> (light dismiss) or <code>popover="manual"</code> (stay open). Use <code>popovertarget</code> on triggers. Supported in all modern browsers.
         </div>
@@ -460,13 +474,13 @@
     <div class="card">
       <div class="card-header"><i class="bi bi-box me-1"></i> Template &amp; Slot</div>
       <div class="card-body">
-        <pre><code>&lt;!-- Template (inert HTML fragment) --&gt;
-&lt;template id="card-template"&gt;
-  &lt;div class="card"&gt;
-    &lt;slot name="title"&gt;&lt;/slot&gt;
-    &lt;slot name="content"&gt;&lt;/slot&gt;
-  &lt;/div&gt;
-&lt;/template&gt;</code></pre>
+        <pre><code><span class="cm">&lt;!-- Template (inert HTML fragment) --&gt;</span>
+<span class="kw">&lt;template</span> <span class="fn">id</span>=<span class="str">"card-template"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"card"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;slot</span> <span class="fn">name</span>=<span class="str">"title"</span><span class="kw">&gt;</span><span class="kw">&lt;/slot</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;slot</span> <span class="fn">name</span>=<span class="str">"content"</span><span class="kw">&gt;</span><span class="kw">&lt;/slot</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/template</span><span class="kw">&gt;</span></code></pre>
         <div class="highlight-box html-box">
           <code>&lt;template&gt;</code> content is not rendered, not loaded, not parsed for resources. Clone with <code>document.getElementById('card-template').content.cloneNode(true)</code>. Used by all major frameworks internally.
         </div>
@@ -510,20 +524,20 @@
       <div class="card-header"><i class="bi bi-bezier2 me-1"></i> Quick Reference</div>
       <div class="card-body">
         <p class="mb-2">One-dimensional layout. Best for nav bars, centering, card rows, toolbars.</p>
-        <pre><code>.container {
-  display: flex;              /* or inline-flex */
-  flex-direction: row;        /* row | row-reverse | column | column-reverse */
-  flex-wrap: wrap;            /* nowrap | wrap | wrap-reverse */
-  justify-content: center;    /* flex-start | flex-end | center | between | around | evenly */
-  align-items: center;        /* stretch | flex-start | flex-end | center | baseline */
-  align-content: center;      /* (multi-line only) */
-  gap: 1rem;                  /* row-gap + column-gap shorthand */
+        <pre><code><span class="tp">.container</span> {
+  <span class="kw">display</span>: <span class="kw">flex</span>;              <span class="cm">/* or inline-flex */</span>
+  <span class="kw">flex-direction</span>: <span class="kw">row</span>;        <span class="cm">/* row | row-reverse | column | column-reverse */</span>
+  <span class="kw">flex-wrap</span>: <span class="kw">wrap</span>;            <span class="cm">/* nowrap | wrap | wrap-reverse */</span>
+  <span class="kw">justify-content</span>: <span class="kw">center</span>;    <span class="cm">/* flex-start | flex-end | center | between | around | evenly */</span>
+  <span class="kw">align-items</span>: <span class="kw">center</span>;        <span class="cm">/* stretch | flex-start | flex-end | center | baseline */</span>
+  <span class="kw">align-content</span>: <span class="kw">center</span>;      <span class="cm">/* (multi-line only) */</span>
+  <span class="kw">gap</span>: <span class="num">1rem</span>;                  <span class="cm">/* row-gap + column-gap shorthand */</span>
 }
 
-.item {
-  flex: 1 1 0%;              /* grow | shrink | basis */
-  align-self: center;         /* override alignment */
-  order: -1;                  /* reorder visually */</code></pre>
+<span class="tp">.item</span> {
+  <span class="kw">flex</span>: <span class="num">1</span> <span class="num">1</span> <span class="num">0%</span>;              <span class="cm">/* grow | shrink | basis */</span>
+  <span class="kw">align-self</span>: <span class="kw">center</span>;         <span class="cm">/* override alignment */</span>
+  <span class="kw">order</span>: -1;                  <span class="cm">/* reorder visually */</span></code></pre>
         <div class="highlight-box css-box">
           <strong><code>gap</code></strong> on flexbox is fully supported in all modern browsers. No more margin hacks on children.
         </div>
@@ -538,36 +552,36 @@
     <div class="card">
       <div class="card-header"><i class="bi bi-layout-three-columns me-1"></i> Grid Reference</div>
       <div class="card-body">
-        <pre><code>.container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);    /* 3 equal cols */
-  grid-template-rows: auto 1fr auto;         /* header / main / footer */
-  gap: 1.5rem;
-  grid-template-areas:
-    "header header header"
-    "sidebar main   main"
-    "footer footer footer";
+        <pre><code><span class="tp">.container</span> {
+  <span class="kw">display</span>: <span class="kw">grid</span>;
+  <span class="kw">grid-template-columns</span>: <span class="fn">repeat</span>(<span class="num">3</span>, <span class="num">1fr</span>);    <span class="cm">/* 3 equal cols */</span>
+  <span class="kw">grid-template-rows</span>: <span class="kw">auto</span> <span class="num">1fr</span> <span class="kw">auto</span>;         <span class="cm">/* header / main / footer */</span>
+  <span class="kw">gap</span>: <span class="num">1.5rem</span>;
+  <span class="kw">grid-template-areas</span>:
+    <span class="str">"header header header"</span>
+    <span class="str">"sidebar main   main"</span>
+    <span class="str">"footer footer footer"</span>;
 }
 
-.item-header { grid-area: header; }
-.item-sidebar { grid-area: sidebar; }
+<span class="tp">.item-header</span> { <span class="kw">grid-area</span>: header; }
+<span class="tp">.item-sidebar</span> { <span class="kw">grid-area</span>: sidebar; }
 
-.item:nth-child(2) {
-  grid-column: 2 / 4;      /* span across */
-  grid-row: 1 / 3;
+<span class="tp">.item</span><span class="tp">:nth-child</span>(<span class="num">2</span>) {
+  <span class="kw">grid-column</span>: <span class="num">2</span> / <span class="num">4</span>;      <span class="cm">/* span across */</span>
+  <span class="kw">grid-row</span>: <span class="num">1</span> / <span class="num">3</span>;
 }</code></pre>
 
         <div class="highlight-box new-box mt-3">
           <strong><i class="bi bi-star-fill me-1"></i> Subgrid</strong> — inherits track sizing from parent grid:
-          <pre style="margin-top:.5rem"><code>.parent {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+          <pre style="margin-top:.5rem"><code><span class="tp">.parent</span> {
+  <span class="kw">display</span>: <span class="kw">grid</span>;
+  <span class="kw">grid-template-columns</span>: <span class="fn">repeat</span>(<span class="num">3</span>, <span class="num">1fr</span>);
 }
-.child {
-  display: grid;
-  grid-column: 1 / -1;
-  grid-template-columns: subgrid;  /* matches parent tracks */
-  /* child's columns now align with parent */
+<span class="tp">.child</span> {
+  <span class="kw">display</span>: <span class="kw">grid</span>;
+  <span class="kw">grid-column</span>: <span class="num">1</span> / -1;
+  <span class="kw">grid-template-columns</span>: <span class="kw">subgrid</span>;  <span class="cm">/* matches parent tracks */</span>
+  <span class="cm">/* child's columns now align with parent */</span>
 }</code></pre>
           <p class="mt-2 mb-0">Useful for aligning cards in a grid where each card has a different content height.</p>
         </div>
@@ -583,49 +597,49 @@
       <div class="card-header"><i class="bi bi-arrows-angle-expand me-1"></i> Component-Level Responsiveness</div>
       <div class="card-body">
         <p>The biggest CSS game-changer since Flexbox. Respond to the parent container's size, not the viewport.</p>
-        <pre><code>/* 1. Define a containment context */
-.card-wrapper {
-  container-type: inline-size;
-  container-name: card;
+        <pre><code><span class="cm">/* 1. Define a containment context */</span>
+<span class="tp">.card-wrapper</span> {
+  <span class="kw">container-type</span>: inline-size;
+  <span class="kw">container-name</span>: card;
 }
 
-/* 2. Query the container */
-@container card (min-width: 400px) {
-  .card {
-    display: grid;
-    grid-template-columns: 200px 1fr;
+<span class="cm">/* 2. Query the container */</span>
+@container card (<span class="kw">min-width</span>: <span class="num">400px</span>) {
+  <span class="tp">.card</span> {
+    <span class="kw">display</span>: <span class="kw">grid</span>;
+    <span class="kw">grid-template-columns</span>: <span class="num">200px</span> <span class="num">1fr</span>;
   }
 }
 
-@container card (max-width: 399px) {
-  .card {
-    display: flex;
-    flex-direction: column;
+@container card (<span class="kw">max-width</span>: <span class="num">399px</span>) {
+  <span class="tp">.card</span> {
+    <span class="kw">display</span>: <span class="kw">flex</span>;
+    <span class="kw">flex-direction</span>: <span class="kw">column</span>;
   }
 }
 
-/* Container query units */
-.cqw  /* 1% of container width */
-.cqh  /* 1% of container height */
-.cqi  /* 1% of container inline size */
-.cqb  /* 1% of container block size */
-.cqmin / .cqmax  /* smaller/larger of cqi/cqb */</code></pre>
+<span class="cm">/* Container query units */</span>
+<span class="tp">.cqw</span>  <span class="cm">/* 1% of container width */</span>
+<span class="tp">.cqh</span>  <span class="cm">/* 1% of container height */</span>
+<span class="tp">.cqi</span>  <span class="cm">/* 1% of container inline size */</span>
+<span class="tp">.cqb</span>  <span class="cm">/* 1% of container block size */</span>
+<span class="tp">.cqmin</span> / <span class="tp">.cqmax</span>  <span class="cm">/* smaller/larger of cqi/cqb */</span></code></pre>
         <div class="side-by-side mt-3">
           <div>
             <div class="label-old">Media Queries (viewport)</div>
-            <pre style="font-size:.75rem"><code>/* 🚫 Depends on screen size */
-@media (max-width: 768px) {
-  .sidebar-card {
-    flex-direction: column;
+            <pre style="font-size:.75rem"><code><span class="cm">/* 🚫 Depends on screen size */</span>
+@media (<span class="kw">max-width</span>: <span class="num">768px</span>) {
+  <span class="tp">.sidebar-card</span> {
+    <span class="kw">flex-direction</span>: <span class="kw">column</span>;
   }
 }</code></pre>
           </div>
           <div>
             <div class="label-new">Container Queries</div>
-            <pre style="font-size:.75rem"><code>/* ✅ Depends on container size */
-@container (max-width: 400px) {
-  .sidebar-card {
-    flex-direction: column;
+            <pre style="font-size:.75rem"><code><span class="cm">/* ✅ Depends on container size */</span>
+@container (<span class="kw">max-width</span>: <span class="num">400px</span>) {
+  <span class="tp">.sidebar-card</span> {
+    <span class="kw">flex-direction</span>: <span class="kw">column</span>;
   }
 }</code></pre>
           </div>
@@ -641,23 +655,23 @@
     <div class="card">
       <div class="card-header"><i class="bi bi-magic me-1"></i> :has() — The Parent Selector</div>
       <div class="card-body">
-        <pre><code>/* Select a card that CONTAINS an image */
-.card:has(img) {
-  grid-template-rows: 200px 1fr;
+        <pre><code><span class="cm">/* Select a card that CONTAINS an image */</span>
+<span class="tp">.card</span><span class="tp">:has</span>(img) {
+  <span class="kw">grid-template-rows</span>: <span class="num">200px</span> <span class="num">1fr</span>;
 }
 
-/* Style a form group that has an error */
-.form-group:has(.error) label {
-  color: red;
+<span class="cm">/* Style a form group that has an error */</span>
+<span class="tp">.form-group</span><span class="tp">:has</span>(<span class="tp">.error</span>) label {
+  <span class="kw">color</span>: red;
 }
 
-/* Previous sibling! (h2 that comes before p) */
-h2:has(+ p) {
-  margin-bottom: 0;
+<span class="cm">/* Previous sibling! (h2 that comes before p) */</span>
+h2<span class="tp">:has</span>(+ p) {
+  <span class="kw">margin-bottom</span>: <span class="num">0</span>;
 }
 
-/* All modern browsers support :has() */
-/* Chain it: :has(:has(...)) works too */</code></pre>
+<span class="cm">/* All modern browsers support :has() */</span>
+<span class="cm">/* Chain it: :has(:has(...)) works too */</span></code></pre>
         <div class="highlight-box new-box">
           <strong><i class="bi bi-star-fill me-1"></i> Game changer:</strong> <code>:has()</code> finally lets us select a parent based on its children. Also enables <em>previous-sibling</em> selectors. Supported in all major browsers since early 2024.
         </div>
@@ -667,19 +681,19 @@ h2:has(+ p) {
     <div class="card">
       <div class="card-header"><i class="bi bi-scissors me-1"></i> :where(), :is(), :not()</div>
       <div class="card-body">
-        <pre><code>/* :where() — zero specificity (great for resets) */
-:where(h1, h2, h3) { margin: 0; }     /* specificity = 0 */
-h1 { margin: 1rem; }                   /* wins (specificity = 0,0,1) */
+        <pre><code><span class="cm">/* :where() — zero specificity (great for resets) */</span>
+<span class="tp">:where</span>(h1, h2, h3) { <span class="kw">margin</span>: <span class="num">0</span>; }     <span class="cm">/* specificity = 0 */</span>
+h1 { <span class="kw">margin</span>: <span class="num">1rem</span>; }                   <span class="cm">/* wins (specificity = 0,0,1) */</span>
 
-/* :is() — same as :where() but keeps specificity */
-:is(h1, h2, h3) { color: blue; }      /* specificity = 0,0,1 */
+<span class="cm">/* :is() — same as :where() but keeps specificity */</span>
+<span class="tp">:is</span>(h1, h2, h3) { <span class="kw">color</span>: blue; }      <span class="cm">/* specificity = 0,0,1 */</span>
 
-/* :not() now supports selector lists */
-:not(.error, .warning, .disabled) { opacity: 1; }
+<span class="cm">/* :not() now supports selector lists */</span>
+<span class="tp">:not</span>(<span class="tp">.error</span>, <span class="tp">.warning</span>, <span class="tp">.disabled</span>) { <span class="kw">opacity</span>: <span class="num">1</span>; }
 
-/* Combo — style cards that have images AND are not disabled */
-.card:has(img):not(.disabled) {
-  opacity: 1;
+<span class="cm">/* Combo — style cards that have images AND are not disabled */</span>
+<span class="tp">.card</span><span class="tp">:has</span>(img)<span class="tp">:not</span>(<span class="tp">.disabled</span>) {
+  <span class="kw">opacity</span>: <span class="num">1</span>;
 }</code></pre>
       </div>
     </div>
@@ -690,22 +704,22 @@ h1 { margin: 1rem; }                   /* wins (specificity = 0,0,1) */
         <div class="side-by-side">
           <div>
             <div class="label-old">Without nesting</div>
-            <pre style="font-size:.75rem"><code>.card { }
-.card .title { }
-.card .body { }
-.card .body p { }
-.card:hover { }
-.card:hover .title { }</code></pre>
+            <pre style="font-size:.75rem"><code><span class="tp">.card</span> { }
+<span class="tp">.card</span> <span class="tp">.title</span> { }
+<span class="tp">.card</span> <span class="tp">.body</span> { }
+<span class="tp">.card</span> <span class="tp">.body</span> p { }
+<span class="tp">.card</span><span class="tp">:hover</span> { }
+<span class="tp">.card</span><span class="tp">:hover</span> <span class="tp">.title</span> { }</code></pre>
           </div>
           <div>
             <div class="label-new">With nesting <span class="new-badge">NEW</span></div>
-            <pre style="font-size:.75rem"><code>.card {
-  .title { }
-  .body {
+            <pre style="font-size:.75rem"><code><span class="tp">.card</span> {
+  <span class="tp">.title</span> { }
+  <span class="tp">.body</span> {
     p { }
   }
-  &amp;:hover {
-    .title { }
+  &amp;<span class="tp">:hover</span> {
+    <span class="tp">.title</span> { }
   }
 }</code></pre>
           </div>
@@ -726,24 +740,24 @@ h1 { margin: 1rem; }                   /* wins (specificity = 0,0,1) */
         <pre><code>@layer reset, base, components, utilities;
 
 @layer reset {
-  *, *::before, *::after { box-sizing: border-box; margin: 0; }
+  *, *<span class="tp">::before</span>, *<span class="tp">::after</span> { <span class="kw">box-sizing</span>: border-box; <span class="kw">margin</span>: <span class="num">0</span>; }
 }
 
 @layer base {
-  body { font-family: system-ui; line-height: 1.6; }
-  a { color: blue; }
+  body { <span class="kw">font-family</span>: <span class="kw">system-ui</span>; <span class="kw">line-height</span>: <span class="num">1.6</span>; }
+  a { <span class="kw">color</span>: blue; }
 }
 
 @layer components {
-  .btn { padding: 0.5rem 1rem; border-radius: 0.25rem; }
+  <span class="tp">.btn</span> { <span class="kw">padding</span>: <span class="num">0.5rem</span> <span class="num">1rem</span>; <span class="kw">border-radius</span>: <span class="num">0.25rem</span>; }
 }
 
 @layer utilities {
-  .text-center { text-align: center; }
-  .mt-4 { margin-top: 1rem; }
+  <span class="tp">.text-center</span> { <span class="kw">text-align</span>: <span class="kw">center</span>; }
+  <span class="tp">.mt-4</span> { <span class="kw">margin-top</span>: <span class="num">1rem</span>; }
 }
 
-/* Later layers override earlier ones — even with lower specificity */</code></pre>
+<span class="cm">/* Later layers override earlier ones — even with lower specificity */</span></code></pre>
       </div>
     </div>
 
@@ -752,21 +766,21 @@ h1 { margin: 1rem; }                   /* wins (specificity = 0,0,1) */
       <div class="card-body">
         <p>Define typed CSS variables for animation, fallbacks, and validation.</p>
         <pre><code>@property --primary-color {
-  syntax: "&lt;color&gt;";
+  syntax: "<span class="kw">&lt;color</span><span class="kw">&gt;</span>";
   inherits: true;
-  initial-value: #4f46e5;
+  initial-value: #<span class="num">4</span>f46e5;
 }
 
 @property --spacing {
-  syntax: "&lt;length&gt;";
+  syntax: "<span class="kw">&lt;length</span><span class="kw">&gt;</span>";
   inherits: false;
-  initial-value: 1rem;
+  initial-value: <span class="num">1</span>rem;
 }
 
 /* Now you can animate custom properties! */
 .card {
   --primary-color: blue;
-  transition: --primary-color 0.3s;
+  transition: --primary-color <span class="num">0.3</span>s;
 }
 .card:hover {
   --primary-color: red;
@@ -785,42 +799,42 @@ h1 { margin: 1rem; }                   /* wins (specificity = 0,0,1) */
     <div class="card">
       <div class="card-header"><i class="bi bi-text-paragraph me-1"></i> Modern Text Features</div>
       <div class="card-body">
-        <pre><code>/* Balanced text wrapping (new!) */
+        <pre><code><span class="cm">/* Balanced text wrapping (new!) */</span>
 h1, h2, h3 {
-  text-wrap: balance;    /* equal-width lines, great for headings */
+  <span class="kw">text-wrap</span>: <span class="kw">balance</span>;    <span class="cm">/* equal-width lines, great for headings */</span>
 }
 p {
-  text-wrap: pretty;     /* avoid orphan words on last line */
+  <span class="kw">text-wrap</span>: <span class="kw">pretty</span>;     <span class="cm">/* avoid orphan words on last line */</span>
 }
-.text-nowrap {
-  text-wrap: nowrap;
-}
-
-/* Initial letter (drop cap) */
-p::first-letter {
-  initial-letter: 2;    /* 2 lines tall */
-  font-weight: 700;
-  color: var(--coral);
+<span class="tp">.text-nowrap</span> {
+  <span class="kw">text-wrap</span>: <span class="kw">nowrap</span>;
 }
 
-/* Line clamp (multi-line truncation) */
-.card-text {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
+<span class="cm">/* Initial letter (drop cap) */</span>
+p<span class="tp">::first-letter</span> {
+  <span class="kw">initial-letter</span>: <span class="num">2</span>;    <span class="cm">/* 2 lines tall */</span>
+  <span class="kw">font-weight</span>: <span class="num">700</span>;
+  <span class="kw">color</span>: <span class="fn">var</span>(--coral);
+}
+
+<span class="cm">/* Line clamp (multi-line truncation) */</span>
+<span class="tp">.card-text</span> {
+  <span class="kw">display</span>: -webkit-box;
+  -webkit-line-clamp: <span class="num">3</span>;
   -webkit-box-orient: vertical;
-  overflow: hidden;
+  <span class="kw">overflow</span>: <span class="kw">hidden</span>;
 }
 
-/* Variable fonts */
+<span class="cm">/* Variable fonts */</span>
 @font-face {
-  font-family: 'MyVariableFont';
-  src: url('font.woff2') format('woff2-variations');
-  font-weight: 100 900;         /* weight axis range */
-  font-stretch: 75% 125%;       /* width axis range */
+  <span class="kw">font-family</span>: <span class="str">'MyVariableFont'</span>;
+  src: <span class="fn">url</span>(<span class="str">'font.woff2'</span>) <span class="fn">format</span>(<span class="str">'woff2-variations'</span>);
+  <span class="kw">font-weight</span>: <span class="num">100</span> <span class="num">900</span>;         <span class="cm">/* weight axis range */</span>
+  <span class="kw">font-stretch</span>: <span class="num">75%</span> <span class="num">125%</span>;       <span class="cm">/* width axis range */</span>
 }
 body {
-  font-family: 'MyVariableFont', sans-serif;
-  font-weight: 400;             /* or 372 — any value in range */
+  <span class="kw">font-family</span>: <span class="str">'MyVariableFont'</span>, <span class="kw">sans-serif</span>;
+  <span class="kw">font-weight</span>: <span class="num">400</span>;             <span class="cm">/* or 372 — any value in range */</span>
 }</code></pre>
         <div class="highlight-box new-box">
           <strong><i class="bi bi-star-fill me-1"></i> text-wrap: balance</strong> — single line of CSS and your headings look like a designer typeset them. <code>pretty</code> prevents orphans. Both are supported in Chrome 117+, Safari 17.5+, Firefox 121+.
@@ -836,39 +850,39 @@ body {
     <div class="card">
       <div class="card-header"><i class="bi bi-eyedropper me-1"></i> Modern Color Spaces</div>
       <div class="card-body">
-        <pre><code>/* OKLCH — perceptually uniform, wider gamut */
-.primary {
-  background: oklch(0.6 0.2 280);   /* lightness, chroma, hue */
+        <pre><code><span class="cm">/* OKLCH — perceptually uniform, wider gamut */</span>
+<span class="tp">.primary</span> {
+  <span class="kw">background</span>: <span class="fn">oklch</span>(<span class="num">0.6</span> <span class="num">0.2</span> <span class="num">280</span>);   <span class="cm">/* lightness, chroma, hue */</span>
 }
-.oklch-example {
-  color: oklch(0.4 0.15 200);       /* dark cyan */
-}
-
-/* color-mix() — blend two colors */
-.mixed {
-  background: color-mix(in oklch, red 40%, blue 60%);
-}
-.hover-effect {
-  background: color-mix(in srgb, var(--primary), white 30%);
+<span class="tp">.oklch-example</span> {
+  <span class="kw">color</span>: <span class="fn">oklch</span>(<span class="num">0.4</span> <span class="num">0.15</span> <span class="num">200</span>);       <span class="cm">/* dark cyan */</span>
 }
 
-/* Relative colors (modify an existing color) */
-.lighter {
-  --primary: #4f46e5;
-  background: oklch(from var(--primary) l c h / 0.5);
-  /* Keep hue/chroma, change alpha */
+<span class="cm">/* color-mix() — blend two colors */</span>
+<span class="tp">.mixed</span> {
+  <span class="kw">background</span>: <span class="fn">color-mix</span>(in oklch, red <span class="num">40%</span>, blue <span class="num">60%</span>);
+}
+<span class="tp">.hover-effect</span> {
+  <span class="kw">background</span>: <span class="fn">color-mix</span>(in srgb, <span class="fn">var</span>(--primary), white <span class="num">30%</span>);
 }
 
-/* P3 wide gamut (brighter displays) */
+<span class="cm">/* Relative colors (modify an existing color) */</span>
+<span class="tp">.lighter</span> {
+  --primary: <span class="tp">#4f46e5</span>;
+  <span class="kw">background</span>: <span class="fn">oklch</span>(from <span class="fn">var</span>(--primary) l c h / <span class="num">0.5</span>);
+  <span class="cm">/* Keep hue/chroma, change alpha */</span>
+}
+
+<span class="cm">/* P3 wide gamut (brighter displays) */</span>
 @media (color-gamut: p3) {
-  .vibrant {
-    color: color(display-p3 0 0.8 0.6);
+  <span class="tp">.vibrant</span> {
+    <span class="kw">color</span>: color(display-p3 <span class="num">0</span> <span class="num">0.8</span> <span class="num">0.6</span>);
   }
 }
 
-/* accent-color for form controls */
-input[type="checkbox"] {
-  accent-color: var(--coral);
+<span class="cm">/* accent-color for form controls */</span>
+input[type=<span class="str">"checkbox"</span>] {
+  <span class="kw">accent-color</span>: <span class="fn">var</span>(--coral);
 }</code></pre>
         <div class="highlight-box new-box">
           <strong><i class="bi bi-star-fill me-1"></i> OKLCH</strong> is the color space of the future — perceptually uniform, works like HSL but actually looks right. <code>color-mix()</code> replaces preprocessor darken/lighten. Supported in all modern browsers.
@@ -898,20 +912,20 @@ input[type="checkbox"] {
           </tbody>
         </table>
 
-        <pre class="mt-3"><code>/* Smooth sizing with clamp() */
-.responsive-text {
-  font-size: clamp(1rem, 2.5vw + 1rem, 2rem);
+        <pre class="mt-3"><code><span class="cm">/* Smooth sizing with clamp() */</span>
+<span class="tp">.responsive-text</span> {
+  <span class="kw">font-size</span>: <span class="fn">clamp</span>(<span class="num">1rem</span>, <span class="num">2.5vw</span> + <span class="num">1rem</span>, <span class="num">2rem</span>);
 }
-.responsive-padding {
-  padding: clamp(1rem, 3vw, 3rem);
+<span class="tp">.responsive-padding</span> {
+  <span class="kw">padding</span>: <span class="fn">clamp</span>(<span class="num">1rem</span>, <span class="num">3vw</span>, <span class="num">3rem</span>);
 }
 
-/* Similar min() / max() / minmax() helpers */
-.sidebar {
-  width: min(300px, 30vw);       /* whichever is smaller */
+<span class="cm">/* Similar min() / max() / minmax() helpers */</span>
+<span class="tp">.sidebar</span> {
+  <span class="kw">width</span>: <span class="fn">min</span>(<span class="num">300px</span>, <span class="num">30vw</span>);       <span class="cm">/* whichever is smaller */</span>
 }
-.content {
-  flex: 1 1 minmax(200px, 1fr); /* Grid auto-fit trick */
+<span class="tp">.content</span> {
+  <span class="kw">flex</span>: <span class="num">1</span> <span class="num">1</span> <span class="fn">minmax</span>(<span class="num">200px</span>, <span class="num">1fr</span>); <span class="cm">/* Grid auto-fit trick */</span>
 }</code></pre>
         <div class="highlight-box css-box">
           <strong><code>dvh</code></strong> solves the infamous mobile 100vh problem (Chrome mobile address bar). Use <code>min-height: 100dvh</code> for full-screen sections.
@@ -922,18 +936,18 @@ input[type="checkbox"] {
     <div class="card">
       <div class="card-header"><i class="bi bi-aspect-ratio me-1"></i> aspect-ratio</div>
       <div class="card-body">
-        <pre><code>/* Maintain aspect ratio without padding hacks */
+        <pre><code><span class="cm">/* Maintain aspect ratio without padding hacks */</span>
 img, video {
-  aspect-ratio: 16 / 9;
-  width: 100%;
-  height: auto;
+  <span class="kw">aspect-ratio</span>: <span class="num">16</span> / <span class="num">9</span>;
+  <span class="kw">width</span>: <span class="num">100%</span>;
+  <span class="kw">height</span>: <span class="kw">auto</span>;
 }
-.square {
-  aspect-ratio: 1;
-  width: 100px;
+<span class="tp">.square</span> {
+  <span class="kw">aspect-ratio</span>: <span class="num">1</span>;
+  <span class="kw">width</span>: <span class="num">100px</span>;
 }
-.wide {
-  aspect-ratio: 2 / 1;
+<span class="tp">.wide</span> {
+  <span class="kw">aspect-ratio</span>: <span class="num">2</span> / <span class="num">1</span>;
 }</code></pre>
         <div class="highlight-box css-box">
           No more <code>padding-bottom: 56.25%</code> hacks. <code>aspect-ratio</code> is supported in all modern browsers.
@@ -949,30 +963,30 @@ img, video {
     <div class="card">
       <div class="card-header"><i class="bi bi-arrow-repeat me-1"></i> View Transitions API</div>
       <div class="card-body">
-        <pre><code>/* SPA-like page transitions with one line */
+        <pre><code><span class="cm">/* SPA-like page transitions with one line */</span>
 @view-transition {
-  navigation: auto;
+  navigation: <span class="kw">auto</span>;
 }
 
-/* Or manual for specific transitions */
-document.startViewTransition(() => {
-  updateDOM();
+<span class="cm">/* Or manual for specific transitions */</span>
+document<span class="tp">.startViewTransition</span>(() => {
+  <span class="fn">updateDOM</span>();
 });
 
-/* Style individual transition elements */
-::view-transition-old(page) {
-  animation: fade-out 0.3s;
+<span class="cm">/* Style individual transition elements */</span>
+<span class="tp">::view-transition-old</span>(page) {
+  <span class="kw">animation</span>: fade-out <span class="num">0.3s</span>;
 }
-::view-transition-new(page) {
-  animation: fade-in 0.3s;
+<span class="tp">::view-transition-new</span>(page) {
+  <span class="kw">animation</span>: fade-in <span class="num">0.3s</span>;
 }
 
-/* Cross-fade between elements with the same view-transition-name */
-.thumbnail {
-  view-transition-name: gallery-image;
+<span class="cm">/* Cross-fade between elements with the same view-transition-name */</span>
+<span class="tp">.thumbnail</span> {
+  <span class="kw">view-transition-name</span>: gallery-image;
 }
-.lightbox {
-  view-transition-name: gallery-image;
+<span class="tp">.lightbox</span> {
+  <span class="kw">view-transition-name</span>: gallery-image;
 }</code></pre>
         <div class="highlight-box new-box">
           <strong><i class="bi bi-star-fill me-1"></i> View Transitions API</strong> — smooth animations between DOM states. The browser handles the complexity. Supported in Chrome 111+, Safari 18+, and coming to Firefox.
@@ -983,51 +997,51 @@ document.startViewTransition(() => {
     <div class="card">
       <div class="card-header"><i class="bi bi-timeline me-1"></i> Scroll-Driven Animations</div>
       <div class="card-body">
-        <pre><code>/* Animate based on scroll position — no JS intersection observer */
+        <pre><code><span class="cm">/* Animate based on scroll position — no JS intersection observer */</span>
 @keyframes fade-in {
-  from { opacity: 0; scale: 0.8; }
-  to { opacity: 1; scale: 1; }
+  from { <span class="kw">opacity</span>: <span class="num">0</span>; scale: <span class="num">0.8</span>; }
+  to { <span class="kw">opacity</span>: <span class="num">1</span>; scale: <span class="num">1</span>; }
 }
 
-.card {
-  animation: fade-in linear;
-  animation-timeline: view();        /* triggers based on element visibility */
-  animation-range: entry 0% entry 100%;  /* animate during entry */
+<span class="tp">.card</span> {
+  <span class="kw">animation</span>: fade-in <span class="kw">linear</span>;
+  animation-timeline: <span class="fn">view</span>();        <span class="cm">/* triggers based on element visibility */</span>
+  animation-range: entry <span class="num">0%</span> entry <span class="num">100%</span>;  <span class="cm">/* animate during entry */</span>
 }
 
-/* Progress indicator linked to scroll */
+<span class="cm">/* Progress indicator linked to scroll */</span>
 @keyframes shrink-header {
-  from { height: 120px; font-size: 2rem; }
-  to { height: 60px; font-size: 1rem; }
+  from { <span class="kw">height</span>: <span class="num">120px</span>; <span class="kw">font-size</span>: <span class="num">2rem</span>; }
+  to { <span class="kw">height</span>: <span class="num">60px</span>; <span class="kw">font-size</span>: <span class="num">1rem</span>; }
 }
 
 header {
-  animation: shrink-header linear;
-  animation-timeline: scroll();
-  position: sticky;
-  top: 0;
+  <span class="kw">animation</span>: shrink-header <span class="kw">linear</span>;
+  animation-timeline: <span class="fn">scroll</span>();
+  <span class="kw">position</span>: <span class="kw">sticky</span>;
+  <span class="kw">top</span>: <span class="num">0</span>;
 }
 
-/* @starting-style — animate elements entering the DOM */
+<span class="cm">/* @starting-style — animate elements entering the DOM */</span>
 @starting-style {
-  .toast {
-    opacity: 0;
-    translate: 0 100%;
+  <span class="tp">.toast</span> {
+    <span class="kw">opacity</span>: <span class="num">0</span>;
+    translate: <span class="num">0</span> <span class="num">100%</span>;
   }
 }
-.toast {
-  opacity: 1;
-  translate: 0 0;
-  transition: opacity 0.3s, translate 0.3s;
+<span class="tp">.toast</span> {
+  <span class="kw">opacity</span>: <span class="num">1</span>;
+  translate: <span class="num">0</span> <span class="num">0</span>;
+  <span class="kw">transition</span>: opacity <span class="num">0.3s</span>, translate <span class="num">0.3s</span>;
 }
 
-/* overlay + allow-discrete for entry/exit */
-.modal {
-  overlay: auto;
-  transition: opacity 0.3s, overlay 0.3s allow-discrete;
+<span class="cm">/* overlay + allow-discrete for entry/exit */</span>
+<span class="tp">.modal</span> {
+  overlay: <span class="kw">auto</span>;
+  <span class="kw">transition</span>: opacity <span class="num">0.3s</span>, overlay <span class="num">0.3s</span> allow-discrete;
 }
 @starting-style {
-  .modal { opacity: 0; }
+  <span class="tp">.modal</span> { <span class="kw">opacity</span>: <span class="num">0</span>; }
 }</code></pre>
         <div class="highlight-box new-box">
           <strong><i class="bi bi-star-fill me-1"></i> Scroll-driven animations</strong> are the future of scroll-based effects. <code>@starting-style</code> solves the "can't animate on mount" problem. <code>transition-behavior: allow-discrete</code> enables animation of discrete properties like <code>overlay</code> and <code>display</code>.
@@ -1043,41 +1057,41 @@ header {
     <div class="card">
       <div class="card-header"><i class="bi bi-brush me-1"></i> Modern Visual Utilities</div>
       <div class="card-body">
-        <pre><code>/* Backdrop blur (glassmorphism) */
-.glass {
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+        <pre><code><span class="cm">/* Backdrop blur (glassmorphism) */</span>
+<span class="tp">.glass</span> {
+  <span class="kw">background</span>: <span class="fn">rgba</span>(<span class="num">255</span>, <span class="num">255</span>, <span class="num">255</span>, <span class="num">0.6</span>);
+  <span class="kw">backdrop-filter</span>: <span class="fn">blur</span>(<span class="num">16px</span>);
+  -webkit-backdrop-filter: <span class="fn">blur</span>(<span class="num">16px</span>);
+  <span class="kw">border</span>: <span class="num">1px</span> <span class="kw">solid</span> <span class="fn">rgba</span>(<span class="num">255</span>, <span class="num">255</span>, <span class="num">255</span>, <span class="num">0.3</span>);
 }
 
-/* Scrollbar gutter (prevent layout shift) */
-.layout {
-  scrollbar-gutter: stable;    /* always reserve scrollbar space */
+<span class="cm">/* Scrollbar gutter (prevent layout shift) */</span>
+<span class="tp">.layout</span> {
+  <span class="kw">scrollbar-gutter</span>: stable;    <span class="cm">/* always reserve scrollbar space */</span>
 }
 
-/* Overscroll behavior */
-.sidebar {
-  overscroll-behavior: contain;  /* stop scroll chaining */
+<span class="cm">/* Overscroll behavior */</span>
+<span class="tp">.sidebar</span> {
+  <span class="kw">overscroll-behavior</span>: <span class="kw">contain</span>;  <span class="cm">/* stop scroll chaining */</span>
 }
 body {
-  overscroll-behavior: none;     /* disable pull-to-refresh */
+  <span class="kw">overscroll-behavior</span>: <span class="kw">none</span>;     <span class="cm">/* disable pull-to-refresh */</span>
 }
 
-/* Smooth scroll */
+<span class="cm">/* Smooth scroll */</span>
 html {
-  scroll-behavior: smooth;
+  <span class="kw">scroll-behavior</span>: smooth;
 }
 
-/* Hyphenation */
+<span class="cm">/* Hyphenation */</span>
 p {
-  hyphens: auto;
+  <span class="kw">hyphens</span>: <span class="kw">auto</span>;
 }
 
-/* content-visibility (performance) */
-.lazy-section {
-  content-visibility: auto;
-  contain-intrinsic-size: 0 500px;
+<span class="cm">/* content-visibility (performance) */</span>
+<span class="tp">.lazy-section</span> {
+  <span class="kw">content-visibility</span>: <span class="kw">auto</span>;
+  <span class="kw">contain-intrinsic-size</span>: <span class="num">0</span> <span class="num">500px</span>;
 }</code></pre>
         <div class="highlight-box css-box">
           <strong><code>content-visibility: auto</code></strong> — skip rendering of offscreen elements. Major performance boost for long pages. <code>contain-intrinsic-size</code> prevents scrollbar jank by reserving space.
@@ -1093,26 +1107,26 @@ p {
     <div class="card">
       <div class="card-header"><i class="bi bi-mic me-1"></i> ARIA Landmarks</div>
       <div class="card-body">
-        <pre><code>&lt;!-- Use semantic elements first, ARIA as fallback --&gt;
-&lt;header role="banner"&gt;...&lt;/header&gt;
-&lt;nav role="navigation" aria-label="Main"&gt;...&lt;/nav&gt;
-&lt;main role="main"&gt;...&lt;/main&gt;
-&lt;aside role="complementary"&gt;...&lt;/aside&gt;
-&lt;footer role="contentinfo"&gt;...&lt;/footer&gt;
+        <pre><code><span class="cm">&lt;!-- Use semantic elements first, ARIA as fallback --&gt;</span>
+<span class="kw">&lt;header</span> <span class="fn">role</span>=<span class="str">"banner"</span><span class="kw">&gt;</span>...<span class="kw">&lt;/header</span><span class="kw">&gt;</span>
+<span class="kw">&lt;nav</span> <span class="fn">role</span>=<span class="str">"navigation"</span> <span class="fn">aria-label</span>=<span class="str">"Main"</span><span class="kw">&gt;</span>...<span class="kw">&lt;/nav</span><span class="kw">&gt;</span>
+<span class="kw">&lt;main</span> <span class="fn">role</span>=<span class="str">"main"</span><span class="kw">&gt;</span>...<span class="kw">&lt;/main</span><span class="kw">&gt;</span>
+<span class="kw">&lt;aside</span> <span class="fn">role</span>=<span class="str">"complementary"</span><span class="kw">&gt;</span>...<span class="kw">&lt;/aside</span><span class="kw">&gt;</span>
+<span class="kw">&lt;footer</span> <span class="fn">role</span>=<span class="str">"contentinfo"</span><span class="kw">&gt;</span>...<span class="kw">&lt;/footer</span><span class="kw">&gt;</span>
 
-&lt;!-- Live regions (dynamic content) --&gt;
-&lt;div role="alert" aria-live="assertive"&gt;Error occurred&lt;/div&gt;
-&lt;div aria-live="polite"&gt;3 new messages&lt;/div&gt;
+<span class="cm">&lt;!-- Live regions (dynamic content) --&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">role</span>=<span class="str">"alert"</span> <span class="fn">aria-live</span>=<span class="str">"assertive"</span><span class="kw">&gt;</span>Error occurred<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">aria-live</span>=<span class="str">"polite"</span><span class="kw">&gt;</span><span class="num">3</span> new messages<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
 
-&lt;!-- Screen-reader-only text --&gt;
+<span class="cm">&lt;!-- Screen-reader-only text --&gt;</span>
 .sr-only {
   position: absolute;
-  width: 1px; height: 1px;
-  padding: 0; margin: -1px;
+  width: <span class="num">1</span>px; height: <span class="num">1</span>px;
+  padding: <span class="num">0</span>; margin: -<span class="num">1</span>px;
   overflow: hidden;
-  clip: rect(0,0,0,0);
+  clip: rect(<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>);
   white-space: nowrap;
-  border: 0;
+  border: <span class="num">0</span>;
 }</code></pre>
       </div>
     </div>

@@ -169,7 +169,20 @@
     }
     pre:not(.term) code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
 
-    .cmd-table td:first-child, .cmd-table th:first-child {
+    .kw { color: #c792ea; }
+    .fn { color: #82aaff; }
+    .str { color: #c3e88d; }
+    .cm { color: #546e7a; font-style: italic; }
+    .num { color: #f78c6c; }
+    .tp { color: #ffcb6b; }
+    [data-bs-theme="dark"] .kw { color: #c792ea; }
+    [data-bs-theme="dark"] .fn { color: #82aaff; }
+    [data-bs-theme="dark"] .str { color: #c3e88d; }
+    [data-bs-theme="dark"] .cm { color: #546e7a; }
+    [data-bs-theme="dark"] .num { color: #f78c6c; }
+    [data-bs-theme="dark"] .tp { color: #ffcb6b; }
+
+.cmd-table td:first-child, .cmd-table th:first-child {
       font-family: 'JetBrains Mono', monospace;
       font-size: .82rem;
       white-space: nowrap;
@@ -464,7 +477,7 @@
         <div class="card h-100">
           <div class="card-header">Short format (default)</div>
           <div class="card-body">
-<pre class="term no-prompt"><code><span class="c-output">Documents  Downloads  Music  Pictures  Videos</span></code></pre>
+<pre class="term no-prompt"><code><span class=<span class="str">"c-output"</span>>Documents  Downloads  Music  Pictures  Videos</span></code></pre>
             <p class="text-muted small mb-0">Names separated by spaces, sorted alphabetically by default.</p>
           </div>
         </div>
@@ -473,9 +486,9 @@
         <div class="card h-100">
           <div class="card-header">Long format <span class="flag-pill">-l</span></div>
           <div class="card-body">
-<pre class="term no-prompt"><code><span class="c-output">drwxr-xr-x  5 alice staff   160B Jun  4 10:14 Documents
--rw-r--r--  1 alice staff   1.2K Jun  4 09:30 notes.txt
-lrwxr-xr-x  1 alice staff    32B Jun  1 08:00 link -&gt; target
+<pre class="term no-prompt"><code><span class=<span class="str">"c-output"</span>>drwxr-xr-x  <span class="num">5</span> alice staff   <span class="num">160</span>B Jun  <span class="num">4</span> <span class="num">10</span>:<span class="num">14</span> Documents
+<span class="fn">-rw-r--r--</span>  <span class="num">1</span> alice staff   <span class="num">1.2</span>K Jun  <span class="num">4</span> <span class="num">09</span>:<span class="num">30</span> notes.txt
+lrwxr-xr-x  <span class="num">1</span> alice staff    <span class="num">32</span>B Jun  <span class="num">1</span> <span class="num">08</span>:<span class="num">00</span> link -&gt; target
 </span></code></pre>
             <p class="text-muted small mb-0">Permissions, links, owner, group, size, mtime, name.</p>
           </div>
@@ -488,7 +501,7 @@ lrwxr-xr-x  1 alice staff    32B Jun  1 08:00 link -&gt; target
         <div class="card h-100">
           <div class="card-header">Comma-separated <span class="flag-pill">-m</span></div>
           <div class="card-body">
-<pre class="term no-prompt"><code><span class="c-output">Documents, Downloads, Music, Pictures, Videos</span></code></pre>
+<pre class="term no-prompt"><code><span class=<span class="str">"c-output"</span>>Documents, Downloads, Music, Pictures, Videos</span></code></pre>
           </div>
         </div>
       </div>
@@ -496,7 +509,7 @@ lrwxr-xr-x  1 alice staff    32B Jun  1 08:00 link -&gt; target
         <div class="card h-100">
           <div class="card-header">One per line <span class="flag-pill">-1</span></div>
           <div class="card-body">
-<pre class="term no-prompt"><code><span class="c-output">Documents
+<pre class="term no-prompt"><code><span class=<span class="str">"c-output"</span>>Documents
 Downloads
 Music
 Pictures
@@ -509,7 +522,7 @@ Videos</span></code></pre>
         <div class="card h-100">
           <div class="card-header">Classify <span class="flag-pill">-F</span></div>
           <div class="card-body">
-<pre class="term no-prompt"><code><span class="c-output">Documents/  Downloads/  link@  notes.txt  script*</span></code></pre>
+<pre class="term no-prompt"><code><span class=<span class="str">"c-output"</span>>Documents/  Downloads/  link@  notes.txt  script*</span></code></pre>
             <p class="text-muted small mb-0"><code>/</code>=dir &middot; <code>@</code>=symlink &middot; <code>*</code>=executable &middot; <code>=</code>=socket &middot; <code>|</code>=FIFO</p>
           </div>
         </div>
@@ -518,7 +531,7 @@ Videos</span></code></pre>
         <div class="card h-100">
           <div class="card-header">Colorize <span class="flag-pill">--color</span></div>
           <div class="card-body">
-<pre class="term no-prompt"><code><span class="c-output">$ </span><span style="color:#60a5fa">Documents</span>  <span style="color:#60a5fa">Downloads</span>  <span style="color:#facc15">link</span>  notes.txt  script<span style="color:#86efac">*</span></code></pre>
+<pre class="term no-prompt"><code><span class=<span class="str">"c-output"</span>>$ </span><span style=<span class="str">"color:#60a5fa"</span>>Documents</span>  <span style=<span class="str">"color:#60a5fa"</span>>Downloads</span>  <span style=<span class="str">"color:#facc15"</span>>link</span>  notes.txt  script<span style=<span class="str">"color:#86efac"</span>>*</span></code></pre>
             <p class="text-muted small mb-0">Auto on most distros via alias <code>ls='ls --color=auto'</code>.</p>
           </div>
         </div>
@@ -600,7 +613,7 @@ Videos</span></code></pre>
     <div class="card">
       <div class="card-header">Sample line</div>
       <div class="card-body">
-<pre class="term no-prompt"><code><span class="c-output">-rw-r--r--  1 alice staff  1.2K  Jun  4 09:30  notes.txt</span></code></pre>
+<pre class="term no-prompt"><code><span class=<span class="str">"c-output"</span>>-rw-r--r--  <span class="num">1</span> alice staff  <span class="num">1.2</span>K  Jun  <span class="num">4</span> <span class="num">09</span>:<span class="num">30</span>  notes.txt</span></code></pre>
       </div>
     </div>
 
@@ -650,14 +663,14 @@ Videos</span></code></pre>
     <div class="card">
       <div class="card-header">Typical dotfiles</div>
       <div class="card-body">
-<pre class="term no-prompt"><code><span class="c-output">.bashrc        # login shell config
-.bash_profile  # sourced at login
-.zshrc         # zsh config (macOS default since Catalina)
-.gitconfig     # git user/aliases
-.ssh/          # SSH keys &amp; known_hosts
-.vscode/       # VS Code settings
-.ENV / .env    # environment variables (never commit!)
-.dockerignore  # files excluded from Docker context</span></code></pre>
+<pre class="term no-prompt"><code><span class=<span class="str">"c-output"</span>>.bashrc        <span class="cm"># login shell config</span>
+.bash_profile  <span class="cm"># sourced at login</span>
+.zshrc         <span class="cm"># zsh config (macOS default since Catalina)</span>
+.gitconfig     <span class="cm"># git user/aliases</span>
+.<span class="kw">ssh</span>/          <span class="cm"># SSH keys &amp; known_hosts</span>
+.vscode/       <span class="cm"># VS Code settings</span>
+.ENV / .<span class="kw">env</span>    <span class="cm"># environment variables (never commit!)</span>
+.dockerignore  <span class="cm"># files excluded from Docker context</span></span></code></pre>
       </div>
     </div>
   </section>
@@ -821,17 +834,17 @@ Videos</span></code></pre>
       <div class="card-body">
 <pre class="term no-prompt"><code><span class="c-cmdwin">C:\Users\Alice&gt;</span> <span class="c-ps">dir</span> <span class="c-output">C:\Windows
  Volume in drive C has no label.
- Volume Serial Number is 1234-5678
+ Volume Serial Number is <span class="num">1234</span>-<span class="num">5678</span>
 
  Directory of C:\Windows
 
-06/04/2026  09:30 AM    &lt;DIR&gt;          .
-06/04/2026  09:30 AM    &lt;DIR&gt;          ..
-06/03/2026  08:15 PM             1,234 addins
-06/02/2026  10:42 AM    &lt;DIR&gt;          AppReadiness
-05/29/2026  02:11 PM           123,456 explorer.exe
-              15 File(s)      4,567,890 bytes
-              22 Dir(s)  123,456,789,012 bytes free</span></code></pre>
+<span class="num">06</span>/<span class="num">04</span>/<span class="num">2026</span>  <span class="num">09</span>:<span class="num">30</span> AM    <span class="kw">&lt;DIR</span><span class="kw">&gt;</span>          .
+<span class="num">06</span>/<span class="num">04</span>/<span class="num">2026</span>  <span class="num">09</span>:<span class="num">30</span> AM    <span class="kw">&lt;DIR</span><span class="kw">&gt;</span>          ..
+<span class="num">06</span>/<span class="num">03</span>/<span class="num">2026</span>  <span class="num">08</span>:<span class="num">15</span> PM             <span class="num">1</span>,<span class="num">234</span> addins
+<span class="num">06</span>/<span class="num">02</span>/<span class="num">2026</span>  <span class="num">10</span>:<span class="num">42</span> AM    <span class="kw">&lt;DIR</span><span class="kw">&gt;</span>          AppReadiness
+<span class="num">05</span>/<span class="num">29</span>/<span class="num">2026</span>  <span class="num">02</span>:<span class="num">11</span> PM           <span class="num">123</span>,<span class="num">456</span> explorer.exe
+              <span class="num">15</span> File(s)      <span class="num">4</span>,<span class="num">567</span>,<span class="num">890</span> bytes
+              <span class="num">22</span> Dir(s)  <span class="num">123</span>,<span class="num">456</span>,<span class="num">789</span>,<span class="num">012</span> bytes free</span></code></pre>
       </div>
     </div>
 
@@ -900,8 +913,8 @@ C:\data\dump.sql                             64.00</span></code></pre>
           <div class="card-body">
             <h5><i class="bi bi-ubuntu text-warning me-2"></i>WSL</h5>
             <p class="small text-muted mb-2">Windows Subsystem for Linux. Full Linux <code>ls</code> with all flags.</p>
-<pre class="term no-prompt"><code><span class="c-ps">wsl ls -la</span>
-<span class="c-ps">wsl ls /mnt/c/Users</span></code></pre>
+<pre class="term no-prompt"><code><span class=<span class="str">"c-ps"</span>>wsl <span class="kw">ls</span> <span class="fn">-la</span></span>
+<span class=<span class="str">"c-ps"</span>>wsl <span class="kw">ls</span> /mnt/c/Users</span></code></pre>
             <p class="small text-muted mb-0">Access Windows files under <code>/mnt/c/...</code></p>
           </div>
         </div>
@@ -911,8 +924,8 @@ C:\data\dump.sql                             64.00</span></code></pre>
           <div class="card-body">
             <h5><i class="bi bi-git text-danger me-2"></i>Git Bash</h5>
             <p class="small text-muted mb-2">Bundled with Git for Windows. Includes coreutils.</p>
-<pre class="term no-prompt"><code><span class="c-ps">ls -lah</span>
-<span class="c-ps">ls -R --color=auto</span></code></pre>
+<pre class="term no-prompt"><code><span class=<span class="str">"c-ps"</span>><span class="kw">ls</span> <span class="fn">-lah</span></span>
+<span class=<span class="str">"c-ps"</span>><span class="kw">ls</span> <span class="fn">-R</span> <span class="fn">--color</span>=auto</span></code></pre>
             <p class="small text-muted mb-0">Use the <code>Git Bash Here</code> context-menu.</p>
           </div>
         </div>
@@ -922,8 +935,8 @@ C:\data\dump.sql                             64.00</span></code></pre>
           <div class="card-body">
             <h5><i class="bi bi-terminal text-info me-2"></i>MSYS2 / Cygwin</h5>
             <p class="small text-muted mb-2">POSIX compatibility layer. Full Unix toolchain.</p>
-<pre class="term no-prompt"><code><span class="c-ps">pacman -S coreutils</span>
-<span class="c-ps">ls --color=auto</span></code></pre>
+<pre class="term no-prompt"><code><span class=<span class="str">"c-ps"</span>><span class="kw">pacman</span> <span class="fn">-S</span> coreutils</span>
+<span class=<span class="str">"c-ps"</span>><span class="kw">ls</span> <span class="fn">--color</span>=auto</span></code></pre>
             <p class="small text-muted mb-0">Heavier than Git Bash, more complete than WSL.</p>
           </div>
         </div>
@@ -1185,64 +1198,64 @@ done</span>
     <h2 class="ls-heading"><i class="bi bi-clipboard-check me-2"></i>One-Page Cheat Sheet</h2>
     <div class="card">
       <div class="card-body">
-<pre class="term no-prompt"><code><span class="c-output"># == Most common ==
-ls                 plain
-ls -l              long
-ls -a              include hidden
-ls -la             long + hidden
-ls -lh             long + human sizes
-ls -lhF            long + human + classify
-ls -ltr            long, oldest first (mtime)
-ls -lS             long, largest first
-ls -R              recursive
-ls -1              one per line
+<pre class="term no-prompt"><code><span class=<span class="str">"c-output"</span>># == Most common ==
+<span class="kw">ls</span>                 plain
+<span class="kw">ls</span> <span class="fn">-l</span>              long
+<span class="kw">ls</span> <span class="fn">-a</span>              include hidden
+<span class="kw">ls</span> <span class="fn">-la</span>             long + hidden
+<span class="kw">ls</span> <span class="fn">-lh</span>             long + human sizes
+<span class="kw">ls</span> <span class="fn">-lhF</span>            long + human + classify
+<span class="kw">ls</span> <span class="fn">-ltr</span>            long, oldest first (mtime)
+<span class="kw">ls</span> <span class="fn">-lS</span>             long, largest first
+<span class="kw">ls</span> <span class="fn">-R</span>              recursive
+<span class="kw">ls</span> <span class="fn">-1</span>              one per line
 
-# == Filtering ==
-ls *.txt           glob (shell expands)
-ls -I '*.log'      ignore pattern
-ls -d */           only directories
-ls -F | grep -v '/$'    only files
-ls -1 | wc -l      count
+<span class="cm"># == Filtering ==</span>
+<span class="kw">ls</span> *.txt           glob (shell expands)
+<span class="kw">ls</span> <span class="fn">-I</span> <span class="str">'*.log'</span>      ignore pattern
+<span class="kw">ls</span> <span class="fn">-d</span> */           only directories
+<span class="kw">ls</span> <span class="fn">-F</span> | <span class="kw">grep</span> <span class="fn">-v</span> <span class="str">'/$'</span>    only files
+<span class="kw">ls</span> <span class="fn">-1</span> | <span class="kw">wc</span> <span class="fn">-l</span>      count
 
-# == Sorting ==
-ls -t              newest first
-ls -tr             oldest first
-ls -S              largest first
-ls -Sr             smallest first
-ls -v              natural sort
-ls --sort=time     explicit
+<span class="cm"># == Sorting ==</span>
+<span class="kw">ls</span> <span class="fn">-t</span>              newest first
+<span class="kw">ls</span> <span class="fn">-tr</span>             oldest first
+<span class="kw">ls</span> <span class="fn">-S</span>              largest first
+<span class="kw">ls</span> <span class="fn">-Sr</span>             smallest first
+<span class="kw">ls</span> <span class="fn">-v</span>              natural <span class="kw">sort</span>
+<span class="kw">ls</span> <span class="fn">--sort</span>=<span class="kw">time</span>     explicit
 
-# == Time ==
-ls -l --time-style=full-iso
-ls -l --time-style=long-iso
-ls -l --time=birth    creation time
+<span class="cm"># == Time ==</span>
+<span class="kw">ls</span> <span class="fn">-l</span> <span class="fn">--time-style</span>=full-iso
+<span class="kw">ls</span> <span class="fn">-l</span> <span class="fn">--time-style</span>=long-iso
+<span class="kw">ls</span> <span class="fn">-l</span> <span class="fn">--time</span>=birth    creation <span class="kw">time</span>
 
-# == Meta ==
-ls -i              inode
-ls -n              numeric UIDs/GIDs
-ls -g              skip owner
-ls -G              skip group
-ls -o              skip group
-ls -Q              quote names
-ls --version       version
-ls --help          help
+<span class="cm"># == Meta ==</span>
+<span class="kw">ls</span> <span class="fn">-i</span>              inode
+<span class="kw">ls</span> <span class="fn">-n</span>              numeric UIDs/GIDs
+<span class="kw">ls</span> <span class="fn">-g</span>              skip owner
+<span class="kw">ls</span> <span class="fn">-G</span>              skip group
+<span class="kw">ls</span> <span class="fn">-o</span>              skip group
+<span class="kw">ls</span> <span class="fn">-Q</span>              quote names
+<span class="kw">ls</span> <span class="fn">--version</span>       version
+<span class="kw">ls</span> <span class="fn">--help</span>          help
 
-# == Windows (CMD) ==
+<span class="cm"># == Windows (CMD) ==</span>
 dir                 basic
 dir /a              show all (incl. hidden)
 dir /s              recursive
 dir /b              bare format (one per line)
-dir /od             sort by date
-dir /o-d            sort by date, reverse
-dir /os             sort by size
-dir /oe             sort by extension
+dir /od             <span class="kw">sort</span> by <span class="kw">date</span>
+dir /o-d            <span class="kw">sort</span> by <span class="kw">date</span>, reverse
+dir /os             <span class="kw">sort</span> by size
+dir /oe             <span class="kw">sort</span> by extension
 dir /ad             directories only
 
-# == PowerShell ==
-ls                  alias for Get-ChildItem
-Get-ChildItem -Force -Recurse -File
-Get-ChildItem | Sort Length -Descending | Select -First 10
-tree /F /A          pretty tree</span></code></pre>
+<span class="cm"># == PowerShell ==</span>
+<span class="kw">ls</span>                  <span class="kw">alias</span> <span class="kw">for</span> Get-ChildItem
+Get-ChildItem <span class="fn">-Force</span> <span class="fn">-Recurse</span> <span class="fn">-File</span>
+Get-ChildItem | Sort Length <span class="fn">-Descending</span> | Select <span class="fn">-First</span> <span class="num">10</span>
+<span class="kw">tree</span> /F /A          pretty <span class="kw">tree</span></span></code></pre>
       </div>
     </div>
   </section>

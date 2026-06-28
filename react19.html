@@ -120,6 +120,18 @@
       position: relative;
     }
     pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
+    .kw { color: #c792ea; }
+    .fn { color: #82aaff; }
+    .str { color: #c3e88d; }
+    .cm { color: #546e7a; font-style: italic; }
+    .num { color: #f78c6c; }
+    .tp { color: #ffcb6b; }
+    [data-bs-theme="dark"] .kw { color: #c792ea; }
+    [data-bs-theme="dark"] .fn { color: #82aaff; }
+    [data-bs-theme="dark"] .str { color: #c3e88d; }
+    [data-bs-theme="dark"] .cm { color: #546e7a; }
+    [data-bs-theme="dark"] .num { color: #f78c6c; }
+    [data-bs-theme="dark"] .tp { color: #ffcb6b; }
     .cmd-table td:first-child {
       font-family: 'JetBrains Mono', monospace;
       font-size: .82rem;
@@ -255,17 +267,17 @@
     <h2><i class="bi bi-download me-2"></i>Installation</h2>
     <div class="card">
       <div class="card-body">
-        <pre><code># Create a new React application with Vite (recommended)
-npm create vite@latest myapp -- --template react
+        <pre><code># Create a <span class="kw">new</span> React application <span class="kw">with</span> <span class="fn">Vite</span> (recommended)
+npm create vite<span class="tp">@latest</span> myapp -- --template react
 
-# Or with TypeScript
-npm create vite@latest myapp -- --template react-ts
+# Or <span class="kw">with</span> TypeScript
+npm create vite<span class="tp">@latest</span> myapp -- --template react-ts
 
-# Create with Next.js (full-stack framework)
-npx create-next-app@latest myapp
+# Create <span class="kw">with</span> Next.<span class="fn">js</span> (full-stack framework)
+npx create-next-app<span class="tp">@latest</span> myapp
 
-# Create with Remix
-npx create-remix@latest myapp
+# Create <span class="kw">with</span> Remix
+npx create-remix<span class="tp">@latest</span> myapp
 
 # Install dependencies
 cd myapp
@@ -274,7 +286,7 @@ npm install
 # Start development server
 npm run dev
 
-# Build for production
+# Build <span class="kw">for</span> production
 npm run build
 
 # Preview production build
@@ -286,19 +298,19 @@ npm run preview</code></pre>
       <div class="card-header">package.json Scripts (Vite)</div>
       <div class="card-body">
         <pre><code>{
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "lint": "eslint ."
+  <span class="str">"scripts"</span>: {
+    <span class="str">"dev"</span>: <span class="str">"vite"</span>,
+    <span class="str">"build"</span>: <span class="str">"vite build"</span>,
+    <span class="str">"preview"</span>: <span class="str">"vite preview"</span>,
+    <span class="str">"lint"</span>: <span class="str">"eslint ."</span>
   },
-  "dependencies": {
-    "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+  <span class="str">"dependencies"</span>: {
+    <span class="str">"react"</span>: <span class="str">"^19.2.6"</span>,
+    <span class="str">"react-dom"</span>: <span class="str">"^19.2.6"</span>
   },
-  "devDependencies": {
-    "@vitejs/plugin-react": "^4.3.0",
-    "vite": "^6.0.0"
+  <span class="str">"devDependencies"</span>: {
+    <span class="str">"@vitejs/plugin-react"</span>: <span class="str">"^4.3.0"</span>,
+    <span class="str">"vite"</span>: <span class="str">"^6.0.0"</span>
   }
 }</code></pre>
       </div>
@@ -370,87 +382,87 @@ npm run preview</code></pre>
     <div class="card">
       <div class="card-header">JSX Basics</div>
       <div class="card-body">
-        <pre><code>// Expressions in JSX
-const name = 'React Developer';
-const element = &lt;h1&gt;Hello, {name}!&lt;/h1&gt;;
+        <pre><code><span class="cm">// Expressions in JSX</span>
+<span class="kw">const</span> name = <span class="str">'React Developer'</span>;
+<span class="kw">const</span> element = &lt;<span class="kw">h1</span>&gt;Hello, {name}!&lt;/h1&gt;;
 
-// JSX is an expression too
-function getGreeting(user) {
-  if (user) {
-    return &lt;h1&gt;Hello, {user.name}!&lt;/h1&gt;;
+<span class="cm">// JSX is an expression too</span>
+<span class="kw">function</span> <span class="fn">getGreeting</span>(user) {
+  <span class="kw">if</span> (user) {
+    <span class="kw">return</span> &lt;<span class="kw">h1</span>&gt;Hello, {user.name}!&lt;/h1&gt;;
   }
-  return &lt;h1&gt;Hello, Stranger.&lt;/h1&gt;;
+  <span class="kw">return</span> &lt;<span class="kw">h1</span>&gt;Hello, Stranger.&lt;/h1&gt;;
 }
 
-// Attributes with expressions
-const imgSize = 72;
-const avatar = (
-  &lt;img
-    src="/profile.jpg"
-    alt="Profile"
-    width={imgSize}
-    height={imgSize}
+<span class="cm">// Attributes with expressions</span>
+<span class="kw">const</span> imgSize = <span class="num">72</span>;
+<span class="kw">const</span> avatar = (
+  &lt;<span class="kw">img</span>
+    <span class="fn">src</span>=<span class="str">"/profile.jpg"</span>
+    <span class="fn">alt</span>=<span class="str">"Profile"</span>
+    <span class="fn">width</span>={<span class="fn">imgSize</span>}
+    <span class="fn">height</span>={<span class="fn">imgSize</span>}
   /&gt;
 );
 
-// Inline styles (camelCase properties)
-const style = {
-  color: 'purple',
-  fontSize: '2rem',
-  backgroundColor: '#f0f0f0',
+<span class="cm">// Inline styles (camelCase properties)</span>
+<span class="kw">const</span> style = {
+  color: <span class="str">'purple'</span>,
+  fontSize: <span class="str">'2rem'</span>,
+  backgroundColor: <span class="str">'#f0f0f0'</span>,
 };
-const styled = &lt;p style={style}&gt;Styled text&lt;/p&gt;;
+<span class="kw">const</span> styled = &lt;<span class="kw">p</span> <span class="fn">style</span>={<span class="fn">style</span>}&gt;Styled text&lt;/p&gt;;
 
-// className instead of class
-const div = &lt;div className="container"&gt;Content&lt;/div&gt;;
+<span class="cm">// className instead of class</span>
+<span class="kw">const</span> div = &lt;<span class="kw">div</span> <span class="fn">className</span>=<span class="str">"container"</span>&gt;Content&lt;/div&gt;;
 
-// Fragments - no wrapper div
-const list = (
+<span class="cm">// Fragments - no wrapper div</span>
+<span class="kw">const</span> list = (
   &lt;&gt;
-    &lt;li&gt;Item 1&lt;/li&gt;
-    &lt;li&gt;Item 2&lt;/li&gt;
-    &lt;li&gt;Item 3&lt;/li&gt;
+    &lt;<span class="kw">li</span>&gt;Item <span class="num">1</span>&lt;/li&gt;
+    &lt;<span class="kw">li</span>&gt;Item <span class="num">2</span>&lt;/li&gt;
+    &lt;<span class="kw">li</span>&gt;Item <span class="num">3</span>&lt;/li&gt;
   &lt;/&gt;
 );
 
-// Conditional rendering
-const isLoggedIn = true;
-const greeting = isLoggedIn
-  ? &lt;h1&gt;Welcome back!&lt;/h1&gt;
-  : &lt;h1&gt;Please sign up.&lt;/h1&gt;;
+<span class="cm">// Conditional rendering</span>
+<span class="kw">const</span> isLoggedIn = <span class="kw">true</span>;
+<span class="kw">const</span> greeting = isLoggedIn
+  ? &lt;<span class="kw">h1</span>&gt;Welcome back!&lt;/h1&gt;
+  : &lt;<span class="kw">h1</span>&gt;Please sign up.&lt;/h1&gt;;
 
-// Short-circuit evaluation
-const unread = 5;
-const badge = unread &gt; 0 &amp;&amp; &lt;span&gt;{unread} new&lt;/span&gt;;</code></pre>
+<span class="cm">// Short-circuit evaluation</span>
+<span class="kw">const</span> unread = <span class="num">5</span>;
+<span class="kw">const</span> badge = unread &gt; <span class="num">0</span> &amp;&amp; &lt;<span class="kw">span</span>&gt;{unread} <span class="kw">new</span>&lt;/span&gt;;</code></pre>
       </div>
     </div>
 
     <div class="card">
       <div class="card-header">JSX Rules</div>
       <div class="card-body">
-        <pre><code>// 1. Return a single root element (or fragment)
-return (
-  &lt;div&gt;
-    &lt;h1&gt;Title&lt;/h1&gt;
-    &lt;p&gt;Content&lt;/p&gt;
+        <pre><code><span class="cm">// 1. Return a single root element (or fragment)</span>
+<span class="kw">return</span> (
+  &lt;<span class="kw">div</span>&gt;
+    &lt;<span class="kw">h1</span>&gt;Title&lt;/h1&gt;
+    &lt;<span class="kw">p</span>&gt;Content&lt;/p&gt;
   &lt;/div&gt;
 );
 
-// 2. Close all tags
-&lt;img src="photo.jpg" /&gt;  // self-closing
-&lt;br /&gt;
+<span class="cm">// 2. Close all tags</span>
+&lt;<span class="kw">img</span> <span class="fn">src</span>=<span class="str">"photo.jpg"</span> /&gt;  <span class="cm">// self-closing</span>
+&lt;<span class="kw">br</span> /&gt;
 
-// 3. camelCase for most attributes
-&lt;div tabIndex="0"&gt;       // tabindex
-&lt;input readOnly /&gt;       // readonly
-&lt;label htmlFor="email"&gt;  // for
-&lt;div className="box"&gt;    // class
+<span class="cm">// 3. camelCase for most attributes</span>
+&lt;<span class="kw">div</span> <span class="fn">tabIndex</span>=<span class="str">"0"</span>&gt;       <span class="cm">// tabindex</span>
+&lt;<span class="kw">input</span> <span class="fn">readOnly</span> /&gt;       <span class="cm">// readonly</span>
+&lt;<span class="kw">label</span> <span class="fn">htmlFor</span>=<span class="str">"email"</span>&gt;  <span class="cm">// for</span>
+&lt;<span class="kw">div</span> <span class="fn">className</span>=<span class="str">"box"</span>&gt;    <span class="cm">// class</span>
 
-// 4. JavaScript expressions in curly braces
-const items = ['a', 'b', 'c'];
-&lt;ul&gt;
-  {items.map((item, i) =&gt; (
-    &lt;li key={i}&gt;{item}&lt;/li&gt;
+<span class="cm">// 4. JavaScript expressions in curly braces</span>
+<span class="kw">const</span> items = [<span class="str">'a'</span>, <span class="str">'b'</span>, <span class="str">'c'</span>];
+&lt;<span class="kw">ul</span>&gt;
+  {items.<span class="fn">map</span>((item, i) =&gt; (
+    &lt;<span class="kw">li</span> <span class="fn">key</span>={<span class="fn">i</span>}&gt;{item}&lt;/li&gt;
   ))}
 &lt;/ul&gt;</code></pre>
       </div>
@@ -465,60 +477,60 @@ const items = ['a', 'b', 'c'];
     <div class="card">
       <div class="card-header">Function Component</div>
       <div class="card-body">
-        <pre><code>// Basic component
-function Welcome() {
-  return &lt;h1&gt;Hello, World!&lt;/h1&gt;;
+        <pre><code><span class="cm">// Basic component</span>
+<span class="kw">function</span> <span class="fn">Welcome</span>() {
+  <span class="kw">return</span> &lt;<span class="kw">h1</span>&gt;Hello, World!&lt;/h1&gt;;
 }
 
-// Arrow function component
-const Welcome = () =&gt; {
-  return &lt;h1&gt;Hello, World!&lt;/h1&gt;;
+<span class="cm">// Arrow function component</span>
+<span class="kw">const</span> Welcome = () =&gt; {
+  <span class="kw">return</span> &lt;<span class="kw">h1</span>&gt;Hello, World!&lt;/h1&gt;;
 };
 
-// Implicit return
-const Welcome = () =&gt; &lt;h1&gt;Hello, World!&lt;/h1&gt;;
+<span class="cm">// Implicit return</span>
+<span class="kw">const</span> Welcome = () =&gt; &lt;<span class="kw">h1</span>&gt;Hello, World!&lt;/h1&gt;;
 
-// Export
-export default Welcome;</code></pre>
+<span class="cm">// Export</span>
+<span class="kw">export</span> <span class="kw">default</span> Welcome;</code></pre>
       </div>
     </div>
 
     <div class="card">
       <div class="card-header">Component with Props</div>
       <div class="card-body">
-        <pre><code>function Avatar({ user, size = 80 }) {
-  return (
-    &lt;img
-      className="avatar"
-      src={user.imageUrl}
-      alt={user.name}
-      width={size}
-      height={size}
+        <pre><code><span class="kw">function</span> <span class="fn">Avatar</span>({ user, size = <span class="num">80</span> }) {
+  <span class="kw">return</span> (
+    &lt;<span class="kw">img</span>
+      <span class="fn">className</span>=<span class="str">"avatar"</span>
+      <span class="fn">src</span>={<span class="fn">user</span>.<span class="fn">imageUrl</span>}
+      <span class="fn">alt</span>={<span class="fn">user</span>.<span class="fn">name</span>}
+      <span class="fn">width</span>={<span class="fn">size</span>}
+      <span class="fn">height</span>={<span class="fn">size</span>}
     /&gt;
   );
 }
 
-// Usage
-&lt;Avatar user={currentUser} size={120} /&gt;</code></pre>
+<span class="cm">// Usage</span>
+&lt;<span class="kw">Avatar</span> <span class="fn">user</span>={<span class="fn">currentUser</span>} <span class="fn">size</span>={120} /&gt;</code></pre>
       </div>
     </div>
 
     <div class="card">
       <div class="card-header">Component Composition &mdash; Children</div>
       <div class="card-body">
-        <pre><code>function Card({ title, children }) {
-  return (
-    &lt;div className="card"&gt;
-      &lt;div className="card-header"&gt;{title}&lt;/div&gt;
-      &lt;div className="card-body"&gt;{children}&lt;/div&gt;
+        <pre><code><span class="kw">function</span> <span class="fn">Card</span>({ title, children }) {
+  <span class="kw">return</span> (
+    &lt;<span class="kw">div</span> <span class="fn">className</span>=<span class="str">"card"</span>&gt;
+      &lt;<span class="kw">div</span> <span class="fn">className</span>=<span class="str">"card-header"</span>&gt;{title}&lt;/div&gt;
+      &lt;<span class="kw">div</span> <span class="fn">className</span>=<span class="str">"card-body"</span>&gt;{children}&lt;/div&gt;
     &lt;/div&gt;
   );
 }
 
-// Usage
-&lt;Card title="Dashboard"&gt;
-  &lt;p&gt;Welcome to your dashboard&lt;/p&gt;
-  &lt;Button&gt;Settings&lt;/Button&gt;
+<span class="cm">// Usage</span>
+&lt;<span class="kw">Card</span> <span class="fn">title</span>=<span class="str">"Dashboard"</span>&gt;
+  &lt;<span class="kw">p</span>&gt;Welcome to your dashboard&lt;/p&gt;
+  &lt;<span class="kw">Button</span>&gt;Settings&lt;/Button&gt;
 &lt;/Card&gt;</code></pre>
       </div>
     </div>
@@ -526,38 +538,38 @@ export default Welcome;</code></pre>
     <div class="card">
       <div class="card-header">Conditional Rendering Patterns</div>
       <div class="card-body">
-        <pre><code>function UserGreeting({ isLoggedIn, user }) {
-  // Pattern 1: if/else
-  if (isLoggedIn) {
-    return &lt;h1&gt;Welcome back, {user.name}!&lt;/h1&gt;;
+        <pre><code><span class="kw">function</span> <span class="fn">UserGreeting</span>({ isLoggedIn, user }) {
+  <span class="cm">// Pattern 1: if/else</span>
+  <span class="kw">if</span> (isLoggedIn) {
+    <span class="kw">return</span> &lt;<span class="kw">h1</span>&gt;Welcome back, {user.name}!&lt;/h1&gt;;
   }
-  return &lt;h1&gt;Please sign in.&lt;/h1&gt;;
+  <span class="kw">return</span> &lt;<span class="kw">h1</span>&gt;Please sign <span class="kw">in</span>.&lt;/h1&gt;;
 }
 
-function Badge({ count }) {
-  // Pattern 2: Ternary
-  return &lt;span&gt;{count &gt; 0 ? count : 'No'} items&lt;/span&gt;;
+<span class="kw">function</span> <span class="fn">Badge</span>({ count }) {
+  <span class="cm">// Pattern 2: Ternary</span>
+  <span class="kw">return</span> &lt;<span class="kw">span</span>&gt;{count &gt; <span class="num">0</span> ? count : <span class="str">'No'</span>} items&lt;/span&gt;;
 }
 
-function Notification({ messages }) {
-  // Pattern 3: Short-circuit
-  return (
-    &lt;div&gt;
-      {messages.length &gt; 0 &amp;&amp; (
-        &lt;ul&gt;
-          {messages.map(m =&gt; &lt;li key={m.id}&gt;{m.text}&lt;/li&gt;)}
+<span class="kw">function</span> <span class="fn">Notification</span>({ messages }) {
+  <span class="cm">// Pattern 3: Short-circuit</span>
+  <span class="kw">return</span> (
+    &lt;<span class="kw">div</span>&gt;
+      {messages.length &gt; <span class="num">0</span> &amp;&amp; (
+        &lt;<span class="kw">ul</span>&gt;
+          {messages.<span class="fn">map</span>(m =&gt; &lt;<span class="kw">li</span> <span class="fn">key</span>={<span class="fn">m</span>.<span class="fn">id</span>}&gt;{m.text}&lt;/li&gt;)}
         &lt;/ul&gt;
       )}
     &lt;/div&gt;
   );
 }
 
-function Status({ status }) {
-  // Pattern 4: Early return
-  if (status === 'loading') return &lt;Spinner /&gt;;
-  if (status === 'error') return &lt;ErrorMessage /&gt;;
-  if (status === 'empty') return &lt;EmptyState /&gt;;
-  return &lt;Content /&gt;;
+<span class="kw">function</span> <span class="fn">Status</span>({ status }) {
+  <span class="cm">// Pattern 4: Early return</span>
+  <span class="kw">if</span> (status === <span class="str">'loading'</span>) <span class="kw">return</span> &lt;<span class="kw">Spinner</span> /&gt;;
+  <span class="kw">if</span> (status === <span class="str">'error'</span>) <span class="kw">return</span> &lt;<span class="kw">ErrorMessage</span> /&gt;;
+  <span class="kw">if</span> (status === <span class="str">'empty'</span>) <span class="kw">return</span> &lt;<span class="kw">EmptyState</span> /&gt;;
+  <span class="kw">return</span> &lt;<span class="kw">Content</span> /&gt;;
 }</code></pre>
       </div>
     </div>
@@ -565,24 +577,24 @@ function Status({ status }) {
     <div class="card">
       <div class="card-header">List Rendering</div>
       <div class="card-body">
-        <pre><code>function TodoList({ todos }) {
-  return (
-    &lt;ul&gt;
-      {todos.map((todo) =&gt; (
-        &lt;li key={todo.id}&gt;
-          {todo.completed ? &lt;s&gt;{todo.text}&lt;/s&gt; : todo.text}
+        <pre><code><span class="kw">function</span> <span class="fn">TodoList</span>({ todos }) {
+  <span class="kw">return</span> (
+    &lt;<span class="kw">ul</span>&gt;
+      {todos.<span class="fn">map</span>((todo) =&gt; (
+        &lt;<span class="kw">li</span> <span class="fn">key</span>={<span class="fn">todo</span>.<span class="fn">id</span>}&gt;
+          {todo.completed ? &lt;<span class="kw">s</span>&gt;{todo.text}&lt;/s&gt; : todo.text}
         &lt;/li&gt;
       ))}
     &lt;/ul&gt;
   );
 }
 
-// With index as key (only when no stable ID)
-function SimpleList({ items }) {
-  return (
-    &lt;ul&gt;
-      {items.map((item, index) =&gt; (
-        &lt;li key={index}&gt;{item}&lt;/li&gt;
+<span class="cm">// With index as key (only when no stable ID)</span>
+<span class="kw">function</span> <span class="fn">SimpleList</span>({ items }) {
+  <span class="kw">return</span> (
+    &lt;<span class="kw">ul</span>&gt;
+      {items.<span class="fn">map</span>((item, index) =&gt; (
+        &lt;<span class="kw">li</span> <span class="fn">key</span>={<span class="fn">index</span>}&gt;{item}&lt;/li&gt;
       ))}
     &lt;/ul&gt;
   );
@@ -599,50 +611,50 @@ function SimpleList({ items }) {
     <div class="card">
       <div class="card-header">Props Patterns</div>
       <div class="card-body">
-        <pre><code>// Destructuring with defaults
-function Button({
-  variant = 'primary',
-  size = 'md',
-  disabled = false,
+        <pre><code><span class="cm">// Destructuring with defaults</span>
+<span class="kw">function</span> <span class="fn">Button</span>({
+  variant = <span class="str">'primary'</span>,
+  size = <span class="str">'md'</span>,
+  disabled = <span class="kw">false</span>,
   onClick,
   children,
 }) {
-  return (
-    &lt;button
-      className={`btn btn-${variant} btn-${size}`}
-      disabled={disabled}
-      onClick={onClick}
+  <span class="kw">return</span> (
+    &lt;<span class="kw">button</span>
+      <span class="fn">className</span>={`<span class="fn">btn</span> <span class="fn">btn</span>-${<span class="fn">variant</span>} <span class="fn">btn</span>-${<span class="fn">size</span>}`}
+      <span class="fn">disabled</span>={<span class="fn">disabled</span>}
+      <span class="fn">onClick</span>={<span class="fn">onClick</span>}
     &gt;
       {children}
     &lt;/button&gt;
   );
 }
 
-// Spreading props
-function Input(props) {
-  return &lt;input className="form-control" {...props} /&gt;;
+<span class="cm">// Spreading props</span>
+<span class="kw">function</span> <span class="tp">Input</span>(props) {
+  <span class="kw">return</span> &lt;<span class="kw">input</span> <span class="fn">className</span>=<span class="str">"form-control"</span> {...<span class="fn">props</span>} /&gt;;
 }
 
-// Rest props (forward specific, spread rest)
-function TextInput({ label, ...rest }) {
-  return (
-    &lt;label&gt;
+<span class="cm">// Rest props (forward specific, spread rest)</span>
+<span class="kw">function</span> <span class="fn">TextInput</span>({ label, ...rest }) {
+  <span class="kw">return</span> (
+    &lt;<span class="kw">label</span>&gt;
       {label}
-      &lt;input {...rest} /&gt;
+      &lt;<span class="kw">input</span> {...<span class="fn">rest</span>} /&gt;
     &lt;/label&gt;
   );
 }
 
-// Children as function (render prop)
-function Repeat({ count, children }) {
-  return Array.from({ length: count }, (_, i) =&gt;
-    children(i)
+<span class="cm">// Children as function (render prop)</span>
+<span class="kw">function</span> <span class="fn">Repeat</span>({ count, children }) {
+  <span class="kw">return</span> Array.<span class="kw">from</span>({ length: count }, (_, i) =&gt;
+    <span class="fn">children</span>(i)
   );
 }
 
-// Usage:
-&lt;Repeat count={3}&gt;
-  {(index) =&gt; &lt;p key={index}&gt;Item #{index + 1}&lt;/p&gt;}
+<span class="cm">// Usage:</span>
+&lt;<span class="kw">Repeat</span> <span class="fn">count</span>={3}&gt;
+  {(index) =&gt; &lt;<span class="kw">p</span> <span class="fn">key</span>={<span class="fn">index</span>}&gt;Item #{index + <span class="num">1</span>}&lt;/p&gt;}
 &lt;/Repeat&gt;</code></pre>
       </div>
     </div>
@@ -655,59 +667,59 @@ function Repeat({ count, children }) {
     <h3>useState <span class="hook-badge">HOOK</span></h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>import { useState } from 'react';
+        <pre><code><span class="kw">import</span> { useState } <span class="kw">from</span> <span class="str">'react'</span>;
 
-// Basic state
-function Counter() {
-  const [count, setCount] = useState(0);
-  return (
-    &lt;div&gt;
-      &lt;p&gt;Count: {count}&lt;/p&gt;
-      &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;+1&lt;/button&gt;
-      &lt;button onClick={() =&gt; setCount(c =&gt; c - 1)}&gt;-1&lt;/button&gt;
-      &lt;button onClick={() =&gt; setCount(0)}&gt;Reset&lt;/button&gt;
+<span class="cm">// Basic state</span>
+<span class="kw">function</span> <span class="fn">Counter</span>() {
+  <span class="kw">const</span> [count, setCount] = <span class="fn">useState</span>(<span class="num">0</span>);
+  <span class="kw">return</span> (
+    &lt;<span class="kw">div</span>&gt;
+      &lt;<span class="kw">p</span>&gt;Count: {count}&lt;/p&gt;
+      &lt;<span class="kw">button</span> <span class="fn">onClick</span>={() =&gt; <span class="fn">setCount</span>(c =&gt; c + <span class="num">1</span>)}&gt;+<span class="num">1</span>&lt;/button&gt;
+      &lt;<span class="kw">button</span> <span class="fn">onClick</span>={() =&gt; <span class="fn">setCount</span>(c =&gt; c - <span class="num">1</span>)}&gt;-<span class="num">1</span>&lt;/button&gt;
+      &lt;<span class="kw">button</span> <span class="fn">onClick</span>={() =&gt; <span class="fn">setCount</span>(<span class="num">0</span>)}&gt;Reset&lt;/button&gt;
     &lt;/div&gt;
   );
 }
 
-// State with objects
-function Form() {
-  const [form, setForm] = useState({ name: '', email: '', age: '' });
-  const handleChange = (e) =&gt; {
-    setForm(prev =&gt; ({ ...prev, [e.target.name]: e.target.value }));
+<span class="cm">// State with objects</span>
+<span class="kw">function</span> <span class="fn">Form</span>() {
+  <span class="kw">const</span> [form, setForm] = <span class="fn">useState</span>({ name: <span class="str">''</span>, email: <span class="str">''</span>, age: <span class="str">''</span> });
+  <span class="kw">const</span> handleChange = (e) =&gt; {
+    <span class="fn">setForm</span>(prev =&gt; ({ ...prev, [e.target.name]: e.target.value }));
   };
-  return (
-    &lt;form&gt;
-      &lt;input name="name" value={form.name} onChange={handleChange} /&gt;
-      &lt;input name="email" value={form.email} onChange={handleChange} /&gt;
+  <span class="kw">return</span> (
+    &lt;<span class="kw">form</span>&gt;
+      &lt;<span class="kw">input</span> <span class="fn">name</span>=<span class="str">"name"</span> <span class="fn">value</span>={<span class="fn">form</span>.<span class="fn">name</span>} <span class="fn">onChange</span>={<span class="fn">handleChange</span>} /&gt;
+      &lt;<span class="kw">input</span> <span class="fn">name</span>=<span class="str">"email"</span> <span class="fn">value</span>={<span class="fn">form</span>.<span class="fn">email</span>} <span class="fn">onChange</span>={<span class="fn">handleChange</span>} /&gt;
     &lt;/form&gt;
   );
 }
 
-// State with arrays
-function TodoApp() {
-  const [todos, setTodos] = useState([]);
+<span class="cm">// State with arrays</span>
+<span class="kw">function</span> <span class="fn">TodoApp</span>() {
+  <span class="kw">const</span> [todos, setTodos] = <span class="fn">useState</span>([]);
 
-  const addTodo = (text) =&gt; {
-    setTodos(prev =&gt; [...prev, { id: Date.now(), text, done: false }]);
+  <span class="kw">const</span> addTodo = (text) =&gt; {
+    <span class="fn">setTodos</span>(prev =&gt; [...prev, { id: Date.<span class="fn">now</span>(), text, done: <span class="kw">false</span> }]);
   };
 
-  const toggleTodo = (id) =&gt; {
-    setTodos(prev =&gt;
-      prev.map(t =&gt; t.id === id ? { ...t, done: !t.done } : t)
+  <span class="kw">const</span> toggleTodo = (id) =&gt; {
+    <span class="fn">setTodos</span>(prev =&gt;
+      prev.<span class="fn">map</span>(t =&gt; t.id === id ? { ...t, done: !t.done } : t)
     );
   };
 
-  const removeTodo = (id) =&gt; {
-    setTodos(prev =&gt; prev.filter(t =&gt; t.id !== id));
+  <span class="kw">const</span> removeTodo = (id) =&gt; {
+    <span class="fn">setTodos</span>(prev =&gt; prev.<span class="fn">filter</span>(t =&gt; t.id !== id));
   };
 
-  return (
-    &lt;ul&gt;
-      {todos.map(todo =&gt; (
-        &lt;li key={todo.id}&gt;
-          &lt;span onClick={() =&gt; toggleTodo(todo.id)}&gt;{todo.text}&lt;/span&gt;
-          &lt;button onClick={() =&gt; removeTodo(todo.id)}&gt;Delete&lt;/button&gt;
+  <span class="kw">return</span> (
+    &lt;<span class="kw">ul</span>&gt;
+      {todos.<span class="fn">map</span>(todo =&gt; (
+        &lt;<span class="kw">li</span> <span class="fn">key</span>={<span class="fn">todo</span>.<span class="fn">id</span>}&gt;
+          &lt;<span class="kw">span</span> <span class="fn">onClick</span>={() =&gt; <span class="fn">toggleTodo</span>(todo.id)}&gt;{todo.text}&lt;/span&gt;
+          &lt;<span class="kw">button</span> <span class="fn">onClick</span>={() =&gt; <span class="fn">removeTodo</span>(todo.id)}&gt;Delete&lt;/button&gt;
         &lt;/li&gt;
       ))}
     &lt;/ul&gt;
@@ -719,37 +731,37 @@ function TodoApp() {
     <h3>useReducer <span class="hook-badge">HOOK</span></h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>import { useReducer } from 'react';
+        <pre><code><span class="kw">import</span> { useReducer } <span class="kw">from</span> <span class="str">'react'</span>;
 
-function todoReducer(state, action) {
-  switch (action.type) {
-    case 'ADD':
-      return [...state, { id: Date.now(), text: action.text, done: false }];
-    case 'TOGGLE':
-      return state.map(t =&gt;
+<span class="kw">function</span> <span class="fn">todoReducer</span>(state, action) {
+  <span class="kw">switch</span> (action.<span class="kw">type</span>) {
+    <span class="kw">case</span> <span class="str">'ADD'</span>:
+      <span class="kw">return</span> [...state, { id: Date.<span class="fn">now</span>(), text: action.text, done: <span class="kw">false</span> }];
+    <span class="kw">case</span> <span class="str">'TOGGLE'</span>:
+      <span class="kw">return</span> state.<span class="fn">map</span>(t =&gt;
         t.id === action.id ? { ...t, done: !t.done } : t
       );
-    case 'REMOVE':
-      return state.filter(t =&gt; t.id !== action.id);
-    case 'CLEAR_COMPLETED':
-      return state.filter(t =&gt; !t.done);
-    default:
-      return state;
+    <span class="kw">case</span> <span class="str">'REMOVE'</span>:
+      <span class="kw">return</span> state.<span class="fn">filter</span>(t =&gt; t.id !== action.id);
+    <span class="kw">case</span> <span class="str">'CLEAR_COMPLETED'</span>:
+      <span class="kw">return</span> state.<span class="fn">filter</span>(t =&gt; !t.done);
+    <span class="kw">default</span>:
+      <span class="kw">return</span> state;
   }
 }
 
-function TodoApp() {
-  const [todos, dispatch] = useReducer(todoReducer, []);
+<span class="kw">function</span> <span class="fn">TodoApp</span>() {
+  <span class="kw">const</span> [todos, dispatch] = <span class="fn">useReducer</span>(todoReducer, []);
 
-  return (
-    &lt;div&gt;
-      &lt;button onClick={() =&gt; dispatch({ type: 'ADD', text: 'New task' })}&gt;Add&lt;/button&gt;
-      &lt;button onClick={() =&gt; dispatch({ type: 'CLEAR_COMPLETED' })}&gt;Clear Done&lt;/button&gt;
-      &lt;ul&gt;
-        {todos.map(todo =&gt; (
-          &lt;li key={todo.id}&gt;
-            &lt;span onClick={() =&gt; dispatch({ type: 'TOGGLE', id: todo.id })}&gt;{todo.text}&lt;/span&gt;
-            &lt;button onClick={() =&gt; dispatch({ type: 'REMOVE', id: todo.id })}&gt;Delete&lt;/button&gt;
+  <span class="kw">return</span> (
+    &lt;<span class="kw">div</span>&gt;
+      &lt;<span class="kw">button</span> <span class="fn">onClick</span>={() =&gt; <span class="fn">dispatch</span>({ <span class="kw">type</span>: <span class="str">'ADD'</span>, text: <span class="str">'New task'</span> })}&gt;Add&lt;/button&gt;
+      &lt;<span class="kw">button</span> <span class="fn">onClick</span>={() =&gt; <span class="fn">dispatch</span>({ <span class="kw">type</span>: <span class="str">'CLEAR_COMPLETED'</span> })}&gt;Clear Done&lt;/button&gt;
+      &lt;<span class="kw">ul</span>&gt;
+        {todos.<span class="fn">map</span>(todo =&gt; (
+          &lt;<span class="kw">li</span> <span class="fn">key</span>={<span class="fn">todo</span>.<span class="fn">id</span>}&gt;
+            &lt;<span class="kw">span</span> <span class="fn">onClick</span>={() =&gt; <span class="fn">dispatch</span>({ <span class="kw">type</span>: <span class="str">'TOGGLE'</span>, id: todo.id })}&gt;{todo.text}&lt;/span&gt;
+            &lt;<span class="kw">button</span> <span class="fn">onClick</span>={() =&gt; <span class="fn">dispatch</span>({ <span class="kw">type</span>: <span class="str">'REMOVE'</span>, id: todo.id })}&gt;Delete&lt;/button&gt;
           &lt;/li&gt;
         ))}
       &lt;/ul&gt;
@@ -762,33 +774,33 @@ function TodoApp() {
     <h3>Context API</h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>import { createContext, useContext, useState } from 'react';
+        <pre><code><span class="kw">import</span> { createContext, useContext, useState } <span class="kw">from</span> <span class="str">'react'</span>;
 
-const ThemeContext = createContext();
+<span class="kw">const</span> ThemeContext = <span class="fn">createContext</span>();
 
-function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState('light');
-  const toggleTheme = () =&gt; setTheme(prev =&gt; prev === 'light' ? 'dark' : 'light');
+<span class="kw">function</span> <span class="fn">ThemeProvider</span>({ children }) {
+  <span class="kw">const</span> [theme, setTheme] = <span class="fn">useState</span>(<span class="str">'light'</span>);
+  <span class="kw">const</span> toggleTheme = () =&gt; <span class="fn">setTheme</span>(prev =&gt; prev === <span class="str">'light'</span> ? <span class="str">'dark'</span> : <span class="str">'light'</span>);
 
-  return (
-    &lt;ThemeContext.Provider value={{ theme, toggleTheme }}&gt;
+  <span class="kw">return</span> (
+    &lt;<span class="kw">ThemeContext</span>.<span class="fn">Provider</span> <span class="fn">value</span>=<span class="kw">{{ theme, toggleTheme }}</span>&gt;
       {children}
     &lt;/ThemeContext.Provider&gt;
   );
 }
 
-function useTheme() {
-  const context = useContext(ThemeContext);
-  if (!context) throw new Error('useTheme must be used within ThemeProvider');
-  return context;
+<span class="kw">function</span> <span class="fn">useTheme</span>() {
+  <span class="kw">const</span> context = <span class="fn">useContext</span>(ThemeContext);
+  <span class="kw">if</span> (!context) <span class="kw">throw</span> <span class="kw">new</span> <span class="fn">Error</span>(<span class="str">'useTheme must be used within ThemeProvider'</span>);
+  <span class="kw">return</span> context;
 }
 
-function Toolbar() {
-  const { theme, toggleTheme } = useTheme();
-  return (
-    &lt;div className={theme}&gt;
-      &lt;p&gt;Current theme: {theme}&lt;/p&gt;
-      &lt;button onClick={toggleTheme}&gt;Toggle Theme&lt;/button&gt;
+<span class="kw">function</span> <span class="fn">Toolbar</span>() {
+  <span class="kw">const</span> { theme, toggleTheme } = <span class="fn">useTheme</span>();
+  <span class="kw">return</span> (
+    &lt;<span class="kw">div</span> <span class="fn">className</span>={<span class="fn">theme</span>}&gt;
+      &lt;<span class="kw">p</span>&gt;Current theme: {theme}&lt;/p&gt;
+      &lt;<span class="kw">button</span> <span class="fn">onClick</span>={<span class="fn">toggleTheme</span>}&gt;Toggle Theme&lt;/button&gt;
     &lt;/div&gt;
   );
 }</code></pre>
@@ -804,35 +816,35 @@ function Toolbar() {
     <h3>useState <span class="hook-badge">HOOK</span></h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>const [state, setState] = useState(initialValue);
-const [data, setData] = useState(() =&gt; expensiveComputation());
-setState(prev =&gt; ({ ...prev, count: prev.count + 1 }));</code></pre>
+        <pre><code><span class="kw">const</span> [state, setState] = <span class="fn">useState</span>(initialValue);
+<span class="kw">const</span> [data, setData] = <span class="fn">useState</span>(() =&gt; <span class="fn">expensiveComputation</span>());
+<span class="fn">setState</span>(prev =&gt; ({ ...prev, count: prev.count + <span class="num">1</span> }));</code></pre>
       </div>
     </div>
 
     <h3>useEffect <span class="hook-badge">HOOK</span></h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>import { useEffect } from 'react';
+        <pre><code><span class="kw">import</span> { useEffect } <span class="kw">from</span> <span class="str">'react'</span>;
 
-useEffect(() =&gt; {
-  const timer = setInterval(() =&gt; console.log('tick'), 1000);
-  return () =&gt; clearInterval(timer);
+<span class="fn">useEffect</span>(() =&gt; {
+  <span class="kw">const</span> timer = <span class="fn">setInterval</span>(() =&gt; console.<span class="fn">log</span>(<span class="str">'tick'</span>), <span class="num">1000</span>);
+  <span class="kw">return</span> () =&gt; <span class="fn">clearInterval</span>(timer);
 }, []);
 
-useEffect(() =&gt; {
-  document.title = `Count: ${count}`;
+<span class="fn">useEffect</span>(() =&gt; {
+  document.title = <span class="str">`Count: ${count}`</span>;
 }, [count]);
 
-useEffect(() =&gt; {
-  let cancelled = false;
-  async function fetchData() {
-    const res = await fetch(`/api/users/${id}`);
-    const data = await res.json();
-    if (!cancelled) setData(data);
+<span class="fn">useEffect</span>(() =&gt; {
+  <span class="kw">let</span> cancelled = <span class="kw">false</span>;
+  <span class="kw">async</span> <span class="kw">function</span> <span class="fn">fetchData</span>() {
+    <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">`/api/users/${id}`</span>);
+    <span class="kw">const</span> data = <span class="kw">await</span> res.<span class="fn">json</span>();
+    <span class="kw">if</span> (!cancelled) <span class="fn">setData</span>(data);
   }
-  fetchData();
-  return () =&gt; { cancelled = true; };
+  <span class="fn">fetchData</span>();
+  <span class="kw">return</span> () =&gt; { cancelled = <span class="kw">true</span>; };
 }, [id]);</code></pre>
       </div>
     </div>
@@ -840,34 +852,34 @@ useEffect(() =&gt; {
     <h3>useContext <span class="hook-badge">HOOK</span></h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>const value = useContext(MyContext);
-// Returns the current context value; re-renders when Provider updates</code></pre>
+        <pre><code><span class="kw">const</span> value = <span class="fn">useContext</span>(MyContext);
+<span class="cm">// Returns the current context value; re-renders when Provider updates</span></code></pre>
       </div>
     </div>
 
     <h3>useRef <span class="hook-badge">HOOK</span></h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>import { useRef, useEffect } from 'react';
+        <pre><code><span class="kw">import</span> { useRef, useEffect } <span class="kw">from</span> <span class="str">'react'</span>;
 
-function TextInput() {
-  const inputRef = useRef(null);
-  useEffect(() =&gt; { inputRef.current.focus(); }, []);
-  return &lt;input ref={inputRef} /&gt;;
+<span class="kw">function</span> <span class="fn">TextInput</span>() {
+  <span class="kw">const</span> inputRef = <span class="fn">useRef</span>(<span class="kw">null</span>);
+  <span class="fn">useEffect</span>(() =&gt; { inputRef.current.<span class="fn">focus</span>(); }, []);
+  <span class="kw">return</span> &lt;<span class="kw">input</span> <span class="fn">ref</span>={<span class="fn">inputRef</span>} /&gt;;
 }
 
-function Timer() {
-  const intervalRef = useRef(null);
-  const [count, setCount] = useState(0);
-  const start = () =&gt; {
-    intervalRef.current = setInterval(() =&gt; setCount(c =&gt; c + 1), 1000);
+<span class="kw">function</span> <span class="fn">Timer</span>() {
+  <span class="kw">const</span> intervalRef = <span class="fn">useRef</span>(<span class="kw">null</span>);
+  <span class="kw">const</span> [count, setCount] = <span class="fn">useState</span>(<span class="num">0</span>);
+  <span class="kw">const</span> start = () =&gt; {
+    intervalRef.current = <span class="fn">setInterval</span>(() =&gt; <span class="fn">setCount</span>(c =&gt; c + <span class="num">1</span>), <span class="num">1000</span>);
   };
-  const stop = () =&gt; clearInterval(intervalRef.current);
-  return (
-    &lt;div&gt;
-      &lt;p&gt;{count}&lt;/p&gt;
-      &lt;button onClick={start}&gt;Start&lt;/button&gt;
-      &lt;button onClick={stop}&gt;Stop&lt;/button&gt;
+  <span class="kw">const</span> stop = () =&gt; <span class="fn">clearInterval</span>(intervalRef.current);
+  <span class="kw">return</span> (
+    &lt;<span class="kw">div</span>&gt;
+      &lt;<span class="kw">p</span>&gt;{count}&lt;/p&gt;
+      &lt;<span class="kw">button</span> <span class="fn">onClick</span>={<span class="fn">start</span>}&gt;Start&lt;/button&gt;
+      &lt;<span class="kw">button</span> <span class="fn">onClick</span>={<span class="fn">stop</span>}&gt;Stop&lt;/button&gt;
     &lt;/div&gt;
   );
 }</code></pre>
@@ -877,13 +889,13 @@ function Timer() {
     <h3>useMemo <span class="hook-badge">HOOK</span></h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>import { useMemo } from 'react';
+        <pre><code><span class="kw">import</span> { useMemo } <span class="kw">from</span> <span class="str">'react'</span>;
 
-function UserList({ users, filter }) {
-  const filteredUsers = useMemo(() =&gt; {
-    return users.filter(u =&gt; u.name.includes(filter));
+<span class="kw">function</span> <span class="fn">UserList</span>({ users, filter }) {
+  <span class="kw">const</span> filteredUsers = <span class="fn">useMemo</span>(() =&gt; {
+    <span class="kw">return</span> users.<span class="fn">filter</span>(u =&gt; u.name.<span class="fn">includes</span>(filter));
   }, [users, filter]);
-  return &lt;ul&gt;{filteredUsers.map(u =&gt; &lt;li key={u.id}&gt;{u.name}&lt;/li&gt;)}&lt;/ul&gt;;
+  <span class="kw">return</span> &lt;<span class="kw">ul</span>&gt;{filteredUsers.<span class="fn">map</span>(u =&gt; &lt;<span class="kw">li</span> <span class="fn">key</span>={<span class="fn">u</span>.<span class="fn">id</span>}&gt;{u.name}&lt;/li&gt;)}&lt;/ul&gt;;
 }</code></pre>
       </div>
     </div>
@@ -891,12 +903,12 @@ function UserList({ users, filter }) {
     <h3>useCallback <span class="hook-badge">HOOK</span></h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>import { useCallback } from 'react';
+        <pre><code><span class="kw">import</span> { useCallback } <span class="kw">from</span> <span class="str">'react'</span>;
 
-function TodoList({ todos, onToggle }) {
-  const handleClick = useCallback((id) =&gt; onToggle(id), [onToggle]);
-  return todos.map(todo =&gt; (
-    &lt;TodoItem key={todo.id} todo={todo} onClick={handleClick} /&gt;
+<span class="kw">function</span> <span class="fn">TodoList</span>({ todos, onToggle }) {
+  <span class="kw">const</span> handleClick = <span class="fn">useCallback</span>((id) =&gt; <span class="fn">onToggle</span>(id), [onToggle]);
+  <span class="kw">return</span> todos.<span class="fn">map</span>(todo =&gt; (
+    &lt;<span class="kw">TodoItem</span> <span class="fn">key</span>={<span class="fn">todo</span>.<span class="fn">id</span>} <span class="fn">todo</span>={<span class="fn">todo</span>} <span class="fn">onClick</span>={<span class="fn">handleClick</span>} /&gt;
   ));
 }</code></pre>
       </div>
@@ -905,13 +917,13 @@ function TodoList({ todos, onToggle }) {
     <h3>useImperativeHandle <span class="hook-badge">HOOK</span></h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>const MyInput = forwardRef((props, ref) =&gt; {
-  const inputRef = useRef(null);
-  useImperativeHandle(ref, () =&gt; ({
-    focus: () =&gt; inputRef.current.focus(),
-    clear: () =&gt; (inputRef.current.value = ''),
+        <pre><code><span class="kw">const</span> MyInput = <span class="fn">forwardRef</span>((props, ref) =&gt; {
+  <span class="kw">const</span> inputRef = <span class="fn">useRef</span>(<span class="kw">null</span>);
+  <span class="fn">useImperativeHandle</span>(ref, () =&gt; ({
+    focus: () =&gt; inputRef.current.<span class="fn">focus</span>(),
+    clear: () =&gt; (inputRef.current.value = <span class="str">''</span>),
   }));
-  return &lt;input ref={inputRef} /&gt;;
+  <span class="kw">return</span> &lt;<span class="kw">input</span> <span class="fn">ref</span>={<span class="fn">inputRef</span>} /&gt;;
 });</code></pre>
       </div>
     </div>
@@ -919,11 +931,11 @@ function TodoList({ todos, onToggle }) {
     <h3>useLayoutEffect <span class="hook-badge">HOOK</span></h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>useLayoutEffect(() =&gt; {
-  if (targetRef.current &amp;&amp; tooltipRef.current) {
-    const rect = targetRef.current.getBoundingClientRect();
-    tooltipRef.current.style.left = `${rect.left}px`;
-    tooltipRef.current.style.top = `${rect.bottom}px`;
+        <pre><code><span class="fn">useLayoutEffect</span>(() =&gt; {
+  <span class="kw">if</span> (targetRef.current &amp;&amp; tooltipRef.current) {
+    <span class="kw">const</span> rect = targetRef.current.<span class="fn">getBoundingClientRect</span>();
+    tooltipRef.current.style.left = <span class="str">`${rect.left}px`</span>;
+    tooltipRef.current.style.top = <span class="str">`${rect.bottom}px`</span>;
   }
 }, []);</code></pre>
       </div>
@@ -932,14 +944,14 @@ function TodoList({ todos, onToggle }) {
     <h3>useId <span class="hook-badge">HOOK</span> <span class="new-badge">React 18+</span></h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>import { useId } from 'react';
+        <pre><code><span class="kw">import</span> { useId } <span class="kw">from</span> <span class="str">'react'</span>;
 
-function FormField({ label }) {
-  const id = useId();
-  return (
-    &lt;div&gt;
-      &lt;label htmlFor={id}&gt;{label}&lt;/label&gt;
-      &lt;input id={id} type="text" /&gt;
+<span class="kw">function</span> <span class="fn">FormField</span>({ label }) {
+  <span class="kw">const</span> id = <span class="fn">useId</span>();
+  <span class="kw">return</span> (
+    &lt;<span class="kw">div</span>&gt;
+      &lt;<span class="kw">label</span> <span class="fn">htmlFor</span>={<span class="fn">id</span>}&gt;{label}&lt;/label&gt;
+      &lt;<span class="kw">input</span> <span class="fn">id</span>={<span class="fn">id</span>} <span class="fn">type</span>=<span class="str">"text"</span> /&gt;
     &lt;/div&gt;
   );
 }</code></pre>
@@ -949,24 +961,24 @@ function FormField({ label }) {
     <h3>useTransition <span class="hook-badge">HOOK</span> <span class="new-badge">React 18+</span></h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>import { useState, useTransition } from 'react';
+        <pre><code><span class="kw">import</span> { useState, useTransition } <span class="kw">from</span> <span class="str">'react'</span>;
 
-function SearchPage() {
-  const [isPending, startTransition] = useTransition();
-  const [results, setResults] = useState([]);
+<span class="kw">function</span> <span class="fn">SearchPage</span>() {
+  <span class="kw">const</span> [isPending, startTransition] = <span class="fn">useTransition</span>();
+  <span class="kw">const</span> [results, setResults] = <span class="fn">useState</span>([]);
 
-  const handleSearch = (value) =&gt; {
-    startTransition(async () =&gt; {
-      const data = await fetchResults(value);
-      setResults(data);
+  <span class="kw">const</span> handleSearch = (value) =&gt; {
+    <span class="fn">startTransition</span>(<span class="kw">async</span> () =&gt; {
+      <span class="kw">const</span> data = <span class="kw">await</span> <span class="fn">fetchResults</span>(value);
+      <span class="fn">setResults</span>(data);
     });
   };
 
-  return (
-    &lt;div&gt;
-      &lt;input onChange={e =&gt; handleSearch(e.target.value)} /&gt;
-      {isPending &amp;&amp; &lt;Spinner /&gt;}
-      &lt;Results data={results} /&gt;
+  <span class="kw">return</span> (
+    &lt;<span class="kw">div</span>&gt;
+      &lt;<span class="kw">input</span> <span class="fn">onChange</span>={<span class="fn">e</span>=&gt; <span class="fn">handleSearch</span>(e.target.value)} /&gt;
+      {isPending &amp;&amp; &lt;<span class="kw">Spinner</span> /&gt;}
+      &lt;<span class="kw">Results</span> <span class="fn">data</span>={<span class="fn">results</span>} /&gt;
     &lt;/div&gt;
   );
 }</code></pre>
@@ -976,43 +988,43 @@ function SearchPage() {
     <h3>useDeferredValue <span class="hook-badge">HOOK</span> <span class="new-badge">React 18+</span></h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>const deferredQuery = useDeferredValue(query);
-// Allows UI to stay responsive during expensive re-renders</code></pre>
+        <pre><code><span class="kw">const</span> deferredQuery = <span class="fn">useDeferredValue</span>(query);
+<span class="cm">// Allows UI to stay responsive during expensive re-renders</span></code></pre>
       </div>
     </div>
 
     <h3>useSyncExternalStore <span class="hook-badge">HOOK</span> <span class="new-badge">React 18+</span></h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>const state = useSyncExternalStore(store.subscribe, () =&gt; store.getState());
-// Subscribe to external stores (Redux, Zustand, etc.)</code></pre>
+        <pre><code><span class="kw">const</span> state = <span class="fn">useSyncExternalStore</span>(store.subscribe, () =&gt; store.<span class="fn">getState</span>());
+<span class="cm">// Subscribe to external stores (Redux, Zustand, etc.)</span></code></pre>
       </div>
     </div>
 
     <h3>useActionState <span class="hook-badge">HOOK</span> <span class="new-badge">React 19</span></h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>import { useActionState } from 'react';
+        <pre><code><span class="kw">import</span> { useActionState } <span class="kw">from</span> <span class="str">'react'</span>;
 
-function SignupForm() {
-  const [state, submitAction, isPending] = useActionState(
-    async (previousState, formData) =&gt; {
-      try {
-        await signup(formData.get('email'), formData.get('password'));
-        return { success: true, error: null };
-      } catch (err) {
-        return { success: false, error: err.message };
+<span class="kw">function</span> <span class="fn">SignupForm</span>() {
+  <span class="kw">const</span> [state, submitAction, isPending] = <span class="fn">useActionState</span>(
+    <span class="kw">async</span> (previousState, formData) =&gt; {
+      <span class="kw">try</span> {
+        <span class="kw">await</span> <span class="fn">signup</span>(formData.<span class="fn">get</span>(<span class="str">'email'</span>), formData.<span class="fn">get</span>(<span class="str">'password'</span>));
+        <span class="kw">return</span> { success: <span class="kw">true</span>, <span class="kw">error</span>: <span class="kw">null</span> };
+      } <span class="kw">catch</span> (err) {
+        <span class="kw">return</span> { success: <span class="kw">false</span>, <span class="kw">error</span>: err.message };
       }
     },
-    { success: false, error: null }
+    { success: <span class="kw">false</span>, <span class="kw">error</span>: <span class="kw">null</span> }
   );
 
-  return (
-    &lt;form action={submitAction}&gt;
-      &lt;input name="email" type="email" required /&gt;
-      &lt;input name="password" type="password" required /&gt;
-      &lt;button disabled={isPending}&gt;{isPending ? 'Signing up...' : 'Sign Up'}&lt;/button&gt;
-      {state.error &amp;&amp; &lt;p className="error"&gt;{state.error}&lt;/p&gt;}
+  <span class="kw">return</span> (
+    &lt;<span class="kw">form</span> <span class="fn">action</span>={<span class="fn">submitAction</span>}&gt;
+      &lt;<span class="kw">input</span> <span class="fn">name</span>=<span class="str">"email"</span> <span class="fn">type</span>=<span class="str">"email"</span> <span class="fn">required</span> /&gt;
+      &lt;<span class="kw">input</span> <span class="fn">name</span>=<span class="str">"password"</span> <span class="fn">type</span>=<span class="str">"password"</span> <span class="fn">required</span> /&gt;
+      &lt;<span class="kw">button</span> <span class="fn">disabled</span>={<span class="fn">isPending</span>}&gt;{isPending ? <span class="str">'Signing up...'</span> : <span class="str">'Sign Up'</span>}&lt;/button&gt;
+      {state.<span class="kw">error</span> &amp;&amp; &lt;<span class="kw">p</span> <span class="fn">className</span>=<span class="str">"error"</span>&gt;{state.<span class="kw">error</span>}&lt;/p&gt;}
     &lt;/form&gt;
   );
 }</code></pre>
@@ -1022,12 +1034,12 @@ function SignupForm() {
     <h3>useFormStatus <span class="hook-badge">HOOK</span> <span class="new-badge">React 19</span></h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>import { useFormStatus } from 'react-dom';
+        <pre><code><span class="kw">import</span> { useFormStatus } <span class="kw">from</span> <span class="str">'react-dom'</span>;
 
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return &lt;button type="submit" disabled={pending}&gt;
-    {pending ? 'Submitting...' : 'Submit'}
+<span class="kw">function</span> <span class="fn">SubmitButton</span>() {
+  <span class="kw">const</span> { pending } = <span class="fn">useFormStatus</span>();
+  <span class="kw">return</span> &lt;<span class="kw">button</span> <span class="fn">type</span>=<span class="str">"submit"</span> <span class="fn">disabled</span>={<span class="fn">pending</span>}&gt;
+    {pending ? <span class="str">'Submitting...'</span> : <span class="str">'Submit'</span>}
   &lt;/button&gt;;
 }</code></pre>
       </div>
@@ -1036,23 +1048,23 @@ function SubmitButton() {
     <h3>useOptimistic <span class="hook-badge">HOOK</span> <span class="new-badge">React 19</span></h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>import { useOptimistic } from 'react';
+        <pre><code><span class="kw">import</span> { useOptimistic } <span class="kw">from</span> <span class="str">'react'</span>;
 
-function CommentThread({ comments }) {
-  const [optimisticComments, addOptimisticComment] = useOptimistic(
+<span class="kw">function</span> <span class="fn">CommentThread</span>({ comments }) {
+  <span class="kw">const</span> [optimisticComments, addOptimisticComment] = <span class="fn">useOptimistic</span>(
     comments,
-    (current, newComment) =&gt; [...current, { ...newComment, isOptimistic: true }]
+    (current, newComment) =&gt; [...current, { ...newComment, isOptimistic: <span class="kw">true</span> }]
   );
 
-  async function submitAction(formData) {
-    addOptimisticComment({ id: 'temp', text: formData.get('text') });
-    await addComment(formData);
+  <span class="kw">async</span> <span class="kw">function</span> <span class="fn">submitAction</span>(formData) {
+    <span class="fn">addOptimisticComment</span>({ id: <span class="str">'temp'</span>, text: formData.<span class="fn">get</span>(<span class="str">'text'</span>) });
+    <span class="kw">await</span> <span class="fn">addComment</span>(formData);
   }
 
-  return (
-    &lt;div&gt;
-      {optimisticComments.map(c =&gt; (
-        &lt;div key={c.id} style={{ opacity: c.isOptimistic ? 0.5 : 1 }}&gt;{c.text}&lt;/div&gt;
+  <span class="kw">return</span> (
+    &lt;<span class="kw">div</span>&gt;
+      {optimisticComments.<span class="fn">map</span>(c =&gt; (
+        &lt;<span class="kw">div</span> <span class="fn">key</span>={<span class="fn">c</span>.<span class="fn">id</span>} <span class="fn">style</span>=<span class="kw">{{ opacity: c.isOptimistic ? 0.5 : 1 }}</span>&gt;{c.text}&lt;/div&gt;
       ))}
     &lt;/div&gt;
   );
@@ -1068,49 +1080,49 @@ function CommentThread({ comments }) {
     <div class="card">
       <div class="card-header">Effect Patterns</div>
       <div class="card-body">
-        <pre><code>// Mount / Unmount
-useEffect(() =&gt; {
-  console.log('Mounted');
-  return () =&gt; console.log('Unmounted');
+        <pre><code><span class="cm">// Mount / Unmount</span>
+<span class="fn">useEffect</span>(() =&gt; {
+  console.<span class="fn">log</span>(<span class="str">'Mounted'</span>);
+  <span class="kw">return</span> () =&gt; console.<span class="fn">log</span>(<span class="str">'Unmounted'</span>);
 }, []);
 
-// On prop/state change
-useEffect(() =&gt; { console.log('Count:', count); }, [count]);
+<span class="cm">// On prop/state change</span>
+<span class="fn">useEffect</span>(() =&gt; { console.<span class="fn">log</span>(<span class="str">'Count:'</span>, count); }, [count]);
 
-// Event listener
-useEffect(() =&gt; {
-  const handleResize = () =&gt; setWidth(window.innerWidth);
-  window.addEventListener('resize', handleResize);
-  return () =&gt; window.removeEventListener('resize', handleResize);
+<span class="cm">// Event listener</span>
+<span class="fn">useEffect</span>(() =&gt; {
+  <span class="kw">const</span> handleResize = () =&gt; <span class="fn">setWidth</span>(window.innerWidth);
+  window.<span class="fn">addEventListener</span>(<span class="str">'resize'</span>, handleResize);
+  <span class="kw">return</span> () =&gt; window.<span class="fn">removeEventListener</span>(<span class="str">'resize'</span>, handleResize);
 }, []);
 
-// Data fetching
-function UserProfile({ userId }) {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+<span class="cm">// Data fetching</span>
+<span class="kw">function</span> <span class="fn">UserProfile</span>({ userId }) {
+  <span class="kw">const</span> [user, setUser] = <span class="fn">useState</span>(<span class="kw">null</span>);
+  <span class="kw">const</span> [<span class="kw">loading</span>, setLoading] = <span class="fn">useState</span>(<span class="kw">true</span>);
+  <span class="kw">const</span> [<span class="kw">error</span>, setError] = <span class="fn">useState</span>(<span class="kw">null</span>);
 
-  useEffect(() =&gt; {
-    let cancelled = false;
-    async function fetchUser() {
-      setLoading(true);
-      setError(null);
-      try {
-        const res = await fetch(`/api/users/${userId}`);
-        if (!res.ok) throw new Error('Failed to fetch');
-        const data = await res.json();
-        if (!cancelled) { setUser(data); setLoading(false); }
-      } catch (err) {
-        if (!cancelled) { setError(err.message); setLoading(false); }
+  <span class="fn">useEffect</span>(() =&gt; {
+    <span class="kw">let</span> cancelled = <span class="kw">false</span>;
+    <span class="kw">async</span> <span class="kw">function</span> <span class="fn">fetchUser</span>() {
+      <span class="fn">setLoading</span>(<span class="kw">true</span>);
+      <span class="fn">setError</span>(<span class="kw">null</span>);
+      <span class="kw">try</span> {
+        <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">`/api/users/${userId}`</span>);
+        <span class="kw">if</span> (!res.ok) <span class="kw">throw</span> <span class="kw">new</span> <span class="fn">Error</span>(<span class="str">'Failed to fetch'</span>);
+        <span class="kw">const</span> data = <span class="kw">await</span> res.<span class="fn">json</span>();
+        <span class="kw">if</span> (!cancelled) { <span class="fn">setUser</span>(data); <span class="fn">setLoading</span>(<span class="kw">false</span>); }
+      } <span class="kw">catch</span> (err) {
+        <span class="kw">if</span> (!cancelled) { <span class="fn">setError</span>(err.message); <span class="fn">setLoading</span>(<span class="kw">false</span>); }
       }
     }
-    fetchUser();
-    return () =&gt; { cancelled = true; };
+    <span class="fn">fetchUser</span>();
+    <span class="kw">return</span> () =&gt; { cancelled = <span class="kw">true</span>; };
   }, [userId]);
 
-  if (loading) return &lt;Spinner /&gt;;
-  if (error) return &lt;ErrorMessage message={error} /&gt;;
-  return &lt;div&gt;&lt;h1&gt;{user.name}&lt;/h1&gt;&lt;p&gt;{user.bio}&lt;/p&gt;&lt;/div&gt;;
+  <span class="kw">if</span> (<span class="kw">loading</span>) <span class="kw">return</span> &lt;<span class="kw">Spinner</span> /&gt;;
+  <span class="kw">if</span> (<span class="kw">error</span>) <span class="kw">return</span> &lt;<span class="kw">ErrorMessage</span> <span class="fn">message</span>={<span class="fn">error</span>} /&gt;;
+  <span class="kw">return</span> &lt;<span class="kw">div</span>&gt;&lt;<span class="kw">h1</span>&gt;{user.name}&lt;/h1&gt;&lt;<span class="kw">p</span>&gt;{user.bio}&lt;/p&gt;&lt;/div&gt;;
 }</code></pre>
       </div>
     </div>
@@ -1124,22 +1136,22 @@ function UserProfile({ userId }) {
     <div class="card">
       <div class="card-header">Server Component (Next.js App Router)</div>
       <div class="card-body">
-        <pre><code>// Server Component - default in Next.js App Router
-import db from './db';
+        <pre><code><span class="cm">// Server Component - default in Next.js App Router</span>
+<span class="kw">import</span> db <span class="kw">from</span> <span class="str">'./db'</span>;
 
-export default async function HomePage() {
-  const posts = await db.posts.findMany({
-    orderBy: { createdAt: 'desc' },
-    take: 10,
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">async</span> <span class="kw">function</span> <span class="fn">HomePage</span>() {
+  <span class="kw">const</span> posts = <span class="kw">await</span> db.posts.<span class="fn">findMany</span>({
+    orderBy: { createdAt: <span class="str">'desc'</span> },
+    take: <span class="num">10</span>,
   });
 
-  return (
-    &lt;main&gt;
-      &lt;h1&gt;Latest Posts&lt;/h1&gt;
-      &lt;ul&gt;
-        {posts.map(post =&gt; (
-          &lt;li key={post.id}&gt;
-            &lt;a href={`/posts/${post.slug}`}&gt;{post.title}&lt;/a&gt;
+  <span class="kw">return</span> (
+    &lt;<span class="kw">main</span>&gt;
+      &lt;<span class="kw">h1</span>&gt;Latest Posts&lt;/h1&gt;
+      &lt;<span class="kw">ul</span>&gt;
+        {posts.<span class="fn">map</span>(post =&gt; (
+          &lt;<span class="kw">li</span> <span class="fn">key</span>={<span class="fn">post</span>.<span class="fn">id</span>}&gt;
+            &lt;<span class="kw">a</span> <span class="fn">href</span>={`/<span class="fn">posts</span>/${<span class="fn">post</span>.<span class="fn">slug</span>}`}&gt;{post.title}&lt;/a&gt;
           &lt;/li&gt;
         ))}
       &lt;/ul&gt;
@@ -1147,12 +1159,12 @@ export default async function HomePage() {
   );
 }
 
-// Client Component - must declare 'use client'
-'use client';
-import { useState } from 'react';
-export default function Counter() {
-  const [count, setCount] = useState(0);
-  return &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;Count: {count}&lt;/button&gt;;
+<span class="cm">// Client Component - must declare 'use client'</span>
+<span class="str">'use client'</span>;
+<span class="kw">import</span> { useState } <span class="kw">from</span> <span class="str">'react'</span>;
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> <span class="fn">Counter</span>() {
+  <span class="kw">const</span> [count, setCount] = <span class="fn">useState</span>(<span class="num">0</span>);
+  <span class="kw">return</span> &lt;<span class="kw">button</span> <span class="fn">onClick</span>={() =&gt; <span class="fn">setCount</span>(c =&gt; c + <span class="num">1</span>)}&gt;Count: {count}&lt;/button&gt;;
 }</code></pre>
       </div>
     </div>
@@ -1165,37 +1177,37 @@ export default function Counter() {
 
     <div class="card">
       <div class="card-body">
-        <pre><code>// Server Action (Next.js)
-export async function createUser(formData: FormData) {
-  'use server';
-  const name = formData.get('name');
-  const email = formData.get('email');
-  await db.user.create({ data: { name, email } });
-  revalidatePath('/users');
+        <pre><code><span class="cm">// Server Action (Next.js)</span>
+<span class="kw">export</span> <span class="kw">async</span> <span class="kw">function</span> <span class="fn">createUser</span>(formData: FormData) {
+  <span class="str">'use server'</span>;
+  <span class="kw">const</span> name = formData.<span class="fn">get</span>(<span class="str">'name'</span>);
+  <span class="kw">const</span> email = formData.<span class="fn">get</span>(<span class="str">'email'</span>);
+  <span class="kw">await</span> db.user.<span class="fn">create</span>({ data: { name, email } });
+  <span class="fn">revalidatePath</span>(<span class="str">'/users'</span>);
 }
 
-// Usage
-function CreateUserForm() {
-  return (
-    &lt;form action={createUser}&gt;
-      &lt;input name="name" required /&gt;
-      &lt;input name="email" type="email" required /&gt;
-      &lt;button type="submit"&gt;Create User&lt;/button&gt;
+<span class="cm">// Usage</span>
+<span class="kw">function</span> <span class="fn">CreateUserForm</span>() {
+  <span class="kw">return</span> (
+    &lt;<span class="kw">form</span> <span class="fn">action</span>={<span class="fn">createUser</span>}&gt;
+      &lt;<span class="kw">input</span> <span class="fn">name</span>=<span class="str">"name"</span> <span class="fn">required</span> /&gt;
+      &lt;<span class="kw">input</span> <span class="fn">name</span>=<span class="str">"email"</span> <span class="fn">type</span>=<span class="str">"email"</span> <span class="fn">required</span> /&gt;
+      &lt;<span class="kw">button</span> <span class="fn">type</span>=<span class="str">"submit"</span>&gt;Create User&lt;/button&gt;
     &lt;/form&gt;
   );
 }
 
-// Action with useTransition
-function EditProfile({ user }) {
-  const [isPending, startTransition] = useTransition();
-  async function updateUser(formData) {
-    startTransition(async () =&gt; {
-      await fetch('/api/user', { method: 'PUT', body: formData });
+<span class="cm">// Action with useTransition</span>
+<span class="kw">function</span> <span class="fn">EditProfile</span>({ user }) {
+  <span class="kw">const</span> [isPending, startTransition] = <span class="fn">useTransition</span>();
+  <span class="kw">async</span> <span class="kw">function</span> <span class="fn">updateUser</span>(formData) {
+    <span class="fn">startTransition</span>(<span class="kw">async</span> () =&gt; {
+      <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'/api/user'</span>, { method: <span class="str">'PUT'</span>, body: formData });
     });
   }
-  return (
-    &lt;form action={updateUser}&gt;
-      &lt;button disabled={isPending}&gt;{isPending ? 'Saving...' : 'Save'}&lt;/button&gt;
+  <span class="kw">return</span> (
+    &lt;<span class="kw">form</span> <span class="fn">action</span>={<span class="fn">updateUser</span>}&gt;
+      &lt;<span class="kw">button</span> <span class="fn">disabled</span>={<span class="fn">isPending</span>}&gt;{isPending ? <span class="str">'Saving...'</span> : <span class="str">'Save'</span>}&lt;/button&gt;
     &lt;/form&gt;
   );
 }</code></pre>
@@ -1210,37 +1222,37 @@ function EditProfile({ user }) {
 
     <div class="card">
       <div class="card-body">
-        <pre><code>// vite.config.js - Enable Compiler
-import react from '@vitejs/plugin-react';
+        <pre><code><span class="cm">// vite.config.js - Enable Compiler</span>
+<span class="kw">import</span> react <span class="kw">from</span> <span class="str">'@vitejs/plugin-react'</span>;
 
-export default {
+<span class="kw">export</span> <span class="kw">default</span> {
   plugins: [
-    react({
-      babel: { plugins: ['babel-plugin-react-compiler'] },
+    <span class="fn">react</span>({
+      babel: { plugins: [<span class="str">'babel-plugin-react-compiler'</span>] },
     }),
   ],
 };
 
-// BEFORE: Manual memoization
-function TodoList({ todos, filter, onToggle }) {
-  const filtered = useMemo(() =&gt; todos.filter(t =&gt; t.text.includes(filter)), [todos, filter]);
-  return filtered.map(todo =&gt; (
-    &lt;TodoItem key={todo.id} todo={todo} onToggle={onToggle} /&gt;
+<span class="cm">// BEFORE: Manual memoization</span>
+<span class="kw">function</span> <span class="fn">TodoList</span>({ todos, filter, onToggle }) {
+  <span class="kw">const</span> filtered = <span class="fn">useMemo</span>(() =&gt; todos.<span class="fn">filter</span>(t =&gt; t.text.<span class="fn">includes</span>(filter)), [todos, filter]);
+  <span class="kw">return</span> filtered.<span class="fn">map</span>(todo =&gt; (
+    &lt;<span class="kw">TodoItem</span> <span class="fn">key</span>={<span class="fn">todo</span>.<span class="fn">id</span>} <span class="fn">todo</span>={<span class="fn">todo</span>} <span class="fn">onToggle</span>={<span class="fn">onToggle</span>} /&gt;
   ));
 }
 
-// AFTER: Compiler handles it automatically
-function TodoList({ todos, filter, onToggle }) {
-  const filtered = todos.filter(t =&gt; t.text.includes(filter));
-  return filtered.map(todo =&gt; (
-    &lt;TodoItem key={todo.id} todo={todo} onToggle={onToggle} /&gt;
+<span class="cm">// AFTER: Compiler handles it automatically</span>
+<span class="kw">function</span> <span class="fn">TodoList</span>({ todos, filter, onToggle }) {
+  <span class="kw">const</span> filtered = todos.<span class="fn">filter</span>(t =&gt; t.text.<span class="fn">includes</span>(filter));
+  <span class="kw">return</span> filtered.<span class="fn">map</span>(todo =&gt; (
+    &lt;<span class="kw">TodoItem</span> <span class="fn">key</span>={<span class="fn">todo</span>.<span class="fn">id</span>} <span class="fn">todo</span>={<span class="fn">todo</span>} <span class="fn">onToggle</span>={<span class="fn">onToggle</span>} /&gt;
   ));
 }
 
-// Opt out: 'use no memo'
-function ExpensiveComponent() {
-  'use no memo';
-  return &lt;div&gt;...&lt;/div&gt;;
+<span class="cm">// Opt out: 'use no memo'</span>
+<span class="kw">function</span> <span class="fn">ExpensiveComponent</span>() {
+  <span class="str">'use no memo'</span>;
+  <span class="kw">return</span> &lt;<span class="kw">div</span>&gt;...&lt;/div&gt;;
 }</code></pre>
       </div>
     </div>
@@ -1253,38 +1265,38 @@ function ExpensiveComponent() {
     <h3>React Router v7</h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>import { BrowserRouter, Routes, Route, Link, useParams, useNavigate } from 'react-router-dom';
+        <pre><code><span class="kw">import</span> { BrowserRouter, <span class="tp">Routes</span>, <span class="tp">Route</span>, Link, useParams, useNavigate } <span class="kw">from</span> <span class="str">'react-router-dom'</span>;
 
-function App() {
-  return (
-    &lt;BrowserRouter&gt;
-      &lt;nav&gt;
-        &lt;Link to="/"&gt;Home&lt;/Link&gt;
-        &lt;Link to="/about"&gt;About&lt;/Link&gt;
-        &lt;Link to="/users"&gt;Users&lt;/Link&gt;
+<span class="kw">function</span> <span class="fn">App</span>() {
+  <span class="kw">return</span> (
+    &lt;<span class="kw">BrowserRouter</span>&gt;
+      &lt;<span class="kw">nav</span>&gt;
+        &lt;<span class="kw">Link</span> <span class="fn">to</span>=<span class="str">"/"</span>&gt;Home&lt;/Link&gt;
+        &lt;<span class="kw">Link</span> <span class="fn">to</span>=<span class="str">"/about"</span>&gt;About&lt;/Link&gt;
+        &lt;<span class="kw">Link</span> <span class="fn">to</span>=<span class="str">"/users"</span>&gt;Users&lt;/Link&gt;
       &lt;/nav&gt;
-      &lt;Routes&gt;
-        &lt;Route path="/" element={&lt;Home /&gt;} /&gt;
-        &lt;Route path="/about" element={&lt;About /&gt;} /&gt;
-        &lt;Route path="/users" element={&lt;UserList /&gt;} /&gt;
-        &lt;Route path="/users/:id" element={&lt;UserProfile /&gt;} /&gt;
-        &lt;Route path="*" element={&lt;NotFound /&gt;} /&gt;
-      &lt;/Routes&gt;
+      &lt;<span class="kw">Routes</span>&gt;
+        &lt;<span class="kw">Route</span> <span class="fn">path</span>=<span class="str">"/"</span> <span class="fn">element</span>={&<span class="fn">lt</span>;<span class="fn">Home</span> /&gt;} /&gt;
+        &lt;<span class="kw">Route</span> <span class="fn">path</span>=<span class="str">"/about"</span> <span class="fn">element</span>={&<span class="fn">lt</span>;<span class="fn">About</span> /&gt;} /&gt;
+        &lt;<span class="kw">Route</span> <span class="fn">path</span>=<span class="str">"/users"</span> <span class="fn">element</span>={&<span class="fn">lt</span>;<span class="fn">UserList</span> /&gt;} /&gt;
+        &lt;<span class="kw">Route</span> <span class="fn">path</span>=<span class="str">"/users/:id"</span> <span class="fn">element</span>={&<span class="fn">lt</span>;<span class="fn">UserProfile</span> /&gt;} /&gt;
+        &lt;<span class="kw">Route</span> <span class="fn">path</span>=<span class="str">"*"</span> <span class="fn">element</span>={&<span class="fn">lt</span>;<span class="fn">NotFound</span> /&gt;} /&gt;
+      &lt;/<span class="tp">Routes</span>&gt;
     &lt;/BrowserRouter&gt;
   );
 }
 
-function UserProfile() {
-  const { id } = useParams();
-  return &lt;h1&gt;User {id}&lt;/h1&gt;;
+<span class="kw">function</span> <span class="fn">UserProfile</span>() {
+  <span class="kw">const</span> { id } = <span class="fn">useParams</span>();
+  <span class="kw">return</span> &lt;<span class="kw">h1</span>&gt;User {id}&lt;/h1&gt;;
 }
 
-// Nested routes with Outlet
-function Layout() {
-  return (
-    &lt;div&gt;
-      &lt;Sidebar /&gt;
-      &lt;Outlet /&gt;
+<span class="cm">// Nested routes with Outlet</span>
+<span class="kw">function</span> <span class="fn">Layout</span>() {
+  <span class="kw">return</span> (
+    &lt;<span class="kw">div</span>&gt;
+      &lt;<span class="kw">Sidebar</span> /&gt;
+      &lt;<span class="kw">Outlet</span> /&gt;
     &lt;/div&gt;
   );
 }</code></pre>
@@ -1294,15 +1306,15 @@ function Layout() {
     <h3>Next.js File-Based Routing</h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>// app/
-//   page.tsx              -- /
-//   about/page.tsx        -- /about
-//   users/[id]/page.tsx   -- /users/:id
-//   blog/[slug]/page.tsx  -- /blog/:slug
+        <pre><code><span class="cm">// app/</span>
+<span class="cm">//   page.tsx              -- /</span>
+<span class="cm">//   about/page.tsx        -- /about</span>
+<span class="cm">//   users/[id]/page.tsx   -- /users/:id</span>
+<span class="cm">//   blog/[slug]/page.tsx  -- /blog/:slug</span>
 
-export default async function UserProfile({ params }: { params: { id: string } }) {
-  const user = await db.user.findUnique({ where: { id: params.id } });
-  return &lt;h1&gt;{user.name}&lt;/h1&gt;;
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">async</span> <span class="kw">function</span> <span class="fn">UserProfile</span>({ params }: { params: { id: <span class="tp">string</span> } }) {
+  <span class="kw">const</span> user = <span class="kw">await</span> db.user.<span class="fn">findUnique</span>({ where: { id: params.id } });
+  <span class="kw">return</span> &lt;<span class="kw">h1</span>&gt;{user.name}&lt;/h1&gt;;
 }</code></pre>
       </div>
     </div>
@@ -1315,44 +1327,44 @@ export default async function UserProfile({ params }: { params: { id: string } }
     <div class="card">
       <div class="card-header">Multiple Contexts + Custom Hooks</div>
       <div class="card-body">
-        <pre><code>const AuthContext = createContext(null);
-const ThemeContext = createContext(null);
+        <pre><code><span class="kw">const</span> AuthContext = <span class="fn">createContext</span>(<span class="kw">null</span>);
+<span class="kw">const</span> ThemeContext = <span class="fn">createContext</span>(<span class="kw">null</span>);
 
-function AppProvider({ children }) {
-  const [auth, dispatchAuth] = useReducer(authReducer, { user: null });
-  const [theme, setTheme] = useState('light');
-  return (
-    &lt;AuthContext.Provider value={{ auth, dispatchAuth }}&gt;
-      &lt;ThemeContext.Provider value={{ theme, setTheme }}&gt;{children}&lt;/ThemeContext.Provider&gt;
+<span class="kw">function</span> <span class="fn">AppProvider</span>({ children }) {
+  <span class="kw">const</span> [auth, dispatchAuth] = <span class="fn">useReducer</span>(authReducer, { user: <span class="kw">null</span> });
+  <span class="kw">const</span> [theme, setTheme] = <span class="fn">useState</span>(<span class="str">'light'</span>);
+  <span class="kw">return</span> (
+    &lt;<span class="kw">AuthContext</span>.<span class="fn">Provider</span> <span class="fn">value</span>=<span class="kw">{{ auth, dispatchAuth }}</span>&gt;
+      &lt;<span class="kw">ThemeContext</span>.<span class="fn">Provider</span> <span class="fn">value</span>=<span class="kw">{{ theme, setTheme }}</span>&gt;{children}&lt;/ThemeContext.Provider&gt;
     &lt;/AuthContext.Provider&gt;
   );
 }
 
-function useAuth() { return useContext(AuthContext); }
-function useTheme() { return useContext(ThemeContext); }</code></pre>
+<span class="kw">function</span> <span class="fn">useAuth</span>() { <span class="kw">return</span> <span class="fn">useContext</span>(AuthContext); }
+<span class="kw">function</span> <span class="fn">useTheme</span>() { <span class="kw">return</span> <span class="fn">useContext</span>(ThemeContext); }</code></pre>
       </div>
     </div>
 
     <div class="card">
       <div class="card-header">Zustand (Lightweight State)</div>
       <div class="card-body">
-        <pre><code>import { create } from 'zustand';
+        <pre><code><span class="kw">import</span> { create } <span class="kw">from</span> <span class="str">'zustand'</span>;
 
-const useStore = create((set) =&gt; ({
+<span class="kw">const</span> useStore = <span class="fn">create</span>((set) =&gt; ({
   todos: [],
-  addTodo: (text) =&gt; set((s) =&gt; ({ todos: [...s.todos, { id: Date.now(), text, done: false }] })),
-  toggleTodo: (id) =&gt; set((s) =&gt; ({
-    todos: s.todos.map((t) =&gt; t.id === id ? { ...t, done: !t.done } : t)
+  addTodo: (text) =&gt; <span class="fn">set</span>((s) =&gt; ({ todos: [...s.todos, { id: Date.<span class="fn">now</span>(), text, done: <span class="kw">false</span> }] })),
+  toggleTodo: (id) =&gt; <span class="fn">set</span>((s) =&gt; ({
+    todos: s.todos.<span class="fn">map</span>((t) =&gt; t.id === id ? { ...t, done: !t.done } : t)
   })),
 }));
 
-function TodoApp() {
-  const todos = useStore((s) =&gt; s.todos);
-  const addTodo = useStore((s) =&gt; s.addTodo);
-  return (
-    &lt;div&gt;
-      &lt;button onClick={() =&gt; addTodo('New task')}&gt;Add&lt;/button&gt;
-      &lt;ul&gt;{todos.map(t =&gt; &lt;li key={t.id}&gt;{t.text}&lt;/li&gt;)}&lt;/ul&gt;
+<span class="kw">function</span> <span class="fn">TodoApp</span>() {
+  <span class="kw">const</span> todos = <span class="fn">useStore</span>((s) =&gt; s.todos);
+  <span class="kw">const</span> addTodo = <span class="fn">useStore</span>((s) =&gt; s.addTodo);
+  <span class="kw">return</span> (
+    &lt;<span class="kw">div</span>&gt;
+      &lt;<span class="kw">button</span> <span class="fn">onClick</span>={() =&gt; <span class="fn">addTodo</span>(<span class="str">'New task'</span>)}&gt;Add&lt;/button&gt;
+      &lt;<span class="kw">ul</span>&gt;{todos.<span class="fn">map</span>(t =&gt; &lt;<span class="kw">li</span> <span class="fn">key</span>={<span class="fn">t</span>.<span class="fn">id</span>}&gt;{t.text}&lt;/li&gt;)}&lt;/ul&gt;
     &lt;/div&gt;
   );
 }</code></pre>
@@ -1366,45 +1378,45 @@ function TodoApp() {
 
     <div class="card">
       <div class="card-body">
-        <pre><code>// React.memo
-const TodoItem = memo(function TodoItem({ todo, onToggle }) {
-  return &lt;li&gt;&lt;span onClick={() =&gt; onToggle(todo.id)}&gt;{todo.text}&lt;/span&gt;&lt;/li&gt;;
+        <pre><code><span class="cm">// React.memo</span>
+<span class="kw">const</span> TodoItem = <span class="kw">memo</span>(<span class="kw">function</span> <span class="fn">TodoItem</span>({ todo, onToggle }) {
+  <span class="kw">return</span> &lt;<span class="kw">li</span>&gt;&lt;<span class="kw">span</span> <span class="fn">onClick</span>={() =&gt; <span class="fn">onToggle</span>(todo.id)}&gt;{todo.text}&lt;/span&gt;&lt;/li&gt;;
 });
 
-// Code Splitting with lazy + Suspense
-const HeavyChart = lazy(() =&gt; import('./HeavyChart'));
-function App() {
-  return (
-    &lt;Suspense fallback={&lt;Spinner /&gt;}&gt;
-      &lt;HeavyChart /&gt;
+<span class="cm">// Code Splitting with lazy + Suspense</span>
+<span class="kw">const</span> HeavyChart = <span class="fn">lazy</span>(() =&gt; <span class="kw">import</span>(<span class="str">'./HeavyChart'</span>));
+<span class="kw">function</span> <span class="fn">App</span>() {
+  <span class="kw">return</span> (
+    &lt;<span class="kw">Suspense</span> <span class="fn">fallback</span>={&<span class="fn">lt</span>;<span class="fn">Spinner</span> /&gt;}&gt;
+      &lt;<span class="kw">HeavyChart</span> /&gt;
     &lt;/Suspense&gt;
   );
 }
 
-// Virtualization (react-window)
-import { FixedSizeList as List } from 'react-window';
-function VirtualizedList({ items }) {
-  const Row = ({ index, style }) =&gt; &lt;div style={style}&gt;{items[index].name}&lt;/div&gt;;
-  return &lt;List height={600} itemCount={items.length} itemSize={35} width="100%"&gt;{Row}&lt;/List&gt;;
+<span class="cm">// Virtualization (react-window)</span>
+<span class="kw">import</span> { FixedSizeList <span class="kw">as</span> List } <span class="kw">from</span> <span class="str">'react-window'</span>;
+<span class="kw">function</span> <span class="fn">VirtualizedList</span>({ items }) {
+  <span class="kw">const</span> Row = ({ index, style }) =&gt; &lt;<span class="kw">div</span> <span class="fn">style</span>={<span class="fn">style</span>}&gt;{items[index].name}&lt;/div&gt;;
+  <span class="kw">return</span> &lt;<span class="kw">List</span> <span class="fn">height</span>={600} <span class="fn">itemCount</span>={<span class="fn">items</span>.<span class="fn">length</span>} <span class="fn">itemSize</span>={35} <span class="fn">width</span>=<span class="str">"100%"</span>&gt;{Row}&lt;/List&gt;;
 }
 
-// Debounce search
-useEffect(() =&gt; {
-  const timer = setTimeout(async () =&gt; {
-    if (query) setResults(await searchAPI(query));
-  }, 300);
-  return () =&gt; clearTimeout(timer);
+<span class="cm">// Debounce search</span>
+<span class="fn">useEffect</span>(() =&gt; {
+  <span class="kw">const</span> timer = <span class="fn">setTimeout</span>(<span class="kw">async</span> () =&gt; {
+    <span class="kw">if</span> (query) <span class="fn">setResults</span>(<span class="kw">await</span> <span class="fn">searchAPI</span>(query));
+  }, <span class="num">300</span>);
+  <span class="kw">return</span> () =&gt; <span class="fn">clearTimeout</span>(timer);
 }, [query]);
 
-// Performance Checklist
-// 1. React DevTools Profiler
-// 2. React Compiler for auto-memoization
-// 3. React.lazy() for code splitting
-// 4. Virtualize long lists
-// 5. Debounce inputs
-// 6. useTransition for non-urgent updates
-// 7. Stable unique keys
-// 8. CSS over JS animations</code></pre>
+<span class="cm">// Performance Checklist</span>
+<span class="cm">// 1. React DevTools Profiler</span>
+<span class="cm">// 2. React Compiler for auto-memoization</span>
+<span class="cm">// 3. React.lazy() for code splitting</span>
+<span class="cm">// 4. Virtualize long lists</span>
+<span class="cm">// 5. Debounce inputs</span>
+<span class="cm">// 6. useTransition for non-urgent updates</span>
+<span class="cm">// 7. Stable unique keys</span>
+<span class="cm">// 8. CSS over JS animations</span></code></pre>
       </div>
     </div>
   </section>
@@ -1416,32 +1428,32 @@ useEffect(() =&gt; {
     <div class="card">
       <div class="card-header">Controlled Component</div>
       <div class="card-body">
-        <pre><code>function ControlledForm() {
-  const [form, setForm] = useState({ name: '', email: '', agree: false });
-  const [errors, setErrors] = useState({});
+        <pre><code><span class="kw">function</span> <span class="fn">ControlledForm</span>() {
+  <span class="kw">const</span> [form, setForm] = <span class="fn">useState</span>({ name: <span class="str">''</span>, email: <span class="str">''</span>, agree: <span class="kw">false</span> });
+  <span class="kw">const</span> [errors, setErrors] = <span class="fn">useState</span>({});
 
-  const handleChange = (e) =&gt; {
-    const { name, value, type, checked } = e.target;
-    setForm(prev =&gt; ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+  <span class="kw">const</span> handleChange = (e) =&gt; {
+    <span class="kw">const</span> { name, value, <span class="kw">type</span>, checked } = e.target;
+    <span class="fn">setForm</span>(prev =&gt; ({ ...prev, [name]: <span class="kw">type</span> === <span class="str">'checkbox'</span> ? checked : value }));
   };
 
-  const handleSubmit = (e) =&gt; {
-    e.preventDefault();
-    const errs = {};
-    if (!form.name.trim()) errs.name = 'Name required';
-    if (!form.email.includes('@')) errs.email = 'Invalid email';
-    if (Object.keys(errs).length === 0) console.log('Submit:', form);
-    else setErrors(errs);
+  <span class="kw">const</span> handleSubmit = (e) =&gt; {
+    e.<span class="fn">preventDefault</span>();
+    <span class="kw">const</span> errs = {};
+    <span class="kw">if</span> (!form.name.<span class="fn">trim</span>()) errs.name = <span class="str">'Name required'</span>;
+    <span class="kw">if</span> (!form.email.<span class="fn">includes</span>(<span class="str">'@'</span>)) errs.email = <span class="str">'Invalid email'</span>;
+    <span class="kw">if</span> (Object.<span class="fn">keys</span>(errs).length === <span class="num">0</span>) console.<span class="fn">log</span>(<span class="str">'Submit:'</span>, form);
+    <span class="kw">else</span> <span class="fn">setErrors</span>(errs);
   };
 
-  return (
-    &lt;form onSubmit={handleSubmit}&gt;
-      &lt;input name="name" value={form.name} onChange={handleChange} /&gt;
-      {errors.name &amp;&amp; &lt;span className="error"&gt;{errors.name}&lt;/span&gt;}
-      &lt;input name="email" value={form.email} onChange={handleChange} /&gt;
-      {errors.email &amp;&amp; &lt;span className="error"&gt;{errors.email}&lt;/span&gt;}
-      &lt;label&gt;&lt;input name="agree" type="checkbox" checked={form.agree} onChange={handleChange} /&gt; Agree&lt;/label&gt;
-      &lt;button type="submit"&gt;Submit&lt;/button&gt;
+  <span class="kw">return</span> (
+    &lt;<span class="kw">form</span> <span class="fn">onSubmit</span>={<span class="fn">handleSubmit</span>}&gt;
+      &lt;<span class="kw">input</span> <span class="fn">name</span>=<span class="str">"name"</span> <span class="fn">value</span>={<span class="fn">form</span>.<span class="fn">name</span>} <span class="fn">onChange</span>={<span class="fn">handleChange</span>} /&gt;
+      {errors.name &amp;&amp; &lt;<span class="kw">span</span> <span class="fn">className</span>=<span class="str">"error"</span>&gt;{errors.name}&lt;/span&gt;}
+      &lt;<span class="kw">input</span> <span class="fn">name</span>=<span class="str">"email"</span> <span class="fn">value</span>={<span class="fn">form</span>.<span class="fn">email</span>} <span class="fn">onChange</span>={<span class="fn">handleChange</span>} /&gt;
+      {errors.email &amp;&amp; &lt;<span class="kw">span</span> <span class="fn">className</span>=<span class="str">"error"</span>&gt;{errors.email}&lt;/span&gt;}
+      &lt;<span class="kw">label</span>&gt;&lt;<span class="kw">input</span> <span class="fn">name</span>=<span class="str">"agree"</span> <span class="fn">type</span>=<span class="str">"checkbox"</span> <span class="fn">checked</span>={<span class="fn">form</span>.<span class="fn">agree</span>} <span class="fn">onChange</span>={<span class="fn">handleChange</span>} /&gt; Agree&lt;/label&gt;
+      &lt;<span class="kw">button</span> <span class="fn">type</span>=<span class="str">"submit"</span>&gt;Submit&lt;/button&gt;
     &lt;/form&gt;
   );
 }</code></pre>
@@ -1451,33 +1463,33 @@ useEffect(() =&gt; {
     <div class="card">
       <div class="card-header">React Hook Form + Zod Validation</div>
       <div class="card-body">
-        <pre><code>import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+        <pre><code><span class="kw">import</span> { useForm } <span class="kw">from</span> <span class="str">'react-hook-form'</span>;
+<span class="kw">import</span> { zodResolver } <span class="kw">from</span> <span class="str">'@hookform/resolvers/zod'</span>;
+<span class="kw">import</span> { z } <span class="kw">from</span> <span class="str">'zod'</span>;
 
-const schema = z.object({
-  name: z.string().min(2),
-  email: z.string().email(),
-  age: z.coerce.number().min(18).optional(),
+<span class="kw">const</span> schema = z.<span class="fn">object</span>({
+  name: z.<span class="tp">string</span>().<span class="fn">min</span>(<span class="num">2</span>),
+  email: z.<span class="tp">string</span>().<span class="fn">email</span>(),
+  age: z.coerce.<span class="tp">number</span>().<span class="fn">min</span>(<span class="num">18</span>).<span class="fn">optional</span>(),
 });
 
-function RHFExample() {
-  const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm({
-    resolver: zodResolver(schema),
+<span class="kw">function</span> <span class="fn">RHFExample</span>() {
+  <span class="kw">const</span> { register, handleSubmit, formState: { errors, isSubmitting }, reset } = <span class="fn">useForm</span>({
+    resolver: <span class="fn">zodResolver</span>(schema),
   });
 
-  const onSubmit = async (data) =&gt; {
-    await fetch('/api/users', { method: 'POST', body: JSON.stringify(data) });
-    reset();
+  <span class="kw">const</span> onSubmit = <span class="kw">async</span> (data) =&gt; {
+    <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'/api/users'</span>, { method: <span class="str">'POST'</span>, body: JSON.<span class="fn">stringify</span>(data) });
+    <span class="fn">reset</span>();
   };
 
-  return (
-    &lt;form onSubmit={handleSubmit(onSubmit)}&gt;
-      &lt;input {...register('name')} placeholder="Name" /&gt;
-      {errors.name &amp;&amp; &lt;p&gt;{errors.name.message}&lt;/p&gt;}
-      &lt;input {...register('email')} placeholder="Email" /&gt;
-      {errors.email &amp;&amp; &lt;p&gt;{errors.email.message}&lt;/p&gt;}
-      &lt;button type="submit" disabled={isSubmitting}&gt;Submit&lt;/button&gt;
+  <span class="kw">return</span> (
+    &lt;<span class="kw">form</span> <span class="fn">onSubmit</span>={<span class="fn">handleSubmit</span><span class="fn">(onSubmit</span>)}&gt;
+      &lt;<span class="kw">input</span> {...<span class="fn">register</span><span class="fn">(</span>'<span class="fn">name</span>')} <span class="fn">placeholder</span>=<span class="str">"Name"</span> /&gt;
+      {errors.name &amp;&amp; &lt;<span class="kw">p</span>&gt;{errors.name.message}&lt;/p&gt;}
+      &lt;<span class="kw">input</span> {...<span class="fn">register</span><span class="fn">(</span>'<span class="fn">email</span>')} <span class="fn">placeholder</span>=<span class="str">"Email"</span> /&gt;
+      {errors.email &amp;&amp; &lt;<span class="kw">p</span>&gt;{errors.email.message}&lt;/p&gt;}
+      &lt;<span class="kw">button</span> <span class="fn">type</span>=<span class="str">"submit"</span> <span class="fn">disabled</span>={<span class="fn">isSubmitting</span>}&gt;Submit&lt;/button&gt;
     &lt;/form&gt;
   );
 }</code></pre>
@@ -1491,44 +1503,44 @@ function RHFExample() {
 
     <div class="card">
       <div class="card-body">
-        <pre><code>interface ButtonProps {
-  variant?: 'primary' | 'secondary' | 'danger';
-  size?: 'sm' | 'md' | 'lg';
-  disabled?: boolean;
-  onClick?: () =&gt; void;
-  children: ReactNode;
+        <pre><code><span class="kw">interface</span> ButtonProps {
+  variant?: <span class="str">'primary'</span> | <span class="str">'secondary'</span> | <span class="str">'danger'</span>;
+  size?: <span class="str">'sm'</span> | <span class="str">'md'</span> | <span class="str">'lg'</span>;
+  disabled?: <span class="tp">boolean</span>;
+  onClick?: () =&gt; <span class="kw">void</span>;
+  children: <span class="tp">ReactNode</span>;
 }
 
-function Button({ variant = 'primary', size = 'md', disabled, onClick, children }: ButtonProps) {
-  return (
-    &lt;button className={`btn btn-${variant} btn-${size}`} disabled={disabled} onClick={onClick}&gt;
+<span class="kw">function</span> <span class="fn">Button</span>({ variant = <span class="str">'primary'</span>, size = <span class="str">'md'</span>, disabled, onClick, children }: ButtonProps) {
+  <span class="kw">return</span> (
+    &lt;<span class="kw">button</span> <span class="fn">className</span>={`<span class="fn">btn</span> <span class="fn">btn</span>-${<span class="fn">variant</span>} <span class="fn">btn</span>-${<span class="fn">size</span>}`} <span class="fn">disabled</span>={<span class="fn">disabled</span>} <span class="fn">onClick</span>={<span class="fn">onClick</span>}&gt;
       {children}
     &lt;/button&gt;
   );
 }
 
-// Hooks with types
-const [count, setCount] = useState&lt;number&gt;(0);
-const [user, setUser] = useState&lt;User | null&gt;(null);
-const inputRef = useRef&lt;HTMLInputElement&gt;(null);
-const handleChange = (e: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt; setValue(e.target.value);
-const handleSubmit = (e: React.FormEvent) =&gt; { e.preventDefault(); };
+<span class="cm">// Hooks with types</span>
+<span class="kw">const</span> [count, setCount] = useState&lt;<span class="kw">number</span>&gt;(<span class="num">0</span>);
+<span class="kw">const</span> [user, setUser] = useState&lt;<span class="kw">User</span> | <span class="fn">null</span>&gt;(<span class="kw">null</span>);
+<span class="kw">const</span> inputRef = useRef&lt;<span class="kw">HTMLInputElement</span>&gt;(<span class="kw">null</span>);
+<span class="kw">const</span> handleChange = (e: React.ChangeEvent&lt;<span class="kw">HTMLInputElement</span>&gt;) =&gt; <span class="fn">setValue</span>(e.target.value);
+<span class="kw">const</span> handleSubmit = (e: React.FormEvent) =&gt; { e.<span class="fn">preventDefault</span>(); };
 
-// Generc component
-function List&lt;T extends { id: string }&gt;({ items, renderItem }: {
-  items: T[];
-  renderItem: (item: T) =&gt; ReactNode;
+<span class="cm">// Generc component</span>
+<span class="kw">function</span> List&lt;<span class="kw">T</span> <span class="fn">extends</span> { <span class="fn">id:</span> <span class="fn">string</span> }&gt;({ items, renderItem }: {
+  items: <span class="tp">T</span>[];
+  renderItem: (item: <span class="tp">T</span>) =&gt; <span class="tp">ReactNode</span>;
 }) {
-  return &lt;ul&gt;{items.map(item =&gt; &lt;li key={item.id}&gt;{renderItem(item)}&lt;/li&gt;)}&lt;/ul&gt;;
+  <span class="kw">return</span> &lt;<span class="kw">ul</span>&gt;{items.<span class="fn">map</span>(item =&gt; &lt;<span class="kw">li</span> <span class="fn">key</span>={<span class="fn">item</span>.<span class="fn">id</span>}&gt;{<span class="fn">renderItem</span>(item)}&lt;/li&gt;)}&lt;/ul&gt;;
 }
 
-// Context with types
-interface AuthContextType { user: User | null; login: (email: string, password: string) =&gt; Promise&lt;void&gt;; logout: () =&gt; void; }
-const AuthContext = createContext&lt;AuthContextType | null&gt;(null);
-function useAuth(): AuthContextType {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error('useAuth must be inside AuthProvider');
-  return ctx;
+<span class="cm">// Context with types</span>
+<span class="kw">interface</span> <span class="tp">AuthContextType</span> { user: User | <span class="kw">null</span>; login: (email: <span class="tp">string</span>, password: <span class="tp">string</span>) =&gt; <span class="tp">Promise</span>&lt;<span class="kw">void</span>&gt;; logout: () =&gt; <span class="kw">void</span>; }
+<span class="kw">const</span> AuthContext = createContext&lt;<span class="kw">AuthContextType</span> | <span class="fn">null</span>&gt;(<span class="kw">null</span>);
+<span class="kw">function</span> <span class="fn">useAuth</span>(): <span class="tp">AuthContextType</span> {
+  <span class="kw">const</span> ctx = <span class="fn">useContext</span>(AuthContext);
+  <span class="kw">if</span> (!ctx) <span class="kw">throw</span> <span class="kw">new</span> <span class="fn">Error</span>(<span class="str">'useAuth must be inside AuthProvider'</span>);
+  <span class="kw">return</span> ctx;
 }</code></pre>
       </div>
     </div>
@@ -1540,37 +1552,37 @@ function useAuth(): AuthContextType {
 
     <div class="card">
       <div class="card-body">
-        <pre><code>import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+        <pre><code><span class="kw">import</span> { render, screen, fireEvent, waitFor } <span class="kw">from</span> <span class="str">'@testing-library/react'</span>;
+<span class="kw">import</span> { describe, it, expect, vi } <span class="kw">from</span> <span class="str">'vitest'</span>;
 
-describe('TodoApp', () =&gt; {
-  it('renders empty list initially', () =&gt; {
-    render(&lt;TodoApp /&gt;);
-    expect(screen.getByText('No todos yet')).toBeInTheDocument();
+<span class="fn">describe</span>(<span class="str">'TodoApp'</span>, () =&gt; {
+  <span class="fn">it</span>(<span class="str">'renders empty list initially'</span>, () =&gt; {
+    <span class="fn">render</span>(&lt;<span class="kw">TodoApp</span> /&gt;);
+    <span class="fn">expect</span>(screen.<span class="fn">getByText</span>(<span class="str">'No todos yet'</span>)).<span class="fn">toBeInTheDocument</span>();
   });
 
-  it('adds a new todo', () =&gt; {
-    render(&lt;TodoApp /&gt;);
-    fireEvent.change(screen.getByPlaceholderText('Add a todo'), { target: { value: 'Learn React' } });
-    fireEvent.click(screen.getByText('Add'));
-    expect(screen.getByText('Learn React')).toBeInTheDocument();
+  <span class="fn">it</span>(<span class="str">'adds a new todo'</span>, () =&gt; {
+    <span class="fn">render</span>(&lt;<span class="kw">TodoApp</span> /&gt;);
+    fireEvent.<span class="fn">change</span>(screen.<span class="fn">getByPlaceholderText</span>(<span class="str">'Add a todo'</span>), { target: { value: <span class="str">'Learn React'</span> } });
+    fireEvent.<span class="fn">click</span>(screen.<span class="fn">getByText</span>(<span class="str">'Add'</span>));
+    <span class="fn">expect</span>(screen.<span class="fn">getByText</span>(<span class="str">'Learn React'</span>)).<span class="fn">toBeInTheDocument</span>();
   });
 
-  it('toggles a todo', async () =&gt; {
-    render(&lt;TodoApp /&gt;);
-    fireEvent.change(screen.getByPlaceholderText('Add a todo'), { target: { value: 'Test me' } });
-    fireEvent.click(screen.getByText('Add'));
-    fireEvent.click(screen.getByText('Test me'));
-    await waitFor(() =&gt; expect(screen.getByText('Test me')).toHaveStyle('text-decoration: line-through'));
+  <span class="fn">it</span>(<span class="str">'toggles a todo'</span>, <span class="kw">async</span> () =&gt; {
+    <span class="fn">render</span>(&lt;<span class="kw">TodoApp</span> /&gt;);
+    fireEvent.<span class="fn">change</span>(screen.<span class="fn">getByPlaceholderText</span>(<span class="str">'Add a todo'</span>), { target: { value: <span class="str">'Test me'</span> } });
+    fireEvent.<span class="fn">click</span>(screen.<span class="fn">getByText</span>(<span class="str">'Add'</span>));
+    fireEvent.<span class="fn">click</span>(screen.<span class="fn">getByText</span>(<span class="str">'Test me'</span>));
+    <span class="kw">await</span> <span class="fn">waitFor</span>(() =&gt; <span class="fn">expect</span>(screen.<span class="fn">getByText</span>(<span class="str">'Test me'</span>)).<span class="fn">toHaveStyle</span>(<span class="str">'text-decoration: line-through'</span>));
   });
 });
 
-// Test async component
-global.fetch = vi.fn();
-it('renders user data on success', async () =&gt; {
-  fetch.mockResolvedValue({ ok: true, json: () =&gt; Promise.resolve({ name: 'John', bio: 'Developer' }) });
-  render(&lt;UserProfile userId="1" /&gt;);
-  await waitFor(() =&gt; expect(screen.getByText('John')).toBeInTheDocument());
+<span class="cm">// Test async component</span>
+global.fetch = vi.<span class="fn">fn</span>();
+<span class="fn">it</span>(<span class="str">'renders user data on success'</span>, <span class="kw">async</span> () =&gt; {
+  fetch.<span class="fn">mockResolvedValue</span>({ ok: <span class="kw">true</span>, json: () =&gt; <span class="tp">Promise</span>.<span class="fn">resolve</span>({ name: <span class="str">'John'</span>, bio: <span class="str">'Developer'</span> }) });
+  <span class="fn">render</span>(&lt;<span class="kw">UserProfile</span> <span class="fn">userId</span>=<span class="str">"1"</span> /&gt;);
+  <span class="kw">await</span> <span class="fn">waitFor</span>(() =&gt; <span class="fn">expect</span>(screen.<span class="fn">getByText</span>(<span class="str">'John'</span>)).<span class="fn">toBeInTheDocument</span>());
 });</code></pre>
       </div>
     </div>

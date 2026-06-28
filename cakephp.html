@@ -114,6 +114,19 @@
       position: relative;
     }
     pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
+    .kw { color: #c792ea; }
+    .fn { color: #82aaff; }
+    .str { color: #c3e88d; }
+    .cm { color: #546e7a; font-style: italic; }
+    .num { color: #f78c6c; }
+    .tp { color: #ffcb6b; }
+    [data-bs-theme="dark"] .kw { color: #c792ea; }
+    [data-bs-theme="dark"] .fn { color: #82aaff; }
+    [data-bs-theme="dark"] .str { color: #c3e88d; }
+    [data-bs-theme="dark"] .cm { color: #546e7a; }
+    [data-bs-theme="dark"] .num { color: #f78c6c; }
+    [data-bs-theme="dark"] .tp { color: #ffcb6b; }
+
     .cmd-table td:first-child {
       font-family: 'JetBrains Mono', monospace;
       font-size: .82rem;
@@ -226,22 +239,22 @@
     <h2><i class="bi bi-download me-2"></i>Installation</h2>
     <div class="card">
       <div class="card-body">
-        <pre><code># Create a new CakePHP application
-composer create-project --prefer-dist cakephp/app myapp
+        <pre><code><span class="cm"># Create a new CakePHP application</span>
+<span class="kw">composer</span> create-project --prefer-dist cakephp/app myapp
 
-# Install the Bake plugin (code generation)
-composer require --dev cakephp/bake
+<span class="cm"># Install the Bake plugin (code generation)</span>
+<span class="kw">composer</span> <span class="kw">require</span> --<span class="kw">dev</span> cakephp/<span class="kw">bake</span>
 
-# Install Queue plugin
-composer require cakephp/queue
+<span class="cm"># Install Queue plugin</span>
+<span class="kw">composer</span> <span class="kw">require</span> cakephp/queue
 
-# Install Authentication plugin
-composer require cakephp/authentication
+<span class="cm"># Install Authentication plugin</span>
+<span class="kw">composer</span> <span class="kw">require</span> cakephp/authentication
 
-# Start the development server
+<span class="cm"># Start the development server</span>
 bin/cake server
 
-# Start with FrankenPHP (CakePHP 5.3+)
+<span class="cm"># Start with FrankenPHP (CakePHP 5.3+)</span>
 bin/cake server --frankenphp</code></pre>
       </div>
     </div>
@@ -430,31 +443,31 @@ bin/cake server --frankenphp</code></pre>
     <div class="card">
       <div class="card-header">Basic Routing</div>
       <div class="card-body">
-        <pre><code>// config/routes.php
-use Cake\Routing\RouteBuilder;
+        <pre><code><span class="cm">// config/routes.php</span>
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">Routing</span>\<span class="tp">RouteBuilder</span>;
 
-return function (RouteBuilder $routes): void {
-    $routes->setRouteClass(DashedRoute::class);
+<span class="kw">return</span> <span class="kw">function</span> (<span class="tp">RouteBuilder</span> <span class="kw">$routes</span>): <span class="tp">void</span> {
+    <span class="kw">$routes</span>-><span class="fn">setRouteClass</span>(<span class="tp">DashedRoute</span>::<span class="kw">class</span>);
 
-    $routes->scope('/', function (RouteBuilder $routes): void {
-        $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+    <span class="kw">$routes</span>-><span class="fn">scope</span>(<span class="str">'/'</span>, <span class="kw">function</span> (<span class="tp">RouteBuilder</span> <span class="kw">$routes</span>): <span class="tp">void</span> {
+        <span class="kw">$routes</span>-><span class="fn">connect</span>(<span class="str">'/'</span>, [<span class="str">'controller'</span> => <span class="str">'Pages'</span>, <span class="str">'action'</span> => <span class="str">'display'</span>, <span class="str">'home'</span>]);
 
-        // Named route
-        $routes->connect('/blog/:slug', ['controller' => 'Articles', 'action' => 'view'])
-            ->setPass(['slug'])
-            ->setPatterns(['slug' => '[a-z0-9-]+'])
-            ->setName('article:view');
+        <span class="cm">// Named route</span>
+        <span class="kw">$routes</span>-><span class="fn">connect</span>(<span class="str">'/blog/:slug'</span>, [<span class="str">'controller'</span> => <span class="str">'Articles'</span>, <span class="str">'action'</span> => <span class="str">'view'</span>])
+            -><span class="fn">setPass</span>([<span class="str">'slug'</span>])
+            -><span class="fn">setPatterns</span>([<span class="str">'slug'</span> => <span class="str">'[a-z0-9-]+'</span>])
+            -><span class="fn">setName</span>(<span class="str">'article:view'</span>);
 
-        // RESTful resource routes
-        $routes->extensions(['json', 'xml']);
-        $routes->resources('Articles');
+        <span class="cm">// RESTful resource routes</span>
+        <span class="kw">$routes</span>-><span class="fn">extensions</span>([<span class="str">'json'</span>, <span class="str">'xml'</span>]);
+        <span class="kw">$routes</span>-><span class="fn">resources</span>(<span class="str">'Articles'</span>);
 
-        // API prefix scoping
-        $routes->prefix('Api', function (RouteBuilder $routes): void {
-            $routes->resources('Articles');
+        <span class="cm">// API prefix scoping</span>
+        <span class="kw">$routes</span>-><span class="fn">prefix</span>(<span class="str">'Api'</span>, <span class="kw">function</span> (<span class="tp">RouteBuilder</span> <span class="kw">$routes</span>): <span class="tp">void</span> {
+            <span class="kw">$routes</span>-><span class="fn">resources</span>(<span class="str">'Articles'</span>);
         });
 
-        $routes->fallback();
+        <span class="kw">$routes</span>-><span class="fn">fallback</span>();
     });
 };</code></pre>
       </div>
@@ -485,74 +498,74 @@ return function (RouteBuilder $routes): void {
     <div class="card">
       <div class="card-header">ArticlesController.php &mdash; CRUD Example</div>
       <div class="card-body">
-        <pre><code>// src/Controller/ArticlesController.php
-namespace App\Controller;
+        <pre><code><span class="cm">// src/Controller/ArticlesController.php</span>
+<span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Controller</span>;
 
-class ArticlesController extends AppController
+<span class="kw">class</span> <span class="tp">ArticlesController</span> <span class="kw">extends</span> <span class="tp">AppController</span>
 {
-    public function initialize(): void
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">initialize</span>(): <span class="tp">void</span>
     {
-        parent::initialize();
-        $this->loadComponent('Paginator');
-        $this->loadComponent('Flash');
-        $this->loadComponent('Authentication.Authentication');
+        <span class="kw">parent</span>::<span class="fn">initialize</span>();
+        <span class="kw">$this</span>-><span class="fn">loadComponent</span>(<span class="str">'Paginator'</span>);
+        <span class="kw">$this</span>-><span class="fn">loadComponent</span>(<span class="str">'Flash'</span>);
+        <span class="kw">$this</span>-><span class="fn">loadComponent</span>(<span class="str">'Authentication.Authentication'</span>);
     }
 
-    public function index()
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">index</span>()
     {
-        $articles = $this->Paginator->paginate(
-            $this->fetchTable('Articles')->find()->contain(['Authors'])
+        <span class="kw">$articles</span> = <span class="kw">$this</span>-><span class="fn">Paginator</span>-><span class="fn">paginate</span>(
+            <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">find</span>()-><span class="fn">contain</span>([<span class="str">'Authors'</span>])
         );
-        $this->set(compact('articles'));
+        <span class="kw">$this</span>-><span class="fn">set</span>(<span class="fn">compact</span>(<span class="str">'articles'</span>));
     }
 
-    public function view($id = null)
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">view</span>(<span class="kw">$id</span> = <span class="kw">null</span>)
     {
-        $article = $this->fetchTable('Articles')
-            ->get($id, contain: ['Authors', 'Tags']);
-        $this->set(compact('article'));
+        <span class="kw">$article</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)
+            -><span class="fn">get</span>(<span class="kw">$id</span>, contain: [<span class="str">'Authors'</span>, <span class="str">'Tags'</span>]);
+        <span class="kw">$this</span>-><span class="fn">set</span>(<span class="fn">compact</span>(<span class="str">'article'</span>));
     }
 
-    public function add()
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">add</span>()
     {
-        $article = $this->fetchTable('Articles')->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $article = $this->fetchTable('Articles')
-                ->patchEntity($article, $this->request->getData());
-            if ($this->fetchTable('Articles')->save($article)) {
-                $this->Flash->success('Article saved.');
-                return $this->redirect(['action' => 'index']);
+        <span class="kw">$article</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">newEmptyEntity</span>();
+        <span class="kw">if</span> (<span class="kw">$this</span>-><span class="fn">request</span>-><span class="fn">is</span>(<span class="str">'post'</span>)) {
+            <span class="kw">$article</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)
+                -><span class="fn">patchEntity</span>(<span class="kw">$article</span>, <span class="kw">$this</span>-><span class="fn">request</span>-><span class="fn">getData</span>());
+            <span class="kw">if</span> (<span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">save</span>(<span class="kw">$article</span>)) {
+                <span class="kw">$this</span>-><span class="fn">Flash</span>-><span class="fn">success</span>(<span class="str">'Article saved.'</span>);
+                <span class="kw">return</span> <span class="kw">$this</span>-><span class="fn">redirect</span>([<span class="str">'action'</span> => <span class="str">'index'</span>]);
             }
-            $this->Flash->error('Unable to save article.');
+            <span class="kw">$this</span>-><span class="fn">Flash</span>-><span class="fn">error</span>(<span class="str">'Unable to save article.'</span>);
         }
-        $this->set(compact('article'));
+        <span class="kw">$this</span>-><span class="fn">set</span>(<span class="fn">compact</span>(<span class="str">'article'</span>));
     }
 
-    public function edit($id = null)
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">edit</span>(<span class="kw">$id</span> = <span class="kw">null</span>)
     {
-        $article = $this->fetchTable('Articles')->get($id);
-        if ($this->request->is(['post', 'put'])) {
-            $this->fetchTable('Articles')
-                ->patchEntity($article, $this->request->getData());
-            if ($this->fetchTable('Articles')->save($article)) {
-                $this->Flash->success('Article updated.');
-                return $this->redirect(['action' => 'index']);
+        <span class="kw">$article</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">get</span>(<span class="kw">$id</span>);
+        <span class="kw">if</span> (<span class="kw">$this</span>-><span class="fn">request</span>-><span class="fn">is</span>([<span class="str">'post'</span>, <span class="str">'put'</span>])) {
+            <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)
+                -><span class="fn">patchEntity</span>(<span class="kw">$article</span>, <span class="kw">$this</span>-><span class="fn">request</span>-><span class="fn">getData</span>());
+            <span class="kw">if</span> (<span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">save</span>(<span class="kw">$article</span>)) {
+                <span class="kw">$this</span>-><span class="fn">Flash</span>-><span class="fn">success</span>(<span class="str">'Article updated.'</span>);
+                <span class="kw">return</span> <span class="kw">$this</span>-><span class="fn">redirect</span>([<span class="str">'action'</span> => <span class="str">'index'</span>]);
             }
-            $this->Flash->error('Unable to update article.');
+            <span class="kw">$this</span>-><span class="fn">Flash</span>-><span class="fn">error</span>(<span class="str">'Unable to update article.'</span>);
         }
-        $this->set(compact('article'));
+        <span class="kw">$this</span>-><span class="fn">set</span>(<span class="fn">compact</span>(<span class="str">'article'</span>));
     }
 
-    public function delete($id = null)
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">delete</span>(<span class="kw">$id</span> = <span class="kw">null</span>)
     {
-        $this->request->allowMethod(['post', 'delete']);
-        $article = $this->fetchTable('Articles')->get($id);
-        if ($this->fetchTable('Articles')->delete($article)) {
-            $this->Flash->success('Article deleted.');
-        } else {
-            $this->Flash->error('Unable to delete article.');
+        <span class="kw">$this</span>-><span class="fn">request</span>-><span class="fn">allowMethod</span>([<span class="str">'post'</span>, <span class="str">'delete'</span>]);
+        <span class="kw">$article</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">get</span>(<span class="kw">$id</span>);
+        <span class="kw">if</span> (<span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">delete</span>(<span class="kw">$article</span>)) {
+            <span class="kw">$this</span>-><span class="fn">Flash</span>-><span class="fn">success</span>(<span class="str">'Article deleted.'</span>);
+        } <span class="kw">else</span> {
+            <span class="kw">$this</span>-><span class="fn">Flash</span>-><span class="fn">error</span>(<span class="str">'Unable to delete article.'</span>);
         }
-        return $this->redirect(['action' => 'index']);
+        <span class="kw">return</span> <span class="kw">$this</span>-><span class="fn">redirect</span>([<span class="str">'action'</span> => <span class="str">'index'</span>]);
     }
 }</code></pre>
       </div>
@@ -567,39 +580,39 @@ class ArticlesController extends AppController
     <div class="card">
       <div class="card-header">ArticlesTable.php</div>
       <div class="card-body">
-        <pre><code>// src/Model/Table/ArticlesTable.php
-namespace App\Model\Table;
+        <pre><code><span class="cm">// src/Model/Table/ArticlesTable.php</span>
+<span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Model</span>\<span class="tp">Table</span>;
 
-use Cake\ORM\Table;
-use Cake\Validation\Validator;
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">ORM</span>\<span class="tp">Table</span>;
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">Validation</span>\<span class="tp">Validator</span>;
 
-class ArticlesTable extends Table
+<span class="kw">class</span> <span class="tp">ArticlesTable</span> <span class="kw">extends</span> <span class="tp">Table</span>
 {
-    public function initialize(array $config): void
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">initialize</span>(<span class="tp">array</span> <span class="kw">$config</span>): <span class="tp">void</span>
     {
-        $this->setTable('articles');
-        $this->setPrimaryKey('id');
-        $this->setDisplayField('title');
-        $this->addBehavior('Timestamp');
-        $this->belongsTo('Authors', ['foreignKey' => 'author_id']);
-        $this->belongsToMany('Tags', ['joinTable' => 'articles_tags']);
-        $this->hasMany('Comments');
+        <span class="kw">$this</span>-><span class="fn">setTable</span>(<span class="str">'articles'</span>);
+        <span class="kw">$this</span>-><span class="fn">setPrimaryKey</span>(<span class="str">'id'</span>);
+        <span class="kw">$this</span>-><span class="fn">setDisplayField</span>(<span class="str">'title'</span>);
+        <span class="kw">$this</span>-><span class="fn">addBehavior</span>(<span class="str">'Timestamp'</span>);
+        <span class="kw">$this</span>-><span class="fn">belongsTo</span>(<span class="str">'Authors'</span>, [<span class="str">'foreignKey'</span> => <span class="str">'author_id'</span>]);
+        <span class="kw">$this</span>-><span class="fn">belongsToMany</span>(<span class="str">'Tags'</span>, [<span class="str">'joinTable'</span> => <span class="str">'articles_tags'</span>]);
+        <span class="kw">$this</span>-><span class="fn">hasMany</span>(<span class="str">'Comments'</span>);
     }
 
-    public function validationDefault(Validator $validator): Validator
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">validationDefault</span>(<span class="tp">Validator</span> <span class="kw">$validator</span>): <span class="tp">Validator</span>
     {
-        $validator
-            ->requirePresence('title', 'create')
-            ->notEmptyString('title')
-            ->maxLength('title', 255)
-            ->requirePresence('body')
-            ->notEmptyString('body');
-        return $validator;
+        <span class="kw">$validator</span>
+            -><span class="fn">requirePresence</span>(<span class="str">'title'</span>, <span class="str">'create'</span>)
+            -><span class="fn">notEmptyString</span>(<span class="str">'title'</span>)
+            -><span class="fn">maxLength</span>(<span class="str">'title'</span>, <span class="num">255</span>)
+            -><span class="fn">requirePresence</span>(<span class="str">'body'</span>)
+            -><span class="fn">notEmptyString</span>(<span class="str">'body'</span>);
+        <span class="kw">return</span> <span class="kw">$validator</span>;
     }
 
-    public function findPublished($query, array $options)
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">findPublished</span>(<span class="kw">$query</span>, <span class="tp">array</span> <span class="kw">$options</span>)
     {
-        return $query->where(['published' => true]);
+        <span class="kw">return</span> <span class="kw">$query</span>-><span class="fn">where</span>([<span class="str">'published'</span> => <span class="kw">true</span>]);
     }
 }</code></pre>
       </div>
@@ -609,31 +622,31 @@ class ArticlesTable extends Table
     <div class="card">
       <div class="card-header">Article.php</div>
       <div class="card-body">
-        <pre><code>// src/Model/Entity/Article.php
-namespace App\Model\Entity;
+        <pre><code><span class="cm">// src/Model/Entity/Article.php</span>
+<span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Model</span>\<span class="tp">Entity</span>;
 
-use Cake\ORM\Entity;
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">ORM</span>\<span class="tp">Entity</span>;
 
-class Article extends Entity
+<span class="kw">class</span> <span class="tp">Article</span> <span class="kw">extends</span> <span class="tp">Entity</span>
 {
-    protected array $_accessible = [
-        'title' => true,
-        'body' => true,
-        'author_id' => true,
-        'published' => true,
-        'tags' => true,
-        'comments' => true,
-        '*' => false,
+    <span class="kw">protected</span> <span class="tp">array</span> <span class="kw">$_accessible</span> = [
+        <span class="str">'title'</span> => <span class="kw">true</span>,
+        <span class="str">'body'</span> => <span class="kw">true</span>,
+        <span class="str">'author_id'</span> => <span class="kw">true</span>,
+        <span class="str">'published'</span> => <span class="kw">true</span>,
+        <span class="str">'tags'</span> => <span class="kw">true</span>,
+        <span class="str">'comments'</span> => <span class="kw">true</span>,
+        <span class="str">'*'</span> => <span class="kw">false</span>,
     ];
 
-    protected function _getExcerpt()
+    <span class="kw">protected</span> <span class="kw">function</span> <span class="fn">_getExcerpt</span>()
     {
-        return substr($this->body, 0, 150) . '...';
+        <span class="kw">return</span> <span class="fn">substr</span>(<span class="kw">$this</span>-><span class="fn">body</span>, <span class="num">0</span>, <span class="num">150</span>) . <span class="str">'...'</span>;
     }
 
-    protected function _setTitle($value)
+    <span class="kw">protected</span> <span class="kw">function</span> <span class="fn">_setTitle</span>(<span class="kw">$value</span>)
     {
-        return trim($value);
+        <span class="kw">return</span> <span class="fn">trim</span>(<span class="kw">$value</span>);
     }
 }</code></pre>
       </div>
@@ -642,46 +655,46 @@ class Article extends Entity
     <h3>Query Builder Examples</h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>$articles = $this->fetchTable('Articles');
+        <pre><code><span class="kw">$articles</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>);
 
-$all = $articles->find()->all();
+<span class="kw">$all</span> = <span class="kw">$articles</span>-><span class="fn">find</span>()-><span class="fn">all</span>();
 
-$recent = $articles->find()
-    ->where(['created >=' => new \DateTime('-7 days')])
-    ->orderBy(['created' => 'DESC'])
-    ->all();
+<span class="kw">$recent</span> = <span class="kw">$articles</span>-><span class="fn">find</span>()
+    -><span class="fn">where</span>([<span class="str">'created >='</span> => <span class="kw">new</span> \<span class="tp">DateTime</span>(<span class="str">'-7 days'</span>)])
+    -><span class="fn">orderBy</span>([<span class="str">'created'</span> => <span class="str">'DESC'</span>])
+    -><span class="fn">all</span>();
 
-$withAuthors = $articles->find()
-    ->contain(['Authors', 'Tags'])
-    ->where(['Articles.published' => true])
-    ->all();
+<span class="kw">$withAuthors</span> = <span class="kw">$articles</span>-><span class="fn">find</span>()
+    -><span class="fn">contain</span>([<span class="str">'Authors'</span>, <span class="str">'Tags'</span>])
+    -><span class="fn">where</span>([<span class="str">'Articles.published'</span> => <span class="kw">true</span>])
+    -><span class="fn">all</span>();
 
-$first = $articles->find()->first();
+<span class="kw">$first</span> = <span class="kw">$articles</span>-><span class="fn">find</span>()-><span class="fn">first</span>();
 
-$total = $articles->find()->count();
+<span class="kw">$total</span> = <span class="kw">$articles</span>-><span class="fn">find</span>()-><span class="fn">count</span>();
 
-$published = $articles->find('published');
+<span class="kw">$published</span> = <span class="kw">$articles</span>-><span class="fn">find</span>(<span class="str">'published'</span>);
 
-$titles = $articles->find()
-    ->select(['id', 'title'])
-    ->where(['published' => true])
-    ->all();
+<span class="kw">$titles</span> = <span class="kw">$articles</span>-><span class="fn">find</span>()
+    -><span class="fn">select</span>([<span class="str">'id'</span>, <span class="str">'title'</span>])
+    -><span class="fn">where</span>([<span class="str">'published'</span> => <span class="kw">true</span>])
+    -><span class="fn">all</span>();
 
-$search = $articles->find()
-    ->where(['title LIKE' => '%cake%'])
-    ->all();
+<span class="kw">$search</span> = <span class="kw">$articles</span>-><span class="fn">find</span>()
+    -><span class="fn">where</span>([<span class="str">'title LIKE'</span> => <span class="str">'%cake%'</span>])
+    -><span class="fn">all</span>();
 
-$byIds = $articles->find()
-    ->where(['id IN' => [1, 3, 5]])
-    ->all();
+<span class="kw">$byIds</span> = <span class="kw">$articles</span>-><span class="fn">find</span>()
+    -><span class="fn">where</span>([<span class="str">'id IN'</span> => [<span class="num">1</span>, <span class="num">3</span>, <span class="num">5</span>]])
+    -><span class="fn">all</span>();
 
-// Pagination
-$this->paginate = [
-    'contain' => ['Authors'],
-    'limit' => 20,
-    'order' => ['Articles.created' => 'DESC'],
+<span class="cm">// Pagination</span>
+<span class="kw">$this</span>-><span class="fn">paginate</span> = [
+    <span class="str">'contain'</span> => [<span class="str">'Authors'</span>],
+    <span class="str">'limit'</span> => <span class="num">20</span>,
+    <span class="str">'order'</span> => [<span class="str">'Articles.created'</span> => <span class="str">'DESC'</span>],
 ];
-$paginated = $this->paginate($articles->find());</code></pre>
+<span class="kw">$paginated</span> = <span class="kw">$this</span>-><span class="fn">paginate</span>(<span class="kw">$articles</span>-><span class="fn">find</span>());</code></pre>
       </div>
     </div>
   </section>
@@ -694,10 +707,10 @@ $paginated = $this->paginate($articles->find());</code></pre>
         <div class="card h-100">
           <div class="card-header">BelongsTo</div>
           <div class="card-body">
-            <pre><code>$this->belongsTo('Authors', [
-    'foreignKey' => 'author_id',
+            <pre><code><span class="kw">$this</span>-><span class="fn">belongsTo</span>(<span class="str">'Authors'</span>, [
+    <span class="str">'foreignKey'</span> => <span class="str">'author_id'</span>,
 ]);
-// $article->author->name</code></pre>
+<span class="cm">// $article->author->name</span></code></pre>
           </div>
         </div>
       </div>
@@ -705,10 +718,10 @@ $paginated = $this->paginate($articles->find());</code></pre>
         <div class="card h-100">
           <div class="card-header">HasMany</div>
           <div class="card-body">
-            <pre><code>$this->hasMany('Comments', [
-    'foreignKey' => 'article_id',
+            <pre><code><span class="kw">$this</span>-><span class="fn">hasMany</span>(<span class="str">'Comments'</span>, [
+    <span class="str">'foreignKey'</span> => <span class="str">'article_id'</span>,
 ]);
-// $article->comments[0]->body</code></pre>
+<span class="cm">// $article->comments[0]->body</span></code></pre>
           </div>
         </div>
       </div>
@@ -716,10 +729,10 @@ $paginated = $this->paginate($articles->find());</code></pre>
         <div class="card h-100">
           <div class="card-header">HasOne</div>
           <div class="card-body">
-            <pre><code>$this->hasOne('Profiles', [
-    'foreignKey' => 'user_id',
+            <pre><code><span class="kw">$this</span>-><span class="fn">hasOne</span>(<span class="str">'Profiles'</span>, [
+    <span class="str">'foreignKey'</span> => <span class="str">'user_id'</span>,
 ]);
-// $user->profile->avatar</code></pre>
+<span class="cm">// $user->profile->avatar</span></code></pre>
           </div>
         </div>
       </div>
@@ -727,12 +740,12 @@ $paginated = $this->paginate($articles->find());</code></pre>
         <div class="card h-100">
           <div class="card-header">BelongsToMany</div>
           <div class="card-body">
-            <pre><code>$this->belongsToMany('Tags', [
-    'joinTable' => 'articles_tags',
-    'foreignKey' => 'article_id',
-    'targetForeignKey' => 'tag_id',
+            <pre><code><span class="kw">$this</span>-><span class="fn">belongsToMany</span>(<span class="str">'Tags'</span>, [
+    <span class="str">'joinTable'</span> => <span class="str">'articles_tags'</span>,
+    <span class="str">'foreignKey'</span> => <span class="str">'article_id'</span>,
+    <span class="str">'targetForeignKey'</span> => <span class="str">'tag_id'</span>,
 ]);
-// $article->tags[0]->name</code></pre>
+<span class="cm">// $article->tags[0]->name</span></code></pre>
           </div>
         </div>
       </div>
@@ -744,28 +757,28 @@ $paginated = $this->paginate($articles->find());</code></pre>
     <h2><i class="bi bi-puzzle me-2"></i>Behaviors</h2>
     <div class="card">
       <div class="card-body">
-        <pre><code>// Timestamp - auto-manages created/modified
-$this->addBehavior('Timestamp', [
-    'events' => [
-        'Model.beforeSave' => [
-            'created' => 'new',
-            'modified' => 'always',
+        <pre><code><span class="cm">// Timestamp - auto-manages created/modified</span>
+<span class="kw">$this</span>-><span class="fn">addBehavior</span>(<span class="str">'Timestamp'</span>, [
+    <span class="str">'events'</span> => [
+        <span class="str">'Model.beforeSave'</span> => [
+            <span class="str">'created'</span> => <span class="str">'new'</span>,
+            <span class="str">'modified'</span> => <span class="str">'always'</span>,
         ],
     ],
 ]);
 
-// Tree - hierarchical data (nested set)
-$this->addBehavior('Tree', ['level' => 'level']);
+<span class="cm">// Tree - hierarchical data (nested set)</span>
+<span class="kw">$this</span>-><span class="fn">addBehavior</span>(<span class="str">'Tree'</span>, [<span class="str">'level'</span> => <span class="str">'level'</span>]);
 
-// CounterCache - auto-counts associated records
-$this->addBehavior('CounterCache', [
-    'Authors' => ['article_count'],
+<span class="cm">// CounterCache - auto-counts associated records</span>
+<span class="kw">$this</span>-><span class="fn">addBehavior</span>(<span class="str">'CounterCache'</span>, [
+    <span class="str">'Authors'</span> => [<span class="str">'article_count'</span>],
 ]);
 
-// Translate - multi-language fields
-$this->addBehavior('Translate', [
-    'fields' => ['title', 'body'],
-    'translationTable' => 'articles_translations',
+<span class="cm">// Translate - multi-language fields</span>
+<span class="kw">$this</span>-><span class="fn">addBehavior</span>(<span class="str">'Translate'</span>, [
+    <span class="str">'fields'</span> => [<span class="str">'title'</span>, <span class="str">'body'</span>],
+    <span class="str">'translationTable'</span> => <span class="str">'articles_translations'</span>,
 ]);</code></pre>
       </div>
     </div>
@@ -777,38 +790,38 @@ $this->addBehavior('Translate', [
     <div class="card">
       <div class="card-header">validationDefault()</div>
       <div class="card-body">
-        <pre><code>public function validationDefault(Validator $validator): Validator
+        <pre><code><span class="kw">public</span> <span class="kw">function</span> <span class="fn">validationDefault</span>(<span class="tp">Validator</span> <span class="kw">$validator</span>): <span class="tp">Validator</span>
 {
-    $validator
-        ->scalar('title')
-        ->maxLength('title', 200)
-        ->minLength('title', 5)
-        ->notEmptyString('title')
-        ->requirePresence('title', 'create');
+    <span class="kw">$validator</span>
+        -><span class="fn">scalar</span>(<span class="str">'title'</span>)
+        -><span class="fn">maxLength</span>(<span class="str">'title'</span>, <span class="num">200</span>)
+        -><span class="fn">minLength</span>(<span class="str">'title'</span>, <span class="num">5</span>)
+        -><span class="fn">notEmptyString</span>(<span class="str">'title'</span>)
+        -><span class="fn">requirePresence</span>(<span class="str">'title'</span>, <span class="str">'create'</span>);
 
-    $validator
-        ->scalar('body')
-        ->notEmptyString('body');
+    <span class="kw">$validator</span>
+        -><span class="fn">scalar</span>(<span class="str">'body'</span>)
+        -><span class="fn">notEmptyString</span>(<span class="str">'body'</span>);
 
-    $validator
-        ->email('email')
-        ->notEmptyString('email');
+    <span class="kw">$validator</span>
+        -><span class="fn">email</span>(<span class="str">'email'</span>)
+        -><span class="fn">notEmptyString</span>(<span class="str">'email'</span>);
 
-    $validator
-        ->integer('author_id')
-        ->notEmptyString('author_id');
+    <span class="kw">$validator</span>
+        -><span class="fn">integer</span>(<span class="str">'author_id'</span>)
+        -><span class="fn">notEmptyString</span>(<span class="str">'author_id'</span>);
 
-    $validator
-        ->date('publish_date')
-        ->allowEmptyDate('publish_date');
+    <span class="kw">$validator</span>
+        -><span class="fn">date</span>(<span class="str">'publish_date'</span>)
+        -><span class="fn">allowEmptyDate</span>(<span class="str">'publish_date'</span>);
 
-    $validator
-        ->add('url', 'valid-url', [
-            'rule' => ['custom', '/^https?:\/\/.+/'],
-            'message' => 'Must be a valid URL.',
+    <span class="kw">$validator</span>
+        -><span class="fn">add</span>(<span class="str">'url'</span>, <span class="str">'valid-url'</span>, [
+            <span class="str">'rule'</span> => [<span class="str">'custom'</span>, <span class="str">'/^https?:\/\/.+/'</span>],
+            <span class="str">'message'</span> => <span class="str">'Must be a valid URL.'</span>,
         ]);
 
-    return $validator;
+    <span class="kw">return</span> <span class="kw">$validator</span>;
 }</code></pre>
       </div>
     </div>
@@ -821,23 +834,23 @@ $this->addBehavior('Translate', [
     <div class="card">
       <div class="card-header">Layout &mdash; default.php</div>
       <div class="card-body">
-        <pre><code>&lt;!-- templates/layout/default.php --&gt;
+        <pre><code>&lt;!-- templates/layout/<span class="kw">default</span>.php --&gt;
 &lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
-    &lt;?= $this-&gt;Html-&gt;charset() ?&gt;
-    &lt;meta name="viewport" content="width=device-width"&gt;
-    &lt;title&gt;&lt;?= h($this-&gt;fetch('title')) ?&gt;&lt;/title&gt;
-    &lt;?= $this-&gt;Html-&gt;meta('icon') ?&gt;
-    &lt;?= $this-&gt;Html-&gt;css(['normalize', 'milligram', 'cake']) ?&gt;
-    &lt;?= $this-&gt;fetch('meta') ?&gt;
-    &lt;?= $this-&gt;fetch('css') ?&gt;
-    &lt;?= $this-&gt;fetch('script') ?&gt;
+    &lt;?= <span class="kw">$this</span>-&gt;Html-&gt;<span class="fn">charset</span>() ?&gt;
+    &lt;meta name=<span class="str">"viewport"</span> content=<span class="str">"width=device-width"</span>&gt;
+    &lt;title&gt;&lt;?= <span class="fn">h</span>(<span class="kw">$this</span>-&gt;<span class="fn">fetch</span>(<span class="str">'title'</span>)) ?&gt;&lt;/title&gt;
+    &lt;?= <span class="kw">$this</span>-&gt;Html-&gt;<span class="fn">meta</span>(<span class="str">'icon'</span>) ?&gt;
+    &lt;?= <span class="kw">$this</span>-&gt;Html-&gt;<span class="fn">css</span>([<span class="str">'normalize'</span>, <span class="str">'milligram'</span>, <span class="str">'cake'</span>]) ?&gt;
+    &lt;?= <span class="kw">$this</span>-&gt;<span class="fn">fetch</span>(<span class="str">'meta'</span>) ?&gt;
+    &lt;?= <span class="kw">$this</span>-&gt;<span class="fn">fetch</span>(<span class="str">'css'</span>) ?&gt;
+    &lt;?= <span class="kw">$this</span>-&gt;<span class="fn">fetch</span>(<span class="str">'script'</span>) ?&gt;
 &lt;/head&gt;
 &lt;body&gt;
     &lt;nav&gt;...&lt;/nav&gt;
-    &lt;?= $this-&gt;Flash-&gt;render() ?&gt;
-    &lt;section&gt;&lt;?= $this-&gt;fetch('content') ?&gt;&lt;/section&gt;
+    &lt;?= <span class="kw">$this</span>-&gt;<span class="tp">Flash</span>-&gt;<span class="fn">render</span>() ?&gt;
+    &lt;section&gt;&lt;?= <span class="kw">$this</span>-&gt;<span class="fn">fetch</span>(<span class="str">'content'</span>) ?&gt;&lt;/section&gt;
 &lt;/body&gt;
 &lt;/html&gt;</code></pre>
       </div>
@@ -848,36 +861,36 @@ $this->addBehavior('Translate', [
       <div class="card-body">
         <pre><code>&lt;!-- templates/Articles/index.php --&gt;
 &lt;h1&gt;Articles&lt;/h1&gt;
-&lt;p&gt;&lt;?= $this-&gt;Html-&gt;link('Add Article', ['action' =&gt; 'add']) ?&gt;&lt;/p&gt;
+&lt;p&gt;&lt;?= <span class="kw">$this</span>-&gt;Html-&gt;<span class="fn">link</span>(<span class="str">'Add Article'</span>, [<span class="str">'action'</span> =&gt; <span class="str">'add'</span>]) ?&gt;&lt;/p&gt;
 &lt;table&gt;
     &lt;thead&gt;
         &lt;tr&gt;
-            &lt;th&gt;&lt;?= $this-&gt;Paginator-&gt;sort('title') ?&gt;&lt;/th&gt;
-            &lt;th&gt;&lt;?= $this-&gt;Paginator-&gt;sort('created') ?&gt;&lt;/th&gt;
-            &lt;th&gt;Actions&lt;/th&gt;
+            &lt;th&gt;&lt;?= <span class="kw">$this</span>-&gt;<span class="tp">Paginator</span>-&gt;<span class="fn">sort</span>(<span class="str">'title'</span>) ?&gt;&lt;/th&gt;
+            &lt;th&gt;&lt;?= <span class="kw">$this</span>-&gt;<span class="tp">Paginator</span>-&gt;<span class="fn">sort</span>(<span class="str">'created'</span>) ?&gt;&lt;/th&gt;
+            &lt;th&gt;<span class="tp">Actions</span>&lt;/th&gt;
         &lt;/tr&gt;
     &lt;/thead&gt;
     &lt;tbody&gt;
-        &lt;?php foreach ($articles as $article): ?&gt;
+        &lt;?<span class="kw">php</span> <span class="kw">foreach</span> (<span class="kw">$articles</span> <span class="kw">as</span> <span class="kw">$article</span>): ?&gt;
         &lt;tr&gt;
-            &lt;td&gt;&lt;?= h($article-&gt;title) ?&gt;&lt;/td&gt;
-            &lt;td&gt;&lt;?= $article-&gt;created-&gt;format('Y-m-d') ?&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;?= <span class="fn">h</span>(<span class="kw">$article</span>-&gt;title) ?&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;?= <span class="kw">$article</span>-&gt;created-&gt;<span class="fn">format</span>(<span class="str">'Y-m-d'</span>) ?&gt;&lt;/td&gt;
             &lt;td&gt;
-                &lt;?= $this-&gt;Html-&gt;link('View', ['action' =&gt; 'view', $article-&gt;id]) ?&gt;
-                &lt;?= $this-&gt;Form-&gt;postLink('Delete',
-                    ['action' =&gt; 'delete', $article-&gt;id],
-                    ['confirm' =&gt; 'Are you sure?'])
+                &lt;?= <span class="kw">$this</span>-&gt;Html-&gt;<span class="fn">link</span>(<span class="str">'View'</span>, [<span class="str">'action'</span> =&gt; <span class="str">'view'</span>, <span class="kw">$article</span>-&gt;id]) ?&gt;
+                &lt;?= <span class="kw">$this</span>-&gt;Form-&gt;<span class="fn">postLink</span>(<span class="str">'Delete'</span>,
+                    [<span class="str">'action'</span> =&gt; <span class="str">'delete'</span>, <span class="kw">$article</span>-&gt;id],
+                    [<span class="str">'confirm'</span> =&gt; <span class="str">'Are you sure?'</span>])
                 ?&gt;
             &lt;/td&gt;
         &lt;/tr&gt;
-        &lt;?php endforeach; ?&gt;
+        &lt;?<span class="kw">php</span> <span class="kw">endforeach</span>; ?&gt;
     &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;div class="paginator"&gt;
-    &lt;ul class="pagination"&gt;
-        &lt;?= $this-&gt;Paginator-&gt;first('&amp;laquo; First') ?&gt;
-        &lt;?= $this-&gt;Paginator-&gt;numbers() ?&gt;
-        &lt;?= $this-&gt;Paginator-&gt;last('Last &amp;raquo;') ?&gt;
+&lt;div <span class="kw">class</span>=<span class="str">"paginator"</span>&gt;
+    &lt;ul <span class="kw">class</span>=<span class="str">"pagination"</span>&gt;
+        &lt;?= <span class="kw">$this</span>-&gt;<span class="tp">Paginator</span>-&gt;<span class="fn">first</span>(<span class="str">'&amp;laquo; First'</span>) ?&gt;
+        &lt;?= <span class="kw">$this</span>-&gt;<span class="tp">Paginator</span>-&gt;<span class="fn">numbers</span>() ?&gt;
+        &lt;?= <span class="kw">$this</span>-&gt;<span class="tp">Paginator</span>-&gt;<span class="fn">last</span>(<span class="str">'Last &amp;raquo;'</span>) ?&gt;
     &lt;/ul&gt;
 &lt;/div&gt;</code></pre>
       </div>
@@ -887,16 +900,16 @@ $this->addBehavior('Translate', [
       <div class="card-header">Form Helper &mdash; add.php</div>
       <div class="card-body">
         <pre><code>&lt;!-- templates/Articles/add.php --&gt;
-&lt;h1&gt;Add Article&lt;/h1&gt;
-&lt;?= $this-&gt;Form-&gt;create($article) ?&gt;
-    &lt;?= $this-&gt;Form-&gt;control('title', ['label' =&gt; 'Title']) ?&gt;
-    &lt;?= $this-&gt;Form-&gt;control('body', ['rows' =&gt; '10']) ?&gt;
-    &lt;?= $this-&gt;Form-&gt;control('author_id', [
-        'options' =&gt; $authors,
+&lt;h1&gt;Add <span class="tp">Article</span>&lt;/h1&gt;
+&lt;?= <span class="kw">$this</span>-&gt;Form-&gt;<span class="fn">create</span>(<span class="kw">$article</span>) ?&gt;
+    &lt;?= <span class="kw">$this</span>-&gt;Form-&gt;<span class="fn">control</span>(<span class="str">'title'</span>, [<span class="str">'label'</span> =&gt; <span class="str">'Title'</span>]) ?&gt;
+    &lt;?= <span class="kw">$this</span>-&gt;Form-&gt;<span class="fn">control</span>(<span class="str">'body'</span>, [<span class="str">'rows'</span> =&gt; <span class="str">'10'</span>]) ?&gt;
+    &lt;?= <span class="kw">$this</span>-&gt;Form-&gt;<span class="fn">control</span>(<span class="str">'author_id'</span>, [
+        <span class="str">'options'</span> =&gt; <span class="kw">$authors</span>,
     ]) ?&gt;
-    &lt;?= $this-&gt;Form-&gt;control('published', ['type' =&gt; 'checkbox']) ?&gt;
-    &lt;?= $this-&gt;Form-&gt;button('Save') ?&gt;
-&lt;?= $this-&gt;Form-&gt;end() ?&gt;</code></pre>
+    &lt;?= <span class="kw">$this</span>-&gt;Form-&gt;<span class="fn">control</span>(<span class="str">'published'</span>, [<span class="str">'type'</span> =&gt; <span class="str">'checkbox'</span>]) ?&gt;
+    &lt;?= <span class="kw">$this</span>-&gt;Form-&gt;<span class="fn">button</span>(<span class="str">'Save'</span>) ?&gt;
+&lt;?= <span class="kw">$this</span>-&gt;Form-&gt;<span class="fn">end</span>() ?&gt;</code></pre>
       </div>
     </div>
   </section>
@@ -909,37 +922,37 @@ $this->addBehavior('Translate', [
     <div class="card">
       <div class="card-header">Application.php &mdash; Middleware Setup</div>
       <div class="card-body">
-        <pre><code>namespace App;
+        <pre><code><span class="kw">namespace</span> <span class="tp">App</span>;
 
-use Authentication\AuthenticationService;
-use Authentication\AuthenticationServiceInterface;
-use Authentication\AuthenticationServiceProviderInterface;
-use Authentication\Middleware\AuthenticationMiddleware;
-use Cake\Http\MiddlewareQueue;
-use Psr\Http\Message\ServerRequestInterface;
+<span class="kw">use</span> <span class="tp">Authentication</span>\AuthenticationService;
+<span class="kw">use</span> <span class="tp">Authentication</span>\AuthenticationServiceInterface;
+<span class="kw">use</span> <span class="tp">Authentication</span>\AuthenticationServiceProviderInterface;
+<span class="kw">use</span> <span class="tp">Authentication</span>\<span class="tp">Middleware</span>\AuthenticationMiddleware;
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">Http</span>\<span class="tp">MiddlewareQueue</span>;
+<span class="kw">use</span> <span class="tp">Psr</span>\<span class="tp">Http</span>\<span class="tp">Message</span>\ServerRequestInterface;
 
-class Application extends BaseApplication
-    implements AuthenticationServiceProviderInterface
+<span class="kw">class</span> Application <span class="kw">extends</span> BaseApplication
+    <span class="kw">implements</span> AuthenticationServiceProviderInterface
 {
-    public function middleware(MiddlewareQueue $queue): MiddlewareQueue
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">middleware</span>(<span class="tp">MiddlewareQueue</span> <span class="kw">$queue</span>): <span class="tp">MiddlewareQueue</span>
     {
-        $queue->add(new AuthenticationMiddleware($this));
-        return $queue;
+        <span class="kw">$queue</span>-><span class="fn">add</span>(<span class="kw">new</span> <span class="fn">AuthenticationMiddleware</span>(<span class="kw">$this</span>));
+        <span class="kw">return</span> <span class="kw">$queue</span>;
     }
 
-    public function getAuthenticationService(
-        ServerRequestInterface $request
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">getAuthenticationService</span>(
+        ServerRequestInterface <span class="kw">$request</span>
     ): AuthenticationServiceInterface {
-        $service = new AuthenticationService();
-        $service->loadIdentifier('Authentication.Password', [
-            'fields' => ['username' => 'email', 'password' => 'password'],
+        <span class="kw">$service</span> = <span class="kw">new</span> <span class="fn">AuthenticationService</span>();
+        <span class="kw">$service</span>-><span class="fn">loadIdentifier</span>(<span class="str">'Authentication.Password'</span>, [
+            <span class="str">'fields'</span> => [<span class="str">'username'</span> => <span class="str">'email'</span>, <span class="str">'password'</span> => <span class="str">'password'</span>],
         ]);
-        $service->loadAuthenticator('Authentication.Session');
-        $service->loadAuthenticator('Authentication.Form', [
-            'fields' => ['username' => 'email'],
-            'loginUrl' => '/users/login',
+        <span class="kw">$service</span>-><span class="fn">loadAuthenticator</span>(<span class="str">'Authentication.Session'</span>);
+        <span class="kw">$service</span>-><span class="fn">loadAuthenticator</span>(<span class="str">'Authentication.Form'</span>, [
+            <span class="str">'fields'</span> => [<span class="str">'username'</span> => <span class="str">'email'</span>],
+            <span class="str">'loginUrl'</span> => <span class="str">'/users/login'</span>,
         ]);
-        return $service;
+        <span class="kw">return</span> <span class="kw">$service</span>;
     }
 }</code></pre>
       </div>
@@ -948,31 +961,31 @@ class Application extends BaseApplication
     <div class="card">
       <div class="card-header">UsersController &mdash; Login / Logout</div>
       <div class="card-body">
-        <pre><code>namespace App\Controller;
+        <pre><code><span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Controller</span>;
 
-class UsersController extends AppController
+<span class="kw">class</span> <span class="tp">UsersController</span> <span class="kw">extends</span> <span class="tp">AppController</span>
 {
-    public function beforeFilter(\Cake\Event\EventInterface $event)
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">beforeFilter</span>(\<span class="tp">Cake</span>\<span class="tp">Event</span>\EventInterface <span class="kw">$event</span>)
     {
-        parent::beforeFilter($event);
-        $this->Authentication->addUnauthenticatedActions(['login']);
+        <span class="kw">parent</span>::<span class="fn">beforeFilter</span>(<span class="kw">$event</span>);
+        <span class="kw">$this</span>-><span class="fn">Authentication</span>-><span class="fn">addUnauthenticatedActions</span>([<span class="str">'login'</span>]);
     }
 
-    public function login()
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">login</span>()
     {
-        $result = $this->Authentication->getResult();
-        if ($result && $result->isValid()) {
-            return $this->redirect(['controller' => 'Articles', 'action' => 'index']);
+        <span class="kw">$result</span> = <span class="kw">$this</span>-><span class="fn">Authentication</span>-><span class="fn">getResult</span>();
+        <span class="kw">if</span> (<span class="kw">$result</span> && <span class="kw">$result</span>-><span class="fn">isValid</span>()) {
+            <span class="kw">return</span> <span class="kw">$this</span>-><span class="fn">redirect</span>([<span class="str">'controller'</span> => <span class="str">'Articles'</span>, <span class="str">'action'</span> => <span class="str">'index'</span>]);
         }
-        if ($this->request->is('post')) {
-            $this->Flash->error('Invalid credentials.');
+        <span class="kw">if</span> (<span class="kw">$this</span>-><span class="fn">request</span>-><span class="fn">is</span>(<span class="str">'post'</span>)) {
+            <span class="kw">$this</span>-><span class="fn">Flash</span>-><span class="fn">error</span>(<span class="str">'Invalid credentials.'</span>);
         }
     }
 
-    public function logout()
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">logout</span>()
     {
-        $this->Authentication->logout();
-        return $this->redirect(['controller' => 'Users', 'action' => 'login']);
+        <span class="kw">$this</span>-><span class="fn">Authentication</span>-><span class="fn">logout</span>();
+        <span class="kw">return</span> <span class="kw">$this</span>-><span class="fn">redirect</span>([<span class="str">'controller'</span> => <span class="str">'Users'</span>, <span class="str">'action'</span> => <span class="str">'login'</span>]);
     }
 }</code></pre>
       </div>
@@ -987,25 +1000,25 @@ class UsersController extends AppController
     <div class="card">
       <div class="card-header">ArticlePolicy.php</div>
       <div class="card-body">
-        <pre><code>namespace App\Policy;
+        <pre><code><span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Policy</span>;
 
-use App\Model\Entity\Article;
-use Authorization\IdentityInterface;
+<span class="kw">use</span> <span class="tp">App</span>\<span class="tp">Model</span>\<span class="tp">Entity</span>\<span class="tp">Article</span>;
+<span class="kw">use</span> <span class="tp">Authorization</span>\IdentityInterface;
 
-class ArticlePolicy
+<span class="kw">class</span> ArticlePolicy
 {
-    public function canIndex(?IdentityInterface $user) { return true; }
-    public function canView(?IdentityInterface $user, Article $article) { return true; }
-    public function canAdd(IdentityInterface $user) { return true; }
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">canIndex</span>(?IdentityInterface <span class="kw">$user</span>) { <span class="kw">return</span> <span class="kw">true</span>; }
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">canView</span>(?IdentityInterface <span class="kw">$user</span>, <span class="tp">Article</span> <span class="kw">$article</span>) { <span class="kw">return</span> <span class="kw">true</span>; }
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">canAdd</span>(IdentityInterface <span class="kw">$user</span>) { <span class="kw">return</span> <span class="kw">true</span>; }
 
-    public function canEdit(IdentityInterface $user, Article $article)
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">canEdit</span>(IdentityInterface <span class="kw">$user</span>, <span class="tp">Article</span> <span class="kw">$article</span>)
     {
-        return $user->getIdentifier() === $article->author_id;
+        <span class="kw">return</span> <span class="kw">$user</span>-><span class="fn">getIdentifier</span>() === <span class="kw">$article</span>-><span class="fn">author_id</span>;
     }
 
-    public function canDelete(IdentityInterface $user, Article $article)
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">canDelete</span>(IdentityInterface <span class="kw">$user</span>, <span class="tp">Article</span> <span class="kw">$article</span>)
     {
-        return $this->canEdit($user, $article);
+        <span class="kw">return</span> <span class="kw">$this</span>-><span class="fn">canEdit</span>(<span class="kw">$user</span>, <span class="kw">$article</span>);
     }
 }</code></pre>
       </div>
@@ -1013,15 +1026,15 @@ class ArticlePolicy
 
     <div class="card">
       <div class="card-body">
-        <pre><code>// In AppController::initialize()
-$this->loadComponent('Authorization.Authorization');
+        <pre><code><span class="cm">// In AppController::initialize()</span>
+<span class="kw">$this</span>-><span class="fn">loadComponent</span>(<span class="str">'Authorization.Authorization'</span>);
 
-// In a controller action:
-public function edit($id = null)
+<span class="cm">// In a controller action:</span>
+<span class="kw">public</span> <span class="kw">function</span> <span class="fn">edit</span>(<span class="kw">$id</span> = <span class="kw">null</span>)
 {
-    $article = $this->fetchTable('Articles')->get($id);
-    $this->Authorization->authorize($article);
-    // continues only if authorized
+    <span class="kw">$article</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">get</span>(<span class="kw">$id</span>);
+    <span class="kw">$this</span>-><span class="fn">Authorization</span>-><span class="fn">authorize</span>(<span class="kw">$article</span>);
+    <span class="cm">// continues only if authorized</span>
 }</code></pre>
       </div>
     </div>
@@ -1035,8 +1048,8 @@ public function edit($id = null)
     <h3>Installation</h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>composer require cakephp/queue
-bin/cake plugin load Queue</code></pre>
+        <pre><code><span class="kw">composer</span> <span class="kw">require</span> cakephp/queue
+bin/cake plugin load <span class="tp">Queue</span></code></pre>
       </div>
     </div>
 
@@ -1044,27 +1057,27 @@ bin/cake plugin load Queue</code></pre>
     <div class="card">
       <div class="card-header">src/Queue/Job/SendEmailJob.php</div>
       <div class="card-body">
-        <pre><code>namespace App\Queue\Job;
+        <pre><code><span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Queue</span>\<span class="tp">Job</span>;
 
-use Cake\Queue\Job\JobInterface;
-use Cake\Queue\Job\Message;
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">Queue</span>\<span class="tp">Job</span>\JobInterface;
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">Queue</span>\<span class="tp">Job</span>\<span class="tp">Message</span>;
 
-class SendEmailJob implements JobInterface
+<span class="kw">class</span> SendEmailJob <span class="kw">implements</span> JobInterface
 {
-    public function execute(array $data, Message $message): bool
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">execute</span>(<span class="tp">array</span> <span class="kw">$data</span>, <span class="tp">Message</span> <span class="kw">$message</span>): <span class="tp">bool</span>
     {
-        $to = $data['to'] ?? null;
-        $subject = $data['subject'] ?? 'No subject';
-        $body = $data['body'] ?? '';
+        <span class="kw">$to</span> = <span class="kw">$data</span>[<span class="str">'to'</span>] ?? <span class="kw">null</span>;
+        <span class="kw">$subject</span> = <span class="kw">$data</span>[<span class="str">'subject'</span>] ?? <span class="str">'No subject'</span>;
+        <span class="kw">$body</span> = <span class="kw">$data</span>[<span class="str">'body'</span>] ?? <span class="str">''</span>;
 
-        if (!$to) {
-            throw new \RuntimeException('Recipient required.');
+        <span class="kw">if</span> (!<span class="kw">$to</span>) {
+            <span class="kw">throw</span> <span class="kw">new</span> \<span class="tp">RuntimeException</span>(<span class="str">'Recipient required.'</span>);
         }
 
-        // Send the email (pseudo)
-        // Mailer::send($to, $subject, $body);
+        <span class="cm">// Send the email (pseudo)</span>
+        <span class="cm">// Mailer::send($to, $subject, $body);</span>
 
-        return true; // true = success, false = retry
+        <span class="kw">return</span> <span class="kw">true</span>; <span class="cm">// true = success, false = retry</span>
     }
 }</code></pre>
       </div>
@@ -1074,37 +1087,37 @@ class SendEmailJob implements JobInterface
     <div class="card">
       <div class="card-header">QueueManager::push()</div>
       <div class="card-body">
-        <pre><code>use Cake\Queue\QueueManager;
+        <pre><code><span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">Queue</span>\<span class="tp">QueueManager</span>;
 
-// Basic push
-QueueManager::push(SendEmailJob::class, [
-    'to' => 'user@example.com',
-    'subject' => 'Welcome!',
-    'body' => 'Thank you for registering.',
+<span class="cm">// Basic push</span>
+<span class="tp">QueueManager</span>::<span class="fn">push</span>(SendEmailJob::<span class="kw">class</span>, [
+    <span class="str">'to'</span> => <span class="str">'user@example.com'</span>,
+    <span class="str">'subject'</span> => <span class="str">'Welcome!'</span>,
+    <span class="str">'body'</span> => <span class="str">'Thank you for registering.'</span>,
 ]);
 
-// Push with options (delay, priority, queue)
-QueueManager::push(SendEmailJob::class, $data, [
-    'config' => 'default',
-    'queue' => 'emails',
-    'delay' => '+5 minutes',
+<span class="cm">// Push with options (delay, priority, queue)</span>
+<span class="tp">QueueManager</span>::<span class="fn">push</span>(SendEmailJob::<span class="kw">class</span>, <span class="kw">$data</span>, [
+    <span class="str">'config'</span> => <span class="str">'default'</span>,
+    <span class="str">'queue'</span> => <span class="str">'emails'</span>,
+    <span class="str">'delay'</span> => <span class="str">'+5 minutes'</span>,
 ]);
 
-// Example inside a Controller
-public function register()
+<span class="cm">// Example inside a Controller</span>
+<span class="kw">public</span> <span class="kw">function</span> <span class="fn">register</span>()
 {
-    $user = $this->fetchTable('Users')
-        ->newEntity($this->request->getData());
-    if ($this->fetchTable('Users')->save($user)) {
-        QueueManager::push(SendEmailJob::class, [
-            'to' => $user->email,
-            'subject' => 'Welcome!',
-            'body' => 'Thank you for registering.',
+    <span class="kw">$user</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Users'</span>)
+        -><span class="fn">newEntity</span>(<span class="kw">$this</span>-><span class="fn">request</span>-><span class="fn">getData</span>());
+    <span class="kw">if</span> (<span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Users'</span>)-><span class="fn">save</span>(<span class="kw">$user</span>)) {
+        <span class="tp">QueueManager</span>::<span class="fn">push</span>(SendEmailJob::<span class="kw">class</span>, [
+            <span class="str">'to'</span> => <span class="kw">$user</span>-><span class="fn">email</span>,
+            <span class="str">'subject'</span> => <span class="str">'Welcome!'</span>,
+            <span class="str">'body'</span> => <span class="str">'Thank you for registering.'</span>,
         ]);
-        $this->Flash->success('Registration successful.');
-        return $this->redirect(['action' => 'login']);
+        <span class="kw">$this</span>-><span class="fn">Flash</span>-><span class="fn">success</span>(<span class="str">'Registration successful.'</span>);
+        <span class="kw">return</span> <span class="kw">$this</span>-><span class="fn">redirect</span>([<span class="str">'action'</span> => <span class="str">'login'</span>]);
     }
-    $this->Flash->error('Registration failed.');
+    <span class="kw">$this</span>-><span class="fn">Flash</span>-><span class="fn">error</span>(<span class="str">'Registration failed.'</span>);
 }</code></pre>
       </div>
     </div>
@@ -1113,47 +1126,47 @@ public function register()
     <div class="card">
       <div class="card-header">Run the Queue Worker</div>
       <div class="card-body">
-        <pre><code># Start the worker (processes queued jobs)
+        <pre><code><span class="cm"># Start the worker (processes queued jobs)</span>
 bin/cake queue worker
 
-# Short alias
+<span class="cm"># Short alias</span>
 bin/cake worker
 
-# With all options
+<span class="cm"># With all options</span>
 bin/cake queue worker \
-    --config default \
+    --config <span class="kw">default</span> \
     --queue emails \
-    --max-jobs 50 \
-    --max-runtime 3600 \
-    --max-attempts 3 \
+    --max-jobs <span class="num">50</span> \
+    --max-runtime <span class="num">3600</span> \
+    --max-attempts <span class="num">3</span> \
     --verbose
 
-# Options:
-# --config / -c        Queue config name (default)
-# --queue / -Q         Queue name to bind to
-# --processor / -p     Processor class
-# --logger / -l        Logger for verbose output
-# --max-jobs / -i      Stop after N jobs
-# --max-runtime / -r   Stop after N seconds
-# --max-attempts / -a  Max retry count per job
-# --verbose / -v       Verbose logging</code></pre>
+<span class="cm"># Options:</span>
+<span class="cm"># --config / -c        Queue config name (default)</span>
+<span class="cm"># --queue / -Q         Queue name to bind to</span>
+<span class="cm"># --processor / -p     Processor class</span>
+<span class="cm"># --logger / -l        Logger for verbose output</span>
+<span class="cm"># --max-jobs / -i      Stop after N jobs</span>
+<span class="cm"># --max-runtime / -r   Stop after N seconds</span>
+<span class="cm"># --max-attempts / -a  Max retry count per job</span>
+<span class="cm"># --verbose / -v       Verbose logging</span></code></pre>
       </div>
     </div>
 
     <h3>4. Failed Jobs</h3>
     <div class="card">
       <div class="card-body">
-        <pre><code># Configure failed job storage in config/app.php:
-'Queue' => [
-    'default' => [
-        'failed' => [
-            'className' => \Cake\Queue\Failed\FailedJobsTable::class,
-            'table' => 'failed_jobs',
+        <pre><code><span class="cm"># Configure failed job storage in config/app.php:</span>
+<span class="str">'Queue'</span> => [
+    <span class="str">'default'</span> => [
+        <span class="str">'failed'</span> => [
+            <span class="str">'className'</span> => \<span class="tp">Cake</span>\<span class="tp">Queue</span>\<span class="tp">Failed</span>\FailedJobsTable::<span class="kw">class</span>,
+            <span class="str">'table'</span> => <span class="str">'failed_jobs'</span>,
         ],
     ],
 ];
 
-# Commands
+<span class="cm"># Commands</span>
 bin/cake queue requeue   # Requeue failed jobs
 bin/cake queue purge     # Purge failed jobs</code></pre>
       </div>
@@ -1162,16 +1175,16 @@ bin/cake queue purge     # Purge failed jobs</code></pre>
     <h3>Queue Configuration</h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>// config/app.php
-return [
-    'Queue' => [
-        'default' => [
-            'queue' => 'default',
-            'url' => env('QUEUE_URL', 'null://'),
-            // Transport examples:
-            // 'url' => 'file:///tmp/queue'       (filesystem)
-            // 'url' => 'redis://localhost:6379'  (Redis)
-            // 'url' => 'amqp://guest:pass@localhost:5672' (RabbitMQ)
+        <pre><code><span class="cm">// config/app.php</span>
+<span class="kw">return</span> [
+    <span class="str">'Queue'</span> => [
+        <span class="str">'default'</span> => [
+            <span class="str">'queue'</span> => <span class="str">'default'</span>,
+            <span class="str">'url'</span> => <span class="fn">env</span>(<span class="str">'QUEUE_URL'</span>, <span class="str">'null://'</span>),
+            <span class="cm">// Transport examples:</span>
+            <span class="cm">// 'url' => 'file:///tmp/queue'       (filesystem)</span>
+            <span class="cm">// 'url' => 'redis://localhost:6379'  (Redis)</span>
+            <span class="cm">// 'url' => 'amqp://guest:pass@localhost:5672' (RabbitMQ)</span>
         ],
     ],
 ];</code></pre>
@@ -1187,16 +1200,16 @@ return [
     <h3>Route Setup</h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>// config/routes.php
-$routes->scope('/api', function (RouteBuilder $routes): void {
-    $routes->setExtensions(['json']);
-    $routes->resources('Articles');
+        <pre><code><span class="cm">// config/routes.php</span>
+<span class="kw">$routes</span>-><span class="fn">scope</span>(<span class="str">'/api'</span>, <span class="kw">function</span> (<span class="tp">RouteBuilder</span> <span class="kw">$routes</span>): <span class="tp">void</span> {
+    <span class="kw">$routes</span>-><span class="fn">setExtensions</span>([<span class="str">'json'</span>]);
+    <span class="kw">$routes</span>-><span class="fn">resources</span>(<span class="str">'Articles'</span>);
 });
 
-// Or with prefix
-$routes->prefix('Api', function (RouteBuilder $routes): void {
-    $routes->setExtensions(['json']);
-    $routes->resources('Articles');
+<span class="cm">// Or with prefix</span>
+<span class="kw">$routes</span>-><span class="fn">prefix</span>(<span class="str">'Api'</span>, <span class="kw">function</span> (<span class="tp">RouteBuilder</span> <span class="kw">$routes</span>): <span class="tp">void</span> {
+    <span class="kw">$routes</span>-><span class="fn">setExtensions</span>([<span class="str">'json'</span>]);
+    <span class="kw">$routes</span>-><span class="fn">resources</span>(<span class="str">'Articles'</span>);
 });</code></pre>
       </div>
     </div>
@@ -1205,89 +1218,89 @@ $routes->prefix('Api', function (RouteBuilder $routes): void {
     <div class="card">
       <div class="card-header">src/Controller/Api/ArticlesController.php</div>
       <div class="card-body">
-        <pre><code>namespace App\Controller\Api;
+        <pre><code><span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Controller</span>\<span class="tp">Api</span>;
 
-use App\Controller\AppController;
+<span class="kw">use</span> <span class="tp">App</span>\<span class="tp">Controller</span>\<span class="tp">AppController</span>;
 
-class ArticlesController extends AppController
+<span class="kw">class</span> <span class="tp">ArticlesController</span> <span class="kw">extends</span> <span class="tp">AppController</span>
 {
-    public function initialize(): void
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">initialize</span>(): <span class="tp">void</span>
     {
-        parent::initialize();
-        $this->loadComponent('RequestHandler');
-        $this->loadComponent('Authentication.Authentication');
-        $this->loadComponent('Authorization.Authorization');
+        <span class="kw">parent</span>::<span class="fn">initialize</span>();
+        <span class="kw">$this</span>-><span class="fn">loadComponent</span>(<span class="str">'RequestHandler'</span>);
+        <span class="kw">$this</span>-><span class="fn">loadComponent</span>(<span class="str">'Authentication.Authentication'</span>);
+        <span class="kw">$this</span>-><span class="fn">loadComponent</span>(<span class="str">'Authorization.Authorization'</span>);
     }
 
-    public function viewClasses(): array
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">viewClasses</span>(): <span class="tp">array</span>
     {
-        return [\Cake\View\JsonView::class];
+        <span class="kw">return</span> [\<span class="tp">Cake</span>\<span class="tp">View</span>\JsonView::<span class="kw">class</span>];
     }
 
-    public function index()
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">index</span>()
     {
-        $articles = $this->fetchTable('Articles')
-            ->find()->contain(['Authors', 'Tags'])->all();
-        $this->set(compact('articles'));
-        $this->viewBuilder()->setOption('serialize', ['articles']);
+        <span class="kw">$articles</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)
+            -><span class="fn">find</span>()-><span class="fn">contain</span>([<span class="str">'Authors'</span>, <span class="str">'Tags'</span>])-><span class="fn">all</span>();
+        <span class="kw">$this</span>-><span class="fn">set</span>(<span class="fn">compact</span>(<span class="str">'articles'</span>));
+        <span class="kw">$this</span>-><span class="fn">viewBuilder</span>()-><span class="fn">setOption</span>(<span class="str">'serialize'</span>, [<span class="str">'articles'</span>]);
     }
 
-    public function view($id = null)
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">view</span>(<span class="kw">$id</span> = <span class="kw">null</span>)
     {
-        $article = $this->fetchTable('Articles')
-            ->get($id, contain: ['Authors', 'Tags']);
-        $this->Authorization->authorize($article);
-        $this->set(compact('article'));
-        $this->viewBuilder()->setOption('serialize', ['article']);
+        <span class="kw">$article</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)
+            -><span class="fn">get</span>(<span class="kw">$id</span>, contain: [<span class="str">'Authors'</span>, <span class="str">'Tags'</span>]);
+        <span class="kw">$this</span>-><span class="fn">Authorization</span>-><span class="fn">authorize</span>(<span class="kw">$article</span>);
+        <span class="kw">$this</span>-><span class="fn">set</span>(<span class="fn">compact</span>(<span class="str">'article'</span>));
+        <span class="kw">$this</span>-><span class="fn">viewBuilder</span>()-><span class="fn">setOption</span>(<span class="str">'serialize'</span>, [<span class="str">'article'</span>]);
     }
 
-    public function add()
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">add</span>()
     {
-        $article = $this->fetchTable('Articles')->newEmptyEntity();
-        $article = $this->fetchTable('Articles')
-            ->patchEntity($article, $this->request->getData());
-        if ($this->fetchTable('Articles')->save($article)) {
-            $message = 'Saved';
-            $this->set('article', $article);
-            $this->response = $this->response->withStatus(201);
-        } else {
-            $message = 'Error';
-            $this->response = $this->response->withStatus(422);
-            $this->set('errors', $article->getErrors());
+        <span class="kw">$article</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">newEmptyEntity</span>();
+        <span class="kw">$article</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)
+            -><span class="fn">patchEntity</span>(<span class="kw">$article</span>, <span class="kw">$this</span>-><span class="fn">request</span>-><span class="fn">getData</span>());
+        <span class="kw">if</span> (<span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">save</span>(<span class="kw">$article</span>)) {
+            <span class="kw">$message</span> = <span class="str">'Saved'</span>;
+            <span class="kw">$this</span>-><span class="fn">set</span>(<span class="str">'article'</span>, <span class="kw">$article</span>);
+            <span class="kw">$this</span>-><span class="fn">response</span> = <span class="kw">$this</span>-><span class="fn">response</span>-><span class="fn">withStatus</span>(<span class="num">201</span>);
+        } <span class="kw">else</span> {
+            <span class="kw">$message</span> = <span class="str">'Error'</span>;
+            <span class="kw">$this</span>-><span class="fn">response</span> = <span class="kw">$this</span>-><span class="fn">response</span>-><span class="fn">withStatus</span>(<span class="num">422</span>);
+            <span class="kw">$this</span>-><span class="fn">set</span>(<span class="str">'errors'</span>, <span class="kw">$article</span>-><span class="fn">getErrors</span>());
         }
-        $this->set(compact('message'));
-        $this->viewBuilder()
-            ->setOption('serialize', ['message', 'article', 'errors']);
+        <span class="kw">$this</span>-><span class="fn">set</span>(<span class="fn">compact</span>(<span class="str">'message'</span>));
+        <span class="kw">$this</span>-><span class="fn">viewBuilder</span>()
+            -><span class="fn">setOption</span>(<span class="str">'serialize'</span>, [<span class="str">'message'</span>, <span class="str">'article'</span>, <span class="str">'errors'</span>]);
     }
 
-    public function edit($id = null)
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">edit</span>(<span class="kw">$id</span> = <span class="kw">null</span>)
     {
-        $article = $this->fetchTable('Articles')->get($id);
-        $this->Authorization->authorize($article);
-        $article = $this->fetchTable('Articles')
-            ->patchEntity($article, $this->request->getData());
-        $message = $this->fetchTable('Articles')->save($article)
-            ? 'Updated' : 'Error';
-        $this->response = $message === 'Error'
-            ? $this->response->withStatus(422)
-            : $this->response;
-        $this->set(compact('message', 'article'));
-        $this->viewBuilder()
-            ->setOption('serialize', ['message', 'article']);
+        <span class="kw">$article</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">get</span>(<span class="kw">$id</span>);
+        <span class="kw">$this</span>-><span class="fn">Authorization</span>-><span class="fn">authorize</span>(<span class="kw">$article</span>);
+        <span class="kw">$article</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)
+            -><span class="fn">patchEntity</span>(<span class="kw">$article</span>, <span class="kw">$this</span>-><span class="fn">request</span>-><span class="fn">getData</span>());
+        <span class="kw">$message</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">save</span>(<span class="kw">$article</span>)
+            ? <span class="str">'Updated'</span> : <span class="str">'Error'</span>;
+        <span class="kw">$this</span>-><span class="fn">response</span> = <span class="kw">$message</span> === <span class="str">'Error'</span>
+            ? <span class="kw">$this</span>-><span class="fn">response</span>-><span class="fn">withStatus</span>(<span class="num">422</span>)
+            : <span class="kw">$this</span>-><span class="fn">response</span>;
+        <span class="kw">$this</span>-><span class="fn">set</span>(<span class="fn">compact</span>(<span class="str">'message'</span>, <span class="str">'article'</span>));
+        <span class="kw">$this</span>-><span class="fn">viewBuilder</span>()
+            -><span class="fn">setOption</span>(<span class="str">'serialize'</span>, [<span class="str">'message'</span>, <span class="str">'article'</span>]);
     }
 
-    public function delete($id = null)
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">delete</span>(<span class="kw">$id</span> = <span class="kw">null</span>)
     {
-        $this->request->allowMethod(['delete']);
-        $article = $this->fetchTable('Articles')->get($id);
-        $this->Authorization->authorize($article);
-        $message = $this->fetchTable('Articles')->delete($article)
-            ? 'Deleted' : 'Error';
-        $this->response = $message === 'Error'
-            ? $this->response->withStatus(422)
-            : $this->response;
-        $this->set(compact('message'));
-        $this->viewBuilder()->setOption('serialize', ['message']);
+        <span class="kw">$this</span>-><span class="fn">request</span>-><span class="fn">allowMethod</span>([<span class="str">'delete'</span>]);
+        <span class="kw">$article</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">get</span>(<span class="kw">$id</span>);
+        <span class="kw">$this</span>-><span class="fn">Authorization</span>-><span class="fn">authorize</span>(<span class="kw">$article</span>);
+        <span class="kw">$message</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">delete</span>(<span class="kw">$article</span>)
+            ? <span class="str">'Deleted'</span> : <span class="str">'Error'</span>;
+        <span class="kw">$this</span>-><span class="fn">response</span> = <span class="kw">$message</span> === <span class="str">'Error'</span>
+            ? <span class="kw">$this</span>-><span class="fn">response</span>-><span class="fn">withStatus</span>(<span class="num">422</span>)
+            : <span class="kw">$this</span>-><span class="fn">response</span>;
+        <span class="kw">$this</span>-><span class="fn">set</span>(<span class="fn">compact</span>(<span class="str">'message'</span>));
+        <span class="kw">$this</span>-><span class="fn">viewBuilder</span>()-><span class="fn">setOption</span>(<span class="str">'serialize'</span>, [<span class="str">'message'</span>]);
     }
 }</code></pre>
       </div>
@@ -1296,34 +1309,34 @@ class ArticlesController extends AppController
     <h3>Body Parser Middleware</h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>// src/Application.php middleware()
-use Cake\Http\Middleware\BodyParserMiddleware;
+        <pre><code><span class="cm">// src/Application.php middleware()</span>
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">Http</span>\<span class="tp">Middleware</span>\BodyParserMiddleware;
 
-$middlewareQueue->add(new BodyParserMiddleware());
-// Auto-parses JSON/XML request bodies</code></pre>
+<span class="kw">$middlewareQueue</span>-><span class="fn">add</span>(<span class="kw">new</span> <span class="fn">BodyParserMiddleware</span>());
+<span class="cm">// Auto-parses JSON/XML request bodies</span></code></pre>
       </div>
     </div>
 
     <h3>Request / Response Examples</h3>
     <div class="card">
       <div class="card-body">
-        <pre><code>// GET /api/articles.json
-// Response:
+        <pre><code><span class="cm">// GET /api/articles.json</span>
+<span class="cm">// Response:</span>
 {
-    "articles": [
+    <span class="str">"articles"</span>: [
         {
-            "id": 1,
-            "title": "Hello CakePHP",
-            "author": { "id": 1, "name": "John" },
-            "tags": [{ "id": 1, "name": "php" }]
+            <span class="str">"id"</span>: <span class="num">1</span>,
+            <span class="str">"title"</span>: <span class="str">"Hello CakePHP"</span>,
+            <span class="str">"author"</span>: { <span class="str">"id"</span>: <span class="num">1</span>, <span class="str">"name"</span>: <span class="str">"John"</span> },
+            <span class="str">"tags"</span>: [{ <span class="str">"id"</span>: <span class="num">1</span>, <span class="str">"name"</span>: <span class="str">"php"</span> }]
         }
     ]
 }
 
-// POST /api/articles.json
-// Headers: Content-Type: application/json
-// Body: {"title": "New", "body": "...", "author_id": 1}
-// Response (201): {"message": "Saved", "article": {...}}</code></pre>
+<span class="cm">// POST /api/articles.json</span>
+<span class="cm">// Headers: Content-Type: application/json</span>
+<span class="cm">// Body: {"title": "New", "body": "...", "author_id": 1}</span>
+<span class="cm">// Response (201): {"message": "Saved", "article": {...}}</span></code></pre>
       </div>
     </div>
   </section>
@@ -1334,21 +1347,21 @@ $middlewareQueue->add(new BodyParserMiddleware());
     <div class="card">
       <div class="card-header">Full Middleware Stack</div>
       <div class="card-body">
-        <pre><code>// src/Application.php
-use Authentication\Middleware\AuthenticationMiddleware;
-use Cake\Http\Middleware\BodyParserMiddleware;
-use Cake\Http\Middleware\CsrfProtectionMiddleware;
-use Cake\Routing\Middleware\RoutingMiddleware;
+        <pre><code><span class="cm">// src/Application.php</span>
+<span class="kw">use</span> <span class="tp">Authentication</span>\<span class="tp">Middleware</span>\AuthenticationMiddleware;
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">Http</span>\<span class="tp">Middleware</span>\BodyParserMiddleware;
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">Http</span>\<span class="tp">Middleware</span>\CsrfProtectionMiddleware;
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">Routing</span>\<span class="tp">Middleware</span>\RoutingMiddleware;
 
-public function middleware(MiddlewareQueue $queue): MiddlewareQueue
+<span class="kw">public</span> <span class="kw">function</span> <span class="fn">middleware</span>(<span class="tp">MiddlewareQueue</span> <span class="kw">$queue</span>): <span class="tp">MiddlewareQueue</span>
 {
-    return $queue
-        ->add(new ErrorHandlerMiddleware(Configure::read('Error')))
-        ->add(new AssetMiddleware())
-        ->add(new BodyParserMiddleware())
-        ->add(new RoutingMiddleware($this))
-        ->add(new CsrfProtectionMiddleware(['httponly' => true]))
-        ->add(new AuthenticationMiddleware($this));
+    <span class="kw">return</span> <span class="kw">$queue</span>
+        -><span class="fn">add</span>(<span class="kw">new</span> <span class="fn">ErrorHandlerMiddleware</span>(<span class="tp">Configure</span>::<span class="fn">read</span>(<span class="str">'Error'</span>)))
+        -><span class="fn">add</span>(<span class="kw">new</span> <span class="fn">AssetMiddleware</span>())
+        -><span class="fn">add</span>(<span class="kw">new</span> <span class="fn">BodyParserMiddleware</span>())
+        -><span class="fn">add</span>(<span class="kw">new</span> <span class="fn">RoutingMiddleware</span>(<span class="kw">$this</span>))
+        -><span class="fn">add</span>(<span class="kw">new</span> <span class="fn">CsrfProtectionMiddleware</span>([<span class="str">'httponly'</span> => <span class="kw">true</span>]))
+        -><span class="fn">add</span>(<span class="kw">new</span> <span class="fn">AuthenticationMiddleware</span>(<span class="kw">$this</span>));
 }</code></pre>
       </div>
     </div>
@@ -1356,34 +1369,34 @@ public function middleware(MiddlewareQueue $queue): MiddlewareQueue
     <div class="card">
       <div class="card-header">Custom CORS Middleware</div>
       <div class="card-body">
-        <pre><code>namespace App\Middleware;
+        <pre><code><span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Middleware</span>;
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\MiddlewareInterface;
-use Psr\Http\Server\RequestHandlerInterface;
+<span class="kw">use</span> <span class="tp">Psr</span>\<span class="tp">Http</span>\<span class="tp">Message</span>\ResponseInterface;
+<span class="kw">use</span> <span class="tp">Psr</span>\<span class="tp">Http</span>\<span class="tp">Message</span>\ServerRequestInterface;
+<span class="kw">use</span> <span class="tp">Psr</span>\<span class="tp">Http</span>\<span class="tp">Server</span>\MiddlewareInterface;
+<span class="kw">use</span> <span class="tp">Psr</span>\<span class="tp">Http</span>\<span class="tp">Server</span>\RequestHandlerInterface;
 
-class CorsMiddleware implements MiddlewareInterface
+<span class="kw">class</span> CorsMiddleware <span class="kw">implements</span> MiddlewareInterface
 {
-    public function process(
-        ServerRequestInterface $request,
-        RequestHandlerInterface $handler
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">process</span>(
+        ServerRequestInterface <span class="kw">$request</span>,
+        RequestHandlerInterface <span class="kw">$handler</span>
     ): ResponseInterface {
-        $response = $handler->handle($request);
-        return $response
-            ->withHeader('Access-Control-Allow-Origin', '*')
-            ->withHeader(
-                'Access-Control-Allow-Headers',
-                'X-Requested-With, Content-Type, Authorization'
+        <span class="kw">$response</span> = <span class="kw">$handler</span>-><span class="fn">handle</span>(<span class="kw">$request</span>);
+        <span class="kw">return</span> <span class="kw">$response</span>
+            -><span class="fn">withHeader</span>(<span class="str">'Access-Control-Allow-Origin'</span>, <span class="str">'*'</span>)
+            -><span class="fn">withHeader</span>(
+                <span class="str">'Access-Control-Allow-Headers'</span>,
+                <span class="str">'X-Requested-With, Content-Type, Authorization'</span>
             )
-            ->withHeader(
-                'Access-Control-Allow-Methods',
-                'GET, POST, PUT, DELETE, PATCH, OPTIONS'
+            -><span class="fn">withHeader</span>(
+                <span class="str">'Access-Control-Allow-Methods'</span>,
+                <span class="str">'GET, POST, PUT, DELETE, PATCH, OPTIONS'</span>
             );
     }
 }
 
-// Register: $middlewareQueue->add(new CorsMiddleware());</code></pre>
+<span class="cm">// Register: $middlewareQueue->add(new CorsMiddleware());</span></code></pre>
       </div>
     </div>
   </section>
@@ -1396,33 +1409,33 @@ class CorsMiddleware implements MiddlewareInterface
     <div class="card">
       <div class="card-header">Model Test</div>
       <div class="card-body">
-        <pre><code>namespace App\Test\TestCase\Model\Table;
+        <pre><code><span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Test</span>\<span class="tp">TestCase</span>\<span class="tp">Model</span>\<span class="tp">Table</span>;
 
-use Cake\ORM\TableRegistry;
-use Cake\TestSuite\TestCase;
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">ORM</span>\TableRegistry;
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">TestSuite</span>\<span class="tp">TestCase</span>;
 
-class ArticlesTableTest extends TestCase
+<span class="kw">class</span> ArticlesTableTest <span class="kw">extends</span> <span class="tp">TestCase</span>
 {
-    protected array $fixtures = ['app.Articles', 'app.Authors'];
+    <span class="kw">protected</span> <span class="tp">array</span> <span class="kw">$fixtures</span> = [<span class="str">'app.Articles'</span>, <span class="str">'app.Authors'</span>];
 
-    private \App\Model\Table\ArticlesTable $Articles;
+    <span class="kw">private</span> \<span class="tp">App</span>\<span class="tp">Model</span>\<span class="tp">Table</span>\<span class="tp">ArticlesTable</span> <span class="kw">$Articles</span>;
 
-    protected function setUp(): void
+    <span class="kw">protected</span> <span class="kw">function</span> <span class="fn">setUp</span>(): <span class="tp">void</span>
     {
-        parent::setUp();
-        $this->Articles = TableRegistry::getTableLocator()->get('Articles');
+        <span class="kw">parent</span>::<span class="fn">setUp</span>();
+        <span class="kw">$this</span>-><span class="fn">Articles</span> = TableRegistry::<span class="fn">getTableLocator</span>()-><span class="fn">get</span>(<span class="str">'Articles'</span>);
     }
 
-    public function testFindPublished(): void
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">testFindPublished</span>(): <span class="tp">void</span>
     {
-        $results = $this->Articles->find('published')->all();
-        $this->assertCount(2, $results);
+        <span class="kw">$results</span> = <span class="kw">$this</span>-><span class="fn">Articles</span>-><span class="fn">find</span>(<span class="str">'published'</span>)-><span class="fn">all</span>();
+        <span class="kw">$this</span>-><span class="fn">assertCount</span>(<span class="num">2</span>, <span class="kw">$results</span>);
     }
 
-    public function testValidation(): void
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">testValidation</span>(): <span class="tp">void</span>
     {
-        $entity = $this->Articles->newEntity(['title' => '']);
-        $this->assertNotEmpty($entity->getErrors()['title']);
+        <span class="kw">$entity</span> = <span class="kw">$this</span>-><span class="fn">Articles</span>-><span class="fn">newEntity</span>([<span class="str">'title'</span> => <span class="str">''</span>]);
+        <span class="kw">$this</span>-><span class="fn">assertNotEmpty</span>(<span class="kw">$entity</span>-><span class="fn">getErrors</span>()[<span class="str">'title'</span>]);
     }
 }</code></pre>
       </div>
@@ -1431,37 +1444,37 @@ class ArticlesTableTest extends TestCase
     <div class="card">
       <div class="card-header">Controller Test</div>
       <div class="card-body">
-        <pre><code>namespace App\Test\TestCase\Controller;
+        <pre><code><span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Test</span>\<span class="tp">TestCase</span>\<span class="tp">Controller</span>;
 
-use Cake\TestSuite\IntegrationTestTrait;
-use Cake\TestSuite\TestCase;
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">TestSuite</span>\IntegrationTestTrait;
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">TestSuite</span>\<span class="tp">TestCase</span>;
 
-class ArticlesControllerTest extends TestCase
+<span class="kw">class</span> ArticlesControllerTest <span class="kw">extends</span> <span class="tp">TestCase</span>
 {
-    use IntegrationTestTrait;
+    <span class="kw">use</span> IntegrationTestTrait;
 
-    protected array $fixtures = [
-        'app.Articles', 'app.Authors',
-        'app.Tags', 'app.ArticlesTags',
+    <span class="kw">protected</span> <span class="tp">array</span> <span class="kw">$fixtures</span> = [
+        <span class="str">'app.Articles'</span>, <span class="str">'app.Authors'</span>,
+        <span class="str">'app.Tags'</span>, <span class="str">'app.ArticlesTags'</span>,
     ];
 
-    public function testIndex(): void
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">testIndex</span>(): <span class="tp">void</span>
     {
-        $this->get('/articles');
-        $this->assertResponseOk();
+        <span class="kw">$this</span>-><span class="fn">get</span>(<span class="str">'/articles'</span>);
+        <span class="kw">$this</span>-><span class="fn">assertResponseOk</span>();
     }
 
-    public function testView(): void
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">testView</span>(): <span class="tp">void</span>
     {
-        $this->get('/articles/view/1');
-        $this->assertResponseOk();
-        $this->assertResponseContains('Hello');
+        <span class="kw">$this</span>-><span class="fn">get</span>(<span class="str">'/articles/view/1'</span>);
+        <span class="kw">$this</span>-><span class="fn">assertResponseOk</span>();
+        <span class="kw">$this</span>-><span class="fn">assertResponseContains</span>(<span class="str">'Hello'</span>);
     }
 
-    public function testAddUnauthenticated(): void
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">testAddUnauthenticated</span>(): <span class="tp">void</span>
     {
-        $this->post('/articles/add', ['title' => 'Test']);
-        $this->assertRedirect(['controller' => 'Users', 'action' => 'login']);
+        <span class="kw">$this</span>-><span class="fn">post</span>(<span class="str">'/articles/add'</span>, [<span class="str">'title'</span> => <span class="str">'Test'</span>]);
+        <span class="kw">$this</span>-><span class="fn">assertRedirect</span>([<span class="str">'controller'</span> => <span class="str">'Users'</span>, <span class="str">'action'</span> => <span class="str">'login'</span>]);
     }
 }</code></pre>
       </div>
@@ -1490,22 +1503,22 @@ class ArticlesControllerTest extends TestCase
     app.php
     routes.php
   src/
-    Command/
-    Controller/
-      Api/
-    Middleware/
-    Model/
-      Entity/
-      Table/
-    Policy/
-    Queue/Job/
+    <span class="tp">Command</span>/
+    <span class="tp">Controller</span>/
+      <span class="tp">Api</span>/
+    <span class="tp">Middleware</span>/
+    <span class="tp">Model</span>/
+      <span class="tp">Entity</span>/
+      <span class="tp">Table</span>/
+    <span class="tp">Policy</span>/
+    <span class="tp">Queue</span>/<span class="tp">Job</span>/
   templates/
     layout/
     element/
     Articles/
   tests/
     Fixture/
-    TestCase/
+    <span class="tp">TestCase</span>/
   webroot/</code></pre>
           </div>
         </div>

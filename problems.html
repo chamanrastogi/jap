@@ -199,6 +199,18 @@
     }
     .answer-content pre:hover { background: #1e1f36; }
     .answer-content pre code { background: transparent; color: inherit; padding: 0; font-family: inherit; }
+    .kw { color: #c792ea; }
+    .fn { color: #82aaff; }
+    .str { color: #c3e88d; }
+    .cm { color: #546e7a; font-style: italic; }
+    .num { color: #f78c6c; }
+    .tp { color: #ffcb6b; }
+    [data-bs-theme="dark"] .kw { color: #c792ea; }
+    [data-bs-theme="dark"] .fn { color: #82aaff; }
+    [data-bs-theme="dark"] .str { color: #c3e88d; }
+    [data-bs-theme="dark"] .cm { color: #546e7a; }
+    [data-bs-theme="dark"] .num { color: #f78c6c; }
+    [data-bs-theme="dark"] .tp { color: #ffcb6b; }
     .answer-content strong { color: var(--dark-bg); }
     .answer-content ul, .answer-content ol { padding-left: 1.25rem; }
     .answer-content li { margin-bottom: .25rem; }
@@ -2206,6 +2218,27 @@
           </div>
         `;
       }).join('');
+      highlightCode();
+    }
+
+    function highlightCode() {
+      document.querySelectorAll('.answer-content pre code').forEach(block => {
+        let html = block.innerHTML;
+        html = html
+          .replace(/(\/\/.*?)(?:\n|$)/g, '<span class="cm">$1</span>\n')
+          .replace(/(\/\*[\s\S]*?\*\/)/g, '<span class="cm">$1</span>')
+          .replace(/(#[^\n]*)/g, '<span class="cm">$1</span>')
+          .replace(/(&lt;\?php)/g, '<span class="cm">$1</span>')
+          .replace(/("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')/g, '<span class="str">$1</span>')
+          .replace(/\b(\d+(?:\.\d+)?)\b/g, '<span class="num">$1</span>')
+          .replace(/\b(string|int|float|bool|array|void|mixed|never|self|static|callable|iterable|object|Resource|null|true|false)\b(?!\s*\()/g, '<span class="tp">$1</span>')
+          .replace(/\b(if|else|for|foreach|while|function|return|new|class|public|private|protected|static|readonly|use|namespace|extends|implements|const|echo|fn|as|abstract|final|trait|interface|enum|throw|try|catch|finally|switch|case|default|break|continue|declare|strict_types|global|include|require|list|isset|unset|die|exit|array|instanceof|clone|match)\b/g, '<span class="kw">$1</span>')
+          .replace(/(\$[\w]+)/g, '<span class="kw">$1</span>')
+          .replace(/\b(dd|dump|response|view|redirect|route|auth|bcrypt|collect|array_merge|count|implode|json_encode|json_decode|strlen|substr|str_replace|preg_match|preg_replace|explode|in_array|array_key_exists|method_exists|property_exists|spl_autoload_register|class_exists|interface_exists|trait_exists|enum_exists|array_map|array_filter|array_reduce|array_keys|array_values|array_search|sort|array_unique|array_chunk|array_column|array_find|array_any|array_all|session_start)\(/g, '<span class="fn">$1</span>(')
+          .replace(/\bmatch\s*\(/g, '<span class="fn">match</span>(')
+          .replace(/\bfn\s*\(/g, '<span class="kw">fn</span>(');
+        block.innerHTML = html;
+      });
     }
 
     function toggleCard(idx) {

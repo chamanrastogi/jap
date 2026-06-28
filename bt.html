@@ -120,7 +120,21 @@
       position: relative;
     }
     pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
-    .highlight-box {
+
+    .kw { color: #c792ea; }
+    .fn { color: #82aaff; }
+    .str { color: #c3e88d; }
+    .cm { color: #546e7a; font-style: italic; }
+    .num { color: #f78c6c; }
+    .tp { color: #ffcb6b; }
+    [data-bs-theme="dark"] .kw { color: #c792ea; }
+    [data-bs-theme="dark"] .fn { color: #82aaff; }
+    [data-bs-theme="dark"] .str { color: #c3e88d; }
+    [data-bs-theme="dark"] .cm { color: #546e7a; }
+    [data-bs-theme="dark"] .num { color: #f78c6c; }
+    [data-bs-theme="dark"] .tp { color: #ffcb6b; }
+
+.highlight-box {
       padding: 1rem 1.25rem;
       border-radius: .4rem;
       margin: 1rem 0;
@@ -536,21 +550,21 @@
       <div class="card-header"><i class="bi bi-bezier2 me-1"></i> Utility-First vs Component Classes</div>
       <div class="card-body">
         <p>Bootstrap gives you <strong>pre-built components</strong> (<code>.card</code>, <code>.navbar</code>). Tailwind gives you <strong>primitive utilities</strong> you compose together.</p>
-        <pre><code>&lt;!-- Bootstrap --&gt;
-&lt;div class="card shadow-sm"&gt;
-  &lt;div class="card-body"&gt;
-    &lt;h5 class="card-title"&gt;Card&lt;/h5&gt;
-    &lt;p class="card-text"&gt;Content&lt;/p&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
+        <pre><code><span class="cm">&lt;!-- Bootstrap --&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"card shadow-sm"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"card-body"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;h5</span> <span class="fn">class</span>=<span class="str">"card-title"</span><span class="kw">&gt;</span>Card<span class="kw">&lt;/h5</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;p</span> <span class="fn">class</span>=<span class="str">"card-text"</span><span class="kw">&gt;</span>Content<span class="kw">&lt;/p</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
 
-&lt;!-- Tailwind — same result, built from utilities --&gt;
-&lt;div class="bg-white rounded-xl shadow-md overflow-hidden"&gt;
-  &lt;div class="p-6"&gt;
-    &lt;h2 class="text-xl font-semibold text-gray-900"&gt;Card&lt;/h2&gt;
-    &lt;p class="mt-2 text-gray-600"&gt;Content&lt;/p&gt;
-  &lt;/div&gt;
-&lt;/div&gt;</code></pre>
+<span class="cm">&lt;!-- Tailwind — same result, built from utilities --&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"bg-white rounded-xl shadow-md overflow-hidden"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"p-6"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;h2</span> <span class="fn">class</span>=<span class="str">"text-xl font-semibold text-gray-900"</span><span class="kw">&gt;</span>Card<span class="kw">&lt;/h2</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;p</span> <span class="fn">class</span>=<span class="str">"mt-2 text-gray-600"</span><span class="kw">&gt;</span>Content<span class="kw">&lt;/p</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/div</span><span class="kw">&gt;</span></code></pre>
 
         <div class="highlight-box tw-box">
           <strong>Mindset shift:</strong> Instead of searching for "the right BS class", you <em>compose</em> tiny single-purpose classes. <code>.card</code> (1 class) → <code>bg-white rounded-xl shadow-md overflow-hidden</code> (4 classes).
@@ -562,22 +576,22 @@
       <div class="card-header"><i class="bi bi-sliders2 me-1"></i> Responsive &amp; State Variants</div>
       <div class="card-body">
         <p>Like Bootstrap's breakpoint prefixes (<code>.col-md-6</code>), Tailwind uses <strong>prefixes on any utility</strong>:</p>
-        <pre><code>&lt;!-- Bootstrap --&gt;
-&lt;div class="col-12 col-md-6 col-lg-4"&gt;...&lt;/div&gt;
+        <pre><code><span class="cm">&lt;!-- Bootstrap --&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"col-12 col-md-6 col-lg-4"</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
 
-&lt;!-- Tailwind --&gt;
-&lt;div class="w-full md:w-1/2 lg:w-1/3"&gt;...&lt;/div&gt;
+<span class="cm">&lt;!-- Tailwind --&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"w-full md:w-1/2 lg:w-1/3"</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
 
-&lt;!-- State variants work on ANY class --&gt;
-&lt;button class="bg-blue-600 hover:bg-blue-700 focus:ring-2
-               active:scale-95 disabled:opacity-50"&gt;
+<span class="cm">&lt;!-- State variants work on ANY class --&gt;</span>
+<span class="kw">&lt;button</span> <span class="fn">class</span>="<span class="fn">bg-blue-600</span> <span class="fn">hover</span>:<span class="fn">bg-blue-700</span> <span class="fn">focus</span>:<span class="fn">ring-2</span>
+               active:scale-<span class="num">95</span> disabled:opacity-<span class="num">50</span>"&gt;
   Click
-&lt;/button&gt;
+<span class="kw">&lt;/button</span><span class="kw">&gt;</span>
 
-&lt;!-- Group hover (BS doesn't have this) --&gt;
-&lt;div class="group"&gt;
-  &lt;h3 class="group-hover:text-blue-600"&gt;Title&lt;/h3&gt;
-&lt;/div&gt;</code></pre>
+<span class="cm">&lt;!-- Group hover (BS doesn't have this) --&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"group"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;h3</span> <span class="fn">class</span>=<span class="str">"group-hover:text-blue-600"</span><span class="kw">&gt;</span>Title<span class="kw">&lt;/h3</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/div</span><span class="kw">&gt;</span></code></pre>
         <div class="highlight-box tw-box">
           <strong>Key difference:</strong> In BS, <code>hover:</code> only works on some components. In Tailwind, <strong>every utility</strong> gets every variant: <code>sm:md:lg:xl:2xl:</code>, <code>hover:focus:active:visited:disabled:</code>, <code>dark:print:portrait:landscape:</code>, <code>group-hover:peer-checked:</code>, and custom ones via <code>@custom-variant</code>.
         </div>
@@ -593,29 +607,29 @@
       <div class="card-header"><i class="bi bi-grid-3x3 me-1"></i> Grid System</div>
       <div class="card-body">
         <p>Bootstrap's 12-column grid becomes Tailwind's <code>grid-cols-*</code>:</p>
-        <pre><code>&lt;!-- Bootstrap: 3 equal columns with gap --&gt;
-&lt;div class="container"&gt;
-  &lt;div class="row g-4"&gt;
-    &lt;div class="col-md-4"&gt;Column 1&lt;/div&gt;
-    &lt;div class="col-md-4"&gt;Column 2&lt;/div&gt;
-    &lt;div class="col-md-4"&gt;Column 3&lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
+        <pre><code><span class="cm">&lt;!-- Bootstrap: 3 equal columns with gap --&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"container"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"row g-4"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"col-md-4"</span><span class="kw">&gt;</span>Column <span class="num">1</span><span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"col-md-4"</span><span class="kw">&gt;</span>Column <span class="num">2</span><span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"col-md-4"</span><span class="kw">&gt;</span>Column <span class="num">3</span><span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
 
-&lt;!-- Tailwind: same layout --&gt;
-&lt;div class="container mx-auto max-w-7xl px-4"&gt;
-  &lt;div class="grid grid-cols-1 md:grid-cols-3 gap-4"&gt;
-    &lt;div&gt;Column 1&lt;/div&gt;
-    &lt;div&gt;Column 2&lt;/div&gt;
-    &lt;div&gt;Column 3&lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
+<span class="cm">&lt;!-- Tailwind: same layout --&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"container mx-auto max-w-7xl px-4"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"grid grid-cols-1 md:grid-cols-3 gap-4"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;div</span><span class="kw">&gt;</span>Column <span class="num">1</span><span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;div</span><span class="kw">&gt;</span>Column <span class="num">2</span><span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;div</span><span class="kw">&gt;</span>Column <span class="num">3</span><span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
 
-&lt;!-- Mixed column widths (12-col style) --&gt;
-&lt;div class="grid grid-cols-12 gap-4"&gt;
-  &lt;div class="col-span-12 md:col-span-8"&gt;Main&lt;/div&gt;
-  &lt;div class="col-span-12 md:col-span-4"&gt;Sidebar&lt;/div&gt;
-&lt;/div&gt;</code></pre>
+<span class="cm">&lt;!-- Mixed column widths (12-col style) --&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"grid grid-cols-12 gap-4"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"col-span-12 md:col-span-8"</span><span class="kw">&gt;</span>Main<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"col-span-12 md:col-span-4"</span><span class="kw">&gt;</span>Sidebar<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/div</span><span class="kw">&gt;</span></code></pre>
         <div class="highlight-box tw-box">
           <strong>Flexbox alternative:</strong> <code>flex flex-wrap gap-4</code> with <code>w-1/3</code> works too — more like BS row/col.
         </div>
@@ -629,18 +643,18 @@
     <div class="card">
       <div class="card-header"><i class="bi bi-arrows-expand me-1"></i> Container &amp; Sizing</div>
       <div class="card-body">
-        <pre><code>&lt;!-- Containers --&gt;
-&lt;div class="container mx-auto px-4 max-w-7xl"&gt;Full container&lt;/div&gt;
-&lt;div class="max-w-4xl mx-auto px-4"&gt;Narrow content&lt;/div&gt;
-&lt;div class="w-full"&gt;Fluid (container-fluid)&lt;/div&gt;
+        <pre><code><span class="cm">&lt;!-- Containers --&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"container mx-auto px-4 max-w-7xl"</span><span class="kw">&gt;</span>Full container<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"max-w-4xl mx-auto px-4"</span><span class="kw">&gt;</span>Narrow content<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"w-full"</span><span class="kw">&gt;</span>Fluid (container-fluid)<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
 
-&lt;!-- Width / Height --&gt;
-.w-full / .w-1/2 / .w-1/3 / .w-3/4
-.max-w-md / .max-w-lg / .max-w-3xl / .max-w-7xl
-.h-full / .h-screen / .h-64 / .min-h-screen
+<span class="cm">&lt;!-- Width / Height --&gt;</span>
+.w-full / .w-<span class="num">1</span>/<span class="num">2</span> / .w-<span class="num">1</span>/<span class="num">3</span> / .w-<span class="num">3</span>/<span class="num">4</span>
+.max-w-md / .max-w-lg / .max-w-<span class="num">3</span>xl / .max-w-<span class="num">7</span>xl
+.h-full / .h-screen / .h-<span class="num">64</span> / .min-h-screen
 
-&lt;!-- Arbitrary values --&gt;
-.w-[420px] / .h-[calc(100vh-4rem)] / .max-w-[900px]</code></pre>
+<span class="cm">&lt;!-- Arbitrary values --&gt;</span>
+.w-[<span class="num">420</span>px] / .h-[calc(<span class="num">100</span>vh-<span class="num">4</span>rem)] / .max-w-[<span class="num">900</span>px]</code></pre>
       </div>
     </div>
   </section>
@@ -669,16 +683,16 @@
           </table>
         </div>
 
-        <pre class="mt-3"><code>&lt;!-- Bold --&gt;
-.font-thin (100) / .font-light (300) / .font-normal (400)
-.font-medium (500) / .font-semibold (600)
-.font-bold (700) / .font-extrabold (800) / .font-black (900)
+        <pre class="mt-3"><code><span class="cm">&lt;!-- Bold --&gt;</span>
+.font-thin (<span class="num">100</span>) / .font-light (<span class="num">300</span>) / .font-normal (<span class="num">400</span>)
+.font-medium (<span class="num">500</span>) / .font-semibold (<span class="num">600</span>)
+.font-bold (<span class="num">700</span>) / .font-extrabold (<span class="num">800</span>) / .font-black (<span class="num">900</span>)
 
-&lt;!-- Extra utilities BS doesn't have --&gt;
+<span class="cm">&lt;!-- Extra utilities BS doesn't have --&gt;</span>
 .tracking-tight / .tracking-wide    /* letter-spacing */
 .leading-tight / .leading-relaxed   /* line-height */
 .truncate                           /* text-truncate */
-.line-clamp-2                       /* clamp to 2 lines */
+.line-clamp-<span class="num">2</span>                       /* clamp to <span class="num">2</span> lines */
 .whitespace-nowrap                  /* text-nowrap */
 .antialiased                        /* font-smoothing */</code></pre>
       </div>
@@ -693,29 +707,29 @@
       <div class="card-header"><i class="bi bi-rulers me-1"></i> Margin, Padding, Gap</div>
       <div class="card-body">
         <p><strong>Good news:</strong> Tailwind uses the same scale as Bootstrap (0–5 = 0–3rem).</p>
-        <pre><code>&lt;!-- Identical syntax --&gt;
-.m-0 / .m-1 / .m-2 / .m-3 / .m-4 / .m-5    /* 0–3rem */
-.p-0 / .p-1 / .p-2 / .p-3 / .p-4 / .p-5
+        <pre><code><span class="cm">&lt;!-- Identical syntax --&gt;</span>
+.m-<span class="num">0</span> / .m-<span class="num">1</span> / .m-<span class="num">2</span> / .m-<span class="num">3</span> / .m-<span class="num">4</span> / .m-<span class="num">5</span>    /* <span class="num">0</span>–<span class="num">3</span>rem */
+.p-<span class="num">0</span> / .p-<span class="num">1</span> / .p-<span class="num">2</span> / .p-<span class="num">3</span> / .p-<span class="num">4</span> / .p-<span class="num">5</span>
 .mt- / .mb- / .ml- / .mr- / .pt- / .pb- / .pl- / .pr-
 
-&lt;!-- EXCEPT Tailwind uses 's' not 's' for start/end --&gt;
-.ps-3 = .pl-3 (or .ms-3 for margin-inline-start)
-.pe-3 = .pr-3
+<span class="cm">&lt;!-- EXCEPT Tailwind uses 's' not 's' for start/end --&gt;</span>
+.ps-<span class="num">3</span> = .pl-<span class="num">3</span> (or .ms-<span class="num">3</span> for margin-inline-start)
+.pe-<span class="num">3</span> = .pr-<span class="num">3</span>
 .ms-auto                              /* margin-left: auto */
 .mx-auto                              /* center block */
 
-&lt;!-- Gap (same as BS .g-*) --&gt;
-.gap-2 / .gap-4 / .gap-x-6 / .gap-y-8
+<span class="cm">&lt;!-- Gap (same as BS .g-*) --&gt;</span>
+.gap-<span class="num">2</span> / .gap-<span class="num">4</span> / .gap-x-<span class="num">6</span> / .gap-y-<span class="num">8</span>
 
-&lt;!-- Space between children (BS doesn't have) --&gt;
-.space-y-4 / .space-x-4
+<span class="cm">&lt;!-- Space between children (BS doesn't have) --&gt;</span>
+.space-y-<span class="num">4</span> / .space-x-<span class="num">4</span>
 
-&lt;!-- Extra values BS doesn't have --&gt;
-.p-6 (1.5rem) / .p-8 (2rem) / .p-10 (2.5rem) / .p-12 (3rem)
-.p-16 (4rem) / .p-20 (5rem) / .p-24 (6rem)
+<span class="cm">&lt;!-- Extra values BS doesn't have --&gt;</span>
+.p-<span class="num">6</span> (<span class="num">1.5</span>rem) / .p-<span class="num">8</span> (<span class="num">2</span>rem) / .p-<span class="num">10</span> (<span class="num">2.5</span>rem) / .p-<span class="num">12</span> (<span class="num">3</span>rem)
+.p-<span class="num">16</span> (<span class="num">4</span>rem) / .p-<span class="num">20</span> (<span class="num">5</span>rem) / .p-<span class="num">24</span> (<span class="num">6</span>rem)
 
-&lt;!-- Arbitrary --&gt;
-.p-[17px] / .mt-[calc(100vh-80px)]</code></pre>
+<span class="cm">&lt;!-- Arbitrary --&gt;</span>
+.p-[<span class="num">17</span>px] / .mt-[calc(<span class="num">100</span>vh-<span class="num">80</span>px)]</code></pre>
 
         <div class="highlight-box bs-box mt-2">
           <strong>BS → TW:</strong> The spacing scale 0–5 is identical. Tailwind adds 6, 8, 10, 12, 14, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 72, 80, 96. So <code>.mt-3</code> works in both — you already know it.
@@ -733,31 +747,31 @@
       <div class="card-body">
         <p>Bootstrap has 8 named colors (primary, secondary, success, danger, warning, info, light, dark). Tailwind has <strong>22 color families</strong>, each with 10–11 shades (50–950).</p>
 
-        <pre><code>&lt;!-- Text --&gt;
-.text-gray-500 / .text-blue-600 / .text-red-500
-.text-emerald-400 / .text-violet-600 / .text-amber-500
-.text-rose-600 / .text-teal-500 / .text-sky-400
-.hover:text-blue-700 / .dark:text-white
+        <pre><code><span class="cm">&lt;!-- Text --&gt;</span>
+.text-gray-<span class="num">500</span> / .text-blue-<span class="num">600</span> / .text-red-<span class="num">500</span>
+.text-emerald-<span class="num">400</span> / .text-violet-<span class="num">600</span> / .text-amber-<span class="num">500</span>
+.text-rose-<span class="num">600</span> / .text-teal-<span class="num">500</span> / .text-sky-<span class="num">400</span>
+.hover:text-blue-<span class="num">700</span> / .dark:text-white
 
-&lt;!-- Background --&gt;
-.bg-gray-100 / .bg-blue-50 / .bg-red-600
-.bg-gradient-to-r from-cyan-500 to-blue-600
-.bg-gradient-to-br from-purple-600 to-pink-500
+<span class="cm">&lt;!-- Background --&gt;</span>
+.bg-gray-<span class="num">100</span> / .bg-blue-<span class="num">50</span> / .bg-red-<span class="num">600</span>
+.bg-gradient-to-r from-cyan-<span class="num">500</span> to-blue-<span class="num">600</span>
+.bg-gradient-to-br from-purple-<span class="num">600</span> to-pink-<span class="num">500</span>
 
-&lt;!-- Opacity modifiers --&gt;
-.bg-black/50        /* 50% opacity black */
-.text-white/80      /* 80% opacity white */
-.bg-blue-500/20     /* 20% opacity blue-500 */
-.hover:bg-black/10  /* 10% on hover */
+<span class="cm">&lt;!-- Opacity modifiers --&gt;</span>
+.bg-black/<span class="num">50</span>        /* <span class="num">50</span>% opacity black */
+.text-white/<span class="num">80</span>      /* <span class="num">80</span>% opacity white */
+.bg-blue-<span class="num">500</span>/<span class="num">20</span>     /* <span class="num">20</span>% opacity blue-<span class="num">500</span> */
+.hover:bg-black/<span class="num">10</span>  /* <span class="num">10</span>% on hover */
 
-&lt;!-- BS color mapping --&gt;
-.text-primary  → text-blue-600
-.text-danger   → text-red-600
-.text-success  → text-green-600
-.text-warning  → text-yellow-500
-.text-info     → text-cyan-500
-.text-dark     → text-gray-900
-.text-light    → text-gray-100</code></pre>
+<span class="cm">&lt;!-- BS color mapping --&gt;</span>
+.text-primary  → text-blue-<span class="num">600</span>
+.text-danger   → text-red-<span class="num">600</span>
+.text-success  → text-green-<span class="num">600</span>
+.text-warning  → text-yellow-<span class="num">500</span>
+.text-info     → text-cyan-<span class="num">500</span>
+.text-dark     → text-gray-<span class="num">900</span>
+.text-light    → text-gray-<span class="num">100</span></code></pre>
 
         <div class="d-flex gap-2 flex-wrap mt-3">
           <span style="display:inline-block;width:2rem;height:2rem;border-radius:.375rem;background:#6b7280" title="gray-500"></span>
@@ -780,11 +794,11 @@
       <div class="card-header"><i class="bi bi-droplet me-1"></i> Ring (BS doesn't have this)</div>
       <div class="card-body">
         <p>Tailwind's <code>ring</code> utilities replace focus outlines:</p>
-        <pre><code>&lt;!-- Focus ring (like Bootstrap's :focus but better) --&gt;
-.focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+        <pre><code><span class="cm">&lt;!-- Focus ring (like Bootstrap's :focus but better) --&gt;</span>
+.focus:ring-<span class="num">2</span> focus:ring-blue-<span class="num">500</span> focus:ring-offset-<span class="num">2</span>
 
-&lt;!-- Always-visible ring (BS has no equivalent) --&gt;
-.ring-2 ring-blue-500 ring-offset-2 ring-offset-gray-100</code></pre>
+<span class="cm">&lt;!-- Always-visible ring (BS has no equivalent) --&gt;</span>
+.ring-<span class="num">2</span> ring-blue-<span class="num">500</span> ring-offset-<span class="num">2</span> ring-offset-gray-<span class="num">100</span></code></pre>
       </div>
     </div>
   </section>
@@ -796,21 +810,21 @@
     <div class="card">
       <div class="card-header"><i class="bi bi-border-outer me-1"></i> Borders</div>
       <div class="card-body">
-        <pre><code>&lt;!-- Same concept, more control --&gt;
-.border               /* add border-gray-300 too */
-.border-2 border-blue-500
-.border-t-4 border-emerald-400
-.border-b border-dashed border-gray-300
+        <pre><code><span class="cm">&lt;!-- Same concept, more control --&gt;</span>
+.border               /* add border-gray-<span class="num">300</span> too */
+.border-<span class="num">2</span> border-blue-<span class="num">500</span>
+.border-t-<span class="num">4</span> border-emerald-<span class="num">400</span>
+.border-b border-dashed border-gray-<span class="num">300</span>
 
-&lt;!-- Radius --&gt;
-.rounded-none  → .rounded-0
-.rounded-sm    → .rounded-1
-.rounded       → .rounded-2
-.rounded-md    → (no BS equivalent, .375rem)
-.rounded-lg    → .rounded-3
-.rounded-xl    → (no BS equivalent, .75rem)
-.rounded-2xl   → (no BS equivalent, 1rem)
-.rounded-3xl   → (no BS equivalent, 1.5rem)
+<span class="cm">&lt;!-- Radius --&gt;</span>
+.rounded-none  → .rounded-<span class="num">0</span>
+.rounded-sm    → .rounded-<span class="num">1</span>
+.rounded       → .rounded-<span class="num">2</span>
+.rounded-md    → (no BS equivalent, .<span class="num">375</span>rem)
+.rounded-lg    → .rounded-<span class="num">3</span>
+.rounded-xl    → (no BS equivalent, .<span class="num">75</span>rem)
+.rounded-<span class="num">2</span>xl   → (no BS equivalent, <span class="num">1</span>rem)
+.rounded-<span class="num">3</span>xl   → (no BS equivalent, <span class="num">1.5</span>rem)
 .rounded-full  → .rounded-circle / .rounded-pill</code></pre>
       </div>
     </div>
@@ -846,33 +860,33 @@
       <div class="card-header"><i class="bi bi-play-circle me-1"></i> Transitions &amp; Transforms</div>
       <div class="card-body">
         <p><strong>This is where Tailwind massively outshines Bootstrap.</strong> BS has no built-in transition/transform utilities.</p>
-        <pre><code>&lt;!-- Transition (BS has NO equivalent) --&gt;
-&lt;button class="transition-all duration-300 ease-in-out
-               hover:scale-105 hover:shadow-lg
-               active:scale-95"&gt;
+        <pre><code><span class="cm">&lt;!-- Transition (BS has NO equivalent) --&gt;</span>
+<span class="kw">&lt;button</span> <span class="fn">class</span>="<span class="fn">transition-all</span> <span class="fn">duration-300</span> <span class="fn">ease-in-out</span>
+               hover:scale-<span class="num">105</span> hover:shadow-lg
+               active:scale-<span class="num">95</span>"&gt;
   Smooth hover
-&lt;/button&gt;
+<span class="kw">&lt;/button</span><span class="kw">&gt;</span>
 
-&lt;!-- Animation utilities --&gt;
-.animate-spin          /* rotate 360° */
+<span class="cm">&lt;!-- Animation utilities --&gt;</span>
+.animate-spin          /* rotate <span class="num">360</span>° */
 .animate-ping          /* radar ping */
 .animate-pulse         /* fade pulse */
 .animate-bounce        /* bounce */
 .animate-none
 
-&lt;!-- Opacity --&gt;
-.opacity-0 → .invisible (hidden)
-.opacity-50 / .opacity-100
-.hover:opacity-80
+<span class="cm">&lt;!-- Opacity --&gt;</span>
+.opacity-<span class="num">0</span> → .invisible (hidden)
+.opacity-<span class="num">50</span> / .opacity-<span class="num">100</span>
+.hover:opacity-<span class="num">80</span>
 
-&lt;!-- Filters --&gt;
-.blur-sm / .blur-lg / .grayscale / .brightness-110
-.contrast-125 / .drop-shadow-lg / .sepia
-.hover:saturate-150
+<span class="cm">&lt;!-- Filters --&gt;</span>
+.blur-sm / .blur-lg / .grayscale / .brightness-<span class="num">110</span>
+.contrast-<span class="num">125</span> / .drop-shadow-lg / .sepia
+.hover:saturate-<span class="num">150</span>
 
-&lt;!-- Backdrop filters (glassmorphism) --&gt;
+<span class="cm">&lt;!-- Backdrop filters (glassmorphism) --&gt;</span>
 .backdrop-blur-sm / .backdrop-blur-lg
-.backdrop-brightness-50</code></pre>
+.backdrop-brightness-<span class="num">50</span></code></pre>
 
         <div class="live-demo">
           <p class="mb-2 fw-bold small">Hover the card:</p>
@@ -892,51 +906,51 @@
       <div class="card-header"><i class="bi bi-ui-checks me-1"></i> Styled Form Controls</div>
       <div class="card-body">
         <p>Bootstrap's <code>.form-control</code> = a composed set of Tailwind utilities:</p>
-        <pre><code>&lt;!-- Bootstrap .form-control --&gt;
-&lt;input class="form-control" placeholder="Name"&gt;
+        <pre><code><span class="cm">&lt;!-- Bootstrap .form-control --&gt;</span>
+<span class="kw">&lt;input</span> <span class="fn">class</span>=<span class="str">"form-control"</span> <span class="fn">placeholder</span>=<span class="str">"Name"</span><span class="kw">&gt;</span>
 
-&lt;!-- Tailwind equivalent --&gt;
-&lt;input class="w-full px-3 py-2 border border-gray-300
+<span class="cm">&lt;!-- Tailwind equivalent --&gt;</span>
+<span class="kw">&lt;input</span> <span class="fn">class</span>="<span class="fn">w-full</span> <span class="fn">px-3</span> <span class="fn">py-2</span> <span class="fn">border</span> <span class="fn">border-gray-300</span>
        rounded-lg shadow-sm
-       focus:outline-none focus:ring-2 focus:ring-blue-500
+       focus:outline-none focus:ring-<span class="num">2</span> focus:ring-blue-<span class="num">500</span>
        focus:border-transparent
-       placeholder:text-gray-400" placeholder="Name"&gt;
+       placeholder:text-gray-<span class="num">400</span>" placeholder="Name"&gt;
 
-&lt;!-- Select --&gt;
-&lt;select class="w-full px-3 py-2 border border-gray-300
+<span class="cm">&lt;!-- Select --&gt;</span>
+<span class="kw">&lt;select</span> <span class="fn">class</span>="<span class="fn">w-full</span> <span class="fn">px-3</span> <span class="fn">py-2</span> <span class="fn">border</span> <span class="fn">border-gray-300</span>
               rounded-lg bg-white"&gt;
-  &lt;option&gt;Option&lt;/option&gt;
-&lt;/select&gt;
+  <span class="kw">&lt;option</span><span class="kw">&gt;</span>Option<span class="kw">&lt;/option</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/select</span><span class="kw">&gt;</span>
 
-&lt;!-- Checkbox --&gt;
-&lt;label class="flex items-center gap-2"&gt;
-  &lt;input type="checkbox" class="h-4 w-4 text-blue-600
-         border-gray-300 rounded focus:ring-blue-500"&gt;
-  &lt;span class="text-sm text-gray-700"&gt;Remember me&lt;/span&gt;
-&lt;/label&gt;
+<span class="cm">&lt;!-- Checkbox --&gt;</span>
+<span class="kw">&lt;label</span> <span class="fn">class</span>=<span class="str">"flex items-center gap-2"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;input</span> <span class="fn">type</span>=<span class="str">"checkbox"</span> <span class="fn">class</span>="<span class="fn">h-4</span> <span class="fn">w-4</span> <span class="fn">text-blue-600</span>
+         border-gray-<span class="num">300</span> rounded focus:ring-blue-<span class="num">500</span>"&gt;
+  <span class="kw">&lt;span</span> <span class="fn">class</span>=<span class="str">"text-sm text-gray-700"</span><span class="kw">&gt;</span>Remember me<span class="kw">&lt;/span</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/label</span><span class="kw">&gt;</span>
 
-&lt;!-- Switch toggle (native) --&gt;
-&lt;label class="relative inline-flex items-center cursor-pointer"&gt;
-  &lt;input type="checkbox" class="sr-only peer"&gt;
-  &lt;div class="w-9 h-5 bg-gray-200 peer-checked:bg-blue-600
-              rounded-full peer-focus:ring-2 peer-focus:ring-blue-300
-              after:content-[''] after:absolute after:top-0.5
-              after:left-0.5 after:bg-white after:rounded-full
-              after:h-4 after:w-4 after:transition-all
-              peer-checked:after:translate-x-4"&gt;&lt;/div&gt;
-  &lt;span class="ml-2 text-sm"&gt;Toggle&lt;/span&gt;
-&lt;/label&gt;
+<span class="cm">&lt;!-- Switch toggle (native) --&gt;</span>
+<span class="kw">&lt;label</span> <span class="fn">class</span>=<span class="str">"relative inline-flex items-center cursor-pointer"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;input</span> <span class="fn">type</span>=<span class="str">"checkbox"</span> <span class="fn">class</span>=<span class="str">"sr-only peer"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span> <span class="fn">class</span>="<span class="fn">w-9</span> <span class="fn">h-5</span> <span class="fn">bg-gray-200</span> <span class="fn">peer-checked</span>:<span class="fn">bg-blue-600</span>
+              rounded-full peer-focus:ring-<span class="num">2</span> peer-focus:ring-blue-<span class="num">300</span>
+              after:content-[''] after:absolute after:top-<span class="num">0.5</span>
+              after:left-<span class="num">0.5</span> after:bg-white after:rounded-full
+              after:h-<span class="num">4</span> after:w-<span class="num">4</span> after:transition-all
+              peer-checked:after:translate-x-<span class="num">4</span>"&gt;<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;span</span> <span class="fn">class</span>=<span class="str">"ml-2 text-sm"</span><span class="kw">&gt;</span>Toggle<span class="kw">&lt;/span</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/label</span><span class="kw">&gt;</span>
 
-&lt;!-- Input group --&gt;
-&lt;div class="flex"&gt;
-  &lt;span class="inline-flex items-center px-3 bg-gray-100
-               border border-r-0 border-gray-300 rounded-l-lg"&gt;
+<span class="cm">&lt;!-- Input group --&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"flex"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;span</span> <span class="fn">class</span>="<span class="fn">inline-flex</span> <span class="fn">items-center</span> <span class="fn">px-3</span> <span class="fn">bg-gray-100</span>
+               border border-r-<span class="num">0</span> border-gray-<span class="num">300</span> rounded-l-lg"&gt;
     @
-  &lt;/span&gt;
-  &lt;input class="flex-1 px-3 py-2 border border-gray-300
-               rounded-r-lg focus:ring-2 focus:ring-blue-500
+  <span class="kw">&lt;/span</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;input</span> <span class="fn">class</span>="<span class="fn">flex-1</span> <span class="fn">px-3</span> <span class="fn">py-2</span> <span class="fn">border</span> <span class="fn">border-gray-300</span>
+               rounded-r-lg focus:ring-<span class="num">2</span> focus:ring-blue-<span class="num">500</span>
                focus:outline-none" placeholder="Username"&gt;
-&lt;/div&gt;</code></pre>
+<span class="kw">&lt;/div</span><span class="kw">&gt;</span></code></pre>
 
         <div class="highlight-box bs-box">
           <strong>BS → TW:</strong> Bootstrap's <code>.form-control</code> handles focus, border, padding in one class. Tailwind makes you compose 5–7 utilities — but you get total control over every detail (focus ring color, border radius per side, placeholder styling).
@@ -953,25 +967,25 @@
       <div class="card-header"><i class="bi bi-moon-stars me-1"></i> Dark Variant</div>
       <div class="card-body">
         <p>Bootstrap uses <code>data-bs-theme="dark"</code>. Tailwind uses the <code>dark:</code> prefix with a class on <code>&lt;html&gt;</code>.</p>
-        <pre><code>&lt;!-- Bootstrap --&gt;
-&lt;html data-bs-theme="dark"&gt;
-&lt;div class="bg-dark text-light"&gt;Dark section&lt;/div&gt;
+        <pre><code><span class="cm">&lt;!-- Bootstrap --&gt;</span>
+<span class="kw">&lt;html</span> <span class="fn">data-bs-theme</span>=<span class="str">"dark"</span><span class="kw">&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"bg-dark text-light"</span><span class="kw">&gt;</span>Dark section<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
 
-&lt;!-- Tailwind --&gt;
-&lt;html class="dark"&gt;
-&lt;div class="bg-gray-900 text-gray-100 dark:bg-black dark:text-white"&gt;
+<span class="cm">&lt;!-- Tailwind --&gt;</span>
+<span class="kw">&lt;html</span> <span class="fn">class</span>=<span class="str">"dark"</span><span class="kw">&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"bg-gray-900 text-gray-100 dark:bg-black dark:text-white"</span><span class="kw">&gt;</span>
   Dark section
-&lt;/div&gt;
+<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
 
-&lt;!-- Every utility can be toggled --&gt;
-&lt;div class="bg-white dark:bg-gray-800
-            text-gray-900 dark:text-gray-100
-            border border-gray-200 dark:border-gray-700
+<span class="cm">&lt;!-- Every utility can be toggled --&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>="<span class="fn">bg-white</span> <span class="fn">dark</span>:<span class="fn">bg-gray-800</span>
+            text-gray-<span class="num">900</span> dark:text-gray-<span class="num">100</span>
+            border border-gray-<span class="num">200</span> dark:border-gray-<span class="num">700</span>
             shadow-md dark:shadow-none"&gt;
   Theme-aware card
-&lt;/div&gt;
+<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
 
-&lt;!-- JS toggle --&gt;
+<span class="cm">&lt;!-- JS toggle --&gt;</span>
 document.documentElement.classList.toggle('dark');
 localStorage.setItem('theme', 'dark');</code></pre>
         <div class="highlight-box tw-box">
@@ -989,30 +1003,30 @@ localStorage.setItem('theme', 'dark');</code></pre>
       <div class="card-header"><i class="bi bi-palette me-1"></i> CSS-First Config via @theme (v4)</div>
       <div class="card-body">
         <p>Bootstrap uses <code>--bs-*</code> CSS vars or SASS. Tailwind v4 uses the <code>@theme</code> directive — no config file needed.</p>
-        <pre><code>@import "tailwindcss";
+        <pre><code>@import <span class="str">"tailwindcss"</span>;
 
 @theme {
-  /* Colors — like --bs-primary */
-  --color-primary: #ff6600;
-  --color-primary-dark: #cc5200;
+  <span class="cm">/* Colors — like --bs-primary */</span>
+  --color-primary: <span class="tp">#ff6600</span>;
+  --color-primary-dark: <span class="tp">#cc5200</span>;
 
-  /* Spacing — extend the scale */
-  --spacing-18: 4.5rem;
+  <span class="cm">/* Spacing — extend the scale */</span>
+  --spacing-18: <span class="num">4.5rem</span>;
 
-  /* Fonts */
-  --font-family-display: 'Cinzel', serif;
+  <span class="cm">/* Fonts */</span>
+  --font-family-display: <span class="str">'Cinzel'</span>, <span class="kw">serif</span>;
 
-  /* Border radius */
-  --radius-4xl: 2rem;
+  <span class="cm">/* Border radius */</span>
+  --radius-4xl: <span class="num">2rem</span>;
 
-  /* Shadows */
-  --shadow-glow: 0 0 20px rgba(255, 102, 0, 0.3);
+  <span class="cm">/* Shadows */</span>
+  --shadow-glow: <span class="num">0</span> <span class="num">0</span> <span class="num">20px</span> <span class="fn">rgba</span>(<span class="num">255</span>, <span class="num">102</span>, <span class="num">0</span>, <span class="num">0.3</span>);
 
-  /* Breakpoints */
-  --breakpoint-3xl: 2000px;
+  <span class="cm">/* Breakpoints */</span>
+  --breakpoint-3xl: <span class="num">2000px</span>;
 }
 
-/* Then use anywhere: bg-primary, font-display, shadow-glow */</code></pre>
+<span class="cm">/* Then use anywhere: bg-primary, font-display, shadow-glow */</span></code></pre>
       </div>
     </div>
 
@@ -1021,18 +1035,18 @@ localStorage.setItem('theme', 'dark');</code></pre>
       <div class="card-body">
         <p>Use <code>@apply</code> to create Bootstrap-style component classes from utilities:</p>
         <pre><code>@layer components {
-  .btn-primary {
-    @apply inline-flex items-center px-4 py-2
+  <span class="tp">.btn-primary</span> {
+    @apply <span class="kw">inline-flex</span> items-center px-4 py-2
            bg-blue-600 text-white font-medium text-sm
-           rounded-lg hover:bg-blue-700
+           rounded-lg hover<span class="tp">:bg-blue-700</span>
            transition-colors duration-200;
   }
 
-  .card-bs {
+  <span class="tp">.card-bs</span> {
     @apply bg-white rounded-xl shadow-md overflow-hidden;
   }
 
-  .card-body {
+  <span class="tp">.card-body</span> {
     @apply p-6;
   }
 }
@@ -1043,7 +1057,7 @@ localStorage.setItem('theme', 'dark');</code></pre>
 }
 
 @layer utilities {
-  .text-balance { text-wrap: balance; }
+  <span class="tp">.text-balance</span> { <span class="kw">text-wrap</span>: <span class="kw">balance</span>; }
 }</code></pre>
         <div class="highlight-box bs-box mt-2">
           <strong>BS → TW:</strong> BS gives you <code>.btn-primary</code> out of the box. Tailwind makes you define it yourself via <code>@apply</code>. More work upfront, but you control everything — no "Bootstrap look" limitation.
@@ -1059,21 +1073,21 @@ localStorage.setItem('theme', 'dark');</code></pre>
     <div class="card">
       <div class="card-header"><i class="bi bi-card-text me-1"></i> Card with Header + Footer</div>
       <div class="card-body">
-        <pre><code>&lt;div class="bg-white rounded-xl shadow-md overflow-hidden"&gt;
-  &lt;div class="px-6 py-4 border-b border-gray-200 bg-gray-50"&gt;
-    &lt;h3 class="text-lg font-semibold text-gray-900"&gt;Header&lt;/h3&gt;
-  &lt;/div&gt;
-  &lt;div class="p-6"&gt;
-    &lt;p class="text-gray-600"&gt;Body content here.&lt;/p&gt;
-  &lt;/div&gt;
-  &lt;div class="px-6 py-4 border-t border-gray-200 bg-gray-50
-              flex items-center justify-end gap-2"&gt;
-    &lt;button class="px-4 py-2 text-sm rounded-lg
-                   bg-blue-600 text-white hover:bg-blue-700"&gt;
+        <pre><code><span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"bg-white rounded-xl shadow-md overflow-hidden"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"px-6 py-4 border-b border-gray-200 bg-gray-50"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;h3</span> <span class="fn">class</span>=<span class="str">"text-lg font-semibold text-gray-900"</span><span class="kw">&gt;</span>Header<span class="kw">&lt;/h3</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"p-6"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;p</span> <span class="fn">class</span>=<span class="str">"text-gray-600"</span><span class="kw">&gt;</span>Body content here.<span class="kw">&lt;/p</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span> <span class="fn">class</span>="<span class="fn">px-6</span> <span class="fn">py-4</span> <span class="fn">border-t</span> <span class="fn">border-gray-200</span> <span class="fn">bg-gray-50</span>
+              flex items-center justify-end gap-<span class="num">2</span>"&gt;
+    <span class="kw">&lt;button</span> <span class="fn">class</span>="<span class="fn">px-4</span> <span class="fn">py-2</span> <span class="fn">text-sm</span> <span class="fn">rounded-lg</span>
+                   bg-blue-<span class="num">600</span> text-white hover:bg-blue-<span class="num">700</span>"&gt;
       Save
-    &lt;/button&gt;
-  &lt;/div&gt;
-&lt;/div&gt;</code></pre>
+    <span class="kw">&lt;/button</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/div</span><span class="kw">&gt;</span></code></pre>
         <div class="highlight-box tw-box">
           Compare to BS: <code>.card</code> → <code>bg-white rounded-xl shadow-md overflow-hidden</code>. Same visual, you just write the primitives.
         </div>
@@ -1083,68 +1097,68 @@ localStorage.setItem('theme', 'dark');</code></pre>
     <div class="card">
       <div class="card-header"><i class="bi bi-list-ul me-1"></i> Navbar (Dark)</div>
       <div class="card-body">
-        <pre><code>&lt;nav class="flex items-center justify-between px-4 py-3
-            bg-gray-900 text-white"&gt;
-  &lt;a href="#" class="text-xl font-bold"&gt;Brand&lt;/a&gt;
+        <pre><code><span class="kw">&lt;nav</span> <span class="fn">class</span>="<span class="fn">flex</span> <span class="fn">items-center</span> <span class="fn">justify-between</span> <span class="fn">px-4</span> <span class="fn">py-3</span>
+            bg-gray-<span class="num">900</span> text-white"&gt;
+  <span class="kw">&lt;a</span> <span class="fn">href</span>=<span class="str">"#"</span> <span class="fn">class</span>=<span class="str">"text-xl font-bold"</span><span class="kw">&gt;</span>Brand<span class="kw">&lt;/a</span><span class="kw">&gt;</span>
 
-  &lt;!-- Desktop nav --&gt;
-  &lt;div class="hidden md:flex items-center gap-4"&gt;
-    &lt;a href="#" class="px-3 py-2 text-sm font-medium
-                       rounded-lg hover:bg-gray-800"&gt;Home&lt;/a&gt;
-    &lt;a href="#" class="px-3 py-2 text-sm font-medium
-                       rounded-lg hover:bg-gray-800"&gt;About&lt;/a&gt;
-  &lt;/div&gt;
+  <span class="cm">&lt;!-- Desktop nav --&gt;</span>
+  <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"hidden md:flex items-center gap-4"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;a</span> <span class="fn">href</span>=<span class="str">"#"</span> <span class="fn">class</span>="<span class="fn">px-3</span> <span class="fn">py-2</span> <span class="fn">text-sm</span> <span class="fn">font-medium</span>
+                       rounded-lg hover:bg-gray-<span class="num">800</span>"&gt;Home<span class="kw">&lt;/a</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;a</span> <span class="fn">href</span>=<span class="str">"#"</span> <span class="fn">class</span>="<span class="fn">px-3</span> <span class="fn">py-2</span> <span class="fn">text-sm</span> <span class="fn">font-medium</span>
+                       rounded-lg hover:bg-gray-<span class="num">800</span>"&gt;About<span class="kw">&lt;/a</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;/div</span><span class="kw">&gt;</span>
 
-  &lt;!-- Mobile hamburger --&gt;
-  &lt;button class="md:hidden p-2 rounded-lg hover:bg-gray-800"&gt;
-    &lt;svg class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+  <span class="cm">&lt;!-- Mobile hamburger --&gt;</span>
+  <span class="kw">&lt;button</span> <span class="fn">class</span>=<span class="str">"md:hidden p-2 rounded-lg hover:bg-gray-800"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;svg</span> <span class="fn">class</span>=<span class="str">"w-6 h-6"</span> <span class="fn">fill</span>=<span class="str">"none"</span> <span class="fn">viewBox</span>=<span class="str">"0 0 24 24"</span>
          stroke="currentColor"&gt;
-      &lt;path stroke-linecap="round" stroke-width="2"
-            d="M4 6h16M4 12h16M4 18h16"/&gt;
-    &lt;/svg&gt;
-  &lt;/button&gt;
-&lt;/nav&gt;</code></pre>
+      <span class="kw">&lt;path</span> <span class="fn">stroke-linecap</span>=<span class="str">"round"</span> <span class="fn">stroke-width</span>=<span class="str">"2"</span>
+            d="M4 <span class="num">6</span>h16M4 <span class="num">12</span>h16M4 <span class="num">18</span>h16"/&gt;
+    <span class="kw">&lt;/svg</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;/button</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/nav</span><span class="kw">&gt;</span></code></pre>
       </div>
     </div>
 
     <div class="card">
       <div class="card-header"><i class="bi bi-window me-1"></i> Modal Dialog</div>
       <div class="card-body">
-        <pre><code>&lt;!-- Backdrop --&gt;
-&lt;div class="fixed inset-0 bg-black/50 z-40"&gt;&lt;/div&gt;
+        <pre><code><span class="cm">&lt;!-- Backdrop --&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"fixed inset-0 bg-black/50 z-40"</span><span class="kw">&gt;</span><span class="kw">&lt;/div</span><span class="kw">&gt;</span>
 
-&lt;!-- Modal --&gt;
-&lt;div class="fixed inset-0 z-50 flex items-center justify-center p-4"&gt;
-  &lt;div class="bg-white rounded-xl shadow-2xl w-full max-w-lg"&gt;
+<span class="cm">&lt;!-- Modal --&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"fixed inset-0 z-50 flex items-center justify-center p-4"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"bg-white rounded-xl shadow-2xl w-full max-w-lg"</span><span class="kw">&gt;</span>
 
-    &lt;!-- Header --&gt;
-    &lt;div class="flex items-center justify-between px-6 py-4
-                border-b border-gray-200"&gt;
-      &lt;h3 class="text-lg font-semibold"&gt;Modal Title&lt;/h3&gt;
-      &lt;button class="text-gray-400 hover:text-gray-600 text-2xl
-                     leading-none"&gt;&amp;times;&lt;/button&gt;
-    &lt;/div&gt;
+    <span class="cm">&lt;!-- Header --&gt;</span>
+    <span class="kw">&lt;div</span> <span class="fn">class</span>="<span class="fn">flex</span> <span class="fn">items-center</span> <span class="fn">justify-between</span> <span class="fn">px-6</span> <span class="fn">py-4</span>
+                border-b border-gray-<span class="num">200</span>"&gt;
+      <span class="kw">&lt;h3</span> <span class="fn">class</span>=<span class="str">"text-lg font-semibold"</span><span class="kw">&gt;</span>Modal Title<span class="kw">&lt;/h3</span><span class="kw">&gt;</span>
+      <span class="kw">&lt;button</span> <span class="fn">class</span>="<span class="fn">text-gray-400</span> <span class="fn">hover</span>:<span class="fn">text-gray-600</span> <span class="fn">text-2xl</span>
+                     leading-none"&gt;&amp;times;<span class="kw">&lt;/button</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;/div</span><span class="kw">&gt;</span>
 
-    &lt;!-- Body --&gt;
-    &lt;div class="px-6 py-4"&gt;
-      &lt;p class="text-gray-600"&gt;Content here.&lt;/p&gt;
-    &lt;/div&gt;
+    <span class="cm">&lt;!-- Body --&gt;</span>
+    <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"px-6 py-4"</span><span class="kw">&gt;</span>
+      <span class="kw">&lt;p</span> <span class="fn">class</span>=<span class="str">"text-gray-600"</span><span class="kw">&gt;</span>Content here.<span class="kw">&lt;/p</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;/div</span><span class="kw">&gt;</span>
 
-    &lt;!-- Footer --&gt;
-    &lt;div class="flex items-center justify-end gap-2 px-6 py-4
-                border-t border-gray-200"&gt;
-      &lt;button class="px-4 py-2 text-sm rounded-lg
-                     border border-gray-300 hover:bg-gray-50"&gt;
+    <span class="cm">&lt;!-- Footer --&gt;</span>
+    <span class="kw">&lt;div</span> <span class="fn">class</span>="<span class="fn">flex</span> <span class="fn">items-center</span> <span class="fn">justify-end</span> <span class="fn">gap-2</span> <span class="fn">px-6</span> <span class="fn">py-4</span>
+                border-t border-gray-<span class="num">200</span>"&gt;
+      <span class="kw">&lt;button</span> <span class="fn">class</span>="<span class="fn">px-4</span> <span class="fn">py-2</span> <span class="fn">text-sm</span> <span class="fn">rounded-lg</span>
+                     border border-gray-<span class="num">300</span> hover:bg-gray-<span class="num">50</span>"&gt;
         Cancel
-      &lt;/button&gt;
-      &lt;button class="px-4 py-2 text-sm rounded-lg
-                     bg-blue-600 text-white hover:bg-blue-700"&gt;
+      <span class="kw">&lt;/button</span><span class="kw">&gt;</span>
+      <span class="kw">&lt;button</span> <span class="fn">class</span>="<span class="fn">px-4</span> <span class="fn">py-2</span> <span class="fn">text-sm</span> <span class="fn">rounded-lg</span>
+                     bg-blue-<span class="num">600</span> text-white hover:bg-blue-<span class="num">700</span>"&gt;
         Confirm
-      &lt;/button&gt;
-    &lt;/div&gt;
+      <span class="kw">&lt;/button</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;/div</span><span class="kw">&gt;</span>
 
-  &lt;/div&gt;
-&lt;/div&gt;</code></pre>
+  <span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/div</span><span class="kw">&gt;</span></code></pre>
         <div class="highlight-box bs-box">
           <strong>Note:</strong> BS handles modal open/close with JS. Tailwind just toggles <code>hidden</code> / <code>fixed</code> classes — you need your own JS or a library like Alpine.js.
         </div>
@@ -1154,35 +1168,35 @@ localStorage.setItem('theme', 'dark');</code></pre>
     <div class="card">
       <div class="card-header"><i class="bi bi-ui-checks me-1"></i> Button Group</div>
       <div class="card-body">
-        <pre><code>&lt;div class="inline-flex rounded-lg overflow-hidden
-            border border-gray-300 divide-x divide-gray-300"&gt;
-  &lt;button class="px-4 py-2 text-sm font-medium
-                 bg-white hover:bg-gray-50"&gt;Left&lt;/button&gt;
-  &lt;button class="px-4 py-2 text-sm font-medium
-                 bg-blue-600 text-white"&gt;Middle&lt;/button&gt;
-  &lt;button class="px-4 py-2 text-sm font-medium
-                 bg-white hover:bg-gray-50"&gt;Right&lt;/button&gt;
-&lt;/div&gt;</code></pre>
+        <pre><code><span class="kw">&lt;div</span> <span class="fn">class</span>="<span class="fn">inline-flex</span> <span class="fn">rounded-lg</span> <span class="fn">overflow-hidden</span>
+            border border-gray-<span class="num">300</span> divide-x divide-gray-<span class="num">300</span>"&gt;
+  <span class="kw">&lt;button</span> <span class="fn">class</span>="<span class="fn">px-4</span> <span class="fn">py-2</span> <span class="fn">text-sm</span> <span class="fn">font-medium</span>
+                 bg-white hover:bg-gray-<span class="num">50</span>"&gt;Left<span class="kw">&lt;/button</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;button</span> <span class="fn">class</span>="<span class="fn">px-4</span> <span class="fn">py-2</span> <span class="fn">text-sm</span> <span class="fn">font-medium</span>
+                 bg-blue-<span class="num">600</span> text-white"&gt;Middle<span class="kw">&lt;/button</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;button</span> <span class="fn">class</span>="<span class="fn">px-4</span> <span class="fn">py-2</span> <span class="fn">text-sm</span> <span class="fn">font-medium</span>
+                 bg-white hover:bg-gray-<span class="num">50</span>"&gt;Right<span class="kw">&lt;/button</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/div</span><span class="kw">&gt;</span></code></pre>
       </div>
     </div>
 
     <div class="card">
       <div class="card-header"><i class="bi bi-exclamation-triangle me-1"></i> Alerts (Dismissible)</div>
       <div class="card-body">
-        <pre><code>&lt;div class="relative px-4 py-3 rounded-lg
-            bg-red-100 text-red-800 border border-red-200"&gt;
-  &lt;div class="flex items-center justify-between"&gt;
-    &lt;span&gt;&lt;strong&gt;Error:&lt;/strong&gt; Something went wrong.&lt;/span&gt;
-    &lt;button class="text-red-600 hover:text-red-800 text-xl
-                   leading-none"&gt;&amp;times;&lt;/button&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
+        <pre><code><span class="kw">&lt;div</span> <span class="fn">class</span>="<span class="fn">relative</span> <span class="fn">px-4</span> <span class="fn">py-3</span> <span class="fn">rounded-lg</span>
+            bg-red-<span class="num">100</span> text-red-<span class="num">800</span> border border-red-<span class="num">200</span>"&gt;
+  <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"flex items-center justify-between"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;span</span><span class="kw">&gt;</span><span class="kw">&lt;strong</span><span class="kw">&gt;</span>Error:<span class="kw">&lt;/strong</span><span class="kw">&gt;</span> Something went wrong.<span class="kw">&lt;/span</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;button</span> <span class="fn">class</span>="<span class="fn">text-red-600</span> <span class="fn">hover</span>:<span class="fn">text-red-800</span> <span class="fn">text-xl</span>
+                   leading-none"&gt;&amp;times;<span class="kw">&lt;/button</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
 
-&lt;!-- Color variants --&gt;
-.bg-blue-100 text-blue-800 border-blue-200  /* primary */
-.bg-green-100 text-green-800 border-green-200 /* success */
-.bg-yellow-100 text-yellow-800 border-yellow-200 /* warning */
-.bg-cyan-100 text-cyan-800 border-cyan-200  /* info */</code></pre>
+<span class="cm">&lt;!-- Color variants --&gt;</span>
+.bg-blue-<span class="num">100</span> text-blue-<span class="num">800</span> border-blue-<span class="num">200</span>  /* primary */
+.bg-green-<span class="num">100</span> text-green-<span class="num">800</span> border-green-<span class="num">200</span> /* success */
+.bg-yellow-<span class="num">100</span> text-yellow-<span class="num">800</span> border-yellow-<span class="num">200</span> /* warning */
+.bg-cyan-<span class="num">100</span> text-cyan-<span class="num">800</span> border-cyan-<span class="num">200</span>  /* info */</code></pre>
       </div>
     </div>
   </section>
@@ -1208,31 +1222,31 @@ localStorage.setItem('theme', 'dark');</code></pre>
           </table>
         </div>
 
-        <pre class="mt-3"><code>&lt;!-- Bootstrap responsive layout --&gt;
-&lt;div class="container"&gt;
-  &lt;div class="row"&gt;
-    &lt;div class="col-12 col-md-8"&gt;Main&lt;/div&gt;
-    &lt;div class="col-12 col-md-4"&gt;Sidebar&lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
+        <pre class="mt-3"><code><span class="cm">&lt;!-- Bootstrap responsive layout --&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"container"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"row"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"col-12 col-md-8"</span><span class="kw">&gt;</span>Main<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"col-12 col-md-4"</span><span class="kw">&gt;</span>Sidebar<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
 
-&lt;!-- Tailwind responsive layout --&gt;
-&lt;div class="container mx-auto max-w-7xl px-4"&gt;
-  &lt;div class="grid grid-cols-1 md:grid-cols-12 gap-6"&gt;
-    &lt;main class="md:col-span-8"&gt;Main&lt;/main&gt;
-    &lt;aside class="md:col-span-4"&gt;Sidebar&lt;/aside&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
+<span class="cm">&lt;!-- Tailwind responsive layout --&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"container mx-auto max-w-7xl px-4"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"grid grid-cols-1 md:grid-cols-12 gap-6"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;main</span> <span class="fn">class</span>=<span class="str">"md:col-span-8"</span><span class="kw">&gt;</span>Main<span class="kw">&lt;/main</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;aside</span> <span class="fn">class</span>=<span class="str">"md:col-span-4"</span><span class="kw">&gt;</span>Sidebar<span class="kw">&lt;/aside</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
 
-&lt;!-- Responsive text + spacing --&gt;
-&lt;div class="p-4 md:p-8 text-sm md:text-base lg:text-lg
+<span class="cm">&lt;!-- Responsive text + spacing --&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>="<span class="fn">p-4</span> <span class="fn">md</span>:<span class="fn">p-8</span> <span class="fn">text-sm</span> <span class="fn">md</span>:<span class="fn">text-base</span> <span class="fn">lg</span>:<span class="fn">text-lg</span>
             text-center md:text-left"&gt;
   Responsive padding, font-size, alignment
-&lt;/div&gt;
+<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
 
-&lt;!-- Responsive visibility (like d-none d-md-block) --&gt;
-&lt;div class="hidden md:block"&gt;Visible on md+&lt;/div&gt;
-&lt;div class="block md:hidden"&gt;Visible on mobile only&lt;/div&gt;</code></pre>
+<span class="cm">&lt;!-- Responsive visibility (like d-none d-md-block) --&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"hidden md:block"</span><span class="kw">&gt;</span>Visible on md+<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"block md:hidden"</span><span class="kw">&gt;</span>Visible on mobile only<span class="kw">&lt;/div</span><span class="kw">&gt;</span></code></pre>
 
         <div class="highlight-box tw-box">
           <strong>Same mental model:</strong> BS <code>{property}-{breakpoint}-{value}</code> → TW <code>{breakpoint}:{utility}</code>. The breakpoints are the same names (<code>sm md lg xl 2xl</code>). The difference: TW applies the pattern to <em>every</em> utility, not just grid.
