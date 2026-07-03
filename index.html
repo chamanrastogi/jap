@@ -7,145 +7,424 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <style>
     :root {
-      --saffron: #ff9933;
-      --saffron-hover: #e6882e;
-      --bg-light: linear-gradient(135deg, #fff7ea 0%, #ffe2bf 100%);
-      --bg-dark: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-      --card-light: rgba(255, 255, 255, 0.84);
-      --card-dark: rgba(30, 41, 59, 0.78);
-      --text-main: #1f2937;
-      --text-muted: #6b7280;
-      --soft-border: rgba(156, 163, 175, 0.22);
-      --panel-bg: rgba(156, 163, 175, 0.06);
-      --chip-bg: rgba(255, 255, 255, 0.7);
+      --saffron: #f08a24;
+      --saffron-deep: #c66107;
+      --ink: #19212b;
+      --ink-soft: #5a6777;
+      --surface: rgba(255, 255, 255, 0.8);
+      --surface-strong: rgba(255, 255, 255, 0.94);
+      --surface-muted: rgba(248, 250, 252, 0.86);
+      --border-soft: rgba(113, 128, 150, 0.16);
+      --border-strong: rgba(240, 138, 36, 0.22);
+      --panel-bg: rgba(255, 255, 255, 0.54);
+      --chip-bg: rgba(255, 255, 255, 0.86);
+      --accent-wash: linear-gradient(135deg, rgba(240, 138, 36, 0.12), rgba(15, 118, 110, 0.05));
+      --shadow-soft: 0 20px 50px rgba(15, 23, 42, 0.08);
+      --shadow-card: 0 14px 30px rgba(15, 23, 42, 0.08);
+      --bg-light:
+        radial-gradient(circle at top left, rgba(255, 201, 144, 0.34), transparent 30%),
+        radial-gradient(circle at top right, rgba(15, 118, 110, 0.08), transparent 18%),
+        linear-gradient(180deg, #f9f5ef 0%, #f5efe7 48%, #f8f7f3 100%);
     }
 
     [data-bs-theme="dark"] {
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --soft-border: rgba(255, 255, 255, 0.08);
-      --panel-bg: rgba(255, 255, 255, 0.04);
-      --chip-bg: rgba(30, 41, 59, 0.72);
+      --ink: #edf3f8;
+      --ink-soft: #98a9bc;
+      --surface: rgba(11, 19, 31, 0.8);
+      --surface-strong: rgba(12, 20, 32, 0.92);
+      --surface-muted: rgba(17, 27, 43, 0.9);
+      --border-soft: rgba(148, 163, 184, 0.12);
+      --border-strong: rgba(240, 138, 36, 0.22);
+      --panel-bg: rgba(18, 28, 45, 0.64);
+      --chip-bg: rgba(20, 31, 49, 0.88);
+      --accent-wash: linear-gradient(135deg, rgba(240, 138, 36, 0.14), rgba(45, 212, 191, 0.08));
+      --shadow-soft: 0 28px 60px rgba(0, 0, 0, 0.34);
+      --shadow-card: 0 18px 36px rgba(0, 0, 0, 0.28);
+      --bg-light:
+        radial-gradient(circle at top left, rgba(240, 138, 36, 0.18), transparent 28%),
+        radial-gradient(circle at top right, rgba(45, 212, 191, 0.08), transparent 18%),
+        linear-gradient(180deg, #07111d 0%, #0f1724 52%, #0a111b 100%);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
       min-height: 100vh;
       margin: 0;
-      font-family: 'Outfit', sans-serif;
+      font-family: 'Manrope', sans-serif;
+      color: var(--ink);
       background: var(--bg-light);
-      color: var(--text-main);
-      transition: background 0.5s ease;
       overflow-x: hidden;
     }
 
-    html[data-bs-theme="dark"] body {
-      background: var(--bg-dark);
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: auto;
+      pointer-events: none;
+      z-index: 0;
+      border-radius: 999px;
+      filter: blur(12px);
+      opacity: 0.8;
     }
 
-    .font-elegant { font-family: 'Cinzel', serif; }
-    .text-main { color: var(--text-main); }
-    .text-muted-custom { color: var(--text-muted); }
-    .text-saffron { color: var(--saffron); }
+    body::before {
+      width: 20rem;
+      height: 20rem;
+      top: 3rem;
+      right: -6rem;
+      background: rgba(240, 138, 36, 0.12);
+    }
+
+    body::after {
+      width: 18rem;
+      height: 18rem;
+      bottom: 4rem;
+      left: -5rem;
+      background: rgba(15, 118, 110, 0.08);
+    }
+
+    .font-elegant {
+      font-family: 'Cinzel', serif;
+      letter-spacing: 0.02em;
+    }
+
+    .text-main {
+      color: var(--ink);
+    }
+
+    .text-muted-custom {
+      color: var(--ink-soft);
+    }
+
+    .text-saffron {
+      color: var(--saffron);
+    }
 
     .hero-shell {
-      max-width: 1180px;
+      position: relative;
+      z-index: 1;
+      max-width: 1220px;
       margin: 0 auto;
-      padding: 1rem;
+      padding: 0.85rem;
     }
 
     .glass-card {
-      background: var(--card-light);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.32);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-      border-radius: 2rem;
-      transition: background 0.4s ease, border 0.4s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, var(--surface-strong), var(--surface));
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 28px;
+      box-shadow: var(--shadow-soft);
+      transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     }
 
-    html[data-bs-theme="dark"] .glass-card {
-      background: var(--card-dark);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+    .glass-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(140deg, rgba(255, 255, 255, 0.22), transparent 28%),
+        linear-gradient(320deg, rgba(240, 138, 36, 0.08), transparent 40%);
+      pointer-events: none;
+    }
+
+    .hero-card {
+      padding: 0.7rem;
+    }
+
+    .top-tools {
+      position: sticky;
+      top: 0.35rem;
+      z-index: 1020;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      margin-bottom: 0.6rem;
+      padding: 0.5rem 0.55rem;
+      border: 1px solid var(--border-soft);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.56);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+    }
+
+    [data-bs-theme="dark"] .top-tools {
+      background: rgba(11, 19, 31, 0.72);
     }
 
     .top-tools button {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      font-size: 1.2rem;
-      transition: color 0.2s, transform 0.2s;
+      width: 2.45rem;
+      height: 2.45rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border-soft);
+      border-radius: 14px;
+      background: linear-gradient(180deg, var(--surface-muted), rgba(255, 255, 255, 0.5));
+      color: var(--ink-soft);
+      font-size: 0.82rem;
+      flex-shrink: 0;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24);
+      transition: transform 0.2s ease, color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
     }
 
     .top-tools button:hover {
       color: var(--saffron);
-      transform: scale(1.08);
+      border-color: rgba(255, 153, 51, 0.28);
+      background: rgba(255, 153, 51, 0.1);
+      transform: translateY(-1px);
+    }
+
+    .header-search-wrap {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .header-search-wrap .search-box {
+      flex: 1;
+      min-width: 100px;
+    }
+
+    .header-search-wrap .search-box i {
+      left: 0.75rem;
+      font-size: 0.78rem;
+    }
+
+    .header-search-wrap .search-box input {
+      min-height: 2.55rem;
+      padding-left: 2.1rem;
+      padding-right: 0.75rem;
+      font-size: 0.84rem;
+      border-radius: 14px !important;
+    }
+
+    .header-search-wrap .cat-tabs {
+      display: flex;
+      gap: 0.3rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+      flex-shrink: 0;
+      max-width: 40%;
+    }
+
+    .header-search-wrap .cat-tabs::-webkit-scrollbar { display: none; }
+
+    .header-search-wrap .cat-tab {
+      min-height: 1.8rem;
+      padding: 0.3rem 0.6rem;
+      font-size: 0.68rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+      border-radius: 12px;
     }
 
     .timer-badge {
-      background: rgba(255, 153, 51, 0.1);
-      color: var(--saffron);
-      padding: 0.35rem 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.52rem 0.72rem;
       border-radius: 999px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      font-size: 0.82rem;
+      background: linear-gradient(135deg, rgba(240, 138, 36, 0.16), rgba(240, 138, 36, 0.05));
+      border: 1px solid rgba(240, 138, 36, 0.2);
+      color: var(--saffron-deep);
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      white-space: nowrap;
     }
 
-    .hero-card {
-      padding: 1.2rem;
-      margin-bottom: 1rem;
+    [data-bs-theme="dark"] .timer-badge {
+      color: #ffb86a;
     }
 
     .hero-banner {
+      position: relative;
+      z-index: 1;
+      padding: 1rem 1.05rem;
+      border-radius: 22px;
+      border: 1px solid var(--border-strong);
       background:
-        radial-gradient(circle at top right, rgba(255, 153, 51, 0.16), transparent 35%),
-        linear-gradient(135deg, rgba(255, 153, 51, 0.1), rgba(255, 255, 255, 0.06));
-      border: 1px solid rgba(255, 153, 51, 0.18);
-      border-radius: 1.6rem;
-      padding: 1.4rem;
+        radial-gradient(circle at 100% 0%, rgba(240, 138, 36, 0.15), transparent 30%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.1));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
     }
 
-    .section-panel {
-      background: var(--panel-bg);
-      border: 1px solid var(--soft-border);
-      border-radius: 1.2rem;
-      padding: 1rem;
-      height: 100%;
+    [data-bs-theme="dark"] .hero-banner {
+      background:
+        radial-gradient(circle at 100% 0%, rgba(255, 153, 51, 0.15), transparent 28%),
+        linear-gradient(135deg, rgba(30, 41, 59, 0.75), rgba(15, 23, 42, 0.36));
     }
 
-    .section-title {
-      font-size: 0.72rem;
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin-bottom: 0.5rem;
+      padding: 0.34rem 0.62rem;
+      border-radius: 999px;
+      background: rgba(240, 138, 36, 0.1);
+      color: var(--saffron-deep);
+      font-size: 0.62rem;
       font-weight: 800;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      letter-spacing: 1.2px;
-      color: var(--text-muted);
-      margin-bottom: 0.7rem;
+    }
+
+    .hero-title {
+      font-size: clamp(1.5rem, 3vw, 2.3rem);
+      line-height: 1.05;
+      margin-bottom: 0.45rem;
+    }
+
+    .hero-copy {
+      max-width: 37rem;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
     }
 
     .quick-chip {
-      border: 1px solid var(--soft-border);
-      background: var(--chip-bg);
-      color: var(--text-main);
-      border-radius: 999px;
-      padding: 0.45rem 0.85rem;
-      font-size: 0.8rem;
-      font-weight: 700;
-      text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 0.45rem;
-      transition: 0.2s ease;
+      justify-content: center;
+      gap: 0.4rem;
+      min-height: 2.3rem;
+      padding: 0.54rem 0.8rem;
+      border-radius: 14px;
+      border: 1px solid var(--border-soft);
+      background: linear-gradient(180deg, var(--chip-bg), rgba(255, 255, 255, 0.72));
+      color: var(--ink);
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-decoration: none;
+      line-height: 1.1;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
     }
 
     .quick-chip:hover {
-      background: rgba(255, 153, 51, 0.15);
-      border-color: rgba(255, 153, 51, 0.35);
-      color: var(--saffron);
+      color: var(--saffron-deep);
+      border-color: rgba(255, 153, 51, 0.3);
+      background: rgba(255, 153, 51, 0.11);
+      box-shadow: 0 8px 18px rgba(255, 153, 51, 0.12);
+      transform: translateY(-1px);
+    }
+
+    .quick-chip.primary-chip {
+      background: linear-gradient(135deg, var(--saffron), #f7a54c);
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 10px 20px rgba(255, 153, 51, 0.28);
+    }
+
+    .quick-chip.primary-chip:hover {
+      color: #fff;
+      background: linear-gradient(135deg, #ff8d1d, #ffab47);
+    }
+
+    .hero-mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.55rem;
+    }
+
+    .hero-mini-card,
+    .stat-box {
+      position: relative;
+      overflow: hidden;
+      height: 100%;
+      padding: 0.7rem 0.75rem;
+      border-radius: 16px;
+      border: 1px solid var(--border-soft);
+      background: var(--accent-wash), var(--panel-bg);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+    }
+
+    .hero-mini-card::after,
+    .stat-box::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent);
+      pointer-events: none;
+    }
+
+    .hero-mini-label,
+    .stat-label {
+      color: var(--ink-soft);
+      font-size: 0.55rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.15rem;
+    }
+
+    .hero-mini-value,
+    .stat-value {
+      color: var(--ink);
+      font-size: 1.08rem;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 0.1rem;
+    }
+
+    .hero-mini-note {
+      color: var(--ink-soft);
+      font-size: 0.68rem;
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    .section-panel {
+      position: relative;
+      background: linear-gradient(180deg, var(--panel-bg), rgba(255, 255, 255, 0.34));
+      border: 1px solid var(--border-soft);
+      border-radius: 22px;
+      padding: 0.95rem;
+      height: 100%;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+    }
+
+    .section-title {
+      color: var(--ink-soft);
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .section-heading {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 0.15rem;
     }
 
     .search-box {
@@ -154,183 +433,279 @@
 
     .search-box i {
       position: absolute;
-      left: 14px;
+      left: 1rem;
       top: 50%;
       transform: translateY(-50%);
-      color: var(--text-muted);
+      color: var(--ink-soft);
       font-size: 0.9rem;
+      z-index: 2;
     }
 
     .search-box input {
-      padding-left: 2.35rem;
-      background-color: transparent;
-      color: var(--text-main);
-      border-color: rgba(156, 163, 175, 0.3);
+      min-height: 3rem;
+      padding-left: 2.8rem;
+      padding-right: 1rem;
+      border-radius: 16px !important;
+      border: 1px solid var(--border-soft);
+      background: rgba(255, 255, 255, 0.62);
+      color: var(--ink);
+      font-size: 0.96rem;
+      font-weight: 600;
+      box-shadow: none;
+    }
+
+    [data-bs-theme="dark"] .search-box input {
+      background: rgba(15, 23, 42, 0.52);
+    }
+
+    .search-box input::placeholder {
+      color: var(--ink-soft);
+      opacity: 0.95;
+      font-weight: 500;
     }
 
     .search-box input:focus {
-      border-color: var(--saffron);
-      box-shadow: 0 0 0 0.2rem rgba(255, 153, 51, 0.2);
-      background-color: transparent;
-      color: var(--text-main);
+      color: var(--ink);
+      background: var(--surface-strong);
+      border-color: rgba(255, 153, 51, 0.34);
+      box-shadow: 0 0 0 0.25rem rgba(255, 153, 51, 0.12);
     }
 
-        .cat-tabs {
+    .cat-tabs {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.4rem;
+      gap: 0.45rem;
     }
 
     .cat-tab {
-      border: 1px solid var(--soft-border);
-      background: transparent;
-      color: var(--text-muted);
-      border-radius: 999px;
-      padding: 0.4rem 0.85rem;
-      font-size: 0.78rem;
-      font-weight: 700;
+      min-height: 2.05rem;
+      padding: 0.42rem 0.74rem;
+      border-radius: 13px;
+      border: 1px solid var(--border-soft);
+      background: rgba(255, 255, 255, 0.56);
+      color: var(--ink-soft);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.01em;
       cursor: pointer;
-      transition: 0.2s ease;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    [data-bs-theme="dark"] .cat-tab {
+      background: rgba(15, 23, 42, 0.38);
     }
 
     .cat-tab:hover {
-      border-color: rgba(255, 153, 51, 0.35);
-      color: var(--text-main);
+      transform: translateY(-1px);
+      color: var(--ink);
+      border-color: rgba(255, 153, 51, 0.26);
     }
 
     .cat-tab.active {
-      background: var(--saffron);
-      border-color: var(--saffron);
+      background: linear-gradient(135deg, var(--saffron), #ffb257);
+      border-color: transparent;
       color: #fff;
+      box-shadow: 0 8px 14px rgba(255, 153, 51, 0.18);
+    }
+
+    .learning-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+      gap: 0.55rem;
+    }
+
+    .learning-grid .quick-chip {
+      width: 100%;
+      justify-content: flex-start;
+      min-height: 2.45rem;
+      border-radius: 14px;
+      padding-inline: 0.78rem;
     }
 
     .app-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 0.9rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.8rem;
     }
 
     .app-card {
-      border: 1px solid var(--soft-border);
-      border-radius: 1.3rem;
-      background: rgba(255, 255, 255, 0.34);
-      padding: 1rem;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 0.48rem;
+      min-height: 100%;
+      padding: 0.82rem;
+      border-radius: 20px;
+      border: 1px solid var(--border-soft);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.52));
       text-decoration: none;
       color: inherit;
-      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-      display: block;
-      height: 100%;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease, background 0.22s ease;
     }
 
-    html[data-bs-theme="dark"] .app-card {
-      background: rgba(255, 255, 255, 0.02);
+    [data-bs-theme="dark"] .app-card {
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.88), rgba(30, 41, 59, 0.6));
+    }
+
+    .app-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 4px;
+      background: linear-gradient(90deg, rgba(240, 138, 36, 0), rgba(240, 138, 36, 0.75), rgba(15, 118, 110, 0.55));
+      opacity: 0;
+      transition: opacity 0.2s ease;
     }
 
     .app-card:hover {
-      transform: translateY(-3px);
-      border-color: rgba(255, 153, 51, 0.36);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+      transform: translateY(-4px);
+      border-color: rgba(255, 153, 51, 0.28);
+      box-shadow: 0 20px 30px rgba(15, 23, 42, 0.12);
+    }
+
+    .app-card:hover::before {
+      opacity: 1;
     }
 
     .app-icon {
-      width: 52px;
-      height: 52px;
-      border-radius: 1rem;
+      width: 2.65rem;
+      height: 2.65rem;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      background: rgba(255, 153, 51, 0.14);
-      color: var(--saffron);
-      font-size: 1.25rem;
-      margin-bottom: 0.9rem;
+      border-radius: 15px;
+      background: linear-gradient(135deg, rgba(240, 138, 36, 0.18), rgba(15, 118, 110, 0.08));
+      color: var(--saffron-deep);
+      font-size: 0.96rem;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24);
+      flex-shrink: 0;
     }
 
     .app-name {
+      color: var(--ink);
+      font-size: 0.92rem;
       font-weight: 800;
-      font-size: 1rem;
-      line-height: 1.3;
-      color: var(--text-main);
-      margin-bottom: 0.25rem;
+      line-height: 1.25;
+      margin-bottom: 0;
     }
 
     .app-desc {
-      color: var(--text-muted);
-      font-size: 0.84rem;
-      line-height: 1.45;
-      margin-bottom: 0.7rem;
+      color: var(--ink-soft);
+      font-size: 0.75rem;
+      line-height: 1.5;
+      margin-bottom: 0;
+      flex-grow: 1;
     }
 
     .app-meta {
       display: flex;
-      gap: 0.45rem;
       flex-wrap: wrap;
+      gap: 0.3rem;
     }
 
     .meta-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 1.55rem;
+      padding: 0.22rem 0.52rem;
       border-radius: 999px;
-      padding: 0.25rem 0.6rem;
-      font-size: 0.68rem;
-      font-weight: 700;
-      background: rgba(156, 163, 175, 0.12);
-      color: var(--text-muted);
-    }
-
-    .stat-box {
-      background: rgba(156, 163, 175, 0.05);
-      border: 1px solid var(--soft-border);
-      border-radius: 1rem;
-      padding: 0.85rem;
-      text-align: center;
-      height: 100%;
-    }
-
-    .stat-label {
-      color: var(--text-muted);
-      font-size: 0.66rem;
+      background: rgba(148, 163, 184, 0.11);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      color: var(--ink-soft);
+      font-size: 0.6rem;
       font-weight: 800;
+      letter-spacing: 0.04em;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 0.15rem;
     }
 
-    .stat-value {
-      color: var(--text-main);
-      font-size: 1.2rem;
+    .results-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      min-height: 2rem;
+      padding: 0.38rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: rgba(255, 255, 255, 0.58);
+      color: var(--ink-soft);
+      font-size: 0.68rem;
       font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    [data-bs-theme="dark"] .results-pill {
+      background: rgba(15, 23, 42, 0.38);
     }
 
     .empty-state {
+      padding: 1.6rem 1rem;
       text-align: center;
-      padding: 1.5rem 0.5rem;
-      color: var(--text-muted);
-      font-size: 0.92rem;
-      border: 1px dashed var(--soft-border);
-      border-radius: 1rem;
+      border: 1px dashed rgba(148, 163, 184, 0.28);
+      border-radius: 16px;
+      color: var(--ink-soft);
+      background: rgba(255, 255, 255, 0.26);
+      font-size: 0.82rem;
     }
 
-    @media (max-width: 576px) {
-      .glass-card {
-        border-radius: 1.4rem;
-      }
+    [data-bs-theme="dark"] .empty-state {
+      background: rgba(15, 23, 42, 0.28);
+    }
 
-      .hero-card,
-      .hero-banner,
-      .section-panel {
-        padding: 1rem;
-      }
+    @media (max-width: 991.98px) {
+      .hero-banner { padding: 0.9rem; }
+      .hero-mini-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .app-grid { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+    }
+
+    @media (max-width: 767.98px) {
+      .hero-shell { padding: 0.5rem; }
+      .glass-card { border-radius: 20px; }
+      .hero-card { padding: 0.5rem; }
+      .top-tools { flex-wrap: wrap; gap: 0.4rem; }
+      .header-search-wrap { order: 10; width: 100%; flex-wrap: wrap; }
+      .header-search-wrap .cat-tabs { max-width: 100%; }
+      .hero-mini-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .section-panel, .hero-banner { border-radius: 18px; }
+      .learning-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .app-grid { gap: 0.5rem; }
+    }
+
+    @media (max-width: 575.98px) {
+      .hero-title { font-size: 1.3rem; }
+      .top-tools { padding: 0.45rem; }
+      .top-tools button { width: 2.15rem; height: 2.15rem; font-size: 0.75rem; }
+      .timer-badge { padding: 0.3rem 0.5rem; font-size: 0.65rem; }
+      .section-panel, .hero-banner { padding: 0.75rem; }
+      .quick-chip, .cat-tab, .search-box input { font-size: 0.76rem; }
+      .learning-grid { grid-template-columns: 1fr; }
+      .app-grid { grid-template-columns: 1fr 1fr; gap: 0.45rem; }
+      .app-card { padding: 0.65rem; }
+      .app-icon { width: 2rem; height: 2rem; font-size: 0.78rem; }
     }
   </style>
 </head>
 <body>
-  <div class="hero-shell py-3 py-md-4">
+  <div class="hero-shell py-2">
     <main class="glass-card hero-card">
-      <div class="d-flex justify-content-between align-items-center mb-3 top-tools">
+      <div class="top-tools">
         <button onclick="toggleTheme()" title="Toggle Dark/Light Mode" id="themeBtn">
           <i class="fas fa-moon"></i>
         </button>
 
+        <div class="header-search-wrap">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input id="searchInput" type="text" class="form-control" placeholder="Search pages, categories, features..." oninput="renderApps()" />
+          </div>
+          <div class="cat-tabs" id="categoryTabs"></div>
+        </div>
+
         <div class="timer-badge">
-          <i class="fas fa-layer-group me-1"></i> <span id="appCount">0 Apps</span>
+          <i class="fas fa-layer-group"></i>
+          <span id="appCount">0 Apps</span>
         </div>
 
         <button onclick="scrollToApps()" title="Browse Apps">
@@ -338,147 +713,108 @@
         </button>
       </div>
 
-      <section class="hero-banner mb-3">
-        <div class="row align-items-center g-3">
+      <section class="hero-banner mb-2">
+        <div class="row align-items-center g-2">
           <div class="col-lg-7">
-            <div class="text-uppercase fw-bold text-saffron small mb-2" style="letter-spacing: 1.3px;">Common home page</div>
-            <h1 class="font-elegant text-main mb-2">Jap App Hub</h1>
-            <p class="text-muted-custom mb-3">One Bootstrap home page for your chanting tools, games, utilities, and calendar pages with the same glass style as your other screens.</p>
-            <div class="d-flex flex-wrap gap-2">
-              <a class="quick-chip" href="jap.html"><i class="fas fa-dharmachakra"></i> Open Jap</a>
-              <a class="quick-chip" href="switchword.html"><i class="fas fa-wand-sparkles"></i> Open Switchword</a>
-              <a class="quick-chip" href="#apps"><i class="fas fa-grid-2"></i> View all</a>
+            <div class="eyebrow">
+              <i class="fas fa-sparkles"></i>
+              Smart workspace hub
+            </div>
+            <h1 class="font-elegant text-main hero-title">Jap App Hub</h1>
+            <p class="text-muted-custom hero-copy">A compact, high-clarity home page for chanting tools, games, utilities, and learning resources with faster scanning and cleaner visual rhythm.</p>
+            <div class="hero-actions">
+              <a class="quick-chip primary-chip" href="#apps">
+                <i class="fas fa-grid-2"></i>
+                Explore all pages
+              </a>
+              <a class="quick-chip" href="jap.html">
+                <i class="fas fa-dharmachakra"></i>
+                Open Jap
+              </a>
+              <a class="quick-chip" href="switchword.html">
+                <i class="fas fa-wand-sparkles"></i>
+                Open Switchword
+              </a>
             </div>
           </div>
+
           <div class="col-lg-5">
-            <div class="row g-2">
-              <div class="col-4">
-                <div class="stat-box">
-                  <div class="stat-label">Pages</div>
-                  <div class="stat-value" id="statPages">0</div>
-                </div>
+            <div class="hero-mini-grid">
+              <div class="hero-mini-card">
+                <div class="hero-mini-label">Pages</div>
+                <div class="hero-mini-value" id="statPages">0</div>
+                <p class="hero-mini-note">Centralized access.</p>
               </div>
-              <div class="col-4">
-                <div class="stat-box">
-                  <div class="stat-label">Categories</div>
-                  <div class="stat-value" id="statCategories">0</div>
-                </div>
+              <div class="hero-mini-card">
+                <div class="hero-mini-label">Categories</div>
+                <div class="hero-mini-value" id="statCategories">0</div>
+                <p class="hero-mini-note">Filter and jump.</p>
               </div>
-              <div class="col-4">
-                <div class="stat-box">
-                  <div class="stat-label">Style</div>
-                  <div class="stat-value">BS5</div>
-                </div>
+              <div class="hero-mini-card">
+                <div class="hero-mini-label">Framework</div>
+                <div class="hero-mini-value">BS5</div>
+                <p class="hero-mini-note">CDN assets, glass.</p>
+              </div>
+              <div class="hero-mini-card">
+                <div class="hero-mini-label">Theme</div>
+                <div class="hero-mini-value">Glass</div>
+                <p class="hero-mini-note">Dark mode support.</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <div class="row g-3">
-        <div class="col-lg-4">
-          <div class="section-panel">
-            <div class="section-title">Quick access</div>
-            <div class="d-flex flex-wrap gap-2">
-              <a class="quick-chip" href="game.html"><i class="fas fa-cube"></i> Game</a>
-              <a class="quick-chip" href="tictactoe.html"><i class="fas fa-hashtag"></i> Tic Tac Toe</a>
-              <a class="quick-chip" href="sudoku.html"><i class="fas fa-table-cells-large"></i> Sudoku</a>
-              <a class="quick-chip" href="holiday.html"><i class="fas fa-calendar-days"></i> Holiday</a>
-              <a class="quick-chip" href="resume.html"><i class="fas fa-id-card"></i> Resume</a>
-            </div>
-          </div>
+      <section class="section-panel mb-2">
+        <div class="d-flex align-items-center gap-2 mb-1">
+          <span class="section-title"><i class="fas fa-bolt me-1"></i>Quick access</span>
         </div>
-
-        <div class="col-lg-8">
-          <div class="section-panel">
-            <div class="section-title">Find a page</div>
-            <div class="row g-2">
-              <div class="col-12">
-                <div class="search-box">
-                  <i class="fas fa-search"></i>
-                  <input id="searchInput" type="text" class="form-control rounded-pill" placeholder="Search page, category, or feature..." oninput="renderApps()" />
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="cat-tabs" id="categoryTabs"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <section class="section-panel mt-3">
-        <div class="section-title mb-1">Learning resources</div>
-        <div class="row g-2">
-          <div class="col-6 col-md-4 col-lg-2">
-            <a class="quick-chip w-100 justify-content-center" href="laravel13.html"><i class="fas fa-bolt"></i> Laravel 13</a>
-          </div>
-          <div class="col-6 col-md-4 col-lg-2">
-            <a class="quick-chip w-100 justify-content-center" href="angular21.html"><i class="fas fa-shield"></i> Angular 21</a>
-          </div>
-          <div class="col-6 col-md-4 col-lg-2">
-            <a class="quick-chip w-100 justify-content-center" href="vue3.html"><i class="fab fa-vuejs"></i> Vue 3.5</a>
-          </div>
-          <div class="col-6 col-md-4 col-lg-2">
-            <a class="quick-chip w-100 justify-content-center" href="react19.html"><i class="fab fa-react"></i> React 19</a>
-          </div>
-           <div class="col-6 col-md-4 col-lg-2">
-             <a class="quick-chip w-100 justify-content-center" href="cakephp.html"><i class="fas fa-database"></i> CakePHP 5</a>
-           </div>
-           <div class="col-6 col-md-4 col-lg-2">
-             <a class="quick-chip w-100 justify-content-center" href="cakephp28.html"><i class="fas fa-layer-group"></i> CakePHP 2.8</a>
-           </div>
-           <div class="col-6 col-md-4 col-lg-2">
-             <a class="quick-chip w-100 justify-content-center" href="cake-upgrade-guide.html"><i class="fas fa-arrow-up-z-sorted"></i> Cake Upgrade</a>
-           </div>
-           <div class="col-6 col-md-4 col-lg-2">
-             <a class="quick-chip w-100 justify-content-center" href="interview.html"><i class="fas fa-circle-question"></i> PHP/Laravel Interview</a>
-           </div>
-           <div class="col-6 col-md-4 col-lg-2">
-              <a class="quick-chip w-100 justify-content-center" href="interview-quiz.html"><i class="fas fa-brain"></i> Interview Quiz</a>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2">
-              <a class="quick-chip w-100 justify-content-center" href="problems.html"><i class="fas fa-laptop"></i> Case Problems</a>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2">
-              <a class="quick-chip w-100 justify-content-center" href="phplearn.html"><i class="bi bi-code-slash"></i> PHP Deep Learn</a>
-            </div>
-    <div class="col-6 col-md-4 col-lg-2">
-      <a class="quick-chip w-100 justify-content-center" href="laravel-tips.html"><i class="bi bi-lightning-charge-fill"></i> Laravel Tips</a>
-    </div>
-    <div class="col-6 col-md-4 col-lg-2">
-      <a class="quick-chip w-100 justify-content-center" href="bt.html"><i class="fas fa-pen-ruler"></i> BS 5.3 + TW 4</a>
-    </div>
-    <div class="col-6 col-md-4 col-lg-2">
-      <a class="quick-chip w-100 justify-content-center" href="grep.html"><i class="fas fa-terminal"></i> grep Command</a>
-    </div>
-    <div class="col-6 col-md-4 col-lg-2">
-      <a class="quick-chip w-100 justify-content-center" href="ls.html"><i class="bi bi-folder2-open"></i> ls Command</a>
-    </div>
-    <div class="col-6 col-md-4 col-lg-2">
-              <a class="quick-chip w-100 justify-content-center" href="html-css.html"><i class="fas fa-code"></i> HTML + CSS</a>
-                    
-    </div>
-    <div class="col-6 col-md-4 col-lg-2">
-             
-                    <a class="quick-chip w-100 justify-content-center" href="diet.html"><i class="fas fa-apple-alt"></i> Diet Chart</a>
-    </div>
-    <div class="col-6 col-md-4 col-lg-2">
-      <a class="quick-chip w-100 justify-content-center" href="diet-women.html"><i class="fas fa-female"></i> Diet (Women)</a>
-    </div>
-    <div class="col-6 col-md-4 col-lg-2">
-      <a class="quick-chip w-100 justify-content-center" href="php-cron.html"><i class="bi bi-cpu"></i> PHP Cron Jobs</a>
-    </div>
-  </div>
+        <div class="section-heading mb-2">Shortcuts and recent pages</div>
+        <div class="d-flex flex-wrap gap-2" id="recentRow"></div>
       </section>
 
-      <section class="section-panel mt-3" id="apps">
-        <div class="d-flex justify-content-between align-items-center gap-2 mb-3">
+      <section class="section-panel mb-2">
+        <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-2">
           <div>
-            <div class="section-title mb-1">All pages</div>
-            <div class="text-muted-custom small">Clean starting point for everything in this project.</div>
+            <span class="section-title mb-1"><i class="fas fa-book me-1"></i>Learning resources</span>
+            <div class="section-heading mt-1">Guides and study references</div>
           </div>
-          <div class="text-muted-custom small fw-bold" id="resultsLabel">0 results</div>
+          <span class="text-muted-custom" style="font-size:0.7rem">Flat HTML pages for quick reading.</span>
+        </div>
+
+        <div class="learning-grid">
+          <a class="quick-chip w-100" href="laravel13.html"><i class="fas fa-bolt"></i> Laravel 13</a>
+          <a class="quick-chip w-100" href="angular21.html"><i class="fas fa-shield"></i> Angular 21</a>
+          <a class="quick-chip w-100" href="vue3.html"><i class="fab fa-vuejs"></i> Vue 3.5</a>
+          <a class="quick-chip w-100" href="react19.html"><i class="fab fa-react"></i> React 19</a>
+          <a class="quick-chip w-100" href="cakephp.html"><i class="fas fa-database"></i> CakePHP 5</a>
+          <a class="quick-chip w-100" href="cakephp28.html"><i class="fas fa-layer-group"></i> CakePHP 2.8</a>
+          <a class="quick-chip w-100" href="cake-upgrade-guide.html"><i class="fas fa-arrow-up-z-sorted"></i> Cake Upgrade</a>
+          <a class="quick-chip w-100" href="interview.html"><i class="fas fa-circle-question"></i> PHP/Laravel Interview</a>
+          <a class="quick-chip w-100" href="interview-quiz.html"><i class="fas fa-brain"></i> Interview Quiz</a>
+          <a class="quick-chip w-100" href="problems.html"><i class="fas fa-laptop"></i> Case Problems</a>
+          <a class="quick-chip w-100" href="phplearn.html"><i class="bi bi-code-slash"></i> PHP Deep Learn</a>
+          <a class="quick-chip w-100" href="laravel-tips.html"><i class="bi bi-lightning-charge-fill"></i> Laravel Tips</a>
+          <a class="quick-chip w-100" href="bt.html"><i class="fas fa-pen-ruler"></i> BS 5.3 + TW 4</a>
+          <a class="quick-chip w-100" href="grep.html"><i class="fas fa-terminal"></i> grep Command</a>
+          <a class="quick-chip w-100" href="ls.html"><i class="bi bi-folder2-open"></i> ls Command</a>
+          <a class="quick-chip w-100" href="html-css.html"><i class="fas fa-code"></i> HTML + CSS</a>
+          <a class="quick-chip w-100" href="diet.html"><i class="fas fa-apple-alt"></i> Diet Chart</a>
+          <a class="quick-chip w-100" href="diet-women.html"><i class="fas fa-female"></i> Diet (Women)</a>
+          <a class="quick-chip w-100" href="php-cron.html"><i class="bi bi-cpu"></i> PHP Cron Jobs</a>
+        </div>
+      </section>
+
+      <section class="section-panel" id="apps">
+        <div class="d-flex justify-content-between align-items-center gap-2 mb-2 flex-wrap">
+          <div>
+            <span class="section-title mb-1"><i class="fas fa-grid-2 me-1"></i>All pages</span>
+            <div class="section-heading mt-1">Everything in one compact grid</div>
+          </div>
+          <div class="results-pill">
+            <i class="fas fa-filter"></i>
+            <span id="resultsLabel">0 results</span>
+          </div>
         </div>
 
         <div class="app-grid" id="appGrid"></div>
@@ -666,7 +1002,7 @@
            file: 'bt.html',
            icon: 'fa-pen-ruler',
            category: 'Learning',
-           desc: 'Tailwind CSS 4 for Bootstrap developers — every BS class translated to Tailwind with utility reference, patterns & responsive design.',
+           desc: 'Tailwind CSS 4 for Bootstrap developers â€” every BS class translated to Tailwind with utility reference, patterns & responsive design.',
             tags: ['tailwind', 'css', 'frontend', 'design', 'bootstrap', 'utility']
             },
              {
@@ -674,7 +1010,7 @@
              file: 'grep.html',
              icon: 'fa-terminal',
              category: 'Learning',
-             desc: 'Complete grep command reference — syntax, 30+ flags, BRE/ERE/PCRE regex, practical examples, comparisons with ripgrep/ag/ack, and shell pro tips.',
+             desc: 'Complete grep command reference â€” syntax, 30+ flags, BRE/ERE/PCRE regex, practical examples, comparisons with ripgrep/ag/ack, and shell pro tips.',
              tags: ['grep', 'regex', 'terminal', 'cli', 'linux', 'bash', 'unix']
              },
              {
@@ -682,7 +1018,7 @@
              file: 'ls.html',
              icon: 'bi-folder2-open',
              category: 'Learning',
-             desc: 'Complete ls command reference — every flag (a–z), output formats, sorting, filtering, globs, CMD `dir` & PowerShell equivalents, WSL/Git Bash tips, recipes and a one-page cheat sheet.',
+             desc: 'Complete ls command reference â€” every flag (aâ€“z), output formats, sorting, filtering, globs, CMD `dir` & PowerShell equivalents, WSL/Git Bash tips, recipes and a one-page cheat sheet.',
              tags: ['ls', 'dir', 'terminal', 'cli', 'linux', 'bash', 'unix', 'windows', 'cmd', 'powershell']
              },
             {
@@ -690,7 +1026,7 @@
             file: 'html-css.html',
             icon: 'fa-code',
             category: 'Learning',
-            desc: 'Modern HTML & CSS features guide — semantic elements, interactive APIs, container queries, :has() selector, view transitions, scroll-driven animations, OKLCH colors & more.',
+            desc: 'Modern HTML & CSS features guide â€” semantic elements, interactive APIs, container queries, :has() selector, view transitions, scroll-driven animations, OKLCH colors & more.',
              tags: ['html', 'css', 'frontend', 'web', 'design', 'accessibility']
              },
              {
@@ -698,7 +1034,7 @@
              file: 'diet.html',
              icon: 'fa-apple-alt',
              category: 'Learning',
-             desc: '7-day Indian diet chart for a 40-year-old working man — belly fat reduction, high protein, low sugar, with meal timings, portion sizes & calorie estimates.',
+             desc: '7-day Indian diet chart for a 40-year-old working man â€” belly fat reduction, high protein, low sugar, with meal timings, portion sizes & calorie estimates.',
               tags: ['diet', 'nutrition', 'weight-loss', 'health', 'indian', 'meal-plan']
               },
               {
@@ -706,7 +1042,7 @@
               file: 'diet-women.html',
               icon: 'fa-venus',
               category: 'Learning',
-              desc: '7-day Indian vegetarian diet chart for a 39-year-old woman — weight loss, high protein, pure vegetarian, with meal timings, portion sizes & calorie estimates.',
+              desc: '7-day Indian vegetarian diet chart for a 39-year-old woman â€” weight loss, high protein, pure vegetarian, with meal timings, portion sizes & calorie estimates.',
                tags: ['diet', 'nutrition', 'weight-loss', 'health', 'indian', 'meal-plan', 'women', 'vegetarian']
                },
                {
@@ -799,7 +1135,7 @@
         .map(getAppByFile)
         .filter(Boolean);
 
-      const quickAccessPanel = document.querySelector('.section-panel .d-flex.flex-wrap.gap-2');
+      const quickAccessPanel = document.getElementById('recentRow');
       if (!quickAccessPanel) return;
 
       const staticLinks = [
