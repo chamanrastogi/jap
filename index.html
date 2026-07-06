@@ -783,6 +783,7 @@
         </div>
 
         <div class="learning-grid">
+          <a class="quick-chip w-100" href="django.html"><i class="bi bi-database"></i> Django 5.2</a>
           <a class="quick-chip w-100" href="laravel13.html"><i class="fas fa-bolt"></i> Laravel 13</a>
           <a class="quick-chip w-100" href="angular21.html"><i class="fas fa-shield"></i> Angular 21</a>
           <a class="quick-chip w-100" href="vue3.html"><i class="fab fa-vuejs"></i> Vue 3.5</a>
@@ -801,7 +802,9 @@
           <a class="quick-chip w-100" href="html-css.html"><i class="fas fa-code"></i> HTML + CSS</a>
           <a class="quick-chip w-100" href="diet.html"><i class="fas fa-apple-alt"></i> Diet Chart</a>
           <a class="quick-chip w-100" href="diet-women.html"><i class="fas fa-female"></i> Diet (Women)</a>
+          <a class="quick-chip w-100" href="python.html"><i class="bi bi-filetype-py"></i> Python 3.14</a>
           <a class="quick-chip w-100" href="php-cron.html"><i class="bi bi-cpu"></i> PHP Cron Jobs</a>
+          <a class="quick-chip w-100" href="mysql.html"><i class="bi bi-database"></i> MySQL Q&amp;A</a>
         </div>
       </section>
 
@@ -892,6 +895,14 @@
         category: 'Profile',
         desc: 'Resume or portfolio page in this project for personal presentation and sharing.',
         tags: ['cv', 'profile', 'about']
+      },
+      {
+        name: 'Django 5.2 Guide',
+        file: 'django.html',
+        icon: 'bi-database',
+        category: 'Learning',
+        desc: 'Complete models, views, DRF, admin & concept guide for Django 5.2.',
+        tags: ['django', 'python', 'backend', 'orm', 'rest-api', 'web']
       },
       {
         name: 'Laravel 13 Guide',
@@ -1051,9 +1062,25 @@
                icon: 'fa-microchip',
                category: 'Learning',
                desc: 'Enterprise guide for PHP CLI cron jobs, nohup, background processing, memory optimization, batch operations & production deployment.',
-               tags: ['php', 'cron', 'cli', 'bash', 'linux', 'database', 'performance']
-               },
-             ];
+                tags: ['php', 'cron', 'cli', 'bash', 'linux', 'database', 'performance']
+                },
+                {
+                name: 'Python 3.14 Guide',
+                file: 'python.html',
+                icon: 'bi-filetype-py',
+                category: 'Learning',
+                desc: 'Complete syntax, data structures, OOP, async & concept guide for Python 3.14.',
+                 tags: ['python', 'scripting', 'backend', 'data-science', 'automation']
+                 },
+                 {
+                 name: 'MySQL Q&A',
+                 file: 'mysql.html',
+                 icon: 'bi-database',
+                 category: 'Learning',
+                 desc: '114+ MySQL questions from basic to advanced. Covers SQL queries, indexing, normalization, stored procedures, transactions, performance tuning, replication & security.',
+                 tags: ['mysql', 'database', 'sql', 'interview', 'performance', 'admin']
+                 },
+               ];
 
     let currentCategory = 'All';
 

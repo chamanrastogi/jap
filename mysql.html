@@ -1,0 +1,2657 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MySQL Q&A — 130+ Questions from Basic to Advanced</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --mysql-blue: #00758f;
+      --mysql-orange: #f29111;
+      --dark-bg: #1a1a2e;
+      --sidebar-width: 280px;
+    }
+    * { scroll-margin-top: 1rem; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f4f6fb;
+      display: flex;
+    }
+    #sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0; left: 0;
+      background: var(--dark-bg);
+      overflow-y: auto;
+      z-index: 1000;
+      transition: transform .3s;
+    }
+    #sidebar .brand { padding: 1.25rem 1.25rem .75rem; border-bottom: 1px solid rgba(255,255,255,.08); }
+    #sidebar .brand h5 { color: #fff; font-weight: 700; }
+    #sidebar .brand small { color: #adb5bd; }
+    #sidebar .nav-link {
+      color: #c8cdd3;
+      padding: .5rem 1.25rem;
+      font-size: .88rem;
+      border-left: 3px solid transparent;
+      transition: all .15s;
+    }
+    #sidebar .nav-link:hover { color: #fff; background: rgba(255,255,255,.05); }
+    #sidebar .nav-link i { width: 1.3rem; }
+    #sidebar .nav-section {
+      color: #6c757d; font-size: .7rem; text-transform: uppercase;
+      letter-spacing: .08em; padding: 1rem 1.25rem .3rem; font-weight: 600;
+    }
+    #main { margin-left: var(--sidebar-width); flex: 1; padding: 2rem 2.5rem 4rem; max-width: 1100px; }
+    @media (max-width: 991.98px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.show { transform: translateX(0); }
+      #main { margin-left: 0; padding: 1.5rem; }
+    }
+    .sidebar-toggle {
+      position: fixed; top: .75rem; left: .75rem;
+      z-index: 1050; background: var(--dark-bg); color: #fff;
+      border: none; border-radius: .4rem; padding: .4rem .65rem; display: none;
+    }
+    @media (max-width: 991.98px) { .sidebar-toggle { display: block; } }
+    h2 {
+      font-weight: 700; color: var(--dark-bg);
+      margin-top: 2.5rem; padding-bottom: .5rem;
+      border-bottom: 3px solid var(--mysql-orange);
+    }
+    h3 { font-weight: 600; color: #2c3e50; margin-top: 1.8rem; }
+    .section-desc { color: #6c757d; margin-bottom: 1.5rem; font-size: .95rem; }
+    .accordion-item {
+      border: none;
+      border-radius: .6rem !important;
+      margin-bottom: .5rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,.06);
+      overflow: hidden;
+    }
+    .accordion-button {
+      font-weight: 600;
+      font-size: .92rem;
+      padding: 1rem 1.25rem;
+      background: #fff;
+    }
+    .accordion-button:not(.collapsed) {
+      background: #fff;
+      color: var(--mysql-blue);
+      box-shadow: none;
+    }
+    .accordion-button:focus { box-shadow: none; border-color: transparent; }
+    .accordion-body {
+      background: #fff;
+      padding: 1.25rem 1.5rem;
+      font-size: .9rem;
+      line-height: 1.7;
+      color: #334155;
+    }
+    .accordion-body pre {
+      background: #1e1e2f;
+      color: #e6e6e6;
+      padding: 1rem 1.25rem;
+      border-radius: .5rem;
+      font-size: .82rem;
+      overflow-x: auto;
+      margin: .8rem 0;
+    }
+    .accordion-body code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; font-size: .85rem; background: #eef2ff; padding: .1rem .3rem; border-radius: .25rem; color: #0d3b66; }
+    .accordion-body pre code { background: transparent; padding: 0; color: inherit; }
+    .kw { color: #c792ea; }
+    .fn { color: #82aaff; }
+    .str { color: #c3e88d; }
+    .cm { color: #546e7a; font-style: italic; }
+    .num { color: #f78c6c; }
+    .tp { color: #ffcb6b; }
+    .q-tag {
+      display: inline-block;
+      font-size: .65rem;
+      font-weight: 700;
+      padding: .15rem .5rem;
+      border-radius: .25rem;
+      margin-right: .5rem;
+      vertical-align: middle;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
+    .tag-easy { background: #d1fae5; color: #065f46; }
+    .tag-med { background: #fef3c7; color: #92400e; }
+    .tag-hard { background: #fee2e2; color: #991b1b; }
+    .new-badge {
+      background: #10b981; color: #fff; font-size: .65rem; font-weight: 600;
+      padding: .15rem .5rem; border-radius: 1rem; vertical-align: middle;
+    }
+    .home-link {
+      position: fixed; top: 14px; left: 14px; z-index: 1100;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 12px; border-radius: 999px;
+      background: rgba(255,255,255,.94); color: #0f172a;
+      text-decoration: none; font-size: .78rem; font-weight: 700;
+      box-shadow: 0 10px 28px rgba(0,0,0,.08);
+      border: 1px solid rgba(226,232,240,.9);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: .2s;
+    }
+    .home-link:hover { color: #2563eb; }
+    @media (min-width: 992px) { .home-link { left: calc(var(--sidebar-width) + 14px); } }
+    @media (max-width: 991.98px) { .home-link { left: 4rem; } }
+  </style>
+</head>
+<body>
+<button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
+<a href="index.html" class="home-link" aria-label="Go back to home page"><span>←</span> Home</a>
+
+<!-- ===== SIDEBAR ===== -->
+<nav id="sidebar">
+  <div class="brand">
+    <h5><i class="bi bi-database me-2" style="color:var(--mysql-orange)"></i>MySQL</h5>
+    <small class="d-block mt-1">Q&A — Basic to Advanced</small>
+  </div>
+  <div class="py-2">
+    <div class="nav-section">Basics</div>
+    <a class="nav-link" href="#basics"><i class="bi bi-info-circle"></i> MySQL Basics</a>
+    <a class="nav-link" href="#sql-queries"><i class="bi bi-terminal"></i> SQL Queries</a>
+    <a class="nav-link" href="#datatypes"><i class="bi bi-list-ul"></i> Data Types</a>
+
+    <div class="nav-section">Core Concepts</div>
+    <a class="nav-link" href="#joins"><i class="bi bi-diagram-3"></i> Joins &amp; Subqueries</a>
+    <a class="nav-link" href="#indexing"><i class="bi bi-sort-up"></i> Indexing</a>
+    <a class="nav-link" href="#normalization"><i class="bi bi-layers"></i> Normalization</a>
+    <a class="nav-link" href="#constraints"><i class="bi bi-check2-square"></i> Constraints</a>
+
+    <div class="nav-section">Advanced</div>
+    <a class="nav-link" href="#functions"><i class="bi bi-code-slash"></i> Functions &amp; Procedures</a>
+    <a class="nav-link" href="#triggers"><i class="bi bi-lightning-charge"></i> Triggers &amp; Events</a>
+    <a class="nav-link" href="#transactions"><i class="bi bi-arrow-repeat"></i> Transactions &amp; Locking</a>
+    <a class="nav-link" href="#performance"><i class="bi bi-speedometer2"></i> Performance &amp; Optimization</a>
+
+    <div class="nav-section">Administration</div>
+    <a class="nav-link" href="#admin"><i class="bi bi-shield-lock"></i> Administration</a>
+    <a class="nav-link" href="#replication"><i class="bi bi-diagram-2"></i> Replication &amp; Backup</a>
+    <a class="nav-link" href="#security"><i class="bi bi-key"></i> Security</a>
+  </div>
+</nav>
+<!-- ===== MAIN ===== -->
+<div id="main">
+
+  <!-- HERO -->
+  <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+    <div>
+      <h1 class="fw-bold mb-1" style="color:var(--dark-bg)">
+        <i class="bi bi-database" style="color:var(--mysql-orange)"></i>
+        MySQL Q&amp;A
+      </h1>
+      <p class="text-muted mb-0 fs-5">
+        130+ Questions from Basic to Advanced
+        <span class="badge bg-secondary ms-2">MySQL 8.x</span>
+        <span class="badge bg-warning text-dark ms-1">Interview Prep</span>
+      </p>
+    </div>
+  </div>
+
+  <p class="fs-5 text-muted mb-5">
+    Comprehensive MySQL questions covering <strong>fundamentals</strong>, <strong>SQL queries</strong>,
+    <strong>indexing</strong>, <strong>normalization</strong>, <strong>stored procedures</strong>,
+    <strong>transactions</strong>, <strong>performance tuning</strong>, and <strong>administration</strong>.
+    Difficulty levels: <span class="badge bg-success">Easy</span>,
+    <span class="badge bg-warning text-dark">Medium</span>,
+    <span class="badge bg-danger">Hard</span>.
+  </p>
+  <!-- ==================== BASICS ==================== -->
+  <section id="basics">
+    <h2><i class="bi bi-info-circle me-2"></i>MySQL Basics</h2>
+    <div class="section-desc">Core concepts — database, table, schema, and fundamental SQL operations.</div>
+    <div class="accordion">
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q1">
+            <span class="q-tag tag-easy">Easy</span> Q1: What is MySQL?
+          </button>
+        </h2>
+        <div id="q1" class="accordion-collapse collapse" data-bs-parent="#basics">
+          <div class="accordion-body">
+            MySQL is an <strong>open-source relational database management system (RDBMS)</strong> that uses Structured Query Language (SQL). It stores data in tables with rows and columns, supports ACID transactions, and is widely used for web applications (LAMP stack). Originally developed by MySQL AB, now owned by Oracle Corporation.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q2">
+            <span class="q-tag tag-easy">Easy</span> Q2: What is the difference between Database and Schema?
+          </button>
+        </h2>
+        <div id="q2" class="accordion-collapse collapse" data-bs-parent="#basics">
+          <div class="accordion-body">
+            In MySQL, <strong>database</strong> and <strong>schema</strong> are synonymous — <code>CREATE DATABASE</code> and <code>CREATE SCHEMA</code> do the same thing. However, in other RDBMS like PostgreSQL, a schema is a namespace within a database (tables, views, etc.), while a database is a container of schemas.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q3">
+            <span class="q-tag tag-easy">Easy</span> Q3: What are the default ports for MySQL?
+          </button>
+        </h2>
+        <div id="q3" class="accordion-collapse collapse" data-bs-parent="#basics">
+          <div class="accordion-body">
+            MySQL default port is <strong>3306</strong> (TCP). For MySQL X Protocol (used by X DevAPI), the default port is <strong>33060</strong>.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q4">
+            <span class="q-tag tag-easy">Easy</span> Q4: How do you create a database in MySQL?
+          </button>
+        </h2>
+        <div id="q4" class="accordion-collapse collapse" data-bs-parent="#basics">
+          <div class="accordion-body">
+            <pre><code><span class="kw">CREATE DATABASE</span> mydatabase;
+<span class="kw">CREATE DATABASE IF NOT EXISTS</span> mydatabase
+  <span class="kw">CHARACTER SET</span> utf8mb4
+  <span class="kw">COLLATE</span> utf8mb4_unicode_ci;
+
+<span class="cm">-- Switch to the database</span>
+<span class="kw">USE</span> mydatabase;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q5">
+            <span class="q-tag tag-easy">Easy</span> Q5: How do you create a table in MySQL?
+          </button>
+        </h2>
+        <div id="q5" class="accordion-collapse collapse" data-bs-parent="#basics">
+          <div class="accordion-body">
+            <pre><code><span class="kw">CREATE TABLE</span> users (
+  id <span class="tp">INT</span> <span class="kw">AUTO_INCREMENT PRIMARY KEY</span>,
+  name <span class="tp">VARCHAR</span>(100) <span class="kw">NOT NULL</span>,
+  email <span class="tp">VARCHAR</span>(255) <span class="kw">NOT NULL UNIQUE</span>,
+  age <span class="tp">INT</span> <span class="kw">DEFAULT</span> 0,
+  created_at <span class="tp">TIMESTAMP DEFAULT</span> <span class="kw">CURRENT_TIMESTAMP</span>
+);</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q6">
+            <span class="q-tag tag-easy">Easy</span> Q6: What is the difference between CHAR and VARCHAR?
+          </button>
+        </h2>
+        <div id="q6" class="accordion-collapse collapse" data-bs-parent="#basics">
+          <div class="accordion-body">
+            <ul>
+              <li><strong>CHAR(n)</strong> — Fixed-length. Always stores exactly <code>n</code> characters, padding with spaces. Max 255 characters. Faster for fixed-length data like country codes, ZIP codes.</li>
+              <li><strong>VARCHAR(n)</strong> — Variable-length. Stores up to <code>n</code> characters, using 1–2 extra bytes for length prefix. Max 65,535 characters (subject to row size). Saves space for variable-length data like names, emails.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q7">
+            <span class="q-tag tag-easy">Easy</span> Q7: What storage engines does MySQL support?
+          </button>
+        </h2>
+        <div id="q7" class="accordion-collapse collapse" data-bs-parent="#basics">
+          <div class="accordion-body">
+            Major storage engines:
+            <ul>
+              <li><strong>InnoDB</strong> (default) — ACID-compliant, transactions, foreign keys, row-level locking</li>
+              <li><strong>MyISAM</strong> — No transactions, table-level locking, full-text search (older), faster for reads</li>
+              <li><strong>Memory (HEAP)</strong> — In-memory data, volatile, extremely fast</li>
+              <li><strong>CSV</strong> — Stores data as CSV files</li>
+              <li><strong>Archive</strong> — Compressed storage, insert-only, no indexing</li>
+              <li><strong>NDB Cluster</strong> — Distributed, high-availability clustering</li>
+            </ul>
+            Check engine: <code>SHOW ENGINES;</code>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q8">
+            <span class="q-tag tag-easy">Easy</span> Q8: How do you show all tables in a database?
+          </button>
+        </h2>
+        <div id="q8" class="accordion-collapse collapse" data-bs-parent="#basics">
+          <div class="accordion-body">
+            <pre><code><span class="kw">SHOW TABLES</span>;
+<span class="kw">SHOW TABLES FROM</span> mydatabase;
+
+<span class="cm">-- Show table structure</span>
+<span class="kw">DESCRIBE</span> users;
+<span class="cm">-- or</span>
+<span class="kw">SHOW COLUMNS FROM</span> users;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q9">
+            <span class="q-tag tag-easy">Easy</span> Q9: What is the difference between DROP, TRUNCATE, and DELETE?
+          </button>
+        </h2>
+        <div id="q9" class="accordion-collapse collapse" data-bs-parent="#basics">
+          <div class="accordion-body">
+            <table class="table table-bordered table-sm">
+              <thead><tr><th>Command</th><th>Type</th><th>Rollback?</th><th>Speed</th><th>Auto-increment</th><th>Where clause?</th></tr></thead>
+              <tbody>
+                <tr><td><code>DROP</code></td><td>DDL</td><td>No</td><td>Fast</td><td>—</td><td>No</td></tr>
+                <tr><td><code>TRUNCATE</code></td><td>DDL</td><td>No</td><td>Fast</td><td>Reset</td><td>No</td></tr>
+                <tr><td><code>DELETE</code></td><td>DML</td><td>Yes (in transaction)</td><td>Slow</td><td>Keeps</td><td>Yes</td></tr>
+              </tbody>
+            </table>
+            <ul>
+              <li><code>DROP TABLE</code> — Removes the table structure and data entirely.</li>
+              <li><code>TRUNCATE TABLE</code> — Removes all rows, resets auto-increment, cannot be rolled back in most cases.</li>
+              <li><code>DELETE FROM</code> — Removes rows one by one, can use <code>WHERE</code>, triggers fire, can be rolled back.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q10">
+            <span class="q-tag tag-easy">Easy</span> Q10: What is the difference between WHERE and HAVING?
+          </button>
+        </h2>
+        <div id="q10" class="accordion-collapse collapse" data-bs-parent="#basics">
+          <div class="accordion-body">
+            <ul>
+              <li><strong>WHERE</strong> filters rows <em>before</em> grouping (<code>GROUP BY</code>). Cannot use aggregate functions.</li>
+              <li><strong>HAVING</strong> filters groups <em>after</em> grouping. Can use aggregate functions like <code>COUNT()</code>, <code>SUM()</code>, <code>AVG()</code>.</li>
+            </ul>
+            <pre><code><span class="kw">SELECT</span> department, <span class="fn">COUNT</span>(*)
+<span class="kw">FROM</span> employees
+<span class="kw">WHERE</span> salary <span class="kw">&gt;</span> 30000
+<span class="kw">GROUP BY</span> department
+<span class="kw">HAVING</span> <span class="fn">COUNT</span>(*) <span class="kw">&gt;</span> 5;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q11">
+            <span class="q-tag tag-easy">Easy</span> Q11: What is a Primary Key?
+          </button>
+        </h2>
+        <div id="q11" class="accordion-collapse collapse" data-bs-parent="#basics">
+          <div class="accordion-body">
+            A <strong>Primary Key</strong> is a column (or set of columns) that uniquely identifies each row in a table. It must contain <strong>unique</strong> values and cannot be <strong>NULL</strong>. Each table can have only one primary key. MySQL automatically creates a clustered index on the primary key (InnoDB).
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q12">
+            <span class="q-tag tag-easy">Easy</span> Q12: What is a Foreign Key?
+          </button>
+        </h2>
+        <div id="q12" class="accordion-collapse collapse" data-bs-parent="#basics">
+          <div class="accordion-body">
+            A <strong>Foreign Key</strong> is a column (or set of columns) that establishes a link between data in two tables. It references the primary key of another table, enforcing <strong>referential integrity</strong>. Foreign keys are only supported by <strong>InnoDB</strong>.
+            <pre><code><span class="kw">CREATE TABLE</span> orders (
+  id <span class="tp">INT</span> <span class="kw">PRIMARY KEY AUTO_INCREMENT</span>,
+  user_id <span class="tp">INT</span>,
+  <span class="kw">FOREIGN KEY</span> (user_id) <span class="kw">REFERENCES</span> users(id)
+    <span class="kw">ON DELETE CASCADE</span>
+);</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q13">
+            <span class="q-tag tag-easy">Easy</span> Q13: What are the SQL categories (DDL, DML, DCL, TCL)?
+          </button>
+        </h2>
+        <div id="q13" class="accordion-collapse collapse" data-bs-parent="#basics">
+          <div class="accordion-body">
+            <ul>
+              <li><strong>DDL</strong> (Data Definition Language) — <code>CREATE</code>, <code>ALTER</code>, <code>DROP</code>, <code>TRUNCATE</code>, <code>RENAME</code></li>
+              <li><strong>DML</strong> (Data Manipulation Language) — <code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code></li>
+              <li><strong>DCL</strong> (Data Control Language) — <code>GRANT</code>, <code>REVOKE</code></li>
+              <li><strong>TCL</strong> (Transaction Control Language) — <code>COMMIT</code>, <code>ROLLBACK</code>, <code>SAVEPOINT</code></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q14">
+            <span class="q-tag tag-easy">Easy</span> Q14: What is NULL in MySQL?
+          </button>
+        </h2>
+        <div id="q14" class="accordion-collapse collapse" data-bs-parent="#basics">
+          <div class="accordion-body">
+            <strong>NULL</strong> means "unknown" or "no value." It is <em>not</em> the same as an empty string <code>''</code> or zero <code>0</code>. Use <code>IS NULL</code> / <code>IS NOT NULL</code> to check. Any arithmetic operation with NULL yields NULL. <code>COUNT(column)</code> excludes NULLs, but <code>COUNT(*)</code> includes all rows.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q15">
+            <span class="q-tag tag-easy">Easy</span> Q15: What is the difference between UNION and UNION ALL?
+          </button>
+        </h2>
+        <div id="q15" class="accordion-collapse collapse" data-bs-parent="#basics">
+          <div class="accordion-body">
+            Both combine result sets from multiple <code>SELECT</code> queries. Both require the same number of columns and compatible data types.
+            <ul>
+              <li><strong>UNION</strong> — Removes duplicate rows (performs a sort/distinct). Slower.</li>
+              <li><strong>UNION ALL</strong> — Keeps all rows including duplicates. Faster.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q16">
+            <span class="q-tag tag-easy">Easy</span> Q16: How do you add, modify, and drop a column?
+          </button>
+        </h2>
+        <div id="q16" class="accordion-collapse collapse" data-bs-parent="#basics">
+          <div class="accordion-body">
+            <pre><code><span class="cm">-- Add</span>
+<span class="kw">ALTER TABLE</span> users <span class="kw">ADD</span> phone <span class="tp">VARCHAR</span>(20) <span class="kw">AFTER</span> email;
+
+<span class="cm">-- Modify</span>
+<span class="kw">ALTER TABLE</span> users <span class="kw">MODIFY</span> phone <span class="tp">VARCHAR</span>(30);
+
+<span class="cm">-- Drop</span>
+<span class="kw">ALTER TABLE</span> users <span class="kw">DROP COLUMN</span> phone;
+
+<span class="cm">-- Rename column</span>
+<span class="kw">ALTER TABLE</span> users <span class="kw">RENAME COLUMN</span> phone <span class="kw">TO</span> mobile;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q17">
+            <span class="q-tag tag-easy">Easy</span> Q17: What is the purpose of AUTO_INCREMENT?
+          </button>
+        </h2>
+        <div id="q17" class="accordion-collapse collapse" data-bs-parent="#basics">
+          <div class="accordion-body">
+            <code>AUTO_INCREMENT</code> generates a unique numeric value automatically for each new row. It starts at 1 (by default) and increments by 1. Used primarily for surrogate primary keys. You can retrieve the last generated value using <code>LAST_INSERT_ID()</code>.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q18">
+            <span class="q-tag tag-easy">Easy</span> Q18: How do you rename a table?
+          </button>
+        </h2>
+        <div id="q18" class="accordion-collapse collapse" data-bs-parent="#basics">
+          <div class="accordion-body">
+            <pre><code><span class="kw">RENAME TABLE</span> old_name <span class="kw">TO</span> new_name;
+<span class="cm">-- or</span>
+<span class="kw">ALTER TABLE</span> old_name <span class="kw">RENAME TO</span> new_name;</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- ==================== SQL QUERIES ==================== -->
+  <section id="sql-queries">
+    <h2><i class="bi bi-terminal me-2"></i>SQL Queries</h2>
+    <div class="section-desc">SELECT, INSERT, UPDATE, DELETE, aggregate functions, subqueries, and common patterns.</div>
+    <div class="accordion">
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q19">
+            <span class="q-tag tag-easy">Easy</span> Q19: Write a SELECT query to get all users older than 25.
+          </button>
+        </h2>
+        <div id="q19" class="accordion-collapse collapse" data-bs-parent="#sql-queries">
+          <div class="accordion-body">
+            <pre><code><span class="kw">SELECT</span> id, name, email, age
+<span class="kw">FROM</span> users
+<span class="kw">WHERE</span> age <span class="kw">&gt;</span> 25
+<span class="kw">ORDER BY</span> age <span class="kw">DESC</span>;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q20">
+            <span class="q-tag tag-easy">Easy</span> Q20: How do you insert multiple rows at once?
+          </button>
+        </h2>
+        <div id="q20" class="accordion-collapse collapse" data-bs-parent="#sql-queries">
+          <div class="accordion-body">
+            <pre><code><span class="kw">INSERT INTO</span> users (name, email, age)
+<span class="kw">VALUES</span>
+  (<span class="str">'Alice'</span>, <span class="str">'alice@example.com'</span>, 30),
+  (<span class="str">'Bob'</span>,   <span class="str">'bob@example.com'</span>, 25),
+  (<span class="str">'Charlie'</span>, <span class="str">'charlie@example.com'</span>, 28);</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q21">
+            <span class="q-tag tag-easy">Easy</span> Q21: How do you update records?
+          </button>
+        </h2>
+        <div id="q21" class="accordion-collapse collapse" data-bs-parent="#sql-queries">
+          <div class="accordion-body">
+            <pre><code><span class="kw">UPDATE</span> users
+<span class="kw">SET</span> age <span class="kw">=</span> 31, updated_at <span class="kw">=</span> <span class="kw">NOW</span>()
+<span class="kw">WHERE</span> id <span class="kw">=</span> 1;
+
+<span class="cm">-- Update with JOIN</span>
+<span class="kw">UPDATE</span> users u
+<span class="kw">JOIN</span> orders o <span class="kw">ON</span> u.id <span class="kw">=</span> o.user_id
+<span class="kw">SET</span> u.status <span class="kw">=</span> <span class="str">'vip'</span>
+<span class="kw">WHERE</span> o.total <span class="kw">&gt;</span> 1000;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q22">
+            <span class="q-tag tag-easy">Easy</span> Q22: How do you delete records?
+          </button>
+        </h2>
+        <div id="q22" class="accordion-collapse collapse" data-bs-parent="#sql-queries">
+          <div class="accordion-body">
+            <pre><code><span class="kw">DELETE FROM</span> users <span class="kw">WHERE</span> id <span class="kw">=</span> 10;
+
+<span class="cm">-- Delete with JOIN (MySQL-specific)</span>
+<span class="kw">DELETE</span> u
+<span class="kw">FROM</span> users u
+<span class="kw">JOIN</span> logs l <span class="kw">ON</span> u.id <span class="kw">=</span> l.user_id
+<span class="kw">WHERE</span> l.created_at <span class="kw">&lt;</span> <span class="str">'2024-01-01'</span>;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q23">
+            <span class="q-tag tag-easy">Easy</span> Q23: What aggregate functions does MySQL provide?
+          </button>
+        </h2>
+        <div id="q23" class="accordion-collapse collapse" data-bs-parent="#sql-queries">
+          <div class="accordion-body">
+            Common aggregate functions:
+            <ul>
+              <li><code>COUNT()</code> — Number of rows</li>
+              <li><code>SUM()</code> — Sum of values</li>
+              <li><code>AVG()</code> — Average value</li>
+              <li><code>MIN()</code> — Minimum value</li>
+              <li><code>MAX()</code> — Maximum value</li>
+              <li><code>GROUP_CONCAT()</code> — Concatenates values into a string</li>
+            </ul>
+            <pre><code><span class="kw">SELECT</span> department,
+       <span class="fn">COUNT</span>(*) <span class="kw">AS</span> emp_count,
+       <span class="fn">AVG</span>(salary) <span class="kw">AS</span> avg_salary,
+       <span class="fn">MAX</span>(salary) <span class="kw">AS</span> max_salary,
+       <span class="fn">GROUP_CONCAT</span>(name) <span class="kw">AS</span> employees
+<span class="kw">FROM</span> employees
+<span class="kw">GROUP BY</span> department;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q24">
+            <span class="q-tag tag-easy">Easy</span> Q24: How do you use LIKE for pattern matching?
+          </button>
+        </h2>
+        <div id="q24" class="accordion-collapse collapse" data-bs-parent="#sql-queries">
+          <div class="accordion-body">
+            <pre><code><span class="cm">-- % = any sequence, _ = single character</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users
+<span class="kw">WHERE</span> name <span class="kw">LIKE</span> <span class="str">'J%'</span>;        <span class="cm">-- starts with J</span>
+
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users
+<span class="kw">WHERE</span> email <span class="kw">LIKE</span> <span class="str">'%@gmail.com'</span>;  <span class="cm">-- ends with @gmail.com</span>
+
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users
+<span class="kw">WHERE</span> name <span class="kw">LIKE</span> <span class="str">'_a%'</span>;         <span class="cm">-- second letter is 'a'</span></code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q25">
+            <span class="q-tag tag-easy">Easy</span> Q25: What is the difference between IN and EXISTS?
+          </button>
+        </h2>
+        <div id="q25" class="accordion-collapse collapse" data-bs-parent="#sql-queries">
+          <div class="accordion-body">
+            <ul>
+              <li><code>IN</code> — Evaluates a list of values. Can be inefficient with large subquery result sets (materializes the entire list).</li>
+              <li><code>EXISTS</code> — Returns boolean (true/false) based on whether the subquery returns any rows. Stops scanning as soon as a match is found. Often faster for correlated subqueries.</li>
+            </ul>
+            <pre><code><span class="cm">-- IN</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users
+<span class="kw">WHERE</span> id <span class="kw">IN</span> (<span class="kw">SELECT</span> user_id <span class="kw">FROM</span> orders);
+
+<span class="cm">-- EXISTS (often faster for large datasets)</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users u
+<span class="kw">WHERE</span> <span class="kw">EXISTS</span> (<span class="kw">SELECT</span> 1 <span class="kw">FROM</span> orders o <span class="kw">WHERE</span> o.user_id <span class="kw">=</span> u.id);</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q26">
+            <span class="q-tag tag-med">Medium</span> Q26: Write a query to find duplicate emails in the users table.
+          </button>
+        </h2>
+        <div id="q26" class="accordion-collapse collapse" data-bs-parent="#sql-queries">
+          <div class="accordion-body">
+            <pre><code><span class="kw">SELECT</span> email, <span class="fn">COUNT</span>(*) <span class="kw">AS</span> cnt
+<span class="kw">FROM</span> users
+<span class="kw">GROUP BY</span> email
+<span class="kw">HAVING</span> <span class="fn">COUNT</span>(*) <span class="kw">&gt;</span> 1;
+
+<span class="cm">-- To see all rows with duplicates</span>
+<span class="kw">SELECT</span> u.*
+<span class="kw">FROM</span> users u
+<span class="kw">JOIN</span> (
+  <span class="kw">SELECT</span> email <span class="kw">FROM</span> users
+  <span class="kw">GROUP BY</span> email
+  <span class="kw">HAVING</span> <span class="fn">COUNT</span>(*) <span class="kw">&gt;</span> 1
+) dup <span class="kw">ON</span> u.email <span class="kw">=</span> dup.email;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q27">
+            <span class="q-tag tag-med">Medium</span> Q27: How do you find the Nth highest salary?
+          </button>
+        </h2>
+        <div id="q27" class="accordion-collapse collapse" data-bs-parent="#sql-queries">
+          <div class="accordion-body">
+            <pre><code><span class="cm">-- 2nd highest salary using LIMIT / OFFSET</span>
+<span class="kw">SELECT</span> <span class="kw">DISTINCT</span> salary
+<span class="kw">FROM</span> employees
+<span class="kw">ORDER BY</span> salary <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> 1 <span class="kw">OFFSET</span> 1;
+
+<span class="cm">-- Using correlated subquery</span>
+<span class="kw">SELECT</span> <span class="kw">DISTINCT</span> salary
+<span class="kw">FROM</span> employees e1
+<span class="kw">WHERE</span> 2 <span class="kw">=</span> (<span class="kw">SELECT</span> <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> e2.salary)
+            <span class="kw">FROM</span> employees e2
+            <span class="kw">WHERE</span> e2.salary <span class="kw">&gt;</span> e1.salary);
+
+<span class="cm">-- Using window function (MySQL 8+)</span>
+<span class="kw">SELECT</span> <span class="kw">DISTINCT</span> salary
+<span class="kw">FROM</span> (<span class="kw">SELECT</span> salary,
+       <span class="fn">DENSE_RANK</span>() <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> salary <span class="kw">DESC</span>) <span class="kw">AS</span> rnk
+       <span class="kw">FROM</span> employees) ranked
+<span class="kw">WHERE</span> rnk <span class="kw">=</span> 2;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q28">
+            <span class="q-tag tag-med">Medium</span> Q28: How does CASE expression work?
+          </button>
+        </h2>
+        <div id="q28" class="accordion-collapse collapse" data-bs-parent="#sql-queries">
+          <div class="accordion-body">
+            <pre><code><span class="kw">SELECT</span>
+  name, salary,
+  <span class="kw">CASE</span>
+    <span class="kw">WHEN</span> salary <span class="kw">&gt;</span> 100000 <span class="kw">THEN</span> <span class="str">'High'</span>
+    <span class="kw">WHEN</span> salary <span class="kw">&gt;</span> 50000  <span class="kw">THEN</span> <span class="str">'Medium'</span>
+    <span class="kw">ELSE</span> <span class="str">'Low'</span>
+  <span class="kw">END</span> <span class="kw">AS</span> salary_band
+<span class="kw">FROM</span> employees;
+
+<span class="cm">-- Simple CASE (equality check)</span>
+<span class="kw">SELECT</span>
+  name,
+  <span class="kw">CASE</span> department_id
+    <span class="kw">WHEN</span> 1 <span class="kw">THEN</span> <span class="str">'Engineering'</span>
+    <span class="kw">WHEN</span> 2 <span class="kw">THEN</span> <span class="str">'Sales'</span>
+    <span class="kw">ELSE</span> <span class="str">'Other'</span>
+  <span class="kw">END</span> <span class="kw">AS</span> dept_name
+<span class="kw">FROM</span> employees;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q29">
+            <span class="q-tag tag-med">Medium</span> Q29: What are window functions? Give examples.
+          </button>
+        </h2>
+        <div id="q29" class="accordion-collapse collapse" data-bs-parent="#sql-queries">
+          <div class="accordion-body">
+            Window functions perform calculations across a set of rows related to the current row <strong>without collapsing</strong> them into a single output row (unlike GROUP BY). MySQL 8+ supports them.
+            <pre><code><span class="kw">SELECT</span>
+  name, department, salary,
+  <span class="fn">ROW_NUMBER</span>() <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> salary <span class="kw">DESC</span>)              <span class="kw">AS</span> `rank`,
+  <span class="fn">RANK</span>()       <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> salary <span class="kw">DESC</span>)              <span class="kw">AS</span> `rank_with_gaps`,
+  <span class="fn">DENSE_RANK</span>() <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> salary <span class="kw">DESC</span>)              <span class="kw">AS</span> `dense_rank`,
+  <span class="fn">NTILE</span>(4)     <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> salary <span class="kw">DESC</span>)              <span class="kw">AS</span> `quartile`,
+  <span class="fn">LAG</span>(salary)  <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> salary)                   <span class="kw">AS</span> `prev_salary`,
+  <span class="fn">LEAD</span>(salary) <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> salary)                   <span class="kw">AS</span> `next_salary`,
+  <span class="fn">SUM</span>(salary)  <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> department)             <span class="kw">AS</span> `dept_total`,
+  <span class="fn">AVG</span>(salary)  <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> department)             <span class="kw">AS</span> `dept_avg`,
+  <span class="fn">FIRST_VALUE</span>(name) <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> department
+                        <span class="kw">ORDER BY</span> salary <span class="kw">DESC</span>)       <span class="kw">AS</span> `highest_paid`
+<span class="kw">FROM</span> employees;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q30">
+            <span class="q-tag tag-med">Medium</span> Q30: What is a Correlated Subquery?
+          </button>
+        </h2>
+        <div id="q30" class="accordion-collapse collapse" data-bs-parent="#sql-queries">
+          <div class="accordion-body">
+            A <strong>correlated subquery</strong> is a subquery that references columns from the outer query. It is re-evaluated for every row processed by the outer query, which can make it slow on large datasets.
+            <pre><code><span class="cm">-- Find employees earning more than department average</span>
+<span class="kw">SELECT</span> e1.name, e1.salary, e1.department
+<span class="kw">FROM</span> employees e1
+<span class="kw">WHERE</span> e1.salary <span class="kw">&gt;</span> (
+  <span class="kw">SELECT</span> <span class="fn">AVG</span>(e2.salary)
+  <span class="kw">FROM</span> employees e2
+  <span class="kw">WHERE</span> e2.department <span class="kw">=</span> e1.department
+);</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q31">
+            <span class="q-tag tag-med">Medium</span> Q31: What is a CTE (Common Table Expression)?
+          </button>
+        </h2>
+        <div id="q31" class="accordion-collapse collapse" data-bs-parent="#sql-queries">
+          <div class="accordion-body">
+            A CTE (introduced in MySQL 8.0) is a temporary named result set that exists only within a single query's scope. It improves readability and allows recursion.
+            <pre><code><span class="kw">WITH</span> high_earners <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> id, name, salary
+  <span class="kw">FROM</span> employees
+  <span class="kw">WHERE</span> salary <span class="kw">&gt;</span> 100000
+)
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> high_earners
+<span class="kw">WHERE</span> id <span class="kw">IN</span> (<span class="kw">SELECT</span> user_id <span class="kw">FROM</span> orders);
+
+<span class="cm">-- Recursive CTE (hierarchy)</span>
+<span class="kw">WITH RECURSIVE</span> org_tree <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> id, name, manager_id, 1 <span class="kw">AS</span> level
+  <span class="kw">FROM</span> employees <span class="kw">WHERE</span> manager_id <span class="kw">IS NULL</span>
+  <span class="kw">UNION ALL</span>
+  <span class="kw">SELECT</span> e.id, e.name, e.manager_id, t.level <span class="kw">+</span> 1
+  <span class="kw">FROM</span> employees e
+  <span class="kw">JOIN</span> org_tree t <span class="kw">ON</span> e.manager_id <span class="kw">=</span> t.id
+)
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> org_tree;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q32">
+            <span class="q-tag tag-hard">Hard</span> Q32: Explain the difference between RANK, DENSE_RANK, and ROW_NUMBER.
+          </button>
+        </h2>
+        <div id="q32" class="accordion-collapse collapse" data-bs-parent="#sql-queries">
+          <div class="accordion-body">
+            Given values: [100, 90, 90, 80]:
+            <table class="table table-sm table-bordered">
+              <thead><tr><th>Function</th><th>Row 1</th><th>Row 2</th><th>Row 3</th><th>Row 4</th></tr></thead>
+              <tbody>
+                <tr><td><code>ROW_NUMBER()</code></td><td>1</td><td>2</td><td>3</td><td>4</td></tr>
+                <tr><td><code>RANK()</code></td><td>1</td><td>2</td><td>2</td><td>4</td></tr>
+                <tr><td><code>DENSE_RANK()</code></td><td>1</td><td>2</td><td>2</td><td>3</td></tr>
+              </tbody>
+            </table>
+            <ul>
+              <li><strong>ROW_NUMBER</strong> — Unique sequential number, no ties.</li>
+              <li><strong>RANK</strong> — Same rank for ties, but skips next number.</li>
+              <li><strong>DENSE_RANK</strong> — Same rank for ties, no skipping.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q33">
+            <span class="q-tag tag-easy">Easy</span> Q33: How do you limit results in MySQL?
+          </button>
+        </h2>
+        <div id="q33" class="accordion-collapse collapse" data-bs-parent="#sql-queries">
+          <div class="accordion-body">
+            <pre><code><span class="cm">-- Return first 10 rows</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users <span class="kw">ORDER BY</span> id <span class="kw">LIMIT</span> 10;
+
+<span class="cm">-- Skip 20, return 10 (pagination)</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users <span class="kw">ORDER BY</span> id <span class="kw">LIMIT</span> 10 <span class="kw">OFFSET</span> 20;
+
+<span class="cm">-- MySQL shorthand: LIMIT {offset}, {row_count}</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users <span class="kw">LIMIT</span> 20, 10;</code></pre>
+            <strong>Note:</strong> Always use <code>ORDER BY</code> with <code>LIMIT</code> for deterministic results.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q34">
+            <span class="q-tag tag-easy">Easy</span> Q34: What is the difference between DISTINCT and GROUP BY?
+          </button>
+        </h2>
+        <div id="q34" class="accordion-collapse collapse" data-bs-parent="#sql-queries">
+          <div class="accordion-body">
+            <strong>DISTINCT</strong> removes duplicate rows from the result. <strong>GROUP BY</strong> groups rows that have the same values and is typically used with aggregate functions. When used without aggregates, GROUP BY behaves like DISTINCT but sorts the result (which can be avoided with <code>ORDER BY NULL</code>). GROUP BY is more flexible as it allows aggregations.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q35">
+            <span class="q-tag tag-med">Medium</span> Q35: How do you write a query with PIVOT-like behavior in MySQL?
+          </button>
+        </h2>
+        <div id="q35" class="accordion-collapse collapse" data-bs-parent="#sql-queries">
+          <div class="accordion-body">
+            MySQL does not have a built-in PIVOT operator. Use conditional aggregation with CASE:
+            <pre><code><span class="kw">SELECT</span>
+  department,
+  <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> gender <span class="kw">=</span> <span class="str">'Male'</span> <span class="kw">THEN</span> 1 <span class="kw">ELSE</span> 0 <span class="kw">END</span>) <span class="kw">AS</span> male_count,
+  <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> gender <span class="kw">=</span> <span class="str">'Female'</span> <span class="kw">THEN</span> 1 <span class="kw">ELSE</span> 0 <span class="kw">END</span>) <span class="kw">AS</span> female_count
+<span class="kw">FROM</span> employees
+<span class="kw">GROUP BY</span> department;</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- ==================== DATA TYPES ==================== -->
+  <section id="datatypes">
+    <h2><i class="bi bi-list-ul me-2"></i>Data Types &amp; Constraints</h2>
+    <div class="section-desc">MySQL data types for numbers, strings, dates, JSON, and spatial data.</div>
+    <div class="accordion">
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q36">
+            <span class="q-tag tag-easy">Easy</span> Q36: What numeric data types does MySQL support?
+          </button>
+        </h2>
+        <div id="q36" class="accordion-collapse collapse" data-bs-parent="#datatypes">
+          <div class="accordion-body">
+            <table class="table table-sm table-bordered">
+              <thead><tr><th>Type</th><th>Storage</th><th>Range (Signed)</th></tr></thead>
+              <tbody>
+                <tr><td><code>TINYINT</code></td><td>1 byte</td><td>-128 to 127</td></tr>
+                <tr><td><code>SMALLINT</code></td><td>2 bytes</td><td>-32,768 to 32,767</td></tr>
+                <tr><td><code>MEDIUMINT</code></td><td>3 bytes</td><td>-8,388,608 to 8,388,607</td></tr>
+                <tr><td><code>INT</code></td><td>4 bytes</td><td>-2.1B to 2.1B</td></tr>
+                <tr><td><code>BIGINT</code></td><td>8 bytes</td><td>-2^63 to 2^63-1</td></tr>
+                <tr><td><code>DECIMAL(p,s)</code></td><td>Varies</td><td>Exact precision (e.g. DECIMAL(10,2))</td></tr>
+                <tr><td><code>FLOAT</code></td><td>4 bytes</td><td>Approximate, ~7 digits</td></tr>
+                <tr><td><code>DOUBLE</code></td><td>8 bytes</td><td>Approximate, ~15 digits</td></tr>
+                <tr><td><code>BIT(n)</code></td><td>n/8 bytes</td><td>Bit-field</td></tr>
+              </tbody>
+            </table>
+            Use <code>UNSIGNED</code> to double the positive range (e.g. <code>INT UNSIGNED</code> = 0 to 4.2B).
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q37">
+            <span class="q-tag tag-easy">Easy</span> Q37: What date/time types does MySQL offer?
+          </button>
+        </h2>
+        <div id="q37" class="accordion-collapse collapse" data-bs-parent="#datatypes">
+          <div class="accordion-body">
+            <table class="table table-sm table-bordered">
+              <thead><tr><th>Type</th><th>Format</th><th>Range</th><th>Storage</th></tr></thead>
+              <tbody>
+                <tr><td><code>DATE</code></td><td>YYYY-MM-DD</td><td>1000-01-01 to 9999-12-31</td><td>3 bytes</td></tr>
+                <tr><td><code>TIME</code></td><td>HH:MM:SS</td><td>-838:59:59 to 838:59:59</td><td>3 bytes</td></tr>
+                <tr><td><code>DATETIME</code></td><td>YYYY-MM-DD HH:MM:SS</td><td>1000-01-01 to 9999-12-31</td><td>5 bytes (8 bytes with fractional)</td></tr>
+                <tr><td><code>TIMESTAMP</code></td><td>YYYY-MM-DD HH:MM:SS</td><td>1970-01-01 to 2038-01-19</td><td>4 bytes</td></tr>
+                <tr><td><code>YEAR</code></td><td>YYYY</td><td>1901 to 2155</td><td>1 byte</td></tr>
+              </tbody>
+            </table>
+            <code>TIMESTAMP</code> is timezone-aware. <code>DATETIME</code> is not. MySQL 8.0.19+ supports fractional seconds up to 6 digits.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q38">
+            <span class="q-tag tag-easy">Easy</span> Q38: What string data types does MySQL support?
+          </button>
+        </h2>
+        <div id="q38" class="accordion-collapse collapse" data-bs-parent="#datatypes">
+          <div class="accordion-body">
+            <ul>
+              <li><code>VARCHAR(n)</code> — Variable-length, max 65,535 (row limit)</li>
+              <li><code>CHAR(n)</code> — Fixed-length, max 255</li>
+              <li><code>TEXT</code> — Variable-length, max 65,535 bytes</li>
+              <li><code>MEDIUMTEXT</code> — Max 16,777,215 bytes (~16MB)</li>
+              <li><code>LONGTEXT</code> — Max 4,294,967,295 bytes (~4GB)</li>
+              <li><code>BLOB</code> — Binary large object (like TEXT but binary)</li>
+              <li><code>ENUM</code> — String with predefined values (e.g., <code>ENUM('small','medium','large')</code>)</li>
+              <li><code>SET</code> — Collection of predefined values (can select multiple)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q39">
+            <span class="q-tag tag-med">Medium</span> Q39: What is the JSON data type in MySQL?
+          </button>
+        </h2>
+        <div id="q39" class="accordion-collapse collapse" data-bs-parent="#datatypes">
+          <div class="accordion-body">
+            MySQL 5.7+ supports native <code>JSON</code> data type. It stores JSON documents in an internal binary format for efficient access.
+            <ul>
+              <li>Automatic validation of JSON documents</li>
+              <li>Optimized storage (faster than storing JSON in TEXT)</li>
+              <li>JSON functions: <code>JSON_EXTRACT()</code>, <code>JSON_SET()</code>, <code>JSON_ARRAY()</code>, <code>JSON_OBJECT()</code></li>
+              <li>Path expressions: <code>$.key</code>, <code>$[0]</code></li>
+              <li>Multi-value indexes on JSON columns (MySQL 8.0.17+)</li>
+            </ul>
+            <pre><code><span class="kw">CREATE TABLE</span> products (
+  id <span class="tp">INT PRIMARY KEY</span>,
+  attributes <span class="tp">JSON</span>
+);
+
+<span class="kw">INSERT INTO</span> products <span class="kw">VALUES</span>
+  (1, <span class="str">'{"color": "red", "size": "M", "tags": ["sale","new"]}'</span>);
+
+<span class="kw">SELECT</span> attributes<span class="kw">-></span><span class="str">'$.color'</span> <span class="kw">FROM</span> products;
+<span class="kw">SELECT</span> <span class="fn">JSON_EXTRACT</span>(attributes, <span class="str">'$.color'</span>) <span class="kw">FROM</span> products;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q40">
+            <span class="q-tag tag-easy">Easy</span> Q40: What is the difference between TEXT and VARCHAR?
+          </button>
+        </h2>
+        <div id="q40" class="accordion-collapse collapse" data-bs-parent="#datatypes">
+          <div class="accordion-body">
+            <ul>
+              <li><strong>VARCHAR</strong> — Stored inline in the row (up to row size limit), can have default values, can be indexed fully.</li>
+              <li><strong>TEXT</strong> — Stored offline (pointer in row), no default value, requires prefix length for indexing.</li>
+            </ul>
+            Use <code>VARCHAR</code> for short strings (names, emails). Use <code>TEXT</code> for long content (articles, descriptions).
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q41">
+            <span class="q-tag tag-easy">Easy</span> Q41: What is ENUM? When would you use it?
+          </button>
+        </h2>
+        <div id="q41" class="accordion-collapse collapse" data-bs-parent="#datatypes">
+          <div class="accordion-body">
+            <code>ENUM</code> is a string object that can have only one value chosen from a predefined list. Example: <code>status ENUM('active', 'inactive', 'banned')</code>.
+            <br><strong>Pros:</strong> Compact storage (1–2 bytes), validation built-in.
+            <br><strong>Cons:</strong> Adding new values requires <code>ALTER TABLE</code>; not portable to other databases.
+            <br>Consider using a <strong>lookup table</strong> or <code>VARCHAR</code> with <code>CHECK</code> constraint instead.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q42">
+            <span class="q-tag tag-easy">Easy</span> Q42: What is the difference between FLOAT and DECIMAL?
+          </button>
+        </h2>
+        <div id="q42" class="accordion-collapse collapse" data-bs-parent="#datatypes">
+          <div class="accordion-body">
+            <strong>FLOAT</strong>/<strong>DOUBLE</strong> are approximate numeric types (binary floating-point). They may have rounding errors. Use for scientific calculations where small errors are acceptable.
+            <br><strong>DECIMAL</strong> (also known as <code>NUMERIC</code>) stores exact fixed-point numbers. Use for monetary values, tax rates, and any data where precision is critical.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- ==================== JOINS ==================== -->
+  <section id="joins">
+    <h2><i class="bi bi-diagram-3 me-2"></i>Joins &amp; Subqueries</h2>
+    <div class="section-desc">Understanding table relationships with JOINs and subqueries.</div>
+    <div class="accordion">
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q43">
+            <span class="q-tag tag-easy">Easy</span> Q43: What is JOIN in MySQL? List the types.
+          </button>
+        </h2>
+        <div id="q43" class="accordion-collapse collapse" data-bs-parent="#joins">
+          <div class="accordion-body">
+            JOIN combines rows from two or more tables based on a related column. Types:
+            <ul>
+              <li><strong>INNER JOIN</strong> — Returns rows that have matching values in both tables</li>
+              <li><strong>LEFT JOIN</strong> (or LEFT OUTER JOIN) — Returns all rows from left table + matched rows from right table</li>
+              <li><strong>RIGHT JOIN</strong> — Returns all rows from right table + matched rows from left table</li>
+              <li><strong>CROSS JOIN</strong> — Cartesian product of both tables</li>
+              <li><strong>NATURAL JOIN</strong> — Joins on columns with the same name (not recommended for clarity)</li>
+              <li><strong>SELF JOIN</strong> — Joining a table with itself</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q44">
+            <span class="q-tag tag-easy">Easy</span> Q44: Write a LEFT JOIN query.
+          </button>
+        </h2>
+        <div id="q44" class="accordion-collapse collapse" data-bs-parent="#joins">
+          <div class="accordion-body">
+            <pre><code><span class="kw">SELECT</span>
+  u.id, u.name,
+  <span class="fn">COALESCE</span>(<span class="fn">COUNT</span>(o.id), 0) <span class="kw">AS</span> order_count
+<span class="kw">FROM</span> users u
+<span class="kw">LEFT JOIN</span> orders o <span class="kw">ON</span> u.id <span class="kw">=</span> o.user_id
+<span class="kw">GROUP BY</span> u.id, u.name
+<span class="kw">ORDER BY</span> order_count <span class="kw">DESC</span>;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q45">
+            <span class="q-tag tag-med">Medium</span> Q45: Explain INNER JOIN vs LEFT JOIN with a real example.
+          </button>
+        </h2>
+        <div id="q45" class="accordion-collapse collapse" data-bs-parent="#joins">
+          <div class="accordion-body">
+            Given <code>students (id, name)</code> and <code>enrollments (student_id, course)</code>:
+            <pre><code><span class="cm">-- INNER: only students who enrolled</span>
+<span class="kw">SELECT</span> s.name, e.course
+<span class="kw">FROM</span> students s
+<span class="kw">INNER JOIN</span> enrollments e <span class="kw">ON</span> s.id <span class="kw">=</span> e.student_id;
+
+<span class="cm">-- LEFT: all students, even those without enrollments</span>
+<span class="kw">SELECT</span> s.name, e.course
+<span class="kw">FROM</span> students s
+<span class="kw">LEFT JOIN</span> enrollments e <span class="kw">ON</span> s.id <span class="kw">=</span> e.student_id;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q46">
+            <span class="q-tag tag-med">Medium</span> Q46: What is a SELF JOIN? Give an example.
+          </button>
+        </h2>
+        <div id="q46" class="accordion-collapse collapse" data-bs-parent="#joins">
+          <div class="accordion-body">
+            A SELF JOIN is a regular join where a table is joined with itself. Use table aliases to distinguish.
+            <pre><code><span class="cm">-- Employee-manager relationship</span>
+<span class="kw">SELECT</span>
+  e1.name <span class="kw">AS</span> employee,
+  e2.name <span class="kw">AS</span> manager
+<span class="kw">FROM</span> employees e1
+<span class="kw">LEFT JOIN</span> employees e2 <span class="kw">ON</span> e1.manager_id <span class="kw">=</span> e2.id;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q47">
+            <span class="q-tag tag-easy">Easy</span> Q47: What is the difference between ON and USING in JOIN?
+          </button>
+        </h2>
+        <div id="q47" class="accordion-collapse collapse" data-bs-parent="#joins">
+          <div class="accordion-body">
+            <strong>ON</strong> specifies any join condition (columns need not have the same name). <strong>USING</strong> is shorthand when the join columns have the <em>same name</em> in both tables. USING eliminates the duplicate column from the result.
+            <pre><code><span class="cm">-- ON</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users u
+<span class="kw">JOIN</span> orders o <span class="kw">ON</span> u.id <span class="kw">=</span> o.user_id;
+
+<span class="cm">-- USING (same column name in both tables)</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users
+<span class="kw">JOIN</span> profiles <span class="kw">USING</span> (user_id);</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q48">
+            <span class="q-tag tag-med">Medium</span> Q48: What is a CROSS JOIN?
+          </button>
+        </h2>
+        <div id="q48" class="accordion-collapse collapse" data-bs-parent="#joins">
+          <div class="accordion-body">
+            A <strong>CROSS JOIN</strong> produces the Cartesian product of two tables — every row from table A paired with every row from table B. No join condition is specified.
+            <pre><code><span class="kw">SELECT</span> colors.name, sizes.name
+<span class="kw">FROM</span> colors
+<span class="kw">CROSS JOIN</span> sizes;
+
+<span class="cm">-- Same as implicit CROSS JOIN</span>
+<span class="kw">SELECT</span> colors.name, sizes.name
+<span class="kw">FROM</span> colors, sizes;</code></pre>
+            Be careful: CROSS JOIN on large tables can generate enormous result sets.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q49">
+            <span class="q-tag tag-hard">Hard</span> Q49: What is the difference between JOIN and subquery in terms of performance?
+          </button>
+        </h2>
+        <div id="q49" class="accordion-collapse collapse" data-bs-parent="#joins">
+          <div class="accordion-body">
+            <ul>
+              <li><strong>JOIN</strong> — MySQL optimizer can leverage indexes more effectively. Generally faster for correlated data.</li>
+              <li><strong>Subquery</strong> — Easier to read and maintain. Modern MySQL (8.0+) has better subquery optimization (auto-transform many subqueries to joins).</li>
+            </ul>
+            <strong>Best practice:</strong> Prefer JOINs for large datasets. Use subqueries for readability when the dataset is small or when you need intermediate aggregations.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q50">
+            <span class="q-tag tag-hard">Hard</span> Q50: Write a query to find users who do not have any orders.
+          </button>
+        </h2>
+        <div id="q50" class="accordion-collapse collapse" data-bs-parent="#joins">
+          <div class="accordion-body">
+            <pre><code><span class="cm">-- Using LEFT JOIN</span>
+<span class="kw">SELECT</span> u.id, u.name
+<span class="kw">FROM</span> users u
+<span class="kw">LEFT JOIN</span> orders o <span class="kw">ON</span> u.id <span class="kw">=</span> o.user_id
+<span class="kw">WHERE</span> o.id <span class="kw">IS NULL</span>;
+
+<span class="cm">-- Using NOT EXISTS</span>
+<span class="kw">SELECT</span> u.id, u.name
+<span class="kw">FROM</span> users u
+<span class="kw">WHERE</span> <span class="kw">NOT EXISTS</span> (
+  <span class="kw">SELECT</span> 1 <span class="kw">FROM</span> orders o <span class="kw">WHERE</span> o.user_id <span class="kw">=</span> u.id
+);
+
+<span class="cm">-- Using NOT IN (caution with NULLs)</span>
+<span class="kw">SELECT</span> u.id, u.name
+<span class="kw">FROM</span> users u
+<span class="kw">WHERE</span> u.id <span class="kw">NOT IN</span> (
+  <span class="kw">SELECT</span> user_id <span class="kw">FROM</span> orders <span class="kw">WHERE</span> user_id <span class="kw">IS NOT NULL</span>
+);</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- ==================== INDEXING ==================== -->
+  <section id="indexing">
+    <h2><i class="bi bi-sort-up me-2"></i>Indexing</h2>
+    <div class="section-desc">Types of indexes, query optimization, EXPLAIN, and best practices.</div>
+    <div class="accordion">
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q51">
+            <span class="q-tag tag-easy">Easy</span> Q51: What is an index in MySQL?
+          </button>
+        </h2>
+        <div id="q51" class="accordion-collapse collapse" data-bs-parent="#indexing">
+          <div class="accordion-body">
+            An <strong>index</strong> is a data structure (like a B-Tree) that improves the speed of data retrieval operations on a table at the cost of additional storage and slower writes (INSERT/UPDATE/DELETE). Indexes are created on one or more columns and help the database find rows without scanning the entire table.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q52">
+            <span class="q-tag tag-easy">Easy</span> Q52: What types of indexes does MySQL support?
+          </button>
+        </h2>
+        <div id="q52" class="accordion-collapse collapse" data-bs-parent="#indexing">
+          <div class="accordion-body">
+            <ul>
+              <li><strong>B-Tree Index</strong> — Default for InnoDB/MyISAM</li>
+              <li><strong>UNIQUE Index</strong> — Ensures all values are unique</li>
+              <li><strong>PRIMARY KEY</strong> — Unique + NOT NULL; clustered index in InnoDB</li>
+              <li><strong>FULLTEXT Index</strong> — For full-text search (MATCH ... AGAINST)</li>
+              <li><strong>SPATIAL Index</strong> — For geographic data types (POINT, POLYGON)</li>
+              <li><strong>Hash Index</strong> — Only in Memory engine</li>
+              <li><strong>Composite Index</strong> — Multi-column index, leftmost prefix rule applies</li>
+              <li><strong>Descending Index</strong> — MySQL 8.0+</li>
+              <li><strong>Functional Index</strong> — MySQL 8.0.13+ — index on expressions</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q53">
+            <span class="q-tag tag-med">Medium</span> Q53: What is a Composite Index? Explain the leftmost prefix rule.
+          </button>
+        </h2>
+        <div id="q53" class="accordion-collapse collapse" data-bs-parent="#indexing">
+          <div class="accordion-body">
+            A <strong>composite index</strong> is an index on multiple columns. Example: <code>INDEX idx_name_age (name, age)</code>.
+            <br><br>
+            <strong>Leftmost Prefix Rule:</strong> A composite index can be used for queries on any leftmost subset of its columns. An index on <code>(A, B, C)</code> can optimize:
+            <ul>
+              <li><code>WHERE A = ?</code> — uses index</li>
+              <li><code>WHERE A = ? AND B = ?</code> — uses index</li>
+              <li><code>WHERE A = ? AND B = ? AND C = ?</code> — uses index fully</li>
+              <li><code>WHERE B = ?</code> — <strong>cannot</strong> use the index (skips column A)</li>
+              <li><code>WHERE A = ? AND C = ?</code> — uses index for A but not for C (gap)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q54">
+            <span class="q-tag tag-med">Medium</span> Q54: How do you create and drop indexes?
+          </button>
+        </h2>
+        <div id="q54" class="accordion-collapse collapse" data-bs-parent="#indexing">
+          <div class="accordion-body">
+            <pre><code><span class="cm">-- Create index</span>
+<span class="kw">CREATE INDEX</span> idx_name <span class="kw">ON</span> users (name);
+<span class="kw">CREATE UNIQUE INDEX</span> idx_email <span class="kw">ON</span> users (email);
+<span class="kw">CREATE INDEX</span> idx_name_age <span class="kw">ON</span> users (name, age);
+
+<span class="cm">-- Add via ALTER TABLE</span>
+<span class="kw">ALTER TABLE</span> users <span class="kw">ADD INDEX</span> idx_name (name);
+
+<span class="cm">-- Drop index</span>
+<span class="kw">DROP INDEX</span> idx_name <span class="kw">ON</span> users;
+
+<span class="cm">-- Show indexes</span>
+<span class="kw">SHOW INDEX FROM</span> users;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q55">
+            <span class="q-tag tag-hard">Hard</span> Q55: How do you use EXPLAIN to analyze a query?
+          </button>
+        </h2>
+        <div id="q55" class="accordion-collapse collapse" data-bs-parent="#indexing">
+          <div class="accordion-body">
+            <code>EXPLAIN</code> shows how MySQL executes a query.
+            <pre><code><span class="kw">EXPLAIN</span> <span class="kw">SELECT</span> u.name, <span class="fn">COUNT</span>(o.id)
+<span class="kw">FROM</span> users u
+<span class="kw">LEFT JOIN</span> orders o <span class="kw">ON</span> u.id <span class="kw">=</span> o.user_id
+<span class="kw">WHERE</span> u.age <span class="kw">&gt;</span> 18
+<span class="kw">GROUP BY</span> u.id;</code></pre>
+            Key columns in EXPLAIN output:
+            <ul>
+              <li><strong>type</strong> — <code>ALL</code> (bad), <code>range</code>, <code>ref</code>, <code>eq_ref</code>, <code>const</code> (best)</li>
+              <li><strong>possible_keys</strong> — Indexes MySQL could use</li>
+              <li><strong>key</strong> — Index MySQL actually used</li>
+              <li><strong>rows</strong> — Estimated rows examined</li>
+              <li><strong>Extra</strong> — <code>Using index</code> (covering), <code>Using filesort</code> (bad), <code>Using temporary</code> (bad)</li>
+            </ul>
+            Use <code>EXPLAIN ANALYZE</code> (MySQL 8.0.18+) for actual execution times.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q56">
+            <span class="q-tag tag-med">Medium</span> Q56: What is a Covering Index?
+          </button>
+        </h2>
+        <div id="q56" class="accordion-collapse collapse" data-bs-parent="#indexing">
+          <div class="accordion-body">
+            A <strong>covering index</strong> is an index that contains <em>all</em> columns needed by a query, so MySQL can satisfy the query entirely from the index without accessing the table rows. Indicated by <code>Using index</code> in EXPLAIN Extra column.
+            <pre><code><span class="cm">-- If index is on (name, age), this query is covered:</span>
+<span class="kw">SELECT</span> name, age <span class="kw">FROM</span> users <span class="kw">WHERE</span> name <span class="kw">=</span> <span class="str">'Alice'</span>;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q57">
+            <span class="q-tag tag-hard">Hard</span> Q57: What is the difference between Clustered and Non-Clustered Index?
+          </button>
+        </h2>
+        <div id="q57" class="accordion-collapse collapse" data-bs-parent="#indexing">
+          <div class="accordion-body">
+            <strong>Clustered Index:</strong> InnoDB stores the actual table data in a B-Tree structure ordered by the primary key. The table data <em>is</em> the clustered index. There can be only one per table. Secondary indexes store the primary key value as a pointer.
+            <br><br>
+            <strong>Non-Clustered Index:</strong> The index structure is separate from the data. The index leaf nodes contain pointers to the actual rows. MyISAM uses non-clustered indexes. In InnoDB, all secondary indexes are non-clustered.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q58">
+            <span class="q-tag tag-med">Medium</span> Q58: When do indexes become counterproductive?
+          </button>
+        </h2>
+        <div id="q58" class="accordion-collapse collapse" data-bs-parent="#indexing">
+          <div class="accordion-body">
+            <ul>
+              <li><strong>Write-heavy tables</strong> — Each INSERT/UPDATE/DELETE must update all indexes</li>
+              <li><strong>Small tables</strong> — Full table scan is faster than index traversal</li>
+              <li><strong>Low cardinality columns</strong> — e.g., gender column (M/F)</li>
+              <li><strong>Too many indexes</strong> — Increased storage and slower writes</li>
+              <li><strong>Columns frequently updated</strong> — Index maintenance overhead</li>
+              <li><strong>Queries with <code>LIKE '%text%'</code></strong> — Wildcard at start prevents B-Tree usage</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q59">
+            <span class="q-tag tag-hard">Hard</span> Q59: What is an Index Merge?
+          </button>
+        </h2>
+        <div id="q59" class="accordion-collapse collapse" data-bs-parent="#indexing">
+          <div class="accordion-body">
+            <strong>Index Merge</strong> is an optimization where MySQL uses multiple indexes in a single query and merges the results. It can merge using <code>AND</code> (intersection), <code>OR</code> (union), or a combination. Appears in EXPLAIN as <code>Using union(index_a,index_b)</code>. Index merge is typically slower than a well-designed composite index because it involves reading multiple B-Trees and sorting/merging results.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- ==================== NORMALIZATION ==================== -->
+  <section id="normalization">
+    <h2><i class="bi bi-layers me-2"></i>Normalization</h2>
+    <div class="section-desc">Database normalization forms, denormalization, and schema design principles.</div>
+    <div class="accordion">
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q60">
+            <span class="q-tag tag-easy">Easy</span> Q60: What is normalization?
+          </button>
+        </h2>
+        <div id="q60" class="accordion-collapse collapse" data-bs-parent="#normalization">
+          <div class="accordion-body">
+            <strong>Normalization</strong> is the process of organizing data to reduce redundancy and improve data integrity. It involves dividing large tables into smaller, related tables and defining relationships between them.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q61">
+            <span class="q-tag tag-med">Medium</span> Q61: Explain 1NF, 2NF, 3NF, and BCNF.
+          </button>
+        </h2>
+        <div id="q61" class="accordion-collapse collapse" data-bs-parent="#normalization">
+          <div class="accordion-body">
+            <ul>
+              <li><strong>1NF</strong> — Each column contains atomic values. No repeating groups. Each row must be unique.</li>
+              <li><strong>2NF</strong> — Must be in 1NF. Every non-key column must be fully functionally dependent on the entire primary key (no partial dependency). Relevant for composite keys.</li>
+              <li><strong>3NF</strong> — Must be in 2NF. No transitive dependency — non-key columns should not depend on other non-key columns.</li>
+              <li><strong>BCNF</strong> — Stricter version of 3NF. Every determinant must be a candidate key.</li>
+            </ul>
+            <strong>Example violation:</strong> Table <code>Employee(emp_id, dept_id, dept_location)</code> — <code>dept_location</code> depends on <code>dept_id</code>, not <code>emp_id</code> (3NF violation). Solution: separate <code>Department</code> table.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q62">
+            <span class="q-tag tag-hard">Hard</span> Q62: What is Denormalization? When would you use it?
+          </button>
+        </h2>
+        <div id="q62" class="accordion-collapse collapse" data-bs-parent="#normalization">
+          <div class="accordion-body">
+            <strong>Denormalization</strong> is the intentional introduction of redundancy by combining tables or adding duplicate columns. It trades write efficiency and storage for <strong>read performance</strong>.
+            <br><br>
+            <strong>When to denormalize:</strong>
+            <ul>
+              <li>Reporting/analytics queries that need to avoid expensive JOINs</li>
+              <li>High-traffic read-heavy applications (e.g., dashboards)</li>
+              <li>Caching pre-computed aggregates</li>
+              <li>Read-heavy OLAP workloads</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q63">
+            <span class="q-tag tag-easy">Easy</span> Q63: What is an Entity Relationship (ER) Diagram?
+          </button>
+        </h2>
+        <div id="q63" class="accordion-collapse collapse" data-bs-parent="#normalization">
+          <div class="accordion-body">
+            An <strong>ER Diagram</strong> is a visual representation of entities (tables), their attributes (columns), and the relationships between them (one-to-one, one-to-many, many-to-many). It is used for database design to plan the schema before implementation.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q64">
+            <span class="q-tag tag-med">Medium</span> Q64: How do you model a many-to-many relationship?
+          </button>
+        </h2>
+        <div id="q64" class="accordion-collapse collapse" data-bs-parent="#normalization">
+          <div class="accordion-body">
+            Use a <strong>junction (pivot) table</strong> that contains foreign keys referencing both related tables.
+            <pre><code><span class="kw">CREATE TABLE</span> enrollments (
+  student_id <span class="tp">INT</span>,
+  course_id <span class="tp">INT</span>,
+  enrolled_at <span class="tp">TIMESTAMP DEFAULT</span> <span class="kw">CURRENT_TIMESTAMP</span>,
+  <span class="kw">PRIMARY KEY</span> (student_id, course_id),
+  <span class="kw">FOREIGN KEY</span> (student_id) <span class="kw">REFERENCES</span> students(id),
+  <span class="kw">FOREIGN KEY</span> (course_id) <span class="kw">REFERENCES</span> courses(id)
+);</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== CONSTRAINTS ==================== -->
+  <section id="constraints">
+    <h2><i class="bi bi-check2-square me-2"></i>Constraints</h2>
+    <div class="section-desc">NOT NULL, UNIQUE, CHECK, DEFAULT, FOREIGN KEY constraints.</div>
+    <div class="accordion">
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q65">
+            <span class="q-tag tag-easy">Easy</span> Q65: What constraints does MySQL support?
+          </button>
+        </h2>
+        <div id="q65" class="accordion-collapse collapse" data-bs-parent="#constraints">
+          <div class="accordion-body">
+            <ul>
+              <li><code>NOT NULL</code> — Column cannot contain NULL values</li>
+              <li><code>UNIQUE</code> — All values in the column must be distinct</li>
+              <li><code>PRIMARY KEY</code> — NOT NULL + UNIQUE (one per table)</li>
+              <li><code>FOREIGN KEY</code> — Enforces referential integrity (InnoDB only)</li>
+              <li><code>CHECK</code> — Validates values based on an expression (MySQL 8.0.16+ enforced)</li>
+              <li><code>DEFAULT</code> — Provides a default value when none is specified</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q66">
+            <span class="q-tag tag-med">Medium</span> Q66: What is a CHECK constraint? Give an example.
+          </button>
+        </h2>
+        <div id="q66" class="accordion-collapse collapse" data-bs-parent="#constraints">
+          <div class="accordion-body">
+            <code>CHECK</code> constraint limits values using a boolean expression. MySQL 8.0.16+ enforces them.
+            <pre><code><span class="kw">CREATE TABLE</span> employees (
+  id <span class="tp">INT PRIMARY KEY</span>,
+  age <span class="tp">INT</span> <span class="kw">CHECK</span> (age <span class="kw">&gt;=</span> 18 <span class="kw">AND</span> age <span class="kw">&lt;=</span> 100),
+  salary <span class="tp">DECIMAL</span>(10,2) <span class="kw">CHECK</span> (salary <span class="kw">&gt;</span> 0),
+  status <span class="tp">VARCHAR</span>(10) <span class="kw">CHECK</span> (status <span class="kw">IN</span> (<span class="str">'active'</span>,<span class="str">'inactive'</span>,<span class="str">'terminated'</span>))
+);</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q67">
+            <span class="q-tag tag-easy">Easy</span> Q67: What is the difference between ON DELETE CASCADE and ON DELETE SET NULL?
+          </button>
+        </h2>
+        <div id="q67" class="accordion-collapse collapse" data-bs-parent="#constraints">
+          <div class="accordion-body">
+            <ul>
+              <li><strong>ON DELETE CASCADE</strong> — When a parent row is deleted, all child rows are automatically deleted.</li>
+              <li><strong>ON DELETE SET NULL</strong> — When a parent row is deleted, the FK column in child rows is set to NULL.</li>
+              <li><strong>ON DELETE RESTRICT</strong> — Prevents deletion of parent row if child rows exist (default).</li>
+              <li><strong>ON DELETE NO ACTION</strong> — Same as RESTRICT in MySQL.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- ==================== FUNCTIONS ==================== -->
+  <section id="functions">
+    <h2><i class="bi bi-code-slash me-2"></i>Functions &amp; Stored Procedures</h2>
+    <div class="section-desc">User-defined functions, stored procedures, cursors, and control flow.</div>
+    <div class="accordion">
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q68">
+            <span class="q-tag tag-easy">Easy</span> Q68: What is the difference between a Function and a Stored Procedure?
+          </button>
+        </h2>
+        <div id="q68" class="accordion-collapse collapse" data-bs-parent="#functions">
+          <div class="accordion-body">
+            <table class="table table-sm table-bordered">
+              <thead><tr><th>Function</th><th>Stored Procedure</th></tr></thead>
+              <tbody>
+                <tr><td>Must return a single value</td><td>May return 0, 1, or multiple result sets</td></tr>
+                <tr><td>Can be used in SQL queries (<code>SELECT fn()</code>)</td><td>Called with <code>CALL proc()</code></td></tr>
+                <tr><td>Cannot modify data</td><td>Can modify data</td></tr>
+                <tr><td>Only IN parameters</td><td>IN, OUT, INOUT parameters</td></tr>
+                <tr><td>Cannot use transactions</td><td>Can use transactions</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q69">
+            <span class="q-tag tag-med">Medium</span> Q69: Write a stored procedure to get users by age range.
+          </button>
+        </h2>
+        <div id="q69" class="accordion-collapse collapse" data-bs-parent="#functions">
+          <div class="accordion-body">
+            <pre><code><span class="kw">DELIMITER</span> $$
+
+<span class="kw">CREATE PROCEDURE</span> get_users_by_age_range(
+  <span class="kw">IN</span> min_age <span class="tp">INT</span>,
+  <span class="kw">IN</span> max_age <span class="tp">INT</span>
+)
+<span class="kw">BEGIN</span>
+  <span class="kw">SELECT</span> id, name, email, age
+  <span class="kw">FROM</span> users
+  <span class="kw">WHERE</span> age <span class="kw">BETWEEN</span> min_age <span class="kw">AND</span> max_age
+  <span class="kw">ORDER BY</span> age;
+<span class="kw">END</span> $$
+
+<span class="kw">DELIMITER</span> ;
+
+<span class="cm">-- Call it</span>
+<span class="kw">CALL</span> get_users_by_age_range(18, 35);</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q70">
+            <span class="q-tag tag-med">Medium</span> Q70: Write a MySQL function to calculate age from DOB.
+          </button>
+        </h2>
+        <div id="q70" class="accordion-collapse collapse" data-bs-parent="#functions">
+          <div class="accordion-body">
+            <pre><code><span class="kw">DELIMITER</span> $$
+
+<span class="kw">CREATE FUNCTION</span> calculate_age(dob <span class="tp">DATE</span>)
+<span class="kw">RETURNS INT</span>
+<span class="kw">DETERMINISTIC</span>
+<span class="kw">BEGIN</span>
+  <span class="kw">DECLARE</span> age <span class="tp">INT</span>;
+  <span class="kw">SET</span> age <span class="kw">=</span> <span class="fn">TIMESTAMPDIFF</span>(<span class="tp">YEAR</span>, dob, <span class="kw">CURDATE</span>());
+  <span class="kw">RETURN</span> age;
+<span class="kw">END</span> $$
+
+<span class="kw">DELIMITER</span> ;
+
+<span class="kw">SELECT</span> name, <span class="fn">calculate_age</span>(birth_date) <span class="kw">AS</span> age <span class="kw">FROM</span> users;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q71">
+            <span class="q-tag tag-hard">Hard</span> Q71: What are Cursors in MySQL?
+          </button>
+        </h2>
+        <div id="q71" class="accordion-collapse collapse" data-bs-parent="#functions">
+          <div class="accordion-body">
+            A <strong>cursor</strong> allows you to iterate through a result set row by row inside a stored procedure. Cursors are memory-intensive and should be used as a last resort.
+            <pre><code><span class="kw">CREATE PROCEDURE</span> process_users()
+<span class="kw">BEGIN</span>
+  <span class="kw">DECLARE</span> done <span class="tp">INT DEFAULT</span> <span class="kw">FALSE</span>;
+  <span class="kw">DECLARE</span> uid <span class="tp">INT</span>;
+  <span class="kw">DECLARE</span> uname <span class="tp">VARCHAR</span>(100);
+  <span class="kw">DECLARE</span> cur <span class="kw">CURSOR FOR</span>
+    <span class="kw">SELECT</span> id, name <span class="kw">FROM</span> users <span class="kw">WHERE</span> status <span class="kw">=</span> <span class="str">'pending'</span>;
+  <span class="kw">DECLARE CONTINUE HANDLER FOR NOT FOUND SET</span> done <span class="kw">=</span> <span class="kw">TRUE</span>;
+  <span class="kw">OPEN</span> cur;
+  <span class="kw">read_loop:</span> <span class="kw">LOOP</span>
+    <span class="kw">FETCH</span> cur <span class="kw">INTO</span> uid, uname;
+    <span class="kw">IF</span> done <span class="kw">THEN</span> <span class="kw">LEAVE</span> read_loop; <span class="kw">END IF</span>;
+    <span class="kw">UPDATE</span> users <span class="kw">SET</span> status <span class="kw">=</span> <span class="str">'processed'</span> <span class="kw">WHERE</span> id <span class="kw">=</span> uid;
+  <span class="kw">END LOOP</span>;
+  <span class="kw">CLOSE</span> cur;
+<span class="kw">END</span>;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q72">
+            <span class="q-tag tag-med">Medium</span> Q72: What are MySQL built-in string functions?
+          </button>
+        </h2>
+        <div id="q72" class="accordion-collapse collapse" data-bs-parent="#functions">
+          <div class="accordion-body">
+            Common string functions: <code>CONCAT()</code>, <code>LENGTH()</code>, <code>CHAR_LENGTH()</code>, <code>SUBSTRING()</code>, <code>TRIM()</code>, <code>UPPER()</code>, <code>LOWER()</code>, <code>REPLACE()</code>, <code>LOCATE()</code>, <code>LPAD()</code>, <code>RPAD()</code>, <code>REVERSE()</code>, <code>REGEXP_LIKE()</code> (MySQL 8+).
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q73">
+            <span class="q-tag tag-med">Medium</span> Q73: What are MySQL date/time functions?
+          </button>
+        </h2>
+        <div id="q73" class="accordion-collapse collapse" data-bs-parent="#functions">
+          <div class="accordion-body">
+            <code>NOW()</code>, <code>CURDATE()</code>, <code>CURTIME()</code>, <code>DATE()</code>, <code>TIME()</code>, <code>YEAR()</code>, <code>MONTH()</code>, <code>DAY()</code>, <code>DATE_ADD()</code>, <code>DATE_SUB()</code>, <code>DATEDIFF()</code>, <code>TIMEDIFF()</code>, <code>TIMESTAMPDIFF()</code>, <code>DATE_FORMAT()</code>, <code>UNIX_TIMESTAMP()</code>, <code>FROM_UNIXTIME()</code>, <code>LAST_DAY()</code>, <code>WEEKDAY()</code>, <code>DAYNAME()</code>, <code>MONTHNAME()</code>.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== TRIGGERS ==================== -->
+  <section id="triggers">
+    <h2><i class="bi bi-lightning-charge me-2"></i>Triggers &amp; Events</h2>
+    <div class="section-desc">Automated actions on data changes and scheduled events.</div>
+    <div class="accordion">
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q74">
+            <span class="q-tag tag-easy">Easy</span> Q74: What is a Trigger in MySQL?
+          </button>
+        </h2>
+        <div id="q74" class="accordion-collapse collapse" data-bs-parent="#triggers">
+          <div class="accordion-body">
+            A <strong>trigger</strong> is a stored program that automatically executes in response to <code>INSERT</code>, <code>UPDATE</code>, or <code>DELETE</code> on a table. It can fire BEFORE or AFTER the event. Use triggers for auditing, validation, or derived data.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q75">
+            <span class="q-tag tag-med">Medium</span> Q75: Write a trigger to log user deletions.
+          </button>
+        </h2>
+        <div id="q75" class="accordion-collapse collapse" data-bs-parent="#triggers">
+          <div class="accordion-body">
+            <pre><code><span class="kw">CREATE TABLE</span> user_deletion_log (
+  id <span class="tp">INT PRIMARY KEY AUTO_INCREMENT</span>,
+  user_id <span class="tp">INT</span>, name <span class="tp">VARCHAR</span>(100),
+  email <span class="tp">VARCHAR</span>(255),
+  deleted_at <span class="tp">TIMESTAMP DEFAULT</span> <span class="kw">CURRENT_TIMESTAMP</span>
+);
+
+<span class="kw">DELIMITER</span> $$
+<span class="kw">CREATE TRIGGER</span> before_user_delete
+<span class="kw">BEFORE DELETE ON</span> users
+<span class="kw">FOR EACH ROW</span>
+<span class="kw">BEGIN</span>
+  <span class="kw">INSERT INTO</span> user_deletion_log (user_id, name, email)
+  <span class="kw">VALUES</span> (<span class="kw">OLD</span>.id, <span class="kw">OLD</span>.name, <span class="kw">OLD</span>.email);
+<span class="kw">END</span> $$
+<span class="kw">DELIMITER</span> ;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q76">
+            <span class="q-tag tag-easy">Easy</span> Q76: What is the difference between BEFORE and AFTER triggers?
+          </button>
+        </h2>
+        <div id="q76" class="accordion-collapse collapse" data-bs-parent="#triggers">
+          <div class="accordion-body">
+            <ul>
+              <li><strong>BEFORE</strong> — Fires before the operation. Can modify values before writing. Can raise errors to prevent the operation.</li>
+              <li><strong>AFTER</strong> — Fires after the operation. Cannot modify the data. Useful for logging, audit trails, cascading actions.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q77">
+            <span class="q-tag tag-med">Medium</span> Q77: What is an Event in MySQL (Event Scheduler)?
+          </button>
+        </h2>
+        <div id="q77" class="accordion-collapse collapse" data-bs-parent="#triggers">
+          <div class="accordion-body">
+            An <strong>Event</strong> is a scheduled task that runs at specified intervals (like cron inside MySQL).
+            <pre><code><span class="kw">SET GLOBAL</span> event_scheduler <span class="kw">=</span> <span class="kw">ON</span>;
+
+<span class="kw">CREATE EVENT</span> daily_cleanup
+<span class="kw">ON SCHEDULE EVERY</span> 1 <span class="tp">DAY</span>
+<span class="kw">STARTS</span> <span class="str">'2025-01-01 00:00:00'</span>
+<span class="kw">DO</span>
+  <span class="kw">DELETE FROM</span> sessions <span class="kw">WHERE</span> expires_at <span class="kw">&lt;</span> <span class="kw">NOW</span>();
+
+<span class="kw">SHOW EVENTS</span>;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q78">
+            <span class="q-tag tag-med">Medium</span> Q78: What are the limitations of MySQL triggers?
+          </button>
+        </h2>
+        <div id="q78" class="accordion-collapse collapse" data-bs-parent="#triggers">
+          <div class="accordion-body">
+            <ul>
+              <li>Cannot use <code>ALTER</code>, <code>DROP</code>, <code>CREATE</code> inside triggers</li>
+              <li>Cannot return result sets</li>
+              <li>Cannot commit or rollback transactions</li>
+              <li>Hard to debug</li>
+              <li>Can degrade performance for bulk operations</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- ==================== TRANSACTIONS ==================== -->
+  <section id="transactions">
+    <h2><i class="bi bi-arrow-repeat me-2"></i>Transactions &amp; Locking</h2>
+    <div class="section-desc">ACID, isolation levels, locks, deadlocks, and MVCC in InnoDB.</div>
+    <div class="accordion">
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q79">
+            <span class="q-tag tag-easy">Easy</span> Q79: What is a transaction in MySQL?
+          </button>
+        </h2>
+        <div id="q79" class="accordion-collapse collapse" data-bs-parent="#transactions">
+          <div class="accordion-body">
+            A <strong>transaction</strong> is a sequence of SQL operations executed as a single unit of work. It follows ACID properties. Only InnoDB supports transactions.
+            <pre><code><span class="kw">START TRANSACTION</span>;
+<span class="kw">UPDATE</span> accounts <span class="kw">SET</span> balance <span class="kw">=</span> balance <span class="kw">-</span> 100 <span class="kw">WHERE</span> id <span class="kw">=</span> 1;
+<span class="kw">UPDATE</span> accounts <span class="kw">SET</span> balance <span class="kw">=</span> balance <span class="kw">+</span> 100 <span class="kw">WHERE</span> id <span class="kw">=</span> 2;
+<span class="kw">COMMIT</span>;
+<span class="cm">-- or ROLLBACK; if error</span></code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q80">
+            <span class="q-tag tag-med">Medium</span> Q80: Explain ACID properties.
+          </button>
+        </h2>
+        <div id="q80" class="accordion-collapse collapse" data-bs-parent="#transactions">
+          <div class="accordion-body">
+            <ul>
+              <li><strong>A — Atomicity</strong>: All operations succeed or all fail (rollback).</li>
+              <li><strong>C — Consistency</strong>: Transaction moves DB from one valid state to another.</li>
+              <li><strong>I — Isolation</strong>: Concurrent transactions are isolated from each other.</li>
+              <li><strong>D — Durability</strong>: Committed changes persist even after system failure (via redo logs).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q81">
+            <span class="q-tag tag-hard">Hard</span> Q81: What are MySQL transaction isolation levels?
+          </button>
+        </h2>
+        <div id="q81" class="accordion-collapse collapse" data-bs-parent="#transactions">
+          <div class="accordion-body">
+            <table class="table table-sm table-bordered">
+              <thead><tr><th>Isolation Level</th><th>Dirty Read</th><th>Non-Repeatable Read</th><th>Phantom Read</th></tr></thead>
+              <tbody>
+                <tr><td><code>READ UNCOMMITTED</code></td><td>Possible</td><td>Possible</td><td>Possible</td></tr>
+                <tr><td><code>READ COMMITTED</code></td><td>Prevented</td><td>Possible</td><td>Possible</td></tr>
+                <tr><td><code>REPEATABLE READ</code></td><td>Prevented</td><td>Prevented</td><td>Prevented (via gap locks)</td></tr>
+                <tr><td><code>SERIALIZABLE</code></td><td>Prevented</td><td>Prevented</td><td>Prevented</td></tr>
+              </tbody>
+            </table>
+            MySQL default is <code>REPEATABLE READ</code>.
+            <pre><code><span class="kw">SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED</span>;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q82">
+            <span class="q-tag tag-hard">Hard</span> Q82: Explain Dirty Read, Non-Repeatable Read, and Phantom Read.
+          </button>
+        </h2>
+        <div id="q82" class="accordion-collapse collapse" data-bs-parent="#transactions">
+          <div class="accordion-body">
+            <ul>
+              <li><strong>Dirty Read</strong> — Transaction A reads uncommitted data from B. If B rolls back, A read invalid data. Prevented by <code>READ COMMITTED</code>+.</li>
+              <li><strong>Non-Repeatable Read</strong> — Transaction A reads same row twice with different values because B committed an update in between. Prevented by <code>REPEATABLE READ</code>+.</li>
+              <li><strong>Phantom Read</strong> — Transaction A runs same query twice and sees different rows because B inserted rows. InnoDB prevents phantoms at <code>REPEATABLE READ</code> using <strong>next-key locks</strong>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q83">
+            <span class="q-tag tag-hard">Hard</span> Q83: What are locks in MySQL InnoDB?
+          </button>
+        </h2>
+        <div id="q83" class="accordion-collapse collapse" data-bs-parent="#transactions">
+          <div class="accordion-body">
+            InnoDB uses various locking mechanisms:
+            <ul>
+              <li><strong>Row-level locks</strong> (record locks) — Lock individual index records</li>
+              <li><strong>Gap locks</strong> — Lock gaps between index records to prevent phantom inserts</li>
+              <li><strong>Next-key locks</strong> — Record lock + gap lock combination</li>
+              <li><strong>Shared (S) locks</strong> — Allow reading, block writing (<code>SELECT ... LOCK IN SHARE MODE</code>)</li>
+              <li><strong>Exclusive (X) locks</strong> — Block both reading and writing (<code>SELECT ... FOR UPDATE</code>)</li>
+              <li><strong>Intention locks</strong> — Table-level locks indicating intent to acquire row-level locks</li>
+              <li><strong>AUTO-INC locks</strong> — For auto-increment column insertion</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q84">
+            <span class="q-tag tag-hard">Hard</span> Q84: What is a deadlock? How to prevent it?
+          </button>
+        </h2>
+        <div id="q84" class="accordion-collapse collapse" data-bs-parent="#transactions">
+          <div class="accordion-body">
+            A <strong>deadlock</strong> occurs when two or more transactions each hold locks that the other needs, creating a cycle. InnoDB automatically detects deadlocks and rolls back one transaction (the "victim").
+            <br><br>
+            <strong>Prevention tips:</strong>
+            <ul>
+              <li>Access tables and rows in the same order across transactions</li>
+              <li>Keep transactions short</li>
+              <li>Use proper index (reduces lock contention)</li>
+              <li>Use <code>READ COMMITTED</code> to reduce gap locking</li>
+              <li>Consider using <code>SELECT ... FOR UPDATE NOWAIT</code> or <code>SKIP LOCKED</code></li>
+            </ul>
+            Check deadlocks: <code>SHOW ENGINE INNODB STATUS;</code>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q85">
+            <span class="q-tag tag-hard">Hard</span> Q85: What is MVCC?
+          </button>
+        </h2>
+        <div id="q85" class="accordion-collapse collapse" data-bs-parent="#transactions">
+          <div class="accordion-body">
+            <strong>MVCC</strong> (Multi-Version Concurrency Control) is a mechanism used by InnoDB to allow multiple transactions to see a consistent snapshot of data without blocking each other. It works by keeping multiple versions of each row (with transaction IDs and rollback pointers). Readers do not block writers, and writers do not block readers (at <code>REPEATABLE READ</code> and <code>READ COMMITTED</code>). Each transaction sees a snapshot of the data as of when the transaction started (for <code>REPEATABLE READ</code>).
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q86">
+            <span class="q-tag tag-med">Medium</span> Q86: What are SAVEPOINTs in MySQL?
+          </button>
+        </h2>
+        <div id="q86" class="accordion-collapse collapse" data-bs-parent="#transactions">
+          <div class="accordion-body">
+            A <strong>SAVEPOINT</strong> allows partial rollback within a transaction.
+            <pre><code><span class="kw">START TRANSACTION</span>;
+<span class="kw">UPDATE</span> accounts <span class="kw">SET</span> balance <span class="kw">=</span> 100 <span class="kw">WHERE</span> id <span class="kw">=</span> 1;
+<span class="kw">SAVEPOINT</span> sp1;
+<span class="kw">UPDATE</span> accounts <span class="kw">SET</span> balance <span class="kw">=</span> 200 <span class="kw">WHERE</span> id <span class="kw">=</span> 2;
+<span class="kw">ROLLBACK TO</span> sp1;  <span class="cm">-- reverses second update</span>
+<span class="kw">COMMIT</span>;           <span class="cm">-- commits first update</span></code></pre>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- ==================== PERFORMANCE ==================== -->
+  <section id="performance">
+    <h2><i class="bi bi-speedometer2 me-2"></i>Performance &amp; Optimization</h2>
+    <div class="section-desc">Query optimization, configuration tuning, profiling, and best practices.</div>
+    <div class="accordion">
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q87">
+            <span class="q-tag tag-easy">Easy</span> Q87: How do you identify slow queries in MySQL?
+          </button>
+        </h2>
+        <div id="q87" class="accordion-collapse collapse" data-bs-parent="#performance">
+          <div class="accordion-body">
+            Enable the <strong>slow query log</strong>:
+            <pre><code><span class="cm">-- In my.cnf / my.ini</span>
+slow_query_log = 1
+slow_query_log_file = /var/log/mysql/slow.log
+long_query_time = 2  <span class="cm">-- seconds</span>
+
+<span class="cm">-- Or at runtime</span>
+<span class="kw">SET GLOBAL</span> slow_query_log <span class="kw">=</span> <span class="kw">ON</span>;
+<span class="kw">SET GLOBAL</span> long_query_time <span class="kw">=</span> 2;
+
+<span class="cm">-- View slow queries</span>
+<span class="kw">SHOW VARIABLES LIKE</span> <span class="str">'slow_query_log'</span>;
+<span class="kw">SHOW STATUS LIKE</span> <span class="str">'Slow_queries'</span>;</code></pre>
+            Also use <code>EXPLAIN</code> and <code>EXPLAIN ANALYZE</code> for individual queries.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q88">
+            <span class="q-tag tag-med">Medium</span> Q88: What is a query cache? Is it available in MySQL 8.0?
+          </button>
+        </h2>
+        <div id="q88" class="accordion-collapse collapse" data-bs-parent="#performance">
+          <div class="accordion-body">
+            The <strong>query cache</strong> stored the result set of a SELECT query so that repeated identical queries could return instantly. It was <strong>removed in MySQL 8.0</strong> because it caused scalability issues (global mutex contention on multi-core systems). Use application-level caching (Redis, Memcached) or MySQL 8.0's performance schema instead.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q89">
+            <span class="q-tag tag-hard">Hard</span> Q89: How do you optimize a slow query?
+          </button>
+        </h2>
+        <div id="q89" class="accordion-collapse collapse" data-bs-parent="#performance">
+          <div class="accordion-body">
+            Steps for optimizing a slow query:
+            <ol>
+              <li>Use <code>EXPLAIN</code> to see execution plan</li>
+              <li>Check for <code>ALL</code> (full table scan) in type column</li>
+              <li>Check for <code>Using filesort</code> or <code>Using temporary</code> in Extra</li>
+              <li>Add appropriate indexes (check if existing indexes are being used)</li>
+              <li>Avoid <code>SELECT *</code> — fetch only needed columns</li>
+              <li>Ensure JOIN columns are indexed</li>
+              <li>Break complex queries into simpler steps with temp tables</li>
+              <li>Use <code>EXISTS</code> instead of <code>IN</code> for subqueries</li>
+              <li>Consider query rewriting (e.g., avoid functions on indexed columns)</li>
+              <li>Partition large tables if needed</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q90">
+            <span class="q-tag tag-med">Medium</span> Q90: What is the MySQL query optimizer?
+          </button>
+        </h2>
+        <div id="q90" class="accordion-collapse collapse" data-bs-parent="#performance">
+          <div class="accordion-body">
+            The <strong>query optimizer</strong> determines the most efficient way to execute a query. It evaluates multiple strategies (join orders, index choices, access methods) and selects the lowest-cost plan based on statistics. Use <code>EXPLAIN</code> to see the optimizer's plan. You can force index usage with <code>FORCE INDEX</code> or <code>USE INDEX</code> hints. MySQL 8.0 also supports <code>OPTIMIZER_HINTS</code> for fine-grained control.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q91">
+            <span class="q-tag tag-hard">Hard</span> Q91: What is the Performance Schema?
+          </button>
+        </h2>
+        <div id="q91" class="accordion-collapse collapse" data-bs-parent="#performance">
+          <div class="accordion-body">
+            The <strong>Performance Schema</strong> (available since MySQL 5.5, enabled by default in MySQL 8.0) provides low-level instrumentation for monitoring query execution, waits, mutexes, file I/O, and memory usage. It can help identify bottlenecks without external tools.
+            <pre><code><span class="cm">-- Check if enabled</span>
+<span class="kw">SHOW VARIABLES LIKE</span> <span class="str">'performance_schema'</span>;
+
+<span class="cm">-- Find slow queries from performance_schema</span>
+<span class="kw">SELECT</span> <span class="kw">DIGEST_TEXT</span>, <span class="fn">ROUND</span>(SUM_TIMER_WAIT/1000000000, 2) <span class="kw">AS</span> total_ms,
+       COUNT_STAR, <span class="fn">ROUND</span>(AVG_TIMER_WAIT/1000000000, 2) <span class="kw">AS</span> avg_ms
+<span class="kw">FROM</span> performance_schema.events_statements_summary_by_digest
+<span class="kw">ORDER BY</span> SUM_TIMER_WAIT <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> 20;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q92">
+            <span class="q-tag tag-med">Medium</span> Q92: What is the difference between MyISAM and InnoDB?
+          </button>
+        </h2>
+        <div id="q92" class="accordion-collapse collapse" data-bs-parent="#performance">
+          <div class="accordion-body">
+            <table class="table table-sm table-bordered">
+              <thead><tr><th>Feature</th><th>MyISAM</th><th>InnoDB</th></tr></thead>
+              <tbody>
+                <tr><td>Transactions</td><td>No</td><td>Yes (ACID)</td></tr>
+                <tr><td>Foreign Keys</td><td>No</td><td>Yes</td></tr>
+                <tr><td>Locking</td><td>Table-level</td><td>Row-level</td></tr>
+                <tr><td>Full-text Search</td><td>Yes (native)</td><td>Yes (5.6+)</td></tr>
+                <tr><td>Clustered Index</td><td>No</td><td>Yes (on PK)</td></tr>
+                <tr><td>MVCC</td><td>No</td><td>Yes</td></tr>
+                <tr><td>Data Integrity</td><td>Less robust</td><td>Crash-safe via redo log</td></tr>
+                <tr><td>Use Case</td><td>Read-heavy, data warehouse</td><td>OLTP, transactional workloads</td></tr>
+              </tbody>
+            </table>
+            InnoDB is <strong>default since MySQL 5.5</strong> and recommended for most applications.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q93">
+            <span class="q-tag tag-hard">Hard</span> Q93: What are MySQL configuration tuning tips?
+          </button>
+        </h2>
+        <div id="q93" class="accordion-collapse collapse" data-bs-parent="#performance">
+          <div class="accordion-body">
+            Key configuration parameters for MySQL 8.0:
+            <ul>
+              <li><code>innodb_buffer_pool_size</code> — Set to 60-80% of available RAM (most important)</li>
+              <li><code>innodb_log_file_size</code> — Larger for write-heavy workloads (1-4 GB)</li>
+              <li><code>innodb_flush_log_at_trx_commit</code> — 1 (safest), 2 (faster, some risk)</li>
+              <li><code>max_connections</code> — Tune based on concurrent user count</li>
+              <li><code>query_cache_type</code> — 0 (disabled, removed in 8.0)</li>
+              <li><code>tmp_table_size</code> / <code>max_heap_table_size</code> — For temp tables in memory</li>
+              <li><code>sort_buffer_size</code> — Per-session, don't set too high</li>
+              <li><code>join_buffer_size</code> — Larger for JOIN-heavy workloads</li>
+              <li><code>thread_cache_size</code> — Number of cached threads for reuse</li>
+              <li><code>innodb_io_capacity</code> — Tune for SSD vs HDD</li>
+            </ul>
+            Tools: <code>mysql-tuner</code>, <code>pt-variable-advisor</code>, <code>pt-config-diff</code>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q94">
+            <span class="q-tag tag-med">Medium</span> Q94: What is table partitioning in MySQL?
+          </button>
+        </h2>
+        <div id="q94" class="accordion-collapse collapse" data-bs-parent="#performance">
+          <div class="accordion-body">
+            <strong>Partitioning</strong> divides a table into smaller, more manageable pieces while still querying as a single table. Types: <code>RANGE</code>, <code>LIST</code>, <code>HASH</code>, <code>KEY</code>, <code>COLUMNS</code>. Benefits: faster pruning (partition elimination), easier archival, improved query performance for large tables.
+            <pre><code><span class="kw">CREATE TABLE</span> logs (
+  id <span class="tp">INT NOT NULL</span>,
+  created_at <span class="tp">DATE NOT NULL</span>,
+  message <span class="tp">TEXT</span>
+)
+<span class="kw">PARTITION BY RANGE</span> (<span class="fn">YEAR</span>(created_at)) (
+  <span class="kw">PARTITION</span> p_old <span class="kw">VALUES LESS THAN</span> (2020),
+  <span class="kw">PARTITION</span> p_2020 <span class="kw">VALUES LESS THAN</span> (2021),
+  <span class="kw">PARTITION</span> p_2021 <span class="kw">VALUES LESS THAN</span> (2022),
+  <span class="kw">PARTITION</span> p_future <span class="kw">VALUES LESS THAN</span> MAXVALUE
+);</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q95">
+            <span class="q-tag tag-med">Medium</span> Q95: What is the difference between vertical and horizontal partitioning?
+          </button>
+        </h2>
+        <div id="q95" class="accordion-collapse collapse" data-bs-parent="#performance">
+          <div class="accordion-body">
+            <strong>Vertical partitioning</strong> splits a table by columns (e.g., moving infrequently used columns to a separate table). <strong>Horizontal partitioning</strong> splits a table by rows (e.g., by date range). MySQL's <code>PARTITION BY</code> is horizontal partitioning. Vertical partitioning is done manually by splitting the table schema.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- ==================== ADMIN ==================== -->
+  <section id="admin">
+    <h2><i class="bi bi-shield-lock me-2"></i>Administration</h2>
+    <div class="section-desc">User management, backup, restore, monitoring, and server administration.</div>
+    <div class="accordion">
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q96">
+            <span class="q-tag tag-easy">Easy</span> Q96: How do you create a user in MySQL?
+          </button>
+        </h2>
+        <div id="q96" class="accordion-collapse collapse" data-bs-parent="#admin">
+          <div class="accordion-body">
+            <pre><code><span class="kw">CREATE USER</span> <span class="str">'username'</span>@<span class="str">'localhost'</span> <span class="kw">IDENTIFIED BY</span> <span class="str">'password'</span>;
+
+<span class="cm">-- Create user with more options</span>
+<span class="kw">CREATE USER</span> <span class="str">'appuser'</span>@<span class="str">'192.168.1.%'</span>
+  <span class="kw">IDENTIFIED BY</span> <span class="str">'StrongPass123!'</span>
+  <span class="kw">WITH MAX_QUERIES_PER_HOUR</span> 1000
+  <span class="kw">PASSWORD EXPIRE INTERVAL</span> 90 <span class="tp">DAY</span>;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q97">
+            <span class="q-tag tag-easy">Easy</span> Q97: How do you grant privileges to a user?
+          </button>
+        </h2>
+        <div id="q97" class="accordion-collapse collapse" data-bs-parent="#admin">
+          <div class="accordion-body">
+            <pre><code><span class="cm">-- Grant all privileges on a database</span>
+<span class="kw">GRANT ALL PRIVILEGES ON</span> mydatabase.* <span class="kw">TO</span> <span class="str">'username'</span>@<span class="str">'localhost'</span>;
+
+<span class="cm">-- Specific privileges</span>
+<span class="kw">GRANT SELECT, INSERT, UPDATE ON</span> mydatabase.* <span class="kw">TO</span> <span class="str">'app'</span>@<span class="str">'%'</span>;
+
+<span class="cm">-- Flush privileges to apply changes</span>
+<span class="kw">FLUSH PRIVILEGES</span>;
+
+<span class="cm">-- Show grants</span>
+<span class="kw">SHOW GRANTS FOR</span> <span class="str">'username'</span>@<span class="str">'localhost'</span>;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q98">
+            <span class="q-tag tag-med">Medium</span> Q98: How do you backup and restore a MySQL database?
+          </button>
+        </h2>
+        <div id="q98" class="accordion-collapse collapse" data-bs-parent="#admin">
+          <div class="accordion-body">
+            Using <code>mysqldump</code>:
+            <pre><code><span class="cm"># Backup single database</span>
+mysqldump -u root -p mydatabase > backup.sql
+
+<span class="cm"># Backup multiple databases</span>
+mysqldump -u root -p --databases db1 db2 > backup.sql
+
+<span class="cm"># Backup all databases</span>
+mysqldump -u root -p --all-databases > all_backup.sql
+
+<span class="cm"># Backup with compression</span>
+mysqldump -u root -p mydatabase | gzip > backup.sql.gz
+
+<span class="cm"># Restore</span>
+mysql -u root -p mydatabase < backup.sql
+
+<span class="cm"># Restore from gzip</span>
+gunzip < backup.sql.gz | mysql -u root -p mydatabase</code></pre>
+            For large databases, consider <code>mydumper</code> or MySQL Enterprise Backup. Use <code>--single-transaction</code> for InnoDB consistent backup without locking.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q99">
+            <span class="q-tag tag-med">Medium</span> Q99: What is the binary log in MySQL?
+          </button>
+        </h2>
+        <div id="q99" class="accordion-collapse collapse" data-bs-parent="#admin">
+          <div class="accordion-body">
+            The <strong>binary log</strong> (binlog) contains a record of all changes to the database (INSERT, UPDATE, DELETE, DDL). It is used for:
+            <ul>
+              <li><strong>Replication</strong> — Slave reads binlog from master</li>
+              <li><strong>Point-in-time recovery</strong> — Restore to a specific time</li>
+              <li><strong>Audit</strong> — Track all data changes</li>
+            </ul>
+            <pre><code><span class="cm">-- Check binary log status</span>
+<span class="kw">SHOW VARIABLES LIKE</span> <span class="str">'log_bin'</span>;
+
+<span class="cm">-- View binlog files</span>
+<span class="kw">SHOW BINARY LOGS</span>;
+
+<span class="cm">-- View events in binlog</span>
+<span class="kw">SHOW BINLOG EVENTS IN</span> <span class="str">'mysql-bin.000001'</span>;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q100">
+            <span class="q-tag tag-hard">Hard</span> Q100: What is point-in-time recovery (PITR)?
+          </button>
+        </h2>
+        <div id="q100" class="accordion-collapse collapse" data-bs-parent="#admin">
+          <div class="accordion-body">
+            <strong>PITR</strong> allows you to restore a database to any specific moment in time using a full backup + binary logs.
+            <pre><code><span class="cm"># Step 1: Restore full backup</span>
+mysql -u root -p mydatabase < full_backup.sql
+
+<span class="cm"># Step 2: Apply binlog up to target time</span>
+mysqlbinlog --stop-datetime="2025-03-15 14:30:00" \
+  /var/lib/mysql/mysql-bin.000001 | mysql -u root -p mydatabase
+
+<span class="cm"># Step 3: Or use mysqlbinlog with position</span>
+mysqlbinlog --stop-position=123456 \
+  /var/lib/mysql/mysql-bin.000001 | mysql -u root -p mydatabase</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q101">
+            <span class="q-tag tag-med">Medium</span> Q101: How do you view current connections and queries?
+          </button>
+        </h2>
+        <div id="q101" class="accordion-collapse collapse" data-bs-parent="#admin">
+          <div class="accordion-body">
+            <pre><code><span class="kw">SHOW PROCESSLIST</span>;
+<span class="kw">SHOW FULL PROCESSLIST</span>;
+
+<span class="cm">-- Kill a connection</span>
+<span class="kw">KILL</span> connection_id;
+
+<span class="cm">-- Find long-running queries</span>
+<span class="kw">SELECT</span> id, user, host, db, command, time, state, info
+<span class="kw">FROM</span> information_schema.processlist
+<span class="kw">WHERE</span> command <span class="kw">!=</span> <span class="str">'Sleep'</span>
+<span class="kw">ORDER BY</span> time <span class="kw">DESC</span>;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q102">
+            <span class="q-tag tag-easy">Easy</span> Q102: What is the default MySQL configuration file location?
+          </button>
+        </h2>
+        <div id="q102" class="accordion-collapse collapse" data-bs-parent="#admin">
+          <div class="accordion-body">
+            On <strong>Linux</strong>: <code>/etc/my.cnf</code>, <code>/etc/mysql/my.cnf</code>, or <code>~/.my.cnf</code>. On <strong>Windows</strong>: <code>C:\ProgramData\MySQL\MySQL Server 8.0\my.ini</code> or the MySQL install directory. Check with: <code>mysql --help | grep "Default options"</code>.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q103">
+            <span class="q-tag tag-easy">Easy</span> Q103: How do you check MySQL version?
+          </button>
+        </h2>
+        <div id="q103" class="accordion-collapse collapse" data-bs-parent="#admin">
+          <div class="accordion-body">
+            <pre><code><span class="kw">SELECT VERSION</span>();
+<span class="kw">SHOW VARIABLES LIKE</span> <span class="str">'version'</span>;
+<span class="cm">-- or from command line</span>
+mysql --version</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- ==================== REPLICATION ==================== -->
+  <section id="replication">
+    <h2><i class="bi bi-diagram-2 me-2"></i>Replication &amp; Backup</h2>
+    <div class="section-desc">MySQL replication types, setup, monitoring, and backup strategies.</div>
+    <div class="accordion">
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q104">
+            <span class="q-tag tag-easy">Easy</span> Q104: What is MySQL replication?
+          </button>
+        </h2>
+        <div id="q104" class="accordion-collapse collapse" data-bs-parent="#replication">
+          <div class="accordion-body">
+            <strong>Replication</strong> is the process of copying data from one MySQL server (master/primary) to one or more servers (slaves/replicas). It is used for read scaling, high availability, disaster recovery, and analytics offloading.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q105">
+            <span class="q-tag tag-med">Medium</span> Q105: What replication types does MySQL support?
+          </button>
+        </h2>
+        <div id="q105" class="accordion-collapse collapse" data-bs-parent="#replication">
+          <div class="accordion-body">
+            <ul>
+              <li><strong>Asynchronous</strong> — Master does not wait for slave. Default. Fast but risk of data loss.</li>
+              <li><strong>Semisynchronous</strong> — Master waits for at least one slave to acknowledge receipt. Balance of speed and safety.</li>
+              <li><strong>Group Replication</strong> — Multi-primary or single-primary with automatic failover (MySQL 5.7+). Uses Paxos-like consensus.</li>
+              <li><strong>GTID-based</strong> — Uses Global Transaction Identifiers for easier failover and management.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q106">
+            <span class="q-tag tag-med">Medium</span> Q106: What is the difference between statement-based and row-based replication?
+          </button>
+        </h2>
+        <div id="q106" class="accordion-collapse collapse" data-bs-parent="#replication">
+          <div class="accordion-body">
+            <ul>
+              <li><strong>Statement-based (SBR)</strong> — Logs actual SQL statements. Compact logs. Can break with non-deterministic functions (<code>NOW()</code>, <code>UUID()</code>).</li>
+              <li><strong>Row-based (RBR)</strong> — Logs individual row changes. More data but safer. Default in MySQL 8.0 for DML.</li>
+              <li><strong>Mixed (MBR)</strong> — MySQL chooses automatically (statement where safe, row where not). Default in some versions.</li>
+            </ul>
+            <pre><code><span class="kw">SHOW VARIABLES LIKE</span> <span class="str">'binlog_format'</span>;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q107">
+            <span class="q-tag tag-hard">Hard</span> Q107: How do you set up basic MySQL replication?
+          </button>
+        </h2>
+        <div id="q107" class="accordion-collapse collapse" data-bs-parent="#replication">
+          <div class="accordion-body">
+            <strong>On Master (my.cnf):</strong>
+            <pre><code>[mysqld]
+server-id = 1
+log_bin = /var/log/mysql/mysql-bin.log
+binlog_format = ROW</code></pre>
+            <strong>On Slave (my.cnf):</strong>
+            <pre><code>[mysqld]
+server-id = 2
+relay_log = /var/log/mysql/mysql-relay-bin.log</code></pre>
+            <strong>Commands:</strong>
+            <pre><code><span class="cm">-- Master: Create replication user</span>
+<span class="kw">CREATE USER</span> <span class="str">'repl'</span>@<span class="str">'%'</span> <span class="kw">IDENTIFIED BY</span> <span class="str">'password'</span>;
+<span class="kw">GRANT REPLICATION SLAVE ON</span> *.* <span class="kw">TO</span> <span class="str">'repl'</span>@<span class="str">'%'</span>;
+
+<span class="cm">-- Slave: Configure replication</span>
+<span class="kw">CHANGE REPLICATION SOURCE TO</span>
+  <span class="kw">SOURCE_HOST</span> = <span class="str">'master_ip'</span>,
+  <span class="kw">SOURCE_USER</span> = <span class="str">'repl'</span>,
+  <span class="kw">SOURCE_PASSWORD</span> = <span class="str">'password'</span>,
+  <span class="kw">SOURCE_LOG_FILE</span> = <span class="str">'mysql-bin.000001'</span>,
+  <span class="kw">SOURCE_LOG_POS</span> = 0;
+
+<span class="kw">START REPLICA</span>;
+<span class="kw">SHOW REPLICA STATUS</span>;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q108">
+            <span class="q-tag tag-hard">Hard</span> Q108: What is MySQL InnoDB Cluster?
+          </button>
+        </h2>
+        <div id="q108" class="accordion-collapse collapse" data-bs-parent="#replication">
+          <div class="accordion-body">
+            <strong>MySQL InnoDB Cluster</strong> provides a complete high-availability solution using Group Replication, MySQL Router, and MySQL Shell. It offers automatic failover, multi-primary writes (optional), and automatic routing of client connections. It is the recommended HA solution for MySQL 8.0. Components:
+            <ul>
+              <li><strong>Group Replication</strong> — Data synchronization across servers</li>
+              <li><strong>MySQL Router</strong> — Load balancing and automatic routing</li>
+              <li><strong>MySQL Shell</strong> — Admin API for cluster management (<code>dba.createCluster()</code>)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== SECURITY ==================== -->
+  <section id="security">
+    <h2><i class="bi bi-key me-2"></i>Security</h2>
+    <div class="section-desc">Authentication, authorization, encryption, SQL injection prevention, and best practices.</div>
+    <div class="accordion">
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q109">
+            <span class="q-tag tag-easy">Easy</span> Q109: How do you protect against SQL injection in MySQL?
+          </button>
+        </h2>
+        <div id="q109" class="accordion-collapse collapse" data-bs-parent="#security">
+          <div class="accordion-body">
+            <ul>
+              <li>Use <strong>prepared statements</strong> with parameterized queries (PDO in PHP, preparedStatement in Java)</li>
+              <li>Validate and sanitize all user inputs</li>
+              <li>Use stored procedures with parameters</li>
+              <li>Escape strings: <code>mysql_real_escape_string()</code> (deprecated — use prepared statements)</li>
+              <li>Apply the principle of least privilege to database users</li>
+              <li>Never concatenate user input directly into SQL queries</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q110">
+            <span class="q-tag tag-easy">Easy</span> Q110: What is the difference between authentication plugins in MySQL?
+          </button>
+        </h2>
+        <div id="q110" class="accordion-collapse collapse" data-bs-parent="#security">
+          <div class="accordion-body">
+            <ul>
+              <li><strong>mysql_native_password</strong> — Legacy, SHA1-based. Fast but less secure.</li>
+              <li><strong>caching_sha2_password</strong> — Default in MySQL 8.0. SHA-256 with caching. More secure.</li>
+              <li><strong>sha256_password</strong> — SHA-256 without caching. Requires SSL/TLS.</li>
+              <li><strong>auth_socket</strong> / <strong>unix_socket</strong> — Uses OS authentication for local connections.</li>
+              <li><strong>LDAP, Kerberos, FIDO</strong> — Enterprise authentication plugins.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q111">
+            <span class="q-tag tag-med">Medium</span> Q111: How do you enable SSL/TLS for MySQL connections?
+          </button>
+        </h2>
+        <div id="q111" class="accordion-collapse collapse" data-bs-parent="#security">
+          <div class="accordion-body">
+            <pre><code><span class="cm">-- In my.cnf</span>
+[mysqld]
+ssl-ca = /etc/mysql/ca.pem
+ssl-cert = /etc/mysql/server-cert.pem
+ssl-key = /etc/mysql/server-key.pem
+require_secure_transport = ON  <span class="cm">-- enforce SSL</span>
+
+<span class="cm">-- Check SSL status</span>
+<span class="kw">SHOW VARIABLES LIKE</span> <span class="str">'%ssl%'</span>;
+<span class="kw">SHOW STATUS LIKE</span> <span class="str">'Ssl_cipher'</span>;
+
+<span class="cm">-- Client connect with SSL</span>
+mysql -u root -p --ssl-mode=REQUIRED
+
+<span class="cm">-- Require SSL for a user</span>
+<span class="kw">ALTER USER</span> <span class="str">'user'</span>@<span class="str">'%'</span> <span class="kw">REQUIRE SSL</span>;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q112">
+            <span class="q-tag tag-med">Medium</span> Q112: What is MySQL Enterprise Firewall?
+          </button>
+        </h2>
+        <div id="q112" class="accordion-collapse collapse" data-bs-parent="#security">
+          <div class="accordion-body">
+            <strong>MySQL Enterprise Firewall</strong> is a commercial feature that learns normal query patterns for each application and blocks SQL injection attacks by inspecting incoming queries against a whitelist of approved SQL patterns. It operates at the database level, providing an additional layer of security beyond application-level defenses.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q113">
+            <span class="q-tag tag-med">Medium</span> Q113: What data-at-rest encryption options does MySQL offer?
+          </button>
+        </h2>
+        <div id="q113" class="accordion-collapse collapse" data-bs-parent="#security">
+          <div class="accordion-body">
+            <ul>
+              <li><strong>InnoDB Tablespace Encryption</strong> — Transparent Data Encryption (TDE) for InnoDB tables. Uses two-tier encryption key architecture. Available in MySQL 5.7+ Enterprise and MySQL 8.0 Community.</li>
+              <li><strong>Binary Log Encryption</strong> — Encrypts binary and relay logs (MySQL 8.0.14+).</li>
+              <li><strong>File-level encryption</strong> — OS-level (LUKS, BitLocker, eCryptfs).</li>
+              <li><strong>General Tablespace Encryption</strong> — Encrypt general tablespaces.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q114">
+            <span class="q-tag tag-easy">Easy</span> Q114: What are MySQL security best practices?
+          </button>
+        </h2>
+        <div id="q114" class="accordion-collapse collapse" data-bs-parent="#security">
+          <div class="accordion-body">
+            <ul>
+              <li>Remove anonymous accounts (<code>DROP USER ''@'localhost'</code>)</li>
+              <li>Remove test database (<code>DROP DATABASE test</code>)</li>
+              <li>Use strong passwords and <code>caching_sha2_password</code></li>
+              <li>Apply least privilege principle</li>
+              <li>Bind MySQL to specific IP (not 0.0.0.0) with <code>bind-address</code></li>
+              <li>Change default port (3306) if needed</li>
+              <li>Enable SSL/TLS for connections</li>
+              <li>Enable audit logging (<code>audit_log</code> plugin)</li>
+              <li>Regular backups with point-in-time recovery capability</li>
+              <li>Keep MySQL updated (security patches)</li>
+              <li>Use MySQL Enterprise Firewall or proxy for SQL injection protection</li>
+              <li>Monitor and review slow query log and error log</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <hr class="my-5">
+  <div class="d-flex flex-wrap justify-content-between align-items-center py-3">
+    <div>
+      <p class="text-muted small mb-0">
+        <i class="bi bi-database me-1" style="color:var(--mysql-orange)"></i>
+        MySQL Q&amp;A Guide — 114+ Questions
+      </p>
+    </div>
+    <div>
+      <a href="https://dev.mysql.com/doc/" class="text-decoration-none small me-3" target="_blank">
+        <i class="bi bi-box-arrow-up-right me-1"></i>MySQL Docs
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.getElementById('sidebarToggle')?.addEventListener('click', function () {
+    document.getElementById('sidebar').classList.toggle('show');
+  });
+  document.querySelectorAll('#sidebar .nav-link').forEach(function (link) {
+    link.addEventListener('click', function () {
+      document.getElementById('sidebar').classList.remove('show');
+    });
+  });
+</script>
+
+</body>
+</html>

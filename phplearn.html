@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -71,6 +71,7 @@
     <a class="nav-link" href="#basics"><i class="bi bi-play-circle"></i> PHP Basics</a>
     <a class="nav-link" href="#control-flow"><i class="bi bi-diagram-2"></i> Control Flow</a>
     <a class="nav-link" href="#arrays"><i class="bi bi-collection"></i> Arrays</a>
+    <a class="nav-link" href="#strings"><i class="bi bi-text-paragraph"></i> Strings</a>
     <a class="nav-link" href="#functions"><i class="bi bi-activity"></i> Functions</a>
     <div class="nav-section">Intermediate</div>
     <a class="nav-link" href="#oop"><i class="bi bi-diagram-3"></i> OOP</a>
@@ -104,7 +105,7 @@
         Deep Learning &mdash; Beginner to Advanced
         <span class="badge badge-php ms-2">v8.4</span>
         <span class="badge bg-warning text-dark ms-1">Server-side</span>
-        <span class="badge bg-success ms-1">70+ Practice Q's</span>
+        <span class="badge bg-success ms-1">75+ Practice Q's</span>
       </p>
     </div>
   </div>
@@ -290,6 +291,103 @@
             <tr><td><code>array_walk()</code></td><td>Modify in place</td><td><code>array_walk($arr, fn(&amp;$v) => $v .= '!')</code></td></tr>
           </tbody>
         </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== STRING FUNCTIONS ==================== -->
+  <section id="strings">
+    <h2><i class="bi bi-text-paragraph me-2"></i>String Functions</h2>
+
+    <div class="card">
+      <div class="card-header">Essential Functions &amp; Examples</div>
+      <div class="card-body">
+        <pre><code><span class="cm">// Length &amp; case</span>
+<span class="kw">$text</span> = <span class="str">"Hello PHP World"</span>;
+<span class="fn">echo</span> <span class="fn">strlen</span>(<span class="kw">$text</span>);           <span class="cm">// 16</span>
+<span class="fn">echo</span> <span class="fn">strtoupper</span>(<span class="kw">$text</span>);       <span class="cm">// "HELLO PHP WORLD"</span>
+<span class="fn">echo</span> <span class="fn">ucwords</span>(<span class="kw">$text</span>);          <span class="cm">// "Hello PHP World"</span>
+
+<span class="cm">// Search (PHP 8.0+)</span>
+<span class="fn">var_dump</span>(<span class="fn">str_contains</span>(<span class="kw">$text</span>, <span class="str">"PHP"</span>));    <span class="cm">// true</span>
+<span class="fn">var_dump</span>(<span class="fn">str_starts_with</span>(<span class="kw">$text</span>, <span class="str">"Hello"</span>)); <span class="cm">// true</span>
+<span class="fn">var_dump</span>(<span class="fn">str_ends_with</span>(<span class="kw">$text</span>, <span class="str">"World"</span>));   <span class="cm">// true</span>
+
+<span class="cm">// Position &amp; extract</span>
+<span class="kw">$pos</span>  = <span class="fn">strpos</span>(<span class="kw">$text</span>, <span class="str">"PHP"</span>);  <span class="cm">// 6</span>
+<span class="fn">echo</span> <span class="fn">substr</span>(<span class="kw">$text</span>, 0, 5);              <span class="cm">// "Hello"</span>
+<span class="fn">echo</span> <span class="fn">str_replace</span>(<span class="str">"World"</span>, <span class="str">"Laravel"</span>, <span class="kw">$text</span>); <span class="cm">// "Hello PHP Laravel"</span>
+
+<span class="cm">// Split &amp; join</span>
+<span class="kw">$parts</span> = <span class="fn">explode</span>(<span class="str">" "</span>, <span class="kw">$text</span>);     <span class="cm">// ["Hello", "PHP", "World"]</span>
+<span class="fn">echo</span> <span class="fn">implode</span>(<span class="str">"-"</span>, <span class="kw">$parts</span>);       <span class="cm">// "Hello-PHP-World"</span>
+
+<span class="cm">// Format &amp; cleanup</span>
+<span class="fn">echo</span> <span class="fn">trim</span>(<span class="str">"  spaced  "</span>);                     <span class="cm">// "spaced"</span>
+<span class="fn">echo</span> <span class="fn">htmlspecialchars</span>(<span class="str">"&lt;b&gt;bold&lt;/b&gt;"</span>);   <span class="cm">// "&amp;lt;b&amp;gt;bold&amp;lt;/b&amp;gt;"</span>
+<span class="fn">echo</span> <span class="fn">sprintf</span>(<span class="str">"Hello %s, ID: %04d"</span>, <span class="str">"Alice"</span>, 7); <span class="cm">// "Hello Alice, ID: 0007"</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">String Functions Reference Table</div>
+      <div class="card-body">
+        <p class="text-muted small mb-3">All functions require <strong>PHP 4.0+</strong> unless marked with a version badge (e.g. <span class="badge badge-new">8.0</span>).</p>
+        <table class="table table-bordered">
+          <thead><tr><th>Function</th><th>Description</th><th>Use Case</th></tr></thead>
+          <tbody>
+            <tr><td><code>strlen()</code></td><td>Get byte length</td><td>Input length validation</td></tr>
+            <tr><td><code>str_contains()</code> <span class="badge badge-new">8.0</span></td><td>Check if haystack contains needle</td><td>Search filters, keyword detection</td></tr>
+            <tr><td><code>str_starts_with()</code> <span class="badge badge-new">8.0</span></td><td>Check string prefix</td><td>URL routing, protocol check</td></tr>
+            <tr><td><code>str_ends_with()</code> <span class="badge badge-new">8.0</span></td><td>Check string suffix</td><td>File extension validation</td></tr>
+            <tr><td><code>strpos()</code></td><td>Find first occurrence position</td><td>Extract after delimiter</td></tr>
+            <tr><td><code>substr()</code></td><td>Extract substring by position</td><td>Truncate text, get initials</td></tr>
+            <tr><td><code>str_replace()</code></td><td>Replace all occurrences</td><td>Template vars, sanitization</td></tr>
+            <tr><td><code>explode()</code></td><td>Split string by delimiter</td><td>CSV parsing, tag splitting</td></tr>
+            <tr><td><code>implode()</code></td><td>Join array into string</td><td>Build SQL lists, format output</td></tr>
+            <tr><td><code>trim()</code></td><td>Strip whitespace from ends</td><td>Input sanitization</td></tr>
+            <tr><td><code>strtolower()</code></td><td>Convert to lowercase</td><td>Case-insensitive comparison</td></tr>
+            <tr><td><code>strtoupper()</code></td><td>Convert to uppercase</td><td>Normalize codes</td></tr>
+            <tr><td><code>ucfirst()</code></td><td>Capitalize first character</td><td>Name formatting</td></tr>
+            <tr><td><code>ucwords()</code></td><td>Capitalize each word</td><td>Title case</td></tr>
+            <tr><td><code>sprintf()</code></td><td>Format with placeholders</td><td>Error messages, DB queries</td></tr>
+            <tr><td><code>str_pad()</code></td><td>Pad string to length</td><td>Format IDs, align output</td></tr>
+            <tr><td><code>str_repeat()</code></td><td>Repeat string N times</td><td>Separators, padding</td></tr>
+            <tr><td><code>str_word_count()</code></td><td>Count words</td><td>Reading time estimate</td></tr>
+            <tr><td><code>nl2br()</code></td><td>Newlines to &lt;br&gt;</td><td>Render user text in HTML</td></tr>
+            <tr><td><code>strip_tags()</code></td><td>Remove HTML/PHP tags</td><td>Sanitize rich text</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Leading Tips &amp; Real-World Use Cases</div>
+      <div class="card-body">
+        <div class="hl-box">
+          <strong><i class="bi bi-lightbulb me-1"></i>Tip 1: Prefer <code>str_contains()</code> over <code>strpos()</code></strong><br>
+          <code>str_contains($haystack, $needle)</code> (PHP 8.0+) returns a boolean — clearer intent, no risk of misinterpreting <code>strpos() === 0</code> vs <code>=== false</code>.
+        </div>
+        <div class="hl-box">
+          <strong><i class="bi bi-lightbulb me-1"></i>Tip 2: Use <code>mb_*</code> for UTF-8 safety</strong><br>
+          <code>strlen()</code> counts bytes, not characters. Use <code>mb_strlen()</code>, <code>mb_substr()</code>, <code>mb_strpos()</code> for multi-byte encodings (emoji, CJK, accented chars).
+        </div>
+        <div class="hl-box">
+          <strong><i class="bi bi-lightbulb me-1"></i>Tip 3: <code>explode()</code> + <code>list()</code> for parsing</strong><br>
+          <code>list($name, $email) = explode(',', $line);</code> — clean one-liner for CSV lines, config pairs, or delimiter-split data.
+        </div>
+        <div class="hl-box">
+          <strong><i class="bi bi-lightbulb me-1"></i>Tip 4: <code>sprintf()</code> for templates</strong><br>
+          <code>sprintf('Hello %s, your ID is %04d', $name, $id);</code> — cleaner than concatenation with built-in formatting.
+        </div>
+        <div class="hl-box">
+          <strong><i class="bi bi-lightbulb me-1"></i>Tip 5: URL &amp; file checks with <code>str_starts_with</code>/<code>str_ends_with</code></strong><br>
+          <code>str_starts_with($url, 'https://')</code> for protocol; <code>str_ends_with($file, '.pdf')</code> for extension — readable and fast.
+        </div>
+        <div class="hl-box">
+          <strong><i class="bi bi-lightbulb me-1"></i>Tip 6: Trim all user input</strong><br>
+          <code>$input = trim($_POST['email']);</code> — users paste extra whitespace. Combine with <code>filter_var()</code> for robust validation.
+        </div>
       </div>
     </div>
   </section>
@@ -871,7 +969,7 @@ vendor/bin/rector process src/ --set php84</code></pre>
   <!-- ==================== PRACTICE QUESTIONS ==================== -->
   <section id="practice">
     <h2><i class="bi bi-pencil-square me-2"></i>Practice Questions</h2>
-    <p class="fs-5 text-muted mb-4">70+ questions covering every topic. Click to reveal the answer.</p>
+    <p class="fs-5 text-muted mb-4">75+ questions covering every topic. Click to reveal the answer.</p>
 
     <!-- SECTION 1: BASICS -->
     <div class="practice-section">
@@ -1047,58 +1145,121 @@ vendor/bin/rector process src/ --set php84</code></pre>
       </div>
     </div>
 
-    <!-- SECTION 4: FUNCTIONS -->
+    <!-- SECTION 4: STRINGS -->
     <div class="practice-section">
-      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">4</span>Functions</h3>
-      <div class="section-desc">User-defined, arrow, closures, scope.</div>
+      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">4</span>Strings</h3>
+      <div class="section-desc">String manipulation, searching, formatting, tips.</div>
       <div class="accordion">
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq16">
-              <span class="q-tag tag-easy">Easy</span> Q16: Function vs method — what's the difference?
+              <span class="q-tag tag-easy">Easy</span> Q16: What's the difference between <code>str_contains()</code> and <code>strpos()</code>?
             </button>
           </h2>
           <div id="pq16" class="accordion-collapse collapse">
-            <div class="accordion-body">Functions are standalone callables. Methods are functions inside a class with access to $this and visibility modifiers (public/private/protected).</div>
+            <div class="accordion-body"><code>str_contains($haystack, $needle)</code> (PHP 8.0+) returns a boolean — cleaner for existence checks. <code>strpos()</code> returns the integer position or <code>false</code> if not found — requires strict <code>!== false</code> check. Always prefer <code>str_contains()</code> when you only need a yes/no answer.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq17">
-              <span class="q-tag tag-med">Medium</span> Q17: What are named arguments in PHP 8.0?
+              <span class="q-tag tag-easy">Easy</span> Q17: What does <code>trim()</code> do and why is it important?
             </button>
           </h2>
           <div id="pq17" class="accordion-collapse collapse">
-            <div class="accordion-body">Pass by parameter name: func(name: 'Alice', age: 30). Skip optional params. Named must come after positional. Breaks BC if param names change.</div>
+            <div class="accordion-body"><code>trim($str)</code> removes whitespace from both ends. <code>ltrim()</code>/<code>rtrim()</code> for left/right only. Critical for sanitizing user input — emails, usernames, and file paths often have accidental spaces from copy-paste.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq18">
-              <span class="q-tag tag-med">Medium</span> Q18: Arrow functions vs closures?
+              <span class="q-tag tag-med">Medium</span> Q18: Check if a URL uses HTTPS using string functions.
             </button>
           </h2>
           <div id="pq18" class="accordion-collapse collapse">
-            <div class="accordion-body">Arrow functions (fn($x) => $x*2) are single-expression, auto-capture by value. Closures use function + use() syntax, support multiple statements, can capture by reference (&amp;$var).</div>
+            <div class="accordion-body"><pre><code>function isSecure(string $url): bool {
+    return str_starts_with($url, 'https://');
+}</code></pre><code>str_starts_with()</code> (PHP 8.0+) is the most readable. Pre-8.0: <code>strpos($url, 'https://') === 0</code>. Also useful for file extensions (<code>str_ends_with($file, '.pdf')</code>).</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq19">
-              <span class="q-tag tag-hard">Hard</span> Q19: How does variable scope work in PHP?
+              <span class="q-tag tag-med">Medium</span> Q19: How to safely handle UTF-8 strings in PHP?
             </button>
           </h2>
           <div id="pq19" class="accordion-collapse collapse">
-            <div class="accordion-body">Local, global, static scope. Globals need "global $var" or $GLOBALS['var'] inside functions. "static $count" persists between calls. Superglobals ($_GET, $_POST, etc.) are always accessible.</div>
+            <div class="accordion-body">Use <code>mb_*</code> functions: <code>mb_strlen()</code>, <code>mb_substr()</code>, <code>mb_strpos()</code>, <code>mb_strtolower()</code>. Set internal encoding: <code>mb_internal_encoding('UTF-8')</code>. <code>strlen()</code> counts bytes — a single emoji or CJK character can be 3-4 bytes, causing bugs in truncation and validation.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq20">
-              <span class="q-tag tag-hard">Hard</span> Q20: Write recursive factorial. Does PHP optimize tail recursion?
+              <span class="q-tag tag-hard">Hard</span> Q20: Write a function to check if a string is a palindrome.
             </button>
           </h2>
           <div id="pq20" class="accordion-collapse collapse">
+            <div class="accordion-body"><pre><code>function isPalindrome(string $str): bool {
+    $cleaned = preg_replace('/[^a-z0-9]/', '', strtolower($str));
+    return $cleaned === strrev($cleaned);
+}</code></pre>Strips non-alphanumeric chars, lowercases, then compares with <code>strrev()</code>. Works for "A man, a plan, a canal: Panama". For multibyte: use <code>mb_strtolower()</code> and <code>mb_strrev()</code> (roll your own via <code>preg_split()</code>).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 5: FUNCTIONS -->
+    <div class="practice-section">
+      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">5</span>Functions</h3>
+      <div class="section-desc">User-defined, arrow, closures, scope.</div>
+      <div class="accordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq21">
+              <span class="q-tag tag-easy">Easy</span> Q21: Function vs method — what's the difference?
+            </button>
+          </h2>
+          <div id="pq21" class="accordion-collapse collapse">
+            <div class="accordion-body">Functions are standalone callables. Methods are functions inside a class with access to $this and visibility modifiers (public/private/protected).</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq22">
+              <span class="q-tag tag-med">Medium</span> Q22: What are named arguments in PHP 8.0?
+            </button>
+          </h2>
+          <div id="pq22" class="accordion-collapse collapse">
+            <div class="accordion-body">Pass by parameter name: func(name: 'Alice', age: 30). Skip optional params. Named must come after positional. Breaks BC if param names change.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq23">
+              <span class="q-tag tag-med">Medium</span> Q23: Arrow functions vs closures?
+            </button>
+          </h2>
+          <div id="pq23" class="accordion-collapse collapse">
+            <div class="accordion-body">Arrow functions (fn($x) => $x*2) are single-expression, auto-capture by value. Closures use function + use() syntax, support multiple statements, can capture by reference (&amp;$var).</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq24">
+              <span class="q-tag tag-hard">Hard</span> Q24: How does variable scope work in PHP?
+            </button>
+          </h2>
+          <div id="pq24" class="accordion-collapse collapse">
+            <div class="accordion-body">Local, global, static scope. Globals need "global $var" or $GLOBALS['var'] inside functions. "static $count" persists between calls. Superglobals ($_GET, $_POST, etc.) are always accessible.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq25">
+              <span class="q-tag tag-hard">Hard</span> Q25: Write recursive factorial. Does PHP optimize tail recursion?
+            </button>
+          </h2>
+          <div id="pq25" class="accordion-collapse collapse">
             <div class="accordion-body"><pre><code>function factorial(int $n): int {
     return $n <= 1 ? 1 : $n * factorial($n - 1);
 }</code></pre>No, PHP does not optimize tail recursion. Deep recursion (&gt;10k depth) causes stack overflow. Use iteration or trampolines.</div>
@@ -1109,56 +1270,56 @@ vendor/bin/rector process src/ --set php84</code></pre>
 
     <!-- SECTION 5: OOP -->
     <div class="practice-section">
-      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">5</span>Object-Oriented Programming</h3>
+      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">6</span>Object-Oriented Programming</h3>
       <div class="section-desc">Classes, inheritance, interfaces, traits, magic methods.</div>
       <div class="accordion">
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq21">
-              <span class="q-tag tag-easy">Easy</span> Q21: What is constructor promotion (PHP 8.0)?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq26">
+              <span class="q-tag tag-easy">Easy</span> Q26: What is constructor promotion (PHP 8.0)?
             </button>
           </h2>
-          <div id="pq21" class="accordion-collapse collapse">
+          <div id="pq26" class="accordion-collapse collapse">
             <div class="accordion-body">Define and initialize properties directly in the constructor: __construct(private string $name, public int $age). Eliminates separate property declarations.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq22">
-              <span class="q-tag tag-med">Medium</span> Q22: Abstract class vs interface?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq27">
+              <span class="q-tag tag-med">Medium</span> Q27: Abstract class vs interface?
             </button>
           </h2>
-          <div id="pq22" class="accordion-collapse collapse">
+          <div id="pq27" class="accordion-collapse collapse">
             <div class="accordion-body">Abstract classes can have implementations + properties; extends one only. Interfaces define contracts; implement many. PHP 8+ allows interface constants and abstract private methods.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq23">
-              <span class="q-tag tag-med">Medium</span> Q23: How do traits work?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq28">
+              <span class="q-tag tag-med">Medium</span> Q28: How do traits work?
             </button>
           </h2>
-          <div id="pq23" class="accordion-collapse collapse">
+          <div id="pq28" class="accordion-collapse collapse">
             <div class="accordion-body">Traits are reusable code blocks used via "use Loggable, Timestampable;". They solve the diamond problem, support abstract methods and properties. Conflict resolution via insteadof/as.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq24">
-              <span class="q-tag tag-hard">Hard</span> Q24: List PHP magic methods and their purposes.
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq29">
+              <span class="q-tag tag-hard">Hard</span> Q29: List PHP magic methods and their purposes.
             </button>
           </h2>
-          <div id="pq24" class="accordion-collapse collapse">
+          <div id="pq29" class="accordion-collapse collapse">
             <div class="accordion-body">__construct (instantiation), __destruct (cleanup), __get/__set (dynamic props), __call/__callStatic (dynamic methods), __toString (string conversion), __invoke (callable object), __clone (deep copy), __debugInfo (var_dump), __serialize/__unserialize (PHP 7.4+).</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq25">
-              <span class="q-tag tag-hard">Hard</span> Q25: Explain covariance and contravariance.
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq30">
+              <span class="q-tag tag-hard">Hard</span> Q30: Explain covariance and contravariance.
             </button>
           </h2>
-          <div id="pq25" class="accordion-collapse collapse">
+          <div id="pq30" class="accordion-collapse collapse">
             <div class="accordion-body">Covariance: subclass method returns more specific type (Admin vs User). Contravariance: subclass method accepts less specific parameter (Animal vs Dog). Supported in PHP 7.4+.</div>
           </div>
         </div>
@@ -1167,56 +1328,56 @@ vendor/bin/rector process src/ --set php84</code></pre>
 
     <!-- SECTION 6: ADVANCED OOP -->
     <div class="practice-section">
-      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">6</span>Advanced OOP</h3>
+      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">7</span>Advanced OOP</h3>
       <div class="section-desc">Namespaces, autoloading, readonly, anonymous classes.</div>
       <div class="accordion">
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq26">
-              <span class="q-tag tag-med">Medium</span> Q26: How do PHP namespaces work?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq31">
+              <span class="q-tag tag-med">Medium</span> Q31: How do PHP namespaces work?
             </button>
           </h2>
-          <div id="pq26" class="accordion-collapse collapse">
+          <div id="pq31" class="accordion-collapse collapse">
             <div class="accordion-body">Declared with "namespace App\Http;". Use via "use App\Http\Request;" or FQCN "\App\Http\Request". Support aliasing: "use ... as HttpRequest". Prevents name collisions.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq27">
-              <span class="q-tag tag-med">Medium</span> Q27: Explain PSR-4 autoloading.
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq32">
+              <span class="q-tag tag-med">Medium</span> Q32: Explain PSR-4 autoloading.
             </button>
           </h2>
-          <div id="pq27" class="accordion-collapse collapse">
+          <div id="pq32" class="accordion-collapse collapse">
             <div class="accordion-body">PSR-4 maps namespace prefixes to directories. "App\\": "src/" means App\Http\Request loads from src/Http/Request.php. Composer generates vendor/autoload.php. Run "composer dump-autoload" to regenerate.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq28">
-              <span class="badge badge-new">8.1</span> Q28: What are readonly properties and classes?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq33">
+              <span class="badge badge-new">8.1</span> Q33: What are readonly properties and classes?
             </button>
           </h2>
-          <div id="pq28" class="accordion-collapse collapse">
+          <div id="pq33" class="accordion-collapse collapse">
             <div class="accordion-body">readonly properties (PHP 8.1) set once in constructor. readonly classes (PHP 8.2) make all properties readonly implicitly. Great for DTOs. Cannot combine with static or untyped properties.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq29">
-              <span class="q-tag tag-easy">Easy</span> Q29: What is stdClass?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq34">
+              <span class="q-tag tag-easy">Easy</span> Q34: What is stdClass?
             </button>
           </h2>
-          <div id="pq29" class="accordion-collapse collapse">
+          <div id="pq34" class="accordion-collapse collapse">
             <div class="accordion-body">PHP's generic empty class. Used when casting arrays to objects: (object) ['name' => 'Alice'] or json_decode() without the second argument.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq30">
-              <span class="q-tag tag-hard">Hard</span> Q30: When to use anonymous classes?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq35">
+              <span class="q-tag tag-hard">Hard</span> Q35: When to use anonymous classes?
             </button>
           </h2>
-          <div id="pq30" class="accordion-collapse collapse">
+          <div id="pq35" class="accordion-collapse collapse">
             <div class="accordion-body">For one-off implementations: new class extends Logger { ... }. Useful in tests (mocks), callbacks, or when a full class definition is overkill. Supports constructors and inheritance.</div>
           </div>
         </div>
@@ -1225,56 +1386,56 @@ vendor/bin/rector process src/ --set php84</code></pre>
 
     <!-- SECTION 7: PDO -->
     <div class="practice-section">
-      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">7</span>MySQL &amp; PDO</h3>
+      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">8</span>MySQL &amp; PDO</h3>
       <div class="section-desc">PDO, prepared statements, transactions.</div>
       <div class="accordion">
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq31">
-              <span class="q-tag tag-easy">Easy</span> Q31: What is PDO and why use it?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq36">
+              <span class="q-tag tag-easy">Easy</span> Q36: What is PDO and why use it?
             </button>
           </h2>
-          <div id="pq31" class="accordion-collapse collapse">
+          <div id="pq36" class="accordion-collapse collapse">
             <div class="accordion-body">PDO provides a consistent interface for MySQL, PostgreSQL, SQLite, etc. Supports prepared statements, named parameters, transactions, and multiple fetch modes. Safer and more portable than mysqli.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq32">
-              <span class="q-tag tag-med">Medium</span> Q32: How do prepared statements prevent SQL injection?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq37">
+              <span class="q-tag tag-med">Medium</span> Q37: How do prepared statements prevent SQL injection?
             </button>
           </h2>
-          <div id="pq32" class="accordion-collapse collapse">
+          <div id="pq37" class="accordion-collapse collapse">
             <div class="accordion-body">Query and data are sent separately. SQL template is compiled first; parameters are bound as data only. Even malicious input cannot alter query structure. Set PDO::ATTR_EMULATE_PREPARES to false for real prepared statements.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq33">
-              <span class="q-tag tag-med">Medium</span> Q33: Explain PDO transactions.
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq38">
+              <span class="q-tag tag-med">Medium</span> Q38: Explain PDO transactions.
             </button>
           </h2>
-          <div id="pq33" class="accordion-collapse collapse">
+          <div id="pq38" class="accordion-collapse collapse">
             <div class="accordion-body">beginTransaction() → execute queries → commit()/rollBack(). Wrap in try/catch. Nested transactions not natively supported (use savepoints).</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq34">
-              <span class="q-tag tag-hard">Hard</span> Q34: PDO fetch modes and when to use each?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq39">
+              <span class="q-tag tag-hard">Hard</span> Q39: PDO fetch modes and when to use each?
             </button>
           </h2>
-          <div id="pq34" class="accordion-collapse collapse">
+          <div id="pq39" class="accordion-collapse collapse">
             <div class="accordion-body">FETCH_ASSOC (column names), FETCH_NUM (numbered), FETCH_BOTH, FETCH_OBJ (object), FETCH_CLASS (class instance), FETCH_KEY_PAIR (key-value), FETCH_GROUP (grouped). Use ASSOC for general, CLASS for ORM.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq35">
-              <span class="q-tag tag-hard">Hard</span> Q35: How to handle the N+1 query problem in PHP?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq40">
+              <span class="q-tag tag-hard">Hard</span> Q40: How to handle the N+1 query problem in PHP?
             </button>
           </h2>
-          <div id="pq35" class="accordion-collapse collapse">
+          <div id="pq40" class="accordion-collapse collapse">
             <div class="accordion-body">Use JOINs or WHERE id IN (...) to batch-load relations. E.g., SELECT u.*, p.* FROM users u LEFT JOIN posts p ON p.user_id = u.id WHERE u.id IN (:ids).</div>
           </div>
         </div>
@@ -1283,46 +1444,46 @@ vendor/bin/rector process src/ --set php84</code></pre>
 
     <!-- SECTION 8: SECURITY -->
     <div class="practice-section">
-      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">8</span>Security</h3>
+      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">9</span>Security</h3>
       <div class="section-desc">XSS, SQL injection, CSRF, hashing.</div>
       <div class="accordion">
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq36">
-              <span class="q-tag tag-easy">Easy</span> Q36: How to prevent XSS attacks in PHP?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq41">
+              <span class="q-tag tag-easy">Easy</span> Q41: How to prevent XSS attacks in PHP?
             </button>
           </h2>
-          <div id="pq36" class="accordion-collapse collapse">
+          <div id="pq41" class="accordion-collapse collapse">
             <div class="accordion-body">Escape output with htmlspecialchars($data, ENT_QUOTES, 'UTF-8'). Use template engines that auto-escape. Set Content-Type header, X-Content-Type-Options, and CSP headers.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq37">
-              <span class="q-tag tag-med">Medium</span> Q37: How does password_hash() work?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq42">
+              <span class="q-tag tag-med">Medium</span> Q42: How does password_hash() work?
             </button>
           </h2>
-          <div id="pq37" class="accordion-collapse collapse">
+          <div id="pq42" class="accordion-collapse collapse">
             <div class="accordion-body">password_hash($pwd, PASSWORD_BCRYPT) creates 60-char hash with random salt. PASSWORD_ARGON2ID (PHP 7.3+) is more secure. Use password_verify() to check. Adjust cost: BCrypt=12, Argon2: memory=1024K.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq38">
-              <span class="q-tag tag-med">Medium</span> Q38: What is CSRF and how to prevent it?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq43">
+              <span class="q-tag tag-med">Medium</span> Q43: What is CSRF and how to prevent it?
             </button>
           </h2>
-          <div id="pq38" class="accordion-collapse collapse">
+          <div id="pq43" class="accordion-collapse collapse">
             <div class="accordion-body">CSRF tricks users into unwanted actions. Mitigate with: CSRF tokens in forms (bin2hex(random_bytes(32))), SameSite=Lax cookie attribute, custom AJAX headers, Origin/Referer checking.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq39">
-              <span class="q-tag tag-hard">Hard</span> Q39: Write safe file upload handling code.
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq44">
+              <span class="q-tag tag-hard">Hard</span> Q44: Write safe file upload handling code.
             </button>
           </h2>
-          <div id="pq39" class="accordion-collapse collapse">
+          <div id="pq44" class="accordion-collapse collapse">
             <div class="accordion-body"><pre><code>function handleUpload(array $file): string {
     $allowed = ['image/jpeg', 'image/png'];
     $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
@@ -1336,11 +1497,11 @@ vendor/bin/rector process src/ --set php84</code></pre>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq40">
-              <span class="q-tag tag-med">Medium</span> Q40: What is filter_var() used for?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq45">
+              <span class="q-tag tag-med">Medium</span> Q45: What is filter_var() used for?
             </button>
           </h2>
-          <div id="pq40" class="accordion-collapse collapse">
+          <div id="pq45" class="accordion-collapse collapse">
             <div class="accordion-body">Validates and sanitizes input: FILTER_VALIDATE_EMAIL, FILTER_VALIDATE_URL, FILTER_VALIDATE_INT with min/max range, FILTER_SANITIZE_EMAIL, etc. Use for all external input.</div>
           </div>
         </div>
@@ -1349,36 +1510,36 @@ vendor/bin/rector process src/ --set php84</code></pre>
 
     <!-- SECTION 9: PHP 8+ -->
     <div class="practice-section">
-      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">9</span>PHP 8+ Features</h3>
+      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">10</span>PHP 8+ Features</h3>
       <div class="section-desc">Enums, attributes, fibers, property hooks.</div>
       <div class="accordion">
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq41">
-              <span class="badge badge-new">8.1</span> Q41: How do PHP enums work?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq46">
+              <span class="badge badge-new">8.1</span> Q46: How do PHP enums work?
             </button>
           </h2>
-          <div id="pq41" class="accordion-collapse collapse">
+          <div id="pq46" class="accordion-collapse collapse">
             <div class="accordion-body">Enums define named constants. Backed enums (enum Status: string) have scalar values. Pure enums have none. Support methods, static methods, and interfaces.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq42">
-              <span class="q-tag tag-med">Medium</span> Q42: What are PHP attributes and how to create custom ones?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq47">
+              <span class="q-tag tag-med">Medium</span> Q47: What are PHP attributes and how to create custom ones?
             </button>
           </h2>
-          <div id="pq42" class="accordion-collapse collapse">
+          <div id="pq47" class="accordion-collapse collapse">
             <div class="accordion-body">Attributes add metadata. #[Attribute] on a class, then #[Route('/path')] on methods. Read via reflection: $ref->getAttributes(Route::class). Used in modern frameworks for routing, validation, etc.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq43">
-              <span class="q-tag tag-hard">Hard</span> Q43: Explain PHP 8.4 property hooks.
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq48">
+              <span class="q-tag tag-hard">Hard</span> Q48: Explain PHP 8.4 property hooks.
             </button>
           </h2>
-          <div id="pq43" class="accordion-collapse collapse">
+          <div id="pq48" class="accordion-collapse collapse">
             <div class="accordion-body"><pre><code>class User {
     public string $name {
         set => ucfirst(strtolower($value));
@@ -1389,21 +1550,21 @@ vendor/bin/rector process src/ --set php84</code></pre>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq44">
-              <span class="q-tag tag-hard">Hard</span> Q44: What are Fibers (PHP 8.1)?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq49">
+              <span class="q-tag tag-hard">Hard</span> Q49: What are Fibers (PHP 8.1)?
             </button>
           </h2>
-          <div id="pq44" class="accordion-collapse collapse">
+          <div id="pq49" class="accordion-collapse collapse">
             <div class="accordion-body">Fibers are single-thread coroutines. Pause with Fiber::suspend(), resume later. Useful for async I/O, generators, custom schedulers. Enables non-blocking patterns within PHP.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq45">
-              <span class="q-tag tag-med">Medium</span> Q45: What is #[Override] (PHP 8.3)?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq50">
+              <span class="q-tag tag-med">Medium</span> Q50: What is #[Override] (PHP 8.3)?
             </button>
           </h2>
-          <div id="pq45" class="accordion-collapse collapse">
+          <div id="pq50" class="accordion-collapse collapse">
             <div class="accordion-body">Marks intentional override. PHP throws error if no matching parent/interface method exists. Prevents silent breakage if parent method is renamed or removed.</div>
           </div>
         </div>
@@ -1412,56 +1573,56 @@ vendor/bin/rector process src/ --set php84</code></pre>
 
     <!-- SECTION 10: MODERN PHP -->
     <div class="practice-section">
-      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">10</span>Modern PHP &amp; Ecosystem</h3>
+      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">11</span>Modern PHP &amp; Ecosystem</h3>
       <div class="section-desc">Composer, PSR, testing, static analysis.</div>
       <div class="accordion">
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq46">
-              <span class="q-tag tag-easy">Easy</span> Q46: What is Composer?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq51">
+              <span class="q-tag tag-easy">Easy</span> Q51: What is Composer?
             </button>
           </h2>
-          <div id="pq46" class="accordion-collapse collapse">
+          <div id="pq51" class="accordion-collapse collapse">
             <div class="accordion-body">PHP's dependency manager. "composer require vendor/package" adds to composer.json. "composer install" installs. vendor/autoload.php enables PSR-4 autoloading.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq47">
-              <span class="q-tag tag-med">Medium</span> Q47: Name 5 PSR standards.
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq52">
+              <span class="q-tag tag-med">Medium</span> Q52: Name 5 PSR standards.
             </button>
           </h2>
-          <div id="pq47" class="accordion-collapse collapse">
+          <div id="pq52" class="accordion-collapse collapse">
             <div class="accordion-body">PSR-1 (basic coding), PSR-4 (autoloading), PSR-7 (HTTP messages), PSR-11 (container interface), PSR-12 (extended coding style).</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq48">
-              <span class="q-tag tag-med">Medium</span> Q48: How to write a PHPUnit test with mocks?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq53">
+              <span class="q-tag tag-med">Medium</span> Q53: How to write a PHPUnit test with mocks?
             </button>
           </h2>
-          <div id="pq48" class="accordion-collapse collapse">
+          <div id="pq53" class="accordion-collapse collapse">
             <div class="accordion-body">$this->createMock(Interface::class) → set up expectations with expects/with/willReturn → inject into tested class → assert with assertTrue/assertEquals.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq49">
-              <span class="q-tag tag-hard">Hard</span> Q49: What is PHPStan and what are levels?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq54">
+              <span class="q-tag tag-hard">Hard</span> Q54: What is PHPStan and what are levels?
             </button>
           </h2>
-          <div id="pq49" class="accordion-collapse collapse">
+          <div id="pq54" class="accordion-collapse collapse">
             <div class="accordion-body">Static analysis tool. Levels 0-9: 0 (basic), 6 (strict types, generics), 9 (full precision). Configure via phpstan.neon. Run: vendor/bin/phpstan analyse src/ --level=max.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq50">
-              <span class="q-tag tag-med">Medium</span> Q50: How to start PHP's built-in web server?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq55">
+              <span class="q-tag tag-med">Medium</span> Q55: How to start PHP's built-in web server?
             </button>
           </h2>
-          <div id="pq50" class="accordion-collapse collapse">
+          <div id="pq55" class="accordion-collapse collapse">
             <div class="accordion-body">php -S localhost:8000 starts a dev server. Use -t public/ for doc root. php -S localhost:8000 router.php for a router script. Development use only.</div>
           </div>
         </div>
@@ -1470,16 +1631,16 @@ vendor/bin/rector process src/ --set php84</code></pre>
 
     <!-- SECTION 11: DSA -->
     <div class="practice-section">
-      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">11</span>Data Structures &amp; Algorithms</h3>
+      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">12</span>Data Structures &amp; Algorithms</h3>
       <div class="section-desc">Stacks, queues, sorting, searching, DP.</div>
       <div class="accordion">
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq51">
-              <span class="q-tag tag-easy">Easy</span> Q51: Implement a stack using PHP arrays.
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq56">
+              <span class="q-tag tag-easy">Easy</span> Q56: Implement a stack using PHP arrays.
             </button>
           </h2>
-          <div id="pq51" class="accordion-collapse collapse">
+          <div id="pq56" class="accordion-collapse collapse">
             <div class="accordion-body"><pre><code>$stack = [];
 array_push($stack, 'a');
 $top = array_pop($stack);</code></pre>Or use SplStack for an OOP approach.</div>
@@ -1487,11 +1648,11 @@ $top = array_pop($stack);</code></pre>Or use SplStack for an OOP approach.</div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq52">
-              <span class="q-tag tag-med">Medium</span> Q52: Implement binary search in PHP.
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq57">
+              <span class="q-tag tag-med">Medium</span> Q57: Implement binary search in PHP.
             </button>
           </h2>
-          <div id="pq52" class="accordion-collapse collapse">
+          <div id="pq57" class="accordion-collapse collapse">
             <div class="accordion-body"><pre><code>function binarySearch(array $arr, int $target): int {
     $l = 0; $r = count($arr) - 1;
     while ($l <= $r) {
@@ -1506,11 +1667,11 @@ $top = array_pop($stack);</code></pre>Or use SplStack for an OOP approach.</div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq53">
-              <span class="q-tag tag-hard">Hard</span> Q53: Solve Two Sum using a hash map in PHP.
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq58">
+              <span class="q-tag tag-hard">Hard</span> Q58: Solve Two Sum using a hash map in PHP.
             </button>
           </h2>
-          <div id="pq53" class="accordion-collapse collapse">
+          <div id="pq58" class="accordion-collapse collapse">
             <div class="accordion-body"><pre><code>function twoSum(array $nums, int $target): array {
     $map = [];
     foreach ($nums as $i => $num) {
@@ -1524,11 +1685,11 @@ $top = array_pop($stack);</code></pre>Or use SplStack for an OOP approach.</div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq54">
-              <span class="q-tag tag-hard">Hard</span> Q54: Implement Fibonacci using dynamic programming.
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq59">
+              <span class="q-tag tag-hard">Hard</span> Q59: Implement Fibonacci using dynamic programming.
             </button>
           </h2>
-          <div id="pq54" class="accordion-collapse collapse">
+          <div id="pq59" class="accordion-collapse collapse">
             <div class="accordion-body"><pre><code>function fib(int $n): int {
     $dp = [0, 1];
     for ($i = 2; $i <= $n; $i++)
@@ -1539,11 +1700,11 @@ $top = array_pop($stack);</code></pre>Or use SplStack for an OOP approach.</div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq55">
-              <span class="q-tag tag-hard">Hard</span> Q55: What is the time complexity of array_push() and why?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq60">
+              <span class="q-tag tag-hard">Hard</span> Q60: What is the time complexity of array_push() and why?
             </button>
           </h2>
-          <div id="pq55" class="accordion-collapse collapse">
+          <div id="pq60" class="accordion-collapse collapse">
             <div class="accordion-body">O(1) amortized. PHP arrays are hashtables internally. array_push (or $arr[] =) appends to the end with amortized O(1). array_unshift is O(n) because it reindexes.</div>
           </div>
         </div>
@@ -1552,16 +1713,16 @@ $top = array_pop($stack);</code></pre>Or use SplStack for an OOP approach.</div>
 
     <!-- SECTION 12: DESIGN PATTERNS -->
     <div class="practice-section">
-      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">12</span>Design Patterns</h3>
+      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">13</span>Design Patterns</h3>
       <div class="section-desc">Singleton, Factory, Repository, DI.</div>
       <div class="accordion">
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq56">
-              <span class="q-tag tag-med">Medium</span> Q56: Implement Singleton in PHP.
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq61">
+              <span class="q-tag tag-med">Medium</span> Q61: Implement Singleton in PHP.
             </button>
           </h2>
-          <div id="pq56" class="accordion-collapse collapse">
+          <div id="pq61" class="accordion-collapse collapse">
             <div class="accordion-body"><pre><code>final class Database {
     private static ?Database $instance = null;
     private function __construct() {}
@@ -1573,11 +1734,11 @@ $top = array_pop($stack);</code></pre>Or use SplStack for an OOP approach.</div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq57">
-              <span class="q-tag tag-med">Medium</span> Q57: Implement Factory pattern for loggers.
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq62">
+              <span class="q-tag tag-med">Medium</span> Q62: Implement Factory pattern for loggers.
             </button>
           </h2>
-          <div id="pq57" class="accordion-collapse collapse">
+          <div id="pq62" class="accordion-collapse collapse">
             <div class="accordion-body"><pre><code>class LoggerFactory {
     public static function create(string $type): Logger {
         return match($type) {
@@ -1591,31 +1752,31 @@ $top = array_pop($stack);</code></pre>Or use SplStack for an OOP approach.</div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq58">
-              <span class="q-tag tag-med">Medium</span> Q58: What problem does the Repository pattern solve?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq63">
+              <span class="q-tag tag-med">Medium</span> Q63: What problem does the Repository pattern solve?
             </button>
           </h2>
-          <div id="pq58" class="accordion-collapse collapse">
+          <div id="pq63" class="accordion-collapse collapse">
             <div class="accordion-body">Abstracts data access logic behind an interface. Controllers don't know about PDO/ORM — they call $repo->findById(). Swappable implementations (MySQL, Redis, in-memory). Testable with mocks.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq59">
-              <span class="q-tag tag-hard">Hard</span> Q59: What is Dependency Injection vs Service Locator?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq64">
+              <span class="q-tag tag-hard">Hard</span> Q64: What is Dependency Injection vs Service Locator?
             </button>
           </h2>
-          <div id="pq59" class="accordion-collapse collapse">
+          <div id="pq64" class="accordion-collapse collapse">
             <div class="accordion-body">DI: dependencies passed via constructor (explicit, testable). Service Locator: dependencies requested from a container inside the class (hidden coupling). DI is preferred — follows Inversion of Control.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq60">
-              <span class="q-tag tag-hard">Hard</span> Q60: When would you use Strategy pattern over a switch statement?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq65">
+              <span class="q-tag tag-hard">Hard</span> Q65: When would you use Strategy pattern over a switch statement?
             </button>
           </h2>
-          <div id="pq60" class="accordion-collapse collapse">
+          <div id="pq65" class="accordion-collapse collapse">
             <div class="accordion-body">Strategy pattern allows runtime algorithm swapping without modification. Each strategy is a separate class implementing an interface. Better than switch when algorithms are complex, need testing in isolation, or need dynamic selection.</div>
           </div>
         </div>
@@ -1624,56 +1785,56 @@ $top = array_pop($stack);</code></pre>Or use SplStack for an OOP approach.</div>
 
     <!-- SECTION 13: SOLID -->
     <div class="practice-section">
-      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">13</span>SOLID &amp; Advanced</h3>
+      <h3 style="border:none; color:var(--php-blue)"><span class="badge badge-php me-2">14</span>SOLID &amp; Advanced</h3>
       <div class="section-desc">SOLID, PHPUnit, static analysis, async.</div>
       <div class="accordion">
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq61">
-              <span class="q-tag tag-easy">Easy</span> Q61: What does SRP stand for and why is it important?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq66">
+              <span class="q-tag tag-easy">Easy</span> Q66: What does SRP stand for and why is it important?
             </button>
           </h2>
-          <div id="pq61" class="accordion-collapse collapse">
+          <div id="pq66" class="accordion-collapse collapse">
             <div class="accordion-body">Single Responsibility Principle — a class should have one reason to change. Makes code easier to understand, test, and maintain. If a class does too much, split it into separate classes.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq62">
-              <span class="q-tag tag-med">Medium</span> Q62: Explain OCP with an example.
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq67">
+              <span class="q-tag tag-med">Medium</span> Q67: Explain OCP with an example.
             </button>
           </h2>
-          <div id="pq62" class="accordion-collapse collapse">
+          <div id="pq67" class="accordion-collapse collapse">
             <div class="accordion-body">Open/Closed: open for extension, closed for modification. Example: instead of modifying a PaymentProcessor to add PayPal, create a PayPalPayment implements PaymentMethod. Add new methods without changing existing code.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq63">
-              <span class="q-tag tag-med">Medium</span> Q63: What is LSP and what violates it?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq68">
+              <span class="q-tag tag-med">Medium</span> Q68: What is LSP and what violates it?
             </button>
           </h2>
-          <div id="pq63" class="accordion-collapse collapse">
+          <div id="pq68" class="accordion-collapse collapse">
             <div class="accordion-body">Liskov Substitution: subtypes should replace their base types without breaking behavior. Violation: Square extends Rectangle — setting width on a Square also changes height, breaking Rectangle expectations.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq64">
-              <span class="q-tag tag-hard">Hard</span> Q64: How would you structure a large PHP application?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq69">
+              <span class="q-tag tag-hard">Hard</span> Q69: How would you structure a large PHP application?
             </button>
           </h2>
-          <div id="pq64" class="accordion-collapse collapse">
+          <div id="pq69" class="accordion-collapse collapse">
             <div class="accordion-body">Use a framework (Laravel/Symfony). Structure: src/ (PSR-4), tests/, public/, config/, routes/. Follow SOLID, use DI, repositories, services, and value objects. Automated CI with PHPUnit, PHPStan, PHP-CS-Fixer.</div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq65">
-              <span class="q-tag tag-hard">Hard</span> Q65: How would you handle 10,000 concurrent requests in PHP?
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq70">
+              <span class="q-tag tag-hard">Hard</span> Q70: How would you handle 10,000 concurrent requests in PHP?
             </button>
           </h2>
-          <div id="pq65" class="accordion-collapse collapse">
+          <div id="pq70" class="accordion-collapse collapse">
             <div class="accordion-body">PHP-FPM handles concurrent requests via process pool. For high concurrency: use OPcache, async processing (Queues + workers), read replicas, connection pooling, HTTP caching (Varnish/CDN), horizontal scaling (multiple servers behind load balancer). Consider Swoole/ReactPHP for long-running async apps.</div>
           </div>
         </div>
@@ -1684,7 +1845,7 @@ $top = array_pop($stack);</code></pre>Or use SplStack for an OOP approach.</div>
 
   <!-- ==================== FOOTER ==================== -->
   <footer class="text-muted small border-top pt-3 mt-5">
-    <p class="mb-1"><strong>PHP Deep Learning Guide</strong> &mdash; Beginner to Advanced with 70+ Practice Questions.</p>
+    <p class="mb-1"><strong>PHP Deep Learning Guide</strong> &mdash; Beginner to Advanced with 75+ Practice Questions.</p>
     <p class="mb-0">PHP 8.4 &bull; Updated 2026 &bull; Open source</p>
   </footer>
 

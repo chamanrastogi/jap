@@ -1,0 +1,1454 @@
+﻿========================================================================
+  SENIOR FULL-STACK DEVELOPER INTERVIEW QUESTIONS
+  Total: 192 Questions | Complete with Answers
+  Generated from Jap App Hub
+========================================================================
+
+
+========================================================================
+  PHP Basics (22 questions)
+========================================================================
+  Core language syntax, variable handling, data types, and foundational PHP constructs.
+------------------------------------------------------------------------
+
+  1. [EASY] What is PHP?
+  Answer:
+    PHP (Hypertext Preprocessor) is a widely-used open-source server-side
+    scripting language designed for web development. It runs on the server,
+    generating dynamic page content, and is loosely typed, interpreted, and
+    supports OOP.
+
+  2. [EASY] How do you declare variables in PHP?
+  Answer:
+    Variables start with a $ sign. They are loosely typed -- no type
+    declaration is required. Example: $name = "John";. PHP 7+ supports typed
+    properties; PHP 8+ adds union types.
+
+  3. [EASY] What is the difference between echo and print?
+  Answer:
+    echo can output multiple strings separated by commas and is slightly
+    faster. print returns 1 so it can be used in expressions. Both are
+    language constructs, not functions.
+
+  4. [EASY] What are the main PHP data types?
+  Answer:
+    PHP 8 supports 10 types: string, int, float, bool, array, object, null,
+    resource, true, false (PHP 8.2+).
+
+  5. [EASY] What does isset() and empty() do?
+  Answer:
+    isset() checks if a variable is declared and not null. empty() returns
+    true when the value is "", 0, "0", null, false, [], or uninitialized.
+
+  6. [EASY] How do you define constants in PHP?
+  Answer:
+    Use define("NAME", value) (runtime) or the const keyword (compile-time,
+    in classes). Constants are case-sensitive by convention uppercase.
+
+  7. [MED] Explain == vs === in PHP.
+  Answer:
+    == (loose) coerces types before comparing, e.g. "5" == 5 is true. ===
+    (strict) checks both value and type, so "5" === 5 is false. Always
+    prefer ===.
+
+  8. [MED] What is the difference between include and require?
+  Answer:
+    Both include and evaluate a file. require throws a fatal error if
+    missing; include issues a warning and continues. Their _once variants
+    prevent loading the same file more than once.
+
+  9. [EASY] What is a PHP session?
+  Answer:
+    A session stores user data across requests. Use session_start() to
+    begin, read/write via $_SESSION. File-based by default (or
+    Redis/memcached in production), identified by a cookie (PHPSESSID).
+
+  10. [MED] What are PHP superglobals?
+  Answer:
+    Built-in arrays accessible everywhere: $_GET, $_POST, $_REQUEST,
+    $_SESSION, $_COOKIE, $_SERVER, $_FILES, $_ENV, $GLOBALS.
+
+  11. [EASY] How do you loop through an array in PHP?
+  Answer:
+    Use foreach ($array as $value). For indexed arrays, for ($i = 0; $i .
+    PHP 8.4 introduced array_find(), array_any(), array_all().
+
+  12. [MED] What PHP array functions do you use daily?
+  Answer:
+    array_map(), array_filter(), array_reduce(), array_merge(),
+    array_keys(), in_array(), array_search(), sort(), array_unique(),
+    array_chunk(), array_column().
+
+  13. [MED] What is type hinting?
+  Answer:
+    Type hints specify expected types for arguments, return values, and
+    properties. PHP enforces them at runtime. PHP 8.0+ supports union types
+    (string|int), mixed, and named arguments.
+
+  14. [MED] What is the nullsafe operator?
+  Answer:
+    ?-> (PHP 8.0+) short-circuits method/property access when the left side
+    is null. Instead of nested checks, write $user?->profile?->bio. Returns
+    null if any part is null.
+
+  15. [HARD] Explain PHP 8 attributes and their use.
+  Answer:
+    PHP 8.0+ attributes (#[Attribute]) add structured metadata to classes,
+    methods, properties. Read via reflection. Laravel uses them for routes,
+    event listeners, model casting. Example: #[Route('get', '/dashboard')].
+
+  16. [MED] Explain the match expression in PHP 8.
+  Answer:
+    match (PHP 8.0+) is a strict, expression-based alternative to switch. It
+    returns a value, doesn't need break, supports multiple conditions per
+    arm, and throws UnhandledMatchError on no match.
+
+  17. [HARD] What are PHP 8.4 property hooks?
+  Answer:
+    PHP 8.4 introduces property hooks for custom get/set logic: public
+    string $name { get => ...; set => ...; }. Also asymmetric visibility
+    (public get, private set).
+
+  18. [HARD] What are fibers in PHP?
+  Answer:
+    Fibers (PHP 8.1+) are lightweight coroutines for cooperative
+    multitasking. A fiber can be suspended (Fiber::suspend()) and resumed
+    ($fiber->resume()) from the main context.
+
+  19. [MED] How do you handle errors in PHP?
+  Answer:
+    Use try/catch for exceptions. Set custom handler via
+    set_error_handler(). PHP 8.0+ converts many warnings to ErrorException.
+    Use finally for cleanup.
+
+  20. [HARD] Explain PHP memory management.
+  Answer:
+    PHP uses reference counting for primitive types and generational garbage
+    collection for complex objects. Memory leaks occur from circular
+    references, static closures capturing large data, global variables, and
+    unclosed resources. Use memory_get_usage() to monitor and unset() to
+    free.
+
+  21. [HARD] What happens internally when a PHP request executes?
+  Answer:
+    1. Zend Engine initializes 2. PHP file parsed into AST 3. AST compiled
+    to opcodes 4. Opcodes executed on Zend VM 5. Output buffer managed 6.
+    Headers sent 7. Cleanup/shutdown functions run 8. Memory freed. OpCache
+    caches compiled opcodes between requests.
+
+  22. [EASY] Tell me about yourself in 2-3 minutes.
+  Answer:
+    Structure: 1) Current role & company -- what you do now 2) Past
+    experience -- relevant roles and tech stacks 3) Key achievements --
+    measurable outcomes 4) Why this role -- what excites you about the
+    position. Keep it concise, relevant, and practice out loud.
+
+
+========================================================================
+  OOP in PHP (19 questions)
+========================================================================
+  Object-oriented programming in PHP -- classes, inheritance, interfaces, traits, and magic methods.
+------------------------------------------------------------------------
+
+  1. [EASY] What is a class vs an object?
+  Answer:
+    A class is a blueprint defining properties and methods. An object is an
+    instance of a class created via new.
+
+  2. [EASY] What are visibility modifiers?
+  Answer:
+    public -- accessible everywhere. protected -- within class and
+    subclasses. private -- within the declaring class only.
+
+  3. [EASY] What is constructor promotion?
+  Answer:
+    PHP 8.0+ allows declaring and assigning properties directly in the
+    constructor: public function __construct(private int $id, public string
+    $name) {}.
+
+  4. [MED] Explain inheritance in PHP.
+  Answer:
+    A child class extends a parent using extends. PHP supports single
+    inheritance. Use parent:: to call parent methods. final prevents
+    overriding.
+
+  5. [MED] What is an interface vs abstract class?
+  Answer:
+    An interface declares method signatures only; a class can implement
+    multiple. An abstract class provides partial implementation and
+    properties; a class extends only one.
+
+  6. [MED] What are traits?
+  Answer:
+    Traits enable code reuse in single-inheritance languages. They contain
+    methods/properties used via use TraitName in any class, sharing behavior
+    across unrelated classes.
+
+  7. [MED] Explain the static keyword and late static binding.
+  Answer:
+    static properties/methods belong to the class, not instances. static::
+    resolves to the calling class at runtime (late static binding), while
+    self:: resolves to the class where it's written.
+
+  8. [HARD] Explain SOLID principles in depth.
+  Answer:
+    Single Responsibility: each class has one reason to change.Open/Closed:
+    open for extension, closed for modification.Liskov Substitution:
+    subtypes must be substitutable for base types.Interface Segregation:
+    many specific interfaces > one general.Dependency Inversion: depend on
+    abstractions, not concretions.
+
+  9. [HARD] What are PHP magic methods? Name 10+
+  Answer:
+    __construct(), __destruct(), __call()/__callStatic(), __get()/__set(),
+    __invoke(), __toString(), __clone(), __serialize()/__unserialize(),
+    __wakeup(), __sleep(), __isset(), __unset(), __set_state(),
+    __debugInfo().
+
+  10. [MED] What is dependency injection?
+  Answer:
+    DI is a pattern where an object receives its dependencies externally
+    (via constructor, setter, or property). Constructor injection passes
+    dependencies via constructor params. Laravel's IoC container
+    auto-resolves them.
+
+  11. [MED] What is clone and __clone()?
+  Answer:
+    $b = clone $a creates a shallow copy. __clone() is called after for
+    deep-copy behavior (e.g., cloning nested objects). PHP 8.3+ allows
+    __clone() to modify readonly properties.
+
+  12. [HARD] Explain the Repository pattern.
+  Answer:
+    Repository separates data access from business logic. Repository classes
+    encapsulate queries (find(), create(), paginate()). Bound via service
+    container for testability. Contrast with Active Record (Eloquent) where
+    model handles data + persistence.
+
+  13. [MED] Instanceof vs is_a()?
+  Answer:
+    instanceof is an operator; is_a() is a function that accepts a class
+    name string. Prefer instanceof for readability and type safety.
+
+  14. [HARD] Explain the 4 pillars of OOP with examples.
+  Answer:
+    Encapsulation: bundling data + methods (private properties, public
+    getters). Inheritance: child extends parent (class Admin extends User).
+    Polymorphism: same interface different implementations (interface +
+    multiple implementations). Abstraction: hide complexity (abstract class
+    or interface).
+
+  15. [HARD] Composition vs Inheritance -- when to use which?
+  Answer:
+    Inheritance: "is-a" relationship (e.g., Admin is a User). Use when child
+    truly extends parent behavior. Composition: "has-a" relationship (e.g.,
+    Car has an Engine). Prefer composition for flexibility -- swap
+    implementations at runtime, avoid deep hierarchies, easier to test.
+
+  16. [HARD] Common design patterns you've used in projects.
+  Answer:
+    Repository - data abstraction layer. Strategy - interchangeable
+    algorithms (mail drivers, cache backends). Decorator - middleware
+    pipeline. Observer - events/listeners. Factory - complex object
+    creation. Singleton - single instance (use sparingly).
+
+  17. [HARD] Why is Singleton considered an anti-pattern?
+  Answer:
+    Singletons introduce global state, making code tightly coupled and hard
+    to test. They hide dependencies, violate SRP, and create hidden
+    coupling. Prefer DI with container-managed singletons instead of
+    hard-coded getInstance() patterns.
+
+  18. [MED] Explain the differences between self, static, and parent. When would you use each?
+  Answer:
+    self:: resolves to the class where it's written -- early binding. Used
+    for accessing the current class's static members. static:: resolves to
+    the calling class at runtime -- late static binding. Used in traits and
+    base classes where child behavior is needed. parent:: accesses the
+    parent class's overridden methods/properties. Example:
+    parent::__construct() calls the parent constructor.
+
+  19. [HARD] Compare abstract class vs interface vs trait with a real-world example.
+  Answer:
+    Abstract class: "is-a" relationship, can have properties and implemented
+    methods. Use when classes share a common base (e.g., abstract class
+    PaymentGateway). Interface: "can-do" contract, no properties. Use for
+    capability guarantees (e.g., interface Billable). Trait: code reuse
+    without inheritance. Use for shared behavior across unrelated classes
+    (e.g., trait Loggable). Example: abstract class Animal { abstract public
+    function sound(); } interface Swimmable { public function swim(); }
+    trait Herdable { public function herd() { ... } } class Duck extends
+    Animal implements Swimmable { use Herdable; }.
+
+
+========================================================================
+  Composer (9 questions)
+========================================================================
+  
+------------------------------------------------------------------------
+
+  1. [EASY] What is Composer?
+  Answer:
+    PHP's dependency manager. Reads composer.json, resolves dependencies,
+    installs in vendor/. Provides PSR-4 autoloader.
+
+  2. [EASY] What is composer.json vs composer.lock?
+  Answer:
+    composer.json: project manifest with dependencies/autoload
+    rules/scripts. composer.lock: records exact installed versions for
+    consistent environments. Commit lock file to VCS.
+
+  3. [MED] How does PSR-4 autoloading work?
+  Answer:
+    Maps namespaces to directories. App\Models\User maps to
+    app/Models/User.php. Configured in composer.json under autoload.psr-4.
+    Run composer dump-autoload to regenerate.
+
+  4. [EASY] composer install vs composer update?
+  Answer:
+    install reads lock file and installs exact versions. update resolves
+    latest versions matching constraints and updates the lock file.
+
+  5. [MED] What is the vendor directory?
+  Answer:
+    Contains installed packages and autoload.php. Should NOT be committed
+    (add to .gitignore). Regenerate with composer install.
+
+  6. [HARD] How do you create a custom Composer package?
+  Answer:
+    Create directory with composer.json (name, type, require, autoload
+    PSR-4). Implement classes, push to GitHub, publish on Packagist. Users
+    install via composer require vendor/package.
+
+  7. [HARD] What are Composer scripts and events?
+  Answer:
+    Shell/PHP callables triggered by lifecycle events (pre-install-cmd,
+    post-update-cmd). Defined in composer.json under scripts. Useful for
+    clearing cache, running migrations after install.
+
+  8. [MED] dump-autoload vs dump-autoload -o?
+  Answer:
+    dump-autoload regenerates autoloader. -o (optimize) generates classmap
+    for PSR-0/4 classes, improving production performance by converting
+    namespace lookups to explicit class mappings.
+
+  9. [HARD] How do Composer version constraints work?
+  Answer:
+    Exact: 1.2.3. Tilde ~1.2 allows patch bumps. Caret ^1.2.3 allows minor.
+    Wildcard 1.2.*. Pre-release: ^1.0@beta.
+
+
+========================================================================
+  SQL Fundamentals (7 questions)
+========================================================================
+  SQL basics -- CREATE, SELECT, INSERT, UPDATE, DELETE, data types, and constraints.
+------------------------------------------------------------------------
+
+  1. [EASY] What is the difference between SQL and MySQL?
+  Answer:
+    SQL (Structured Query Language) is the standard language for querying
+    databases. MySQL is an open-source RDBMS that implements SQL. SQL is the
+    language; MySQL is one of many database systems that use it.
+
+  2. [EASY] Explain DDL, DML, DCL, TCL, DQL.
+  Answer:
+    DDL (Data Definition): CREATE, ALTER, DROP, TRUNCATE. DML (Data
+    Manipulation): SELECT, INSERT, UPDATE, DELETE. DCL (Data Control):
+    GRANT, REVOKE. TCL (Transaction Control): COMMIT, ROLLBACK, SAVEPOINT.
+    DQL (Data Query): SELECT (often grouped under DML).
+
+  3. [EASY] Explain PRIMARY KEY, FOREIGN KEY, UNIQUE KEY, CHECK constraints.
+  Answer:
+    PRIMARY KEY: uniquely identifies rows (NOT NULL + UNIQUE). FOREIGN KEY:
+    enforces referential integrity across tables. UNIQUE: ensures all values
+    in column(s) are distinct. CHECK: validates values against an expression
+    (MySQL 8.0.16+ enforced).
+
+  4. [MED] What is normalization? Explain 1NF, 2NF, 3NF, BCNF.
+  Answer:
+    1NF: atomic columns, no repeating groups, unique rows. 2NF: 1NF + no
+    partial dependency (every non-key column depends on full PK). 3NF: 2NF +
+    no transitive dependency (non-key columns don't depend on other non-key
+    columns). BCNF: stricter 3NF -- every determinant must be a candidate
+    key.
+
+  5. [MED] What is denormalization and when would you use it?
+  Answer:
+    Denormalization intentionally adds redundancy for read performance. Use
+    for: reporting/analytics, high-traffic read-heavy apps, pre-computed
+    aggregates, OLAP workloads. Trade-off: slower writes, more storage, data
+    inconsistency risk.
+
+  6. [MED] Explain the differences between WHERE, HAVING, GROUP BY, and ORDER BY.
+  Answer:
+    WHERE: filters rows before aggregation. GROUP BY: groups rows for
+    aggregate functions (e.g., SELECT department, COUNT(*) FROM employees
+    GROUP BY department). HAVING: filters groups after aggregation (like
+    WHERE but for GROUP BY). ORDER BY: sorts the final result set. Execution
+    order: WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY.
+
+  7. [MED] What is the difference between DELETE, TRUNCATE, and DROP?
+  Answer:
+    DELETE: DML -- removes rows one by one (can use WHERE), triggers fire,
+    can be rolled back, does not reset auto-increment. TRUNCATE: DDL --
+    removes all rows by deallocating data pages, no WHERE, no triggers,
+    resets auto-increment, faster. DROP: DDL -- removes the entire table
+    structure and data, cannot roll back, requires recreation.
+
+
+========================================================================
+  Joins & Subqueries (5 questions)
+========================================================================
+  INNER/LEFT/RIGHT/CROSS JOINs, self-joins, subqueries, UNION, and correlated subqueries.
+------------------------------------------------------------------------
+
+  1. [EASY] Explain INNER JOIN, LEFT JOIN, RIGHT JOIN, FULL OUTER JOIN.
+  Answer:
+    INNER JOIN: matching rows in both tables. LEFT JOIN: all rows from left
+    + matched from right (NULL where no match). RIGHT JOIN: all from right +
+    matched from left. FULL OUTER JOIN: all rows from both (MySQL doesn't
+    support directly; use UNION of LEFT and RIGHT JOIN).
+
+  2. [MED] What is a SELF JOIN?
+  Answer:
+    A table joined with itself using aliases. Example: employees table with
+    manager_id referencing same table. SELECT e1.name AS employee, e2.name
+    AS manager FROM employees e1 LEFT JOIN employees e2 ON e1.manager_id =
+    e2.id.
+
+  3. [EASY] What is a CROSS JOIN?
+  Answer:
+    Produces Cartesian product of two tables -- every row from A paired with
+    every row from B. No join condition. SELECT * FROM colors CROSS JOIN
+    sizes. Use carefully on large tables.
+
+  4. [MED] Difference between JOIN and UNION.
+  Answer:
+    JOIN: combines columns from different tables based on a relationship.
+    UNION: combines rows from multiple SELECT queries (same number of
+    columns). UNION removes duplicates; UNION ALL keeps them.
+
+  5. [HARD] Write a query to find users with no orders (unmatched records).
+  Answer:
+    SELECT u.* FROM users u LEFT JOIN orders o ON u.id = o.user_id WHERE
+    o.id IS NULL. Alternative: NOT EXISTS (SELECT 1 FROM orders WHERE
+    user_id = u.id). Avoid NOT IN if NULLs are present.
+
+
+========================================================================
+  Indexing (7 questions)
+========================================================================
+  B+tree indexes, composite indexes, cardinality, EXPLAIN, covering indexes, and index maintenance.
+------------------------------------------------------------------------
+
+  1. [EASY] What is an index in MySQL?
+  Answer:
+    A data structure (B-Tree by default) that speeds up data retrieval at
+    the cost of additional storage and slower writes. Helps find rows
+    without scanning the entire table. InnoDB uses B+Tree indexes where leaf
+    nodes contain the actual data (clustered) or PK references (secondary).
+
+  2. [MED] Types of indexes in MySQL.
+  Answer:
+    B-Tree (default), UNIQUE, PRIMARY KEY (clustered in InnoDB), FULLTEXT
+    (text search), SPATIAL (geographic), Composite (multi-column),
+    Descending (MySQL 8+), Functional (MySQL 8.0.13+, index on expressions),
+    Hash (Memory engine only).
+
+  3. [MED] Clustered vs Non-clustered indexes.
+  Answer:
+    Clustered: table data stored in B-Tree ordered by PK (InnoDB). One per
+    table. Secondary indexes store PK as pointer. Non-clustered: index
+    structure separate from data. Leaf nodes contain row pointers. MyISAM
+    uses non-clustered. InnoDB secondary indexes are non-clustered.
+
+  4. [MED] What are composite indexes and the leftmost prefix rule?
+  Answer:
+    A composite index on multiple columns (e.g., (A, B, C)). The leftmost
+    prefix rule means the index can optimize queries on any leftmost subset:
+    A, A+B, A+B+C. Queries starting with B alone can't use it.
+
+  5. [HARD] What is a covering index?
+  Answer:
+    An index containing all columns needed by a query. MySQL satisfies the
+    query entirely from the index without accessing table rows. Indicated by
+    Using index in EXPLAIN Extra column.
+
+  6. [HARD] How do you identify missing indexes?
+  Answer:
+    Use EXPLAIN to see full table scans (type=ALL), high rows examined.
+    Enable slow_query_log. Use Performance Schema's table_io_waits_summary.
+    Look for queries with Using filesort (missing ORDER BY index) or Using
+    temporary.
+
+  7. [MED] When should you avoid indexes?
+  Answer:
+    Write-heavy tables (each write updates all indexes), small tables (scan
+    faster than index), low-cardinality columns (gender M/F), too many
+    indexes, columns with frequent updates, LIKE '%text' queries (wildcard
+    start).
+
+
+========================================================================
+  Query Optimization (5 questions)
+========================================================================
+  Query optimization, slow query log, temp tables, keyset pagination, and materialized views.
+------------------------------------------------------------------------
+
+  1. [HARD] How do you optimize slow queries?
+  Answer:
+    1. Use EXPLAIN to analyze execution plan 2. Check for full table scans
+    (type=ALL) 3. Add appropriate indexes 4. Avoid SELECT * 5. Use LIMIT 6.
+    Optimize JOINs (index FK columns) 7. Rewrite subqueries as JOINs 8. Use
+    query cache (MySQL 8 removed) 9. Partition large tables 10. Consider
+    summary/aggregate tables.
+
+  2. [HARD] What is EXPLAIN and EXPLAIN ANALYZE?
+  Answer:
+    EXPLAIN shows the query execution plan (access type, possible keys, rows
+    examined, extra info). EXPLAIN ANALYZE (MySQL 8.0.18+) runs the query
+    and provides actual execution times and row counts alongside the plan.
+    Key columns: type (ALL=worst, const=best), key, rows, Extra.
+
+  3. [HARD] What causes full table scans?
+  Answer:
+    Missing indexes, WHERE on unindexed columns, function wrapping index
+    columns (WHERE YEAR(date) = 2024), LIKE '%text' leading wildcard, data
+    type mismatches (WHERE string_col = 123), OR conditions mixing
+    indexed/non-indexed columns.
+
+  4. [HARD] How do LIMIT and OFFSET affect performance?
+  Answer:
+    High OFFSET values are slow -- MySQL still scans all skipped rows. Use
+    keyset pagination (cursor-based) instead: WHERE id > :last_id LIMIT 20.
+    This uses the index directly and avoids scanning skipped rows.
+
+  5. [HARD] How do you optimize a query running on a table with 5 million records?
+  Answer:
+    1. Check EXPLAIN for full table scans 2. Add appropriate indexes
+    (composite for multi-condition WHERE) 3. Use covering indexes 4. Avoid
+    SELECT * -- fetch only needed columns 5. Partition large tables 6. Use
+    keyset pagination instead of OFFSET 7. Consider summary/aggregate tables
+    8. Archive old data 9. Use Redis caching for frequent queries 10. Ensure
+    JOIN columns are indexed.
+
+
+========================================================================
+  Transactions & Locking (5 questions)
+========================================================================
+  ACID, isolation levels, deadlocks, gap locking, MVCC, and transaction best practices.
+------------------------------------------------------------------------
+
+  1. [EASY] What is a transaction? Explain ACID.
+  Answer:
+    A transaction is a unit of SQL operations executed atomically. ACID:
+    Atomicity (all or nothing), Consistency (data remains valid), Isolation
+    (concurrent transactions don't interfere), Durability (committed changes
+    persist). InnoDB supports with START TRANSACTION/COMMIT/ROLLBACK.
+
+  2. [MED] COMMIT vs ROLLBACK vs SAVEPOINT.
+  Answer:
+    COMMIT: permanently saves all transaction changes. ROLLBACK: undoes all
+    changes since transaction start. SAVEPOINT: creates a named point within
+    a transaction to roll back to partially: SAVEPOINT sp; ROLLBACK TO sp;.
+
+  3. [HARD] Explain isolation levels in MySQL.
+  Answer:
+    READ UNCOMMITTED: dirty reads allowed. READ COMMITTED: only committed
+    data (prevents dirty reads). REPEATABLE READ (default): consistent reads
+    within transaction (prevents non-repeatable reads). SERIALIZABLE: fully
+    isolated, prevents phantom reads. Higher isolation = more locking
+    overhead.
+
+  4. [HARD] Explain dirty read, non-repeatable read, phantom read.
+  Answer:
+    Dirty read: Transaction A reads uncommitted changes from Transaction B.
+    Non-repeatable read: A reads same row twice, B modifies it between reads
+    -- different values. Phantom read: A runs same query twice, B inserts
+    new rows between -- different row sets.
+
+  5. [HARD] Shared lock vs Exclusive lock. How do deadlocks happen?
+  Answer:
+    Shared lock (S): for reads; multiple transactions can hold
+    simultaneously. Exclusive lock (X): for writes; only one transaction
+    holds. Deadlock: Transaction A locks Row 1 and waits for Row 2;
+    Transaction B locks Row 2 and waits for Row 1. MySQL detects and kills
+    one (innodb_deadlock_detect). Prevention: consistent lock order, keep
+    transactions short, use READ COMMITTED.
+
+
+========================================================================
+  Advanced MySQL (6 questions)
+========================================================================
+  CTEs, window functions, stored procedures, triggers, events, JSON, and GIS in MySQL.
+------------------------------------------------------------------------
+
+  1. [MED] What are stored procedures vs functions?
+  Answer:
+    Stored Procedure: may return multiple result sets, can modify data,
+    supports IN/OUT/INOUT params, called via CALL. Function: returns single
+    value, can be used in SQL (SELECT fn()), read-only, only IN params. Use
+    procedures for operations, functions for computed values.
+
+  2. [MED] What are triggers in MySQL?
+  Answer:
+    Stored programs that auto-execute on INSERT/UPDATE/DELETE. BEFORE
+    triggers can modify values; AFTER triggers for logging/auditing.
+    Limitations: no ALTER/DROP/CREATE inside, no result sets, hard to debug,
+    performance impact on bulk operations.
+
+  3. [EASY] What are views vs materialized views?
+  Answer:
+    View: virtual table based on a SELECT query. Always shows current data.
+    Materialized view: physically stored snapshot (MySQL doesn't support
+    natively; use tables + events to refresh). Views for
+    security/simplification; materialized for performance on expensive
+    queries.
+
+  4. [HARD] What are CTEs and recursive CTEs?
+  Answer:
+    Common Table Expressions (MySQL 8+) are temporary named result sets
+    within a query. Improves readability. Recursive CTEs reference
+    themselves for hierarchical data: WITH RECURSIVE org AS (SELECT ...
+    WHERE manager_id IS NULL UNION ALL SELECT e.* FROM employees e JOIN org
+    ON e.manager_id = org.id).
+
+  5. [HARD] Explain window functions: ROW_NUMBER, RANK, DENSE_RANK, LEAD, LAG.
+  Answer:
+    Window functions perform calculations across related rows without
+    collapsing them. ROW_NUMBER(): unique sequential number. RANK(): same
+    rank for ties, skips numbers. DENSE_RANK(): same rank for ties, no skip.
+    LEAD(): access next row's value. LAG(): access previous row's value.
+
+  6. [HARD] What is table partitioning and sharding?
+  Answer:
+    Partitioning: divides a table into segments (RANGE, LIST, HASH, KEY)
+    within same server. Improves query pruning, easier archiving. Sharding:
+    distributes data across multiple servers horizontally. Sharding adds
+    complexity (cross-shard queries, rebalancing). Use partitioning first;
+    sharding when exceeding single-server capacity.
+
+
+========================================================================
+  Practical SQL (5 questions)
+========================================================================
+  Real-world data analysis queries, CRUD operations, and common business-logic SQL patterns.
+------------------------------------------------------------------------
+
+  1. [MED] Find the second highest salary.
+  Answer:
+    SELECT DISTINCT salary FROM employees ORDER BY salary DESC LIMIT 1
+    OFFSET 1. Using window function: SELECT DISTINCT salary FROM (SELECT
+    salary, DENSE_RANK() OVER (ORDER BY salary DESC) rnk FROM employees)
+    ranked WHERE rnk = 2.
+
+  2. [MED] Find and delete duplicate rows.
+  Answer:
+    Find: SELECT email, COUNT(*) FROM users GROUP BY email HAVING COUNT(*) >
+    1. Delete keeping lowest ID: DELETE u1 FROM users u1 JOIN users u2 ON
+    u1.email = u2.email WHERE u1.id > u2.id. Or use CTE + ROW_NUMBER().
+
+  3. [MED] Top 5 highest salaries per department.
+  Answer:
+    SELECT * FROM (SELECT name, salary, department, DENSE_RANK() OVER
+    (PARTITION BY department ORDER BY salary DESC) rnk FROM employees)
+    ranked WHERE rnk . Use ROW_NUMBER() for exactly 5 without ties.
+
+  4. [HARD] Running totals and pivoting data.
+  Answer:
+    Running total: SELECT date, amount, SUM(amount) OVER (ORDER BY date) AS
+    running_total FROM sales. Pivot (no PIVOT in MySQL): SELECT department,
+    SUM(CASE WHEN gender='Male' THEN 1 ELSE 0 END) AS male_count, SUM(CASE
+    WHEN gender='Female' THEN 1 ELSE 0 END) AS female_count FROM employees
+    GROUP BY department.
+
+  5. [HARD] Design an e-commerce database.
+  Answer:
+    Tables: users (id, name, email), categories (id, name, parent_id),
+    products (id, category_id, name, price, stock), orders (id, user_id,
+    status, total, created_at), order_items (id, order_id, product_id,
+    quantity, price), reviews (id, product_id, user_id, rating, body). Index
+    FK columns, product name/category for search.
+
+
+========================================================================
+  Performance (2 questions)
+========================================================================
+  Performance benchmarking, configuration tuning, profiling, schema optimization, and caching strategies.
+------------------------------------------------------------------------
+
+  1. [HARD] How do you optimize inserts and bulk inserts?
+  Answer:
+    Use multi-row INSERT (VALUES (...), (...)). Disable indexes temporarily
+    during bulk load. Use LOAD DATA INFILE for large CSV imports. Set
+    autocommit=0 and commit periodically. InnoDB: increase
+    innodb_buffer_pool_size. Use partitioned tables. Consider INSERT ... ON
+    DUPLICATE KEY UPDATE for upserts.
+
+  2. [HARD] Archive strategies for large tables.
+  Answer:
+    Partition by date (e.g., monthly) and DROP/TRUNCATE old partitions. Use
+    pt-archiver (Percona) for controlled archiving. Move cold data to
+    Archive storage engine. Export old data to files. Delete in small
+    batches (LIMIT 1000 in loop). Consider time-series databases for logging
+    data.
+
+
+========================================================================
+  Replication & Backup (2 questions)
+========================================================================
+  Master-slave, GTID, group replication, failover, backups, point-in-time recovery, and disaster planning.
+------------------------------------------------------------------------
+
+  1. [MED] Explain MySQL replication. Master-Replica vs GTID.
+  Answer:
+    Master-Replica: master writes binlog, replica reads and applies relay
+    log. Async by default; semi-sync available. GTID (Global Transaction ID,
+    MySQL 5.6+): each transaction gets a unique ID. Simplifies failover and
+    replica management. No need to track binlog positions.
+
+  2. [MED] Backup strategies: mysqldump vs physical backups.
+  Answer:
+    mysqldump: logical backup (SQL statements). Portable, easy to restore.
+    Slow for large DBs. Use --single-transaction for InnoDB consistency.
+    Physical backup: copies data files directly (Percona XtraBackup, MySQL
+    Enterprise Backup). Fast backup/restore, good for large DBs,
+    point-in-time recovery.
+
+
+========================================================================
+  Scenario-Based (3 questions)
+========================================================================
+  Architecture and troubleshooting scenarios for large-scale MySQL deployments (100M+ rows).
+------------------------------------------------------------------------
+
+  1. [HARD] A query taking 30s suddenly takes 5 minutes. How do you troubleshoot?
+  Answer:
+    1. Check SHOW PROCESSLIST for blocking queries 2. Examine slow query log
+    and recent EXPLAIN 3. Look for missing indexes (maybe a new index was
+    dropped?) 4. Check table statistics -- run ANALYZE TABLE 5. Check for
+    table locks/ deadlocks 6. Monitor system resources (disk I/O, memory,
+    CPU) 7. Check if execution plan changed due to data distribution shifts.
+
+  2. [HARD] A table has 100M rows. How to improve search performance?
+  Answer:
+    1. Ensure proper indexes (composite for common query patterns) 2. Use
+    covering indexes 3. Partition by date/category 4. Implement search via
+    ElasticSearch/MeiliSearch for full-text 5. Use summary/aggregate tables
+    for reporting 6. Implement keyset pagination 7. Consider read replicas
+    for distribution 8. Archive old data 9. Use Redis caching for frequent
+    queries.
+
+  3. [HARD] How do you migrate a large DB with minimal downtime?
+  Answer:
+    Use Percona XtraBackup or MySQL Enterprise Backup for initial sync. Set
+    up replication, switch app traffic. Use pt-online-schema-change for
+    schema migrations without downtime (creates shadow table, syncs via
+    triggers, swaps atomically). For smaller windows: batch process in
+    chunks with throttling.
+
+
+========================================================================
+  Laravel Basics (13 questions)
+========================================================================
+  Laravel fundamentals -- lifecycle, service container, facades, Artisan, config, and env management.
+------------------------------------------------------------------------
+
+  1. [EASY] What is Laravel?
+  Answer:
+    Open-source PHP framework by Taylor Otwell. MVC pattern, Eloquent ORM,
+    Blade templating, routing, auth, queues, testing. Current major version
+    is Laravel 13. Built-in features for modern PHP development.
+
+  2. [EASY] What is Artisan?
+  Answer:
+    CLI tool providing scaffolding commands (make:model, make:controller),
+    database management (migrate), caching, queue management, and more. php
+    artisan list shows all available commands.
+
+  3. [EASY] What is the Laravel directory structure?
+  Answer:
+    app/ (Models, Controllers, Livewire), config/, database/ (migrations,
+    seeders), resources/ (views), routes/, storage/. Laravel 11+ has a
+    leaner structure with fewer generated files.
+
+  4. [MED] Explain the service container.
+  Answer:
+    IoC container managing class dependencies. Auto-resolves classes via
+    reflection, binds interfaces to implementations, registers singletons.
+    Foundation of Laravel's bootstrapping. Access via app() helper or
+    type-hinting in constructors.
+
+  5. [MED] What are service providers?
+  Answer:
+    Central bootstrapping mechanism. Register services, bindings, middleware
+    in register() and boot() methods. Created with make:provider. Config
+    service providers in config/app.php.
+
+  6. [MED] What are facades?
+  Answer:
+    Static-like interface to container-bound classes. Cache::get() resolves
+    to resolve('cache')->get(). Each facade has a getFacadeAccessor()
+    returning the container binding key. Real-time facades available in
+    Laravel 8+.
+
+  7. [MED] Difference between env() and config()?
+  Answer:
+    env() reads .env directly (use only in config files). config() reads
+    cached config (use in application code). After config:cache, env()
+    returns null outside config files.
+
+  8. [MED] Explain the Laravel request lifecycle.
+  Answer:
+    1. Request enters index.php 2. Autoloader loads Composer deps 3. App
+    instance created 4. Service providers register/boot 5. Middleware
+    pipeline runs 6. Route matched 7. Controller/dispatch returns response
+    8. Response sent to client 9. Terminable middleware runs.
+
+  9. [EASY] What are migrations?
+  Answer:
+    Version control for database schema. Each migration has up() (apply) and
+    down() (rollback). Run with php artisan migrate. Create with
+    make:migration.
+
+  10. [EASY] What are seeders and factories?
+  Answer:
+    Seeders: populate database with test data (php artisan db:seed).
+    Factories: use Faker to generate fake model data.
+    User::factory()->count(10)->create().
+
+  11. [HARD] What are Laravel 11+ structural changes?
+  Answer:
+    Simplified skeleton: fewer service providers, no separate HTTP/Console
+    kernels, bootstrap/app.php for routing/middleware config,
+    routes/console.php merged, component-first approach, default SQLite.
+
+  12. [HARD] Explain the pipeline pattern in Laravel.
+  Answer:
+    Passes an object through a queue of pipes. Each pipe can modify the
+    object or perform actions. Used by middleware (request through
+    middleware classes), queued job chains, mail sending. Implemented by
+    Illuminate\Pipeline\Pipeline.
+
+  13. [MED] What is php artisan optimize?
+  Answer:
+    Caches config, routes, events, and views for production. Run before
+    deploy. Use optimize:clear during development. Individual commands:
+    config:cache, route:cache, view:cache.
+
+
+========================================================================
+  Routing & Controllers (8 questions)
+========================================================================
+  Route definitions, middleware, controller binding, route model binding, rate limiting, and API versioning.
+------------------------------------------------------------------------
+
+  1. [EASY] How to define a route in Laravel?
+  Answer:
+    Route::get('/url', [Controller::class, 'method']). Supports get, post,
+    put, patch, delete, options. Route files: routes/web.php (web) and
+    routes/api.php (API with prefix).
+
+  2. [EASY] What are named routes?
+  Answer:
+    Route::get('/profile', ...)->name('profile'). Generate URLs with
+    route('profile', $params) or redirect()->route('profile'). Makes URLs
+    maintainable.
+
+  3. [MED] What are route model bindings?
+  Answer:
+    Auto-injects models into controllers. Implicit: /users/{user} fetches by
+    ID. Custom column: /users/{user:slug}. Explicit: Route::bind('user',
+    fn($value) => ...) in AppServiceProvider.
+
+  4. [MED] What is middleware?
+  Answer:
+    Filters HTTP requests before reaching the route handler. Examples: auth,
+    throttle, verified, cors. Can be assigned to routes, groups, or
+    globally. Middleware runs in the pipeline sequentially.
+
+  5. [EASY] How to group routes?
+  Answer:
+    Route::prefix('admin')->middleware('auth')->group(function () {
+    Route::get(...); });. Can nest groups, combine
+    prefix/middleware/name/domain.
+
+  6. [HARD] What is rate limiting?
+  Answer:
+    Restricts requests per time window. Define using RateLimiter::for('api',
+    fn($job) => $job->limit(60)->minute()). Apply via throttle:api
+    middleware. Can set different limits per authenticated/guest users.
+
+  7. [MED] What are signed URLs?
+  Answer:
+    HMAC-signed URLs for one-time or limited-time access:
+    URL::signedRoute('unsubscribe', ['user' => 1]). Verify with
+    $request->hasValidSignature(). Temporary versions:
+    temporarySignedRoute() with expiration.
+
+  8. [MED] How does route caching work?
+  Answer:
+    php artisan route:cache serializes all routes for faster matching. Only
+    works with closure-free controllers (no closures in route definitions).
+    Must re-cache after route changes.
+
+
+========================================================================
+  Blade & Views (5 questions)
+========================================================================
+  Blade templating -- layouts, components, slots, stacks, directives, and rendering optimization.
+------------------------------------------------------------------------
+
+  1. [EASY] What is Blade?
+  Answer:
+    Laravel's templating engine. Uses .blade.php files, compiles to plain
+    PHP cached in storage/framework/views. Provides directives like @if,
+    @foreach, @yield, @section.
+
+  2. [EASY] How do you escape data in Blade?
+  Answer:
+    {{ $var }} auto-escapes via htmlspecialchars(). {!! $var !!} for raw
+    output (dangerous with user input). Use with caution to avoid XSS.
+
+  3. [MED] How do Blade components work?
+  Answer:
+    Class-based: php artisan make:component Alert creates PHP class + Blade
+    template. Render as . Accept attributes, slots, named slots. Anonymous
+    components: just the Blade file in views/components/.
+
+  4. [MED] What are stacks and pushes?
+  Answer:
+    @push('scripts')...@endpush adds to a stack in child view.
+    @stack('scripts') renders all pushed content in the layout. @prepend
+    adds to beginning. Useful for adding JS/CSS from child views.
+
+  5. [HARD] How do custom Blade directives work?
+  Answer:
+    Blade::directive('name', fn($expr) => "") in a service provider's
+    boot(). Returns raw PHP string for compiled views. Also: Blade::if() for
+    simple conditionals.
+
+
+========================================================================
+  Eloquent ORM (11 questions)
+========================================================================
+  Eloquent ORM -- relationships, eager loading, accessors/mutators, scopes, serialization, and performance.
+------------------------------------------------------------------------
+
+  1. [EASY] What is Eloquent?
+  Answer:
+    Laravel's Active Record ORM. Each model maps to a database table, each
+    instance to a row. Provides CRUD, relationships, accessors, mutators,
+    scopes, and events out of the box.
+
+  2. [EASY] What are Eloquent naming conventions?
+  Answer:
+    Snake-case plural tables (users), PK is id, FK columns are user_id,
+    pivot tables alphabetical (role_user), timestamps created_at/updated_at.
+
+  3. [MED] What relationships does Eloquent support?
+  Answer:
+    hasOne, hasMany, belongsTo, belongsToMany, hasManyThrough,
+    morphTo/morphMany, morphToMany. hasOneThrough also available.
+
+  4. [MED] What is eager loading?
+  Answer:
+    Fetches related models upfront to avoid N+1 queries.
+    User::with('posts.comments')->get(). Can constrain: with(['posts' =>
+    fn($q) => $q->where('published', true)]). load() for lazy eager loading.
+
+  5. [MED] What are accessors and mutators?
+  Answer:
+    Attribute::make(get: fn($val) => ..., set: fn($val) => ...). Transform
+    attributes on retrieval/getting. Example: protected function name():
+    Attribute { return Attribute::make(get: fn($v) => ucfirst($v)); }.
+
+  6. [MED] What are scopes?
+  Answer:
+    Local scopes: reusable query methods: scopePopular($q) {
+    $q->where('views', '>', 1000); }. Called: User::popular()->get(). Global
+    scopes: apply constraints to all queries on a model.
+
+  7. [HARD] Explain model events and observers.
+  Answer:
+    Lifecycle events: creating, created, updating, updated, saving, saved,
+    deleting, deleted, restoring, restored, retrieved. Use Observers (php
+    artisan make:observer UserObserver --model=User) for clean separation.
+
+  8. [HARD] What is the N+1 problem?
+  Answer:
+    Querying N items then accessing a relation per item causes N extra SQL
+    queries. Example: $users = User::all(); foreach($users as $user) { echo
+    $user->posts->count(); } -- 1 query for users + N for posts. Fix: eager
+    load with with('posts').
+
+  9. [HARD] How to optimize Eloquent performance?
+  Answer:
+    Use select() for specific columns, eager loading (with()),
+    chunk()/chunkById() for large datasets, cursor() for memory-efficient
+    iteration (returns generators), when() for conditional queries, DB
+    indexes, withCount()/withSum() for aggregates.
+
+  10. [HARD] Explain polymorphic relationships.
+  Answer:
+    A model belongs to multiple models on one association. Uses
+    commentable_id + commentable_type. Example: Comments can belong to Posts
+    or Videos. morphMany() on Post/Video, morphTo() on Comment.
+
+  11. [MED] What is paginate vs simplePaginate vs cursorPaginate?
+  Answer:
+    paginate(): returns items + pagination links (count query).
+    simplePaginate(): only prev/next (no count) -- faster. cursorPaginate():
+    offsetless pagination using a WHERE clause on ordered column -- best for
+    large datasets and real-time data.
+
+
+========================================================================
+  Validation & Auth (7 questions)
+========================================================================
+  Form requests, validation rules, custom rules, authorization gates/policies, and middleware security.
+------------------------------------------------------------------------
+
+  1. [EASY] How does validation work in Laravel?
+  Answer:
+    $request->validate([...]) in controllers. On failure, redirects back
+    with errors or returns JSON errors. Custom error messages, nested
+    validation, array validation supported.
+
+  2. [EASY] What are Form Requests?
+  Answer:
+    Dedicated validation classes: php artisan make:request StoreUserRequest.
+    Define rules() and authorize(). Type-hint in controller method --
+    Laravel auto-resolves and validates before the method runs.
+
+  3. [MED] What are common validation rules?
+  Answer:
+    required, email, unique:table,column, exists:table,column, min/max,
+    confirmed, file/image, regex, numeric, string, array, in:foo,bar, date,
+    after:today, prohibited_if.
+
+  4. [MED] Explain Laravel's auth system.
+  Answer:
+    Guards (session, token, sanctum) define auth method. Providers
+    (Eloquent, database) retrieve users. Starter kits: Breeze (minimal),
+    Jetstream (teams, 2FA), Fortify (headless backend). auth() helper for
+    current user.
+
+  5. [MED] What is Sanctum?
+  Answer:
+    API token auth for SPAs and mobile apps. Cookie-based for SPAs
+    (same-site), token-based for API clients. Each token can have abilities
+    (scopes). Lightweight alternative to Passport.
+
+  6. [MED] What are Gates and Policies?
+  Answer:
+    Gates: closure-based authorization checks. Policies: classes organizing
+    auth logic per model. Use $this->authorize() in controllers, @can in
+    Blade, Gate::allows() anywhere.
+
+  7. [HARD] How do you create custom validation rules?
+  Answer:
+    php artisan make:rule Uppercase. Rule class implements ValidationRule
+    with validate(string $attribute, mixed $value, Closure $fail). Call
+    $fail('message') on failure. Can also use closure rules inline.
+
+
+========================================================================
+  API & Testing (8 questions)
+========================================================================
+  RESTful API design, Postman collections, PHPUnit feature tests, HTTP responses, and API documentation.
+------------------------------------------------------------------------
+
+  1. [EASY] How to create an API in Laravel?
+  Answer:
+    Define routes in routes/api.php (prefix: /api). Return JSON:
+    response()->json(['message' => 'OK'], 200). Use API resources for
+    transformation. Sanctum for auth.
+
+  2. [MED] What are API Resources?
+  Answer:
+    php artisan make:resource UserResource. Transform Eloquent models to
+    JSON. Define toArray($request). UserResource::collection($users) for
+    collections. Conditionally include attributes with when().
+
+  3. [MED] What is Pest PHP?
+  Answer:
+    Testing framework built on PHPUnit with cleaner syntax. Default in
+    Laravel 11+. Uses closures: test('name', fn() =>
+    expect(true)->toBeTrue()). Higher-order expectations, arch testing.
+
+  4. [HARD] What is the difference between PUT, PATCH, and POST?
+  Answer:
+    POST: create new resource. PUT: replace entire resource (all fields
+    required). PATCH: partial update (only changed fields). In practice,
+    many apps use POST for create, PUT for full update, PATCH for partial.
+
+  5. [HARD] How do you secure APIs?
+  Answer:
+    Use HTTPS, authentication (Sanctum/Passport/JWT), rate limiting
+    (throttle middleware), input validation, CORS configuration, API
+    versioning, OAuth2 for third-party, API keys for machine-to-machine,
+    encrypt sensitive data, log requests.
+
+  6. [MED] How to test HTTP endpoints?
+  Answer:
+    $this->get('/api/users'), ->assertStatus(200),
+    ->assertJsonStructure([...]), ->assertJsonCount(15, 'data'). Use
+    actingAs($user) for auth. Pest: get('/api/users')->assertOk().
+
+  7. [EASY] What is REST?
+  Answer:
+    Representational State Transfer -- architectural style for APIs. Key
+    principles: statelessness (no client context on server), resource-based
+    URLs (/api/users/123), standard HTTP methods
+    (GET/POST/PUT/PATCH/DELETE), JSON/XML representations, uniform
+    interface, cacheability, layered system.
+
+  8. [MED] What authentication methods have you used?
+  Answer:
+    Sanctum: token-based for SPAs (cookie) and mobile apps. JWT: stateless
+    auth via Authorization header. OAuth2: third-party auth via Socialite.
+    API Keys: machine-to-machine, stored in .env. Basic Auth: headers over
+    HTTPS. Session-based: cookies + CSRF.
+
+
+========================================================================
+  Queues & Advanced (6 questions)
+========================================================================
+  Queue drivers, jobs, events, listeners, notifications, broadcasting, scheduled tasks, and horizon.
+------------------------------------------------------------------------
+
+  1. [MED] How do queues work in Laravel?
+  Answer:
+    Defer tasks by dispatching jobs: SendWelcomeEmail::dispatch($user).
+    Workers process jobs: php artisan queue:work. Drivers: database, Redis,
+    SQS, Beanstalkd. Jobs can be delayed, batched, chained.
+
+  2. [MED] What are events and listeners?
+  Answer:
+    Events decouple side effects from core logic. event(new
+    UserRegistered($user)). Listeners handle the event -- can be queued via
+    ShouldQueue. EventServiceProvider maps events to listeners.
+
+  3. [HARD] What is Laravel Reverb and broadcasting?
+  Answer:
+    Reverb is a first-party WebSocket server (Laravel 11+). Real-time events
+    via WebSockets. Echo (JS library) listens on frontend:
+    Echo.channel('orders').listen('OrderShipped', ...). Supports
+    private/presence channels.
+
+  4. [MED] How does caching work in Laravel?
+  Answer:
+    Cache::remember('key', $seconds, fn() => ...). Drivers: file, Redis,
+    Memcached, DynamoDB. Tags for grouping::
+    Cache::tags(['posts'])->put('key', $val). Cache prefix in
+    config/cache.php.
+
+  5. [HARD] What is Laravel Octane?
+  Answer:
+    Serves app in-memory via Swoole or RoadRunner. Boots once, handles many
+    requests -- dramatically faster. Run php artisan octane:start. Must
+    avoid stateful singletons, static properties, and request-bound state.
+
+  6. [HARD] What is Laravel Scout?
+  Answer:
+    Full-text search for Eloquent. Integrates with MeiliSearch, Algolia. Add
+    Searchable trait to model. Post::search('query')->where('category_id',
+    5)->paginate(). Queue indexing for performance.
+
+
+========================================================================
+  Security & Deployment (6 questions)
+========================================================================
+  Laravel security best practices -- XSS, CSRF, SQL injection, mass assignment, encryption, and authentication.
+------------------------------------------------------------------------
+
+  1. [EASY] How does Laravel prevent SQL injection?
+  Answer:
+    Eloquent uses PDO parameter binding (auto-escaped). Raw queries use
+    DB::select('...', [$params]) with bound parameters. Always use binding,
+    never string interpolation in raw SQL.
+
+  2. [EASY] How does CSRF protection work?
+  Answer:
+    Laravel generates a CSRF token per session. @csrf blade directive adds
+    hidden token field. VerifyCsrfToken middleware validates on
+    POST/PUT/PATCH/DELETE. Exclude specific routes if needed (e.g.,
+    webhooks).
+
+  3. [MED] How does Laravel prevent XSS?
+  Answer:
+    Blade's {{ }} escapes via htmlspecialchars(). Avoid {!! !!} with user
+    input. Use CSP headers. Sanitize HTML with HTML Purifier if allowing
+    rich content.
+
+  4. [MED] How does encryption work in Laravel?
+  Answer:
+    AES-256-CBC/GCM via Crypt::encrypt()/decrypt(). Uses APP_KEY in .env.
+    Authenticated encryption includes HMAC for integrity verification.
+
+  5. [HARD] What are .env best practices?
+  Answer:
+    Never commit .env to VCS. Use .env.example as template. Production:
+    APP_DEBUG=false, APP_ENV=production, strong APP_KEY. Restrict file
+    permissions (600). Use different keys per environment.
+
+  6. [MED] How to deploy Laravel?
+  Answer:
+    composer install --no-dev, config:cache, route:cache, view:cache, run
+    migrations, set permissions (storage, bootstrap/cache). Tools: Laravel
+    Forge (VPS), Vapor (serverless), Envoyer (zero-downtime).
+
+
+========================================================================
+  CakePHP (5 questions)
+========================================================================
+  CakePHP conventions -- MVC, bake, ORM, behaviors, components, and migration from legacy CakePHP patterns.
+------------------------------------------------------------------------
+
+  1. [MED] How does CakePHP's ORM work?
+  Answer:
+    CakePHP uses a Data Mapper/Table pattern. Table objects represent
+    database tables; Entity objects represent rows. Uses conventions for
+    associations, contains behaviors for reusable logic, and supports
+    eager/lazy loading.
+
+  2. [MED] How do you load models dynamically?
+  Answer:
+    Use TableRegistry::getTableLocator()->get('Articles') (CakePHP 4+) or
+    $this->loadModel('Articles') in controllers. Models can be loaded
+    on-demand without manual instantiation.
+
+  3. [HARD] How to optimize CakePHP applications?
+  Answer:
+    Enable query caching, use eager loading (contain()), disable lazy
+    loading, use find('list') for dropdowns, enable APCu/Redis for cache,
+    use --optimize-autoloader, minimize plugins, use make:model --type=table
+    for pre-built queries.
+
+  4. [MED] Difference between find('all') and find('first')?
+  Answer:
+    find('all') returns a Collection of multiple entities (or ResultSet).
+    find('first') returns a single Entity or null. Both accept conditions,
+    order, contain, etc.
+
+  5. [MED] How do you create custom components and helpers?
+  Answer:
+    Components: src/Controller/Component/MyComponent.php -- shared
+    controller logic. Load in controllers: $this->loadComponent('My').
+    Helpers: src/View/Helper/MyHelper.php -- shared view logic. Load:
+    $this->loadHelper('My').
+
+
+========================================================================
+  JavaScript & jQuery (5 questions)
+========================================================================
+  JavaScript/jQuery essentials for full-stack devs -- AJAX, event handling, DOM manipulation, and ES6+.
+------------------------------------------------------------------------
+
+  1. [EASY] Difference between var, let, and const?
+  Answer:
+    var: function-scoped, hoisted, can be redeclared. let: block-scoped,
+    hoisted but not initialized (TDZ), cannot redeclare. const:
+    block-scoped, cannot reassign, but object properties can be mutated. Use
+    const by default, let when reassigning.
+
+  2. [MED] Explain event bubbling and event delegation.
+  Answer:
+    Bubbling: events propagate from target element up through ancestors.
+    Event delegation: attach a single listener to a parent to handle events
+    from multiple children using e.target. Improves performance for dynamic
+    lists.
+
+  3. [MED] What is a Promise?
+  Answer:
+    An object representing eventual completion of async operation. States:
+    pending, fulfilled, rejected. Chaining via .then(), error handling via
+    .catch(). Promise.all(), Promise.race(), Promise.allSettled() for
+    concurrency.
+
+  4. [MED] Synchronous vs asynchronous JavaScript.
+  Answer:
+    Synchronous: code executes sequentially, blocking until each operation
+    completes. Asynchronous: operations can run in the background
+    (callbacks, promises, async/await). JS uses event loop to handle async
+    operations via callback queue.
+
+  5. [HARD] Explain closures with examples.
+  Answer:
+    A closure is a function that retains access to its outer function's
+    variables even after the outer function has returned. Used for data
+    privacy, currying, event handlers. Example: function counter() { let
+    count = 0; return () => ++count; }. Each call creates a new count scope.
+
+
+========================================================================
+  Practical Coding (5 questions)
+========================================================================
+  Hands-on coding patterns and problem-solving exercises for PHP and Laravel development scenarios.
+------------------------------------------------------------------------
+
+  1. [MED] Reverse a string without using strrev().
+  Answer:
+    function reverseString($s) { $r = ''; for ($i = strlen($s) - 1; $i >= 0;
+    $i--) { $r .= $s[$i]; } return $r; }. Alternative: implode('',
+    array_reverse(str_split($s))).
+
+  2. [MED] Find duplicate values in an array.
+  Answer:
+    function findDuplicates($arr) { return
+    array_keys(array_filter(array_count_values($arr), fn($c) => $c > 1)); }.
+    In JS: arr.filter((item, i) => arr.indexOf(item) !== i). For large
+    arrays, use a Set.
+
+  3. [MED] Find the second highest salary using SQL.
+  Answer:
+    SELECT DISTINCT salary FROM employees ORDER BY salary DESC LIMIT 1
+    OFFSET 1. Window: SELECT DISTINCT salary FROM (SELECT salary,
+    DENSE_RANK() OVER (ORDER BY salary DESC) rnk FROM employees) ranked
+    WHERE rnk = 2.
+
+  4. [MED] Check if a string is a palindrome.
+  Answer:
+    function isPalindrome($s) { $s = strtolower(preg_replace('/[^a-z0-9]/',
+    '', $s)); return $s === strrev($s); }. Two-pointer: compare first/last
+    characters moving inward.
+
+  5. [HARD] Process a CSV with 10M records without memory issues.
+  Answer:
+    Open file with fopen() and read line-by-line with fgetcsv(). Use a
+    generator: function csvReader($path) { if (($h = fopen($path, 'r')) !==
+    false) { while (($row = fgetcsv($h)) !== false) yield $row; fclose($h);
+    } }. Process in batches, insert in chunks of 500.
+
+
+========================================================================
+  Real Project Questions (5 questions)
+========================================================================
+  Real-world project experience questions covering architecture decisions, trade-offs, and team collaboration.
+------------------------------------------------------------------------
+
+  1. [MED] Describe the most challenging project you've worked on.
+  Answer:
+    Structure your answer with STAR method: Situation, Task, Action, Result.
+    Focus on technical complexity, architecture decisions, team
+    coordination, and measurable outcomes (performance gains, scalability
+    improvements).
+
+  2. [MED] Tell me about a performance issue you solved.
+  Answer:
+    Example: Database query taking 30s due to N+1 problem -- added eager
+    loading and composite indexing, reduced to 100ms. Or: API response slow
+    due to serialization -- implemented caching layer and response
+    transformers. Always include before/after metrics.
+
+  3. [MED] How have you optimized cron jobs?
+  Answer:
+    Batch operations instead of single inserts, use queues for parallel
+    processing, checkpoint/resume for long-running jobs, monitor with
+    Laravel Horizon, log execution times, stagger schedules to avoid
+    resource contention, use withoutOverlapping.
+
+  4. [MED] What caching strategies have you used?
+  Answer:
+    OPCache (PHP bytecode), Redis for application cache (query results,
+    sessions), full-page cache for static content, CDN for assets, database
+    query cache, Eloquent eager loading as 'query cache', browser caching
+    with Cache-Control headers.
+
+  5. [MED] Why should we hire you?
+  Answer:
+    Focus on: proven track record with similar tech stack, experience
+    scaling applications, mentoring junior devs, code quality practices
+    (testing, CI/CD, code review), business impact (performance
+    improvements, feature delivery), continuous learning.
+
+
+========================================================================
+  Case Problems (11 questions)
+========================================================================
+  Complex case problems combining PHP, Laravel, MySQL, design patterns, and system architecture decisions.
+------------------------------------------------------------------------
+
+  1. [HARD] Blog with categories, tags, comments
+  Answer:
+    Models: Post, Category (hasMany posts), Tag (belongsToMany posts),
+    Comment (polymorphic morphTo). Features: SoftDeletes on Post, Form
+    Request validation, Policy for authorization, eager load relationships.
+    Edge cases: Unauthorized access, empty tags, soft-deleted posts not
+    visible.
+
+  2. [HARD] Shopping cart session + DB merge
+  Answer:
+    Approach: Cart model with user_id (nullable), product_id, quantity.
+    CartService: addItem(), removeItem(), getTotal(). Guests store in
+    session. On login event, mergeCarts() upserts. Edge cases: Product
+    deleted during session, duplicate items, quantity overflow.
+
+  3. [HARD] Multi-step form with persistence
+  Answer:
+    Approach: UserRegistration model with JSON data column, current_step,
+    completed. Validate step-by-step. Store session temp, persist on
+    advance. Edge cases: Browser close mid-form, expired sessions, back
+    button data loss.
+
+  4. [HARD] Role-based access control (RBAC)
+  Answer:
+    Approach: Role (belongsToMany users), Permission (belongsToMany roles).
+    Gate::define() with hasPermission(). Cache permissions. Middleware
+    role:admin. Edge cases: Circular permissions, super admin bypass, cache
+    invalidation.
+
+  5. [HARD] RESTful API with pagination/filtering
+  Answer:
+    Approach: Product::query()->when() for conditionals. Whitelist sort
+    columns. API Resource collection. QueryString Form Request validation.
+    Edge cases: Invalid sort field, SQL injection via sort, very large
+    datasets.
+
+  6. [HARD] Queue-based email with retries
+  Answer:
+    Approach: SendBulkNotification job with tries=3, backoff=[5,10,30].
+    Notification::send() inside job. Log status in NotificationLog. Check
+    cancelled_at flag. Edge cases: Email provider rate limits, large
+    recipient lists, partial failures.
+
+  7. [HARD] File upload with image optimization
+  Answer:
+    Approach: Intervention Image for resizing. S3 storage with CloudFront
+    CDN. Queue resize jobs. Polymorphic media table. Validation:
+    image|mimes:jpg,png,webp|max:2048. Edge cases: Malicious file upload,
+    disk quota, CDN cache purge.
+
+  8. [HARD] Real-time chat with Reverb
+  Answer:
+    Approach: Message model (user_id, conversation_id, body). Broadcast
+    MessageSent via ShouldBroadcast. Private channels with auth. Typing
+    indicator on debounce. Unread count via conversation_user.last_read_at.
+    Edge cases: Offline messages, concurrent connections, message ordering.
+
+  9. [HARD] Multi-tenant SaaS with subdomains
+  Answer:
+    Approach: Route::domain('{tenant}.app.com'). Middleware resolves Tenant
+    by subdomain, sets tenant_id. Global scope filters by tenant. Cache
+    per-tenant config. Edge cases: Cross-tenant data leakage, subdomain
+    takeover, DNS propagation.
+
+  10. [HARD] Stripe payment + webhooks
+  Answer:
+    Approach: Cashier/Stripe SDK. Checkout session creation. Webhook
+    controller (CSRF exempt) handles checkout.session.completed,
+    charge.refunded. Queue processing. Verify Stripe signature. Edge cases:
+    Duplicate webhooks, expired sessions, refund race conditions.
+
+  11. [HARD] Search with Scout + MeiliSearch
+  Answer:
+    Approach: Scout + Searchable trait on Product. toSearchableArray()
+    includes category. Product::search('query')->where('category_id',
+    5)->paginate(). Configure filterable/sortable. Queue indexing. Edge
+    cases: Sync lag, typo-tolerance, empty results, re-indexing.
+
+========================================================================
+  End of Questions
+  Generated by Jap App Hub
+========================================================================
