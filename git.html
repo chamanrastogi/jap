@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Git — Complete Command Reference & Use Cases</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --git-orange: #f05033;
+      --git-dark: #1a1a2e;
+      --sidebar-width: 280px;
+    }
+    * { scroll-margin-top: 1rem; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f4f6fb;
+      display: flex;
+    }
+    #sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0; left: 0;
+      background: var(--git-dark);
+      overflow-y: auto;
+      z-index: 1000;
+      transition: transform .3s;
+    }
+    #sidebar .brand {
+      padding: 1.25rem 1.25rem .75rem;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    #sidebar .brand h5 { color: #fff; font-weight: 700; }
+    #sidebar .brand small { color: #adb5bd; }
+    #sidebar .nav-link {
+      color: #c8cdd3;
+      padding: .5rem 1.25rem;
+      font-size: .88rem;
+      border-left: 3px solid transparent;
+      transition: all .15s;
+    }
+    #sidebar .nav-link:hover {
+      color: #fff;
+      background: rgba(255,255,255,.05);
+    }
+    #sidebar .nav-link i { width: 1.3rem; }
+    #sidebar .nav-section {
+      color: #6c757d;
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      padding: 1rem 1.25rem .3rem;
+      font-weight: 600;
+    }
+    #main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 2rem 2.5rem 4rem;
+      max-width: 1100px;
+    }
+    @media (max-width: 991.98px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.show { transform: translateX(0); }
+      #main { margin-left: 0; padding: 1.5rem; }
+    }
+    .sidebar-toggle {
+      position: fixed;
+      top: .75rem; left: .75rem;
+      z-index: 1050;
+      background: var(--git-dark);
+      color: #fff;
+      border: none;
+      border-radius: .4rem;
+      padding: .4rem .65rem;
+      display: none;
+    }
+    @media (max-width: 991.98px) {
+      .sidebar-toggle { display: block; }
+    }
+    h2 {
+      font-weight: 700;
+      color: var(--git-dark);
+      margin-top: 2.5rem;
+      padding-bottom: .5rem;
+      border-bottom: 3px solid var(--git-orange);
+    }
+    h3 {
+      font-weight: 600;
+      color: #2c3e50;
+      margin-top: 1.8rem;
+    }
+    .card {
+      border: none;
+      border-radius: .75rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      margin-bottom: 1.5rem;
+    }
+    .card-header {
+      background: #fff;
+      border-bottom: 1px solid #e9ecef;
+      font-weight: 600;
+      padding: 1rem 1.25rem;
+    }
+    .card-body { padding: 1.5rem; }
+    pre {
+      background: #1e1e2f;
+      color: #e6e6e6;
+      padding: 1rem 1.25rem;
+      border-radius: .5rem;
+      font-size: .82rem;
+      overflow-x: auto;
+      position: relative;
+    }
+    pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
+    .kw { color: #c792ea; }
+    .fn { color: #82aaff; }
+    .str { color: #c3e88d; }
+    .cm { color: #546e7a; font-style: italic; }
+    .num { color: #f78c6c; }
+    .tp { color: #ffcb6b; }
+    [data-bs-theme="dark"] .kw { color: #c792ea; }
+    [data-bs-theme="dark"] .fn { color: #82aaff; }
+    [data-bs-theme="dark"] .str { color: #c3e88d; }
+    [data-bs-theme="dark"] .cm { color: #546e7a; }
+    [data-bs-theme="dark"] .num { color: #f78c6c; }
+    [data-bs-theme="dark"] .tp { color: #ffcb6b; }
+    .cmd-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+      white-space: nowrap;
+      color: var(--git-orange);
+    }
+    .highlight-box {
+      background: #eef2ff;
+      border-left: 4px solid var(--git-orange);
+      padding: 1rem 1.25rem;
+      border-radius: .4rem;
+      margin: 1rem 0;
+    }
+    .new-badge {
+      background: #10b981;
+      color: #fff;
+      font-size: .65rem;
+      font-weight: 600;
+      padding: .15rem .5rem;
+      border-radius: 1rem;
+      vertical-align: middle;
+    }
+    .home-link {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 1100;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.94);
+      color: #0f172a;
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 700;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: 0.2s;
+    }
+    .home-link:hover { color: #2563eb; }
+    @media (min-width: 992px) {
+      .home-link { left: calc(var(--sidebar-width) + 14px); }
+    }
+    @media (max-width: 991.98px) {
+      .home-link { left: 4rem; }
+    }
+    .use-case-badge {
+      background: #f0f4ff;
+      color: #2563eb;
+      font-size: .7rem;
+      font-weight: 600;
+      padding: .15rem .55rem;
+      border-radius: 1rem;
+      margin-left: .4rem;
+    }
+  </style>
+</head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
+<a href="index.html" class="home-link" aria-label="Go back to home page"><span>←</span> Home</a>
+
+<!-- ===== SIDEBAR ===== -->
+<nav id="sidebar">
+  <div class="brand">
+    <h5><i class="bi bi-git me-2" style="color:var(--git-orange)"></i>Git</h5>
+    <small class="d-block mt-1">Complete Command Reference</small>
+  </div>
+  <div class="py-2">
+    <div class="nav-section">Getting Started</div>
+    <a class="nav-link" href="#setup"><i class="bi bi-gear"></i> Setup &amp; Config</a>
+    <a class="nav-link" href="#basics"><i class="bi bi-files"></i> Basic Commands</a>
+
+    <div class="nav-section">Core Workflows</div>
+    <a class="nav-link" href="#branch"><i class="bi bi-branch"></i> Branching &amp; Merge</a>
+    <a class="nav-link" href="#remote"><i class="bi bi-cloud-arrow-up"></i> Remote Operations</a>
+    <a class="nav-link" href="#undo"><i class="bi bi-arrow-counterclockwise"></i> Undoing Changes</a>
+    <a class="nav-link" href="#stash"><i class="bi bi-box"></i> Stash</a>
+
+    <div class="nav-section">Advanced</div>
+    <a class="nav-link" href="#rebasing"><i class="bi bi-arrow-repeat"></i> Rebasing &amp; Cherry-pick</a>
+    <a class="nav-link" href="#tags"><i class="bi bi-tag"></i> Tags</a>
+    <a class="nav-link" href="#log"><i class="bi bi-journal-text"></i> History &amp; Diff</a>
+    <a class="nav-link" href="#hooks"><i class="bi bi-plugin"></i> Hooks</a>
+
+    <div class="nav-section">Workflows &amp; DevOps</div>
+    <a class="nav-link" href="#workflows"><i class="bi bi-diagram-3"></i> Git Workflows</a>
+    <a class="nav-link" href="#advanced"><i class="bi bi-tools"></i> Advanced Tools</a>
+    <a class="nav-link" href="#best-practices"><i class="bi bi-star"></i> Best Practices</a>
+    <a class="nav-link" href="#troubleshoot"><i class="bi bi-exclamation-triangle"></i> Troubleshooting</a>
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<div id="main">
+
+  <!-- HERO -->
+  <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+    <div>
+      <h1 class="fw-bold mb-1" style="color:var(--git-dark)">
+        <i class="bi bi-git" style="color:var(--git-orange)"></i>
+        Git
+      </h1>
+      <p class="text-muted mb-0 fs-5">
+        Complete Command Reference &amp; Practical Use Cases
+        <span class="badge bg-secondary ms-2">v2.x</span>
+        <span class="badge bg-warning text-dark ms-1">Linus Torvalds</span>
+        <span class="badge bg-success ms-1">2005 — Present</span>
+      </p>
+    </div>
+  </div>
+
+  <p class="fs-5 text-muted mb-5">
+    Git is the industry-standard distributed version control system. This guide covers
+    <strong>every essential command</strong>, <strong>real-world use cases</strong>,
+    and <strong>workflow patterns</strong> from basic commits to advanced debugging —
+    all with practical examples.
+  </p>
+
+  <!-- ==================== SETUP ==================== -->
+  <section id="setup">
+    <h2><i class="bi bi-gear me-2"></i>Setup &amp; Configuration</h2>
+
+    <div class="card">
+      <div class="card-header">First-Time Setup</div>
+      <div class="card-body">
+        <pre><code><span class="cm"># Identity — required for commits</span>
+git <span class="kw">config</span> --global user.name  <span class="str">"Your Name"</span>
+git <span class="kw">config</span> --global user.email <span class="str">"you@example.com"</span>
+
+<span class="cm"># Default branch name</span>
+git <span class="kw">config</span> --global init.defaultBranch main
+
+<span class="cm"># Editor</span>
+git <span class="kw">config</span> --global core.editor <span class="str">"code --wait"</span>
+
+<span class="cm"># Line endings (Windows)</span>
+git <span class="kw">config</span> --global core.autocrlf <span class="tp">true</span>
+
+<span class="cm"># Line endings (macOS/Linux)</span>
+<span class="cm"># git config --global core.autocrlf input</span>
+
+<span class="cm"># Aliases — shortcuts for common commands</span>
+git <span class="kw">config</span> --global alias.co checkout
+git <span class="kw">config</span> --global alias.br branch
+git <span class="kw">config</span> --global alias.ci commit
+git <span class="kw">config</span> --global alias.st status
+git <span class="kw">config</span> --global alias.lg <span class="str">"log --oneline --graph --all --decorate"</span></code></pre>
+      </div>
+    </div>
+
+    <h3>Useful Config Options</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:38%">Command</th><th>Use Case</th></tr></thead>
+          <tbody>
+            <tr><td>git config --list</td><td>View all current settings</td></tr>
+            <tr><td>git config --global core.excludesfile ~/.gitignore_global</td><td>Global ignore rules</td></tr>
+            <tr><td>git config --global pull.rebase true</td><td>Rebase on pull instead of merge</td></tr>
+            <tr><td>git config --global fetch.prune true</td><td>Auto-prune stale remote branches on fetch</td></tr>
+            <tr><td>git config --global diff.tool vscode</td><td>Set difftool</td></tr>
+            <tr><td>git config --global merge.tool vscode</td><td>Set mergetool</td></tr>
+            <tr><td>git config --global credential.helper store</td><td>Cache credentials (use with care)</td></tr>
+            <tr><td>git config --global core.safecrlf warn</td><td>Warn on suspicious line-ending conversions</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BASICS ==================== -->
+  <section id="basics">
+    <h2><i class="bi bi-files me-2"></i>Basic Commands</h2>
+    <p class="text-muted">Every Git user's daily toolkit — starting a repo, staging, committing, and inspecting.</p>
+
+    <h3>Starting a Repository</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:38%">Command</th><th>Use Case</th></tr></thead>
+          <tbody>
+            <tr><td>git init</td><td>Create a new local repo in current directory</td></tr>
+            <tr><td>git init --bare repo.git</td><td>Create a bare repo (server-side, no working tree)</td></tr>
+            <tr><td>git clone &lt;url&gt;</td><td>Clone an existing remote repo</td></tr>
+            <tr><td>git clone --depth 1 &lt;url&gt;</td><td>Shallow clone — only latest commit (faster for large repos)</td></tr>
+            <tr><td>git clone --branch &lt;tag&gt; &lt;url&gt;</td><td>Clone a specific tag</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>Staging &amp; Committing</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:38%">Command</th><th>Use Case</th></tr></thead>
+          <tbody>
+            <tr><td>git add &lt;file&gt;</td><td>Stage a specific file</td></tr>
+            <tr><td>git add .</td><td>Stage all changes in current directory</td></tr>
+            <tr><td>git add -p</td><td>Interactive staging — stage parts of a file (hunks)</td></tr>
+            <tr><td>git rm &lt;file&gt;</td><td>Remove a file and stage the deletion</td></tr>
+            <tr><td>git mv &lt;old&gt; &lt;new&gt;</td><td>Rename a file and stage it</td></tr>
+            <tr><td>git commit -m "message"</td><td>Commit staged changes with inline message</td></tr>
+            <tr><td>git commit -am "message"</td><td>Stage all tracked files + commit (skip git add)</td></tr>
+            <tr><td>git commit --amend</td><td>Amend last commit (add staged changes / edit message)</td></tr>
+            <tr><td>git commit --allow-empty -m "message"</td><td>Create an empty commit (trigger CI, mark milestones)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>Status &amp; Inspection</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:38%">Command</th><th>Use Case</th></tr></thead>
+          <tbody>
+            <tr><td>git status</td><td>Show working tree status (modified, staged, untracked)</td></tr>
+            <tr><td>git status -s</td><td>Short status — one line per file</td></tr>
+            <tr><td>git diff</td><td>View unstaged changes (working tree vs index)</td></tr>
+            <tr><td>git diff --staged</td><td>View staged changes (index vs last commit)</td></tr>
+            <tr><td>git diff &lt;branchA&gt;..&lt;branchB&gt;</td><td>Compare two branches</td></tr>
+            <tr><td>git show &lt;commit&gt;</td><td>Show the diff and metadata of a specific commit</td></tr>
+            <tr><td>git show HEAD</td><td>Show the latest commit details</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Pro Tip:</strong> Use <code>git add -p</code> to commit only specific lines of a file. This keeps your commits atomic — each commit does exactly one logical change. For large refactors, it's invaluable for code review.
+    </div>
+  </section>
+
+  <!-- ==================== BRANCHING ==================== -->
+  <section id="branch">
+    <h2><i class="bi bi-branch me-2"></i>Branching &amp; Merging</h2>
+    <p class="text-muted">The heart of Git — isolated development lines, feature branches, and integration.</p>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:38%">Command</th><th>Use Case</th></tr></thead>
+          <tbody>
+            <tr><td>git branch</td><td>List local branches (current branch highlighted)</td></tr>
+            <tr><td>git branch -a</td><td>List all branches (local + remote)</td></tr>
+            <tr><td>git branch &lt;name&gt;</td><td>Create a new branch (stays on current)</td></tr>
+            <tr><td>git branch -d &lt;name&gt;</td><td>Delete a merged branch</td></tr>
+            <tr><td>git branch -D &lt;name&gt;</td><td>Force delete a branch (unmerged changes)</td></tr>
+            <tr><td>git branch -m &lt;old&gt; &lt;new&gt;</td><td>Rename a branch</td></tr>
+            <tr><td>git checkout -b &lt;name&gt;</td><td>Create and switch to a new branch</td></tr>
+            <tr><td>git switch &lt;name&gt;</td><td>Switch to an existing branch (newer syntax, Git 2.23+)</td></tr>
+            <tr><td>git switch -c &lt;name&gt;</td><td>Create and switch (newer syntax)</td></tr>
+            <tr><td>git merge &lt;branch&gt;</td><td>Merge &lt;branch&gt; into current branch</td></tr>
+            <tr><td>git merge --no-ff &lt;branch&gt;</td><td>Merge with no fast-forward (preserves branch history)</td></tr>
+            <tr><td>git merge --squash &lt;branch&gt;</td><td>Squash all branch commits into one (no merge commit)</td></tr>
+            <tr><td>git merge --abort</td><td>Abort a merge with conflicts</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Best Practice:</strong> Use <code>switch</code> / <code>restore</code> (Git 2.23+) instead of the overloaded <code>checkout</code>. The newer commands separate branch-switching from file-restoring, reducing the chance of mistakes.
+    </div>
+  </section>
+
+  <!-- ==================== REMOTE ==================== -->
+  <section id="remote">
+    <h2><i class="bi bi-cloud-arrow-up me-2"></i>Remote Operations</h2>
+    <p class="text-muted">Push, pull, fetch, and collaborate with remote repositories.</p>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:38%">Command</th><th>Use Case</th></tr></thead>
+          <tbody>
+            <tr><td>git remote add origin &lt;url&gt;</td><td>Add a remote named origin</td></tr>
+            <tr><td>git remote -v</td><td>List remote URLs (fetch + push)</td></tr>
+            <tr><td>git remote remove &lt;name&gt;</td><td>Remove a remote</td></tr>
+            <tr><td>git remote rename &lt;old&gt; &lt;new&gt;</td><td>Rename a remote</td></tr>
+            <tr><td>git remote set-url origin &lt;url&gt;</td><td>Change remote URL (e.g., HTTPS → SSH)</td></tr>
+            <tr><td>git fetch &lt;remote&gt;</td><td>Download objects/refs without merging</td></tr>
+            <tr><td>git fetch --prune</td><td>Fetch and remove stale remote-tracking branches</td></tr>
+            <tr><td>git pull</td><td>Fetch + merge (or rebase if configured)</td></tr>
+            <tr><td>git pull --rebase</td><td>Fetch + rebase (cleaner linear history)</td></tr>
+            <tr><td>git push</td><td>Push local commits to remote</td></tr>
+            <tr><td>git push -u origin &lt;branch&gt;</td><td>Push and set upstream tracking</td></tr>
+            <tr><td>git push --force-with-lease</td><td>Force push safely (won't overwrite others' work)</td></tr>
+            <tr><td>git push origin --delete &lt;branch&gt;</td><td>Delete a remote branch</td></tr>
+            <tr><td>git push --tags</td><td>Push all tags to remote</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>⚡ Safety First:</strong> <strong>Never</strong> use <code>git push --force</code>. Always use <code>git push --force-with-lease</code> — it checks that your remote-tracking branch is up to date and won't clobber commits you haven't seen.
+    </div>
+  </section>
+
+  <!-- ==================== UNDO ==================== -->
+  <section id="undo">
+    <h2><i class="bi bi-arrow-counterclockwise me-2"></i>Undoing Changes</h2>
+    <p class="text-muted">Fix mistakes at every stage — before staging, after staging, after committing, and after pushing.</p>
+
+    <h3>Unstaging &amp; Discarding</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:38%">Command</th><th>Use Case</th></tr></thead>
+          <tbody>
+            <tr><td>git restore &lt;file&gt;</td><td>Discard unstaged changes in working tree (Git 2.23+)</td></tr>
+            <tr><td>git restore --staged &lt;file&gt;</td><td>Unstage a file (keep working tree changes)</td></tr>
+            <tr><td>git restore --source=HEAD &lt;file&gt;</td><td>Restore file to last committed state</td></tr>
+            <tr><td>git checkout -- &lt;file&gt;</td><td>Discard unstaged changes (older syntax)</td></tr>
+            <tr><td>git reset HEAD &lt;file&gt;</td><td>Unstage a file (older syntax)</td></tr>
+            <tr><td>git clean -fd</td><td>Remove untracked files and directories</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>Undoing Commits</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:38%">Command</th><th>Use Case</th></tr></thead>
+          <tbody>
+            <tr><td>git reset --soft HEAD~1</td><td>Undo last commit, keep changes staged</td></tr>
+            <tr><td>git reset --mixed HEAD~1</td><td>Undo last commit, unstage changes (default)</td></tr>
+            <tr><td>git reset --hard HEAD~1</td><td>Undo last commit, discard changes ⚠️</td></tr>
+            <tr><td>git revert &lt;commit&gt;</td><td>Create a new commit that undoes a previous one (safe for public history)</td></tr>
+            <tr><td>git revert --no-commit &lt;commit&gt;</td><td>Revert without auto-committing (revert multiple in one commit)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>🛑 Rule of Thumb:</strong> <code>git reset</code> rewrites history — use only on local/unpushed commits. <code>git revert</code> is the safe choice for commits already pushed to shared branches.
+    </div>
+  </section>
+
+  <!-- ==================== STASH ==================== -->
+  <section id="stash">
+    <h2><i class="bi bi-box me-2"></i>Stash</h2>
+    <p class="text-muted">Temporarily shelve changes when you need to switch context or pull in updates without committing half-finished work.</p>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:38%">Command</th><th>Use Case</th></tr></thead>
+          <tbody>
+            <tr><td>git stash push -m "message"</td><td>Stash tracked changes with a description</td></tr>
+            <tr><td>git stash push -u -m "msg"</td><td>Stash including untracked files</td></tr>
+            <tr><td>git stash list</td><td>List all stashes</td></tr>
+            <tr><td>git stash pop</td><td>Apply and remove the most recent stash</td></tr>
+            <tr><td>git stash apply stash@{2}</td><td>Apply a specific stash without removing it</td></tr>
+            <tr><td>git stash drop stash@{1}</td><td>Delete a specific stash</td></tr>
+            <tr><td>git stash clear</td><td>Remove all stashes</td></tr>
+            <tr><td>git stash branch &lt;name&gt; stash@{0}</td><td>Create a branch from a stash</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Stash Tip:</strong> Always use <code>git stash push -m "description"</code> instead of bare <code>git stash</code>. When you have 10 stashes, "WIP on main" is useless — "WIP: login form validation fixed" tells you exactly what's saved.
+    </div>
+  </section>
+
+  <!-- ==================== REBASING ==================== -->
+  <section id="rebasing">
+    <h2><i class="bi bi-arrow-repeat me-2"></i>Rebasing &amp; Cherry-Pick</h2>
+    <p class="text-muted">Rewrite commit history for a cleaner, linear project timeline.</p>
+
+    <h3>Rebase</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:38%">Command</th><th>Use Case</th></tr></thead>
+          <tbody>
+            <tr><td>git rebase main</td><td>Reapply current branch commits on top of main</td></tr>
+            <tr><td>git rebase -i HEAD~3</td><td>Interactive rebase — squash, reword, reorder last 3 commits</td></tr>
+            <tr><td>git rebase --abort</td><td>Abort a rebase in progress</td></tr>
+            <tr><td>git rebase --continue</td><td>Continue rebase after resolving conflicts</td></tr>
+            <tr><td>git rebase --skip</td><td>Skip a problematic commit during rebase</td></tr>
+            <tr><td>git rebase --onto main feature~3 feature</td><td>Move a branch's root to a different point</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>Cherry-Pick</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:38%">Command</th><th>Use Case</th></tr></thead>
+          <tbody>
+            <tr><td>git cherry-pick &lt;commit&gt;</td><td>Apply a single commit from another branch</td></tr>
+            <tr><td>git cherry-pick A..B</td><td>Apply a range of commits (A is excluded, B is included)</td></tr>
+            <tr><td>git cherry-pick -n &lt;commit&gt;</td><td>Cherry-pick without auto-committing</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Interactive Rebase Cheat Sheet (git rebase -i):</strong><br>
+      <code>pick</code> — use commit as-is &nbsp;|&nbsp; <code>reword</code> — change message &nbsp;|&nbsp;
+      <code>squash</code> — combine into previous &nbsp;|&nbsp; <code>fixup</code> — squash, discard message &nbsp;|&nbsp;
+      <code>drop</code> — delete commit &nbsp;|&nbsp; <code>edit</code> — stop to amend
+    </div>
+  </section>
+
+  <!-- ==================== TAGS ==================== -->
+  <section id="tags">
+    <h2><i class="bi bi-tag me-2"></i>Tags</h2>
+    <p class="text-muted">Mark releases and important milestones. Two types: lightweight (just a pointer) and annotated (stored as full object with metadata).</p>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:38%">Command</th><th>Use Case</th></tr></thead>
+          <tbody>
+            <tr><td>git tag</td><td>List all tags</td></tr>
+            <tr><td>git tag -l "v2.*"</td><td>Search tags by pattern</td></tr>
+            <tr><td>git tag v1.0.0</td><td>Create a lightweight tag at HEAD</td></tr>
+            <tr><td>git tag -a v1.0.0 -m "Release 1.0.0"</td><td>Create an annotated tag</td></tr>
+            <tr><td>git tag v1.0.0 &lt;commit&gt;</td><td>Tag a specific commit</td></tr>
+            <tr><td>git tag -d v1.0.0</td><td>Delete a local tag</td></tr>
+            <tr><td>git push origin v1.0.0</td><td>Push a specific tag</td></tr>
+            <tr><td>git push origin --delete v1.0.0</td><td>Delete a remote tag</td></tr>
+            <tr><td>git checkout v1.0.0</td><td>Check out a tag (detached HEAD — make a branch if you need to work)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== LOG ==================== -->
+  <section id="log">
+    <h2><i class="bi bi-journal-text me-2"></i>History &amp; Diff</h2>
+    <p class="text-muted">Explore, search, and visualise your project's commit history.</p>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:38%">Command</th><th>Use Case</th></tr></thead>
+          <tbody>
+            <tr><td>git log</td><td>Full commit history</td></tr>
+            <tr><td>git log --oneline</td><td>One-line summary per commit</td></tr>
+            <tr><td>git log --oneline --graph --all</td><td>Visual branch graph</td></tr>
+            <tr><td>git log --author="name"</td><td>Filter by author</td></tr>
+            <tr><td>git log --since="2 weeks ago"</td><td>Filter by date range</td></tr>
+            <tr><td>git log -p</td><td>Show diffs inline with log</td></tr>
+            <tr><td>git log --grep="fix"</td><td>Search commit messages</td></tr>
+            <tr><td>git log -S "functionName"</td><td>Pickaxe — find commits that added/removed a string</td></tr>
+            <tr><td>git log &lt;file&gt;</td><td>Show only commits affecting a file</td></tr>
+            <tr><td>git shortlog -sn</td><td>Contributor summary (count of commits per author)</td></tr>
+            <tr><td>git blame &lt;file&gt;</td><td>Show who last modified each line</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Useful Alias:</strong> Add <code>git config --global alias.tree "log --oneline --graph --all --decorate"</code> to get a beautiful ASCII tree of your entire repo with one command: <code>git tree</code>.
+    </div>
+  </section>
+
+  <!-- ==================== HOOKS ==================== -->
+  <section id="hooks">
+    <h2><i class="bi bi-plugin me-2"></i>Git Hooks</h2>
+    <p class="text-muted">Shell scripts that run automatically on specific Git events. Stored in <code>.git/hooks/</code>. Rename <code>.sample</code> files to activate.</p>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:25%">Hook</th><th>When It Runs</th><th>Use Case</th></tr></thead>
+          <tbody>
+            <tr><td>pre-commit</td><td>Before commit message editor</td><td>Lint code, run tests, check for secrets</td></tr>
+            <tr><td>prepare-commit-msg</td><td>After default message is created</td><td>Inject issue tracker IDs, prefix with branch name</td></tr>
+            <tr><td>commit-msg</td><td>After user edits message</td><td>Enforce commit message format (Conventional Commits)</td></tr>
+            <tr><td>post-commit</td><td>After commit completes</td><td>Send notification, update CI</td></tr>
+            <tr><td>pre-push</td><td>Before push executes</td><td>Run full test suite, prevent force-push to protected branches</td></tr>
+            <tr><td>pre-receive</td><td>Server-side, before ref update</td><td>Enforce branch policies, reject large files</td></tr>
+            <tr><td>update</td><td>Server-side, per ref</td><td>Fine-grained branch/tag ACL</td></tr>
+            <tr><td>post-receive</td><td>Server-side, after ref update</td><td>CI trigger, deploy, update chat</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Modern Approach:</strong> Instead of raw shell hooks, use <strong>Husky</strong> (JS) or <strong>pre-commit</strong> (Python) to manage hooks per-repo with shareable config. They version-control the hook scripts so every developer gets the same setup.
+    </div>
+  </section>
+
+  <!-- ==================== WORKFLOWS ==================== -->
+  <section id="workflows">
+    <h2><i class="bi bi-diagram-3 me-2"></i>Git Workflows</h2>
+    <p class="text-muted">Standard branching strategies for teams of any size.</p>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">GitHub Flow <span class="badge bg-primary ms-2">Simple</span></div>
+          <div class="card-body">
+            <p class="fw-semibold">main → feature branch → PR → merge</p>
+            <ol class="mb-0 small">
+              <li>Branch from <code>main</code></li>
+              <li>Commit changes</li>
+              <li>Open a pull request</li>
+              <li>Code review + CI passes</li>
+              <li>Merge to <code>main</code></li>
+              <li>Deploy immediately</li>
+            </ol>
+            <div class="highlight-box mt-2 mb-0 p-2 small">
+              Best for: Continuous deployment, simple projects, small teams.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Git Flow <span class="badge bg-warning text-dark ms-2">Structured</span></div>
+          <div class="card-body">
+            <p class="fw-semibold">main + develop + feature + release + hotfix</p>
+            <ul class="mb-0 small">
+              <li><code>main</code> — production-ready code only</li>
+              <li><code>develop</code> — integration branch</li>
+              <li><code>feature/*</code> — branched from <code>develop</code></li>
+              <li><code>release/*</code> — branched from <code>develop</code>, merged to both</li>
+              <li><code>hotfix/*</code> — branched from <code>main</code></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">GitLab Flow <span class="badge bg-info text-dark ms-2">Env Branches</span></div>
+          <div class="card-body">
+            <p class="fw-semibold">main → environment branches</p>
+            <ul class="mb-0 small">
+              <li><code>main</code> — latest stable</li>
+              <li><code>staging</code> — pre-production</li>
+              <li><code>production</code> — deployed version</li>
+              <li>Merge upstream (main → staging → production)</li>
+              <li>Each environment branch deploys automatically</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Trunk-Based <span class="badge bg-success ms-2">Fast</span></div>
+          <div class="card-body">
+            <p class="fw-semibold">Short-lived branches → main</p>
+            <ul class="mb-0 small">
+              <li>Feature branches live &lt; 1 day</li>
+              <li>Frequent small commits to <code>main</code></li>
+              <li>Feature flags hide incomplete work</li>
+              <li>No long-running release branches</li>
+              <li>CI runs on every push</li>
+            </ul>
+            <div class="highlight-box mt-2 mb-0 p-2 small">
+              Best for: CI/CD, DevOps, large engineering orgs (Google, Netflix).
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ADVANCED ==================== -->
+  <section id="advanced">
+    <h2><i class="bi bi-tools me-2"></i>Advanced Tools</h2>
+    <p class="text-muted">Powerful commands for debugging, archaeology, and fixing complex history issues.</p>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:38%">Command</th><th>Use Case</th></tr></thead>
+          <tbody>
+            <tr><td>git bisect start</td><td>Binary search to find the commit that introduced a bug</td></tr>
+            <tr><td>git bisect good &lt;commit&gt;</td><td>Mark a known-good commit</td></tr>
+            <tr><td>git bisect bad</td><td>Mark current commit as bad</td></tr>
+            <tr><td>git bisect reset</td><td>Exit bisect mode, return to original HEAD</td></tr>
+            <tr><td>git reflog</td><td>Show every action that moved HEAD — recovery from disasters</td></tr>
+            <tr><td>git reflog expire --expire=now --all</td><td>Clear reflog (cleanup, security)</td></tr>
+            <tr><td>git gc</td><td>Garbage collect — optimise local repo storage</td></tr>
+            <tr><td>git fsck</td><td>Check repository integrity / find dangling commits</td></tr>
+            <tr><td>git archive -o project.zip HEAD</td><td>Create a zip/tar archive of the repo at HEAD</td></tr>
+            <tr><td>git submodule add &lt;url&gt; path</td><td>Include another repo as a subdirectory</td></tr>
+            <tr><td>git submodule update --init --recursive</td><td>Clone all submodules after a fresh clone</td></tr>
+            <tr><td>git worktree add ../new-path &lt;branch&gt;</td><td>Check out a branch in a separate working directory</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>Bisect — Real-World Bug Hunting</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="cm"># Step 1: Start bisect</span>
+git bisect start
+<span class="cm"># Step 2: Mark current (broken) and a known-good commit</span>
+git bisect bad
+git bisect good v1.0
+<span class="cm"># Step 3: Git checks out a middle commit. Test it.</span>
+<span class="cm"># If it's good:</span>
+git bisect good
+<span class="cm"># If it's bad:</span>
+<span class="cm"># git bisect bad</span>
+<span class="cm"># Step 4: Repeat step 3 until Git identifies the exact commit</span>
+<span class="cm"># Step 5: Clean up</span>
+git bisect reset</code></pre>
+      </div>
+    </div>
+
+    <h3>Reflog — The Safety Net</h3>
+    <div class="card">
+      <div class="card-body">
+        <p class="mb-2">Lost a commit? Reset the wrong branch? Reflog saves you. It records every HEAD movement for 90 days.</p>
+        <pre><code><span class="cm"># View the entire recent history of HEAD</span>
+git reflog
+
+<span class="cm"># Restore a "lost" commit (e.g., after a bad reset)</span>
+git reflog           <span class="cm"># find the commit hash</span>
+git cherry-pick &lt;hash&gt;   <span class="cm"># or git branch recover-branch &lt;hash&gt;</span></code></pre>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Bisect Automation:</strong> Run <code>git bisect run &lt;script&gt;</code> to fully automate bisect. Pass a script that exits 0 (good) or non-0 (bad). Git will binary-search overnight and wake up with the culprit commit.
+    </div>
+  </section>
+
+  <!-- ==================== BEST PRACTICES ==================== -->
+  <section id="best-practices">
+    <h2><i class="bi bi-star me-2"></i>Best Practices</h2>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Commit Hygiene</div>
+          <div class="card-body">
+            <ul class="list-unstyled mb-0">
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>One logical change per commit</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Imperative commit messages: "Add login" not "Added login"</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Subject ≤ 50 chars, body wrapped at 72</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Reference issues: "Fix #42: handle edge case"</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>No "fix typo" commits — squash into logical commit</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Atomic commits make <code>git bisect</code> and <code>git revert</code> reliable</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Branch Management</div>
+          <div class="card-body">
+            <ul class="list-unstyled mb-0">
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Delete merged branches: <code>git branch -d</code></li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use descriptive names: <code>feat/payment-gateway</code>, <code>fix/login-crash</code></li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Rebase feature branches before merging to main</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Squash messy WIP commits before pushing PR</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Protect main branch — require PR reviews + CI</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Safety &amp; Security</div>
+          <div class="card-body">
+            <ul class="list-unstyled mb-0">
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Never commit secrets, <code>.env</code>, or API keys</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Add a <code>.gitignore</code> from the start</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use <code>--force-with-lease</code>, never bare <code>--force</code></li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use signed commits (<code>git commit -S</code>) for OSS</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Run <code>git secrets</code> or <code>talisman</code> as a pre-commit hook</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>If a secret was pushed — rotate it immediately</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Team Collaboration</div>
+          <div class="card-body">
+            <ul class="list-unstyled mb-0">
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Adopt <strong>Conventional Commits</strong> (<code>feat:</code>, <code>fix:</code>, <code>chore:</code>)</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Keep PRs small — reviewable in &lt; 30 minutes</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use PR templates for consistent descriptions</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Rebase, don't merge, to keep history linear</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Write meaningful code review comments</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Agree on one workflow (GitHub Flow / Git Flow)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TROUBLESHOOT ==================== -->
+  <section id="troubleshoot">
+    <h2><i class="bi bi-exclamation-triangle me-2"></i>Troubleshooting</h2>
+    <p class="text-muted">Common problems and their fixes.</p>
+
+    <div class="card">
+      <div class="card-body">
+        <table class="table cmd-table mb-0">
+          <thead class="table-light"><tr><th style="width:30%">Problem</th><th>Solution</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>"Commit your changes or stash them"</td>
+              <td>🔹 <code>git stash push -m "temp"</code> — stash, then pull/rebase, then <code>git stash pop</code></td>
+            </tr>
+            <tr>
+              <td>Merge conflict</td>
+              <td>🔹 Edit conflicted files → <code>git add</code> → <code>git commit</code><br>🔹 Or use <code>git mergetool</code></td>
+            </tr>
+            <tr>
+              <td>Committed to wrong branch</td>
+              <td>🔹 <code>git reset HEAD~1</code> → <code>git switch correct-branch</code> → <code>git add . && git commit</code></td>
+            </tr>
+            <tr>
+              <td>Accidentally reset --hard</td>
+              <td>🔹 <code>git reflog</code> → find the lost commit → <code>git cherry-pick &lt;hash&gt;</code> or <code>git reset --hard &lt;hash&gt;</code></td>
+            </tr>
+            <tr>
+              <td>Pushed a commit with a secret</td>
+              <td>🔹 Rotate the secret immediately. Then <code>git filter-repo</code> or <code>git filter-branch</code> to purge from history</td>
+            </tr>
+            <tr>
+              <td>"Detached HEAD" state</td>
+              <td>🔹 <code>git branch temp</code> → <code>git switch temp</code> (creates a branch to save your work)</td>
+            </tr>
+            <tr>
+              <td>"There is no tracking information"</td>
+              <td>🔹 <code>git branch -u origin/branch</code> or <code>git push -u origin branch</code></td>
+            </tr>
+            <tr>
+              <td>"You are not currently on a branch"</td>
+              <td>🔹 <code>git checkout -b new-branch</code> to keep changes, or <code>git switch -</code> to go back</td>
+            </tr>
+            <tr>
+              <td>Large file committed accidentally</td>
+              <td>🔹 <code>git filter-repo --path &lt;file&gt; --invert-paths</code> to remove from history (then force push)</td>
+            </tr>
+            <tr>
+              <td>Forgot to add a file in last commit</td>
+              <td>🔹 <code>git add forgotten-file && git commit --amend --no-edit</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="mt-5 pt-4 border-top text-muted">
+    <div class="row">
+      <div class="col-md-6">
+        <p class="fw-bold mb-2">Git — Quick Reference</p>
+        <p class="small">Generated for study purposes. Always refer to the official documentation.</p>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <p class="small mb-1">
+          <a href="https://git-scm.com/docs" target="_blank" class="text-decoration-none">
+            <i class="bi bi-book me-1"></i> Documentation
+          </a>
+          &middot;
+          <a href="https://git-scm.com/book/en/v2" target="_blank" class="text-decoration-none">
+            <i class="bi bi-journal me-1"></i> Pro Git Book
+          </a>
+          &middot;
+          <a href="https://github.com/git/git" target="_blank" class="text-decoration-none">
+            <i class="bi bi-github me-1"></i> GitHub
+          </a>
+        </p>
+        <p class="small mb-0">
+          Git &copy; Linus Torvalds &amp; contributors. v2.x &mdash; Open Source (GPL-2.0)
+        </p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.getElementById('sidebarToggle')?.addEventListener('click', function () {
+    document.getElementById('sidebar').classList.toggle('show');
+  });
+  document.querySelectorAll('#sidebar .nav-link').forEach(function (link) {
+    link.addEventListener('click', function () {
+      document.getElementById('sidebar').classList.remove('show');
+    });
+  });
+</script>
+</body>
+</html>
