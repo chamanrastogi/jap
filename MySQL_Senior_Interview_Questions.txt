@@ -1,0 +1,125 @@
+MySQL Interview Questions for Senior PHP Developers (11+ Years)
+
+SQL Fundamentals
+
+1.  What is the difference between SQL and MySQL?
+2.  What are DDL, DML, DCL, TCL, and DQL?
+3.  Explain PRIMARY KEY, FOREIGN KEY, UNIQUE KEY, and CHECK constraints.
+4.  What is normalization? Explain 1NF, 2NF, 3NF, and BCNF.
+5.  What is denormalization and when would you use it?
+
+Joins
+
+6.  Explain INNER JOIN, LEFT JOIN, RIGHT JOIN, and FULL OUTER JOIN.
+7.  What is a SELF JOIN?
+8.  What is a CROSS JOIN?
+9.  Difference between JOIN and UNION.
+10. Write a query to fetch unmatched records.
+
+Indexing
+
+11. What is an index?
+12. Types of indexes in MySQL.
+13. Clustered vs Non-clustered indexes.
+14. Composite indexes.
+15. Covering indexes.
+16. How do you identify missing indexes?
+17. When should you avoid indexes?
+
+Query Optimization
+
+18. How do you optimize slow queries?
+19. What is EXPLAIN?
+20. What is EXPLAIN ANALYZE?
+21. What causes full table scans?
+22. How do you optimize queries on tables with millions of rows?
+23. What are query execution plans?
+24. How do LIMIT and OFFSET affect performance?
+25. Best practices for optimizing ORDER BY and GROUP BY.
+
+Transactions
+
+26. What is a transaction?
+27. Explain ACID properties.
+28. COMMIT vs ROLLBACK.
+29. SAVEPOINT usage.
+30. Auto-commit in MySQL.
+
+Locks & Concurrency
+
+31. Shared lock vs Exclusive lock.
+32. Row-level vs Table-level locking.
+33. What is a deadlock?
+34. How do you prevent deadlocks?
+35. What are isolation levels?
+36. Explain dirty read, non-repeatable read, and phantom read.
+
+Stored Objects
+
+37. What are stored procedures?
+38. Functions vs Procedures.
+39. What are triggers?
+40. What are views?
+41. Materialized views (comparison with normal views).
+
+Advanced SQL
+
+42. Common Table Expressions (CTEs).
+43. Recursive CTEs.
+44. Window functions.
+45. ROW_NUMBER(), RANK(), DENSE_RANK().
+46. LEAD() and LAG().
+47. Partitioning tables.
+48. Sharding concepts.
+
+Practical SQL
+
+49. Find the second highest salary.
+50. Find duplicate records.
+51. Delete duplicate rows.
+52. Find the nth highest salary.
+53. Find employees with no department.
+54. Top 5 highest salaries per department.
+55. Running totals using window functions.
+56. Pivot data using SQL.
+57. Latest record per customer.
+58. Pagination using LIMIT/OFFSET and keyset pagination.
+
+Database Design
+
+59. Design an e-commerce database.
+60. Design a library management system.
+61. Design an order management system.
+62. How do you handle one-to-many and many-to-many relationships?
+
+Performance
+
+63. How do you optimize inserts?
+64. Bulk insert techniques.
+65. Partitioning vs Indexing.
+66. Archive strategies for large tables.
+67. Database monitoring tools.
+68. Slow query log.
+
+Replication & Backup
+
+69. Master-Replica replication.
+70. GTID replication.
+71. Backup and restore strategies.
+72. mysqldump vs physical backups.
+
+Scenario-Based
+
+73. A query that takes 30 seconds suddenly takes 5 minutes. How do you
+    troubleshoot?
+74. A table has 100 million rows. How would you improve search
+    performance?
+75. How do you migrate a large database with minimal downtime?
+76. How do you identify blocking queries?
+77. How do you optimize a reporting database?
+
+Experience
+
+78. Describe the largest database you’ve worked with.
+79. Tell me about a difficult SQL optimization problem you solved.
+80. What MySQL best practices do you follow in production?

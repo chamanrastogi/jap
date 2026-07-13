@@ -1,0 +1,88 @@
+Senior PHP Developer (11+ Years) - Mock Interview Questions
+
+Round 1 – Introduction
+
+1.  Tell me about yourself in 2–3 minutes.
+
+Round 2 – Core PHP
+
+2.  What is the difference between == and === in PHP?
+3.  What are the differences between include, require, include_once, and
+    require_once?
+4.  Explain the differences between self, static, and parent. When would
+    you use each?
+5.  What is the difference between:
+    -   Abstract Class
+    -   Interface
+    -   Trait Can you provide a real-world example?
+6.  Explain the SOLID principles.
+7.  What are PHP Magic Methods? Name at least 10.
+8.  Explain late static binding with an example.
+9.  How does PHP manage memory? What causes memory leaks?
+10. What happens internally when a PHP request is executed?
+
+Round 3 – OOP
+
+11. Explain all four pillars of OOP with practical examples.
+12. What is dependency injection?
+13. What is the difference between composition and inheritance?
+14. Explain design patterns you’ve used in your projects.
+15. Singleton is considered an anti-pattern by many developers. Why?
+
+Round 4 – MySQL
+
+16. Difference between WHERE, HAVING, GROUP BY, and ORDER BY.
+17. What types of indexes are available in MySQL?
+18. How do you optimize a query running on a table with 5 million
+    records?
+19. Difference between clustered and non-clustered indexes.
+20. What is the difference between DELETE, TRUNCATE, and DROP?
+
+Round 5 – Laravel
+
+21. Explain Laravel’s service container.
+22. Difference between hasMany, belongsTo, and belongsToMany.
+23. What is eager loading? How does it solve the N+1 query problem?
+24. How do queues work in Laravel?
+25. Explain middleware.
+
+Round 6 – CakePHP
+
+26. How does CakePHP’s ORM work?
+27. How do you load models dynamically?
+28. How do you optimize CakePHP applications?
+29. Difference between find(‘all’) and find(‘first’).
+30. How do you create custom components and helpers?
+
+Round 7 – APIs
+
+31. What is REST?
+32. Difference between PUT, PATCH, and POST.
+33. How do you secure APIs?
+34. What authentication methods have you used?
+35. How do you handle API rate limiting?
+
+Round 8 – JavaScript & jQuery
+
+36. Difference between var, let, and const.
+37. Explain event bubbling and event delegation.
+38. What is a Promise?
+39. Difference between synchronous and asynchronous JavaScript.
+40. Explain closures.
+
+Round 9 – Practical Coding
+
+41. Reverse a string without using strrev().
+42. Find duplicate values in an array.
+43. Find the second highest salary using SQL.
+44. Write a function to check whether a string is a palindrome.
+45. How would you process a CSV file with 10 million records without
+    running out of memory?
+
+Round 10 – Real Project Questions
+
+46. Describe the most challenging project you’ve worked on.
+47. Tell me about a performance issue you solved.
+48. How have you optimized cron jobs?
+49. Have you worked with caching? Which types?
+50. Why should we hire you?
