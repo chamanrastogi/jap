@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>htmx — Complete Guide: Attributes, Patterns & Backend Integration</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+  <style>
+    :root {
+      --htmx-blue: #3d72f5;
+      --htmx-dark: #1a1a3e;
+      --sidebar-width: 280px;
+    }
+    * { scroll-margin-top: 1rem; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f4f6fb;
+      display: flex;
+    }
+    #sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0; left: 0;
+      background: var(--htmx-dark);
+      overflow-y: auto;
+      z-index: 1000;
+      transition: transform .3s;
+    }
+    #sidebar .brand {
+      padding: 1.25rem 1.25rem .75rem;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    #sidebar .brand h5 { color: #fff; font-weight: 700; }
+    #sidebar .brand small { color: #adb5bd; }
+    #sidebar .nav-link {
+      color: #c8cdd3;
+      padding: .5rem 1.25rem;
+      font-size: .88rem;
+      border-left: 3px solid transparent;
+      transition: all .15s;
+    }
+    #sidebar .nav-link:hover {
+      color: #fff;
+      background: rgba(255,255,255,.05);
+    }
+    #sidebar .nav-link.active {
+      color: var(--htmx-blue);
+      border-left-color: var(--htmx-blue);
+      background: rgba(61,114,245,.08);
+    }
+    #sidebar .nav-link i { width: 1.3rem; }
+    #sidebar .nav-section {
+      color: #6c757d;
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      padding: 1rem 1.25rem .3rem;
+      font-weight: 600;
+    }
+    #main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 2rem 2.5rem 4rem;
+      max-width: 1100px;
+    }
+    @media (max-width: 991.98px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.show { transform: translateX(0); }
+      #main { margin-left: 0; padding: 1.5rem; }
+    }
+    .sidebar-toggle {
+      position: fixed;
+      top: .75rem; left: .75rem;
+      z-index: 1050;
+      background: var(--htmx-dark);
+      color: #fff;
+      border: none;
+      border-radius: .4rem;
+      padding: .4rem .65rem;
+      display: none;
+    }
+    @media (max-width: 991.98px) {
+      .sidebar-toggle { display: block; }
+    }
+    h2 {
+      font-weight: 700;
+      color: var(--htmx-dark);
+      margin-top: 2.5rem;
+      padding-bottom: .5rem;
+      border-bottom: 3px solid var(--htmx-blue);
+    }
+    h3 {
+      font-weight: 600;
+      color: #2c3e50;
+      margin-top: 1.8rem;
+    }
+    .card {
+      border: none;
+      border-radius: .75rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      margin-bottom: 1.5rem;
+    }
+    .card-header {
+      background: #fff;
+      border-bottom: 1px solid #e9ecef;
+      font-weight: 600;
+      padding: 1rem 1.25rem;
+    }
+    .card-body { padding: 1.5rem; }
+    pre {
+      background: #1e1e2f;
+      color: #e6e6e6;
+      padding: 1rem 1.25rem;
+      border-radius: .5rem;
+      font-size: .82rem;
+      overflow-x: auto;
+      position: relative;
+    }
+    pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
+    .kw { color: #c792ea; }
+    .fn { color: #82aaff; }
+    .str { color: #c3e88d; }
+    .cm { color: #546e7a; font-style: italic; }
+    .num { color: #f78c6c; }
+    .tp { color: #ffcb6b; }
+    .at { color: #f07178; }
+    .el { color: #82aaff; }
+    [data-bs-theme="dark"] .kw { color: #c792ea; }
+    [data-bs-theme="dark"] .fn { color: #82aaff; }
+    [data-bs-theme="dark"] .str { color: #c3e88d; }
+    [data-bs-theme="dark"] .cm { color: #546e7a; font-style: italic; }
+    [data-bs-theme="dark"] .num { color: #f78c6c; }
+    [data-bs-theme="dark"] .tp { color: #ffcb6b; }
+
+    .el { color: #f07178; }
+    .at { color: #c792ea; }
+    [data-bs-theme="dark"] .el { color: #f07178; }
+    [data-bs-theme="dark"] .at { color: #c792ea; }
+    .cmd-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+      white-space: nowrap;
+      color: var(--htmx-blue);
+    }
+    .highlight-box {
+      background: #eef2ff;
+      border-left: 4px solid var(--htmx-blue);
+      padding: 1rem 1.25rem;
+      border-radius: .4rem;
+      margin: 1rem 0;
+    }
+    .demo-box {
+      background: #fff;
+      border: 2px dashed #d0d5dd;
+      border-radius: .75rem;
+      padding: 2rem;
+      text-align: center;
+      margin: 1rem 0;
+    }
+    [data-bs-theme="dark"] .demo-box {
+      background: #1e293b;
+      border-color: rgba(255,255,255,.1);
+    }
+    .home-link {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 1100;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.94);
+      color: #0f172a;
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 700;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: 0.2s;
+    }
+    .home-link:hover { color: var(--htmx-blue); }
+    @media (min-width: 992px) {
+      .home-link { left: calc(var(--sidebar-width) + 14px); }
+    }
+    @media (max-width: 991.98px) {
+      .home-link { left: 4rem; }
+    }
+    .live-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #d1fae5;
+      color: #065f46;
+      padding: .25rem .75rem;
+      border-radius: 999px;
+      font-size: .75rem;
+      font-weight: 600;
+    }
+    .live-indicator i { font-size: .5rem; }
+    [data-bs-theme="dark"] .live-indicator {
+      background: rgba(5,150,105,.15);
+      color: #6ee7b7;
+    }
+    .attr-badge {
+      display: inline-block;
+      background: #eef2ff;
+      color: var(--htmx-blue);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem;
+      padding: .15rem .5rem;
+      border-radius: .3rem;
+      margin: .1rem;
+    }
+    [data-bs-theme="dark"] .attr-badge {
+      background: rgba(61,114,245,.12);
+    }
+  </style>
+</head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
+<a href="index.html" class="home-link" aria-label="Go back to home page"><span>&larr;</span> Home</a>
+
+<!-- ===== SIDEBAR ===== -->
+<nav id="sidebar">
+  <div class="brand">
+    <h5><i class="bi bi-lightning-charge-fill me-2" style="color:var(--htmx-blue)"></i>htmx</h5>
+    <small class="d-block mt-1">v2.x &mdash; Complete Guide</small>
+  </div>
+  <div class="py-2">
+    <div class="nav-section">Getting Started</div>
+    <a class="nav-link" href="#intro"><i class="bi bi-info-circle"></i> What is htmx?</a>
+    <a class="nav-link" href="#install"><i class="bi bi-download"></i> Installation</a>
+
+    <div class="nav-section">Core Attributes</div>
+    <a class="nav-link" href="#requests"><i class="bi bi-send"></i> Requests (hx-get, hx-post...)</a>
+    <a class="nav-link" href="#target"><i class="bi bi-crosshair"></i> Targeting & Swapping</a>
+    <a class="nav-link" href="#triggers"><i class="bi bi-bell"></i> Triggers</a>
+    <a class="nav-link" href="#indicators"><i class="bi bi-hourglass-split"></i> Indicators & States</a>
+    <a class="nav-link" href="#boost"><i class="bi bi-rocket-takeoff"></i> hx-boost & SPA</a>
+
+    <div class="nav-section">Swap Strategies</div>
+    <a class="nav-link" href="#swap"><i class="bi bi-arrows-expand"></i> Swap Methods</a>
+    <a class="nav-link" href="#transition"><i class="bi bi-film"></i> CSS Transitions</a>
+
+    <div class="nav-section">Backend Integration</div>
+    <a class="nav-link" href="#php"><i class="bi bi-filetype-php"></i> PHP Integration</a>
+    <a class="nav-link" href="#laravel"><i class="bi bi-bolt"></i> Laravel Integration</a>
+    <a class="nav-link" href="#json"><i class="bi bi-filetype-json"></i> JSON & API Responses</a>
+
+    <div class="nav-section">Advanced</div>
+    <a class="nav-link" href="#events"><i class="bi bi-activity"></i> Events & Hooks</a>
+    <a class="nav-link" href="#patterns"><i class="bi bi-diagram-3"></i> Common Patterns</a>
+    <a class="nav-link" href="#best-practices"><i class="bi bi-star"></i> Best Practices</a>
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<div id="main">
+
+  <!-- HERO -->
+  <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+    <div>
+      <h1 class="fw-bold mb-1" style="color:var(--htmx-dark)">
+        <i class="bi bi-lightning-charge-fill" style="color:var(--htmx-blue)"></i>
+        htmx
+      </h1>
+      <p class="text-muted mb-0 fs-5">
+        Complete Reference &amp; Concept Guide
+        <span class="badge bg-secondary ms-2">v2.x</span>
+        <span class="badge bg-info text-dark ms-1">HTML-over-Wire</span>
+        <span class="badge bg-success ms-1">Hypermedia-Driven</span>
+      </p>
+    </div>
+  </div>
+
+  <p class="fs-5 text-muted mb-5">
+    htmx gives you access to <strong>AJAX</strong>, <strong>CSS Transitions</strong>,
+    <strong>WebSockets</strong> and <strong>Server-Sent Events</strong> directly in HTML,
+    using attributes like <code>hx-get</code>, <code>hx-post</code>, and <code>hx-target</code>.
+    No JavaScript required for most interactions.
+  </p>
+
+  <!-- ==================== INTRO ==================== -->
+  <section id="intro">
+    <h2><i class="bi bi-info-circle me-2"></i>What is htmx?</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <p class="mb-3">htmx is a library that allows you to build modern web UIs with HTML alone. It extends HTML with custom attributes that let you:</p>
+        <div class="row g-3 mb-3">
+          <div class="col-md-4">
+            <div class="text-center p-3 rounded" style="background:#eef2ff">
+              <i class="bi bi-send fs-3" style="color:var(--htmx-blue)"></i>
+              <h6 class="mt-2 mb-1">Make Requests</h6>
+              <small class="text-muted">GET, POST, PUT, PATCH, DELETE from any element</small>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="text-center p-3 rounded" style="background:#eef2ff">
+              <i class="bi bi-arrows-expand fs-3" style="color:var(--htmx-blue)"></i>
+              <h6 class="mt-2 mb-1">Swap Content</h6>
+              <small class="text-muted">Replace parts of the DOM with server responses</small>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="text-center p-3 rounded" style="background:#eef2ff">
+              <i class="bi bi-film fs-3" style="color:var(--htmx-blue)"></i>
+              <h6 class="mt-2 mb-1">Animate</h6>
+              <small class="text-muted">Use CSS transitions during swaps</small>
+            </div>
+          </div>
+        </div>
+
+        <h6 class="fw-bold mt-4">Key Philosophy</h6>
+        <ul class="text-muted small">
+          <li><strong>Hypermedia-Driven</strong> &mdash; the server returns HTML, not JSON</li>
+          <li><strong>Progressively Enhanced</strong> &mdash; works with or without JavaScript</li>
+          <li><strong>Backend-Agnostic</strong> &mdash; works with any language or framework</li>
+          <li><strong>Replace jQuery/AJAX</strong> &mdash; no client-side rendering needed</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== INSTALL ==================== -->
+  <section id="install">
+    <h2><i class="bi bi-download me-2"></i>Installation</h2>
+
+    <div class="card">
+      <div class="card-header">CDN (via unpkg)</div>
+      <div class="card-body">
+        <pre><code><span class="cm">&lt;!-- Load in &lt;head&gt; --&gt;</span>
+<span class="el">&lt;script</span> <span class="at">src</span>=<span class="str">"https://unpkg.com/htmx.org@2.0.4"</span><span class="el">&gt;&lt;/script&gt;</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">npm</div>
+      <div class="card-body">
+        <pre><code>npm install htmx.org</code></pre>
+        <pre><code><span class="kw">import</span> htmx <span class="kw">from</span> <span class="str">"htmx.org"</span>;</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Extensions (optional)</div>
+      <div class="card-body">
+        <pre><code><span class="cm">&lt;!-- Load after htmx core --&gt;</span>
+<span class="el">&lt;script</span> <span class="at">src</span>=<span class="str">"https://unpkg.com/htmx.org@2.0.4/dist/ext/json-enc.js"</span><span class="el">&gt;&lt;/script&gt;</span>
+<span class="el">&lt;script</span> <span class="at">src</span>=<span class="str">"https://unpkg.com/htmx.org@2.0.4/dist/ext/response-targets.js"</span><span class="el">&gt;&lt;/script&gt;</span></code></pre>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>&#9654; htmx 2.x highlights:</strong>
+      Dropped IE support &middot; New extension API &middot; <code>hx-validate</code> &middot; Better WebSocket/SSE &middot; Enhanced <code>hx-trigger</code> with filter expressions.
+    </div>
+  </section>
+
+  <!-- ==================== REQUESTS ==================== -->
+  <section id="requests">
+    <h2><i class="bi bi-send me-2"></i>Request Attributes</h2>
+    <p class="text-muted">These attributes define <strong>what</strong> HTTP request to make and <strong>where</strong> to send it.</p>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:22%">Attribute</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>hx-get</td><td>Send a GET request to the specified URL</td></tr>
+            <tr><td>hx-post</td><td>Send a POST request (form data or JSON)</td></tr>
+            <tr><td>hx-put</td><td>Send a PUT request</td></tr>
+            <tr><td>hx-patch</td><td>Send a PATCH request</td></tr>
+            <tr><td>hx-delete</td><td>Send a DELETE request</td></tr>
+            <tr><td>hx-request</td><td>Advanced request config (timeout, credentials, etc.)</td></tr>
+            <tr><td>hx-headers</td><td>Add custom headers to the request</td></tr>
+            <tr><td>hx-vals</td><td>Include additional JSON values in the request</td></tr>
+            <tr><td>hx-params</td><td>Filter which params are submitted (form)</td></tr>
+            <tr><td>hx-include</td><td>Include values from other elements in the request</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Basic Example</div>
+      <div class="card-body">
+        <pre><code><span class="cm">&lt;!-- Click button -> GET /time -> swap response into #result --&gt;</span>
+<span class="el">&lt;button</span> <span class="at">hx-get</span>=<span class="str">"/time"</span> <span class="at">hx-target</span>=<span class="str">"#result"</span><span class="el">&gt;</span>
+  Get Current Time
+<span class="el">&lt;/button&gt;</span>
+<span class="el">&lt;div</span> <span class="at">id</span>=<span class="str">"result"</span><span class="el">&gt;</span><span class="el">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Form submission via POST --&gt;</span>
+<span class="el">&lt;form</span> <span class="at">hx-post</span>=<span class="str">"/contact"</span> <span class="at">hx-target</span>=<span class="str">"#response"</span><span class="el">&gt;</span>
+  <span class="el">&lt;input</span> <span class="at">type</span>=<span class="str">"text"</span> <span class="at">name</span>=<span class="str">"email"</span><span class="el">&gt;</span>
+  <span class="el">&lt;button</span> <span class="at">type</span>=<span class="str">"submit"</span><span class="el">&gt;</span>Submit<span class="el">&lt;/button&gt;</span>
+<span class="el">&lt;/form&gt;</span>
+<span class="el">&lt;div</span> <span class="at">id</span>=<span class="str">"response"</span><span class="el">&gt;</span><span class="el">&lt;/div&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TARGET ==================== -->
+  <section id="target">
+    <h2><i class="bi bi-crosshair me-2"></i>Targeting &amp; Swapping</h2>
+    <p class="text-muted">Control <strong>where</strong> the response goes and <strong>how</strong> it replaces content.</p>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:22%">Attribute</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>hx-target</td><td>CSS selector for the element to swap content into</td></tr>
+            <tr><td>hx-swap</td><td>How to swap the response (innerHTML, outerHTML, etc.)</td></tr>
+            <tr><td>hx-select</td><td>Select a subset of the response to swap</td></tr>
+            <tr><td>hx-select-oob</td><td>Out-of-band swap — update multiple elements</td></tr>
+            <tr><td>hx-preserve</td><td>Preserve element content across swaps</td></tr>
+            <tr><td>hx-swap-oob</td><td>Mark element as out-of-band in the response</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Target Examples</div>
+      <div class="card-body">
+        <pre><code><span class="cm">&lt;!-- Target by ID --&gt;</span>
+<span class="el">&lt;button</span> <span class="at">hx-get</span>=<span class="str">"/data"</span> <span class="at">hx-target</span>=<span class="str">"#my-div"</span><span class="el">&gt;</span>Load<span class="el">&lt;/button&gt;</span>
+
+<span class="cm">&lt;!-- Target closest parent matching a class --&gt;</span>
+<span class="el">&lt;button</span> <span class="at">hx-get</span>=<span class="str">"/edit"</span> <span class="at">hx-target</span>=<span class="str">"closest .card"</span><span class="el">&gt;</span>Edit<span class="el">&lt;/button&gt;</span>
+
+<span class="cm">&lt;!-- Target next sibling --&gt;</span>
+<span class="el">&lt;button</span> <span class="at">hx-get</span>=<span class="str">"/details"</span> <span class="at">hx-target</span>=<span class="str">"next .details"</span><span class="el">&gt;</span>Show<span class="el">&lt;/button&gt;</span>
+
+<span class="cm">&lt;!-- Target this element --&gt;</span>
+<span class="el">&lt;button</span> <span class="at">hx-get</span>=<span class="str">"/replace-me"</span> <span class="at">hx-target</span>=<span class="str">"this"</span><span class="el">&gt;</span>Replace Me<span class="el">&lt;/button&gt;</span>
+
+<span class="cm">&lt;!-- Select part of the response (discard rest) --&gt;</span>
+<span class="el">&lt;button</span> <span class="at">hx-get</span>=<span class="str">"/page"</span> <span class="at">hx-select</span>=<span class="str">"#main-content"</span><span class="el">&gt;</span>Load Content<span class="el">&lt;/button&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TRIGGERS ==================== -->
+  <section id="triggers">
+    <h2><i class="bi bi-bell me-2"></i>Triggers</h2>
+    <p class="text-muted"><code>hx-trigger</code> controls <strong>when</strong> the request is sent. Default trigger depends on the element (click for buttons, change for inputs).</p>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:22%">Trigger</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>click</td><td>Fires on click (default for &lt;button&gt;, &lt;a&gt;)</td></tr>
+            <tr><td>change</td><td>Fires on value change (default for &lt;input&gt;, &lt;select&gt;)</td></tr>
+            <tr><td>keyup</td><td>Fires on keyup (use with delay for search-as-you-type)</td></tr>
+            <tr><td>load</td><td>Fires when element is loaded (for lazy loading)</td></tr>
+            <tr><td>revealed</td><td>Fires when element scrolls into view (lazy loading)</td></tr>
+            <tr><td>every</td><td>Fires on an interval (e.g., <code>every 5s</code>)</td></tr>
+            <tr><td>intersect</td><td>Fires when element intersects viewport</td></tr>
+            <tr><td>click throttle:500ms</td><td>Throttle to one request per 500ms</td></tr>
+            <tr><td>keyup delay:300ms</td><td>Debounce with delay</td></tr>
+            <tr><td>click once</td><td>Fires only once</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Trigger Examples</div>
+      <div class="card-body">
+        <pre><code><span class="cm">&lt;!-- Search as you type (debounced 300ms) --&gt;</span>
+<span class="el">&lt;input</span> <span class="at">type</span>=<span class="str">"search"</span> <span class="at">name</span>=<span class="str">"q"</span>
+       <span class="at">hx-get</span>=<span class="str">"/search"</span> <span class="at">hx-trigger</span>=<span class="str">"keyup delay:300ms"</span>
+       <span class="at">hx-target</span>=<span class="str">"#results"</span><span class="el">&gt;</span>
+
+<span class="cm">&lt;!-- Lazy load on page load --&gt;</span>
+<span class="el">&lt;div</span> <span class="at">hx-get</span>=<span class="str">"/slow-content"</span> <span class="at">hx-trigger</span>=<span class="str">"load"</span><span class="el">&gt;</span>
+  Loading...
+<span class="el">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Lazy load when scrolled into view --&gt;</span>
+<span class="el">&lt;div</span> <span class="at">hx-get</span>=<span class="str">"/images"</span> <span class="at">hx-trigger</span>=<span class="str">"revealed"</span><span class="el">&gt;</span>
+  Scroll to load
+<span class="el">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Poll every 5 seconds --&gt;</span>
+<span class="el">&lt;div</span> <span class="at">hx-get</span>=<span class="str">"/notifications"</span> <span class="at">hx-trigger</span>=<span class="str">"every 5s"</span>
+     <span class="at">hx-swap</span>=<span class="str">"innerHTML"</span><span class="el">&gt;</span>
+  No new notifications
+<span class="el">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Click with throttle --&gt;</span>
+<span class="el">&lt;button</span> <span class="at">hx-post</span>=<span class="str">"/save"</span> <span class="at">hx-trigger</span>=<span class="str">"click throttle:2s"</span><span class="el">&gt;</span>
+  Save (throttled)
+<span class="el">&lt;/button&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== INDICATORS ==================== -->
+  <section id="indicators">
+    <h2><i class="bi bi-hourglass-split me-2"></i>Indicators &amp; States</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="cm">&lt;!-- Automatic indicator (adds .htmx-request class) --&gt;</span>
+<span class="el">&lt;button</span> <span class="at">hx-get</span>=<span class="str">"/data"</span><span class="el">&gt;</span>
+  Load Data
+  <span class="el">&lt;span</span> <span class="at">class</span>=<span class="str">"htmx-indicator"</span><span class="el">&gt;</span>Loading...<span class="el">&lt;/span&gt;</span>
+<span class="el">&lt;/button&gt;</span>
+
+<span class="cm">&lt;!-- Custom indicator via hx-indicator --&gt;</span>
+<span class="el">&lt;button</span> <span class="at">hx-get</span>=<span class="str">"/data"</span> <span class="at">hx-indicator</span>=<span class="str">"#spinner"</span><span class="el">&gt;</span>Load<span class="el">&lt;/button&gt;</span>
+<span class="el">&lt;div</span> <span class="at">id</span>=<span class="str">"spinner"</span> <span class="at">class</span>=<span class="str">"htmx-indicator"</span><span class="el">&gt;</span>
+  <span class="el">&lt;img</span> <span class="at">src</span>=<span class="str">"/spinner.gif"</span><span class="el">&gt;</span>
+<span class="el">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- CSS for indicator (hidden by default) --&gt;</span>
+<span class="el">&lt;style&gt;</span>
+  .htmx-indicator { <span class="kw">opacity</span>: <span class="num">0</span>; <span class="kw">transition</span>: opacity .<span class="num">3</span>s; }
+  .htmx-request .htmx-indicator { <span class="kw">opacity</span>: <span class="num">1</span>; }
+<span class="el">&lt;/style&gt;</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">CSS Classes Added by htmx</div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:25%">Class</th><th>When Added</th></tr></thead>
+          <tbody>
+            <tr><td>.htmx-request</td><td>Added to the element during the request</td></tr>
+            <tr><td>.htmx-settling</td><td>Added during the settling phase after swap</td></tr>
+            <tr><td>.htmx-swapping</td><td>Added during the swap phase</td></tr>
+            <tr><td>.htmx-added</td><td>Added to newly added content during swap</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BOOST ==================== -->
+  <section id="boost">
+    <h2><i class="bi bi-rocket-takeoff me-2"></i>hx-boost &amp; SPA-like Navigation</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <p><code>hx-boost</code> converts normal <code>&lt;a&gt;</code> tags and <code>&lt;form&gt;</code> elements into AJAX requests, giving you a SPA-like experience without any JS.</p>
+
+        <pre><code><span class="cm">&lt;!-- Boost all links on the page --&gt;</span>
+<span class="el">&lt;body</span> <span class="at">hx-boost</span>=<span class="str">"true"</span><span class="el">&gt;</span>
+  <span class="el">&lt;a</span> <span class="at">href</span>=<span class="str">"/about"</span><span class="el">&gt;</span>About<span class="el">&lt;/a&gt;</span>  <span class="cm">&lt;!-- becomes AJAX request --&gt;</span>
+  <span class="el">&lt;a</span> <span class="at">href</span>=<span class="str">"/contact"</span><span class="el">&gt;</span>Contact<span class="el">&lt;/a&gt;</span> <span class="cm">&lt;!-- becomes AJAX request --&gt;</span>
+<span class="el">&lt;/body&gt;</span>
+
+<span class="cm">&lt;!-- Exclude specific links from boosting --&gt;</span>
+<span class="el">&lt;a</span> <span class="at">href</span>=<span class="str">"/download.pdf"</span> <span class="at">hx-boost</span>=<span class="str">"false"</span><span class="el">&gt;</span>Download PDF<span class="el">&lt;/a&gt;</span></code></pre>
+
+        <div class="highlight-box mt-3">
+          <strong>&#9654; hx-push-url</strong> &mdash; Push the request URL into browser history so the back button works:
+          <code>hx-push-url="true"</code>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SWAP ==================== -->
+  <section id="swap">
+    <h2><i class="bi bi-arrows-expand me-2"></i>Swap Strategies</h2>
+    <p class="text-muted">The <code>hx-swap</code> attribute controls <strong>how</strong> the response replaces the target element.</p>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:20%">Strategy</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>innerHTML</td><td>Replace child content (default)</td></tr>
+            <tr><td>outerHTML</td><td>Replace the entire target element</td></tr>
+            <tr><td>beforebegin</td><td>Insert before the target element</td></tr>
+            <tr><td>afterbegin</td><td>Insert as first child of target</td></tr>
+            <tr><td>beforeend</td><td>Insert as last child of target</td></tr>
+            <tr><td>afterend</td><td>Insert after the target element</td></tr>
+            <tr><td>delete</td><td>Delete the target element (ignores response)</td></tr>
+            <tr><td>none</td><td>Don't swap (use with events only)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Swap Modifiers</div>
+      <div class="card-body">
+        <pre><code><span class="cm">&lt;!-- Settle delay before swap takes effect --&gt;</span>
+<span class="el">&lt;button</span> <span class="at">hx-get</span>=<span class="str">"/data"</span> <span class="at">hx-swap</span>=<span class="str">"innerHTML swap:300ms"</span><span class="el">&gt;</span>Swap<span class="el">&lt;/button&gt;</span>
+
+<span class="cm">&lt;!-- Settle delay for CSS transitions --&gt;</span>
+<span class="el">&lt;button</span> <span class="at">hx-get</span>=<span class="str">"/data"</span> <span class="at">hx-swap</span>=<span class="str">"innerHTML settle:500ms"</span><span class="el">&gt;</span>Settle<span class="el">&lt;/button&gt;</span>
+
+<span class="cm">&lt;!-- Combine modifiers --&gt;</span>
+<span class="el">&lt;button</span> <span class="at">hx-get</span>=<span class="str">"/data"</span> <span class="at">hx-swap</span>=<span class="str">"outerHTML swap:200ms settle:400ms"</span><span class="el">&gt;</span>
+  Custom Timing
+<span class="el">&lt;/button&gt;</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Out-of-Band Swaps</div>
+      <div class="card-body">
+        <p class="small text-muted">Update multiple elements on the page with a single response using <code>hx-swap-oob</code> on the response HTML.</p>
+        <pre><code><span class="cm">&lt;!-- Server response can update multiple targets --&gt;</span>
+<span class="cm">&lt;!-- This HTML is returned by the server --&gt;</span>
+<span class="el">&lt;div</span> <span class="at">id</span>=<span class="str">"main-content"</span><span class="el">&gt;</span>
+  New main content here
+<span class="el">&lt;/div&gt;</span>
+<span class="el">&lt;div</span> <span class="at">id</span>=<span class="str">"sidebar"</span> <span class="at">hx-swap-oob</span>=<span class="str">"true"</span><span class="el">&gt;</span>
+  Updated sidebar
+<span class="el">&lt;/div&gt;</span>
+<span class="el">&lt;div</span> <span class="at">id</span>=<span class="str">"notification-count"</span> <span class="at">hx-swap-oob</span>=<span class="str">"innerHTML"</span><span class="el">&gt;</span>
+  <span class="num">3</span>
+<span class="el">&lt;/div&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TRANSITIONS ==================== -->
+  <section id="transition">
+    <h2><i class="bi bi-film me-2"></i>CSS Transitions</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <p class="small text-muted">htmx works with the <a href="https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API" target="_blank">View Transitions API</a> for smooth animations during swaps.</p>
+
+        <pre><code><span class="cm">&lt;!-- Enable view transitions on swap --&gt;</span>
+<span class="el">&lt;button</span> <span class="at">hx-get</span>=<span class="str">"/new-content"</span> <span class="at">hx-swap</span>=<span class="str">"innerHTML transition:true"</span><span class="el">&gt;</span>
+  Animate
+<span class="el">&lt;/button&gt;</span>
+
+<span class="cm">&lt;!-- CSS for the transition --&gt;</span>
+<span class="el">&lt;style&gt;</span>
+  <span class="nd">@keyframes</span> <span class="nt">fade-in</span> {
+    <span class="nt">from</span> { <span class="nt">opacity</span>: <span class="nt">0</span>; }
+    <span class="nt">to</span>   { <span class="nt">opacity</span>: <span class="nt">1</span>; }
+  }
+  <span class="nd">@keyframes</span> <span class="nt">fade-out</span> {
+    <span class="nt">from</span> { <span class="nt">opacity</span>: <span class="nt">1</span>; }
+    <span class="nt">to</span>   { <span class="nt">opacity</span>: <span class="nt">0</span>; }
+  }
+  <span class="nn">::view-transition-old</span>(<span class="nt">root</span>) {
+    <span class="nt">animation</span>: <span class="nt">fade-out</span> <span class="nt">0</span>.<span class="nt">3</span><span class="nt">s</span> <span class="nt">ease</span>;
+  }
+  <span class="nn">::view-transition-new</span>(<span class="nt">root</span>) {
+    <span class="nt">animation</span>: <span class="nt">fade-in</span> <span class="nt">0</span>.<span class="nt">3</span><span class="nt">s</span> <span class="nt">ease</span>;
+  }
+<span class="el">&lt;/style&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PHP ==================== -->
+  <section id="php">
+    <h2><i class="bi bi-filetype-php me-2"></i>PHP Integration</h2>
+    <p class="text-muted">htmx works naturally with PHP — the server returns HTML fragments, not JSON.</p>
+
+    <div class="card">
+      <div class="card-header">Basic PHP Handler</div>
+      <div class="card-body">
+        <pre><code><span class="cm">&lt;!-- HTML (htmx) --&gt;</span>
+<span class="el">&lt;button</span> <span class="at">hx-get</span>=<span class="str">"/time.php"</span> <span class="at">hx-target</span>=<span class="str">"#time"</span><span class="el">&gt;</span>
+  Get Current Time
+<span class="el">&lt;/button&gt;</span>
+<span class="el">&lt;div</span> <span class="at">id</span>=<span class="str">"time"</span><span class="el">&gt;&lt;/div&gt;</span></code></pre>
+        <pre><code><span class="cm">&lt;!-- time.php (returns HTML fragment) --&gt;</span>
+<span class="el">&lt;p&gt;</span>&lt;?= <span class="kw">date</span>(<span class="str">'Y-m-d H:i:s'</span>) ?&gt;<span class="el">&lt;/p&gt;</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Form Processing</div>
+      <div class="card-body">
+        <pre><code><span class="cm">&lt;!-- HTML --&gt;</span>
+<span class="el">&lt;form</span> <span class="at">hx-post</span>=<span class="str">"/contact.php"</span> <span class="at">hx-target</span>=<span class="str">"#feedback"</span><span class="el">&gt;</span>
+  <span class="el">&lt;input</span> <span class="at">type</span>=<span class="str">"email"</span> <span class="at">name</span>=<span class="str">"email"</span> <span class="at">required</span><span class="el">&gt;</span>
+  <span class="el">&lt;button</span> <span class="at">type</span>=<span class="str">"submit"</span><span class="el">&gt;</span>Subscribe<span class="el">&lt;/button&gt;</span>
+<span class="el">&lt;/form&gt;</span>
+<span class="el">&lt;div</span> <span class="at">id</span>=<span class="str">"feedback"</span><span class="el">&gt;&lt;/div&gt;</span></code></pre>
+        <pre><code><span class="cm">&lt;!-- contact.php --&gt;</span>
+&lt;?php
+$email = <span class="fn">filter_input</span>(INPUT_POST, <span class="str">'email'</span>, FILTER_VALIDATE_EMAIL);
+
+<span class="kw">if</span> (!$email) { <span class="kw">?&gt;</span>
+  <span class="el">&lt;div</span> <span class="at">class</span>=<span class="str">"alert alert-danger"</span><span class="el">&gt;</span>Invalid email address.<span class="el">&lt;/div&gt;</span>
+&lt;?php <span class="kw">return</span>; } <span class="kw">?&gt;</span>
+
+<span class="cm">&lt;!-- Success response (replaces form with success message) --&gt;</span>
+<span class="el">&lt;div</span> <span class="at">class</span>=<span class="str">"alert alert-success"</span><span class="el">&gt;</span>
+  Thanks! Check your inbox.
+<span class="el">&lt;/div&gt;</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Updating Multiple Regions (OOB)</div>
+      <div class="card-body">
+        <pre><code><span class="cm">&lt;!-- save.php -- returns HTML with OOB swaps --&gt;</span>
+&lt;?php
+$id = <span class="fn">filter_input</span>(INPUT_POST, <span class="str">'id'</span>, FILTER_VALIDATE_INT);
+<span class="fn">save_to_db</span>($id);
+<span class="kw">?&gt;</span>
+
+<span class="cm">&lt;!-- Main target (the row being edited) --&gt;</span>
+<span class="el">&lt;tr</span> <span class="at">id</span>=<span class="str">"row-&lt;?= $id ?&gt;"</span><span class="el">&gt;</span>
+  <span class="el">&lt;td&gt;</span>Saved!<span class="el">&lt;/td&gt;</span>
+<span class="el">&lt;/tr&gt;</span>
+
+<span class="cm">&lt;!-- Out-of-band: update counter in sidebar --&gt;</span>
+<span class="el">&lt;span</span> <span class="at">id</span>=<span class="str">"counter"</span> <span class="at">hx-swap-oob</span>=<span class="str">"true"</span><span class="el">&gt;</span>
+  &lt;?= <span class="fn">get_count</span>() ?&gt;
+<span class="el">&lt;/span&gt;</span>
+
+<span class="cm">&lt;!-- Out-of-band: show flash message --&gt;</span>
+<span class="el">&lt;div</span> <span class="at">id</span>=<span class="str">"flash"</span> <span class="at">hx-swap-oob</span>=<span class="str">"true"</span><span class="el">&gt;</span>
+  Record updated successfully!
+<span class="el">&lt;/div&gt;</span></code></pre>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>&#9654; Key insight:</strong> PHP is a natural fit for htmx. You don't need a JSON API — just write HTML fragments as responses. Set headers like <code>HX-Trigger</code> from PHP using <code>header('HX-Trigger: {"myEvent": "data"}')</code>.
+    </div>
+  </section>
+
+  <!-- ==================== LARAVEL ==================== -->
+  <section id="laravel">
+    <h2><i class="bi bi-bolt me-2"></i>Laravel Integration</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="cm">&lt;!-- Blade template with htmx --&gt;</span>
+<span class="el">&lt;button</span>
+  <span class="at">hx-get</span>=<span class="str">"{{ route('posts.index') }}"</span>
+  <span class="at">hx-target</span>=<span class="str">"#post-list"</span>
+  <span class="at">hx-push-url</span>=<span class="str">"true"</span>
+  <span class="at">class</span>=<span class="str">"btn btn-primary"</span>
+<span class="el">&gt;</span>
+  Load Posts
+<span class="el">&lt;/button&gt;</span>
+<span class="el">&lt;div</span> <span class="at">id</span>=<span class="str">"post-list"</span><span class="el">&gt;</span>
+  @include('partials.post-list')
+<span class="el">&lt;/div&gt;</span></code></pre>
+
+        <pre><code><span class="cm">// Controller — check for htmx request</span>
+<span class="kw">use</span> <span class="tp">Illuminate</span>\<span class="tp">Http</span>\<span class="tp">Request</span>;
+
+<span class="kw">class</span> <span class="tp">PostController</span> <span class="kw">extends</span> <span class="tp">Controller</span>
+{
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">index</span>(<span class="tp">Request</span> $request)
+    {
+        $posts = <span class="tp">Post</span>::<span class="fn">latest</span>()-><span class="fn">paginate</span>(<span class="num">10</span>);
+
+        <span class="cm">// If htmx request, only return the partial</span>
+        <span class="kw">if</span> ($request-&gt;<span class="fn">header</span>(<span class="str">'HX-Request'</span>)) {
+            <span class="kw">return</span> <span class="fn">view</span>(<span class="str">'partials.post-list'</span>, <span class="fn">compact</span>(<span class="str">'posts'</span>));
+        }
+
+        <span class="cm">// Full page load</span>
+        <span class="kw">return</span> <span class="fn">view</span>(<span class="str">'posts.index'</span>, <span class="fn">compact</span>(<span class="str">'posts'</span>));
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Laravel + Inertia Alternative</div>
+      <div class="card-body">
+        <p class="small text-muted">htmx replaces the need for Inertia.js or Livewire in many cases. You get SPA-like interactions with plain Blade templates.</p>
+
+        <h6 class="fw-bold mt-3">Laravel htmx Helper Package</h6>
+        <pre><code>composer require maize-tech/laravel-htmx</code></pre>
+        <pre><code><span class="cm">// With laravel-htmx package</span>
+<span class="kw">use</span> <span class="tp">Maize</span>\<span class="tp">Htmx</span>\<span class="tp">Htmx</span>;
+
+<span class="kw">if</span> (<span class="tp">Htmx</span>::<span class="fn">isHtmxRequest</span>()) {
+    <span class="cm">// return partial</span>
+}
+
+<span class="cm">// Trigger client-side events from Laravel</span>
+<span class="tp">Htmx</span>::<span class="fn">withTrigger</span>(<span class="str">'post-created'</span>, [<span class="str">'id'</span> =&gt; $post-&gt;id]);
+<span class="kw">return</span> <span class="fn">view</span>(<span class="str">'partials.post-row'</span>, <span class="fn">compact</span>(<span class="str">'post'</span>));</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Inline Validation Example</div>
+      <div class="card-body">
+        <pre><code><span class="cm">&lt;!-- Blade --&gt;</span>
+<span class="el">&lt;input</span> <span class="at">type</span>=<span class="str">"email"</span> <span class="at">name</span>=<span class="str">"email"</span>
+       <span class="at">hx-post</span>=<span class="str">"{{ route('validate.email') }}"</span>
+       <span class="at">hx-target</span>=<span class="str">"next .invalid-feedback"</span>
+       <span class="at">hx-trigger</span>=<span class="str">"change delay:500ms"</span><span class="el">&gt;</span>
+<span class="el">&lt;div</span> <span class="at">class</span>=<span class="str">"invalid-feedback"</span><span class="el">&gt;&lt;/div&gt;</span></code></pre>
+        <pre><code><span class="cm">// routes/web.php</span>
+<span class="tp">Route</span>::<span class="fn">post</span>(<span class="str">'/validate/email'</span>, <span class="kw">function</span> (<span class="tp">Request</span> $request) {
+    $validator = <span class="tp">Validator</span>::<span class="fn">make</span>($request-&gt;<span class="fn">all</span>(), [
+        <span class="str">'email'</span> =&gt; <span class="str">'required|email|unique:users'</span>,
+    ]);
+
+    <span class="kw">if</span> ($validator-&gt;<span class="fn">fails</span>()) {
+        <span class="kw">return</span> $validator-&gt;<span class="fn">errors</span>()-><span class="fn">first</span>(<span class="str">'email'</span>);
+    }
+
+    <span class="kw">return</span> <span class="str">'✓ Email is available'</span>;
+});</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== JSON ==================== -->
+  <section id="json">
+    <h2><i class="bi bi-filetype-json me-2"></i>JSON &amp; API Responses</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <p class="small text-muted">While htmx prefers HTML responses, it can work with JSON by using the <code>json-enc</code> extension and <code>hx-swap</code> with <code>client-side-templates</code> extension.</p>
+
+        <pre><code><span class="cm">&lt;!-- Submit form data as JSON --&gt;</span>
+<span class="el">&lt;form</span> <span class="at">hx-post</span>=<span class="str">"/api/users"</span>
+      <span class="at">hx-ext</span>=<span class="str">"json-enc"</span>
+      <span class="at">hx-target</span>=<span class="str">"#result"</span><span class="el">&gt;</span>
+  <span class="el">&lt;input</span> <span class="at">name</span>=<span class="str">"name"</span> <span class="at">placeholder</span>=<span class="str">"Name"</span><span class="el">&gt;</span>
+  <span class="el">&lt;input</span> <span class="at">name</span>=<span class="str">"email"</span> <span class="at">placeholder</span>=<span class="str">"Email"</span><span class="el">&gt;</span>
+  <span class="el">&lt;button</span><span class="el">&gt;</span>Create<span class="el">&lt;/button&gt;</span>
+<span class="el">&lt;/form&gt;</span>
+
+<span class="cm">&lt;!-- Client-side template extension (mustache, etc.) --&gt;</span>
+<span class="el">&lt;div</span> <span class="at">hx-ext</span>=<span class="str">"client-side-templates"</span><span class="el">&gt;</span>
+  <span class="el">&lt;button</span> <span class="at">hx-get</span>=<span class="str">"/api/users"</span>
+          <span class="at">hx-target</span>=<span class="str">"#user-table"</span>
+          <span class="at">hx-swap</span>=<span class="str">"innerHTML"</span>
+          <span class="at">mustache-template</span>=<span class="str">"user-row"</span><span class="el">&gt;</span>
+    Load Users
+  <span class="el">&lt;/button&gt;</span>
+  <span class="el">&lt;template</span> <span class="at">id</span>=<span class="str">"user-row"</span><span class="el">&gt;</span>
+    {{#users}}
+      <span class="el">&lt;tr&gt;</span>
+        <span class="el">&lt;td&gt;</span>{{name}}<span class="el">&lt;/td&gt;</span>
+        <span class="el">&lt;td&gt;</span>{{email}}<span class="el">&lt;/td&gt;</span>
+      <span class="el">&lt;/tr&gt;</span>
+    {{/users}}
+  <span class="el">&lt;/template&gt;</span>
+  <span class="el">&lt;table</span> <span class="at">id</span>=<span class="str">"user-table"</span><span class="el">&gt;</span><span class="el">&lt;/table&gt;</span>
+<span class="el">&lt;/div&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== EVENTS ==================== -->
+  <section id="events">
+    <h2><i class="bi bi-activity me-2"></i>Events &amp; Hooks</h2>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:25%">Event</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>htmx:beforeRequest</td><td>Fired before a request is made</td></tr>
+            <tr><td>htmx:afterRequest</td><td>Fired after a request completes</td></tr>
+            <tr><td>htmx:beforeSwap</td><td>Fired before content is swapped</td></tr>
+            <tr><td>htmx:afterSwap</td><td>Fired after content is swapped</td></tr>
+            <tr><td>htmx:beforeOnLoad</td><td>Fired before response is processed</td></tr>
+            <tr><td>htmx:configRequest</td><td>Modify request parameters</td></tr>
+            <tr><td>htmx:responseError</td><td>Fired on HTTP error responses</td></tr>
+            <tr><td>htmx:sendError</td><td>Fired on network error</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Listening to Events</div>
+      <div class="card-body">
+        <pre><code><span class="cm">// Client-side JavaScript</span>
+<span class="nb">document</span>.<span class="fn">addEventListener</span>(<span class="str">'htmx:afterRequest'</span>, <span class="kw">function</span>(evt) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'Status:'</span>, evt.detail.xhr.status);
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'Target:'</span>, evt.detail.target);
+});
+
+<span class="cm">// Modify request parameters before sending</span>
+<span class="nb">document</span>.<span class="fn">addEventListener</span>(<span class="str">'htmx:configRequest'</span>, <span class="kw">function</span>(evt) {
+    evt.detail.headers[<span class="str">'X-CSRF-Token'</span>] = <span class="str">'my-token'</span>;
+    evt.detail.parameters[<span class="str">'_token'</span>] = <span class="str">'csrf-value'</span>;
+});
+
+<span class="cm">// HX-Trigger from server — listen for custom events</span>
+<span class="nb">document</span>.<span class="fn">addEventListener</span>(<span class="str">'post-created'</span>, <span class="kw">function</span>(evt) {
+    <span class="fn">showToast</span>(<span class="str">'Post #'</span> + evt.detail.id + <span class="str">' created!'</span>);
+});</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Triggering Events from the Server</div>
+      <div class="card-body">
+        <pre><code><span class="cm">&lt;!-- PHP --&gt;</span>
+<span class="cm">// Single event</span>
+<span class="fn">header</span>(<span class="str">'HX-Trigger: post-created'</span>);
+
+<span class="cm">// With data</span>
+<span class="fn">header</span>(<span class="str">'HX-Trigger: {"post-created":{"id":42}}'</span>);
+
+<span class="cm">// Laravel</span>
+<span class="kw">return</span> <span class="fn">response</span>()
+    -&gt;<span class="fn">view</span>(<span class="str">'partials.post-row'</span>, <span class="fn">compact</span>(<span class="str">'post'</span>))
+    -&gt;<span class="fn">header</span>(<span class="str">'HX-Trigger'</span>, <span class="fn">json</span>([<span class="str">'post-created'</span> =&gt; [<span class="str">'id'</span> =&gt; $post-&gt;id]]));</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PATTERNS ==================== -->
+  <section id="patterns">
+    <h2><i class="bi bi-diagram-3 me-2"></i>Common Patterns</h2>
+
+    <div class="card">
+      <div class="card-header">Infinite Scroll</div>
+      <div class="card-body">
+        <pre><code><span class="cm">&lt;!-- Last element triggers load of next page --&gt;</span>
+<span class="el">&lt;div</span> <span class="at">hx-get</span>=<span class="str">"/posts?page=2"</span>
+     <span class="at">hx-trigger</span>=<span class="str">"revealed"</span>
+     <span class="at">hx-target</span>=<span class="str">"this"</span>
+     <span class="at">hx-swap</span>=<span class="str">"afterend"</span><span class="el">&gt;</span>
+  Loading more posts...
+<span class="el">&lt;/div&gt;</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Confirmation Dialog</div>
+      <div class="card-body">
+        <pre><code><span class="cm">&lt;!-- hx-confirm shows a native confirm dialog --&gt;</span>
+<span class="el">&lt;button</span> <span class="at">hx-delete</span>=<span class="str">"/post/42"</span>
+        <span class="at">hx-confirm</span>=<span class="str">"Are you sure you want to delete this post?"</span>
+        <span class="at">hx-target</span>=<span class="str">"#post-42"</span>
+        <span class="at">hx-swap</span>=<span class="str">"outerHTML"</span><span class="el">&gt;</span>
+  Delete
+<span class="el">&lt;/button&gt;</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Lazy Loading</div>
+      <div class="card-body">
+        <pre><code><span class="cm">&lt;!-- Load content when element is loaded --&gt;</span>
+<span class="el">&lt;div</span> <span class="at">hx-get</span>=<span class="str">"/comments/42"</span>
+     <span class="at">hx-trigger</span>=<span class="str">"load"</span>
+     <span class="at">hx-target</span>=<span class="str">"#comments"</span><span class="el">&gt;</span>
+  <span class="el">&lt;i</span> <span class="at">class</span>=<span class="str">"bi bi-arrow-clockwise"</span><span class="el">&gt;</span> Loading comments...
+<span class="el">&lt;/div&gt;</span>
+<span class="el">&lt;div</span> <span class="at">id</span>=<span class="str">"comments"</span><span class="el">&gt;&lt;/div&gt;</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Tabs</div>
+      <div class="card-body">
+        <pre><code><span class="cm">&lt;!-- Tab navigation via htmx --&gt;</span>
+<span class="el">&lt;div</span> <span class="at">class</span>=<span class="str">"tabs"</span> <span class="at">hx-target</span>=<span class="str">"#tab-content"</span><span class="el">&gt;</span>
+  <span class="el">&lt;a</span> <span class="at">class</span>=<span class="str">"tab active"</span>
+     <span class="at">hx-get</span>=<span class="str">"/tabs/profile"</span>
+     <span class="at">hx-push-url</span>=<span class="str">"true"</span><span class="el">&gt;</span>Profile<span class="el">&lt;/a&gt;</span>
+  <span class="el">&lt;a</span> <span class="at">class</span>=<span class="str">"tab"</span>
+     <span class="at">hx-get</span>=<span class="str">"/tabs/settings"</span>
+     <span class="at">hx-push-url</span>=<span class="str">"true"</span><span class="el">&gt;</span>Settings<span class="el">&lt;/a&gt;</span>
+<span class="el">&lt;/div&gt;</span>
+<span class="el">&lt;div</span> <span class="at">id</span>=<span class="str">"tab-content"</span><span class="el">&gt;</span>
+  Default content here
+<span class="el">&lt;/div&gt;</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Search with URL Updates</div>
+      <div class="card-body">
+        <pre><code><span class="cm">&lt;!-- Search that updates the URL with the query --&gt;</span>
+<span class="el">&lt;input</span> <span class="at">type</span>=<span class="str">"search"</span> <span class="at">name</span>=<span class="str">"q"</span> <span class="at">value</span>=<span class="str">""</span>
+       <span class="at">hx-get</span>=<span class="str">"/search"</span>
+       <span class="at">hx-trigger</span>=<span class="str">"keyup changed delay:500ms"</span>
+       <span class="at">hx-target</span>=<span class="str">"#search-results"</span>
+       <span class="at">hx-push-url</span>=<span class="str">"true"</span>
+       <span class="at">placeholder</span>=<span class="str">"Search..."</span><span class="el">&gt;</span>
+<span class="el">&lt;div</span> <span class="at">id</span>=<span class="str">"search-results"</span><span class="el">&gt;&lt;/div&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BEST PRACTICES ==================== -->
+  <section id="best-practices">
+    <h2><i class="bi bi-star me-2"></i>Best Practices</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <h6><i class="bi bi-pencil-square text-primary me-1"></i> Architecture</h6>
+            <ul class="small text-muted ps-3">
+              <li>Return HTML fragments, not JSON (let server handle rendering)</li>
+              <li>Use partial templates for each interactive region</li>
+              <li>Check <code>HX-Request</code> header to return partial vs full page</li>
+              <li>Use <code>hx-boost</code> for SPA-like navigation with minimal effort</li>
+              <li>Keep htmx version pinned (avoid breaking changes)</li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <h6><i class="bi bi-shield-check text-success me-1"></i> Security</h6>
+            <ul class="small text-muted ps-3">
+              <li>Always validate and sanitize server-side (CSRF with <code>hx-headers</code>)</li>
+              <li>Use <code>hx-confirm</code> for destructive actions</li>
+              <li>Don't trust <code>HX-*</code> headers (they're client-controlled)</li>
+              <li>Escape output in HTML fragments (same as any HTML)</li>
+              <li>Use Content Security Policy headers</li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <h6><i class="bi bi-speedometer2 text-warning me-1"></i> Performance</h6>
+            <ul class="small text-muted ps-3">
+              <li>Use <code>hx-trigger</code> with <code>delay</code> or <code>throttle</code> to reduce requests</li>
+              <li>Lazy-load below-the-fold content with <code>revealed</code> trigger</li>
+              <li>Return minimal HTML (only the fragment needed)</li>
+              <li>Cache server responses where possible</li>
+              <li>Keep swap targets specific (avoid swapping large sections)</li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <h6><i class="bi bi-layers text-info me-1"></i> Developer Experience</h6>
+            <ul class="small text-muted ps-3">
+              <li>Use browser dev tools &mdash; network tab shows <code>HX-*</code> headers</li>
+              <li>Install the <a href="https://htmx.org/extensions/" target="_blank">htmx DevTools extension</a></li>
+              <li>Start simple: one <code>hx-get</code> + <code>hx-target</code> at a time</li>
+              <li>Combine htmx with Alpine.js for complex client-side state</li>
+              <li>Read the <a href="https://htmx.org/docs/" target="_blank">official docs</a> for edge cases</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>&#9654; Essential Resources:</strong>
+      <a href="https://htmx.org/">htmx.org</a> &middot;
+      <a href="https://hyperscript.org/">hyperscript</a> &middot;
+      <a href="https://htmx.org/extensions/">Extensions</a> &middot;
+      <a href="https://github.com/bigskysoftware/htmx">GitHub</a>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="mt-5 pt-4 border-top text-muted">
+    <div class="row">
+      <div class="col-md-6">
+        <p class="fw-bold mb-2">htmx 2.x Quick Reference</p>
+        <p class="small">Generated for study purposes. Always refer to the official documentation.</p>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <p class="small mb-1">
+          <a href="https://htmx.org/" target="_blank" class="text-decoration-none"><i class="bi bi-book me-1"></i> Official Docs</a>
+          &middot;
+          <a href="https://github.com/bigskysoftware/htmx" target="_blank" class="text-decoration-none"><i class="bi bi-github me-1"></i> GitHub</a>
+          &middot;
+          <a href="https://htmx.org/extensions/" target="_blank" class="text-decoration-none"><i class="bi bi-puzzle me-1"></i> Extensions</a>
+        </p>
+        <p class="small text-muted">&copy; 2026 Study Guide</p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- ===== SCRIPTS ===== -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.getElementById('sidebarToggle');
+  toggle.addEventListener('click', () => sidebar.classList.toggle('show'));
+  document.querySelectorAll('#sidebar .nav-link').forEach(link => {
+    link.addEventListener('click', () => sidebar.classList.remove('show'));
+  });
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('#sidebar .nav-link');
+  function setActiveNav() {
+    let current = '';
+    sections.forEach(section => {
+      const top = section.offsetTop - 100;
+      if (window.scrollY >= top) current = section.getAttribute('id');
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+    });
+  }
+  window.addEventListener('scroll', setActiveNav);
+  setActiveNav();
+
+
+</script>
+</body>
+</html>
