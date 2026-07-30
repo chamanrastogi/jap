@@ -791,9 +791,11 @@
           <a class="quick-chip w-100" href="react19.html"><i class="fab fa-react"></i> React 19</a>
           <a class="quick-chip w-100" href="cakephp.html"><i class="fas fa-database"></i> CakePHP 5</a>
           <a class="quick-chip w-100" href="cakephp28.html"><i class="fas fa-layer-group"></i> CakePHP 2.8</a>
+          <a class="quick-chip w-100" href="codeigniter.html"><i class="bi bi-lightning-charge-fill"></i> CodeIgniter 4.x</a>
           <a class="quick-chip w-100" href="symfony.html"><i class="bi bi-bricks"></i> Symfony 7.x</a>
           <a class="quick-chip w-100" href="cake-upgrade-guide.html"><i class="fas fa-arrow-up-z-sorted"></i> Cake Upgrade</a>
           <a class="quick-chip w-100" href="interview.html"><i class="fas fa-circle-question"></i> PHP/Laravel Interview</a>
+          <a class="quick-chip w-100" href="laravel-interview.html"><i class="bi bi-lightning-charge-fill"></i> Laravel Interview</a>
           <a class="quick-chip w-100" href="interview-quiz.html"><i class="fas fa-brain"></i> Interview Quiz</a>
           <a class="quick-chip w-100" href="problems.html"><i class="fas fa-laptop"></i> Case Problems</a>
           <a class="quick-chip w-100" href="phplearn.html"><i class="bi bi-code-slash"></i> PHP Deep Learn</a>
@@ -964,12 +966,20 @@
         tags: ['cakephp', 'php', 'backend', 'mvc', 'console']
       },
        {
-         name: 'CakePHP 2.8 Guide',
-         file: 'cakephp28.html',
-         icon: 'fa-layer-group',
+          name: 'CakePHP 2.8 Guide',
+          file: 'cakephp28.html',
+          icon: 'fa-layer-group',
+          category: 'Learning',
+          desc: 'Complete console shells, commands & concept guide for CakePHP 2.8.',
+          tags: ['cakephp', 'php', 'backend', 'mvc', 'legacy']
+        },
+       {
+         name: 'CodeIgniter 4.x Guide',
+         file: 'codeigniter.html',
+         icon: 'bi-lightning-charge-fill',
          category: 'Learning',
-         desc: 'Complete console shells, commands & concept guide for CakePHP 2.8.',
-         tags: ['cakephp', 'php', 'backend', 'mvc', 'legacy']
+         desc: 'Complete Spark commands, Query Builder, MVC & concept guide for CodeIgniter 4.x.',
+         tags: ['codeigniter', 'php', 'backend', 'mvc', 'spark', 'query-builder']
        },
        {
          name: 'CakePHP Upgrade Guide',
@@ -987,8 +997,16 @@
          desc: '100+ PHP & Laravel interview questions with detailed answers. Covers PHP core, OOP, Composer, and Laravel.',
          tags: ['intervi', 'php', 'laravel', 'qa', 'preparation']
        },
-       {
-         name: 'Interview Quiz',
+      {
+          name: 'Laravel Interview Q&A',
+          file: 'laravel-interview.html',
+          icon: 'fa-bolt',
+          category: 'Learning',
+          desc: '100+ Laravel-specific interview questions covering routing, Eloquent, queues, APIs, caching, testing, security, deployment, and Laravel 11+ features.',
+          tags: ['laravel', 'interview', 'qa', 'preparation', 'php']
+        },
+      {
+          name: 'Interview Quiz',
          file: 'interview-quiz.html',
          icon: 'fa-brain',
          category: 'Learning',
@@ -1201,7 +1219,8 @@
         { file: 'sudoku.html', icon: 'fa-table-cells-large', label: 'Sudoku' },
         { file: 'holiday.html', icon: 'fa-calendar-days', label: 'Holiday' },
         { file: 'resume.html', icon: 'fa-id-card', label: 'Resume' },
-        { file: 'practice.html', icon: 'fa-list-check', label: 'MCQ' }
+        { file: 'practice.html', icon: 'fa-list-check', label: 'MCQ' },
+        { file: 'laravel-interview.html', icon: 'fa-bolt', label: 'Laravel Q&A' }
       ];
 
       const baseHtml = staticLinks.map(link => `
