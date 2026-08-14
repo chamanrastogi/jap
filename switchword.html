@@ -1,318 +1,304 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html lang="en" data-bs-theme="dark">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Switchword Jap Machine</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet" />
 
   <style>
     :root {
-      --saffron: #ff9933;
-      --saffron-hover: #e68626;
-      --accent-2: #f59e0b;
-      --bg-light: linear-gradient(135deg, #fff7ea 0%, #ffe0bc 100%);
-      --bg-dark: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-      --card-light: rgba(255, 255, 255, 0.82);
-      --card-dark: rgba(30, 41, 59, 0.76);
-      --text-main: #1f2937;
-      --text-muted: #6b7280;
-      --chip-bg: rgba(255,255,255,0.68);
-      --soft-border: rgba(156,163,175,0.22);
-      --panel-bg: rgba(156,163,175,0.06);
-      --success-glow: rgba(255,153,51,0.22);
-      --guide-bg: #fef9f0;
+      --saffron: #e0b64a;
+      --accent: #e0b64a;
+      --accent-glow: rgba(224, 182, 74, 0.4);
+      --gold-deep: #caa02f;
+      --rose: #e65d8c;
+      --ink: #f2e8cf;
+      --muted: #a89477;
+      --line: rgba(242, 232, 208, 0.1);
+      --tick-dim: rgba(224, 182, 74, 0.16);
+      --track: rgba(242, 232, 208, 0.07);
+      --chip: rgba(255, 255, 255, 0.05);
+      --panel: rgba(48, 39, 26, 0.5);
+      --card: rgba(56, 45, 30, 0.55);
+      --surface: rgba(45, 36, 23, 0.62);
+      --guide: rgba(224, 182, 74, 0.07);
+      --shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
     }
 
-    [data-bs-theme="dark"] {
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --chip-bg: rgba(30, 41, 59, 0.72);
-      --soft-border: rgba(255,255,255,0.08);
-      --panel-bg: rgba(255,255,255,0.04);
-      --guide-bg: rgba(255,153,51,0.06);
+    [data-bs-theme="light"] {
+      --saffron: #b38616;
+      --accent: #b38616;
+      --accent-glow: rgba(179, 134, 22, 0.32);
+      --gold-deep: #93660c;
+      --rose: #c94a7a;
+      --ink: #2b2113;
+      --muted: #8b7a5c;
+      --line: rgba(43, 33, 19, 0.12);
+      --tick-dim: rgba(179, 134, 22, 0.22);
+      --track: rgba(43, 33, 19, 0.08);
+      --chip: rgba(255, 255, 255, 0.7);
+      --panel: rgba(255, 250, 238, 0.6);
+      --card: rgba(255, 251, 240, 0.88);
+      --surface: rgba(255, 252, 245, 0.94);
+      --guide: rgba(179, 134, 22, 0.08);
+      --shadow: 0 24px 60px rgba(80, 60, 20, 0.22);
     }
 
     * { box-sizing: border-box; }
+    html, body { height: 100%; }
 
     body {
-      background: var(--bg-light);
-      min-height: 100vh;
-      font-family: 'Outfit', sans-serif;
+      margin: 0;
+      font-family: 'Outfit', system-ui, sans-serif;
+      color: var(--ink);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 1rem;
-      transition: background 0.6s ease;
-      overflow-x: hidden;
+      padding: 2rem 1rem;
+      background:
+        radial-gradient(46rem 36rem at 82% -8%, rgba(224, 182, 74, 0.14), transparent 60%),
+        radial-gradient(40rem 34rem at 10% 110%, rgba(230, 93, 140, 0.09), transparent 55%),
+        linear-gradient(160deg, #18130d, #100c07 60%, #0d0a06);
     }
 
-    html[data-bs-theme="dark"] body {
-      background: var(--bg-dark);
+    [data-bs-theme="light"] body {
+      background:
+        radial-gradient(46rem 36rem at 82% -8%, rgba(179, 134, 22, 0.2), transparent 60%),
+        radial-gradient(40rem 34rem at 10% 110%, rgba(201, 74, 122, 0.1), transparent 55%),
+        linear-gradient(160deg, #f8f0dc, #f1e6ca 60%, #f4ecd6);
     }
 
-    .font-elegant { font-family: 'Cinzel', serif; }
-    .text-main { color: var(--text-main); }
-    .text-muted-custom { color: var(--text-muted); }
-    .text-saffron { color: var(--saffron); }
+    .font-display { font-family: 'Anton', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .text-main { color: var(--ink); }
+    .text-muted-custom { color: var(--muted); }
+    .text-accent { color: var(--accent); }
 
-    .home-link {
-      position: fixed;
-      top: 0.9rem;
-      left: 0.9rem;
-      z-index: 1050;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      padding: 0.55rem 0.9rem;
-      border-radius: 999px;
-      border: 1px solid var(--soft-border);
-      background: var(--chip-bg);
-      color: var(--text-main);
-      text-decoration: none;
-      font-size: 0.8rem;
-      font-weight: 700;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    .scene { position: relative; z-index: 1; }
+
+    .device {
+      width: 414px;
+      height: min(860px, 94vh);
+      background: #0a0806;
+      border-radius: 52px;
+      padding: 11px;
+      box-shadow: 0 40px 90px rgba(0, 0, 0, 0.55), inset 0 0 0 1px rgba(255, 255, 255, 0.07);
     }
 
-    .home-link:hover {
-      color: var(--saffron);
-      border-color: rgba(255, 153, 51, 0.35);
-    }
-
-    .glass-card {
-      max-width: 560px;
-      width: 100%;
-      background: var(--card-light);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.32);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-      border-radius: 2rem;
-      transition: background 0.4s ease, border 0.4s ease, box-shadow 0.3s ease;
-    }
-
-    html[data-bs-theme="dark"] .glass-card {
-      background: var(--card-dark);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
-    }
-
-    .top-tools button {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      font-size: 1.2rem;
-      transition: color 0.2s, transform 0.2s;
-    }
-
-    .top-tools button:hover {
-      color: var(--saffron);
-      transform: scale(1.08);
-    }
-
-    .timer-badge {
-      background: rgba(255, 153, 51, 0.1);
-      color: var(--saffron);
-      padding: 0.35rem 0.8rem;
-      border-radius: 999px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      font-size: 0.82rem;
-    }
-
-    .section-panel {
-      background: var(--panel-bg);
-      border: 1px solid var(--soft-border);
-      border-radius: 1.2rem;
-      padding: 1rem;
-    }
-
-    .section-title {
-      font-size: 0.72rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      color: var(--text-muted);
-      margin-bottom: 0.7rem;
-    }
-
-    .guide-panel {
-      background: var(--guide-bg);
-      border: 1px solid rgba(255,153,51,0.15);
-      border-radius: 1.2rem;
-      padding: 1rem;
-      font-size: 0.85rem;
-      line-height: 1.6;
-    }
-
-    .guide-panel strong { color: var(--saffron); }
-
-    .nice-btn {
-      background: var(--saffron);
-      border: none;
-      color: #fff;
-      font-weight: 700;
-      transition: 0.2s;
-    }
-
-    .nice-btn:hover { background: var(--saffron-hover); color: #fff; }
-
-    .preset-scroll, .category-scroll, .recent-scroll {
-      display: flex;
-      gap: 0.4rem;
-      flex-wrap: wrap;
-    }
-
-    .filter-chip, .recent-chip, .preset-chip {
-      border: 1px solid var(--soft-border);
-      background: var(--chip-bg);
-      border-radius: 999px;
-      padding: 0.35rem 0.75rem;
-      font-size: 0.75rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: 0.2s ease;
-      color: var(--text-main);
-    }
-
-    .filter-chip.active {
-      background: var(--saffron);
-      border-color: var(--saffron);
-      color: #fff;
-    }
-
-    .filter-chip:hover, .recent-chip:hover, .preset-chip:hover {
-      border-color: rgba(255, 153, 51, 0.35);
-    }
-
-    .switchword-list {
-      max-height: 280px;
-      overflow-y: auto;
+    .screen {
+      position: relative;
+      height: 100%;
       display: flex;
       flex-direction: column;
-      gap: 0.4rem;
+      border-radius: 42px;
+      overflow: hidden;
+      background:
+        radial-gradient(28rem 22rem at 50% -10%, rgba(224, 182, 74, 0.13), transparent 55%),
+        linear-gradient(180deg, #241d13, #1b150c 70%, #16110a);
+      color: var(--ink);
     }
 
-    .switchword-card {
-      border: 1px solid var(--soft-border);
-      border-radius: 1rem;
-      padding: 0.7rem 0.9rem;
-      cursor: pointer;
-      transition: 0.2s ease;
-      background: rgba(255,255,255,0.04);
+    [data-bs-theme="light"] .screen {
+      background:
+        radial-gradient(28rem 22rem at 50% -10%, rgba(224, 182, 74, 0.2), transparent 55%),
+        linear-gradient(180deg, #fdf6e2, #f5ecd4 78%, #f2e9d0);
     }
 
-    html[data-bs-theme="dark"] .switchword-card {
-      background: rgba(255,255,255,0.02);
+    .island {
+      position: absolute;
+      top: 0.55rem; left: 50%; transform: translateX(-50%);
+      width: 86px; height: 24px; border-radius: 999px; z-index: 6;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(255, 255, 255, 0.09);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
+    .island i { font-size: 0.62rem; color: var(--ink); opacity: 0.85; }
 
-    .switchword-card:hover {
-      border-color: rgba(255, 153, 51, 0.3);
-    }
-
-    .switchword-card.active {
-      border-color: var(--saffron);
-      background: rgba(255, 153, 51, 0.08);
-    }
-
-    .switchword-card .word-name {
-      font-weight: 800;
-      font-size: 0.9rem;
-      color: var(--text-main);
-    }
-
-    .switchword-card .word-text {
-      font-weight: 700;
-      font-size: 0.82rem;
-      color: var(--saffron);
-      letter-spacing: 1px;
-    }
-
-    .switchword-card .word-meaning {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-
-    .word-meta {
+    .appbar {
       display: flex;
-      gap: 0.3rem;
-      flex-wrap: wrap;
-      margin-top: 0.3rem;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 1.6rem 0.95rem 0.5rem;
     }
 
-    .word-meta .meta-badge {
-      border-radius: 999px;
-      padding: 0.15rem 0.5rem;
-      font-size: 0.64rem;
-      font-weight: 700;
-      background: rgba(156,163,175,0.1);
-      color: var(--text-muted);
+    .app-title {
+      margin: 0;
+      font-size: 1.05rem;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--ink);
     }
+    .app-title i { color: var(--accent); font-size: 0.85rem; }
 
-    .active-card {
-      background: rgba(255, 153, 51, 0.06);
-      border: 1px solid rgba(255, 153, 51, 0.16);
-      border-radius: 1.6rem;
-      padding: 1.2rem;
-    }
-
-    .active-top-badge {
+    .home-link {
       display: inline-flex;
       align-items: center;
-      gap: 0.35rem;
-      padding: 0.2rem 0.7rem;
+      gap: 0.38rem;
+      padding: 0.42rem 0.7rem;
       border-radius: 999px;
-      background: rgba(255,153,51,0.12);
-      color: var(--saffron);
+      border: 1px solid var(--line);
+      background: var(--chip);
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 0.72rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      transition: 0.15s;
+    }
+    .home-link:hover { color: var(--accent); border-color: var(--accent-glow); }
+
+    .icon-btn {
+      width: 42px; height: 42px; flex-shrink: 0; border-radius: 50%;
+      border: 1px solid var(--line); background: var(--chip); color: var(--ink);
+      display: grid; place-items: center; font-size: 0.95rem;
+      cursor: pointer; transition: 0.15s;
+    }
+    .icon-btn:hover { color: var(--accent); border-color: var(--accent-glow); }
+
+    .app-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0.2rem 1.05rem 1.1rem;
+      scrollbar-width: none;
+    }
+    .app-content::-webkit-scrollbar { display: none; }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; animation: panelIn 0.28s cubic-bezier(0.22, 0.9, 0.28, 1); }
+    @keyframes panelIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    .tabbar {
+      display: flex;
+      gap: 0.3rem;
+      padding: 0.45rem 0.6rem calc(env(safe-area-inset-bottom, 0px) + 0.5rem);
+      border-top: 1px solid var(--line);
+      background: var(--surface);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .tab-btn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.18rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem 0 0.3rem;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 14px;
+      transition: 0.15s;
+    }
+    .tab-btn i { font-size: 1.05rem; }
+    .tab-btn:hover { color: var(--ink); }
+    .tab-btn.active { color: var(--accent); }
+    .tab-btn.active i { filter: drop-shadow(0 0 5px var(--accent-glow)); }
+
+    .card-app {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 1rem;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+    }
+
+    .panel-title {
       font-size: 0.7rem;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
+      color: var(--muted);
     }
 
-    .active-title {
-      font-family: 'Cinzel', serif;
-      font-weight: 700;
-      font-size: 1.3rem;
-      color: var(--text-main);
-      margin-top: 0.5rem;
+    .status-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
     }
 
-    .active-text {
+    .pill-accent {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.32rem 0.72rem;
+      border-radius: 999px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      color: var(--accent);
+      font-size: 0.7rem;
       font-weight: 800;
-      font-size: 1.3rem;
-      letter-spacing: 2px;
-      color: var(--saffron);
+      letter-spacing: 0.04em;
     }
+    .pill-accent i { font-size: 0.8rem; }
 
-    .active-sub {
-      font-size: 0.82rem;
+    .active-word-card { text-align: center; padding: 1.05rem 1rem; }
+    .active-top-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.28rem 0.68rem;
+      border-radius: 999px;
+      background: var(--accent-glow);
+      color: var(--accent);
+      font-size: 0.66rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+    }
+    .active-word-title {
+      font-size: 1.18rem;
       font-weight: 700;
-      color: var(--text-main);
+      color: var(--ink);
+      line-height: 1.3;
+      margin-top: 0.6rem;
+      letter-spacing: 0.02em;
     }
+    .active-word-sub { color: var(--muted); font-size: 0.78rem; font-weight: 600; margin-top: 0.25rem; }
+    .active-word-meaning { color: var(--muted); font-size: 0.74rem; line-height: 1.45; margin-top: 0.35rem; }
 
-    .active-meaning {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      line-height: 1.45;
-    }
-
-    .progress-container {
+    .ring-wrap {
       position: relative;
-      width: 240px;
-      height: 240px;
-      margin: 0 auto;
+      width: 262px;
+      height: 262px;
+      margin: 1.05rem auto 0.45rem;
     }
+    .ring-wrap svg { width: 100%; height: 100%; display: block; }
+    .sigil-track { fill: none; stroke: var(--track); stroke-width: 1.5; }
 
-    .progress-container svg { transform: rotate(-90deg); }
-    .progress-ring__circle { transition: stroke-dashoffset 0.25s ease; }
-    .ring-bg { stroke: var(--soft-border); }
+    .sigil-tick {
+      stroke: var(--tick-dim);
+      stroke-width: 3.5;
+      stroke-linecap: round;
+      transition: stroke 0.15s ease;
+    }
+    .sigil-tick.major { stroke-width: 5; }
+    .sigil-tick.lit { stroke: var(--accent); }
 
     .counter-overlay {
       position: absolute;
@@ -320,95 +306,191 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 1.1rem;
     }
 
     .btn-jap {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
       background: transparent;
       border: none;
+      outline: none;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.35rem;
-      transition: transform 0.12s ease;
+      justify-content: center;
+      gap: 0.45rem;
     }
+    .btn-jap:active { transform: scale(0.96); }
 
-    .btn-jap:active { transform: scale(0.92); }
+    .sigil-word {
+      font-family: 'Anton', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      line-height: 1.06;
+      text-align: center;
+      max-width: 100%;
+      color: var(--ink);
+      transition: transform 0.12s ease, filter 0.12s ease;
+    }
+    .sigil-word.stamped {
+      transform: scale(0.93);
+      filter: brightness(1.35) blur(0.6px);
+    }
 
     .counter-value {
-      font-size: clamp(2.6rem, 8vw, 3.6rem);
+      font-size: clamp(1.9rem, 6vw, 2.5rem);
       line-height: 1;
-      transition: transform 0.12s ease, color 0.12s ease;
-    }
-
-    .tap-hint { font-size: 0.78rem; }
-
-    .stat-box {
-      background: rgba(156,163,175,0.05);
-      border: 1px solid var(--soft-border);
-      border-radius: 1rem;
-      padding: 0.75rem;
-      text-align: center;
-    }
-
-    .stat-label {
-      color: var(--text-muted);
-      font-size: 0.62rem;
       font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      color: var(--ink);
+      transition: transform 0.1s;
     }
 
-    .stat-value {
-      color: var(--text-main);
-      font-size: 1.2rem;
+    .tap-hint { font-size: 0.72rem; letter-spacing: 0.12em; }
+
+    .mala-caption {
+      text-align: center;
+      font-size: 0.74rem;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 0.85rem;
+      padding: 0 0.5rem;
+    }
+
+    .ctl-pill {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      color: var(--ink);
+      font-size: 0.8rem;
       font-weight: 800;
+      padding: 0.8rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: 0.15s;
+      width: 100%;
+    }
+    .ctl-pill:hover { border-color: var(--accent-glow); }
+    .ctl-pill:active { transform: scale(0.97); }
+    .ctl-pill input { width: 1.1em; height: 1.1em; accent-color: var(--accent); }
+
+    .form-range { accent-color: var(--accent); }
+
+    .form-control, .form-select {
+      background-color: var(--chip);
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      font-size: 0.86rem;
+    }
+    .form-control::placeholder { color: var(--muted); }
+    .form-control:focus, .form-select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 0.2rem var(--accent-glow);
+      background-color: var(--chip);
+      color: var(--ink);
+    }
+    [data-bs-theme="dark"] option { background-color: #201a10; color: #f2e8cf; }
+
+    .btn-primary-app {
+      background: linear-gradient(135deg, var(--accent), var(--gold-deep));
+      color: #241a02;
+      border: none;
+      font-weight: 800;
+      padding: 0.72rem 1rem;
+      font-size: 0.92rem;
+      border-radius: 999px;
+      transition: 0.15s;
+    }
+    .btn-primary-app:hover { filter: brightness(1.06); color: #241a02; }
+
+    .btn-soft {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      color: var(--ink);
+      font-weight: 700;
+      font-size: 0.78rem;
+      border-radius: 999px;
+      padding: 0.5rem 0.9rem;
+      transition: 0.15s;
+    }
+    .btn-soft:hover { color: var(--accent); border-color: var(--accent-glow); }
+
+    .preset-scroll, .category-scroll, .recent-scroll {
+      display: flex;
+      gap: 0.45rem;
+      flex-wrap: wrap;
     }
 
-    .sub-value {
-      font-size: 0.6rem;
-      color: var(--text-muted);
+    .filter-chip, .recent-chip, .preset-chip {
+      border: 1px solid var(--line);
+      background: var(--chip);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 0.4rem 0.78rem;
+      font-size: 0.74rem;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: 0.15s;
+      font-family: inherit;
     }
-
-    .small-note {
-      font-size: 0.76rem;
-      color: var(--text-muted);
-      line-height: 1.45;
-    }
-
-    .empty-state {
-      text-align: center;
-      padding: 1.2rem 0.5rem;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      border: 1px dashed var(--soft-border);
-      border-radius: 1rem;
-    }
-
-    .completion-card {
-      background: var(--card-light);
-      backdrop-filter: blur(16px);
-      border-radius: 2rem;
-      padding: 2rem;
-      text-align: center;
-      border: 1px solid rgba(255,255,255,0.3);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.15);
-    }
-
-    html[data-bs-theme="dark"] .completion-card {
-      background: var(--card-dark);
+    .filter-chip.active { background: var(--accent); border-color: var(--accent); color: #241a02; }
+    .filter-chip:hover, .recent-chip:hover, .preset-chip:hover {
+      border-color: var(--accent-glow);
+      color: var(--accent);
     }
 
     .search-box { position: relative; }
     .search-box i {
       position: absolute;
-      left: 12px;
-      top: 50%;
+      left: 12px; top: 50%;
       transform: translateY(-50%);
-      color: var(--text-muted);
+      color: var(--muted);
       font-size: 0.8rem;
     }
-    .search-box input { padding-left: 2rem; }
+    .search-box input { padding-left: 2.1rem; }
+
+    .switchword-list {
+      max-height: 280px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      scrollbar-width: none;
+    }
+    .switchword-list::-webkit-scrollbar { display: none; }
+
+    .switchword-card {
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      padding: 0.72rem 0.85rem;
+      cursor: pointer;
+      transition: 0.15s;
+      background: var(--panel);
+    }
+    .switchword-card:hover { border-color: var(--accent-glow); }
+    .switchword-card.active { border-color: var(--accent); background: var(--accent-glow); }
+    .switchword-card .word-name { font-weight: 800; font-size: 0.9rem; color: var(--ink); }
+    .switchword-card .word-text { font-weight: 800; font-size: 0.8rem; color: var(--accent); letter-spacing: 1px; font-family: 'JetBrains Mono', monospace; }
+    .switchword-card .word-meaning { font-size: 0.74rem; color: var(--muted); }
+
+    .word-meta { display: flex; gap: 0.3rem; flex-wrap: wrap; margin-top: 0.35rem; }
+    .word-meta .meta-badge {
+      border-radius: 999px;
+      padding: 0.18rem 0.5rem;
+      font-size: 0.6rem;
+      font-weight: 800;
+      background: var(--chip);
+      color: var(--muted);
+      border: 1px solid var(--line);
+    }
 
     .phrase-builder-tags {
       display: flex;
@@ -423,326 +505,359 @@
       gap: 0.3rem;
       padding: 0.25rem 0.6rem;
       border-radius: 999px;
-      background: rgba(255,153,51,0.12);
-      color: var(--saffron);
+      background: var(--accent-glow);
+      color: var(--accent);
       font-size: 0.78rem;
-      font-weight: 700;
+      font-weight: 800;
       letter-spacing: 0.5px;
+      font-family: 'JetBrains Mono', monospace;
     }
-
-    .phrase-tag .remove-word {
-      cursor: pointer;
-      opacity: 0.6;
-      font-size: 0.7rem;
-    }
+    .phrase-tag .remove-word { cursor: pointer; opacity: 0.6; font-size: 0.7rem; }
     .phrase-tag .remove-word:hover { opacity: 1; }
 
-    .prescription-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
+    .prescription-list { display: flex; flex-direction: column; gap: 0.4rem; }
 
     .prescription-item {
-      border: 1px solid var(--soft-border);
-      border-radius: 1rem;
+      border: 1px solid var(--line);
+      border-radius: 15px;
       padding: 0.6rem 0.8rem;
       cursor: pointer;
-      transition: 0.2s ease;
-      background: rgba(255,255,255,0.04);
+      transition: 0.15s;
+      background: var(--panel);
     }
+    .prescription-item:hover { border-color: var(--accent-glow); }
+    .prescription-item .rx-label { font-weight: 800; font-size: 0.82rem; color: var(--ink); }
+    .prescription-item .rx-combo { font-weight: 800; font-size: 0.76rem; color: var(--accent); letter-spacing: 0.5px; font-family: 'JetBrains Mono', monospace; }
+    .prescription-item .rx-desc { font-size: 0.7rem; color: var(--muted); }
 
-    .prescription-item:hover {
-      border-color: rgba(255, 153, 51, 0.3);
+    .stat-box {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 0.7rem 0.4rem;
+      text-align: center;
+      height: 100%;
     }
-
-    .prescription-item .rx-label {
+    .stat-label {
+      color: var(--muted);
+      font-size: 0.6rem;
       font-weight: 800;
-      font-size: 0.82rem;
-      color: var(--text-main);
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
+    .stat-value { color: var(--ink); font-size: 1.15rem; font-weight: 800; margin-top: 0.2rem; }
+    .sub-value { font-size: 0.62rem; color: var(--muted); margin-top: 0.1rem; }
 
-    .prescription-item .rx-combo {
-      font-weight: 700;
-      font-size: 0.78rem;
-      color: var(--saffron);
-      letter-spacing: 0.5px;
+    .guide-card {
+      background: var(--guide);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 0.9rem 1rem;
+      font-size: 0.8rem;
+      line-height: 1.6;
+      color: var(--ink);
     }
+    .guide-card strong { color: var(--accent); }
+    .guide-card ul { padding-left: 1.1rem; margin-bottom: 0.5rem; }
+    .guide-card li { margin-bottom: 0.3rem; }
 
-    .prescription-item .rx-desc {
+    .small-note {
       font-size: 0.72rem;
-      color: var(--text-muted);
+      color: var(--muted);
+      line-height: 1.5;
+      margin-top: 0.7rem;
     }
 
-    @media (max-width: 576px) {
-      .glass-card { max-width: 100%; border-radius: 1.4rem; }
-      .progress-container { width: 220px; height: 220px; }
-      .btn-jap { padding: 1.6rem; gap: 0.45rem; }
-      .counter-value { font-size: clamp(2.35rem, 11vw, 3.4rem); }
-      .tap-hint { font-size: 0.72rem; }
-      .switchword-list { max-height: 230px; }
-      .active-text { font-size: 1.1rem; }
+    .empty-state {
+      text-align: center;
+      padding: 1.1rem 0.5rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+      border: 1px dashed var(--line);
+      border-radius: 15px;
     }
 
-    @media (max-width: 400px) {
-      .progress-container { width: min(210px, 100%); height: min(210px, 100vw - 2rem); }
-      .counter-overlay { padding: 0.7rem; }
-      .btn-jap { padding: 1.25rem; }
-      .counter-value { font-size: clamp(2rem, 12vw, 3rem); }
-      .tap-hint { font-size: 0.68rem; }
+    .modal-backdrop { --bs-backdrop-bg: rgba(0, 0, 0, 0.6); }
+    .completion-card {
+      background: linear-gradient(160deg, var(--card), var(--panel));
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 1.8rem 1.4rem;
+      text-align: center;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+      color: var(--ink);
+    }
+    .completion-card .completion-icon { font-size: 1.9rem; color: var(--accent); }
+    .completion-card h5 { font-weight: 800; margin-top: 0.4rem; }
+    .completion-card p { color: var(--muted); font-size: 0.85rem; }
+
+    @media (max-width: 767px) {
+      body { padding: 0; align-items: stretch; }
+      .scene { width: 100%; }
+      .device { width: 100%; height: 100dvh; border-radius: 0; padding: 0; box-shadow: none; }
+      .screen { border-radius: 0; }
+      .island { display: none; }
+      .appbar { padding-top: calc(env(safe-area-inset-top, 0px) + 0.6rem); }
+      .ring-wrap { width: min(262px, 76vw); height: min(262px, 76vw); }
     }
 
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: var(--soft-border); border-radius: 4px; }
+    @media (min-width: 768px) and (max-height: 740px) {
+      .device { height: 96vh; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
   </style>
 </head>
 <body>
 
-<a href="index.html" class="home-link" aria-label="Go back to home page">
-  <i class="fas fa-house"></i>
-  <span>Home</span>
-</a>
+<div class="scene">
+  <div class="device">
+    <div class="screen">
 
-<main class="glass-card p-4">
-  <div class="d-flex justify-content-between align-items-center mb-3 top-tools">
-    <button onclick="toggleTheme()" title="Toggle Theme" id="themeBtn">
-      <i class="fas fa-moon"></i>
-    </button>
+      <div class="island" aria-hidden="true"><i class="fas fa-bolt"></i></div>
 
-    <div class="timer-badge">
-      <i class="fas fa-clock me-1"></i> <span id="sessionTimer">00:00</span>
+      <header class="appbar">
+        <a href="index.html" class="home-link" aria-label="Go back to home page"><i class="fas fa-house"></i><span>Home</span></a>
+        <h1 class="app-title font-display"><i class="fas fa-wand-sparkles"></i> Switchword</h1>
+        <button class="icon-btn" onclick="toggleTheme()" title="Toggle theme" id="themeBtn" aria-label="Toggle light or dark theme"><i class="fas fa-sun"></i></button>
+      </header>
+
+      <div class="app-content" id="appContent">
+
+        <!-- ===== CHANT ===== -->
+        <section class="tab-panel active" id="tab-chant" aria-label="Chanting screen">
+
+          <div class="status-row">
+            <span class="pill-accent"><i class="fas fa-clock"></i> <span id="sessionTimer" class="font-mono">00:00</span></span>
+            <span class="pill-accent text-accent"><i class="fas fa-bolt"></i> Chant</span>
+          </div>
+
+          <div class="active-word-card card-app">
+            <div class="active-top-badge"><i class="fas fa-bolt"></i><span id="activeCategoryDisplay">General</span></div>
+            <div id="activeWordDisplay" class="active-word-title font-display">Together</div>
+            <div id="activeWordSubtitle" class="active-word-sub">Master switchword</div>
+            <div id="activeWordMeaning" class="active-word-meaning">Aligns your conscious and subconscious as one.</div>
+          </div>
+
+          <div class="ring-wrap">
+            <svg viewBox="0 0 250 250" aria-hidden="true">
+              <circle class="sigil-track" cx="125" cy="125" r="101"></circle>
+              <g id="progressRing"></g>
+            </svg>
+            <div class="counter-overlay">
+              <button id="japBtn" class="btn-jap text-main" onclick="incrementCount()" aria-label="Tap to chant the switchword">
+                <div id="activeWordText" class="sigil-word">TOGETHER</div>
+                <div id="counterValue" class="counter-value fw-bold font-mono">0</div>
+                <div class="tap-hint text-muted-custom small fw-bold text-uppercase">
+                  <i class="fas fa-hand-pointer text-accent me-1"></i> Tap
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <div class="text-center">
+            <div class="mala-caption font-mono" id="countText">TOGETHER • 0 / 108</div>
+          </div>
+
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label class="ctl-pill h-100">
+                <input class="form-check-input" type="checkbox" id="autoToggle" onchange="toggleAutoMode()">
+                <span><i class="fas fa-bolt text-accent"></i> Auto Jap</span>
+              </label>
+            </div>
+            <div class="col-6">
+              <button class="ctl-pill h-100" onclick="resetSession()"><i class="fas fa-rotate-left text-accent"></i> Reset</button>
+            </div>
+          </div>
+
+          <div id="autoSpeedContainer" class="mb-3 d-none">
+            <div class="d-flex justify-content-between text-muted-custom fw-bold text-uppercase mb-1" style="font-size:0.65rem;">
+              <span>Speed</span>
+              <span id="speedDisplay" class="font-mono">2.5s</span>
+            </div>
+            <input id="speedSlider" type="range" class="form-range" min="1" max="5" step="0.5" value="2.5" oninput="updateSpeedDisplay(this.value)">
+          </div>
+        </section>
+
+        <!-- ===== WORDS ===== -->
+        <section class="tab-panel" id="tab-library" aria-label="Switchword library">
+
+          <div class="card-app mb-3">
+            <div class="panel-title mb-3">Practice setup</div>
+
+            <div class="row g-2 mb-2">
+              <div class="col-8">
+                <input id="switchwordInput" type="text" class="form-control" placeholder="Type custom switchword or combo..." />
+              </div>
+              <div class="col-4">
+                <select id="targetSelect" class="form-select fw-bold text-center">
+                  <option value="108">108</option>
+                  <option value="11">11</option>
+                  <option value="21">21</option>
+                  <option value="28">28</option>
+                  <option value="51">51</option>
+                  <option value="1008">1008</option>
+                  <option value="0">∞</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row g-2 mb-2">
+              <div class="col-12">
+                <input id="defaultWordIdInput" type="text" class="form-control" placeholder="Default switchword id (example: together)" />
+              </div>
+            </div>
+
+            <div class="row g-2 mb-2">
+              <div class="col-6 d-grid">
+                <button class="btn btn-soft rounded-pill" onclick="saveDefaultWordId()">Save Default</button>
+              </div>
+              <div class="col-6 d-grid">
+                <button class="btn btn-soft rounded-pill" onclick="loadDefaultWordById()">Load Default</button>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <select id="ambientSelect" class="form-select" onchange="handleAmbientChange()">
+                <option value="">🔇 No Ambient Sound</option>
+                <option value="https://actions.google.com/sounds/v1/water/rain_on_roof.ogg">🌧️ Gentle Rain</option>
+                <option value="https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg">🌊 Ocean Waves</option>
+                <option value="https://actions.google.com/sounds/v1/nature/fire_crackling_and_crickets.ogg">🔥 Night Fire</option>
+              </select>
+            </div>
+
+            <div class="d-grid">
+              <button class="btn btn-primary-app rounded-pill" onclick="setAndStart()">
+                <i class="fas fa-play me-1"></i> Begin Session
+              </button>
+            </div>
+          </div>
+
+          <div class="card-app mb-3">
+            <div class="panel-title mb-2">Quick presets</div>
+            <div class="preset-scroll" id="presetWrap"></div>
+          </div>
+
+          <div class="card-app mb-3">
+            <div class="panel-title mb-2">All switchwords</div>
+
+            <div class="search-box mb-2">
+              <i class="fas fa-search"></i>
+              <input id="wordSearch" type="text" class="form-control rounded-pill" placeholder="Search word, category, use..." oninput="renderWords()" />
+            </div>
+
+            <div class="category-scroll mb-2" id="categoryFilters"></div>
+            <div class="recent-scroll mb-2" id="recentWrap"></div>
+            <div class="switchword-list" id="wordList"></div>
+          </div>
+
+          <div class="card-app mb-3">
+            <div class="panel-title mb-2">Phrase builder</div>
+            <p class="small text-muted-custom mb-2">Tap words below to build a custom combination phrase.</p>
+            <div class="d-flex flex-wrap gap-1 mb-2" id="builderWords">
+              <button class="filter-chip" onclick="addToPhrase('COUNT')">COUNT</button>
+              <button class="filter-chip" onclick="addToPhrase('DIVINE')">DIVINE</button>
+              <button class="filter-chip" onclick="addToPhrase('TOGETHER')">TOGETHER</button>
+              <button class="filter-chip" onclick="addToPhrase('FIND')">FIND</button>
+              <button class="filter-chip" onclick="addToPhrase('LOVE')">LOVE</button>
+              <button class="filter-chip" onclick="addToPhrase('GUARD')">GUARD</button>
+              <button class="filter-chip" onclick="addToPhrase('NOW')">NOW</button>
+              <button class="filter-chip" onclick="addToPhrase('BE')">BE</button>
+              <button class="filter-chip" onclick="addToPhrase('OPEN')">OPEN</button>
+              <button class="filter-chip" onclick="addToPhrase('CLEAR')">CLEAR</button>
+              <button class="filter-chip" onclick="addToPhrase('DONE')">DONE</button>
+              <button class="filter-chip" onclick="addToPhrase('SHINE')">SHINE</button>
+              <button class="filter-chip" onclick="addToPhrase('MOVE')">MOVE</button>
+              <button class="filter-chip" onclick="addToPhrase('REACH')">REACH</button>
+              <button class="filter-chip" onclick="addToPhrase('BRING')">BRING</button>
+              <button class="filter-chip" onclick="addToPhrase('OFF')">OFF</button>
+            </div>
+            <div class="phrase-builder-tags mb-2" id="phraseTags"></div>
+            <div class="row g-2">
+              <div class="col-8">
+                <input id="phraseCustomInput" type="text" class="form-control" placeholder="Or type a word..." />
+              </div>
+              <div class="col-4">
+                <button class="btn btn-soft rounded-pill w-100" onclick="addCustomWord()">Add</button>
+              </div>
+            </div>
+            <div class="d-grid mt-2">
+              <button class="btn btn-primary-app rounded-pill btn-sm" onclick="usePhrase()">
+                <i class="fas fa-wand-magic-sparkles me-1"></i> Use this phrase
+              </button>
+            </div>
+          </div>
+
+          <div class="card-app mb-1">
+            <div class="panel-title mb-2">Prescriptions — combos for specific needs</div>
+            <p class="small text-muted-custom mb-2">Ready-made switchword combinations for common intentions.</p>
+            <div class="prescription-list" id="prescriptionList"></div>
+          </div>
+        </section>
+
+        <!-- ===== STATS ===== -->
+        <section class="tab-panel" id="tab-stats" aria-label="Practice statistics">
+
+          <div class="card-app mb-3">
+            <div class="panel-title mb-2">Your practice</div>
+            <div class="row g-2">
+              <div class="col-4">
+                <div class="stat-box">
+                  <div class="stat-label">Session</div>
+                  <div id="statsToday" class="stat-value font-mono">0</div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="stat-box">
+                  <div class="stat-label">Lifetime</div>
+                  <div id="statsTotal" class="stat-value font-mono">0</div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="stat-box">
+                  <div class="stat-label">Malas</div>
+                  <div id="statsMalas" class="stat-value font-mono">0</div>
+                  <div class="sub-value">108 each</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-app mb-1">
+            <div class="panel-title mb-2">About switchwords</div>
+            <div class="guide-card">
+              <p class="mb-2"><strong>Switchwords</strong> are single words discovered by James T. Mangan in the 1960s that work directly with your subconscious mind to manifest desired outcomes.</p>
+              <p class="mb-2">Think of them as <strong>linguistic shortcuts</strong> — each word carries a specific vibrational energy. When you repeat a switchword, it bypasses your conscious mind (the part that overthinks) and reprograms your subconscious, where 95% of your thoughts and behaviors live.</p>
+              <p class="mb-1"><strong>How to use:</strong></p>
+              <ul class="mb-2">
+                <li>Choose a word or combination matching your intention</li>
+                <li>Repeat it aloud, silently, or in writing — consistent repetition is key</li>
+                <li>Visualize the desired outcome while repeating</li>
+                <li>No special belief required — just repetition creates the shift</li>
+              </ul>
+              <p class="mb-2"><strong>Master switchword:</strong> <span class="text-accent fw-bold">TOGETHER</span> — aligns your conscious and subconscious as one. It's the most versatile and powerful word.</p>
+              <p class="mb-0 small text-muted-custom">Tip: Combine 2-4 words for even stronger results. Try the Prescriptions section for ready-made combos.</p>
+            </div>
+            <div class="small-note">
+              Switchwords were developed by James T. Mangan (1896–1970), author of <em>The Secret of Perfect Living</em>. These words are used in manifestation communities worldwide as spiritual focus tools and affirmation-style chants.
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <nav class="tabbar" aria-label="App sections">
+        <button class="tab-btn active" data-tab="tab-chant" onclick="switchTab('tab-chant')" aria-selected="true"><i class="fas fa-bolt"></i><span>Chant</span></button>
+        <button class="tab-btn" data-tab="tab-library" onclick="switchTab('tab-library')" aria-selected="false"><i class="fas fa-wand-magic-sparkles"></i><span>Words</span></button>
+        <button class="tab-btn" data-tab="tab-stats" onclick="switchTab('tab-stats')" aria-selected="false"><i class="fas fa-chart-simple"></i><span>Stats</span></button>
+      </nav>
+
     </div>
-
-    <button onclick="toggleSetup()" title="Settings">
-      <i class="fas fa-cog"></i>
-    </button>
   </div>
-
-  <header class="text-center mb-3">
-    <h1 class="fs-3 font-elegant text-main mb-1">
-      <i class="fas fa-wand-sparkles text-saffron"></i> Switchword Jap Machine
-    </h1>
-    <div class="text-muted-custom small">Tap, chant, and manifest with the power of switchwords.</div>
-  </header>
-
-  <div class="mb-3">
-    <button class="btn btn-sm btn-outline-secondary rounded-pill w-100" type="button" data-bs-toggle="collapse" data-bs-target="#guideSection">
-      <i class="fas fa-book me-1 text-saffron"></i> What are Switchwords? — Quick Guide
-    </button>
-    <div class="collapse mt-2" id="guideSection">
-      <div class="guide-panel">
-        <p class="mb-2"><strong>Switchwords</strong> are single words discovered by James T. Mangan in the 1960s that work directly with your subconscious mind to manifest desired outcomes.</p>
-        <p class="mb-2">Think of them as <strong>linguistic shortcuts</strong> — each word carries a specific vibrational energy. When you repeat a switchword, it bypasses your conscious mind (the part that overthinks) and reprograms your subconscious, where 95% of your thoughts and behaviors live.</p>
-        <p class="mb-2"><strong>How to use:</strong></p>
-        <ul class="mb-2" style="padding-left:1.2rem;">
-          <li>Choose a word or combination matching your intention</li>
-          <li>Repeat it aloud, silently, or in writing — consistent repetition is key</li>
-          <li>Visualize the desired outcome while repeating</li>
-          <li>No special belief required — just repetition creates the shift</li>
-        </ul>
-        <p class="mb-1"><strong>Master switchword:</strong> <span class="text-saffron fw-bold">TOGETHER</span> — aligns your conscious and subconscious as one. It's the most versatile and powerful word.</p>
-        <p class="mb-0 small text-muted-custom">Tip: Combine 2-4 words for even stronger results. Try the <strong>Prescriptions</strong> section below for ready-made combos.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="collapse show mb-4" id="setupSection">
-    <div class="card card-body bg-transparent border-0 p-0">
-
-      <div class="section-panel mb-3">
-        <div class="section-title">Practice setup</div>
-
-        <div class="row g-2 mb-2">
-          <div class="col-8">
-            <input id="switchwordInput" type="text" class="form-control form-control-sm" placeholder="Type custom switchword or combo..." />
-          </div>
-          <div class="col-4">
-            <select id="targetSelect" class="form-select form-select-sm fw-bold text-center">
-              <option value="108">108</option>
-              <option value="11">11</option>
-              <option value="21">21</option>
-              <option value="28">28</option>
-              <option value="51">51</option>
-              <option value="1008">1008</option>
-              <option value="0">∞</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="row g-2 mb-2">
-          <div class="col-12">
-            <input id="defaultWordIdInput" type="text" class="form-control form-control-sm" placeholder="Default switchword id (example: together)" />
-          </div>
-        </div>
-
-        <div class="row g-2 mb-2">
-          <div class="col-6 d-grid">
-            <button class="btn btn-outline-secondary rounded-pill btn-sm" onclick="saveDefaultWordId()">Save Default</button>
-          </div>
-          <div class="col-6 d-grid">
-            <button class="btn btn-outline-secondary rounded-pill btn-sm" onclick="loadDefaultWordById()">Load Default</button>
-          </div>
-        </div>
-
-        <div class="mb-2">
-          <select id="ambientSelect" class="form-select form-select-sm" onchange="handleAmbientChange()">
-            <option value="">🔇 No Ambient Sound</option>
-            <option value="https://actions.google.com/sounds/v1/water/rain_on_roof.ogg">🌧️ Gentle Rain</option>
-            <option value="https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg">🌊 Ocean Waves</option>
-            <option value="https://actions.google.com/sounds/v1/nature/fire_crackling_and_crickets.ogg">🔥 Night Fire</option>
-          </select>
-        </div>
-
-        <div class="d-grid">
-          <button class="btn nice-btn rounded-pill" onclick="setAndStart()">
-            <i class="fas fa-play me-1"></i> Begin Session
-          </button>
-        </div>
-      </div>
-
-      <div class="section-panel mb-3">
-        <div class="section-title">Quick presets</div>
-        <div class="preset-scroll" id="presetWrap"></div>
-      </div>
-
-      <div class="section-panel mb-3">
-        <div class="section-title">All switchwords</div>
-
-        <div class="search-box mb-2">
-          <i class="fas fa-search"></i>
-          <input id="wordSearch" type="text" class="form-control form-control-sm rounded-pill" placeholder="Search word, category, use..." oninput="renderWords()" />
-        </div>
-
-        <div class="category-scroll mb-2" id="categoryFilters"></div>
-        <div class="recent-scroll mb-2" id="recentWrap"></div>
-        <div class="switchword-list" id="wordList"></div>
-      </div>
-
-      <div class="section-panel mb-3">
-        <div class="section-title">Phrase builder</div>
-        <p class="small text-muted-custom mb-2">Tap words below to build a custom combination phrase.</p>
-        <div class="d-flex flex-wrap gap-1 mb-2" id="builderWords">
-          <button class="filter-chip" onclick="addToPhrase('COUNT')">COUNT</button>
-          <button class="filter-chip" onclick="addToPhrase('DIVINE')">DIVINE</button>
-          <button class="filter-chip" onclick="addToPhrase('TOGETHER')">TOGETHER</button>
-          <button class="filter-chip" onclick="addToPhrase('FIND')">FIND</button>
-          <button class="filter-chip" onclick="addToPhrase('LOVE')">LOVE</button>
-          <button class="filter-chip" onclick="addToPhrase('GUARD')">GUARD</button>
-          <button class="filter-chip" onclick="addToPhrase('NOW')">NOW</button>
-          <button class="filter-chip" onclick="addToPhrase('BE')">BE</button>
-          <button class="filter-chip" onclick="addToPhrase('OPEN')">OPEN</button>
-          <button class="filter-chip" onclick="addToPhrase('CLEAR')">CLEAR</button>
-          <button class="filter-chip" onclick="addToPhrase('DONE')">DONE</button>
-          <button class="filter-chip" onclick="addToPhrase('SHINE')">SHINE</button>
-          <button class="filter-chip" onclick="addToPhrase('MOVE')">MOVE</button>
-          <button class="filter-chip" onclick="addToPhrase('REACH')">REACH</button>
-          <button class="filter-chip" onclick="addToPhrase('BRING')">BRING</button>
-          <button class="filter-chip" onclick="addToPhrase('OFF')">OFF</button>
-        </div>
-        <div class="phrase-builder-tags mb-2" id="phraseTags"></div>
-        <div class="row g-2">
-          <div class="col-8">
-            <input id="phraseCustomInput" type="text" class="form-control form-control-sm" placeholder="Or type a word..." />
-          </div>
-          <div class="col-4">
-            <button class="btn btn-sm btn-outline-secondary rounded-pill w-100" onclick="addCustomWord()">Add</button>
-          </div>
-        </div>
-        <div class="d-grid mt-2">
-          <button class="btn nice-btn rounded-pill btn-sm" onclick="usePhrase()">
-            <i class="fas fa-wand-magic-sparkles me-1"></i> Use this phrase
-          </button>
-        </div>
-      </div>
-
-      <div class="section-panel mb-3">
-        <div class="section-title">Prescriptions — combos for specific needs</div>
-        <p class="small text-muted-custom mb-2">Ready-made switchword combinations for common intentions.</p>
-        <div class="prescription-list" id="prescriptionList"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="active-card text-center mb-4">
-    <div class="active-top-badge">
-      <i class="fas fa-bolt"></i>
-      <span id="activeCategoryDisplay">General</span>
-    </div>
-    <div id="activeWordDisplay" class="active-title">Together</div>
-    <div id="activeWordText" class="active-text">TOGETHER</div>
-    <div id="activeWordSubtitle" class="active-sub">Master switchword</div>
-    <div id="activeWordMeaning" class="active-meaning">Aligns your conscious and subconscious as one.</div>
-    <div class="text-muted-custom small fw-bold mt-2" id="countText">TOGETHER • 0 / 108</div>
-  </div>
-
-  <section class="text-center mb-4">
-    <div class="progress-container">
-      <svg viewBox="0 0 250 250" aria-hidden="true">
-        <circle class="ring-bg" stroke-width="8" fill="transparent" r="111" cx="125" cy="125"></circle>
-        <circle id="progressRing" class="progress-ring__circle" stroke="var(--saffron)" stroke-width="8" stroke-linecap="round" fill="transparent" r="111" cx="125" cy="125"></circle>
-      </svg>
-
-      <div class="counter-overlay">
-        <button id="japBtn" class="btn-jap text-main" onclick="incrementCount()" aria-label="Tap to count">
-          <div id="counterValue" class="counter-value fw-bold font-monospace text-main">0</div>
-          <div class="tap-hint text-muted-custom small fw-bold text-uppercase">
-            <i class="fas fa-hand-pointer text-saffron me-1"></i> Tap
-          </div>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <section class="row g-2 mb-3">
-    <div class="col-6">
-      <div class="d-flex align-items-center justify-content-center p-2 rounded-4 border h-100" style="background: rgba(156,163,175,0.05);">
-        <div class="form-check form-switch mb-0">
-          <input class="form-check-input ms-0 me-2" type="checkbox" id="autoToggle" onchange="toggleAutoMode()">
-          <label class="form-check-label text-muted-custom small fw-bold" for="autoToggle">Auto Jap</label>
-        </div>
-      </div>
-    </div>
-    <div class="col-6">
-      <button class="btn w-100 h-100 py-2 d-flex align-items-center justify-content-center gap-2 fw-semibold border text-main rounded-4" style="background: rgba(156,163,175,0.05);" onclick="resetSession()">
-        <i class="fas fa-rotate-left"></i> Reset
-      </button>
-    </div>
-  </section>
-
-  <div id="autoSpeedContainer" class="px-2 mb-4 d-none">
-    <div class="d-flex justify-content-between text-muted-custom fw-bold text-uppercase mb-1" style="font-size: 0.65rem;">
-      <span>Speed</span>
-      <span id="speedDisplay">2.5s</span>
-    </div>
-    <input id="speedSlider" type="range" class="form-range" min="1" max="5" step="0.5" value="2.5" oninput="updateSpeedDisplay(this.value)">
-  </div>
-
-  <section class="row g-2 mb-3">
-    <div class="col-4">
-      <div class="stat-box">
-        <div class="stat-label">Session</div>
-        <div id="statsToday" class="stat-value">0</div>
-      </div>
-    </div>
-    <div class="col-4">
-      <div class="stat-box">
-        <div class="stat-label">Lifetime</div>
-        <div id="statsTotal" class="stat-value">0</div>
-      </div>
-    </div>
-    <div class="col-4">
-      <div class="stat-box">
-        <div class="stat-label">Malas</div>
-        <div id="statsMalas" class="stat-value">0</div>
-      </div>
-    </div>
-  </section>
-
-  <div class="small-note text-center">
-    Switchwords were developed by James T. Mangan (1896–1970), author of <em>The Secret of Perfect Living</em>. These words are used in manifestation communities worldwide as spiritual focus tools and affirmation-style chants.
-  </div>
-</main>
+</div>
 
 <audio id="ambientAudio" loop preload="none"></audio>
 
@@ -750,10 +865,10 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content border-0 bg-transparent shadow-none">
       <div class="completion-card">
-        <div class="fs-2 mb-2">✨</div>
+        <div class="completion-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
         <h5 class="fw-bold mb-2">Target completed</h5>
         <p class="text-muted-custom mb-3" id="completionText">You completed your switchword target.</p>
-        <button type="button" class="btn nice-btn rounded-pill px-4" data-bs-dismiss="modal">Done</button>
+        <button type="button" class="btn btn-primary-app rounded-pill px-4" data-bs-dismiss="modal">Done</button>
       </div>
     </div>
   </div>
@@ -945,13 +1060,33 @@
   const prescriptionList = document.getElementById('prescriptionList');
   const phraseTags = document.getElementById('phraseTags');
 
-  const setupCollapsible = new bootstrap.Collapse(document.getElementById('setupSection'), { toggle: false });
   const completionModal = new bootstrap.Modal(document.getElementById('completionModal'));
 
-  const radius = progressRing.r.baseVal.value;
-  const circumference = radius * 2 * Math.PI;
-  progressRing.style.strokeDasharray = `${circumference} ${circumference}`;
-  progressRing.style.strokeDashoffset = circumference;
+  // --- Sigil ring: radiating ticks fill as you chant ---
+  const TICKS = 48;
+  let tickEls = [];
+  function buildSigil() {
+    for (let i = 0; i < TICKS; i++) {
+      const ang = (i / TICKS) * 2 * Math.PI - Math.PI / 2;
+      const isMajor = i % 12 === 0;
+      const inner = isMajor ? 90 : 94;
+      const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      l.setAttribute('x1', (125 + inner * Math.cos(ang)).toFixed(2));
+      l.setAttribute('y1', (125 + inner * Math.sin(ang)).toFixed(2));
+      l.setAttribute('x2', (125 + 108 * Math.cos(ang)).toFixed(2));
+      l.setAttribute('y2', (125 + 108 * Math.sin(ang)).toFixed(2));
+      l.classList.add('sigil-tick');
+      if (isMajor) l.classList.add('major');
+      tickEls.push(l);
+      progressRing.appendChild(l);
+    }
+  }
+
+  function updateTicks(lit) {
+    for (let i = 0; i < TICKS; i++) tickEls[i].classList.toggle('lit', i < lit);
+  }
+
+  buildSigil();
 
   statsTotal.innerText = lifetimeTotal;
   statsToday.innerText = sessionTotal;
@@ -992,9 +1127,18 @@
     }
   }
 
-  function toggleSetup() {
-    setupCollapsible.toggle();
+  function switchTab(name) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === name));
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      const isActive = b.dataset.tab === name;
+      b.classList.toggle('active', isActive);
+      b.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+    const content = document.getElementById('appContent');
+    if (content) content.scrollTop = 0;
   }
+
+  function toggleSetup() { switchTab('tab-library'); }
 
   function saveRecentWord(name) {
     recentWords = [name, ...recentWords.filter(w => w !== name)].slice(0, 8);
@@ -1025,6 +1169,8 @@
   function updateActiveWordDisplay() {
     activeWordDisplay.innerText = activeWord.name;
     activeWordText.innerText = activeWord.text;
+    const len = activeWord.text.length;
+    activeWordText.style.fontSize = len <= 5 ? '2.2rem' : len <= 8 ? '1.9rem' : len <= 16 ? '1.45rem' : '1.12rem';
     activeCategoryDisplay.innerText = activeWord.category;
     activeWordSubtitle.innerText = activeWord.subtitle || 'Selected switchword';
     activeWordMeaning.innerText = activeWord.meaning || '';
@@ -1188,7 +1334,7 @@
     target = parseInt(document.getElementById('targetSelect').value, 10);
     handleAmbientChange();
     resetSession();
-    setupCollapsible.hide();
+    switchTab('tab-chant');
   }
 
   function incrementCount() {
@@ -1204,9 +1350,12 @@
     sessionTotal++;
     lifetimeTotal++;
 
+    activeWordText.classList.add('stamped');
+    setTimeout(() => activeWordText.classList.remove('stamped'), 130);
+
     counterDisplay.innerText = count;
     counterDisplay.style.transform = 'scale(1.14)';
-    counterDisplay.style.color = 'var(--saffron)';
+    counterDisplay.style.color = 'var(--accent)';
     setTimeout(() => {
       counterDisplay.style.transform = 'scale(1)';
       counterDisplay.style.color = '';
@@ -1231,12 +1380,11 @@
 
   function updateProgressRing() {
     if (target === 0) {
-      const pct = ((count % 108) / 108);
-      progressRing.style.strokeDashoffset = circumference - (pct * circumference);
+      updateTicks(count % TICKS);
       countText.innerText = `${activeWord.text} • ${count} (∞ Mode)`;
     } else {
       const pct = Math.min(count / target, 1);
-      progressRing.style.strokeDashoffset = circumference - (pct * circumference);
+      updateTicks(Math.round(pct * TICKS));
       countText.innerText = `${activeWord.text} • ${count} / ${target}`;
     }
   }
