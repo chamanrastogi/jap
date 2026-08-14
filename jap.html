@@ -3,311 +3,537 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jap Mantra Machine</title>
+  <title>Jap Machine — Mantra Counter</title>
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#14100a" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f1dd" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Outfit:wght@300;400;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
 
   <style>
     :root {
-      --saffron: #ff9a3d;
-      --accent: #ff9a3d;
-      --accent-glow: rgba(255, 154, 61, 0.45);
-      --marigold: #ffbe5c;
-      --vermilion: #e2532f;
-      --ink: #f4eddc;
-      --muted: #989dc4;
-      --line: rgba(244, 237, 220, 0.1);
-      --bead-dim: rgba(255, 154, 61, 0.16);
-      --track: rgba(244, 237, 220, 0.08);
-      --chip: rgba(255, 255, 255, 0.06);
-      --panel: rgba(44, 47, 86, 0.5);
-      --card: rgba(50, 53, 96, 0.55);
-      --surface: rgba(38, 41, 76, 0.62);
-      --guide: rgba(255, 154, 61, 0.07);
-      --shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+      color-scheme: dark;
+      --bg: #14100a;
+      --bg-2: #1a140d;
+      --surface: #1e180f;
+      --surface-2: #282010;
+      --ink: #f4e9cf;
+      --muted: #a99c80;
+      --line: rgba(244, 233, 207, 0.1);
+      --acc: #e3b54f;
+      --acc-hover: #cfa13a;
+      --acc-ink: #241a02;
+      --acc-2: #d85d86;
+      --acc-soft: rgba(227, 181, 79, 0.14);
+      --acc-glow: rgba(227, 181, 79, 0.38);
+      --acc-glow-soft: rgba(227, 181, 79, 0.2);
+      --wash: rgba(227, 181, 79, 0.06);
+      --danger: #d85d86;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 10px 26px rgba(0, 0, 0, 0.24);
+      --radius: 16px;
+      --track: rgba(244, 233, 207, 0.08);
     }
 
     [data-bs-theme="light"] {
-      --saffron: #e07b16;
-      --accent: #e07b16;
-      --accent-glow: rgba(224, 123, 22, 0.32);
-      --marigold: #f2a03c;
-      --vermilion: #cf4424;
-      --ink: #2b2440;
-      --muted: #7c708f;
-      --line: rgba(43, 36, 64, 0.12);
-      --bead-dim: rgba(224, 123, 22, 0.2);
-      --track: rgba(43, 36, 64, 0.08);
-      --chip: rgba(255, 255, 255, 0.72);
-      --panel: rgba(255, 250, 240, 0.6);
-      --card: rgba(255, 251, 243, 0.86);
-      --surface: rgba(255, 252, 246, 0.94);
-      --guide: rgba(224, 123, 22, 0.08);
-      --shadow: 0 24px 60px rgba(80, 50, 20, 0.25);
+      color-scheme: light;
+      --bg: #f8f1dd;
+      --bg-2: #fbf6e7;
+      --surface: #fffdf6;
+      --surface-2: #f4e9ce;
+      --ink: #2b2113;
+      --muted: #8b7a5c;
+      --line: rgba(43, 33, 19, 0.12);
+      --acc: #9a6e0f;
+      --acc-hover: #7f5a0c;
+      --acc-ink: #fff8ec;
+      --acc-2: #b84a72;
+      --acc-soft: rgba(154, 110, 15, 0.12);
+      --acc-glow: rgba(154, 110, 15, 0.34);
+      --acc-glow-soft: rgba(154, 110, 15, 0.18);
+      --wash: rgba(154, 110, 15, 0.08);
+      --danger: #b83a5e;
+      --shadow: 0 1px 2px rgba(60, 40, 15, 0.06), 0 10px 26px rgba(60, 40, 15, 0.1);
+      --track: rgba(43, 33, 19, 0.1);
     }
 
     * { box-sizing: border-box; }
+    * { -webkit-tap-highlight-color: transparent; }
     html, body { height: 100%; }
 
     body {
       margin: 0;
       font-family: 'Outfit', system-ui, sans-serif;
       color: var(--ink);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem 1rem;
-      background:
-        radial-gradient(46rem 36rem at 82% -8%, rgba(255, 154, 61, 0.16), transparent 60%),
-        radial-gradient(40rem 34rem at 10% 110%, rgba(226, 83, 47, 0.1), transparent 55%),
-        linear-gradient(160deg, #11121f, #0a0b14 60%, #0d0f1c);
+      background: var(--bg);
     }
 
-    [data-bs-theme="light"] body {
-      background:
-        radial-gradient(46rem 36rem at 82% -8%, rgba(255, 154, 61, 0.22), transparent 60%),
-        radial-gradient(40rem 34rem at 10% 110%, rgba(207, 68, 36, 0.1), transparent 55%),
-        linear-gradient(160deg, #f8efdd, #f2e6cf 60%, #f6edd8);
-    }
+    button, a, [role="tab"], input[type="range"], select { touch-action: manipulation; }
+    button, a { -webkit-tap-highlight-color: transparent; }
 
-    .font-display { font-family: 'Marcellus', serif; }
-    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    :focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; }
+
+    .font-display { font-family: 'Anton', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; }
     .font-devanagari { font-family: 'Noto Sans Devanagari', sans-serif; }
     .text-main { color: var(--ink); }
     .text-muted-custom { color: var(--muted); }
-    .text-accent { color: var(--accent); }
+    .text-accent { color: var(--acc); }
 
-    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-    .scene { position: relative; z-index: 1; }
-
-    .device {
-      width: 414px;
-      height: min(860px, 94vh);
-      background: #0b0b12;
-      border-radius: 52px;
-      padding: 11px;
-      box-shadow: 0 40px 90px rgba(0, 0, 0, 0.55), inset 0 0 0 1px rgba(255, 255, 255, 0.07);
-    }
-
-    .screen {
+    /* ---------- Shell ---------- */
+    .scene {
       position: relative;
-      height: 100%;
+      z-index: 1;
+      height: 100dvh;
       display: flex;
       flex-direction: column;
-      border-radius: 42px;
-      overflow: hidden;
-      background:
-        radial-gradient(28rem 22rem at 50% -10%, rgba(255, 154, 61, 0.14), transparent 55%),
-        linear-gradient(180deg, #171933, #101224 70%, #0d0f1e);
-      color: var(--ink);
+      background: linear-gradient(180deg, var(--bg), var(--bg-2));
     }
-
-    [data-bs-theme="light"] .screen {
-      background:
-        radial-gradient(28rem 22rem at 50% -10%, rgba(255, 154, 61, 0.2), transparent 55%),
-        linear-gradient(180deg, #fff8ea, #f7edda 78%, #f6ecd8);
-    }
-
-    .island {
+    .scene::before {
+      content: '';
       position: absolute;
-      top: 0.55rem; left: 50%; transform: translateX(-50%);
-      width: 86px; height: 24px; border-radius: 999px; z-index: 6;
-      display: flex; align-items: center; justify-content: center;
-      background: rgba(255, 255, 255, 0.09);
-      border: 1px solid var(--line);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      inset: 0;
+      background: radial-gradient(42rem 30rem at 50% -14%, var(--wash), transparent 62%);
+      pointer-events: none;
+      z-index: 0;
     }
-    .island i { font-size: 0.62rem; color: var(--ink); opacity: 0.85; }
+    .scene > * { position: relative; z-index: 1; }
 
     .appbar {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 0.5rem;
-      padding: 1.6rem 0.95rem 0.5rem;
+      gap: 0.75rem;
+      padding: 0.7rem 1.5rem;
+      background: color-mix(in srgb, var(--surface) 72%, transparent);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+      flex-shrink: 0;
     }
-
-    .app-title {
-      margin: 0;
-      font-size: 1.05rem;
-      font-weight: 400;
-      letter-spacing: 0.02em;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      color: var(--ink);
-    }
-    .app-title i { color: var(--accent); font-size: 0.85rem; }
+    .appbar-left { display: flex; align-items: center; gap: 0.9rem; min-width: 0; }
 
     .home-link {
       display: inline-flex;
       align-items: center;
-      gap: 0.38rem;
-      padding: 0.42rem 0.7rem;
+      gap: 0.4rem;
+      padding: 0.42rem 0.8rem;
       border-radius: 999px;
       border: 1px solid var(--line);
-      background: var(--chip);
+      background: var(--surface-2);
       color: var(--ink);
       text-decoration: none;
-      font-size: 0.72rem;
-      font-weight: 700;
-      flex-shrink: 0;
-      transition: 0.15s;
+      font-size: 0.8rem;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: color 0.18s ease, border-color 0.18s ease;
     }
-    .home-link:hover { color: var(--accent); border-color: var(--accent-glow); }
+    .home-link:hover { color: var(--acc); border-color: var(--acc-glow); }
+
+    .brand { display: flex; align-items: center; gap: 0.65rem; min-width: 0; }
+    .brand-mark {
+      width: 38px; height: 38px; flex-shrink: 0;
+      border-radius: 12px;
+      display: grid; place-items: center;
+      background: var(--acc);
+      color: var(--acc-ink);
+      font-size: 1rem;
+    }
+    .brand-text { display: flex; flex-direction: column; line-height: 1.15; min-width: 0; }
+    .brand-name { font-size: 1rem; letter-spacing: 0.02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .brand-tag { font-size: 0.7rem; color: var(--muted); }
+
+    .appbar-right { margin-left: auto; display: flex; align-items: center; }
 
     .icon-btn {
-      width: 42px; height: 42px; flex-shrink: 0; border-radius: 50%;
-      border: 1px solid var(--line); background: var(--chip); color: var(--ink);
-      display: grid; place-items: center; font-size: 0.95rem;
-      cursor: pointer; transition: 0.15s;
+      width: 42px; height: 42px; flex-shrink: 0;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: var(--surface-2);
+      color: var(--ink);
+      display: grid; place-items: center;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: color 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
     }
-    .icon-btn:hover { color: var(--accent); border-color: var(--accent-glow); }
+    .icon-btn:hover { color: var(--acc); border-color: var(--acc-glow); }
+    .icon-btn:active { transform: scale(0.94); }
 
-    .app-content {
+    .seg-nav {
+      display: none;
+      margin-left: auto;
+      gap: 0.25rem;
+      padding: 0.25rem;
+      border-radius: 14px;
+      background: var(--surface-2);
+      border: 1px solid var(--line);
+    }
+    .seg-nav .tab-btn {
+      flex-direction: row;
+      gap: 0.45rem;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+    .seg-nav .tab-btn.active { background: var(--acc); color: var(--acc-ink); }
+    .seg-nav .tab-btn.active i { filter: none; }
+    @media (min-width: 768px) {
+      .seg-nav { display: flex; }
+      .brand-tag { display: block; }
+    }
+
+    .app-shell {
       flex: 1;
       overflow-y: auto;
-      padding: 0.2rem 1.05rem 1.1rem;
+      overscroll-behavior: contain;
+      padding: 1.25rem 1.5rem 2rem;
       scrollbar-width: none;
     }
-    .app-content::-webkit-scrollbar { display: none; }
+    .app-shell::-webkit-scrollbar { display: none; }
+
+    .page-wrap { max-width: 1120px; margin: 0 auto; width: 100%; }
 
     .tab-panel { display: none; }
-    .tab-panel.active { display: block; animation: panelIn 0.28s cubic-bezier(0.22, 0.9, 0.28, 1); }
+    .tab-panel.active { display: block; animation: panelIn 0.24s ease-out; }
     @keyframes panelIn {
-      from { opacity: 0; transform: translateY(10px); }
+      from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: none; }
     }
 
     .tabbar {
       display: flex;
-      gap: 0.3rem;
-      padding: 0.45rem 0.6rem calc(env(safe-area-inset-bottom, 0px) + 0.5rem);
+      gap: 0.25rem;
+      padding: 0.4rem 0.6rem calc(env(safe-area-inset-bottom, 0px) + 0.45rem);
       border-top: 1px solid var(--line);
-      background: var(--surface);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      background: color-mix(in srgb, var(--surface) 80%, transparent);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      flex-shrink: 0;
     }
+    @media (min-width: 768px) { .tabbar { display: none; } }
 
     .tab-btn {
-      flex: 1;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 0.18rem;
+      justify-content: center;
       background: none;
       border: none;
       cursor: pointer;
-      padding: 0.5rem 0 0.3rem;
       color: var(--muted);
       font-family: inherit;
-      font-size: 0.62rem;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      border-radius: 14px;
-      transition: 0.15s;
+      font-weight: 600;
+      transition: color 0.18s ease, background-color 0.18s ease, transform 0.12s ease;
     }
     .tab-btn i { font-size: 1.05rem; }
     .tab-btn:hover { color: var(--ink); }
-    .tab-btn.active { color: var(--accent); }
-    .tab-btn.active i { filter: drop-shadow(0 0 5px var(--accent-glow)); }
+    .tab-btn:active { transform: scale(0.96); }
+    .tabbar .tab-btn {
+      flex: 1;
+      flex-direction: column;
+      gap: 0.2rem;
+      padding: 0.45rem 0 0.35rem;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      letter-spacing: 0.02em;
+    }
+    .tabbar .tab-btn.active { color: var(--acc); }
+    .tabbar .tab-btn.active i { filter: drop-shadow(0 0 6px var(--acc-glow)); }
 
-    .card-app {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 1rem;
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      box-shadow: var(--shadow);
+    /* ---------- Typography / headers ---------- */
+    .page-head { margin-bottom: 1.25rem; }
+    .page-title {
+      margin: 0;
+      font-size: clamp(1.35rem, 3vw, 1.8rem);
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      text-wrap: balance;
+    }
+    .page-sub {
+      margin: 0.3rem 0 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+      max-width: 56ch;
+      text-wrap: balance;
     }
 
     .panel-title {
-      font-size: 0.7rem;
-      font-weight: 800;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      letter-spacing: 1.5px;
       color: var(--muted);
     }
+
+    /* ---------- Cards ---------- */
+    .card-app {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.42rem 0.85rem;
+      border-radius: 999px;
+      background: var(--surface-2);
+      border: 1px solid var(--line);
+      color: var(--ink);
+      font-size: 0.82rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .pill i { color: var(--acc); font-size: 0.85rem; }
+
+    .meta-badge {
+      border-radius: 999px;
+      padding: 0.24rem 0.6rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      background: var(--surface-2);
+      color: var(--muted);
+      border: 1px solid var(--line);
+    }
+
+    /* ---------- Buttons ---------- */
+    .btn-solid {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: var(--acc);
+      color: var(--acc-ink);
+      border: 1px solid transparent;
+      font-family: inherit;
+      font-weight: 700;
+      padding: 0.66rem 1.15rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background-color 0.18s ease, transform 0.12s ease;
+    }
+    .btn-solid:hover { background: var(--acc-hover); color: var(--acc-ink); }
+    .btn-solid:active { transform: scale(0.98); }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      background: var(--surface-2);
+      color: var(--ink);
+      border: 1px solid var(--line);
+      font-family: inherit;
+      font-weight: 600;
+      padding: 0.52rem 0.95rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: color 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
+    }
+    .btn-ghost:hover { color: var(--acc); border-color: var(--acc-glow); }
+    .btn-ghost:active { transform: scale(0.98); }
+    .btn-ghost.btn-danger-ghost:hover { color: var(--danger); border-color: var(--danger); }
+    .btn-sm { padding: 0.3rem 0.75rem; font-size: 0.78rem; }
+
+    /* ---------- Forms ---------- */
+    .field-label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+      letter-spacing: 0.02em;
+    }
+    .form-control, .form-select {
+      background-color: var(--surface-2);
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      font-size: 0.9rem;
+      padding: 0.55rem 0.8rem;
+    }
+    .form-control::placeholder { color: var(--muted); }
+    .form-control:focus, .form-select:focus {
+      border-color: var(--acc);
+      box-shadow: 0 0 0 3px var(--acc-glow-soft);
+      background-color: var(--surface-2);
+      color: var(--ink);
+    }
+    [data-bs-theme="dark"] option { background-color: #282010; color: #f4e9cf; }
+    [data-bs-theme="light"] option { background-color: #fffdf6; color: #2b2113; }
+    .form-range { accent-color: var(--acc); }
+    .form-check-input { accent-color: var(--acc); }
+    .form-check-label { font-size: 0.84rem; color: var(--muted); }
+
+    .ctl-pill {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.72rem 0.9rem;
+      border-radius: 14px;
+      background: var(--surface-2);
+      border: 1px solid var(--line);
+      color: var(--ink);
+      font-size: 0.86rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      width: 100%;
+      transition: border-color 0.18s ease, transform 0.12s ease;
+    }
+    .ctl-pill:hover { border-color: var(--acc-glow); }
+    .ctl-pill:active { transform: scale(0.98); }
+    .ctl-pill input { width: 1.1em; height: 1.1em; accent-color: var(--acc); }
+
+    /* ---------- Chant ---------- */
+    .chant-grid { display: grid; gap: 1.25rem; }
 
     .status-row {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      flex-wrap: wrap;
       gap: 0.5rem;
-      margin-bottom: 0.75rem;
     }
 
-    .pill-accent {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.32rem 0.72rem;
-      border-radius: 999px;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      color: var(--accent);
-      font-size: 0.7rem;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-    }
-    .pill-accent i { font-size: 0.8rem; }
-
-    .active-mantra-card { text-align: center; padding: 1.05rem 1rem; }
+    .active-mantra-card { text-align: center; }
     .active-top-badge {
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      padding: 0.28rem 0.68rem;
+      padding: 0.28rem 0.7rem;
       border-radius: 999px;
-      background: var(--accent-glow);
-      color: var(--accent);
-      font-size: 0.66rem;
-      font-weight: 800;
+      background: var(--acc-soft);
+      color: var(--acc);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      letter-spacing: 0.9px;
     }
     .active-mantra-title {
-      font-size: 1.18rem;
+      font-size: clamp(1.35rem, 3vw, 1.7rem);
       font-weight: 700;
-      color: var(--ink);
-      line-height: 1.3;
+      line-height: 1.25;
       margin-top: 0.6rem;
       letter-spacing: 0.02em;
+      text-wrap: balance;
     }
-    .active-mantra-hindi {
-      font-size: 1.22rem;
-      font-weight: 700;
-      color: var(--ink);
-      line-height: 1.7;
-      margin-top: 0.3rem;
-    }
-    .active-mantra-sub { color: var(--muted); font-size: 0.78rem; font-weight: 600; margin-top: 0.25rem; }
-    .active-mantra-meaning { color: var(--muted); font-size: 0.74rem; line-height: 1.45; margin-top: 0.35rem; }
+    .active-mantra-sub { color: var(--muted); font-size: 0.88rem; font-weight: 600; margin-top: 0.3rem; }
+    .active-mantra-meaning { color: var(--muted); font-size: 0.85rem; line-height: 1.55; margin: 0.4rem auto 0; max-width: 46ch; }
+
+    .chant-ring { width: 100%; }
 
     .ring-wrap {
+      --cat: var(--acc);
+      --cat-glow: color-mix(in srgb, var(--cat) 42%, transparent);
+      --cat-soft: color-mix(in srgb, var(--cat) 16%, transparent);
+      --bead-lit-hi: color-mix(in srgb, var(--cat) 55%, #fff6dd);
+      --bead-lit-mid: var(--cat);
+      --bead-lit-lo: color-mix(in srgb, var(--cat) 40%, #241a02);
+      --bead-dim-hi: color-mix(in srgb, var(--cat) 42%, transparent);
+      --bead-dim-mid: color-mix(in srgb, var(--cat) 16%, transparent);
+      --bead-dim-lo: color-mix(in srgb, var(--cat) 5%, transparent);
       position: relative;
-      width: 256px;
-      height: 256px;
-      margin: 1.05rem auto 0.45rem;
+      width: min(100%, 400px);
+      aspect-ratio: 1;
+      margin: 0.5rem auto 0.25rem;
     }
     .ring-wrap svg { width: 100%; height: 100%; display: block; }
-    .ring-track { fill: none; stroke: var(--track); stroke-width: 1.5; }
 
-    .mala-bead { fill: var(--bead-dim); transition: fill 0.18s ease; }
-    .mala-bead.lit { fill: var(--accent); }
+    .ring-wrap.celebrate { animation: ringCelebrate 1.1s cubic-bezier(0.22, 0.9, 0.28, 1); }
+    @keyframes ringCelebrate {
+      0% { transform: scale(1); }
+      30% { transform: scale(1.035); }
+      100% { transform: scale(1); }
+    }
 
-    .meru-bead { fill: var(--vermilion); transition: fill 0.2s ease, filter 0.2s ease; }
-    .meru-bead.lit { fill: var(--marigold); filter: drop-shadow(0 0 6px var(--accent-glow)); }
+    .sigil-track { fill: none; stroke: var(--track); stroke-width: 2; }
+
+    .mala-bead .bead-base { fill: url(#beadDim); transition: fill 0.18s ease; }
+    .mala-bead .bead-glow { fill: var(--cat); opacity: 0; transition: opacity 0.18s ease; }
+    .mala-bead.lit .bead-base { fill: url(#beadShine); }
+    .mala-bead.lit .bead-glow { opacity: 0.85; }
+
+    .gs1 { stop-color: var(--bead-lit-hi); }
+    .gs2 { stop-color: var(--bead-lit-mid); }
+    .gs3 { stop-color: var(--bead-lit-lo); }
+    .gd1 { stop-color: var(--bead-dim-hi); }
+    .gd2 { stop-color: var(--bead-dim-mid); }
+    .gd3 { stop-color: var(--bead-dim-lo); }
+
+    .meru-bead { fill: var(--acc-2); transition: fill 0.2s ease, filter 0.2s ease; }
+    .meru-bead.lit { fill: var(--cat); filter: drop-shadow(0 0 8px var(--cat-glow)); }
+
+    .guru-halo {
+      fill: none;
+      stroke: var(--cat);
+      stroke-width: 2;
+      opacity: 0;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+    .guru-halo.lit { animation: haloFlash 0.6s ease-out; }
+    @keyframes haloFlash {
+      0% { opacity: 0.9; transform: scale(0.7); }
+      100% { opacity: 0; transform: scale(1.6); }
+    }
+
+    .tap-ripple {
+      fill: none;
+      stroke: var(--cat);
+      stroke-width: 1.6;
+      opacity: 0;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+    .tap-ripple.pulse { animation: ripplePulse 0.5s ease-out; }
+    @keyframes ripplePulse {
+      0% { opacity: 0.75; transform: scale(0.985); }
+      100% { opacity: 0; transform: scale(1.04); }
+    }
+
+    .seal-ring {
+      fill: none;
+      stroke: var(--cat);
+      stroke-width: 1.2;
+      stroke-dasharray: 3 9;
+      stroke-linecap: round;
+      opacity: 0.5;
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: sealSpin 32s linear infinite;
+    }
+    @keyframes sealSpin { to { transform: rotate(360deg); } }
+
+    .word-halo {
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 86%; height: 86%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--cat-glow), transparent 66%);
+      opacity: 0.55;
+      filter: blur(4px);
+      pointer-events: none;
+      z-index: 0;
+      animation: haloBreathe 7s ease-in-out infinite;
+    }
+    @keyframes haloBreathe {
+      0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.04); }
+    }
 
     .counter-overlay {
       position: absolute;
       inset: 0;
+      z-index: 1;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -326,197 +552,198 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 0.5rem;
+      gap: 0.45rem;
       animation: breathe 8s ease-in-out infinite;
     }
     .btn-jap.no-breathe { animation: none; }
-    .btn-jap:active { transform: scale(0.96); animation: none; }
+    .btn-jap:active { transform: scale(0.96); }
     @keyframes breathe {
-      0%, 100% { box-shadow: inset 0 0 0 rgba(255, 154, 61, 0); }
-      50% { box-shadow: inset 0 0 34px var(--accent-glow); }
+      0%, 100% { box-shadow: inset 0 0 0 rgba(227, 181, 79, 0); }
+      50% { box-shadow: inset 0 0 30px var(--acc-glow-soft); }
+    }
+
+    .sigil-word {
+      font-family: 'Anton', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      line-height: 1.06;
+      text-align: center;
+      max-width: 100%;
+      background-image:
+        linear-gradient(115deg, transparent 42%, rgba(255, 255, 255, 0.65) 50%, transparent 58%),
+        linear-gradient(180deg, #fbe9b0 0%, #f2c75e 38%, var(--cat, #e3b54f) 62%, #8a6a1e 100%);
+      background-size: 260% 100%, 100% 100%;
+      background-position: 130% 0, 0 0;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      animation: foilSheen 4.5s ease-in-out infinite;
+      transition: filter 0.12s ease, transform 0.12s ease;
+    }
+    .sigil-word--deva {
+      font-family: 'Noto Sans Devanagari', sans-serif;
+      font-weight: 700;
+      text-transform: none;
+      letter-spacing: 0;
+      line-height: 1.4;
+    }
+    [data-bs-theme="light"] .sigil-word {
+      background-image:
+        linear-gradient(115deg, transparent 42%, rgba(255, 255, 255, 0.85) 50%, transparent 58%),
+        linear-gradient(180deg,
+          color-mix(in srgb, var(--cat) 72%, #7a5a12) 0%,
+          color-mix(in srgb, var(--cat) 56%, #5c430e) 60%,
+          color-mix(in srgb, var(--cat) 40%, #3a2a08) 100%);
+      background-size: 260% 100%, 100% 100%;
+      background-position: 130% 0, 0 0;
+      animation: foilSheen 4.5s ease-in-out infinite;
+    }
+    @keyframes foilSheen {
+      0% { background-position: 130% 0, 0 0; }
+      55% { background-position: -60% 0, 0 0; }
+      100% { background-position: -60% 0, 0 0; }
     }
 
     .counter-value {
-      font-size: clamp(2.5rem, 9vw, 3.4rem);
+      font-size: clamp(2.1rem, 7vw, 2.9rem);
       line-height: 1;
-      font-weight: 800;
+      font-weight: 700;
       color: var(--ink);
-      transition: transform 0.1s;
+      transition: transform 0.1s ease;
     }
 
-    .tap-hint { font-size: 0.72rem; letter-spacing: 0.12em; }
+    .tap-hint { font-size: 0.78rem; letter-spacing: 0.08em; font-weight: 600; color: var(--muted); }
 
     .mala-caption {
       text-align: center;
-      font-size: 0.74rem;
+      font-size: 0.82rem;
       color: var(--muted);
-      font-weight: 700;
-      margin-bottom: 0.85rem;
+      font-weight: 600;
+      margin: 0.4rem 0 0;
       padding: 0 0.5rem;
+      word-break: break-word;
     }
 
-    .ctl-pill {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      color: var(--ink);
-      font-size: 0.8rem;
-      font-weight: 800;
-      padding: 0.8rem;
-      cursor: pointer;
-      font-family: inherit;
-      transition: 0.15s;
-      width: 100%;
+    /* ---------- Library ---------- */
+    .lib-grid { display: grid; gap: 1.25rem; }
+    @media (min-width: 1024px) {
+      .lib-grid { grid-template-columns: minmax(0, 380px) minmax(0, 1fr); align-items: start; }
     }
-    .ctl-pill:hover { border-color: var(--accent-glow); }
-    .ctl-pill:active { transform: scale(0.97); }
-    .ctl-pill input { width: 1.1em; height: 1.1em; accent-color: var(--accent); }
 
-    .form-range { accent-color: var(--accent); }
-
-    .form-control, .form-select {
-      background-color: var(--chip);
-      color: var(--ink);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      font-size: 0.86rem;
-    }
-    .form-control::placeholder { color: var(--muted); }
-    .form-control:focus, .form-select:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 0.2rem var(--accent-glow);
-      background-color: var(--chip);
-      color: var(--ink);
-    }
-    [data-bs-theme="dark"] option { background-color: #16182e; color: #f4eddc; }
-    .form-switch .form-check-input { accent-color: var(--accent); }
-    .form-check-label { font-size: 0.78rem; }
-
-    .btn-primary-app {
-      background: linear-gradient(135deg, var(--accent), var(--marigold));
-      color: #241402;
-      border: none;
-      font-weight: 800;
-      padding: 0.72rem 1rem;
-      font-size: 0.92rem;
-      border-radius: 999px;
-      transition: 0.15s;
-    }
-    .btn-primary-app:hover { filter: brightness(1.06); color: #241402; }
-
-    .btn-soft {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      color: var(--ink);
-      font-weight: 700;
-      font-size: 0.78rem;
-      border-radius: 999px;
-      padding: 0.5rem 0.9rem;
-      transition: 0.15s;
-    }
-    .btn-soft:hover { color: var(--accent); border-color: var(--accent-glow); }
-
-    .mantra-search { position: relative; }
-    .mantra-search i {
+    .search-box { position: relative; }
+    .search-box i {
       position: absolute;
-      left: 12px; top: 50%;
+      left: 14px; top: 50%;
       transform: translateY(-50%);
       color: var(--muted);
-      font-size: 0.8rem;
+      font-size: 0.85rem;
     }
-    .mantra-search input { padding-left: 2.1rem; }
+    .search-box input { padding-left: 2.3rem; }
 
     .category-scroll, .recent-scroll {
       display: flex;
       gap: 0.45rem;
-      overflow-x: auto;
-      padding-bottom: 0.15rem;
-      scrollbar-width: none;
+      flex-wrap: wrap;
     }
-    .category-scroll::-webkit-scrollbar,
-    .recent-scroll::-webkit-scrollbar,
-    .mantra-list::-webkit-scrollbar { display: none; }
 
     .filter-chip, .recent-chip {
       border: 1px solid var(--line);
-      background: var(--chip);
+      background: var(--surface-2);
       color: var(--ink);
       border-radius: 999px;
-      padding: 0.4rem 0.78rem;
-      font-size: 0.74rem;
-      font-weight: 700;
+      padding: 0.42rem 0.85rem;
+      font-size: 0.78rem;
+      font-weight: 600;
       white-space: nowrap;
       cursor: pointer;
-      transition: 0.15s;
+      transition: color 0.18s ease, border-color 0.18s ease, background-color 0.18s ease, transform 0.12s ease;
       font-family: inherit;
     }
-    .filter-chip.active, .recent-chip:hover {
-      background: var(--accent-glow);
-      border-color: var(--accent-glow);
-      color: var(--accent);
+    .filter-chip:hover, .recent-chip:hover { border-color: var(--acc-glow); color: var(--acc); }
+    .filter-chip:active, .recent-chip:active { transform: scale(0.97); }
+    .filter-chip.active {
+      background: var(--acc);
+      border-color: var(--acc);
+      color: var(--acc-ink);
     }
+    .filter-chip.active:hover { color: var(--acc-ink); }
 
     .mantra-list {
-      max-height: 280px;
+      max-height: 340px;
       overflow-y: auto;
       display: grid;
       gap: 0.6rem;
       padding-right: 0.1rem;
     }
+    @media (min-width: 900px) { .mantra-list { grid-template-columns: 1fr 1fr; } }
 
     .mantra-card {
       border: 1px solid var(--line);
-      border-radius: 15px;
-      padding: 0.78rem 0.85rem;
-      background: var(--panel);
+      border-radius: 14px;
+      padding: 0.85rem 0.95rem;
+      background: var(--surface-2);
       cursor: pointer;
-      transition: 0.15s;
+      transition: border-color 0.18s ease, transform 0.12s ease, box-shadow 0.18s ease;
     }
-    .mantra-card:hover { border-color: var(--accent-glow); }
-    .mantra-card.active { border-color: var(--accent); background: var(--accent-glow); }
-    .mantra-name { font-weight: 700; color: var(--ink); line-height: 1.35; margin-bottom: 0.12rem; font-size: 0.9rem; }
-    .mantra-text-hi { font-size: 0.95rem; line-height: 1.55; color: var(--ink); margin-bottom: 0.15rem; font-weight: 600; }
-    .mantra-meaning { color: var(--muted); font-size: 0.74rem; line-height: 1.4; }
-    .mantra-meta { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.4rem; }
-
-    .meta-badge {
-      border-radius: 999px;
-      padding: 0.22rem 0.55rem;
-      font-size: 0.62rem;
-      font-weight: 800;
-      background: var(--chip);
-      color: var(--muted);
-      border: 1px solid var(--line);
-    }
+    .mantra-card:hover { border-color: var(--acc-glow); transform: translateY(-1px); box-shadow: var(--shadow); }
+    .mantra-card:active { transform: translateY(0); }
+    .mantra-card.active { border-color: var(--acc); background: var(--acc-soft); }
+    .mantra-name { font-weight: 600; color: var(--ink); line-height: 1.35; margin-bottom: 0.14rem; font-size: 0.9rem; }
+    .mantra-text-hi { font-size: 0.98rem; line-height: 1.55; color: var(--ink); margin-bottom: 0.16rem; font-weight: 600; }
+    .mantra-meaning { color: var(--muted); font-size: 0.8rem; line-height: 1.45; }
+    .mantra-meta { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.45rem; }
 
     .empty-state {
       text-align: center;
-      padding: 1.1rem 0.5rem;
+      padding: 1.25rem 0.5rem;
       color: var(--muted);
-      font-size: 0.82rem;
+      font-size: 0.85rem;
     }
+    .empty-state i { display: block; }
 
-    .stat-box {
-      background: var(--panel);
+    /* ---------- Stats ---------- */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .stat-card {
+      background: var(--surface);
       border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 0.7rem 0.4rem;
-      text-align: center;
+      border-radius: var(--radius);
+      padding: 1.05rem 1.15rem;
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      box-shadow: var(--shadow);
+    }
+    .stat-icon {
+      width: 42px; height: 42px; flex-shrink: 0;
+      border-radius: 12px;
+      display: grid; place-items: center;
+      background: var(--acc-soft);
+      color: var(--acc);
+      font-size: 1.05rem;
+    }
+    .stat-value { font-size: 1.4rem; font-weight: 700; color: var(--ink); line-height: 1.1; }
+    .stat-label { font-size: 0.75rem; color: var(--muted); font-weight: 600; margin-top: 0.15rem; }
+
+    .progress-track {
+      height: 8px;
+      border-radius: 999px;
+      background: var(--surface-2);
+      border: 1px solid var(--line);
+      overflow: hidden;
+    }
+    .progress-fill {
       height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: var(--acc);
+      transition: width 0.4s ease;
     }
-    .stat-label {
-      color: var(--muted);
-      font-size: 0.6rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    .stat-value { color: var(--ink); font-size: 1.15rem; font-weight: 800; margin-top: 0.2rem; }
-    .sub-value { font-size: 0.62rem; color: var(--muted); margin-top: 0.1rem; }
 
     .session-log-item {
       display: flex;
@@ -524,146 +751,211 @@
       align-items: center;
       border: 1px solid var(--line);
       border-radius: 13px;
-      padding: 0.55rem 0.7rem;
-      font-size: 0.74rem;
-      margin-bottom: 0.4rem;
-      background: var(--panel);
+      padding: 0.6rem 0.8rem;
+      font-size: 0.82rem;
+      margin-bottom: 0.45rem;
+      background: var(--surface-2);
     }
-    .session-log-item .log-mantra { font-weight: 700; color: var(--ink); }
-    .session-log-item .log-count { color: var(--accent); font-weight: 800; font-family: 'JetBrains Mono', monospace; }
-    .session-log-item .log-date { color: var(--muted); font-size: 0.62rem; }
+    .session-log-item .log-mantra { font-weight: 600; color: var(--ink); }
+    .session-log-item .log-count { color: var(--acc); font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+    .session-log-item .log-date { color: var(--muted); font-size: 0.72rem; }
 
     .guide-card {
-      background: var(--guide);
+      background: var(--surface-2);
       border: 1px solid var(--line);
       border-radius: 14px;
-      padding: 0.9rem 1rem;
-      font-size: 0.8rem;
+      padding: 0.95rem 1.05rem;
+      font-size: 0.85rem;
       line-height: 1.6;
       color: var(--ink);
     }
-    .guide-card strong { color: var(--accent); }
+    .guide-card strong { color: var(--acc); }
     .guide-card ul { padding-left: 1.1rem; margin-bottom: 0.5rem; }
     .guide-card li { margin-bottom: 0.3rem; }
 
-    .modal-backdrop { --bs-backdrop-bg: rgba(0, 0, 0, 0.6); }
+    /* ---------- Modal ---------- */
+    .modal { overscroll-behavior: contain; }
+    .modal-backdrop { --bs-backdrop-bg: rgba(0, 0, 0, 0.55); }
     .completion-card {
-      background: linear-gradient(160deg, var(--card), var(--panel));
+      background: var(--surface);
       border: 1px solid var(--line);
-      border-radius: 28px;
-      padding: 1.8rem 1.4rem;
+      border-radius: 24px;
+      padding: 1.9rem 1.5rem;
       text-align: center;
-      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+      box-shadow: var(--shadow);
       color: var(--ink);
     }
-    .completion-card .completion-icon { font-size: 1.9rem; color: var(--accent); }
-    .completion-card h5 { font-weight: 800; margin-top: 0.4rem; }
-    .completion-card p { color: var(--muted); font-size: 0.85rem; }
+    .completion-card .completion-icon { font-size: 2rem; color: var(--acc); }
+    .completion-card h5 { font-weight: 700; margin-top: 0.5rem; }
+    .completion-card p { color: var(--muted); font-size: 0.88rem; }
 
+    /* ---------- Responsive ---------- */
     @media (max-width: 767px) {
-      body { padding: 0; align-items: stretch; }
-      .scene { width: 100%; }
-      .device { width: 100%; height: 100dvh; border-radius: 0; padding: 0; box-shadow: none; }
-      .screen { border-radius: 0; }
-      .island { display: none; }
-      .appbar { padding-top: calc(env(safe-area-inset-top, 0px) + 0.6rem); }
-      .ring-wrap { width: min(256px, 74vw); height: min(256px, 74vw); }
+      .appbar { padding: calc(env(safe-area-inset-top, 0px) + 0.55rem) 1rem 0.55rem; }
+      .brand-tag { display: none; }
+      .app-shell { padding: 1rem 1rem calc(env(safe-area-inset-bottom, 0px) + 1.25rem); }
+      .page-sub { display: none; }
+      .ring-wrap { width: min(100%, 340px); }
     }
 
-    @media (min-width: 768px) and (max-height: 740px) {
-      .device { height: 96vh; }
+    @media (min-width: 1024px) {
+      .chant-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+        align-items: start;
+        grid-template-areas:
+          "status ring"
+          "info   ring"
+          "ctl    ring"
+          "speed  ring";
+      }
+      .chant-status { grid-area: status; }
+      .chant-info { grid-area: info; }
+      .chant-ring { grid-area: ring; }
+      .chant-ctl { grid-area: ctl; }
+      .chant-speed { grid-area: speed; }
+      .chant-ring { display: flex; flex-direction: column; justify-content: center; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation: none !important; transition: none !important; }
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
     }
   </style>
 </head>
 <body>
 
 <div class="scene">
-  <div class="device">
-    <div class="screen">
 
-      <div class="island" aria-hidden="true"><i class="fas fa-om"></i></div>
+  <header class="appbar">
+    <div class="appbar-left">
+      <a href="index.html" class="home-link" aria-label="Go back to home page"><i class="fas fa-arrow-left" aria-hidden="true"></i><span>Home</span></a>
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"><i class="fas fa-om"></i></span>
+        <div class="brand-text">
+          <span class="brand-name font-display">Jap Machine</span>
+          <span class="brand-tag">Mantra counter</span>
+        </div>
+      </div>
+    </div>
+    <nav class="seg-nav" role="tablist" aria-label="App sections">
+      <button type="button" class="tab-btn active" role="tab" data-tab="tab-chant" onclick="switchTab('tab-chant')" aria-selected="true"><i class="fas fa-om" aria-hidden="true"></i><span>Chant</span></button>
+      <button type="button" class="tab-btn" role="tab" data-tab="tab-library" onclick="switchTab('tab-library')" aria-selected="false"><i class="fas fa-book-open" aria-hidden="true"></i><span>Library</span></button>
+      <button type="button" class="tab-btn" role="tab" data-tab="tab-stats" onclick="switchTab('tab-stats')" aria-selected="false"><i class="fas fa-chart-simple" aria-hidden="true"></i><span>Stats</span></button>
+    </nav>
+    <div class="appbar-right">
+      <button type="button" class="icon-btn" onclick="toggleTheme()" title="Toggle theme" id="themeBtn" aria-label="Toggle light or dark theme" aria-pressed="false"><i class="fas fa-sun" aria-hidden="true"></i></button>
+    </div>
+  </header>
 
-      <header class="appbar">
-        <a href="index.html" class="home-link" aria-label="Go back to home page"><i class="fas fa-house"></i><span>Home</span></a>
-        <h1 class="app-title font-display"><i class="fas fa-dharmachakra"></i> Jap Machine</h1>
-        <button class="icon-btn" onclick="toggleTheme()" title="Toggle theme" id="themeBtn" aria-label="Toggle light or dark theme"><i class="fas fa-sun"></i></button>
-      </header>
+  <main class="app-shell" id="appContent">
+    <div class="page-wrap">
 
-      <div class="app-content" id="appContent">
+      <!-- ===== CHANT ===== -->
+      <section class="tab-panel active" id="tab-chant" aria-label="Chanting screen">
+        <header class="page-head">
+          <h2 class="page-title font-display">Chant</h2>
+          <p class="page-sub">Tap the mala to count each recitation. One full mala is 108.</p>
+        </header>
 
-        <!-- ===== CHANT ===== -->
-        <section class="tab-panel active" id="tab-chant" aria-label="Chanting screen">
-
-          <div class="status-row">
-            <span class="pill-accent"><i class="fas fa-fire"></i> <b id="streakCount">0</b>-day streak</span>
-            <span class="pill-accent"><i class="fas fa-clock"></i> <span id="sessionTimer" class="font-mono">00:00</span></span>
+        <div class="chant-grid">
+          <div class="chant-status">
+            <div class="status-row">
+              <span class="pill"><i class="fas fa-fire" aria-hidden="true"></i> <b id="streakCount">0</b>-day streak</span>
+              <span class="pill"><i class="fas fa-clock" aria-hidden="true"></i> <span id="sessionTimer" class="font-mono">00:00</span></span>
+            </div>
           </div>
 
-          <div class="active-mantra-card card-app">
-            <div class="active-top-badge"><i class="fas fa-om"></i><span id="activeCategoryDisplay">Planetary</span></div>
+          <div class="card-app active-mantra-card chant-info">
+            <div class="active-top-badge"><i class="fas fa-om" aria-hidden="true"></i><span id="activeCategoryDisplay">Planetary</span></div>
             <div id="activeMantraDisplay" class="active-mantra-title font-display">Gayatri Mantra</div>
-            <div id="activeMantraHindi" class="active-mantra-hindi font-devanagari">ॐ भूर्भुवः स्वः</div>
             <div id="activeMantraSubtitle" class="active-mantra-sub">Wisdom and illumination</div>
             <div id="activeMantraMeaning" class="active-mantra-meaning">The most revered Vedic mantra for wisdom, spiritual light, and higher consciousness.</div>
           </div>
 
-          <div class="ring-wrap">
-            <svg viewBox="0 0 240 240" aria-hidden="true">
-              <circle class="ring-track" cx="120" cy="120" r="99"></circle>
-              <g id="progressRing"></g>
-              <circle id="meruBead" class="meru-bead" cx="120" cy="8" r="6.5"></circle>
-            </svg>
-            <div class="counter-overlay">
-              <button id="japBtn" class="btn-jap text-main" onclick="incrementCount()" aria-label="Tap to count one recitation">
-                <div id="counterValue" class="counter-value fw-bold font-mono">0</div>
-                <div class="tap-hint text-muted-custom small fw-bold text-uppercase">
-                  <i class="fas fa-hand-pointer text-accent me-1"></i> Tap
-                </div>
-              </button>
+          <div class="chant-ring">
+            <div class="ring-wrap" id="ringWrap">
+              <svg viewBox="0 0 250 250" aria-hidden="true">
+                <defs>
+                  <radialGradient id="beadShine" cx="35%" cy="30%" r="80%">
+                    <stop class="gs1" offset="0%" />
+                    <stop class="gs2" offset="55%" />
+                    <stop class="gs3" offset="100%" />
+                  </radialGradient>
+                  <radialGradient id="beadDim" cx="35%" cy="30%" r="80%">
+                    <stop class="gd1" offset="0%" />
+                    <stop class="gd2" offset="55%" />
+                    <stop class="gd3" offset="100%" />
+                  </radialGradient>
+                </defs>
+                <circle class="sigil-track" cx="125" cy="125" r="101"></circle>
+                <g id="progressRing"></g>
+                <circle id="tapRipple" class="tap-ripple" cx="125" cy="125" r="101"></circle>
+                <g id="guruGroup">
+                  <circle id="guruHalo" class="guru-halo" cx="125" cy="21" r="15"></circle>
+                  <circle id="meruBead" class="meru-bead" cx="125" cy="21" r="6.5"></circle>
+                </g>
+                <circle class="seal-ring" cx="125" cy="125" r="116"></circle>
+              </svg>
+              <div class="word-halo" aria-hidden="true"></div>
+              <div class="counter-overlay">
+                <button id="japBtn" type="button" class="btn-jap text-main" onclick="incrementCount()" aria-label="Tap to count one recitation">
+                  <div id="activeMantraHindi" class="sigil-word sigil-word--deva">ॐ भूर्भुवः स्वः</div>
+                  <div id="counterValue" class="counter-value fw-bold font-mono">0</div>
+                  <div class="tap-hint fw-bold">
+                    <i class="fas fa-hand-pointer text-accent me-1" aria-hidden="true"></i> Tap
+                  </div>
+                </button>
+              </div>
             </div>
-          </div>
-
-          <div class="text-center">
             <div class="mala-caption font-mono" id="malaText">ॐ भूर्भुवः स्वः • 0 / 108</div>
           </div>
 
-          <div class="row g-2 mb-3">
-            <div class="col-6">
-              <label class="ctl-pill h-100">
-                <input class="form-check-input" type="checkbox" id="autoToggle" onchange="toggleAutoMode()">
-                <span><i class="fas fa-bolt text-accent"></i> Auto Jap</span>
-              </label>
-            </div>
-            <div class="col-6">
-              <button class="ctl-pill h-100" onclick="resetSession()"><i class="fas fa-rotate-left text-accent"></i> Reset</button>
+          <div class="card-app chant-ctl">
+            <div class="row g-2">
+              <div class="col-6">
+                <label class="ctl-pill h-100">
+                  <input type="checkbox" id="autoToggle" onchange="toggleAutoMode()">
+                  <span><i class="fas fa-bolt text-accent" aria-hidden="true"></i> Auto Jap</span>
+                </label>
+              </div>
+              <div class="col-6">
+                <button type="button" class="ctl-pill h-100" onclick="resetSession()"><i class="fas fa-rotate-left text-accent" aria-hidden="true"></i> Reset</button>
+              </div>
             </div>
           </div>
 
-          <div id="autoSpeedContainer" class="mb-3 d-none">
-            <div class="d-flex justify-content-between text-muted-custom fw-bold text-uppercase mb-1" style="font-size:0.65rem;">
-              <span>Speed</span>
-              <span id="speedDisplay" class="font-mono">2.5s</span>
+          <div class="card-app chant-speed d-none" id="autoSpeedContainer">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <span class="field-label mb-0">Auto Jap speed</span>
+              <span id="speedDisplay" class="font-mono" style="color:var(--acc);font-weight:700;">2.5s</span>
             </div>
             <input id="speedSlider" type="range" class="form-range" min="1" max="5" step="0.5" value="2.5" oninput="updateSpeedDisplay(this.value)">
           </div>
-        </section>
+        </div>
+      </section>
 
-        <!-- ===== LIBRARY ===== -->
-        <section class="tab-panel" id="tab-library" aria-label="Mantra library">
+      <!-- ===== LIBRARY ===== -->
+      <section class="tab-panel" id="tab-library" aria-label="Mantra library">
+        <header class="page-head">
+          <h2 class="page-title font-display">Library</h2>
+          <p class="page-sub">Set up your practice, pick a mantra, and tune the sound.</p>
+        </header>
 
-          <div class="card-app mb-3">
+        <div class="lib-grid">
+          <div class="card-app">
             <div class="panel-title mb-3">Practice setup</div>
 
-            <div class="row g-2 mb-2">
-              <div class="col-8">
-                <input id="mantraInput" type="text" class="form-control" placeholder="Type custom mantra title..." />
-              </div>
-              <div class="col-4">
-                <select id="targetSelect" class="form-select fw-bold text-center">
+            <div class="mb-3">
+              <label class="field-label" for="mantraInput">Custom mantra</label>
+              <input id="mantraInput" name="mantra" type="text" class="form-control" placeholder="e.g. Gayatri Mantra…" autocomplete="off" />
+            </div>
+
+            <div class="row g-2 mb-3">
+              <div class="col-7">
+                <label class="field-label" for="targetSelect">Target count</label>
+                <select id="targetSelect" name="target" class="form-select fw-bold text-center">
                   <option value="108">108</option>
                   <option value="11">11</option>
                   <option value="21">21</option>
@@ -672,141 +964,160 @@
                   <option value="0">∞</option>
                 </select>
               </div>
-            </div>
-
-            <div class="row g-2 mb-2">
-              <div class="col-12">
-                <input id="defaultMantraIdInput" type="text" class="form-control" placeholder="Default mantra id (example: gayatri)" />
+              <div class="col-5">
+                <div class="d-flex justify-content-between align-items-end mb-1">
+                  <label class="field-label mb-0" for="breatheToggle">Breathing glow</label>
+                </div>
+                <div class="form-check form-switch mt-2">
+                  <input class="form-check-input" type="checkbox" id="breatheToggle" checked onchange="toggleBreathe()">
+                </div>
               </div>
             </div>
 
-            <div class="row g-2 mb-2">
+            <div class="mb-3">
+              <label class="field-label" for="defaultMantraIdInput">Default mantra id</label>
+              <input id="defaultMantraIdInput" name="default" type="text" class="form-control" placeholder="e.g. gayatri" autocomplete="off" />
+            </div>
+
+            <div class="row g-2 mb-3">
               <div class="col-6 d-grid">
-                <button class="btn btn-soft rounded-pill" onclick="saveDefaultMantraId()">Save Default</button>
+                <button type="button" class="btn btn-ghost rounded-pill" onclick="saveDefaultMantraId()">Save default</button>
               </div>
               <div class="col-6 d-grid">
-                <button class="btn btn-soft rounded-pill" onclick="loadDefaultMantraById()">Load Default</button>
+                <button type="button" class="btn btn-ghost rounded-pill" onclick="loadDefaultMantraById()">Load default</button>
               </div>
             </div>
 
-            <div class="row g-2 mb-2">
+            <div class="row g-2 mb-3">
               <div class="col-6">
-                <select id="ambientSelect" class="form-select" onchange="handleAmbientChange()">
-                  <option value="">🔇 No Sound</option>
-                  <option value="https://actions.google.com/sounds/v1/water/rain_on_roof.ogg">🌧️ Gentle Rain</option>
+                <label class="field-label" for="ambientSelect">Ambient sound</label>
+                <select id="ambientSelect" name="ambient" class="form-select" onchange="handleAmbientChange()">
+                  <option value="">🔇 No sound</option>
+                  <option value="https://actions.google.com/sounds/v1/water/rain_on_roof.ogg">🌧️ Gentle rain</option>
                   <option value="https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg">🌊 Ocean</option>
-                  <option value="https://actions.google.com/sounds/v1/nature/fire_crackling_and_crickets.ogg">🔥 Night Fire</option>
+                  <option value="https://actions.google.com/sounds/v1/nature/fire_crackling_and_crickets.ogg">🔥 Night fire</option>
                 </select>
               </div>
               <div class="col-6">
-                <select id="soundSelect" class="form-select" onchange="updateClickSound()">
-                  <option value="sine">🔔 Soft Bell</option>
-                  <option value="triangle">🔊 Tibetan Bowl</option>
+                <label class="field-label" for="soundSelect">Tap sound</label>
+                <select id="soundSelect" name="sound" class="form-select" onchange="updateClickSound()">
+                  <option value="sine">🔔 Soft bell</option>
+                  <option value="triangle">🔊 Tibetan bowl</option>
                   <option value="click">👆 Click</option>
                   <option value="none">🔇 Mute</option>
                 </select>
               </div>
             </div>
 
-            <div class="form-check form-switch mb-3">
-              <input class="form-check-input" type="checkbox" id="breatheToggle" checked onchange="toggleBreathe()">
-              <label class="form-check-label text-muted-custom fw-bold" for="breatheToggle">Breathing glow around the counter</label>
-            </div>
-
             <div class="d-grid">
-              <button class="btn btn-primary-app rounded-pill" onclick="setAndStart()">
-                <i class="fas fa-play me-1"></i> Begin Session
+              <button type="button" class="btn btn-solid rounded-pill" onclick="setAndStart()">
+                <i class="fas fa-play me-1" aria-hidden="true"></i> Begin session
               </button>
             </div>
           </div>
 
-          <div class="card-app mb-1">
+          <div class="card-app">
             <div class="d-flex justify-content-between align-items-center mb-2">
               <div class="panel-title mb-0">All mantras</div>
               <span class="meta-badge" id="totalMantrasBadge">30</span>
             </div>
 
-            <div class="mantra-search mb-2">
-              <i class="fas fa-search"></i>
-              <input id="mantraSearch" type="text" class="form-control rounded-pill" placeholder="Search mantra, deity, or category..." oninput="renderMantras()" />
+            <div class="search-box mb-2">
+              <i class="fas fa-search" aria-hidden="true"></i>
+              <label class="visually-hidden" for="mantraSearch">Search mantras</label>
+              <input id="mantraSearch" name="search" type="text" class="form-control rounded-pill" placeholder="Search mantra, deity, or category…" oninput="renderMantras()" autocomplete="off" />
             </div>
 
             <div class="category-scroll mb-2" id="categoryFilters"></div>
             <div class="recent-scroll mb-2" id="recentWrap"></div>
             <div class="mantra-list" id="mantraList"></div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <!-- ===== STATS ===== -->
-        <section class="tab-panel" id="tab-stats" aria-label="Practice statistics">
+      <!-- ===== STATS ===== -->
+      <section class="tab-panel" id="tab-stats" aria-label="Practice statistics">
+        <header class="page-head">
+          <h2 class="page-title font-display">Your practice</h2>
+          <p class="page-sub">A quiet record of your japa.</p>
+        </header>
 
-          <div class="card-app mb-3">
-            <div class="panel-title mb-2">Your practice</div>
-            <div class="row g-2">
-              <div class="col-3">
-                <div class="stat-box">
-                  <div class="stat-label">Session</div>
-                  <div id="statsToday" class="stat-value font-mono">0</div>
-                </div>
-              </div>
-              <div class="col-3">
-                <div class="stat-box">
-                  <div class="stat-label">Lifetime</div>
-                  <div id="statsTotal" class="stat-value font-mono">0</div>
-                </div>
-              </div>
-              <div class="col-3">
-                <div class="stat-box">
-                  <div class="stat-label">Malas</div>
-                  <div id="statsMalas" class="stat-value font-mono">0</div>
-                  <div class="sub-value">108 each</div>
-                </div>
-              </div>
-              <div class="col-3">
-                <div class="stat-box">
-                  <div class="stat-label">Mantras</div>
-                  <div id="statsMantras" class="stat-value font-mono">30</div>
-                </div>
-              </div>
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-bolt" aria-hidden="true"></i></div>
+            <div>
+              <div class="stat-value font-mono" id="statsToday">0</div>
+              <div class="stat-label">Session</div>
             </div>
           </div>
-
-          <div class="card-app mb-3">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <div class="panel-title mb-0">Session log</div>
-              <button class="btn btn-soft rounded-pill" style="font-size:0.68rem;padding:0.25rem 0.7rem;" onclick="clearSessionLog()">Clear</button>
-            </div>
-            <div id="sessionLog"></div>
-          </div>
-
-          <div class="card-app mb-1">
-            <div class="panel-title mb-2">About Japa</div>
-            <div class="guide-card">
-              <p class="mb-2"><strong>Japa</strong> (जप) is the meditative repetition of a mantra. It is a core practice in Hindu, Buddhist, and Sikh traditions for focusing the mind and connecting with the divine.</p>
-              <p class="mb-2"><strong>Mala beads</strong> typically have 108 beads — a sacred number in Eastern traditions representing the wholeness of existence. One full mala = 108 recitations.</p>
-              <p class="mb-1"><strong>How to practice:</strong></p>
-              <ul class="mb-2">
-                <li>Sit comfortably with a calm mind and set your intention</li>
-                <li>Recite the mantra aloud, in a whisper, or silently</li>
-                <li>Use the counter to track — one tap per recitation</li>
-                <li>Focus on the sound and meaning of the mantra</li>
-                <li>Consistency matters more than quantity — daily practice is key</li>
-              </ul>
-              <p class="mb-0 small text-muted-custom">Each mantra carries a specific vibration and intention. Choose the one that resonates with your current need.</p>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-infinity" aria-hidden="true"></i></div>
+            <div>
+              <div class="stat-value font-mono" id="statsTotal">0</div>
+              <div class="stat-label">Lifetime</div>
             </div>
           </div>
-        </section>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-circle-notch" aria-hidden="true"></i></div>
+            <div>
+              <div class="stat-value font-mono" id="statsMalas">0</div>
+              <div class="stat-label">Malas</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-book-open" aria-hidden="true"></i></div>
+            <div>
+              <div class="stat-value font-mono" id="statsMantras">30</div>
+              <div class="stat-label">Mantras</div>
+            </div>
+          </div>
+        </div>
 
-      </div>
+        <div class="card-app mb-3">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="panel-title mb-0">Today's progress</div>
+            <span class="meta-badge font-mono" id="todayProgressText">0 / 108 japs</span>
+          </div>
+          <div class="progress-track" role="progressbar" aria-label="Today's progress toward 108 japs" aria-valuemin="0" aria-valuemax="108" aria-valuenow="0">
+            <div class="progress-fill" id="todayProgress"></div>
+          </div>
+        </div>
 
-      <nav class="tabbar" aria-label="App sections">
-        <button class="tab-btn active" data-tab="tab-chant" onclick="switchTab('tab-chant')" aria-selected="true"><i class="fas fa-om"></i><span>Chant</span></button>
-        <button class="tab-btn" data-tab="tab-library" onclick="switchTab('tab-library')" aria-selected="false"><i class="fas fa-book-open"></i><span>Library</span></button>
-        <button class="tab-btn" data-tab="tab-stats" onclick="switchTab('tab-stats')" aria-selected="false"><i class="fas fa-chart-simple"></i><span>Stats</span></button>
-      </nav>
+        <div class="card-app mb-3">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="panel-title mb-0">Session log</div>
+            <button type="button" class="btn btn-ghost btn-sm btn-danger-ghost rounded-pill" onclick="clearSessionLog()">Clear</button>
+          </div>
+          <div id="sessionLog" aria-live="polite"></div>
+        </div>
+
+        <div class="card-app mb-1">
+          <div class="panel-title mb-2">About Japa</div>
+          <div class="guide-card">
+            <p class="mb-2"><strong>Japa</strong> (जप) is the meditative repetition of a mantra. It is a core practice in Hindu, Buddhist, and Sikh traditions for focusing the mind and connecting with the divine.</p>
+            <p class="mb-2"><strong>Mala beads</strong> typically have 108 beads — a sacred number in Eastern traditions representing the wholeness of existence. One full mala = 108 recitations.</p>
+            <p class="mb-1"><strong>How to practice:</strong></p>
+            <ul class="mb-2">
+              <li>Sit comfortably with a calm mind and set your intention</li>
+              <li>Recite the mantra aloud, in a whisper, or silently</li>
+              <li>Use the counter to track — one tap per recitation</li>
+              <li>Focus on the sound and meaning of the mantra</li>
+              <li>Consistency matters more than quantity — daily practice is key</li>
+            </ul>
+            <p class="mb-0 small text-muted-custom">Each mantra carries a specific vibration and intention. Choose the one that resonates with your current need.</p>
+          </div>
+        </div>
+      </section>
 
     </div>
-  </div>
+  </main>
+
+  <nav class="tabbar" role="tablist" aria-label="App sections">
+    <button type="button" class="tab-btn active" role="tab" data-tab="tab-chant" onclick="switchTab('tab-chant')" aria-selected="true"><i class="fas fa-om" aria-hidden="true"></i><span>Chant</span></button>
+    <button type="button" class="tab-btn" role="tab" data-tab="tab-library" onclick="switchTab('tab-library')" aria-selected="false"><i class="fas fa-book-open" aria-hidden="true"></i><span>Library</span></button>
+    <button type="button" class="tab-btn" role="tab" data-tab="tab-stats" onclick="switchTab('tab-stats')" aria-selected="false"><i class="fas fa-chart-simple" aria-hidden="true"></i><span>Stats</span></button>
+  </nav>
+
 </div>
 
 <audio id="ambientAudio" loop preload="none"></audio>
@@ -816,10 +1127,10 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content border-0 bg-transparent shadow-none">
       <div class="completion-card">
-        <div class="completion-icon"><i class="fas fa-om"></i></div>
+        <div class="completion-icon"><i class="fas fa-om" aria-hidden="true"></i></div>
         <h5 class="fw-bold mb-2">Target completed</h5>
         <p class="text-muted-custom mb-3" id="completionText">You completed your jap target.</p>
-        <button type="button" class="btn btn-primary-app rounded-pill px-4" data-bs-dismiss="modal">Peace</button>
+        <button type="button" class="btn btn-solid rounded-pill px-4" data-bs-dismiss="modal">Peace</button>
       </div>
     </div>
   </div>
@@ -828,7 +1139,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-  const STORAGE_KEYS = {
+const STORAGE_KEYS = {
     total: 'jap_total',
     recent: 'recent_mantras',
     selectedId: 'selected_mantra_id',
@@ -838,7 +1149,29 @@
   };
 
   const DEFAULT_MANTRA_ID = 'gayatri';
+  const MALA_GOAL = 108;
   let clickSoundType = 'sine';
+
+  const CAT_ACCENT = {
+    'Vedic': '#e3b54f',
+    'Shiva': '#7fb8e8',
+    'Planetary': '#b48ce8',
+    'Ganesha': '#f0b95c',
+    'Hanuman': '#e8739a',
+    'Peace': '#7ec8a8',
+    'General': '#e3b54f',
+    'Buddhist': '#d8a03c',
+    'Devi': '#e65d8c',
+    'Vishnu': '#5aa7e8',
+    'Advaita': '#b48ce8',
+    'Custom': '#e3b54f'
+  };
+
+  function applyMantraAccent(category) {
+    const hex = CAT_ACCENT[category] || '#e3b54f';
+    const wrap = document.getElementById('ringWrap');
+    if (wrap) wrap.style.setProperty('--cat', hex);
+  }
 
   const MANTRAS = [
     { id: 'gayatri', name: 'Gayatri Mantra', text: 'ॐ भूर्भुवः स्वः', category: 'Vedic', subtitle: 'Wisdom and illumination', tags: ['Wisdom', 'Light'], meaning: 'The most revered Vedic mantra for wisdom, spiritual light, and higher consciousness.' },
@@ -882,6 +1215,7 @@
   let timerInterval = null;
   let autoJapInterval = null;
   let recentMantras = JSON.parse(localStorage.getItem(STORAGE_KEYS.recent) || '[]');
+  let roundWaveTimer = null;
 
   function getStoredDefaultMantraId() {
     return localStorage.getItem(STORAGE_KEYS.defaultId) || DEFAULT_MANTRA_ID;
@@ -921,22 +1255,47 @@
   const sessionLogEl = document.getElementById('sessionLog');
   const streakCountEl = document.getElementById('streakCount');
   const japBtn = document.getElementById('japBtn');
+  const themeBtn = document.getElementById('themeBtn');
 
   const completionModal = new bootstrap.Modal(document.getElementById('completionModal'));
 
-  // --- Mala ring: 108 beads light up as you count ---
+  // --- Living Mala: 108 shaded beads around a thread, top gap for the guru bead ---
   const BEADS = 108;
+  const RING_CX = 125;
+  const RING_CY = 125;
+  const RING_R = 101;
+  const GAP = 0.055;
+  const SPAN = 2 * Math.PI * (1 - GAP);
+  const START_ANG = -Math.PI / 2 + GAP * Math.PI;
   let beadEls = [];
+  let beadPos = [];
+
   function buildMala() {
     for (let i = 0; i < BEADS; i++) {
-      const ang = (i / BEADS) * 2 * Math.PI - Math.PI / 2;
-      const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-      c.setAttribute('cx', (120 + 99 * Math.cos(ang)).toFixed(2));
-      c.setAttribute('cy', (120 + 99 * Math.sin(ang)).toFixed(2));
-      c.setAttribute('r', '3.4');
-      c.classList.add('mala-bead');
-      beadEls.push(c);
-      progressRing.appendChild(c);
+      const ang = START_ANG + (i / BEADS) * SPAN;
+      const x = RING_CX + RING_R * Math.cos(ang);
+      const y = RING_CY + RING_R * Math.sin(ang);
+      beadPos.push({ x, y, ang });
+
+      const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      g.setAttribute('class', 'mala-bead');
+
+      const base = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      base.setAttribute('cx', x.toFixed(2));
+      base.setAttribute('cy', y.toFixed(2));
+      base.setAttribute('r', '3.4');
+      base.setAttribute('class', 'bead-base');
+
+      const glow = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      glow.setAttribute('cx', x.toFixed(2));
+      glow.setAttribute('cy', y.toFixed(2));
+      glow.setAttribute('r', '5');
+      glow.setAttribute('class', 'bead-glow');
+
+      g.appendChild(base);
+      g.appendChild(glow);
+      beadEls.push(g);
+      progressRing.appendChild(g);
     }
   }
 
@@ -944,11 +1303,36 @@
     for (let i = 0; i < BEADS; i++) beadEls[i].classList.toggle('lit', i < lit);
   }
 
+  function rippleAt() {
+    const ripple = document.getElementById('tapRipple');
+    if (!ripple) return;
+    ripple.classList.remove('pulse');
+    void ripple.getBoundingClientRect();
+    ripple.classList.add('pulse');
+  }
+
   function flashMeru() {
     const m = document.getElementById('meruBead');
-    if (!m) return;
-    m.classList.add('lit');
-    setTimeout(() => m.classList.remove('lit'), 450);
+    const halo = document.getElementById('guruHalo');
+    if (m) { m.classList.add('lit'); setTimeout(() => m.classList.remove('lit'), 500); }
+    if (halo) { halo.classList.add('lit'); setTimeout(() => halo.classList.remove('lit'), 600); }
+  }
+
+  function celebrateRound() {
+    clearTimeout(roundWaveTimer);
+    const wrap = document.getElementById('ringWrap');
+    if (wrap) {
+      wrap.classList.remove('celebrate');
+      void wrap.getBoundingClientRect();
+      wrap.classList.add('celebrate');
+    }
+    beadEls.forEach(g => g.classList.remove('lit'));
+    roundWaveTimer = setTimeout(() => {
+      beadEls.forEach((g, i) => {
+        setTimeout(() => g.classList.add('lit'), i * 5);
+      });
+      setTimeout(() => flashMeru(), BEADS * 5 + 120);
+    }, 90);
   }
 
   buildMala();
@@ -958,6 +1342,7 @@
   updateMalaStats();
   initStreak();
   renderSessionLog();
+  updateTodayProgress();
 
   const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -1055,7 +1440,13 @@
     });
     const content = document.getElementById('appContent');
     if (content) content.scrollTop = 0;
+    if (location.hash !== '#' + name) location.hash = name;
   }
+
+  window.addEventListener('hashchange', () => {
+    const h = (location.hash || '').replace('#', '');
+    if (['tab-chant', 'tab-library', 'tab-stats'].includes(h)) switchTab(h);
+  });
 
   function toggleSetup() { switchTab('tab-library'); }
 
@@ -1071,7 +1462,7 @@
     const inputId = defaultMantraIdInput.value.trim();
     const mantra = findMantraById(inputId);
     if (!inputId || !mantra || mantra.id !== inputId) {
-      alert('Enter valid mantra id. Example: gayatri');
+      alert('Enter a valid mantra id. Example: gayatri');
       return;
     }
     localStorage.setItem(STORAGE_KEYS.defaultId, mantra.id);
@@ -1087,7 +1478,10 @@
   function updateActiveMantraDisplay() {
     mantraDisplay.innerText = activeMantra.name;
     activeMantraHindi.innerText = activeMantra.text;
+    const len = activeMantra.text.length;
+    activeMantraHindi.style.fontSize = len <= 7 ? '2.1rem' : len <= 12 ? '1.7rem' : len <= 18 ? '1.4rem' : '1.1rem';
     activeCategoryDisplay.innerText = activeMantra.category;
+    applyMantraAccent(activeMantra.category);
     activeMantraSubtitle.innerText = activeMantra.subtitle || 'Selected mantra';
     activeMantraMeaning.innerText = activeMantra.meaning || '';
     mantraInput.value = activeMantra.name;
@@ -1113,7 +1507,7 @@
   function renderCategories() {
     const cats = ['All', ...new Set(MANTRAS.map(m => m.category))];
     categoryFilters.innerHTML = cats.map(cat =>
-      `<button class="filter-chip ${cat === currentCategory ? 'active' : ''}" onclick="setCategory('${cat.replace(/'/g, "\\'")}')">${cat}</button>`
+      `<button type="button" class="filter-chip ${cat === currentCategory ? 'active' : ''}" onclick="setCategory('${cat.replace(/'/g, "\\'")}')">${cat}</button>`
     ).join('');
   }
 
@@ -1122,7 +1516,7 @@
   function renderRecentMantras() {
     if (!recentMantras.length) { recentWrap.innerHTML = ''; return; }
     recentWrap.innerHTML = recentMantras.map(name =>
-      `<button class="recent-chip" onclick="chooseMantra('${name.replace(/'/g, "\\'")}')"><i class="fas fa-clock-rotate-left me-1"></i>${name}</button>`
+      `<button type="button" class="recent-chip" onclick="chooseMantra('${name.replace(/'/g, "\\'")}')"><i class="fas fa-clock-rotate-left me-1" aria-hidden="true"></i>${name}</button>`
     ).join('');
   }
 
@@ -1137,12 +1531,12 @@
     });
 
     if (!filtered.length) {
-      mantraList.innerHTML = '<div class="empty-state"><i class="fas fa-spa mb-2 d-block fs-4"></i>No mantra found. Try another keyword.</div>';
+      mantraList.innerHTML = '<div class="empty-state"><i class="fas fa-spa mb-2 fs-4" aria-hidden="true"></i>No mantra found. Try another keyword.</div>';
       return;
     }
 
     mantraList.innerHTML = filtered.map(m =>
-      `<div class="mantra-card ${activeMantra.id === m.id ? 'active' : ''}" data-id="${m.id}" onclick="chooseMantraById('${m.id}')">
+      `<div class="mantra-card ${activeMantra.id === m.id ? 'active' : ''}" data-id="${m.id}" onclick="chooseMantraById('${m.id}')" role="button" tabindex="0" aria-label="Select ${m.name}">
         <div class="mantra-name">${m.name}</div>
         <div class="mantra-text-hi font-devanagari">${m.text}</div>
         <div class="mantra-meaning">${m.subtitle}</div>
@@ -1182,22 +1576,27 @@
     sessionTotal++;
     lifetimeTotal++;
 
-    if (count % BEADS === 0) flashMeru();
+    const roundComplete = count % BEADS === 0;
+    if (roundComplete) flashMeru();
 
     counterDisplay.innerText = count;
-    counterDisplay.style.transform = 'scale(1.15)';
-    counterDisplay.style.color = 'var(--accent)';
-    setTimeout(() => { counterDisplay.style.transform = 'scale(1)'; counterDisplay.style.color = ''; }, 150);
+    counterDisplay.style.transform = 'scale(1.12)';
+    counterDisplay.style.color = 'var(--acc)';
+    setTimeout(() => { counterDisplay.style.transform = 'scale(1)'; counterDisplay.style.color = ''; }, 140);
 
+    rippleAt();
     updateProgressRing();
 
     statsToday.innerText = sessionTotal;
     statsTotal.innerText = lifetimeTotal;
     localStorage.setItem(STORAGE_KEYS.total, lifetimeTotal);
     updateMalaStats();
+    updateTodayProgress();
 
     playClickSound();
     triggerHaptic();
+
+    if (roundComplete) celebrateRound();
 
     if (target > 0 && count === target) {
       stopAutoMode();
@@ -1223,12 +1622,23 @@
 
   function updateMalaStats() { statsMalas.innerText = Math.floor(lifetimeTotal / 108); }
 
+  function updateTodayProgress() {
+    const fill = document.getElementById('todayProgress');
+    const txt = document.getElementById('todayProgressText');
+    if (!fill) return;
+    const val = Math.min(sessionTotal, MALA_GOAL);
+    fill.style.width = (val / MALA_GOAL) * 100 + '%';
+    fill.parentElement.setAttribute('aria-valuenow', val);
+    if (txt) txt.innerText = sessionTotal + ' / ' + MALA_GOAL + ' japs';
+  }
+
   function resetSession() {
     count = 0;
     secondsActive = 0;
     counterDisplay.innerText = '0';
     timerDisplay.innerText = '00:00';
     updateProgressRing();
+    updateTodayProgress();
     stopAutoMode();
     stopTimer();
   }
@@ -1270,14 +1680,11 @@
 
   function toggleTheme() {
     const root = document.documentElement;
-    const icon = document.querySelector('#themeBtn i');
-    if (root.getAttribute('data-bs-theme') === 'light') {
-      root.setAttribute('data-bs-theme', 'dark');
-      icon.className = 'fas fa-sun';
-    } else {
-      root.setAttribute('data-bs-theme', 'light');
-      icon.className = 'fas fa-moon';
-    }
+    const isLight = root.getAttribute('data-bs-theme') === 'light';
+    const icon = themeBtn.querySelector('i');
+    root.setAttribute('data-bs-theme', isLight ? 'dark' : 'light');
+    icon.className = isLight ? 'fas fa-sun' : 'fas fa-moon';
+    themeBtn.setAttribute('aria-pressed', isLight ? 'false' : 'true');
   }
 
   // --- Session Log ---
@@ -1301,7 +1708,7 @@
       const timeStr = d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
       return `<div class="session-log-item d-flex justify-content-between align-items-center">
         <div><span class="log-mantra">${s.mantra}</span><br><span class="log-date">${dateStr} ${timeStr}</span></div>
-        <div><span class="log-count">${s.count}</span> <span class="text-muted-custom" style="font-size:0.68rem;">japs</span></div>
+        <div><span class="log-count">${s.count}</span> <span class="text-muted-custom" style="font-size:0.7rem;">japs</span></div>
       </div>`;
     }).join('');
   }
@@ -1350,6 +1757,9 @@
   renderRecentMantras();
   renderMantras();
   updateProgressRing();
+
+  const initialHash = (location.hash || '').replace('#', '');
+  if (['tab-chant', 'tab-library', 'tab-stats'].includes(initialHash)) switchTab(initialHash);
 </script>
 
 </body>

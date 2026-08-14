@@ -3,293 +3,443 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Switchword Jap Machine</title>
+  <title>Switchword — Gilded Sigil</title>
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#14100a" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f1dd" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
 
   <style>
     :root {
-      --saffron: #e0b64a;
-      --accent: #e0b64a;
-      --accent-glow: rgba(224, 182, 74, 0.4);
-      --gold-deep: #caa02f;
-      --rose: #e65d8c;
-      --ink: #f2e8cf;
-      --muted: #a89477;
-      --line: rgba(242, 232, 208, 0.1);
-      --tick-dim: rgba(224, 182, 74, 0.16);
-      --track: rgba(242, 232, 208, 0.07);
-      --chip: rgba(255, 255, 255, 0.05);
-      --panel: rgba(48, 39, 26, 0.5);
-      --card: rgba(56, 45, 30, 0.55);
-      --surface: rgba(45, 36, 23, 0.62);
-      --guide: rgba(224, 182, 74, 0.07);
-      --shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+      color-scheme: dark;
+      --bg: #14100a;
+      --bg-2: #1a140d;
+      --surface: #1e180f;
+      --surface-2: #282010;
+      --ink: #f4e9cf;
+      --muted: #a99c80;
+      --line: rgba(244, 233, 207, 0.1);
+      --acc: #e3b54f;
+      --acc-hover: #cfa13a;
+      --acc-ink: #241a02;
+      --acc-2: #d85d86;
+      --acc-soft: rgba(227, 181, 79, 0.14);
+      --acc-glow: rgba(227, 181, 79, 0.38);
+      --acc-glow-soft: rgba(227, 181, 79, 0.2);
+      --wash: rgba(227, 181, 79, 0.06);
+      --danger: #d85d86;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 10px 26px rgba(0, 0, 0, 0.24);
+      --radius: 16px;
     }
 
     [data-bs-theme="light"] {
-      --saffron: #b38616;
-      --accent: #b38616;
-      --accent-glow: rgba(179, 134, 22, 0.32);
-      --gold-deep: #93660c;
-      --rose: #c94a7a;
+      color-scheme: light;
+      --bg: #f8f1dd;
+      --bg-2: #fbf6e7;
+      --surface: #fffdf6;
+      --surface-2: #f4e9ce;
       --ink: #2b2113;
       --muted: #8b7a5c;
       --line: rgba(43, 33, 19, 0.12);
-      --tick-dim: rgba(179, 134, 22, 0.22);
-      --track: rgba(43, 33, 19, 0.08);
-      --chip: rgba(255, 255, 255, 0.7);
-      --panel: rgba(255, 250, 238, 0.6);
-      --card: rgba(255, 251, 240, 0.88);
-      --surface: rgba(255, 252, 245, 0.94);
-      --guide: rgba(179, 134, 22, 0.08);
-      --shadow: 0 24px 60px rgba(80, 60, 20, 0.22);
+      --acc: #9a6e0f;
+      --acc-hover: #7f5a0c;
+      --acc-ink: #fff8ec;
+      --acc-2: #b84a72;
+      --acc-soft: rgba(154, 110, 15, 0.12);
+      --acc-glow: rgba(154, 110, 15, 0.34);
+      --acc-glow-soft: rgba(154, 110, 15, 0.18);
+      --wash: rgba(154, 110, 15, 0.08);
+      --danger: #b83a5e;
+      --shadow: 0 1px 2px rgba(60, 40, 15, 0.06), 0 10px 26px rgba(60, 40, 15, 0.1);
     }
 
     * { box-sizing: border-box; }
+    * { -webkit-tap-highlight-color: transparent; }
     html, body { height: 100%; }
 
     body {
       margin: 0;
       font-family: 'Outfit', system-ui, sans-serif;
       color: var(--ink);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem 1rem;
-      background:
-        radial-gradient(46rem 36rem at 82% -8%, rgba(224, 182, 74, 0.14), transparent 60%),
-        radial-gradient(40rem 34rem at 10% 110%, rgba(230, 93, 140, 0.09), transparent 55%),
-        linear-gradient(160deg, #18130d, #100c07 60%, #0d0a06);
+      background: var(--bg);
     }
 
-    [data-bs-theme="light"] body {
-      background:
-        radial-gradient(46rem 36rem at 82% -8%, rgba(179, 134, 22, 0.2), transparent 60%),
-        radial-gradient(40rem 34rem at 10% 110%, rgba(201, 74, 122, 0.1), transparent 55%),
-        linear-gradient(160deg, #f8f0dc, #f1e6ca 60%, #f4ecd6);
-    }
+    button, a, [role="tab"], input[type="range"], select { touch-action: manipulation; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+
+    :focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; }
 
     .font-display { font-family: 'Anton', sans-serif; }
-    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; }
     .text-main { color: var(--ink); }
     .text-muted-custom { color: var(--muted); }
-    .text-accent { color: var(--accent); }
+    .text-accent { color: var(--acc); }
 
-    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-    .scene { position: relative; z-index: 1; }
-
-    .device {
-      width: 414px;
-      height: min(860px, 94vh);
-      background: #0a0806;
-      border-radius: 52px;
-      padding: 11px;
-      box-shadow: 0 40px 90px rgba(0, 0, 0, 0.55), inset 0 0 0 1px rgba(255, 255, 255, 0.07);
-    }
-
-    .screen {
+    /* ---------- Shell ---------- */
+    .scene {
       position: relative;
-      height: 100%;
+      z-index: 1;
+      height: 100dvh;
       display: flex;
       flex-direction: column;
-      border-radius: 42px;
-      overflow: hidden;
-      background:
-        radial-gradient(28rem 22rem at 50% -10%, rgba(224, 182, 74, 0.13), transparent 55%),
-        linear-gradient(180deg, #241d13, #1b150c 70%, #16110a);
-      color: var(--ink);
+      background: linear-gradient(180deg, var(--bg), var(--bg-2));
     }
-
-    [data-bs-theme="light"] .screen {
-      background:
-        radial-gradient(28rem 22rem at 50% -10%, rgba(224, 182, 74, 0.2), transparent 55%),
-        linear-gradient(180deg, #fdf6e2, #f5ecd4 78%, #f2e9d0);
-    }
-
-    .island {
+    .scene::before {
+      content: '';
       position: absolute;
-      top: 0.55rem; left: 50%; transform: translateX(-50%);
-      width: 86px; height: 24px; border-radius: 999px; z-index: 6;
-      display: flex; align-items: center; justify-content: center;
-      background: rgba(255, 255, 255, 0.09);
-      border: 1px solid var(--line);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      inset: 0;
+      background: radial-gradient(42rem 30rem at 50% -14%, var(--wash), transparent 62%);
+      pointer-events: none;
+      z-index: 0;
     }
-    .island i { font-size: 0.62rem; color: var(--ink); opacity: 0.85; }
+    .scene > * { position: relative; z-index: 1; }
 
     .appbar {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 0.5rem;
-      padding: 1.6rem 0.95rem 0.5rem;
+      gap: 0.75rem;
+      padding: 0.7rem 1.5rem;
+      background: color-mix(in srgb, var(--surface) 72%, transparent);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+      flex-shrink: 0;
     }
-
-    .app-title {
-      margin: 0;
-      font-size: 1.05rem;
-      font-weight: 400;
-      letter-spacing: 0.02em;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      color: var(--ink);
-    }
-    .app-title i { color: var(--accent); font-size: 0.85rem; }
+    .appbar-left { display: flex; align-items: center; gap: 0.9rem; min-width: 0; }
 
     .home-link {
       display: inline-flex;
       align-items: center;
-      gap: 0.38rem;
-      padding: 0.42rem 0.7rem;
+      gap: 0.4rem;
+      padding: 0.42rem 0.8rem;
       border-radius: 999px;
       border: 1px solid var(--line);
-      background: var(--chip);
+      background: var(--surface-2);
       color: var(--ink);
       text-decoration: none;
-      font-size: 0.72rem;
-      font-weight: 700;
-      flex-shrink: 0;
-      transition: 0.15s;
+      font-size: 0.8rem;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: color 0.18s ease, border-color 0.18s ease;
     }
-    .home-link:hover { color: var(--accent); border-color: var(--accent-glow); }
+    .home-link:hover { color: var(--acc); border-color: var(--acc-glow); }
+
+    .brand { display: flex; align-items: center; gap: 0.65rem; min-width: 0; }
+    .brand-mark {
+      width: 38px; height: 38px; flex-shrink: 0;
+      border-radius: 12px;
+      display: grid; place-items: center;
+      background: var(--acc);
+      color: var(--acc-ink);
+      font-size: 1rem;
+    }
+    .brand-text { display: flex; flex-direction: column; line-height: 1.15; min-width: 0; }
+    .brand-name { font-size: 1rem; letter-spacing: 0.02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .brand-tag { font-size: 0.7rem; color: var(--muted); }
+
+    .appbar-right { margin-left: auto; display: flex; align-items: center; }
 
     .icon-btn {
-      width: 42px; height: 42px; flex-shrink: 0; border-radius: 50%;
-      border: 1px solid var(--line); background: var(--chip); color: var(--ink);
-      display: grid; place-items: center; font-size: 0.95rem;
-      cursor: pointer; transition: 0.15s;
+      width: 42px; height: 42px; flex-shrink: 0;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: var(--surface-2);
+      color: var(--ink);
+      display: grid; place-items: center;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: color 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
     }
-    .icon-btn:hover { color: var(--accent); border-color: var(--accent-glow); }
+    .icon-btn:hover { color: var(--acc); border-color: var(--acc-glow); }
+    .icon-btn:active { transform: scale(0.94); }
 
-    .app-content {
+    .seg-nav {
+      display: none;
+      margin-left: auto;
+      gap: 0.25rem;
+      padding: 0.25rem;
+      border-radius: 14px;
+      background: var(--surface-2);
+      border: 1px solid var(--line);
+    }
+    .seg-nav .tab-btn {
+      flex-direction: row;
+      gap: 0.45rem;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+    .seg-nav .tab-btn.active { background: var(--acc); color: var(--acc-ink); }
+    .seg-nav .tab-btn.active i { filter: none; }
+    @media (min-width: 768px) {
+      .seg-nav { display: flex; }
+      .brand-tag { display: block; }
+    }
+
+    .app-shell {
       flex: 1;
       overflow-y: auto;
-      padding: 0.2rem 1.05rem 1.1rem;
+      overscroll-behavior: contain;
+      padding: 1.25rem 1.5rem 2rem;
       scrollbar-width: none;
     }
-    .app-content::-webkit-scrollbar { display: none; }
+    .app-shell::-webkit-scrollbar { display: none; }
+
+    .page-wrap { max-width: 1120px; margin: 0 auto; width: 100%; }
 
     .tab-panel { display: none; }
-    .tab-panel.active { display: block; animation: panelIn 0.28s cubic-bezier(0.22, 0.9, 0.28, 1); }
+    .tab-panel.active { display: block; animation: panelIn 0.24s ease-out; }
     @keyframes panelIn {
-      from { opacity: 0; transform: translateY(10px); }
+      from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: none; }
     }
 
     .tabbar {
       display: flex;
-      gap: 0.3rem;
-      padding: 0.45rem 0.6rem calc(env(safe-area-inset-bottom, 0px) + 0.5rem);
+      gap: 0.25rem;
+      padding: 0.4rem 0.6rem calc(env(safe-area-inset-bottom, 0px) + 0.45rem);
       border-top: 1px solid var(--line);
-      background: var(--surface);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      background: color-mix(in srgb, var(--surface) 80%, transparent);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      flex-shrink: 0;
     }
+    @media (min-width: 768px) { .tabbar { display: none; } }
 
     .tab-btn {
-      flex: 1;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 0.18rem;
+      justify-content: center;
       background: none;
       border: none;
       cursor: pointer;
-      padding: 0.5rem 0 0.3rem;
       color: var(--muted);
       font-family: inherit;
-      font-size: 0.62rem;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      border-radius: 14px;
-      transition: 0.15s;
+      font-weight: 600;
+      transition: color 0.18s ease, background-color 0.18s ease, transform 0.12s ease;
     }
     .tab-btn i { font-size: 1.05rem; }
     .tab-btn:hover { color: var(--ink); }
-    .tab-btn.active { color: var(--accent); }
-    .tab-btn.active i { filter: drop-shadow(0 0 5px var(--accent-glow)); }
+    .tab-btn:active { transform: scale(0.96); }
+    .tabbar .tab-btn {
+      flex: 1;
+      flex-direction: column;
+      gap: 0.2rem;
+      padding: 0.45rem 0 0.35rem;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      letter-spacing: 0.02em;
+    }
+    .tabbar .tab-btn.active { color: var(--acc); }
+    .tabbar .tab-btn.active i { filter: drop-shadow(0 0 6px var(--acc-glow)); }
 
-    .card-app {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 1rem;
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      box-shadow: var(--shadow);
+    /* ---------- Typography / headers ---------- */
+    .page-head { margin-bottom: 1.25rem; }
+    .page-title {
+      margin: 0;
+      font-size: clamp(1.35rem, 3vw, 1.8rem);
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      text-wrap: balance;
+    }
+    .page-sub {
+      margin: 0.3rem 0 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+      max-width: 56ch;
+      text-wrap: balance;
     }
 
     .panel-title {
-      font-size: 0.7rem;
-      font-weight: 800;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      letter-spacing: 1.5px;
       color: var(--muted);
     }
+
+    /* ---------- Cards ---------- */
+    .card-app {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.42rem 0.85rem;
+      border-radius: 999px;
+      background: var(--surface-2);
+      border: 1px solid var(--line);
+      color: var(--ink);
+      font-size: 0.82rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .pill i { color: var(--acc); font-size: 0.85rem; }
+
+    .meta-badge {
+      border-radius: 999px;
+      padding: 0.24rem 0.6rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      background: var(--surface-2);
+      color: var(--muted);
+      border: 1px solid var(--line);
+    }
+
+    /* ---------- Buttons ---------- */
+    .btn-solid {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: var(--acc);
+      color: var(--acc-ink);
+      border: 1px solid transparent;
+      font-family: inherit;
+      font-weight: 700;
+      padding: 0.66rem 1.15rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background-color 0.18s ease, transform 0.12s ease;
+    }
+    .btn-solid:hover { background: var(--acc-hover); color: var(--acc-ink); }
+    .btn-solid:active { transform: scale(0.98); }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      background: var(--surface-2);
+      color: var(--ink);
+      border: 1px solid var(--line);
+      font-family: inherit;
+      font-weight: 600;
+      padding: 0.52rem 0.95rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: color 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
+    }
+    .btn-ghost:hover { color: var(--acc); border-color: var(--acc-glow); }
+    .btn-ghost:active { transform: scale(0.98); }
+    .btn-sm { padding: 0.3rem 0.75rem; font-size: 0.78rem; }
+
+    /* ---------- Forms ---------- */
+    .field-label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+      letter-spacing: 0.02em;
+    }
+    .form-control, .form-select {
+      background-color: var(--surface-2);
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      font-size: 0.9rem;
+      padding: 0.55rem 0.8rem;
+    }
+    .form-control::placeholder { color: var(--muted); }
+    .form-control:focus, .form-select:focus {
+      border-color: var(--acc);
+      box-shadow: 0 0 0 3px var(--acc-glow-soft);
+      background-color: var(--surface-2);
+      color: var(--ink);
+    }
+    [data-bs-theme="dark"] option { background-color: #282010; color: #f4e9cf; }
+    [data-bs-theme="light"] option { background-color: #fffdf6; color: #2b2113; }
+    .form-range { accent-color: var(--acc); }
+    .form-check-input { accent-color: var(--acc); }
+    .form-check-label { font-size: 0.84rem; color: var(--muted); }
+
+    .ctl-pill {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.72rem 0.9rem;
+      border-radius: 14px;
+      background: var(--surface-2);
+      border: 1px solid var(--line);
+      color: var(--ink);
+      font-size: 0.86rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      width: 100%;
+      transition: border-color 0.18s ease, transform 0.12s ease;
+    }
+    .ctl-pill:hover { border-color: var(--acc-glow); }
+    .ctl-pill:active { transform: scale(0.98); }
+    .ctl-pill input { width: 1.1em; height: 1.1em; accent-color: var(--acc); }
+
+    /* ---------- Chant ---------- */
+    .chant-grid { display: grid; gap: 1.25rem; }
 
     .status-row {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      flex-wrap: wrap;
       gap: 0.5rem;
-      margin-bottom: 0.75rem;
     }
 
-    .pill-accent {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.32rem 0.72rem;
-      border-radius: 999px;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      color: var(--accent);
-      font-size: 0.7rem;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-    }
-    .pill-accent i { font-size: 0.8rem; }
-
-    .active-word-card { text-align: center; padding: 1.05rem 1rem; }
+    .active-word-card { text-align: center; }
     .active-top-badge {
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      padding: 0.28rem 0.68rem;
+      padding: 0.28rem 0.7rem;
       border-radius: 999px;
-      background: var(--accent-glow);
-      color: var(--accent);
-      font-size: 0.66rem;
-      font-weight: 800;
+      background: var(--acc-soft);
+      color: var(--acc);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      letter-spacing: 0.9px;
     }
     .active-word-title {
-      font-size: 1.18rem;
+      font-size: clamp(1.4rem, 3vw, 1.8rem);
       font-weight: 700;
-      color: var(--ink);
-      line-height: 1.3;
-      margin-top: 0.6rem;
+      line-height: 1.25;
+      margin-top: 0.65rem;
       letter-spacing: 0.02em;
+      text-wrap: balance;
     }
-    .active-word-sub { color: var(--muted); font-size: 0.78rem; font-weight: 600; margin-top: 0.25rem; }
-    .active-word-meaning { color: var(--muted); font-size: 0.74rem; line-height: 1.45; margin-top: 0.35rem; }
+    .active-word-sub { color: var(--muted); font-size: 0.88rem; font-weight: 600; margin-top: 0.3rem; }
+    .active-word-meaning { color: var(--muted); font-size: 0.85rem; line-height: 1.55; margin: 0.4rem auto 0; max-width: 46ch; }
+
+    .chant-ring { width: 100%; }
 
     .ring-wrap {
+      --cat: var(--acc);
+      --cat-glow: color-mix(in srgb, var(--cat) 42%, transparent);
+      --cat-soft: color-mix(in srgb, var(--cat) 16%, transparent);
       position: relative;
-      width: 262px;
-      height: 262px;
-      margin: 1.05rem auto 0.45rem;
+      width: min(100%, 400px);
+      aspect-ratio: 1;
+      margin: 0.5rem auto 0.25rem;
     }
     .ring-wrap svg { width: 100%; height: 100%; display: block; }
+
     .sigil-track { fill: none; stroke: var(--track); stroke-width: 1.5; }
+    :root { --track: rgba(244, 233, 207, 0.08); }
+    [data-bs-theme="light"] { --track: rgba(43, 33, 19, 0.1); }
 
     .sigil-tick {
       stroke: var(--tick-dim);
@@ -298,15 +448,49 @@
       transition: stroke 0.15s ease;
     }
     .sigil-tick.major { stroke-width: 5; }
-    .sigil-tick.lit { stroke: var(--accent); }
+    .sigil-tick.lit { stroke: var(--cat); }
+    :root { --tick-dim: rgba(227, 181, 79, 0.16); }
+    [data-bs-theme="light"] { --tick-dim: rgba(154, 110, 15, 0.24); }
+
+    .seal-ring {
+      fill: none;
+      stroke: var(--cat);
+      stroke-width: 1.2;
+      stroke-dasharray: 3 9;
+      stroke-linecap: round;
+      opacity: 0.5;
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: sealSpin 32s linear infinite;
+    }
+    @keyframes sealSpin { to { transform: rotate(360deg); } }
+
+    .word-halo {
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 86%; height: 86%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--cat-glow), transparent 66%);
+      opacity: 0.55;
+      filter: blur(4px);
+      pointer-events: none;
+      z-index: 0;
+      animation: haloBreathe 7s ease-in-out infinite;
+    }
+    @keyframes haloBreathe {
+      0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.04); }
+    }
 
     .counter-overlay {
       position: absolute;
       inset: 0;
+      z-index: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 1.1rem;
+      padding: 1.05rem;
     }
 
     .btn-jap {
@@ -332,97 +516,76 @@
       line-height: 1.06;
       text-align: center;
       max-width: 100%;
-      color: var(--ink);
-      transition: transform 0.12s ease, filter 0.12s ease;
+      background-image:
+        linear-gradient(115deg, transparent 42%, rgba(255, 255, 255, 0.65) 50%, transparent 58%),
+        linear-gradient(180deg, #fbe9b0 0%, #f2c75e 38%, var(--cat, #e3b54f) 62%, #8a6a1e 100%);
+      background-size: 260% 100%, 100% 100%;
+      background-position: 130% 0, 0 0;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      animation: foilSheen 4.5s ease-in-out infinite;
+      transition: filter 0.12s ease, transform 0.12s ease;
     }
     .sigil-word.stamped {
       transform: scale(0.93);
-      filter: brightness(1.35) blur(0.6px);
+      filter: brightness(1.4) saturate(1.3) blur(0.4px);
+    }
+    [data-bs-theme="light"] .sigil-word {
+      background-image:
+        linear-gradient(115deg, transparent 42%, rgba(255, 255, 255, 0.85) 50%, transparent 58%),
+        linear-gradient(180deg,
+          color-mix(in srgb, var(--cat) 72%, #7a5a12) 0%,
+          color-mix(in srgb, var(--cat) 56%, #5c430e) 60%,
+          color-mix(in srgb, var(--cat) 40%, #3a2a08) 100%);
+      background-size: 260% 100%, 100% 100%;
+      background-position: 130% 0, 0 0;
+      animation: foilSheen 4.5s ease-in-out infinite;
+    }
+    @keyframes foilSheen {
+      0% { background-position: 130% 0, 0 0; }
+      55% { background-position: -60% 0, 0 0; }
+      100% { background-position: -60% 0, 0 0; }
     }
 
     .counter-value {
       font-size: clamp(1.9rem, 6vw, 2.5rem);
       line-height: 1;
-      font-weight: 800;
+      font-weight: 700;
       color: var(--ink);
-      transition: transform 0.1s;
+      transition: transform 0.1s ease;
     }
 
-    .tap-hint { font-size: 0.72rem; letter-spacing: 0.12em; }
+    .tap-hint { font-size: 0.78rem; letter-spacing: 0.08em; font-weight: 600; color: var(--muted); }
 
     .mala-caption {
       text-align: center;
-      font-size: 0.74rem;
+      font-size: 0.82rem;
       color: var(--muted);
-      font-weight: 700;
-      margin-bottom: 0.85rem;
+      font-weight: 600;
+      margin: 0.4rem 0 0;
       padding: 0 0.5rem;
+      word-break: break-word;
     }
 
-    .ctl-pill {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      color: var(--ink);
-      font-size: 0.8rem;
-      font-weight: 800;
-      padding: 0.8rem;
-      cursor: pointer;
-      font-family: inherit;
-      transition: 0.15s;
-      width: 100%;
+    /* ---------- Words (library) ---------- */
+    .lib-grid { display: grid; gap: 1.25rem; }
+    @media (min-width: 1024px) {
+      .lib-grid { grid-template-columns: minmax(0, 380px) minmax(0, 1fr); align-items: start; }
     }
-    .ctl-pill:hover { border-color: var(--accent-glow); }
-    .ctl-pill:active { transform: scale(0.97); }
-    .ctl-pill input { width: 1.1em; height: 1.1em; accent-color: var(--accent); }
 
-    .form-range { accent-color: var(--accent); }
-
-    .form-control, .form-select {
-      background-color: var(--chip);
-      color: var(--ink);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      font-size: 0.86rem;
+    .search-box { position: relative; }
+    .search-box i {
+      position: absolute;
+      left: 14px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 0.85rem;
     }
-    .form-control::placeholder { color: var(--muted); }
-    .form-control:focus, .form-select:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 0.2rem var(--accent-glow);
-      background-color: var(--chip);
-      color: var(--ink);
-    }
-    [data-bs-theme="dark"] option { background-color: #201a10; color: #f2e8cf; }
+    .search-box input { padding-left: 2.3rem; }
 
-    .btn-primary-app {
-      background: linear-gradient(135deg, var(--accent), var(--gold-deep));
-      color: #241a02;
-      border: none;
-      font-weight: 800;
-      padding: 0.72rem 1rem;
-      font-size: 0.92rem;
-      border-radius: 999px;
-      transition: 0.15s;
-    }
-    .btn-primary-app:hover { filter: brightness(1.06); color: #241a02; }
-
-    .btn-soft {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      color: var(--ink);
-      font-weight: 700;
-      font-size: 0.78rem;
-      border-radius: 999px;
-      padding: 0.5rem 0.9rem;
-      transition: 0.15s;
-    }
-    .btn-soft:hover { color: var(--accent); border-color: var(--accent-glow); }
-
-    .preset-scroll, .category-scroll, .recent-scroll {
+    .category-scroll, .recent-scroll, .preset-scroll {
       display: flex;
       gap: 0.45rem;
       flex-wrap: wrap;
@@ -430,67 +593,58 @@
 
     .filter-chip, .recent-chip, .preset-chip {
       border: 1px solid var(--line);
-      background: var(--chip);
+      background: var(--surface-2);
       color: var(--ink);
       border-radius: 999px;
-      padding: 0.4rem 0.78rem;
-      font-size: 0.74rem;
-      font-weight: 700;
+      padding: 0.42rem 0.85rem;
+      font-size: 0.78rem;
+      font-weight: 600;
       white-space: nowrap;
       cursor: pointer;
-      transition: 0.15s;
+      transition: color 0.18s ease, border-color 0.18s ease, background-color 0.18s ease, transform 0.12s ease;
       font-family: inherit;
     }
-    .filter-chip.active { background: var(--accent); border-color: var(--accent); color: #241a02; }
-    .filter-chip:hover, .recent-chip:hover, .preset-chip:hover {
-      border-color: var(--accent-glow);
-      color: var(--accent);
+    .filter-chip:hover, .recent-chip:hover, .preset-chip:hover { border-color: var(--acc-glow); color: var(--acc); }
+    .filter-chip:active, .recent-chip:active, .preset-chip:active { transform: scale(0.97); }
+    .filter-chip.active {
+      background: var(--acc);
+      border-color: var(--acc);
+      color: var(--acc-ink);
     }
-
-    .search-box { position: relative; }
-    .search-box i {
-      position: absolute;
-      left: 12px; top: 50%;
-      transform: translateY(-50%);
-      color: var(--muted);
-      font-size: 0.8rem;
-    }
-    .search-box input { padding-left: 2.1rem; }
+    .filter-chip.active:hover { color: var(--acc-ink); }
 
     .switchword-list {
-      max-height: 280px;
+      max-height: 340px;
       overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-      scrollbar-width: none;
+      display: grid;
+      gap: 0.6rem;
+      padding-right: 0.1rem;
     }
-    .switchword-list::-webkit-scrollbar { display: none; }
+    @media (min-width: 900px) { .switchword-list { grid-template-columns: 1fr 1fr; } }
 
     .switchword-card {
       border: 1px solid var(--line);
-      border-radius: 15px;
-      padding: 0.72rem 0.85rem;
+      border-radius: 14px;
+      padding: 0.85rem 0.95rem;
+      background: var(--surface-2);
       cursor: pointer;
-      transition: 0.15s;
-      background: var(--panel);
+      transition: border-color 0.18s ease, transform 0.12s ease, box-shadow 0.18s ease;
     }
-    .switchword-card:hover { border-color: var(--accent-glow); }
-    .switchword-card.active { border-color: var(--accent); background: var(--accent-glow); }
-    .switchword-card .word-name { font-weight: 800; font-size: 0.9rem; color: var(--ink); }
-    .switchword-card .word-text { font-weight: 800; font-size: 0.8rem; color: var(--accent); letter-spacing: 1px; font-family: 'JetBrains Mono', monospace; }
-    .switchword-card .word-meaning { font-size: 0.74rem; color: var(--muted); }
+    .switchword-card:hover { border-color: var(--acc-glow); transform: translateY(-1px); box-shadow: var(--shadow); }
+    .switchword-card:active { transform: translateY(0); }
+    .switchword-card.active { border-color: var(--acc); background: var(--acc-soft); }
+    .word-name { font-weight: 600; color: var(--ink); line-height: 1.35; margin-bottom: 0.14rem; font-size: 0.9rem; }
+    .word-text { font-weight: 700; font-size: 0.82rem; color: var(--acc); letter-spacing: 1px; font-family: 'JetBrains Mono', monospace; margin-bottom: 0.16rem; }
+    .word-meaning { color: var(--muted); font-size: 0.8rem; line-height: 1.45; }
+    .word-meta { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.45rem; }
 
-    .word-meta { display: flex; gap: 0.3rem; flex-wrap: wrap; margin-top: 0.35rem; }
-    .word-meta .meta-badge {
-      border-radius: 999px;
-      padding: 0.18rem 0.5rem;
-      font-size: 0.6rem;
-      font-weight: 800;
-      background: var(--chip);
+    .empty-state {
+      text-align: center;
+      padding: 1.25rem 0.5rem;
       color: var(--muted);
-      border: 1px solid var(--line);
+      font-size: 0.85rem;
     }
+    .empty-state i { display: block; }
 
     .phrase-builder-tags {
       display: flex;
@@ -505,195 +659,266 @@
       gap: 0.3rem;
       padding: 0.25rem 0.6rem;
       border-radius: 999px;
-      background: var(--accent-glow);
-      color: var(--accent);
+      background: var(--acc-soft);
+      color: var(--acc);
       font-size: 0.78rem;
-      font-weight: 800;
+      font-weight: 700;
       letter-spacing: 0.5px;
       font-family: 'JetBrains Mono', monospace;
     }
     .phrase-tag .remove-word { cursor: pointer; opacity: 0.6; font-size: 0.7rem; }
     .phrase-tag .remove-word:hover { opacity: 1; }
 
-    .prescription-list { display: flex; flex-direction: column; gap: 0.4rem; }
+    .prescription-list { display: grid; gap: 0.6rem; }
+    @media (min-width: 900px) { .prescription-list { grid-template-columns: 1fr 1fr; } }
 
     .prescription-item {
       border: 1px solid var(--line);
-      border-radius: 15px;
-      padding: 0.6rem 0.8rem;
+      border-radius: 14px;
+      padding: 0.7rem 0.85rem;
       cursor: pointer;
-      transition: 0.15s;
-      background: var(--panel);
+      transition: border-color 0.18s ease, transform 0.12s ease;
+      background: var(--surface-2);
     }
-    .prescription-item:hover { border-color: var(--accent-glow); }
-    .prescription-item .rx-label { font-weight: 800; font-size: 0.82rem; color: var(--ink); }
-    .prescription-item .rx-combo { font-weight: 800; font-size: 0.76rem; color: var(--accent); letter-spacing: 0.5px; font-family: 'JetBrains Mono', monospace; }
-    .prescription-item .rx-desc { font-size: 0.7rem; color: var(--muted); }
+    .prescription-item:hover { border-color: var(--acc-glow); }
+    .prescription-item .rx-label { font-weight: 600; font-size: 0.86rem; color: var(--ink); }
+    .prescription-item .rx-combo { font-weight: 700; font-size: 0.78rem; color: var(--acc); letter-spacing: 0.5px; font-family: 'JetBrains Mono', monospace; margin-top: 0.14rem; }
+    .prescription-item .rx-desc { font-size: 0.74rem; color: var(--muted); margin-top: 0.14rem; }
 
-    .stat-box {
-      background: var(--panel);
+    .extras-grid { display: grid; gap: 1.25rem; }
+    @media (min-width: 1024px) {
+      .extras-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
+    }
+
+    /* ---------- Stats ---------- */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .stat-card {
+      background: var(--surface);
       border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 0.7rem 0.4rem;
-      text-align: center;
+      border-radius: var(--radius);
+      padding: 1.05rem 1.15rem;
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      box-shadow: var(--shadow);
+    }
+    .stat-icon {
+      width: 42px; height: 42px; flex-shrink: 0;
+      border-radius: 12px;
+      display: grid; place-items: center;
+      background: var(--acc-soft);
+      color: var(--acc);
+      font-size: 1.05rem;
+    }
+    .stat-value { font-size: 1.4rem; font-weight: 700; color: var(--ink); line-height: 1.1; }
+    .stat-label { font-size: 0.75rem; color: var(--muted); font-weight: 600; margin-top: 0.15rem; }
+
+    .progress-track {
+      height: 8px;
+      border-radius: 999px;
+      background: var(--surface-2);
+      border: 1px solid var(--line);
+      overflow: hidden;
+    }
+    .progress-fill {
       height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: var(--acc);
+      transition: width 0.4s ease;
     }
-    .stat-label {
-      color: var(--muted);
-      font-size: 0.6rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    .stat-value { color: var(--ink); font-size: 1.15rem; font-weight: 800; margin-top: 0.2rem; }
-    .sub-value { font-size: 0.62rem; color: var(--muted); margin-top: 0.1rem; }
 
     .guide-card {
-      background: var(--guide);
+      background: var(--surface-2);
       border: 1px solid var(--line);
       border-radius: 14px;
-      padding: 0.9rem 1rem;
-      font-size: 0.8rem;
+      padding: 0.95rem 1.05rem;
+      font-size: 0.85rem;
       line-height: 1.6;
       color: var(--ink);
     }
-    .guide-card strong { color: var(--accent); }
+    .guide-card strong { color: var(--acc); }
     .guide-card ul { padding-left: 1.1rem; margin-bottom: 0.5rem; }
     .guide-card li { margin-bottom: 0.3rem; }
 
     .small-note {
-      font-size: 0.72rem;
+      font-size: 0.74rem;
       color: var(--muted);
       line-height: 1.5;
-      margin-top: 0.7rem;
+      margin-top: 0.8rem;
     }
 
-    .empty-state {
-      text-align: center;
-      padding: 1.1rem 0.5rem;
-      color: var(--muted);
-      font-size: 0.82rem;
-      border: 1px dashed var(--line);
-      border-radius: 15px;
-    }
-
-    .modal-backdrop { --bs-backdrop-bg: rgba(0, 0, 0, 0.6); }
+    /* ---------- Modal ---------- */
+    .modal { overscroll-behavior: contain; }
+    .modal-backdrop { --bs-backdrop-bg: rgba(0, 0, 0, 0.55); }
     .completion-card {
-      background: linear-gradient(160deg, var(--card), var(--panel));
+      background: var(--surface);
       border: 1px solid var(--line);
-      border-radius: 28px;
-      padding: 1.8rem 1.4rem;
+      border-radius: 24px;
+      padding: 1.9rem 1.5rem;
       text-align: center;
-      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+      box-shadow: var(--shadow);
       color: var(--ink);
     }
-    .completion-card .completion-icon { font-size: 1.9rem; color: var(--accent); }
-    .completion-card h5 { font-weight: 800; margin-top: 0.4rem; }
-    .completion-card p { color: var(--muted); font-size: 0.85rem; }
+    .completion-card .completion-icon { font-size: 2rem; color: var(--acc); }
+    .completion-card h5 { font-weight: 700; margin-top: 0.5rem; }
+    .completion-card p { color: var(--muted); font-size: 0.88rem; }
 
+    /* ---------- Responsive ---------- */
     @media (max-width: 767px) {
-      body { padding: 0; align-items: stretch; }
-      .scene { width: 100%; }
-      .device { width: 100%; height: 100dvh; border-radius: 0; padding: 0; box-shadow: none; }
-      .screen { border-radius: 0; }
-      .island { display: none; }
-      .appbar { padding-top: calc(env(safe-area-inset-top, 0px) + 0.6rem); }
-      .ring-wrap { width: min(262px, 76vw); height: min(262px, 76vw); }
+      .appbar { padding: calc(env(safe-area-inset-top, 0px) + 0.55rem) 1rem 0.55rem; }
+      .brand-tag { display: none; }
+      .app-shell { padding: 1rem 1rem calc(env(safe-area-inset-bottom, 0px) + 1.25rem); }
+      .page-sub { display: none; }
+      .ring-wrap { width: min(100%, 340px); }
     }
 
-    @media (min-width: 768px) and (max-height: 740px) {
-      .device { height: 96vh; }
+    @media (min-width: 1024px) {
+      .chant-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+        align-items: start;
+        grid-template-areas:
+          "status ring"
+          "info   ring"
+          "ctl    ring"
+          "speed  ring";
+      }
+      .chant-status { grid-area: status; }
+      .chant-info { grid-area: info; }
+      .chant-ring { grid-area: ring; }
+      .chant-ctl { grid-area: ctl; }
+      .chant-speed { grid-area: speed; }
+      .chant-ring { display: flex; flex-direction: column; justify-content: center; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation: none !important; transition: none !important; }
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
     }
   </style>
 </head>
 <body>
 
 <div class="scene">
-  <div class="device">
-    <div class="screen">
 
-      <div class="island" aria-hidden="true"><i class="fas fa-bolt"></i></div>
+  <header class="appbar">
+    <div class="appbar-left">
+      <a href="index.html" class="home-link" aria-label="Go back to home page"><i class="fas fa-arrow-left" aria-hidden="true"></i><span>Home</span></a>
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"><i class="fas fa-wand-sparkles"></i></span>
+        <div class="brand-text">
+          <span class="brand-name font-display">Switchword</span>
+          <span class="brand-tag">Word manifestation</span>
+        </div>
+      </div>
+    </div>
+    <nav class="seg-nav" role="tablist" aria-label="App sections">
+      <button type="button" class="tab-btn active" role="tab" data-tab="tab-chant" onclick="switchTab('tab-chant')" aria-selected="true"><i class="fas fa-bolt" aria-hidden="true"></i><span>Chant</span></button>
+      <button type="button" class="tab-btn" role="tab" data-tab="tab-library" onclick="switchTab('tab-library')" aria-selected="false"><i class="fas fa-wand-magic-sparkles" aria-hidden="true"></i><span>Words</span></button>
+      <button type="button" class="tab-btn" role="tab" data-tab="tab-stats" onclick="switchTab('tab-stats')" aria-selected="false"><i class="fas fa-chart-simple" aria-hidden="true"></i><span>Stats</span></button>
+    </nav>
+    <div class="appbar-right">
+      <button type="button" class="icon-btn" onclick="toggleTheme()" title="Toggle theme" id="themeBtn" aria-label="Toggle light or dark theme" aria-pressed="false"><i class="fas fa-sun" aria-hidden="true"></i></button>
+    </div>
+  </header>
 
-      <header class="appbar">
-        <a href="index.html" class="home-link" aria-label="Go back to home page"><i class="fas fa-house"></i><span>Home</span></a>
-        <h1 class="app-title font-display"><i class="fas fa-wand-sparkles"></i> Switchword</h1>
-        <button class="icon-btn" onclick="toggleTheme()" title="Toggle theme" id="themeBtn" aria-label="Toggle light or dark theme"><i class="fas fa-sun"></i></button>
-      </header>
+  <main class="app-shell" id="appContent">
+    <div class="page-wrap">
 
-      <div class="app-content" id="appContent">
+      <!-- ===== CHANT ===== -->
+      <section class="tab-panel active" id="tab-chant" aria-label="Chanting screen">
+        <header class="page-head">
+          <h2 class="page-title font-display">Chant</h2>
+          <p class="page-sub">Tap the seal to chant each word. One full round is 108.</p>
+        </header>
 
-        <!-- ===== CHANT ===== -->
-        <section class="tab-panel active" id="tab-chant" aria-label="Chanting screen">
-
-          <div class="status-row">
-            <span class="pill-accent"><i class="fas fa-clock"></i> <span id="sessionTimer" class="font-mono">00:00</span></span>
-            <span class="pill-accent text-accent"><i class="fas fa-bolt"></i> Chant</span>
+        <div class="chant-grid">
+          <div class="chant-status">
+            <div class="status-row">
+              <span class="pill"><i class="fas fa-clock" aria-hidden="true"></i> <span id="sessionTimer" class="font-mono">00:00</span></span>
+              <span class="pill"><i class="fas fa-bolt" aria-hidden="true"></i> Chant</span>
+            </div>
           </div>
 
-          <div class="active-word-card card-app">
-            <div class="active-top-badge"><i class="fas fa-bolt"></i><span id="activeCategoryDisplay">General</span></div>
+          <div class="card-app active-word-card chant-info">
+            <div class="active-top-badge"><i class="fas fa-bolt" aria-hidden="true"></i><span id="activeCategoryDisplay">General</span></div>
             <div id="activeWordDisplay" class="active-word-title font-display">Together</div>
             <div id="activeWordSubtitle" class="active-word-sub">Master switchword</div>
             <div id="activeWordMeaning" class="active-word-meaning">Aligns your conscious and subconscious as one.</div>
           </div>
 
-          <div class="ring-wrap">
-            <svg viewBox="0 0 250 250" aria-hidden="true">
-              <circle class="sigil-track" cx="125" cy="125" r="101"></circle>
-              <g id="progressRing"></g>
-            </svg>
-            <div class="counter-overlay">
-              <button id="japBtn" class="btn-jap text-main" onclick="incrementCount()" aria-label="Tap to chant the switchword">
-                <div id="activeWordText" class="sigil-word">TOGETHER</div>
-                <div id="counterValue" class="counter-value fw-bold font-mono">0</div>
-                <div class="tap-hint text-muted-custom small fw-bold text-uppercase">
-                  <i class="fas fa-hand-pointer text-accent me-1"></i> Tap
-                </div>
-              </button>
+          <div class="chant-ring">
+            <div class="ring-wrap" id="ringWrap">
+              <svg viewBox="0 0 250 250" aria-hidden="true">
+                <circle class="sigil-track" cx="125" cy="125" r="101"></circle>
+                <g id="progressRing"></g>
+                <circle class="seal-ring" cx="125" cy="125" r="116"></circle>
+              </svg>
+              <div class="word-halo" aria-hidden="true"></div>
+              <div class="counter-overlay">
+                <button id="japBtn" type="button" class="btn-jap text-main" onclick="incrementCount()" aria-label="Tap to chant the switchword">
+                  <div id="activeWordText" class="sigil-word">TOGETHER</div>
+                  <div id="counterValue" class="counter-value fw-bold font-mono">0</div>
+                  <div class="tap-hint fw-bold">
+                    <i class="fas fa-hand-pointer text-accent me-1" aria-hidden="true"></i> Tap
+                  </div>
+                </button>
+              </div>
             </div>
-          </div>
-
-          <div class="text-center">
             <div class="mala-caption font-mono" id="countText">TOGETHER • 0 / 108</div>
           </div>
 
-          <div class="row g-2 mb-3">
-            <div class="col-6">
-              <label class="ctl-pill h-100">
-                <input class="form-check-input" type="checkbox" id="autoToggle" onchange="toggleAutoMode()">
-                <span><i class="fas fa-bolt text-accent"></i> Auto Jap</span>
-              </label>
-            </div>
-            <div class="col-6">
-              <button class="ctl-pill h-100" onclick="resetSession()"><i class="fas fa-rotate-left text-accent"></i> Reset</button>
+          <div class="card-app chant-ctl">
+            <div class="row g-2">
+              <div class="col-6">
+                <label class="ctl-pill h-100">
+                  <input type="checkbox" id="autoToggle" onchange="toggleAutoMode()">
+                  <span><i class="fas fa-bolt text-accent" aria-hidden="true"></i> Auto Jap</span>
+                </label>
+              </div>
+              <div class="col-6">
+                <button type="button" class="ctl-pill h-100" onclick="resetSession()"><i class="fas fa-rotate-left text-accent" aria-hidden="true"></i> Reset</button>
+              </div>
             </div>
           </div>
 
-          <div id="autoSpeedContainer" class="mb-3 d-none">
-            <div class="d-flex justify-content-between text-muted-custom fw-bold text-uppercase mb-1" style="font-size:0.65rem;">
-              <span>Speed</span>
-              <span id="speedDisplay" class="font-mono">2.5s</span>
+          <div class="card-app chant-speed d-none" id="autoSpeedContainer">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <span class="field-label mb-0">Auto Jap speed</span>
+              <span id="speedDisplay" class="font-mono" style="color:var(--acc);font-weight:700;">2.5s</span>
             </div>
             <input id="speedSlider" type="range" class="form-range" min="1" max="5" step="0.5" value="2.5" oninput="updateSpeedDisplay(this.value)">
           </div>
-        </section>
+        </div>
+      </section>
 
-        <!-- ===== WORDS ===== -->
-        <section class="tab-panel" id="tab-library" aria-label="Switchword library">
+      <!-- ===== WORDS ===== -->
+      <section class="tab-panel" id="tab-library" aria-label="Switchword library">
+        <header class="page-head">
+          <h2 class="page-title font-display">Words</h2>
+          <p class="page-sub">Set up your practice, pick a word or combo, and tune the sound.</p>
+        </header>
 
-          <div class="card-app mb-3">
-            <div class="panel-title mb-3">Practice setup</div>
+        <div class="lib-grid">
+          <div>
+            <div class="card-app mb-3">
+              <div class="panel-title mb-3">Practice setup</div>
 
-            <div class="row g-2 mb-2">
-              <div class="col-8">
-                <input id="switchwordInput" type="text" class="form-control" placeholder="Type custom switchword or combo..." />
+              <div class="mb-3">
+                <label class="field-label" for="switchwordInput">Custom switchword or combo</label>
+                <input id="switchwordInput" name="word" type="text" class="form-control" placeholder="e.g. TOGETHER DIVINE COUNT…" autocomplete="off" />
               </div>
-              <div class="col-4">
-                <select id="targetSelect" class="form-select fw-bold text-center">
+
+              <div class="mb-3">
+                <label class="field-label" for="targetSelect">Target count</label>
+                <select id="targetSelect" name="target" class="form-select fw-bold text-center">
                   <option value="108">108</option>
                   <option value="11">11</option>
                   <option value="21">21</option>
@@ -703,160 +928,178 @@
                   <option value="0">∞</option>
                 </select>
               </div>
-            </div>
 
-            <div class="row g-2 mb-2">
-              <div class="col-12">
-                <input id="defaultWordIdInput" type="text" class="form-control" placeholder="Default switchword id (example: together)" />
+              <div class="mb-3">
+                <label class="field-label" for="defaultWordIdInput">Default word id</label>
+                <input id="defaultWordIdInput" name="default" type="text" class="form-control" placeholder="e.g. together" autocomplete="off" />
+              </div>
+
+              <div class="row g-2 mb-3">
+                <div class="col-6 d-grid">
+                  <button type="button" class="btn btn-ghost rounded-pill" onclick="saveDefaultWordId()">Save default</button>
+                </div>
+                <div class="col-6 d-grid">
+                  <button type="button" class="btn btn-ghost rounded-pill" onclick="loadDefaultWordById()">Load default</button>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="field-label" for="ambientSelect">Ambient sound</label>
+                <select id="ambientSelect" name="ambient" class="form-select" onchange="handleAmbientChange()">
+                  <option value="">🔇 No sound</option>
+                  <option value="https://actions.google.com/sounds/v1/water/rain_on_roof.ogg">🌧️ Gentle rain</option>
+                  <option value="https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg">🌊 Ocean</option>
+                  <option value="https://actions.google.com/sounds/v1/nature/fire_crackling_and_crickets.ogg">🔥 Night fire</option>
+                </select>
+              </div>
+
+              <div class="d-grid">
+                <button type="button" class="btn btn-solid rounded-pill" onclick="setAndStart()">
+                  <i class="fas fa-play me-1" aria-hidden="true"></i> Begin session
+                </button>
               </div>
             </div>
 
-            <div class="row g-2 mb-2">
-              <div class="col-6 d-grid">
-                <button class="btn btn-soft rounded-pill" onclick="saveDefaultWordId()">Save Default</button>
-              </div>
-              <div class="col-6 d-grid">
-                <button class="btn btn-soft rounded-pill" onclick="loadDefaultWordById()">Load Default</button>
-              </div>
-            </div>
-
-            <div class="mb-3">
-              <select id="ambientSelect" class="form-select" onchange="handleAmbientChange()">
-                <option value="">🔇 No Ambient Sound</option>
-                <option value="https://actions.google.com/sounds/v1/water/rain_on_roof.ogg">🌧️ Gentle Rain</option>
-                <option value="https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg">🌊 Ocean Waves</option>
-                <option value="https://actions.google.com/sounds/v1/nature/fire_crackling_and_crickets.ogg">🔥 Night Fire</option>
-              </select>
-            </div>
-
-            <div class="d-grid">
-              <button class="btn btn-primary-app rounded-pill" onclick="setAndStart()">
-                <i class="fas fa-play me-1"></i> Begin Session
-              </button>
+            <div class="card-app">
+              <div class="panel-title mb-2">Quick presets</div>
+              <p class="small text-muted-custom mb-2">One-tap combinations for common intentions.</p>
+              <div class="preset-scroll" id="presetWrap"></div>
             </div>
           </div>
 
-          <div class="card-app mb-3">
-            <div class="panel-title mb-2">Quick presets</div>
-            <div class="preset-scroll" id="presetWrap"></div>
-          </div>
-
-          <div class="card-app mb-3">
+          <div class="card-app">
             <div class="panel-title mb-2">All switchwords</div>
 
             <div class="search-box mb-2">
-              <i class="fas fa-search"></i>
-              <input id="wordSearch" type="text" class="form-control rounded-pill" placeholder="Search word, category, use..." oninput="renderWords()" />
+              <i class="fas fa-search" aria-hidden="true"></i>
+              <label class="visually-hidden" for="wordSearch">Search switchwords</label>
+              <input id="wordSearch" name="search" type="text" class="form-control rounded-pill" placeholder="Search word, category, use…" oninput="renderWords()" autocomplete="off" />
             </div>
 
             <div class="category-scroll mb-2" id="categoryFilters"></div>
             <div class="recent-scroll mb-2" id="recentWrap"></div>
             <div class="switchword-list" id="wordList"></div>
           </div>
+        </div>
 
-          <div class="card-app mb-3">
+        <div class="extras-grid mt-3">
+          <div class="card-app">
             <div class="panel-title mb-2">Phrase builder</div>
             <p class="small text-muted-custom mb-2">Tap words below to build a custom combination phrase.</p>
             <div class="d-flex flex-wrap gap-1 mb-2" id="builderWords">
-              <button class="filter-chip" onclick="addToPhrase('COUNT')">COUNT</button>
-              <button class="filter-chip" onclick="addToPhrase('DIVINE')">DIVINE</button>
-              <button class="filter-chip" onclick="addToPhrase('TOGETHER')">TOGETHER</button>
-              <button class="filter-chip" onclick="addToPhrase('FIND')">FIND</button>
-              <button class="filter-chip" onclick="addToPhrase('LOVE')">LOVE</button>
-              <button class="filter-chip" onclick="addToPhrase('GUARD')">GUARD</button>
-              <button class="filter-chip" onclick="addToPhrase('NOW')">NOW</button>
-              <button class="filter-chip" onclick="addToPhrase('BE')">BE</button>
-              <button class="filter-chip" onclick="addToPhrase('OPEN')">OPEN</button>
-              <button class="filter-chip" onclick="addToPhrase('CLEAR')">CLEAR</button>
-              <button class="filter-chip" onclick="addToPhrase('DONE')">DONE</button>
-              <button class="filter-chip" onclick="addToPhrase('SHINE')">SHINE</button>
-              <button class="filter-chip" onclick="addToPhrase('MOVE')">MOVE</button>
-              <button class="filter-chip" onclick="addToPhrase('REACH')">REACH</button>
-              <button class="filter-chip" onclick="addToPhrase('BRING')">BRING</button>
-              <button class="filter-chip" onclick="addToPhrase('OFF')">OFF</button>
+              <button type="button" class="filter-chip" onclick="addToPhrase('COUNT')">COUNT</button>
+              <button type="button" class="filter-chip" onclick="addToPhrase('DIVINE')">DIVINE</button>
+              <button type="button" class="filter-chip" onclick="addToPhrase('TOGETHER')">TOGETHER</button>
+              <button type="button" class="filter-chip" onclick="addToPhrase('FIND')">FIND</button>
+              <button type="button" class="filter-chip" onclick="addToPhrase('LOVE')">LOVE</button>
+              <button type="button" class="filter-chip" onclick="addToPhrase('GUARD')">GUARD</button>
+              <button type="button" class="filter-chip" onclick="addToPhrase('NOW')">NOW</button>
+              <button type="button" class="filter-chip" onclick="addToPhrase('BE')">BE</button>
+              <button type="button" class="filter-chip" onclick="addToPhrase('OPEN')">OPEN</button>
+              <button type="button" class="filter-chip" onclick="addToPhrase('CLEAR')">CLEAR</button>
+              <button type="button" class="filter-chip" onclick="addToPhrase('DONE')">DONE</button>
+              <button type="button" class="filter-chip" onclick="addToPhrase('SHINE')">SHINE</button>
+              <button type="button" class="filter-chip" onclick="addToPhrase('MOVE')">MOVE</button>
+              <button type="button" class="filter-chip" onclick="addToPhrase('REACH')">REACH</button>
+              <button type="button" class="filter-chip" onclick="addToPhrase('BRING')">BRING</button>
+              <button type="button" class="filter-chip" onclick="addToPhrase('OFF')">OFF</button>
             </div>
             <div class="phrase-builder-tags mb-2" id="phraseTags"></div>
             <div class="row g-2">
               <div class="col-8">
-                <input id="phraseCustomInput" type="text" class="form-control" placeholder="Or type a word..." />
+                <label class="visually-hidden" for="phraseCustomInput">Type a word</label>
+                <input id="phraseCustomInput" name="phrase" type="text" class="form-control" placeholder="Or type a word…" autocomplete="off" />
               </div>
               <div class="col-4">
-                <button class="btn btn-soft rounded-pill w-100" onclick="addCustomWord()">Add</button>
+                <button type="button" class="btn btn-ghost rounded-pill w-100" onclick="addCustomWord()">Add</button>
               </div>
             </div>
             <div class="d-grid mt-2">
-              <button class="btn btn-primary-app rounded-pill btn-sm" onclick="usePhrase()">
-                <i class="fas fa-wand-magic-sparkles me-1"></i> Use this phrase
+              <button type="button" class="btn btn-solid rounded-pill" onclick="usePhrase()">
+                <i class="fas fa-wand-magic-sparkles me-1" aria-hidden="true"></i> Use this phrase
               </button>
             </div>
           </div>
 
-          <div class="card-app mb-1">
-            <div class="panel-title mb-2">Prescriptions — combos for specific needs</div>
-            <p class="small text-muted-custom mb-2">Ready-made switchword combinations for common intentions.</p>
+          <div class="card-app">
+            <div class="panel-title mb-2">Prescriptions</div>
+            <p class="small text-muted-custom mb-2">Ready-made switchword combinations for specific needs.</p>
             <div class="prescription-list" id="prescriptionList"></div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <!-- ===== STATS ===== -->
-        <section class="tab-panel" id="tab-stats" aria-label="Practice statistics">
+      <!-- ===== STATS ===== -->
+      <section class="tab-panel" id="tab-stats" aria-label="Practice statistics">
+        <header class="page-head">
+          <h2 class="page-title font-display">Your practice</h2>
+          <p class="page-sub">A quiet record of your chanting.</p>
+        </header>
 
-          <div class="card-app mb-3">
-            <div class="panel-title mb-2">Your practice</div>
-            <div class="row g-2">
-              <div class="col-4">
-                <div class="stat-box">
-                  <div class="stat-label">Session</div>
-                  <div id="statsToday" class="stat-value font-mono">0</div>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="stat-box">
-                  <div class="stat-label">Lifetime</div>
-                  <div id="statsTotal" class="stat-value font-mono">0</div>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="stat-box">
-                  <div class="stat-label">Malas</div>
-                  <div id="statsMalas" class="stat-value font-mono">0</div>
-                  <div class="sub-value">108 each</div>
-                </div>
-              </div>
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-bolt" aria-hidden="true"></i></div>
+            <div>
+              <div class="stat-value font-mono" id="statsToday">0</div>
+              <div class="stat-label">Session</div>
             </div>
           </div>
-
-          <div class="card-app mb-1">
-            <div class="panel-title mb-2">About switchwords</div>
-            <div class="guide-card">
-              <p class="mb-2"><strong>Switchwords</strong> are single words discovered by James T. Mangan in the 1960s that work directly with your subconscious mind to manifest desired outcomes.</p>
-              <p class="mb-2">Think of them as <strong>linguistic shortcuts</strong> — each word carries a specific vibrational energy. When you repeat a switchword, it bypasses your conscious mind (the part that overthinks) and reprograms your subconscious, where 95% of your thoughts and behaviors live.</p>
-              <p class="mb-1"><strong>How to use:</strong></p>
-              <ul class="mb-2">
-                <li>Choose a word or combination matching your intention</li>
-                <li>Repeat it aloud, silently, or in writing — consistent repetition is key</li>
-                <li>Visualize the desired outcome while repeating</li>
-                <li>No special belief required — just repetition creates the shift</li>
-              </ul>
-              <p class="mb-2"><strong>Master switchword:</strong> <span class="text-accent fw-bold">TOGETHER</span> — aligns your conscious and subconscious as one. It's the most versatile and powerful word.</p>
-              <p class="mb-0 small text-muted-custom">Tip: Combine 2-4 words for even stronger results. Try the Prescriptions section for ready-made combos.</p>
-            </div>
-            <div class="small-note">
-              Switchwords were developed by James T. Mangan (1896–1970), author of <em>The Secret of Perfect Living</em>. These words are used in manifestation communities worldwide as spiritual focus tools and affirmation-style chants.
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-infinity" aria-hidden="true"></i></div>
+            <div>
+              <div class="stat-value font-mono" id="statsTotal">0</div>
+              <div class="stat-label">Lifetime</div>
             </div>
           </div>
-        </section>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-circle-notch" aria-hidden="true"></i></div>
+            <div>
+              <div class="stat-value font-mono" id="statsMalas">0</div>
+              <div class="stat-label">Rounds (108)</div>
+            </div>
+          </div>
+        </div>
 
-      </div>
+        <div class="card-app mb-3">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="panel-title mb-0">Today's progress</div>
+            <span class="meta-badge font-mono" id="todayProgressText">0 / 108 chants</span>
+          </div>
+          <div class="progress-track" role="progressbar" aria-label="Today's progress toward 108 chants" aria-valuemin="0" aria-valuemax="108" aria-valuenow="0">
+            <div class="progress-fill" id="todayProgress"></div>
+          </div>
+        </div>
 
-      <nav class="tabbar" aria-label="App sections">
-        <button class="tab-btn active" data-tab="tab-chant" onclick="switchTab('tab-chant')" aria-selected="true"><i class="fas fa-bolt"></i><span>Chant</span></button>
-        <button class="tab-btn" data-tab="tab-library" onclick="switchTab('tab-library')" aria-selected="false"><i class="fas fa-wand-magic-sparkles"></i><span>Words</span></button>
-        <button class="tab-btn" data-tab="tab-stats" onclick="switchTab('tab-stats')" aria-selected="false"><i class="fas fa-chart-simple"></i><span>Stats</span></button>
-      </nav>
+        <div class="card-app mb-1">
+          <div class="panel-title mb-2">About switchwords</div>
+          <div class="guide-card">
+            <p class="mb-2"><strong>Switchwords</strong> are single words discovered by James T. Mangan in the 1960s that work directly with your subconscious mind to manifest desired outcomes.</p>
+            <p class="mb-2">Think of them as <strong>linguistic shortcuts</strong> — each word carries a specific vibrational energy. When you repeat a switchword, it bypasses your conscious mind (the part that overthinks) and reprograms your subconscious, where 95% of your thoughts and behaviors live.</p>
+            <p class="mb-1"><strong>How to use:</strong></p>
+            <ul class="mb-2">
+              <li>Choose a word or combination matching your intention</li>
+              <li>Repeat it aloud, silently, or in writing — consistent repetition is key</li>
+              <li>Visualize the desired outcome while repeating</li>
+              <li>No special belief required — just repetition creates the shift</li>
+            </ul>
+            <p class="mb-2"><strong>Master switchword:</strong> <span class="text-accent fw-bold">TOGETHER</span> — aligns your conscious and subconscious as one. It's the most versatile and powerful word.</p>
+            <p class="mb-0 small text-muted-custom">Tip: Combine 2–4 words for even stronger results. Try the Prescriptions section for ready-made combos.</p>
+          </div>
+          <div class="small-note">
+            Switchwords were developed by James T. Mangan (1896–1970), author of <em>The Secret of Perfect Living</em>. These words are used in manifestation communities worldwide as spiritual focus tools and affirmation-style chants.
+          </div>
+        </div>
+      </section>
 
     </div>
-  </div>
+  </main>
+
+  <nav class="tabbar" role="tablist" aria-label="App sections">
+    <button type="button" class="tab-btn active" role="tab" data-tab="tab-chant" onclick="switchTab('tab-chant')" aria-selected="true"><i class="fas fa-bolt" aria-hidden="true"></i><span>Chant</span></button>
+    <button type="button" class="tab-btn" role="tab" data-tab="tab-library" onclick="switchTab('tab-library')" aria-selected="false"><i class="fas fa-wand-magic-sparkles" aria-hidden="true"></i><span>Words</span></button>
+    <button type="button" class="tab-btn" role="tab" data-tab="tab-stats" onclick="switchTab('tab-stats')" aria-selected="false"><i class="fas fa-chart-simple" aria-hidden="true"></i><span>Stats</span></button>
+  </nav>
+
 </div>
 
 <audio id="ambientAudio" loop preload="none"></audio>
@@ -865,10 +1108,10 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content border-0 bg-transparent shadow-none">
       <div class="completion-card">
-        <div class="completion-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
+        <div class="completion-icon"><i class="fas fa-wand-magic-sparkles" aria-hidden="true"></i></div>
         <h5 class="fw-bold mb-2">Target completed</h5>
         <p class="text-muted-custom mb-3" id="completionText">You completed your switchword target.</p>
-        <button type="button" class="btn btn-primary-app rounded-pill px-4" data-bs-dismiss="modal">Done</button>
+        <button type="button" class="btn btn-solid rounded-pill px-4" data-bs-dismiss="modal">Done</button>
       </div>
     </div>
   </div>
@@ -885,6 +1128,27 @@
   };
 
   const DEFAULT_WORD_ID = 'together';
+  const MALA_GOAL = 108;
+
+  const CAT_ACCENT = {
+    'General': '#e3b54f',
+    'Money': '#4cc38a',
+    'Business': '#5aa7e8',
+    'Love': '#d85d86',
+    'Spiritual': '#b48ce8',
+    'Protection': '#4cc9c9',
+    'Success': '#f0b95c',
+    'Calm': '#7fb8e8',
+    'Emotional': '#e8739a',
+    'Health': '#7ec8a8',
+    'Custom': '#e3b54f'
+  };
+
+  function applyWordAccent(category) {
+    const hex = CAT_ACCENT[category] || '#e3b54f';
+    const wrap = document.getElementById('ringWrap');
+    if (wrap) wrap.style.setProperty('--cat', hex);
+  }
 
   const WORDS = [
     { id: 'together', name: 'Together', text: 'TOGETHER', category: 'General', subtitle: 'Master switchword', tags: ['Harmony', 'Master'], meaning: 'Aligns your conscious and subconscious as one. The most powerful all-purpose switchword.' },
@@ -1059,6 +1323,7 @@
   const defaultWordIdInput = document.getElementById('defaultWordIdInput');
   const prescriptionList = document.getElementById('prescriptionList');
   const phraseTags = document.getElementById('phraseTags');
+  const themeBtn = document.getElementById('themeBtn');
 
   const completionModal = new bootstrap.Modal(document.getElementById('completionModal'));
 
@@ -1090,6 +1355,7 @@
 
   statsTotal.innerText = lifetimeTotal;
   statsToday.innerText = sessionTotal;
+  updateTodayProgress();
 
   const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -1136,7 +1402,13 @@
     });
     const content = document.getElementById('appContent');
     if (content) content.scrollTop = 0;
+    if (location.hash !== '#' + name) location.hash = name;
   }
+
+  window.addEventListener('hashchange', () => {
+    const h = (location.hash || '').replace('#', '');
+    if (['tab-chant', 'tab-library', 'tab-stats'].includes(h)) switchTab(h);
+  });
 
   function toggleSetup() { switchTab('tab-library'); }
 
@@ -1172,6 +1444,7 @@
     const len = activeWord.text.length;
     activeWordText.style.fontSize = len <= 5 ? '2.2rem' : len <= 8 ? '1.9rem' : len <= 16 ? '1.45rem' : '1.12rem';
     activeCategoryDisplay.innerText = activeWord.category;
+    applyWordAccent(activeWord.category);
     activeWordSubtitle.innerText = activeWord.subtitle || 'Selected switchword';
     activeWordMeaning.innerText = activeWord.meaning || '';
     switchwordInput.value = activeWord.text;
@@ -1228,7 +1501,7 @@
 
   function renderPrescriptions() {
     prescriptionList.innerHTML = PRESCRIPTIONS.map(rx => `
-      <div class="prescription-item" onclick="loadPrescription('${escapeQuote(rx.combo)}','${escapeQuote(rx.label)}','${escapeQuote(rx.category)}','${escapeQuote(rx.desc)}')">
+      <div class="prescription-item" role="button" tabindex="0" onclick="loadPrescription('${escapeQuote(rx.combo)}','${escapeQuote(rx.label)}','${escapeQuote(rx.category)}','${escapeQuote(rx.desc)}')">
         <div class="rx-label">${rx.label} <span class="text-muted-custom" style="font-weight:400;font-size:0.65rem;">${rx.category}</span></div>
         <div class="rx-combo">${rx.combo}</div>
         <div class="rx-desc">${rx.desc}</div>
@@ -1238,8 +1511,8 @@
 
   function renderPresets() {
     presetWrap.innerHTML = PRESETS.map(p => `
-      <button class="preset-chip" onclick="loadPreset('${escapeQuote(p.combo)}','${escapeQuote(p.label)}','${escapeQuote(p.category)}','${escapeQuote(p.meaning)}')">
-        ✨ ${p.label}
+      <button type="button" class="preset-chip" onclick="loadPreset('${escapeQuote(p.combo)}','${escapeQuote(p.label)}','${escapeQuote(p.category)}','${escapeQuote(p.meaning)}')">
+        <i class="fas fa-sparkles" aria-hidden="true"></i> ${p.label}
       </button>
     `).join('');
   }
@@ -1247,7 +1520,7 @@
   function renderCategories() {
     const cats = ['All', ...new Set(WORDS.map(w => w.category))];
     categoryFilters.innerHTML = cats.map(cat => `
-      <button class="filter-chip ${cat === currentCategory ? 'active' : ''}" onclick="setCategory('${escapeQuote(cat)}')">${cat}</button>
+      <button type="button" class="filter-chip ${cat === currentCategory ? 'active' : ''}" onclick="setCategory('${escapeQuote(cat)}')">${cat}</button>
     `).join('');
   }
 
@@ -1264,8 +1537,8 @@
     }
 
     recentWrap.innerHTML = recentWords.map(name => `
-      <button class="recent-chip" onclick="chooseWord('${escapeQuote(name)}')">
-        <i class="fas fa-clock-rotate-left me-1"></i>${name}
+      <button type="button" class="recent-chip" onclick="chooseWord('${escapeQuote(name)}')">
+        <i class="fas fa-clock-rotate-left me-1" aria-hidden="true"></i>${name}
       </button>
     `).join('');
   }
@@ -1287,12 +1560,12 @@
     });
 
     if (!filtered.length) {
-      wordList.innerHTML = `<div class="empty-state"><i class="fas fa-sparkles mb-2 d-block fs-4"></i>No switchword found. Try another keyword.</div>`;
+      wordList.innerHTML = `<div class="empty-state"><i class="fas fa-sparkles mb-2 fs-4" aria-hidden="true"></i>No switchword found. Try another keyword.</div>`;
       return;
     }
 
     wordList.innerHTML = filtered.map(w => `
-      <div class="switchword-card ${activeWord.id === w.id ? 'active' : ''}" onclick="chooseWordById('${w.id}')">
+      <div class="switchword-card ${activeWord.id === w.id ? 'active' : ''}" onclick="chooseWordById('${w.id}')" role="button" tabindex="0" aria-label="Select ${w.name}">
         <div class="word-name">${w.name}</div>
         <div class="word-text">${w.text}</div>
         <div class="word-meaning">${w.subtitle}</div>
@@ -1355,7 +1628,7 @@
 
     counterDisplay.innerText = count;
     counterDisplay.style.transform = 'scale(1.14)';
-    counterDisplay.style.color = 'var(--accent)';
+    counterDisplay.style.color = 'var(--acc)';
     setTimeout(() => {
       counterDisplay.style.transform = 'scale(1)';
       counterDisplay.style.color = '';
@@ -1366,6 +1639,7 @@
     statsToday.innerText = sessionTotal;
     statsTotal.innerText = lifetimeTotal;
     localStorage.setItem(STORAGE_KEYS.total, lifetimeTotal);
+    updateTodayProgress();
 
     playClick();
     triggerHaptic();
@@ -1389,12 +1663,23 @@
     }
   }
 
+  function updateTodayProgress() {
+    const fill = document.getElementById('todayProgress');
+    const txt = document.getElementById('todayProgressText');
+    if (!fill) return;
+    const val = Math.min(sessionTotal, MALA_GOAL);
+    fill.style.width = (val / MALA_GOAL) * 100 + '%';
+    fill.parentElement.setAttribute('aria-valuenow', val);
+    if (txt) txt.innerText = sessionTotal + ' / ' + MALA_GOAL + ' chants';
+  }
+
   function resetSession() {
     count = 0;
     secondsActive = 0;
     counterDisplay.innerText = '0';
     timerDisplay.innerText = '00:00';
     updateProgressRing();
+    updateTodayProgress();
     stopAutoMode();
     stopTimer();
   }
@@ -1454,14 +1739,11 @@
 
   function toggleTheme() {
     const root = document.documentElement;
-    const icon = document.querySelector('#themeBtn i');
-    if (root.getAttribute('data-bs-theme') === 'light') {
-      root.setAttribute('data-bs-theme', 'dark');
-      icon.className = 'fas fa-sun';
-    } else {
-      root.setAttribute('data-bs-theme', 'light');
-      icon.className = 'fas fa-moon';
-    }
+    const isLight = root.getAttribute('data-bs-theme') === 'light';
+    const icon = themeBtn.querySelector('i');
+    root.setAttribute('data-bs-theme', isLight ? 'dark' : 'light');
+    icon.className = isLight ? 'fas fa-sun' : 'fas fa-moon';
+    themeBtn.setAttribute('aria-pressed', isLight ? 'false' : 'true');
   }
 
   function addToPhrase(word) {
@@ -1488,7 +1770,7 @@
       return;
     }
     phraseTags.innerHTML = phraseWords.map((w, i) =>
-      `<span class="phrase-tag">${w} <span class="remove-word" onclick="removeFromPhrase(${i})"><i class="fas fa-xmark"></i></span></span>`
+      `<span class="phrase-tag">${w} <span class="remove-word" onclick="removeFromPhrase(${i})"><i class="fas fa-xmark" aria-hidden="true"></i></span></span>`
     ).join('');
   }
 
@@ -1522,6 +1804,9 @@
   renderPhrase();
   renderWords();
   updateProgressRing();
+
+  const initialHash = (location.hash || '').replace('#', '');
+  if (['tab-chant', 'tab-library', 'tab-stats'].includes(initialHash)) switchTab(initialHash);
 </script>
 
 </body>
