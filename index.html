@@ -685,6 +685,77 @@
       .app-card { padding: 0.65rem; }
       .app-icon { width: 2rem; height: 2rem; font-size: 0.78rem; }
     }
+
+    :focus-visible {
+      outline: 2px solid var(--saffron);
+      outline-offset: 2px;
+      border-radius: 6px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .reveal.in-view {
+      opacity: 1;
+      transform: none;
+    }
+
+    .back-to-top {
+      position: fixed;
+      right: 1.1rem;
+      bottom: 1.1rem;
+      z-index: 1030;
+      width: 2.6rem;
+      height: 2.6rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      border: 1px solid var(--border-soft);
+      background: linear-gradient(180deg, var(--surface-strong), var(--surface));
+      color: var(--ink-soft);
+      font-size: 0.9rem;
+      box-shadow: var(--shadow-card);
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+    .back-to-top.visible {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+    }
+    .back-to-top:hover {
+      color: var(--saffron);
+      border-color: rgba(255, 153, 51, 0.3);
+    }
+
+    .site-footer {
+      margin-top: 1rem;
+      padding: 1.1rem 1rem 0.9rem;
+      border: 1px solid var(--border-soft);
+      border-radius: 18px;
+      background: linear-gradient(180deg, var(--panel-bg), rgba(255, 255, 255, 0.28));
+      color: var(--ink-soft);
+      font-size: 0.72rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    [data-bs-theme="dark"] .site-footer {
+      background: linear-gradient(180deg, rgba(18, 28, 45, 0.64), rgba(15, 23, 42, 0.28));
+    }
+    .site-footer a {
+      color: var(--saffron-deep);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    [data-bs-theme="dark"] .site-footer a { color: #ffb86a; }
   </style>
 </head>
 <body>
@@ -792,6 +863,9 @@
           <a class="quick-chip w-100" href="cakephp.html"><i class="fas fa-database"></i> CakePHP 5</a>
           <a class="quick-chip w-100" href="cakephp28.html"><i class="fas fa-layer-group"></i> CakePHP 2.8</a>
           <a class="quick-chip w-100" href="codeigniter.html"><i class="bi bi-lightning-charge-fill"></i> CodeIgniter 4.x</a>
+          <a class="quick-chip w-100" href="codeigniter-versions.html"><i class="bi bi-flower2"></i> CI Versions</a>
+          <a class="quick-chip w-100" href="node-express.html"><i class="bi bi-hdd-network"></i> Node + Express</a>
+          <a class="quick-chip w-100" href="react-native.html"><i class="bi bi-phone"></i> React Native</a>
           <a class="quick-chip w-100" href="symfony.html"><i class="bi bi-bricks"></i> Symfony 7.x</a>
           <a class="quick-chip w-100" href="cake-upgrade-guide.html"><i class="fas fa-arrow-up-z-sorted"></i> Cake Upgrade</a>
           <a class="quick-chip w-100" href="interview.html"><i class="fas fa-circle-question"></i> PHP/Laravel Interview</a>
@@ -800,6 +874,8 @@
           <a class="quick-chip w-100" href="problems.html"><i class="fas fa-laptop"></i> Case Problems</a>
           <a class="quick-chip w-100" href="phplearn.html"><i class="bi bi-code-slash"></i> PHP Deep Learn</a>
           <a class="quick-chip w-100" href="laravel-tips.html"><i class="bi bi-lightning-charge-fill"></i> Laravel Tips</a>
+          <a class="quick-chip w-100" href="laravel-api-testing.html"><i class="bi bi-file-earmark-code"></i> Laravel API + Testing</a>
+          <a class="quick-chip w-100" href="graphql.html"><i class="bi bi-diagram-3-fill"></i> GraphQL + Laravel</a>
           <a class="quick-chip w-100" href="bt.html"><i class="fas fa-pen-ruler"></i> BS 5.3 + TW 4</a>
           <a class="quick-chip w-100" href="grep.html"><i class="fas fa-terminal"></i> grep Command</a>
           <a class="quick-chip w-100" href="ls.html"><i class="bi bi-folder2-open"></i> ls Command</a>
@@ -828,7 +904,18 @@
         <div class="app-grid" id="appGrid"></div>
       </section>
     </main>
+
+    <footer class="site-footer">
+      <span><i class="fas fa-dharmachakra text-saffron me-1"></i>Jap App Hub &mdash; offline study &amp; tool workspace</span>
+      <span class="d-flex gap-2 align-items-center">
+        <a href="https://github.com/chamanrastogi/jap" target="_blank" rel="noopener"><i class="fab fa-github me-1"></i>GitHub</a>
+        <span>&middot;</span>
+        <span>&copy; 2026</span>
+      </span>
+    </footer>
   </div>
+
+  <button class="back-to-top" id="backToTop" aria-label="Back to top" title="Back to top"><i class="fas fa-arrow-up"></i></button>
 
   <script>
     const STORAGE_KEYS = {
@@ -918,6 +1005,22 @@
         tags: ['laravel', 'php', 'artisan', 'backend', 'mvc']
       },
       {
+        name: 'Laravel API + Testing Guide',
+        file: 'laravel-api-testing.html',
+        icon: 'bi-file-earmark-code',
+        category: 'Learning',
+        desc: 'Advanced unit & feature testing and API development with real-life problems: N+1, time, HTTP fakes, queues, uploads, authz, parallel tests.',
+        tags: ['laravel', 'php', 'testing', 'api', 'backend', 'pest', 'phpunit']
+      },
+      {
+        name: 'GraphQL + Laravel Guide',
+        file: 'graphql.html',
+        icon: 'bi-diagram-3-fill',
+        category: 'Learning',
+        desc: 'Complete GraphQL guide with Lighthouse — schema (SDL), queries, mutations, resolvers, Eloquent & N+1, Sanctum auth, clients, and testing.',
+        tags: ['graphql', 'laravel', 'lighthouse', 'api', 'backend', 'schema', 'php']
+      },
+      {
         name: 'Symfony 7.x Guide',
         file: 'symfony.html',
         icon: 'fa-brands fa-symfony',
@@ -980,6 +1083,30 @@
          category: 'Learning',
          desc: 'Complete Spark commands, Query Builder, MVC & concept guide for CodeIgniter 4.x.',
          tags: ['codeigniter', 'php', 'backend', 'mvc', 'spark', 'query-builder']
+       },
+       {
+         name: 'CodeIgniter Versions Guide',
+         file: 'codeigniter-versions.html',
+         icon: 'bi-flower2',
+         category: 'Learning',
+         desc: 'CodeIgniter 1.x to 4.x timeline, PHP support ladder, release map, and the full CI3 to CI4 upgrade path with a code mapping table.',
+         tags: ['codeigniter', 'php', 'upgrade', 'migration', 'versions', 'legacy']
+       },
+       {
+         name: 'Node.js + Express Guide',
+         file: 'node-express.html',
+         icon: 'bi-hdd-network',
+         category: 'Learning',
+         desc: 'Complete Node.js & Express guide — setup, middleware pipeline, routing, REST API design, CRUD, validation, MySQL, JWT auth, testing & deployment.',
+         tags: ['node', 'express', 'javascript', 'backend', 'rest-api', 'api']
+       },
+       {
+         name: 'React Native Guide',
+         file: 'react-native.html',
+         icon: 'bi-phone',
+         category: 'Learning',
+         desc: 'Complete React Native & Expo guide — core components, StyleSheet, FlatList, navigation, New Architecture, EAS build & deploy.',
+         tags: ['react-native', 'react', 'expo', 'mobile', 'ios', 'android', 'javascript']
        },
        {
          name: 'CakePHP Upgrade Guide',
@@ -1165,6 +1292,7 @@
       document.getElementById('statPages').innerText = APPS.length;
       document.getElementById('statCategories').innerText = categories.length - 1;
       document.getElementById('appCount').innerText = `${APPS.length} Apps`;
+      animateCounters();
     }
 
     function renderApps() {
@@ -1213,6 +1341,7 @@
       const staticLinks = [
         { file: 'bt.html', icon: 'fa-pen-ruler', label: 'BS + TW Guide' },
         { file: 'laravel13.html', icon: 'fa-bolt', label: 'Laravel 13' },
+        { file: 'laravel-api-testing.html', icon: 'fa-file-code', label: 'API + Testing' },
         { file: 'angular21.html', icon: 'fa-shield', label: 'Angular 21' },
         { file: 'game.html', icon: 'fa-cube', label: 'Game' },
         { file: 'tictactoe.html', icon: 'fa-hashtag', label: 'Tic Tac Toe' },
@@ -1255,6 +1384,52 @@
       localStorage.setItem(STORAGE_KEYS.theme, nextTheme);
     }
 
+    function animateCounters() {
+      const els = [
+        document.getElementById('statPages'),
+        document.getElementById('statCategories')
+      ];
+      els.forEach(el => {
+        if (!el) return;
+        const end = parseInt(el.textContent, 10) || 0;
+        const start = performance.now();
+        const duration = 650;
+        function tick(now) {
+          const p = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(end * eased);
+          if (p < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      });
+    }
+
+    function initReveal() {
+      const targets = document.querySelectorAll('.hero-banner, .section-panel');
+      if (!('IntersectionObserver' in window)) return;
+      targets.forEach(el => el.classList.add('reveal'));
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      targets.forEach(el => observer.observe(el));
+    }
+
+    function initBackToTop() {
+      const btn = document.getElementById('backToTop');
+      if (!btn) return;
+      function toggle() {
+        btn.classList.toggle('visible', window.scrollY > 320);
+      }
+      window.addEventListener('scroll', toggle, { passive: true });
+      btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+      toggle();
+    }
+
     function openApp(file) {
       saveRecentApp(file);
     }
@@ -1267,6 +1442,8 @@
     populateCategories();
     renderRecentApps();
     renderApps();
+    initReveal();
+    initBackToTop();
   </script>
 </body>
 </html>

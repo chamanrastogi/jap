@@ -163,7 +163,6 @@
       border-radius: 1rem;
       vertical-align: middle;
     }
-  </style>
     .home-link {
       position: fixed;
       top: 14px;
@@ -186,17 +185,46 @@
       transition: 0.2s;
     }
     .home-link:hover { color: #2563eb; }
+    [data-bs-theme="dark"] .home-link { background: rgba(30,41,59,.92); color: #f8fafc; border-color: rgba(255,255,255,.1); }
+    [data-bs-theme="dark"] .home-link:hover { color: var(--react-blue); }
     @media (min-width: 992px) {
       .home-link { left: calc(var(--sidebar-width) + 14px); }
     }
     @media (max-width: 991.98px) {
       .home-link { left: 4rem; }
     }
+
+    .theme-toggle-btn {
+      position: fixed;
+      top: .75rem; right: .75rem;
+      z-index: 1050;
+      background: transparent;
+      border: none;
+      color: #6b7280;
+      font-size: 1.2rem;
+      transition: color .2s, transform .2s;
+      cursor: pointer;
+      padding: .25rem;
+    }
+    .theme-toggle-btn:hover { color: var(--react-blue); transform: scale(1.08); }
+
+    [data-bs-theme="dark"] body { background: #0f172a; }
+    [data-bs-theme="dark"] h2 { color: #e2e8f0 !important; }
+    [data-bs-theme="dark"] h3 { color: #cbd5e1; }
+    [data-bs-theme="dark"] .card { background: #1e293b; box-shadow: 0 2px 8px rgba(0,0,0,.2); }
+    [data-bs-theme="dark"] .card-header { background: #1e293b; border-bottom-color: #334155; }
+    [data-bs-theme="dark"] .card-body,
+    [data-bs-theme="dark"] .card { color: #e2e8f0; }
+    [data-bs-theme="dark"] .table { color: #e2e8f0; }
+    [data-bs-theme="dark"] .text-muted { color: #94a3b8 !important; }
+    [data-bs-theme="dark"] .highlight-box { background: rgba(97,218,251,.08); }
+    [data-bs-theme="dark"] .card-header h5, [data-bs-theme="dark"] .card-header h6 { color: #f1f5f9; }
   </style>
 </head>
 <body>
 
 <button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
+<button class="theme-toggle-btn" onclick="toggleTheme()" title="Toggle dark mode"><i class="bi bi-moon-fill"></i></button>
 <a href="index.html" class="home-link" aria-label="Go back to home page"><span>←</span> Home</a>
 
 <!-- ===== SIDEBAR ===== -->
@@ -1683,6 +1711,27 @@ global.fetch = vi.<span class="fn">fn</span>();
 <!-- ===== SCRIPTS ===== -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+  var LOCAL_KEY = "hub_theme";
+  (function applyStoredTheme() {
+    var stored = localStorage.getItem(LOCAL_KEY);
+    if (!stored) return;
+    document.documentElement.setAttribute("data-bs-theme", stored);
+    var icons = document.querySelectorAll(".theme-toggle-btn i");
+    for (var i = 0; i < icons.length; i++) {
+      icons[i].className = stored === "dark" ? "bi bi-sun-fill" : "bi bi-moon-fill";
+    }
+  })();
+  window.toggleTheme = function () {
+    var root = document.documentElement;
+    var isLight = root.getAttribute("data-bs-theme") !== "dark";
+    var next = isLight ? "dark" : "light";
+    root.setAttribute("data-bs-theme", next);
+    localStorage.setItem(LOCAL_KEY, next);
+    var icons = document.querySelectorAll(".theme-toggle-btn i");
+    for (var i = 0; i < icons.length; i++) {
+      icons[i].className = isLight ? "bi bi-sun-fill" : "bi bi-moon-fill";
+    }
+  };
   const sidebar = document.getElementById('sidebar');
   const toggle = document.getElementById('sidebarToggle');
   toggle.addEventListener('click', () => sidebar.classList.toggle('show'));

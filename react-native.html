@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React Native - Complete Guide: Expo, Components, New Architecture & Deployment</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --rn-cyan: #61dafb;
+      --rn-violet: #6a5af9;
+      --rn-violet-deep: #4b3fd4;
+      --rn-teal: #0aa0c6;
+      --rn-ink: #14182b;
+      --rn-ink-soft: #5b647d;
+      --rn-ink-faint: #8b93aa;
+      --rn-paper: #f6f7fc;
+      --rn-surface: #ffffff;
+      --rn-line: #e3e5f1;
+      --rn-line-strong: #d2d5e4;
+      --rn-code-bg: #0d1020;
+      --rn-code-fg: #eceffc;
+      --rn-sidebar: #14182b;
+      --rn-amber: #b58900;
+      --sidebar-width: 280px;
+    }
+    [data-bs-theme="dark"] {
+      --rn-paper: #0c0f1d;
+      --rn-surface: #121627;
+      --rn-ink: #e8ecfb;
+      --rn-ink-soft: #a7aecd;
+      --rn-ink-faint: #6f7797;
+      --rn-line: #232942;
+      --rn-line-strong: #313956;
+      --rn-code-bg: #080a15;
+      --rn-sidebar: #0a0d19;
+      --rn-cyan: #7de0ff;
+      --rn-violet: #8f83ff;
+      --rn-violet-deep: #a79bff;
+      --rn-teal: #4dd4f5;
+    }
+    * { scroll-margin-top: 1rem; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--rn-paper);
+      color: var(--rn-ink);
+      display: flex;
+      transition: background .3s ease, color .3s ease;
+    }
+    /* ============ SIDEBAR ============ */
+    #sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0; left: 0;
+      background: linear-gradient(180deg, var(--rn-sidebar), #101426);
+      overflow-y: auto;
+      z-index: 1000;
+      transition: transform .3s;
+    }
+    #sidebar .brand {
+      padding: 1.25rem 1.25rem .75rem;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    #sidebar .brand h5 {
+      color: #fff;
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+    }
+    #sidebar .brand h5 .glyph {
+      background: linear-gradient(135deg, var(--rn-cyan), var(--rn-violet));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    #sidebar .brand small { color: #a5aed0; }
+    #sidebar .nav-link {
+      color: #b6bdd9;
+      padding: .5rem 1.25rem;
+      font-size: .88rem;
+      border-left: 3px solid transparent;
+      transition: all .15s;
+    }
+    #sidebar .nav-link:hover {
+      color: #fff;
+      background: rgba(255,255,255,.05);
+    }
+    #sidebar .nav-link.active {
+      color: var(--rn-cyan);
+      border-left-color: var(--rn-cyan);
+      background: rgba(97,218,251,.08);
+    }
+    #sidebar .nav-link i { width: 1.3rem; }
+    #sidebar .nav-section {
+      color: #6f79a0;
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      padding: 1rem 1.25rem .3rem;
+      font-weight: 600;
+    }
+    /* ============ MAIN ============ */
+    #main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 2rem 2.5rem 4rem;
+      max-width: 1100px;
+    }
+    @media (max-width: 991.98px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.show { transform: translateX(0); }
+      #main { margin-left: 0; padding: 1.5rem; }
+    }
+    .sidebar-toggle {
+      position: fixed;
+      top: .75rem; left: .75rem;
+      z-index: 1050;
+      background: var(--rn-sidebar);
+      color: #fff;
+      border: none;
+      border-radius: .4rem;
+      padding: .4rem .65rem;
+      display: none;
+    }
+    @media (max-width: 991.98px) {
+      .sidebar-toggle { display: block; }
+    }
+    /* ============ HOME LINK / THEME ============ */
+    .home-link, .theme-btn {
+      position: fixed;
+      top: 14px;
+      z-index: 1100;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.94);
+      color: #0f172a;
+      text-decoration: none;
+      font-size: .78rem;
+      font-weight: 700;
+      box-shadow: 0 10px 28px rgba(0,0,0,.08);
+      border: 1px solid rgba(226,232,240,.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: .2s;
+    }
+    .home-link:hover { color: var(--rn-teal); }
+    .theme-btn {
+      right: 14px;
+      cursor: pointer;
+      border-radius: 12px;
+    }
+    .theme-btn:hover { color: var(--rn-teal); }
+    [data-bs-theme="dark"] .home-link,
+    [data-bs-theme="dark"] .theme-btn {
+      background: rgba(18,22,39,.93);
+      color: #e8ecfb;
+      border-color: #2a3148;
+    }
+    [data-bs-theme="dark"] .home-link:hover,
+    [data-bs-theme="dark"] .theme-btn:hover { color: var(--rn-cyan); }
+    @media (min-width: 992px) {
+      .home-link { left: calc(var(--sidebar-width) + 14px); }
+    }
+    @media (max-width: 991.98px) {
+      .home-link { left: 4rem; }
+    }
+    /* ============ TYPE ============ */
+    h1, h2, h3 { font-family: 'Sora', sans-serif; }
+    h2 {
+      font-weight: 700;
+      color: var(--rn-ink);
+      margin-top: 2.6rem;
+      padding-bottom: .5rem;
+      border-bottom: 3px solid var(--rn-violet);
+      font-size: 1.55rem;
+    }
+    h3 {
+      font-weight: 600;
+      color: var(--rn-ink);
+      margin-top: 1.8rem;
+      font-size: 1.15rem;
+    }
+    .text-muted { color: var(--rn-ink-soft) !important; }
+    a { color: var(--rn-teal); }
+    a:hover { color: var(--rn-teal); }
+    /* ============ HERO ============ */
+    .hero {
+      background: var(--rn-surface);
+      border: 1px solid var(--rn-line);
+      border-radius: 1rem;
+      padding: 1.75rem 1.75rem 1.5rem;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,.05);
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem;
+      font-weight: 500;
+      color: var(--rn-violet);
+      background: rgba(106,90,249,.08);
+      border: 1px solid rgba(106,90,249,.22);
+      padding: .3rem .7rem;
+      border-radius: 999px;
+      margin-bottom: .9rem;
+    }
+    .hero h1 {
+      font-size: clamp(1.85rem, 3.8vw, 2.7rem);
+      font-weight: 800;
+      letter-spacing: -.02em;
+      margin-bottom: .6rem;
+    }
+    .hero h1 .grad {
+      background: linear-gradient(90deg, var(--rn-teal), var(--rn-violet));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p.lede {
+      font-size: 1.02rem;
+      line-height: 1.65;
+      color: var(--rn-ink-soft);
+      max-width: 42rem;
+    }
+    .hero-badges { display: flex; flex-wrap: wrap; gap: .45rem; margin: .9rem 0 1.2rem; }
+    .hero-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem;
+      font-weight: 500;
+      color: var(--rn-ink-soft);
+      background: var(--rn-paper);
+      border: 1px solid var(--rn-line-strong);
+      padding: .32rem .7rem;
+      border-radius: .45rem;
+    }
+    .hero-badge b { color: var(--rn-ink); font-weight: 700; }
+    .hero-badge.violet { color: var(--rn-violet); border-color: rgba(106,90,249,.35); background: rgba(106,90,249,.06); }
+    .stat-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: .6rem; margin-top: .4rem; }
+    .stat {
+      background: var(--rn-paper);
+      border: 1px solid var(--rn-line);
+      border-radius: .6rem;
+      padding: .65rem .75rem;
+    }
+    .stat .num {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--rn-violet);
+      display: block;
+      line-height: 1.1;
+    }
+    .stat .lbl { font-size: .66rem; text-transform: uppercase; letter-spacing: .06em; color: var(--rn-ink-faint); font-weight: 600; }
+    @media (max-width: 767.98px) {
+      .stat-strip { grid-template-columns: repeat(2, 1fr); }
+    }
+    /* ============ DEVICE MOCKUP (signature) ============ */
+    .device-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .8rem;
+    }
+    .device {
+      position: relative;
+      width: 240px;
+      height: 470px;
+      background: #0b0e1e;
+      border-radius: 42px;
+      border: 6px solid #1c2138;
+      box-shadow: 0 24px 60px rgba(20,24,43,.35);
+      overflow: hidden;
+    }
+    .device-notch {
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 90px;
+      height: 22px;
+      background: #1c2138;
+      border-radius: 0 0 14px 14px;
+      z-index: 3;
+      transition: all .25s;
+    }
+    .device.android .device-notch {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      top: 9px;
+    }
+    .device-screen {
+      position: absolute;
+      inset: 0;
+      padding: 34px 14px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background:
+        radial-gradient(circle at 20% 0%, var(--accent-glow, rgba(97,218,251,.18)), transparent 45%),
+        linear-gradient(180deg, #0e1226, #0a0d1d);
+    }
+    .device-statusbar {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .6rem;
+      color: #aab2d4;
+    }
+    .app-header {
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      color: #fff;
+      font-size: .95rem;
+      margin-top: 4px;
+    }
+    .app-sub { font-size: .62rem; color: #7f88ad; margin-bottom: 2px; }
+    .app-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,.045);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 10px;
+      padding: 7px 9px;
+    }
+    .app-row .dot {
+      width: 22px; height: 22px;
+      border-radius: 7px;
+      background: linear-gradient(135deg, var(--rn-cyan), var(--rn-violet));
+      flex-shrink: 0;
+    }
+    .app-row b { color: #e6eafb; font-size: .68rem; display: block; line-height: 1.2; }
+    .app-row small { color: #7f88ad; font-size: .56rem; }
+    .app-cta {
+      margin-top: auto;
+      text-align: center;
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: .7rem;
+      color: #0a0d1d;
+      background: linear-gradient(90deg, var(--rn-cyan), var(--rn-violet));
+      border-radius: 11px;
+      padding: 9px 0;
+      transition: background .3s;
+    }
+    .device-home {
+      position: absolute;
+      bottom: 7px; left: 50%;
+      transform: translateX(-50%);
+      width: 90px; height: 4px;
+      border-radius: 4px;
+      background: #3a4162;
+      z-index: 3;
+      transition: all .25s;
+    }
+    .device.android .device-home {
+      width: 60px; height: 3px;
+      bottom: 8px;
+      background: #3a4162;
+    }
+    .device-controls {
+      display: flex;
+      gap: .4rem;
+    }
+    .device-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem;
+      font-weight: 700;
+      padding: .4rem .9rem;
+      border-radius: 999px;
+      border: 1px solid var(--rn-line-strong);
+      background: var(--rn-surface);
+      color: var(--rn-ink-soft);
+      cursor: pointer;
+      transition: all .18s;
+    }
+    .device-btn.active {
+      background: linear-gradient(90deg, var(--rn-teal), var(--rn-violet));
+      color: #fff;
+      border-color: transparent;
+    }
+    .device-caption {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .68rem;
+      color: var(--rn-ink-faint);
+      text-align: center;
+    }
+    /* ============ CARDS / TABLES / CODE ============ */
+    .card {
+      border: 1px solid var(--rn-line);
+      border-radius: .75rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,.04);
+      margin-bottom: 1.5rem;
+      background: var(--rn-surface);
+    }
+    .card-header {
+      background: var(--rn-surface);
+      border-bottom: 1px solid var(--rn-line);
+      font-weight: 600;
+      padding: 1rem 1.25rem;
+      font-family: 'Sora', sans-serif;
+      color: var(--rn-ink);
+    }
+    .card-body { padding: 1.5rem; }
+    .table { --bs-table-bg: transparent; color: var(--rn-ink); }
+    .table td, .table th { color: var(--rn-ink); border-color: var(--rn-line); }
+    .table-hover tbody tr:hover { color: var(--rn-ink); background: rgba(106,90,249,.05); }
+    .table-light, .table-light th { background: var(--rn-paper); color: var(--rn-ink); }
+    .cmd-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .8rem;
+      white-space: nowrap;
+      color: var(--rn-violet);
+    }
+    .plat-badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .62rem;
+      font-weight: 700;
+      padding: .12rem .45rem;
+      border-radius: .3rem;
+      margin-right: .2rem;
+    }
+    .plat-ios { background: #2c3236; color: #fff; }
+    .plat-android { background: #1f6f2f; color: #fff; }
+    .plat-web { background: #0aa0c6; color: #fff; }
+    pre {
+      background: var(--rn-code-bg);
+      color: var(--rn-code-fg);
+      padding: 1rem 1.25rem;
+      border-radius: .5rem;
+      font-size: .82rem;
+      overflow-x: auto;
+      position: relative;
+    }
+    pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
+    .kw { color: #c792ea; }
+    .fn { color: #82aaff; }
+    .str { color: #c3e88d; }
+    .cm { color: #5c6a8a; font-style: italic; }
+    .num { color: #f78c6c; }
+    .tp { color: #ffcb6b; }
+    .at { color: #ffcb6b; }
+    code.inline {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82em;
+      background: rgba(106,90,249,.09);
+      color: var(--rn-violet);
+      padding: .12em .4em;
+      border-radius: .3em;
+    }
+    .highlight-box {
+      background: rgba(106,90,249,.06);
+      border-left: 4px solid var(--rn-violet);
+      padding: 1rem 1.25rem;
+      border-radius: .4rem;
+      margin: 1rem 0;
+      color: var(--rn-ink);
+    }
+    .warn-box {
+      background: rgba(181,137,0,.08);
+      border-left: 4px solid var(--rn-amber);
+      padding: 1rem 1.25rem;
+      border-radius: .4rem;
+      margin: 1rem 0;
+      color: var(--rn-ink);
+    }
+    .new-badge {
+      background: var(--rn-violet);
+      color: #fff;
+      font-size: .65rem;
+      font-weight: 600;
+      padding: .15rem .5rem;
+      border-radius: 1rem;
+      vertical-align: middle;
+    }
+    .cmp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: .6rem; }
+    .cmp {
+      background: var(--rn-surface);
+      border: 1px solid var(--rn-line);
+      border-radius: .6rem;
+      padding: .8rem .9rem;
+    }
+    .cmp .name { font-family: 'JetBrains Mono', monospace; font-size: .8rem; font-weight: 700; color: var(--rn-teal); }
+    .cmp .web { font-size: .72rem; color: var(--rn-ink-soft); }
+    .cmp .use { font-size: .7rem; color: var(--rn-ink-faint); margin-top: .2rem; line-height: 1.45; }
+    footer { border-top: 1px solid var(--rn-line); }
+  </style>
+</head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
+<a href="index.html" class="home-link" aria-label="Go back to home page"><span>←</span> Home</a>
+<button class="theme-btn" id="themeBtn" aria-label="Toggle dark mode"><i class="bi bi-moon-stars"></i></button>
+
+<!-- ===== SIDEBAR ===== -->
+<nav id="sidebar">
+  <div class="brand">
+    <h5><i class="bi bi-phone me-2 glyph"></i>React Native</h5>
+    <small class="d-block mt-1">RN 0.86 &mdash; Expo SDK 57</small>
+  </div>
+  <div class="py-2">
+    <div class="nav-section">Foundation</div>
+    <a class="nav-link" href="#overview"><i class="bi bi-phone"></i> What is React Native?</a>
+    <a class="nav-link" href="#getting-started"><i class="bi bi-download"></i> Setup with Expo</a>
+    <a class="nav-link" href="#structure"><i class="bi bi-folder2-open"></i> Project Structure</a>
+
+    <div class="nav-section">Building UI</div>
+    <a class="nav-link" href="#components"><i class="bi bi-ui-checks-grid"></i> Core Components</a>
+    <a class="nav-link" href="#styling"><i class="bi bi-brush"></i> Styling (StyleSheet)</a>
+    <a class="nav-link" href="#layout"><i class="bi bi-grid-3x3"></i> Layout &amp; Responsive</a>
+
+    <div class="nav-section">App Logic</div>
+    <a class="nav-link" href="#navigation"><i class="bi bi-signpost-2"></i> Navigation</a>
+    <a class="nav-link" href="#platform"><i class="bi bi-phone-landscape"></i> Platform-Specific</a>
+    <a class="nav-link" href="#networking"><i class="bi bi-hdd-network"></i> Networking &amp; Data</a>
+    <a class="nav-link" href="#state"><i class="bi bi-diagram-3"></i> State Management</a>
+
+    <div class="nav-section">Native &amp; Quality</div>
+    <a class="nav-link" href="#architecture"><i class="bi bi-cpu"></i> New Architecture</a>
+    <a class="nav-link" href="#debugging"><i class="bi bi-bug"></i> Debugging</a>
+    <a class="nav-link" href="#testing"><i class="bi bi-check-circle"></i> Testing</a>
+
+    <div class="nav-section">Shipping</div>
+    <a class="nav-link" href="#deployment"><i class="bi bi-rocket-takeoff"></i> Build &amp; Deploy</a>
+    <a class="nav-link" href="#cheatsheet"><i class="bi bi-stars"></i> Cheat Sheet</a>
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<div id="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="row g-4 align-items-center">
+      <div class="col-lg-7">
+        <div class="hero-eyebrow"><i class="bi bi-phone"></i> one codebase &middot; iOS + Android + web</div>
+        <h1>React Native <span class="grad">0.86</span></h1>
+        <p class="lede">
+          The complete reference for building mobile apps with React Native and Expo &mdash;
+          components, StyleSheet, navigation, the New Architecture, debugging, testing, and
+          shipping to the App Store and Play Store.
+        </p>
+        <div class="hero-badges">
+          <span class="hero-badge"><b>RN</b> 0.86</span>
+          <span class="hero-badge"><b>Expo SDK</b> 57</span>
+          <span class="hero-badge"><b>React</b> 19.2</span>
+          <span class="hero-badge violet"><b>New Arch</b> always-on</span>
+          <span class="hero-badge violet"><b>Hermes V1</b> default</span>
+        </div>
+        <div class="stat-strip">
+          <div class="stat"><span class="num">2</span><span class="lbl">stores / one codebase</span></div>
+          <div class="stat"><span class="num">6×</span><span class="lbl">RN releases per year</span></div>
+          <div class="stat"><span class="num">0.82</span><span class="lbl">first all New Arch</span></div>
+          <div class="stat"><span class="num">100%</span><span class="lbl">JS/TS + native</span></div>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="device-wrap">
+          <div class="device" id="device">
+            <div class="device-notch"></div>
+            <div class="device-screen">
+              <div class="device-statusbar"><span>9:41</span><span>▲ 100%</span></div>
+              <div class="app-header">Today</div>
+              <div class="app-sub">2 tasks &middot; build with &lt;View&gt; + &lt;Text&gt;</div>
+              <div class="app-row"><span class="dot"></span><div><b>Chant 108 japs</b><small>habit &middot; 5:30 AM</small></div></div>
+              <div class="app-row"><span class="dot"></span><div><b>Ship the app</b><small>project &middot; today</small></div></div>
+              <div class="app-row"><span class="dot"></span><div><b>Review PRs</b><small>team &middot; 11:00 AM</small></div></div>
+              <div class="app-cta">+ Add task</div>
+            </div>
+            <div class="device-home"></div>
+          </div>
+          <div class="device-controls">
+            <button class="device-btn active" data-platform="ios">iOS · UIKit</button>
+            <button class="device-btn" data-platform="android">Android · Material</button>
+          </div>
+          <div class="device-caption">same &lt;Text&gt; &mdash; rendered natively</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== OVERVIEW ==================== -->
+  <section id="overview">
+    <h2><i class="bi bi-phone me-2"></i>What is React Native?</h2>
+    <p>
+      React Native runs <strong>React components on the phone</strong>. There is no web browser and no
+      DOM &mdash; your JavaScript talks to native UI through the framework, so a <code class="inline">&lt;Text&gt;</code>
+      becomes a real <code class="inline">UILabel</code> on iOS or <code class="inline">TextView</code> on Android.
+      You write once, ship to iOS, Android, and (with React Native Web) the browser.
+    </p>
+
+    <div class="card">
+      <div class="card-header">React (web) vs React Native (mobile) vs Flutter</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead class="table-light"><tr><th style="width:20%"></th><th>React Native</th><th>React (web)</th><th>Flutter</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Language</strong></td><td>JavaScript / TypeScript</td><td>JavaScript / TypeScript</td><td>Dart</td></tr>
+              <tr><td><strong>UI layer</strong></td><td>Native platform components</td><td>DOM / browser</td><td>Custom-drawn (Skia)</td></tr>
+              <tr><td><strong>Styling</strong></td><td>StyleSheet (CSS-ish)</td><td>CSS</td><td>Widgets</td></tr>
+              <tr><td><strong>Bridge to native</strong></td><td>New Architecture (Fabric/JSI)</td><td>&mdash;</td><td>Platform channels</td></tr>
+              <tr><td><strong>Best for</strong></td><td>Team already knows React</td><td>Web apps / SPAs</td><td>Pixel-perfect custom UI</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Expo vs "bare" React Native</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead class="table-light"><tr><th style="width:26%"></th><th>Expo (recommended)</th><th>Bare RN CLI</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Start</strong></td><td><code class="inline">npx create-expo-app</code></td><td><code class="inline">npx @react-native-community/cli init</code></td></tr>
+              <tr><td><strong>Run on device</strong></td><td>Expo Go app / dev build, scan QR</td><td>Xcode / Android Studio</td></tr>
+              <tr><td><strong>Native code</strong></td><td>Managed with <code class="inline">expo prebuild</code></td><td>You own ios/ and android/</td></tr>
+              <tr><td><strong>Over-the-air updates</strong></td><td>EAS Update</td><td>Roll your own</td></tr>
+              <tr><td><strong>Best for</strong></td><td>Nearly everyone starting out</td><td>Teams needing full native control</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Rule of thumb for 2026:</strong> start with <code class="inline">create-expo-app</code>. You can
+      always <code class="inline">npx expo prebuild</code> later to get the native projects. Bare CLI is for
+      teams that know they need deep native changes from day one.
+    </div>
+  </section>
+
+  <!-- ==================== GETTING STARTED ==================== -->
+  <section id="getting-started">
+    <h2><i class="bi bi-download me-2"></i>Setup with Expo</h2>
+    <p>Requirements: <strong>Node.js 22.13+</strong>, a phone with the Expo Go app (or an emulator), and optionally Xcode / Android Studio.</p>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="cm"># Create an app (SDK 57 → React Native 0.86, React 19.2)</span>
+npx create-expo-app<span class="tp">@latest</span> myapp
+
+<span class="cm"># Start the dev server → scan the QR code with Expo Go</span>
+cd myapp
+npx expo start
+
+<span class="cm"># Start for a specific platform</span>
+npx expo start --ios      <span class="cm"># iOS simulator</span>
+npx expo start --android  <span class="cm"># Android emulator</span>
+npx expo start --web      <span class="cm"># browser via react-native-web</span>
+
+<span class="cm"># Check your project is healthy</span>
+npx expo-doctor</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Everyday Expo CLI commands</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0 cmd-table">
+            <thead class="table-light"><tr><th style="width:38%">Command</th><th>What it does</th></tr></thead>
+            <tbody>
+              <tr><td>npx expo start</td><td>Start Metro dev server + QR code</td></tr>
+              <tr><td>npx expo install pkg</td><td>Install a package pinned to the SDK version</td></tr>
+              <tr><td>npx expo prebuild</td><td>Generate ios/ and android/ native projects</td></tr>
+              <tr><td>npx expo run:ios</td><td>Build + run on a simulator (needs Xcode)</td></tr>
+              <tr><td>npx expo run:android</td><td>Build + run on an emulator (needs Android Studio)</td></tr>
+              <tr><td>npx expo export</td><td>Bundle the app for production / EAS Update</td></tr>
+              <tr><td>npx expo-doctor</td><td>Audit dependencies, versions, and config</td></tr>
+              <tr><td>npx expo install expo@latest --fix</td><td>Upgrade to the newest SDK</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn-box">
+      <strong>Expo Go vs a development build.</strong> Expo Go runs JS-only apps instantly &mdash; perfect
+      for learning. When you add a library with native code, switch to a
+      <strong>development build</strong>: <code class="inline">npx expo run:ios</code> / <code class="inline">npx expo run:android</code>.
+    </div>
+  </section>
+
+  <!-- ==================== STRUCTURE ==================== -->
+  <section id="structure">
+    <h2><i class="bi bi-folder2-open me-2"></i>Project Structure</h2>
+    <p>SDK 57 apps are file-based: routes live in <code class="inline">app/</code> (Expo Router), everything else is organized the way you like.</p>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code>myapp/
+  app/                <span class="cm"># screens become routes (Expo Router)</span>
+    _layout.tsx       <span class="cm"># root layout</span>
+    index.tsx         <span class="cm"># route "/"</span>
+    about.tsx         <span class="cm"># route "/about"</span>
+    profile/[id].tsx  <span class="cm"># dynamic route "/profile/:id"</span>
+  components/         <span class="cm"># reusable UI (Button, Card, …)</span>
+  constants/          <span class="cm"># colors, theme tokens</span>
+  assets/             <span class="cm"># images, fonts, icons</span>
+  app.json            <span class="cm"># app config (name, icon, splash)</span>
+  package.json
+  tsconfig.json</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">app.json essentials</div>
+      <div class="card-body">
+        <pre><code>{ <span class="cm">// app.json — the single source of app identity</span>
+  <span class="str">"expo"</span>: {
+    <span class="str">"name"</span>: <span class="str">"MyApp"</span>,
+    <span class="str">"slug"</span>: <span class="str">"myapp"</span>,
+    <span class="str">"version"</span>: <span class="str">"1.0.0"</span>,
+    <span class="str">"orientation"</span>: <span class="str">"portrait"</span>,
+    <span class="str">"icon"</span>: <span class="str">"./assets/icon.png"</span>,
+    <span class="str">"splash"</span>: { <span class="str">"image"</span>: <span class="str">"./assets/splash.png"</span> },
+    <span class="str">"ios"</span>: { <span class="str">"bundleIdentifier"</span>: <span class="str">"com.you.myapp"</span> },
+    <span class="str">"android"</span>: { <span class="str">"package"</span>: <span class="str">"com.you.myapp"</span> }
+  }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== COMPONENTS ==================== -->
+  <section id="components">
+    <h2><i class="bi bi-ui-checks-grid me-2"></i>Core Components</h2>
+    <p>
+      A small set of components replaces the whole HTML tag library. No <code class="inline">&lt;div&gt;</code>,
+      no <code class="inline">&lt;p&gt;</code> &mdash; just these building blocks.
+    </p>
+
+    <div class="cmp-grid mb-4">
+      <div class="cmp"><span class="name">View</span><div class="web">≈ div</div><div class="use">Layout container. The workhorse of every screen.</div></div>
+      <div class="cmp"><span class="name">Text</span><div class="web">≈ p / span</div><div class="use">Every string on screen must live inside Text.</div></div>
+      <div class="cmp"><span class="name">ScrollView</span><div class="web">≈ body scroll</div><div class="use">Scrollable container for small content sets.</div></div>
+      <div class="cmp"><span class="name">FlatList</span><div class="web">≈ virtualized list</div><div class="use">Efficient long lists — only renders visible rows.</div></div>
+      <div class="cmp"><span class="name">Pressable</span><div class="web">≈ button / a</div><div class="use">Touchable element with pressed/disabled styles.</div></div>
+      <div class="cmp"><span class="name">TextInput</span><div class="web">≈ input</div><div class="use">Text entry with keyboard handling.</div></div>
+      <div class="cmp"><span class="name">Image</span><div class="web">≈ img</div><div class="use">Remote or bundled images.</div></div>
+      <div class="cmp"><span class="name">SafeAreaView</span><div class="web">&mdash;</div><div class="use">Pad past the notch / status bar. (deprecated in RN 0.86 — use react-native-safe-area-context).</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">A first screen</div>
+      <div class="card-body">
+        <pre><code><span class="kw">import</span> { View, Text, StyleSheet, Pressable } <span class="kw">from</span> <span class="str">'react-native'</span>;
+
+<span class="kw">export default function</span> <span class="fn">Home</span>() {
+  <span class="kw">return</span> (
+    &lt;<span class="kw">View</span> <span class="fn">style</span>={styles.container}&gt;
+      &lt;<span class="kw">Text</span> <span class="fn">style</span>={styles.title}&gt;Namaste, world!&lt;/Text&gt;
+      &lt;<span class="kw">Pressable</span>
+        <span class="fn">style</span>={({ pressed }) =&gt; [styles.btn, pressed &amp;&amp; styles.btnPressed]}
+        <span class="fn">onPress</span>={() =&gt; console.log(<span class="str">'tapped'</span>)}
+      &gt;
+        &lt;<span class="kw">Text</span> <span class="fn">style</span>={styles.btnText}&gt;Tap me&lt;/Text&gt;
+      &lt;/Pressable&gt;
+    &lt;/View&gt;
+  );
+}
+
+<span class="kw">const</span> styles = StyleSheet.<span class="fn">create</span>({
+  container: { flex: <span class="num">1</span>, alignItems: <span class="str">'center'</span>, justifyContent: <span class="str">'center'</span> },
+  title: { fontSize: <span class="num">24</span>, fontWeight: <span class="str">'700'</span> },
+  btn: { backgroundColor: <span class="str">'#6a5af9'</span>, padding: <span class="num">12</span> <span class="num">24</span>, borderRadius: <span class="num">12</span> },
+  btnPressed: { opacity: <span class="num">0.75</span> },
+  btnText: { color: <span class="str">'#fff'</span>, fontWeight: <span class="str">'600'</span> },
+});</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">FlatList — virtualized long lists</div>
+      <div class="card-body">
+        <pre><code><span class="kw">import</span> { FlatList, Text, View } <span class="kw">from</span> <span class="str">'react-native'</span>;
+
+<span class="kw">const</span> data = Array.<span class="kw">from</span>({ length: <span class="num">1000</span> }, (_, i) =&gt; ({ id: i, name: <span class="str">`Item </span><span class="tp">${i}</span><span class="str">`</span> }));
+
+<span class="kw">export default function</span> <span class="fn">List</span>() {
+  <span class="kw">return</span> (
+    &lt;<span class="kw">FlatList</span>
+      <span class="fn">data</span>={data}
+      <span class="fn">keyExtractor</span>={(item) =&gt; item.id}
+      <span class="fn">renderItem</span>={({ item }) =&gt; (
+        &lt;<span class="kw">View</span> <span class="fn">style</span>={{ padding: <span class="num">12</span> }}&gt;
+          &lt;<span class="kw">Text</span>&gt;{item.name}&lt;/Text&gt;
+        &lt;/View&gt;
+      )}
+    /&gt;
+  );
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== STYLING ==================== -->
+  <section id="styling">
+    <h2><i class="bi bi-brush me-2"></i>Styling with StyleSheet</h2>
+    <p>
+      Styling is <strong>inline object literal CSS</strong> &mdash; camelCase property names, no selectors,
+      no cascade, no <code class="inline">px</code> units (numbers are density-independent pixels). Flexbox is the
+      only layout engine.
+    </p>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="kw">const</span> styles = StyleSheet.<span class="fn">create</span>({
+  card: {
+    flexDirection: <span class="str">'row'</span>,         <span class="cm">// flexbox is default — like display:flex</span>
+    alignItems: <span class="str">'center'</span>,
+    justifyContent: <span class="str">'space-between'</span>,
+    gap: <span class="num">8</span>,                      <span class="cm">// gap works, like CSS gap</span>
+    padding: <span class="num">16</span>,
+    backgroundColor: <span class="str">'#fff'</span>,
+    borderRadius: <span class="num">12</span>,
+    shadowColor: <span class="str">'#000'</span>,          <span class="cm">// iOS shadow</span>
+    shadowOpacity: <span class="num">0.1</span>,
+    shadowRadius: <span class="num">8</span>,
+    elevation: <span class="num">3</span>,               <span class="cm">// Android shadow</span>
+  },
+  title: { fontSize: <span class="num">16</span>, fontWeight: <span class="str">'600'</span>, color: <span class="str">'#14182b'</span> },
+});
+
+<span class="cm">// Merge styles: array wins last → great for pressed / selected states</span>
+&lt;<span class="kw">View</span> <span class="fn">style</span>={[styles.card, isSelected &amp;&amp; styles.cardSelected]} /&gt;
+
+<span class="cm">// Platform-specific values inside one style</span>
+fontFamily: Platform.<span class="fn">select</span>({ ios: <span class="str">'Helvetica Neue'</span>, android: <span class="str">'sans-serif'</span> })</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Web CSS → RN cheat</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0 cmd-table">
+            <thead class="table-light"><tr><th style="width:34%">CSS</th><th>React Native</th></tr></thead>
+            <tbody>
+              <tr><td>display: flex</td><td>always on (no display: block)</td></tr>
+              <tr><td>margin: 10px 20px</td><td>marginHorizontal / marginVertical</td></tr>
+              <tr><td>box-shadow</td><td>shadow* (iOS) + elevation (Android)</td></tr>
+              <tr><td>width: 100%</td><td>alignSelf: 'stretch' or width: '100%'</td></tr>
+              <tr><td>:hover</td><td>Pressable style function ({ pressed })</td></tr>
+              <tr><td>rem/em units</td><td>use PixelRatio, or just numbers</td></tr>
+              <tr><td>z-index / position</td><td>position: 'absolute', zIndex works</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== LAYOUT ==================== -->
+  <section id="layout">
+    <h2><i class="bi bi-grid-3x3 me-2"></i>Layout &amp; Responsive</h2>
+
+    <div class="card">
+      <div class="card-header">Responsive with useWindowDimensions</div>
+      <div class="card-body">
+        <pre><code><span class="kw">import</span> { useWindowDimensions, View } <span class="kw">from</span> <span class="str">'react-native'</span>;
+
+<span class="kw">export default function</span> <span class="fn">Gallery</span>() {
+  <span class="kw">const</span> { width } = <span class="fn">useWindowDimensions</span>();      <span class="cm">// updates on rotate / resize</span>
+  <span class="kw">const</span> columns = width &gt; <span class="num">600</span> ? <span class="num">4</span> : <span class="num">2</span>;
+
+  <span class="kw">return</span> (
+    &lt;<span class="kw">View</span> <span class="fn">style</span>={{ flexDirection: <span class="str">'row'</span>, flexWrap: <span class="str">'wrap'</span> }}&gt;
+      {items.<span class="fn">map</span>(item =&gt; (
+        &lt;<span class="kw">View</span> <span class="fn">key</span>={item.id} <span class="fn">style</span>={{ width: <span class="num">100</span> / columns + <span class="str">'%'</span>, padding: <span class="num">4</span> }} /&gt;
+      ))}
+    &lt;/View&gt;
+  );
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Screen-fitting layout</div>
+      <div class="card-body">
+        <pre><code>&lt;<span class="kw">View</span> <span class="fn">style</span>={{ flex: <span class="num">1</span> }}&gt;      <span class="cm">// fills remaining height — the app shell</span>
+  &lt;<span class="kw">Header</span> /&gt;
+  &lt;<span class="kw">ScrollView</span> <span class="fn">style</span>={{ flex: <span class="num">1</span> }}&gt;   <span class="cm">// scrollable middle</span>
+    &lt;<span class="kw">Content</span> /&gt;
+  &lt;/ScrollView&gt;
+  &lt;<span class="kw">BottomBar</span> /&gt;                    <span class="cm">// pinned to the bottom</span>
+&lt;/View&gt;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== NAVIGATION ==================== -->
+  <section id="navigation">
+    <h2><i class="bi bi-signpost-2 me-2"></i>Navigation</h2>
+    <p>
+      Expo Router is the file-based router (the mobile version of Next.js App Router). Screens become
+      routes inside <code class="inline">app/</code>, and it works with typed routes.
+    </p>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="cm">// app/_layout.tsx — root layout</span>
+<span class="kw">import</span> { Stack } <span class="kw">from</span> <span class="str">'expo-router'</span>;
+
+<span class="kw">export default function</span> <span class="fn">RootLayout</span>() {
+  <span class="kw">return</span> &lt;<span class="kw">Stack</span> /&gt;;
+}
+
+<span class="cm">// app/index.tsx — screen at "/"</span>
+<span class="kw">import</span> { router } <span class="kw">from</span> <span class="str">'expo-router'</span>;
+&lt;<span class="kw">Pressable</span> <span class="fn">onPress</span>={() =&gt; router.<span class="fn">push</span>(<span class="str">'/profile/42'</span>)}&gt;...&lt;/Pressable&gt;;
+
+<span class="cm">// app/profile/[id].tsx — dynamic route, typed</span>
+<span class="kw">import</span> { useLocalSearchParams } <span class="kw">from</span> <span class="str">'expo-router'</span>;
+
+<span class="kw">export default function</span> <span class="fn">Profile</span>() {
+  <span class="kw">const</span> { id } = <span class="fn">useLocalSearchParams</span>();
+  <span class="kw">return</span> &lt;<span class="kw">Text</span>&gt;Profile {id}&lt;/Text&gt;;
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Alternative:</strong> React Navigation still works and remains popular for tab/drawer/stack
+      setups. In SDK 57, Expo Router is the default template &mdash; it is built on React Navigation under
+      the hood, so you get both worlds.
+    </div>
+  </section>
+
+  <!-- ==================== PLATFORM ==================== -->
+  <section id="platform">
+    <h2><i class="bi bi-phone-landscape me-2"></i>Platform-Specific Code</h2>
+    <p>One codebase, but sometimes a screen really is different on each platform.</p>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="cm">// 1. The Platform module — branch inline</span>
+<span class="kw">import</span> { Platform, StyleSheet } <span class="kw">from</span> <span class="str">'react-native'</span>;
+
+<span class="kw">const</span> isIos = Platform.OS === <span class="str">'ios'</span>;      <span class="cm">// 'ios' | 'android' | 'web' | 'windows' | 'macos'</span>
+
+<span class="kw">const</span> styles = StyleSheet.<span class="fn">create</span>({
+  btn: {
+    padding: Platform.<span class="fn">select</span>({ ios: <span class="num">14</span>, android: <span class="num">10</span>, default: <span class="num">12</span> }),
+  },
+});
+
+<span class="cm">// 2. Platform-specific files — rename with .ios. / .android.</span>
+<span class="cm">//   Card.ios.tsx    → compiles on iOS only</span>
+<span class="cm">//   Card.android.tsx → compiles on Android only</span>
+<span class="cm">//   Card.tsx         → fallback / web</span>
+<span class="kw">import</span> Card <span class="kw">from</span> <span class="str">'./Card'</span>;  <span class="cm">// resolves per-platform automatically</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Platform APIs worth knowing</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0 cmd-table">
+            <thead class="table-light"><tr><th style="width:34%">API</th><th>What it gives you</th></tr></thead>
+            <tbody>
+              <tr><td>Platform.OS</td><td>Which platform is running</td></tr>
+              <tr><td>Platform.select()</td><td>Pick a value per platform</td></tr>
+              <tr><td>Platform.Version</td><td>iOS / Android OS version number</td></tr>
+              <tr><td>Platform.isPad</td><td>Running on an iPad (iOS)</td></tr>
+              <tr><td>.ios.tsx / .android.tsx</td><td>Per-platform file variants</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== NETWORKING ==================== -->
+  <section id="networking">
+    <h2><i class="bi bi-hdd-network me-2"></i>Networking &amp; Data</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="cm">// fetch works exactly like the web (uses NSURLSession / OkHttp underneath)</span>
+<span class="kw">const</span> <span class="fn">loadUsers</span> = <span class="kw">async</span> () =&gt; {
+  <span class="kw">const</span> res = <span class="kw">await</span> fetch(<span class="str">'https://api.example.com/users'</span>);
+  <span class="kw">if</span> (!res.ok) <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">'Request failed'</span>);
+  <span class="kw">return</span> res.<span class="fn">json</span>();
+};
+
+<span class="cm">// Load once with useEffect — then render states</span>
+<span class="kw">const</span> [users, setUsers] = <span class="fn">useState</span>([]);
+<span class="kw">const</span> [<span class="kw">loading</span>, setLoading] = <span class="fn">useState</span>(<span class="tp">true</span>);
+
+<span class="fn">useEffect</span>(() =&gt; {
+  <span class="fn">loadUsers</span>()
+    .<span class="fn">then</span>(setUsers)
+    .<span class="fn">finally</span>(() =&gt; <span class="fn">setLoading</span>(<span class="tp">false</span>));
+}, []);</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0 cmd-table">
+            <thead class="table-light"><tr><th style="width:34%">Data need</th><th>Reach for</th></tr></thead>
+            <tbody>
+              <tr><td>Local key-value storage</td><td>@react-native-async-storage/async-storage</td></tr>
+              <tr><td>SQLite on device</td><td>expo-sqlite</td></tr>
+              <tr><td>Server queries / caching</td><td>TanStack Query</td></tr>
+              <tr><td>GraphQL</td><td>Apollo Client</td></tr>
+              <tr><td>Images from URLs</td><td>expo-image (faster than RN Image)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== STATE ==================== -->
+  <section id="state">
+    <h2><i class="bi bi-diagram-3 me-2"></i>State Management</h2>
+    <p>Same rules as React: start with <code class="inline">useState</code> + <code class="inline">Context</code>, add a store when it grows.</p>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="cm">// Zustand — the lightweight store most RN teams use</span>
+<span class="kw">import</span> { create } <span class="kw">from</span> <span class="str">'zustand'</span>;
+
+<span class="kw">const</span> useCart = <span class="fn">create</span>((set) =&gt; ({
+  items: [],
+  <span class="fn">add</span>: (item) =&gt; <span class="fn">set</span>((s) =&gt; ({ items: [...s.items, item] })),
+  <span class="fn">clear</span>: () =&gt; <span class="fn">set</span>({ items: [] }),
+}));
+
+<span class="kw">function</span> <span class="fn">CartBadge</span>() {
+  <span class="kw">const</span> count = <span class="fn">useCart</span>((s) =&gt; s.items.length);
+  <span class="kw">return</span> &lt;<span class="kw">Text</span>&gt;{count} items&lt;/Text&gt;;
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="warn-box">
+      <strong>Persistence tip:</strong> add <code class="inline">zustand/middleware persist</code> with
+      AsyncStorage to keep the store across app restarts.
+    </div>
+  </section>
+
+  <!-- ==================== ARCHITECTURE ==================== -->
+  <section id="architecture">
+    <h2><i class="bi bi-cpu me-2"></i>The New Architecture</h2>
+    <p>
+      React Native 0.82+ (October 2025) runs <strong>entirely on the New Architecture</strong> &mdash; there
+      is no going back. For you this mostly means: faster, less JS bridge, and synchronous native calls.
+    </p>
+
+    <div class="card">
+      <div class="card-header">Old vs New &mdash; what actually changed</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead class="table-light"><tr><th style="width:22%"></th><th>Legacy (frozen Jun 2025)</th><th>New Architecture</th></tr></thead>
+            <tbody>
+              <tr><td><strong>UI layer</strong></td><td>UI Manager, async</td><td>Fabric — synchronous rendering</td></tr>
+              <tr><td><strong>Native modules</strong></td><td>Bridge, JSON serialization</td><td>TurboModules — direct JSI calls</td></tr>
+              <tr><td><strong>JS ↔ native</strong></td><td>Async JSON bridge</td><td>JSI — zero-copy, sync, shared memory</td></tr>
+              <tr><td><strong>Startup mode</strong></td><td>Bridged runtime</td><td>Bridgeless by default</td></tr>
+              <tr><td><strong>Engine</strong></td><td>Hermes V0 (default)</td><td>Hermes V1 (default since 0.84)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="cm">// What "bridge vs JSI" means in practice: native calls are now direct.</span>
+<span class="cm">// Legacy:  JS → JSON → Bridge → native → JSON → JS   (async, every call)</span>
+<span class="cm">// New:     JS → JSI → native function                  (sync, no copy)</span>
+
+<span class="cm">// Native modules via Expo Modules API work on the New Architecture by default:</span>
+npx create-expo-module<span class="tp">@latest</span> --local</code></pre>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Practical takeaway:</strong> if you use SDK 55+ you are on the New Architecture, period.
+      Libraries written with the <strong>Expo Modules API</strong> work automatically &mdash; prefer those when
+      choosing packages.
+    </div>
+  </section>
+
+  <!-- ==================== DEBUGGING ==================== -->
+  <section id="debugging">
+    <h2><i class="bi bi-bug me-2"></i>Debugging</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="cm"># The tool chain, in order of how often you use it</span>
+npx expo start           <span class="cm"># Metro dev server — press "j" for the RN DevTools</span>
+<span class="cm">#   - React Native DevTools: components tree, profiler, console</span>
+<span class="cm">#   - Press "r" → reload, "m" → toggle the debug menu</span>
+
+<span class="cm"># Metro is the bundler — same role as Webpack/Vite, but for native</span>
+<span class="cm">#   - Bundles your JS on the fly, hot-reloads on save</span>
+
+<span class="cm"># Useful dev-time packages</span>
+npm install --save-dev reactotron-core <span class="cm"># Reactotron: network/log inspector</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Common issues → fixes</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead class="table-light"><tr><th style="width:34%">Symptom</th><th>Fix</th></tr></thead>
+            <tbody>
+              <tr><td>Metro cache acting stale</td><td><code class="inline">npx expo start -c</code> (clear cache)</td></tr>
+              <tr><td>Version mismatch errors</td><td><code class="inline">npx expo install --fix</code></td></tr>
+              <tr><td>"Native module not found"</td><td>Use a dev build (<code class="inline">npx expo run:ios</code>)</td></tr>
+              <tr><td>Old dependencies</td><td><code class="inline">npx expo-doctor</code> + <code class="inline">npx expo install --check</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TESTING ==================== -->
+  <section id="testing">
+    <h2><i class="bi bi-check-circle me-2"></i>Testing</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="cm">// jest-expo preset + React Native Testing Library</span>
+npm install --save-dev jest-expo @testing-library/react-native
+
+<span class="cm">// __tests__/Home.test.tsx</span>
+<span class="kw">import</span> { render, screen, fireEvent } <span class="kw">from</span> <span class="str">'@testing-library/react-native'</span>;
+<span class="kw">import</span> Home <span class="kw">from</span> <span class="str">'../app'</span>;
+
+test(<span class="str">'shows the title'</span>, () =&gt; {
+  <span class="fn">render</span>(&lt;Home /&gt;);
+  <span class="fn">expect</span>(screen.<span class="fn">getByText</span>(<span class="str">'Namaste, world!'</span>)).<span class="fn">toBeOnTheScreen</span>();
+});
+
+test(<span class="str">'handles taps'</span>, () =&gt; {
+  <span class="fn">render</span>(&lt;Home /&gt;);
+  <span class="fn">fireEvent</span>.press(screen.<span class="fn">getByText</span>(<span class="str">'Tap me'</span>));
+});</code></pre>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      Run <code class="inline">npx jest</code> or <code class="inline">npm test</code>. For E2E on real devices,
+      the community standard is <strong>Maestro</strong> (simple YAML flows) or Detox.
+    </div>
+  </section>
+
+  <!-- ==================== DEPLOYMENT ==================== -->
+  <section id="deployment">
+    <h2><i class="bi bi-rocket-takeoff me-2"></i>Build &amp; Deploy</h2>
+
+    <div class="card">
+      <div class="card-header">EAS Build — the cloud build service</div>
+      <div class="card-body">
+        <pre><code>npm install -g eas-cli
+eas login
+eas build --profile production --platform ios    <span class="cm"># or android, or all</span>
+eas submit -p ios --latest                        <span class="cm"># ship to App Store Connect</span>
+eas submit -p android --latest                    <span class="cm"># ship to Play Console</span>
+
+<span class="cm"># Over-the-air JS updates (no store review)</span>
+eas update --channel production</code></pre>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">App Store (iOS)</div>
+          <div class="card-body">
+            <ul class="mb-0">
+              <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--rn-violet)"></i>Apple Developer account ($99/yr)</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--rn-violet)"></i>App icon + splash screens required</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--rn-violet)"></i>Privacy labels (App Privacy section)</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--rn-violet)"></i>Review takes ~1&ndash;3 days</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Play Store (Android)</div>
+          <div class="card-body">
+            <ul class="mb-0">
+              <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--rn-teal)"></i>Play Console account ($25 one-time)</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--rn-teal)"></i>AAB bundle (EAS produces it)</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--rn-teal)"></i>Content rating + data safety forms</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--rn-teal)"></i>Review is usually fast (hours&ndash;2 days)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn-box">
+      <strong>Version discipline:</strong> bump <code class="inline">app.json → version</code> and the native build number
+      (<code class="inline">buildNumber</code> / <code class="inline">versionCode</code>) on every release. Stores reject a build
+      that repeats an existing version number.
+    </div>
+  </section>
+
+  <!-- ==================== CHEATSHEET ==================== -->
+  <section id="cheatsheet">
+    <h2><i class="bi bi-stars me-2"></i>Cheat Sheet</h2>
+
+    <div class="card">
+      <div class="card-header">Commands you'll type every day</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0 cmd-table">
+            <thead class="table-light"><tr><th style="width:38%">Command</th><th>When</th></tr></thead>
+            <tbody>
+              <tr><td>npx create-expo-app@latest app</td><td>New project</td></tr>
+              <tr><td>npx expo start</td><td>Dev server (QR for Expo Go)</td></tr>
+              <tr><td>npx expo start -c</td><td>Dev server with cleared cache</td></tr>
+              <tr><td>npx expo install pkg</td><td>Add package, SDK-pinned version</td></tr>
+              <tr><td>npx expo run:ios / :android</td><td>Run in a dev build</td></tr>
+              <tr><td>npx expo-doctor</td><td>Health check</td></tr>
+              <tr><td>eas build / eas submit</td><td>Cloud build + store submit</td></tr>
+              <tr><td>eas update</td><td>Push JS updates OTA</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Version ladder (2026)</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead class="table-light"><tr><th>Expo SDK</th><th>React Native</th><th>React</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td><strong>57</strong></td><td>0.86</td><td>19.2</td><td>June 2026 — non-breaking</td></tr>
+              <tr><td><strong>56</strong></td><td>0.85</td><td>19.2.3</td><td>May 2026 — Hermes V1 default</td></tr>
+              <tr><td><strong>55</strong></td><td>0.83</td><td>19.2</td><td>Feb 2026 — New Arch only, no legacy</td></tr>
+              <tr><td><strong>54</strong></td><td>0.81</td><td>19.1</td><td>Last SDK with legacy option</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>The one-line summary:</strong> React Native is React without a browser. Learn the ten core
+      components, StyleSheet, and file-based routing &mdash; everything else is an <code class="inline">expo install</code>
+      away. Start in Expo Go, ship with EAS Build.
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="mt-5 pt-4">
+    <div class="row">
+      <div class="col-md-6">
+        <p class="fw-bold mb-2" style="font-family:'Sora',sans-serif">React Native Quick Reference</p>
+        <p class="small text-muted">Built for study. Verify against reactnative.dev and docs.expo.dev (SDK 57).</p>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <p class="small mb-1">
+          <a href="https://reactnative.dev" target="_blank" class="text-decoration-none"><i class="bi bi-book me-1"></i> React Native Docs</a>
+          &middot;
+          <a href="https://docs.expo.dev" target="_blank" class="text-decoration-none"><i class="bi bi-box me-1"></i> Expo Docs</a>
+        </p>
+        <p class="small text-muted">&copy; 2026 Study Guide</p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- ===== SCRIPTS ===== -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.getElementById('sidebarToggle');
+  toggle.addEventListener('click', () => sidebar.classList.toggle('show'));
+  document.querySelectorAll('#sidebar .nav-link').forEach(link => {
+    link.addEventListener('click', () => sidebar.classList.remove('show'));
+  });
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('#sidebar .nav-link');
+  function setActiveNav() {
+    let current = '';
+    sections.forEach(section => {
+      const top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.getAttribute('id');
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+    });
+  }
+  window.addEventListener('scroll', setActiveNav);
+  setActiveNav();
+
+  // ---- theme toggle (syncs with hub_theme used by index.html) ----
+  const themeBtn = document.getElementById('themeBtn');
+  const themeIcon = themeBtn.querySelector('i');
+  const THEME_KEY = 'hub_theme';
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-bs-theme', theme);
+    themeIcon.className = theme === 'dark' ? 'bi bi-sun' : 'bi bi-moon-stars';
+  }
+  const stored = localStorage.getItem(THEME_KEY);
+  if (stored) applyTheme(stored);
+  themeBtn.addEventListener('click', () => {
+    const next = document.documentElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    localStorage.setItem(THEME_KEY, next);
+  });
+
+  // ---- device mockup: iOS / Android toggle ----
+  const device = document.getElementById('device');
+  const deviceBtns = document.querySelectorAll('.device-btn');
+  const deviceCaption = document.querySelector('.device-caption');
+  deviceBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      deviceBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const p = btn.dataset.platform;
+      device.classList.toggle('android', p === 'android');
+      device.style.setProperty('--accent-glow', p === 'ios' ? 'rgba(97,218,251,.18)' : 'rgba(106,90,249,.20)');
+      deviceCaption.textContent = p === 'ios'
+        ? 'same <Text> — rendered as UIKit UILabel'
+        : 'same <Text> — rendered as Android TextView';
+    });
+  });
+</script>
+</body>
+</html>
