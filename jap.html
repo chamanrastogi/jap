@@ -38,6 +38,7 @@
       --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 10px 26px rgba(0, 0, 0, 0.24);
       --radius: 16px;
       --track: rgba(244, 233, 207, 0.08);
+      --tick-dim: rgba(227, 181, 79, 0.16);
     }
 
     [data-bs-theme="light"] {
@@ -60,6 +61,7 @@
       --danger: #b83a5e;
       --shadow: 0 1px 2px rgba(60, 40, 15, 0.06), 0 10px 26px rgba(60, 40, 15, 0.1);
       --track: rgba(43, 33, 19, 0.1);
+      --tick-dim: rgba(154, 110, 15, 0.24);
     }
 
     * { box-sizing: border-box; }
@@ -434,12 +436,6 @@
       --cat: var(--acc);
       --cat-glow: color-mix(in srgb, var(--cat) 42%, transparent);
       --cat-soft: color-mix(in srgb, var(--cat) 16%, transparent);
-      --bead-lit-hi: color-mix(in srgb, var(--cat) 55%, #fff6dd);
-      --bead-lit-mid: var(--cat);
-      --bead-lit-lo: color-mix(in srgb, var(--cat) 40%, #241a02);
-      --bead-dim-hi: color-mix(in srgb, var(--cat) 42%, transparent);
-      --bead-dim-mid: color-mix(in srgb, var(--cat) 16%, transparent);
-      --bead-dim-lo: color-mix(in srgb, var(--cat) 5%, transparent);
       position: relative;
       width: min(100%, 400px);
       aspect-ratio: 1;
@@ -454,50 +450,16 @@
       100% { transform: scale(1); }
     }
 
-    .sigil-track { fill: none; stroke: var(--track); stroke-width: 2; }
+    .sigil-track { fill: none; stroke: var(--track); stroke-width: 1.5; }
 
-    .mala-bead .bead-base { fill: url(#beadDim); transition: fill 0.18s ease; }
-    .mala-bead .bead-glow { fill: var(--cat); opacity: 0; transition: opacity 0.18s ease; }
-    .mala-bead.lit .bead-base { fill: url(#beadShine); }
-    .mala-bead.lit .bead-glow { opacity: 0.85; }
-
-    .gs1 { stop-color: var(--bead-lit-hi); }
-    .gs2 { stop-color: var(--bead-lit-mid); }
-    .gs3 { stop-color: var(--bead-lit-lo); }
-    .gd1 { stop-color: var(--bead-dim-hi); }
-    .gd2 { stop-color: var(--bead-dim-mid); }
-    .gd3 { stop-color: var(--bead-dim-lo); }
-
-    .meru-bead { fill: var(--acc-2); transition: fill 0.2s ease, filter 0.2s ease; }
-    .meru-bead.lit { fill: var(--cat); filter: drop-shadow(0 0 8px var(--cat-glow)); }
-
-    .guru-halo {
-      fill: none;
-      stroke: var(--cat);
-      stroke-width: 2;
-      opacity: 0;
-      transform-box: fill-box;
-      transform-origin: center;
+    .sigil-tick {
+      stroke: var(--tick-dim);
+      stroke-width: 3.5;
+      stroke-linecap: round;
+      transition: stroke 0.15s ease;
     }
-    .guru-halo.lit { animation: haloFlash 0.6s ease-out; }
-    @keyframes haloFlash {
-      0% { opacity: 0.9; transform: scale(0.7); }
-      100% { opacity: 0; transform: scale(1.6); }
-    }
-
-    .tap-ripple {
-      fill: none;
-      stroke: var(--cat);
-      stroke-width: 1.6;
-      opacity: 0;
-      transform-box: fill-box;
-      transform-origin: center;
-    }
-    .tap-ripple.pulse { animation: ripplePulse 0.5s ease-out; }
-    @keyframes ripplePulse {
-      0% { opacity: 0.75; transform: scale(0.985); }
-      100% { opacity: 0; transform: scale(1.04); }
-    }
+    .sigil-tick.major { stroke-width: 5; }
+    .sigil-tick.lit { stroke: var(--cat); }
 
     .seal-ring {
       fill: none;
@@ -877,25 +839,8 @@
           <div class="chant-ring">
             <div class="ring-wrap" id="ringWrap">
               <svg viewBox="0 0 250 250" aria-hidden="true">
-                <defs>
-                  <radialGradient id="beadShine" cx="35%" cy="30%" r="80%">
-                    <stop class="gs1" offset="0%" />
-                    <stop class="gs2" offset="55%" />
-                    <stop class="gs3" offset="100%" />
-                  </radialGradient>
-                  <radialGradient id="beadDim" cx="35%" cy="30%" r="80%">
-                    <stop class="gd1" offset="0%" />
-                    <stop class="gd2" offset="55%" />
-                    <stop class="gd3" offset="100%" />
-                  </radialGradient>
-                </defs>
                 <circle class="sigil-track" cx="125" cy="125" r="101"></circle>
                 <g id="progressRing"></g>
-                <circle id="tapRipple" class="tap-ripple" cx="125" cy="125" r="101"></circle>
-                <g id="guruGroup">
-                  <circle id="guruHalo" class="guru-halo" cx="125" cy="21" r="15"></circle>
-                  <circle id="meruBead" class="meru-bead" cx="125" cy="21" r="6.5"></circle>
-                </g>
                 <circle class="seal-ring" cx="125" cy="125" r="116"></circle>
               </svg>
               <div class="word-halo" aria-hidden="true"></div>
@@ -1259,63 +1204,28 @@ const STORAGE_KEYS = {
 
   const completionModal = new bootstrap.Modal(document.getElementById('completionModal'));
 
-  // --- Living Mala: 108 shaded beads around a thread, top gap for the guru bead ---
-  const BEADS = 108;
-  const RING_CX = 125;
-  const RING_CY = 125;
-  const RING_R = 101;
-  const GAP = 0.055;
-  const SPAN = 2 * Math.PI * (1 - GAP);
-  const START_ANG = -Math.PI / 2 + GAP * Math.PI;
-  let beadEls = [];
-  let beadPos = [];
-
-  function buildMala() {
-    for (let i = 0; i < BEADS; i++) {
-      const ang = START_ANG + (i / BEADS) * SPAN;
-      const x = RING_CX + RING_R * Math.cos(ang);
-      const y = RING_CY + RING_R * Math.sin(ang);
-      beadPos.push({ x, y, ang });
-
-      const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-      g.setAttribute('class', 'mala-bead');
-
-      const base = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-      base.setAttribute('cx', x.toFixed(2));
-      base.setAttribute('cy', y.toFixed(2));
-      base.setAttribute('r', '3.4');
-      base.setAttribute('class', 'bead-base');
-
-      const glow = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-      glow.setAttribute('cx', x.toFixed(2));
-      glow.setAttribute('cy', y.toFixed(2));
-      glow.setAttribute('r', '5');
-      glow.setAttribute('class', 'bead-glow');
-
-      g.appendChild(base);
-      g.appendChild(glow);
-      beadEls.push(g);
-      progressRing.appendChild(g);
+  // --- Sigil ring: radiating ticks fill as you chant (switchword style) ---
+  const TICKS = 48;
+  let tickEls = [];
+  function buildSigil() {
+    for (let i = 0; i < TICKS; i++) {
+      const ang = (i / TICKS) * 2 * Math.PI - Math.PI / 2;
+      const isMajor = i % 12 === 0;
+      const inner = isMajor ? 90 : 94;
+      const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      l.setAttribute('x1', (125 + inner * Math.cos(ang)).toFixed(2));
+      l.setAttribute('y1', (125 + inner * Math.sin(ang)).toFixed(2));
+      l.setAttribute('x2', (125 + 108 * Math.cos(ang)).toFixed(2));
+      l.setAttribute('y2', (125 + 108 * Math.sin(ang)).toFixed(2));
+      l.classList.add('sigil-tick');
+      if (isMajor) l.classList.add('major');
+      tickEls.push(l);
+      progressRing.appendChild(l);
     }
   }
 
-  function updateBeads(lit) {
-    for (let i = 0; i < BEADS; i++) beadEls[i].classList.toggle('lit', i < lit);
-  }
-
-  function rippleAt() {
-    const ripple = document.getElementById('tapRipple');
-    if (!ripple) return;
-    ripple.classList.remove('pulse');
-    void ripple.getBoundingClientRect();
-    ripple.classList.add('pulse');
-  }
-
-  function flashMeru() {
-    const m = document.getElementById('meruBead');
-    const halo = document.getElementById('guruHalo');
-    if (m) { m.classList.add('lit'); setTimeout(() => m.classList.remove('lit'), 500); }
-    if (halo) { halo.classList.add('lit'); setTimeout(() => halo.classList.remove('lit'), 600); }
+  function updateTicks(lit) {
+    for (let i = 0; i < TICKS; i++) tickEls[i].classList.toggle('lit', i < lit);
   }
 
   function celebrateRound() {
@@ -1326,16 +1236,15 @@ const STORAGE_KEYS = {
       void wrap.getBoundingClientRect();
       wrap.classList.add('celebrate');
     }
-    beadEls.forEach(g => g.classList.remove('lit'));
+    tickEls.forEach(t => t.classList.remove('lit'));
     roundWaveTimer = setTimeout(() => {
-      beadEls.forEach((g, i) => {
-        setTimeout(() => g.classList.add('lit'), i * 5);
+      tickEls.forEach((t, i) => {
+        setTimeout(() => t.classList.add('lit'), i * 5);
       });
-      setTimeout(() => flashMeru(), BEADS * 5 + 120);
     }, 90);
   }
 
-  buildMala();
+  buildSigil();
 
   statsTotal.innerText = lifetimeTotal;
   statsToday.innerText = sessionTotal;
@@ -1576,15 +1485,13 @@ const STORAGE_KEYS = {
     sessionTotal++;
     lifetimeTotal++;
 
-    const roundComplete = count % BEADS === 0;
-    if (roundComplete) flashMeru();
+    const roundComplete = count % MALA_GOAL === 0;
 
     counterDisplay.innerText = count;
     counterDisplay.style.transform = 'scale(1.12)';
     counterDisplay.style.color = 'var(--acc)';
     setTimeout(() => { counterDisplay.style.transform = 'scale(1)'; counterDisplay.style.color = ''; }, 140);
 
-    rippleAt();
     updateProgressRing();
 
     statsToday.innerText = sessionTotal;
@@ -1611,16 +1518,16 @@ const STORAGE_KEYS = {
 
   function updateProgressRing() {
     if (target === 0) {
-      updateBeads(count % BEADS);
+      updateTicks(count % TICKS);
       malaText.innerText = `${activeMantra.text} • ${count} (∞ Mode)`;
     } else {
       const pct = Math.min(count / target, 1);
-      updateBeads(Math.round(pct * BEADS));
+      updateTicks(Math.round(pct * TICKS));
       malaText.innerText = `${activeMantra.text} • ${count} / ${target}`;
     }
   }
 
-  function updateMalaStats() { statsMalas.innerText = Math.floor(lifetimeTotal / 108); }
+  function updateMalaStats() { statsMalas.innerText = Math.floor(lifetimeTotal / MALA_GOAL); }
 
   function updateTodayProgress() {
     const fill = document.getElementById('todayProgress');
