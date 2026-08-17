@@ -1,6 +1,32 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="light">
 <head>
+<style>
+    body {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(100, 116, 139, 0.35) transparent;
+    }
+    body::-webkit-scrollbar { width: 8px; }
+    body::-webkit-scrollbar-track { background: transparent; }
+    body::-webkit-scrollbar-thumb {
+      background: rgba(100, 116, 139, 0.35);
+      border-radius: 999px;
+    }
+    body::-webkit-scrollbar-thumb:hover { background: rgba(100, 116, 139, 0.55); }
+    #sidebar, .sidebar {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+    }
+    #sidebar::-webkit-scrollbar, .sidebar::-webkit-scrollbar { width: 5px; }
+    #sidebar::-webkit-scrollbar-track, .sidebar::-webkit-scrollbar-track { background: transparent; }
+    #sidebar::-webkit-scrollbar-thumb, .sidebar::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+    }
+    #sidebar::-webkit-scrollbar-thumb:hover, .sidebar::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.32);
+    }
+</style>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Jap App Hub - chanting tools, games, utilities and study references." />
@@ -1073,6 +1099,7 @@
           <a class="quick-chip w-100" href="python.html"><i class="bi bi-filetype-py"></i> Python 3.14</a>
           <a class="quick-chip w-100" href="php-cron.html"><i class="bi bi-cpu"></i> PHP Cron Jobs</a>
           <a class="quick-chip w-100" href="mysql.html"><i class="bi bi-database"></i> MySQL Q&amp;A</a>
+          <a class="quick-chip w-100" href="wordpress.html"><i class="bi bi-wordpress"></i> WordPress Dev</a>
           <a class="quick-chip w-100" href="git.html"><i class="bi bi-git"></i> Git Commands</a>
         </div>
       </section>
@@ -1431,15 +1458,23 @@
                  desc: '114+ MySQL questions from basic to advanced. Covers SQL queries, indexing, normalization, stored procedures, transactions, performance tuning, replication & security.',
                   tags: ['mysql', 'database', 'sql', 'interview', 'performance', 'admin']
                   },
-                  {
-                  name: 'Git Command Reference',
-                  file: 'git.html',
-                  icon: 'bi-git',
-                  category: 'Learning',
-                  desc: 'Complete Git command reference with every essential command, real-world use cases, workflows, branching strategies, hooks & troubleshooting.',
-                  tags: ['git', 'version-control', 'cli', 'devops', 'collaboration', 'workflow']
-                  },
-                ];
+                {
+                name: 'Git Command Reference',
+                file: 'git.html',
+                icon: 'bi-git',
+                category: 'Learning',
+                desc: 'Complete Git command reference with every essential command, real-world use cases, workflows, branching strategies, hooks & troubleshooting.',
+                tags: ['git', 'version-control', 'cli', 'devops', 'collaboration', 'workflow']
+                },
+                {
+                name: 'WordPress Dev Guide',
+                file: 'wordpress.html',
+                icon: 'bi-wordpress',
+                category: 'Learning',
+                desc: 'Complete WordPress theme & plugin development guide — hooks, template hierarchy, loops, WP_Query, Customizer, CPTs, Settings API, security, REST API, blocks & performance.',
+                tags: ['wordpress', 'php', 'themes', 'plugins', 'cms', 'backend', 'blocks', 'hooks']
+                },
+              ];
 
     let currentCategory = 'All';
 

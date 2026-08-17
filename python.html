@@ -1,6 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<style>
+    body {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(100, 116, 139, 0.35) transparent;
+    }
+    body::-webkit-scrollbar { width: 8px; }
+    body::-webkit-scrollbar-track { background: transparent; }
+    body::-webkit-scrollbar-thumb {
+      background: rgba(100, 116, 139, 0.35);
+      border-radius: 999px;
+    }
+    body::-webkit-scrollbar-thumb:hover { background: rgba(100, 116, 139, 0.55); }
+    #sidebar, .sidebar {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+    }
+    #sidebar::-webkit-scrollbar, .sidebar::-webkit-scrollbar { width: 5px; }
+    #sidebar::-webkit-scrollbar-track, .sidebar::-webkit-scrollbar-track { background: transparent; }
+    #sidebar::-webkit-scrollbar-thumb, .sidebar::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+    }
+    #sidebar::-webkit-scrollbar-thumb:hover, .sidebar::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.32);
+    }
+</style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Python 3.14 - Complete Guide: Syntax, Concepts & Reference</title>
