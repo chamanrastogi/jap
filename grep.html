@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <style>
@@ -29,9 +29,9 @@
 </style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>grep Command — The Global Regular Expression Print Guide</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <title>grep Command â€” The Global Regular Expression Print Guide</title>
+  <link href="lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="lib/bootstrap-icons/bootstrap-icons.min.css">
   <style>
     :root {
       --green: #00c853;
@@ -224,9 +224,8 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="lib/google-fonts/space-grotesk/space-grotesk.css">
+  <link rel="stylesheet" href="lib/google-fonts/jetbrains-mono/jetbrains-mono.css">
 <style>
 /* ===== Jap Hub design system - graphql pattern (injected layer) ===== */
 :root {
@@ -423,7 +422,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
 <body>
 
 <button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
-<a href="index.html" class="home-link" aria-label="Go back to home page"><span>←</span> Home</a>
+<a href="index.html" class="home-link" aria-label="Go back to home page"><span>â†</span> Home</a>
 
 <!-- ===== SIDEBAR ===== -->
 <nav id="sidebar">
@@ -452,7 +451,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
         <i class="bi bi-terminal" style="color:var(--green)"></i>
         grep <span style="color:var(--green)">Command</span>
       </h1>
-      <p class="text-muted mb-0 fs-5">Search text with patterns — the foundation of every developer's toolkit</p>
+      <p class="text-muted mb-0 fs-5">Search text with patterns â€” the foundation of every developer's toolkit</p>
     </div>
     <div class="ms-auto d-flex gap-2">
       <span class="version-chip" style="background:#ecfdf5;color:#00a844">
@@ -471,7 +470,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
         <p><strong>grep</strong> stands for <strong>G</strong>lobal <strong>R</strong>egular <strong>E</strong>xpression <strong>P</strong>rint. It searches input files for lines matching a pattern and prints matching lines.</p>
 
         <div class="highlight-box gr-box">
-          <strong>Origin:</strong> Named after the <code>g/re/p</code> command in <code>ed</code> (the original Unix text editor) — <strong>g</strong>lobally search a <strong>re</strong>gular expression and <strong>p</strong>rint.
+          <strong>Origin:</strong> Named after the <code>g/re/p</code> command in <code>ed</code> (the original Unix text editor) â€” <strong>g</strong>lobally search a <strong>re</strong>gular expression and <strong>p</strong>rint.
         </div>
 
         <p>Created by Ken Thompson in 1974. Every Unix/Linux/macOS system has it. Windows has it via WSL, Git Bash, or direct ports.</p>
@@ -536,7 +535,7 @@ command | <span class="kw">grep</span> [options] pattern</code></pre>
         </div>
 
         <div class="highlight-box gr-box mt-3">
-          <strong>Patterns are treated as fixed strings by default.</strong> For regex interpretation, use <code>-E</code> (extended) or <code>-P</code> (Perl-compatible, if available). No <code>-G</code> flag needed — basic regex is the default.
+          <strong>Patterns are treated as fixed strings by default.</strong> For regex interpretation, use <code>-E</code> (extended) or <code>-P</code> (Perl-compatible, if available). No <code>-G</code> flag needed â€” basic regex is the default.
         </div>
       </div>
     </div>
@@ -555,7 +554,7 @@ command | <span class="kw">grep</span> [options] pattern</code></pre>
             <tbody>
               <tr><td><code>-i</code></td><td><code>--ignore-case</code></td><td>Case-insensitive search</td><td><code>grep -i "error" log</code></td></tr>
               <tr><td><code>-r</code></td><td><code>--recursive</code></td><td>Search directories recursively</td><td><code>grep -r "foo" src/</code></td></tr>
-              <tr><td><code>-R</code></td><td>—</td><td>Recursive + follow symlinks</td><td><code>grep -R "foo" /etc/</code></td></tr>
+              <tr><td><code>-R</code></td><td>â€”</td><td>Recursive + follow symlinks</td><td><code>grep -R "foo" /etc/</code></td></tr>
               <tr><td><code>-v</code></td><td><code>--invert-match</code></td><td>Print lines that do NOT match</td><td><code>grep -v "#" config</code></td></tr>
               <tr><td><code>-n</code></td><td><code>--line-number</code></td><td>Prefix each match with line number</td><td><code>grep -rn "TODO" src/</code></td></tr>
               <tr><td><code>-l</code></td><td><code>--files-with-matches</code></td><td>Print only filenames with matches</td><td><code>grep -rl "class" *.php</code></td></tr>
@@ -576,10 +575,10 @@ command | <span class="kw">grep</span> [options] pattern</code></pre>
               <tr><td><code>-A N</code></td><td><code>--after-context=N</code></td><td>Print N lines after each match</td><td><code>grep -A 2 "Exception" log</code></td></tr>
               <tr><td><code>-B N</code></td><td><code>--before-context=N</code></td><td>Print N lines before each match</td><td><code>grep -B 2 "Error" log</code></td></tr>
               <tr><td><code>-C N</code></td><td><code>--context=N</code></td><td>Print N lines before and after</td><td><code>grep -C 3 "debug" log</code></td></tr>
-              <tr><td><code>--color</code></td><td>—</td><td>Highlight matches in color</td><td><code>grep --color "foo" file</code></td></tr>
-              <tr><td><code>--exclude</code></td><td>—</td><td>Skip files matching pattern</td><td><code>grep -r --exclude="*.min.js" "x"</code></td></tr>
-              <tr><td><code>--exclude-dir</code></td><td>—</td><td>Skip directories by name</td><td><code>grep -r --exclude-dir=node_modules</code></td></tr>
-              <tr><td><code>--include</code></td><td>—</td><td>Search only files matching pattern</td><td><code>grep -r --include="*.py" "def"</code></td></tr>
+              <tr><td><code>--color</code></td><td>â€”</td><td>Highlight matches in color</td><td><code>grep --color "foo" file</code></td></tr>
+              <tr><td><code>--exclude</code></td><td>â€”</td><td>Skip files matching pattern</td><td><code>grep -r --exclude="*.min.js" "x"</code></td></tr>
+              <tr><td><code>--exclude-dir</code></td><td>â€”</td><td>Skip directories by name</td><td><code>grep -r --exclude-dir=node_modules</code></td></tr>
+              <tr><td><code>--include</code></td><td>â€”</td><td>Search only files matching pattern</td><td><code>grep -r --include="*.py" "def"</code></td></tr>
               <tr><td><code>-f FILE</code></td><td><code>--file=FILE</code></td><td>Read patterns from file</td><td><code>grep -f patterns.txt data</code></td></tr>
               <tr><td><code>-Z</code></td><td><code>--null</code></td><td>Output NUL-terminated (for xargs -0)</td><td><code>grep -rlZ "x" | xargs -0 rm</code></td></tr>
               <tr><td><code>-T</code></td><td><code>--initial-tab</code></td><td>Tab-align output (for alignment)</td><td><code>grep -T "x" file</code></td></tr>
@@ -602,7 +601,7 @@ command | <span class="kw">grep</span> [options] pattern</code></pre>
           <thead class="table-light"><tr><th>Mode</th><th>Flag</th><th>Metacharacters</th></tr></thead>
           <tbody>
             <tr><td><strong>BRE</strong> (Basic)</td><td>default / <code>-G</code></td><td><code>^ $ . * [ ] \(\) \1 \|</code> (backslash needed for <code>+ ? { } | ( )</code>)</td></tr>
-            <tr><td><strong>ERE</strong> (Extended)</td><td><code>-E</code></td><td><code>^ $ . * + ? { } [ ] ( ) |</code> (no backslash needed) — <strong>recommended for most use</strong></td></tr>
+            <tr><td><strong>ERE</strong> (Extended)</td><td><code>-E</code></td><td><code>^ $ . * + ? { } [ ] ( ) |</code> (no backslash needed) â€” <strong>recommended for most use</strong></td></tr>
             <tr><td><strong>PCRE</strong> (Perl)</td><td><code>-P</code></td><td>All ERE + <code>\d \w \s \b \K (?= ) (?! ) (?&lt;= ) (?&lt;! )</code></td></tr>
           </tbody>
         </table>
@@ -616,25 +615,25 @@ command | <span class="kw">grep</span> [options] pattern</code></pre>
           <table class="table table-sm table-bordered mb-0">
             <thead class="table-light"><tr><th>Pattern</th><th>Matches</th><th>ERE Example</th></tr></thead>
             <tbody>
-              <tr><td><code>.</code></td><td>Any single character (except newline)</td><td><code>c.t</code> → "cat", "cut", "cot"</td></tr>
-              <tr><td><code>*</code></td><td>Zero or more of preceding</td><td><code>ab*c</code> → "ac", "abc", "abbc"</td></tr>
-              <tr><td><code>+</code></td><td>One or more of preceding</td><td><code>ab+c</code> → "abc", "abbc" (not "ac")</td></tr>
-              <tr><td><code>?</code></td><td>Zero or one of preceding</td><td><code>colou?r</code> → "color", "colour"</td></tr>
-              <tr><td><code>{n}</code></td><td>Exactly n repetitions</td><td><code>[0-9]{5}</code> → "90210"</td></tr>
-              <tr><td><code>{n,}</code></td><td>n or more repetitions</td><td><code>\d{3,}</code> → 3+ digits</td></tr>
-              <tr><td><code>{n,m}</code></td><td>Between n and m repetitions</td><td><code>\w{2,4}</code> → "ab", "abc", "abcd"</td></tr>
-              <tr><td><code>^</code></td><td>Start of line</td><td><code>^#</code> → lines starting with #</td></tr>
-              <tr><td><code>$</code></td><td>End of line</td><td><code>done$</code> → lines ending in "done"</td></tr>
-              <tr><td><code>[abc]</code></td><td>Any one of a, b, or c</td><td><code>gr[ae]y</code> → "gray", "grey"</td></tr>
-              <tr><td><code>[^abc]</code></td><td>NOT a, b, or c</td><td><code>[^0-9]</code> → any non-digit</td></tr>
-              <tr><td><code>[a-z]</code></td><td>Range from a to z</td><td><code>[A-Za-z]+</code> → word</td></tr>
-              <tr><td><code>(...)</code></td><td>Group (capture)</td><td><code>(foo|bar)+</code> → "foobar"</td></tr>
-              <tr><td><code>|</code></td><td>Alternation (OR)</td><td><code>error|warning</code> → either word</td></tr>
-              <tr><td><code>\1</code></td><td>Backreference to group 1</td><td><code>(.)\1</code> → doubled char "aa"</td></tr>
-              <tr><td><code>\b</code></td><td>Word boundary (PCRE only)</td><td><code>\bcat\b</code> → "cat" not "catalog"</td></tr>
-              <tr><td><code>\d</code></td><td>Digit [0-9] (PCRE/ERE)</td><td><code>\d{3}-\d{4}</code> → "555-1234"</td></tr>
-              <tr><td><code>\w</code></td><td>Word char [A-Za-z0-9_] (PCRE/ERE)</td><td><code>\w+</code> → word</td></tr>
-              <tr><td><code>\s</code></td><td>Whitespace (PCRE/ERE)</td><td><code>\s+</code> → spaces/tabs</td></tr>
+              <tr><td><code>.</code></td><td>Any single character (except newline)</td><td><code>c.t</code> â†’ "cat", "cut", "cot"</td></tr>
+              <tr><td><code>*</code></td><td>Zero or more of preceding</td><td><code>ab*c</code> â†’ "ac", "abc", "abbc"</td></tr>
+              <tr><td><code>+</code></td><td>One or more of preceding</td><td><code>ab+c</code> â†’ "abc", "abbc" (not "ac")</td></tr>
+              <tr><td><code>?</code></td><td>Zero or one of preceding</td><td><code>colou?r</code> â†’ "color", "colour"</td></tr>
+              <tr><td><code>{n}</code></td><td>Exactly n repetitions</td><td><code>[0-9]{5}</code> â†’ "90210"</td></tr>
+              <tr><td><code>{n,}</code></td><td>n or more repetitions</td><td><code>\d{3,}</code> â†’ 3+ digits</td></tr>
+              <tr><td><code>{n,m}</code></td><td>Between n and m repetitions</td><td><code>\w{2,4}</code> â†’ "ab", "abc", "abcd"</td></tr>
+              <tr><td><code>^</code></td><td>Start of line</td><td><code>^#</code> â†’ lines starting with #</td></tr>
+              <tr><td><code>$</code></td><td>End of line</td><td><code>done$</code> â†’ lines ending in "done"</td></tr>
+              <tr><td><code>[abc]</code></td><td>Any one of a, b, or c</td><td><code>gr[ae]y</code> â†’ "gray", "grey"</td></tr>
+              <tr><td><code>[^abc]</code></td><td>NOT a, b, or c</td><td><code>[^0-9]</code> â†’ any non-digit</td></tr>
+              <tr><td><code>[a-z]</code></td><td>Range from a to z</td><td><code>[A-Za-z]+</code> â†’ word</td></tr>
+              <tr><td><code>(...)</code></td><td>Group (capture)</td><td><code>(foo|bar)+</code> â†’ "foobar"</td></tr>
+              <tr><td><code>|</code></td><td>Alternation (OR)</td><td><code>error|warning</code> â†’ either word</td></tr>
+              <tr><td><code>\1</code></td><td>Backreference to group 1</td><td><code>(.)\1</code> â†’ doubled char "aa"</td></tr>
+              <tr><td><code>\b</code></td><td>Word boundary (PCRE only)</td><td><code>\bcat\b</code> â†’ "cat" not "catalog"</td></tr>
+              <tr><td><code>\d</code></td><td>Digit [0-9] (PCRE/ERE)</td><td><code>\d{3}-\d{4}</code> â†’ "555-1234"</td></tr>
+              <tr><td><code>\w</code></td><td>Word char [A-Za-z0-9_] (PCRE/ERE)</td><td><code>\w+</code> â†’ word</td></tr>
+              <tr><td><code>\s</code></td><td>Whitespace (PCRE/ERE)</td><td><code>\s+</code> â†’ spaces/tabs</td></tr>
             </tbody>
           </table>
         </div>
@@ -644,15 +643,15 @@ command | <span class="kw">grep</span> [options] pattern</code></pre>
     <div class="card">
       <div class="card-header"><i class="bi bi-info-circle me-1"></i> BRE vs ERE Quick Rule</div>
       <div class="card-body">
-        <pre><code><span class="cm"># BRE (default) — need backslash for + ? { } ( ) |</span>
+        <pre><code><span class="cm"># BRE (default) â€” need backslash for + ? { } ( ) |</span>
 <span class="kw">grep</span> <span class="str">'foo\|bar'</span> file
 <span class="kw">grep</span> <span class="str">'\(ab\)\+'</span> file
 
-<span class="cm"># ERE (-E) — no backslash needed</span>
+<span class="cm"># ERE (-E) â€” no backslash needed</span>
 <span class="kw">grep</span> <span class="fn">-E</span> <span class="str">'foo|bar'</span> file
 <span class="kw">grep</span> <span class="fn">-E</span> <span class="str">'(ab)+'</span> file
 
-<span class="cm"># PCRE (-P) — Perl-like</span>
+<span class="cm"># PCRE (-P) â€” Perl-like</span>
 <span class="kw">grep</span> <span class="fn">-P</span> <span class="str">'\d{3}-\d{4}'</span> file</code></pre>
         <div class="highlight-box gr-box">
           <strong>Pro tip:</strong> Default to <code>-E</code> unless you need PCRE features (<code>\d \b (?= )</code> etc.). It avoids the confusing backslash rules of BRE.
@@ -819,7 +818,7 @@ command | <span class="kw">grep</span> [options] pattern</code></pre>
       <div class="card-header"><i class="bi bi-info-circle me-1"></i> Notes</div>
       <div class="card-body">
         <ul class="mb-0">
-          <li><strong>egrep</strong> and <strong>fgrep</strong> are deprecated in GNU grep 3.8+ — use <code>grep -E</code> and <code>grep -F</code> instead</li>
+          <li><strong>egrep</strong> and <strong>fgrep</strong> are deprecated in GNU grep 3.8+ â€” use <code>grep -E</code> and <code>grep -F</code> instead</li>
           <li><strong>ripgrep (rg)</strong> is the modern favorite: faster, respects <code>.gitignore</code>, defaults to recursive, UTF-8 aware, colored by default. Install via <code>apt</code>, <code>brew</code>, or <code>scoop</code></li>
           <li><strong>ag</strong> and <strong>ack</strong> are source-code-focused alternatives. ripgrep is generally preferred now</li>
           <li>GNU grep is what you get on Linux. macOS uses BSD grep by default (slightly different flags)</li>
@@ -870,10 +869,10 @@ command | <span class="kw">grep</span> [options] pattern</code></pre>
           <div class="card-header"><i class="bi bi-exclamation-triangle me-1"></i> Gotchas</div>
           <div class="card-body">
             <ul class="small mb-0">
-              <li><code>grep -r</code> doesn't follow symlinks — use <code>-R</code></li>
+              <li><code>grep -r</code> doesn't follow symlinks â€” use <code>-R</code></li>
               <li><code>--exclude-dir</code> pattern matches the full path, not just name</li>
-              <li><code>grep -v x | grep y</code> ≠ <code>grep -E 'x|y'</code> — they do different things</li>
-              <li>Binary files print "Binary matches" — add <code>-a</code> to force text mode</li>
+              <li><code>grep -v x | grep y</code> â‰  <code>grep -E 'x|y'</code> â€” they do different things</li>
+              <li>Binary files print "Binary matches" â€” add <code>-a</code> to force text mode</li>
               <li>macOS grep is BSD-based: <code>-P</code> not available, <code>-r</code> behaves differently</li>
               <li>Use <code>-x</code> for exact line match, not <code>^pattern$</code> (subtle difference)</li>
             </ul>
@@ -927,7 +926,7 @@ command | <span class="kw">grep</span> [options] pattern</code></pre>
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/bootstrap/bootstrap.bundle.min.js"></script>
 <script>
   document.getElementById('sidebarToggle')?.addEventListener('click', function () {
     document.getElementById('sidebar').classList.toggle('show');

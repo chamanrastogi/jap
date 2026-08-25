@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <style>
@@ -29,9 +29,9 @@
 </style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PHP 8.4 — Deep Learning: Beginner to Advanced with Practice Questions</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <title>PHP 8.4 â€” Deep Learning: Beginner to Advanced with Practice Questions</title>
+  <link href="lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="lib/bootstrap-icons/bootstrap-icons.min.css">
   <style>
     :root { --php-blue: #4F5B93; --php-accent: #617cbe; --php-dark: #1a1a2e; --sidebar-width: 280px; }
     * { scroll-margin-top: 1rem; }
@@ -81,9 +81,8 @@
     thead { background: var(--php-dark); color: #fff; }
     .practice-section { margin-top: 2rem; }
   </style>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="lib/google-fonts/space-grotesk/space-grotesk.css">
+  <link rel="stylesheet" href="lib/google-fonts/jetbrains-mono/jetbrains-mono.css">
 <style>
 /* ===== Jap Hub design system - graphql pattern (injected layer) ===== */
 :root {
@@ -587,7 +586,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
       <div class="card-body">
         <div class="hl-box">
           <strong><i class="bi bi-lightbulb me-1"></i>Tip 1: Prefer <code>str_contains()</code> over <code>strpos()</code></strong><br>
-          <code>str_contains($haystack, $needle)</code> (PHP 8.0+) returns a boolean — clearer intent, no risk of misinterpreting <code>strpos() === 0</code> vs <code>=== false</code>.
+          <code>str_contains($haystack, $needle)</code> (PHP 8.0+) returns a boolean â€” clearer intent, no risk of misinterpreting <code>strpos() === 0</code> vs <code>=== false</code>.
         </div>
         <div class="hl-box">
           <strong><i class="bi bi-lightbulb me-1"></i>Tip 2: Use <code>mb_*</code> for UTF-8 safety</strong><br>
@@ -595,19 +594,19 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
         </div>
         <div class="hl-box">
           <strong><i class="bi bi-lightbulb me-1"></i>Tip 3: <code>explode()</code> + <code>list()</code> for parsing</strong><br>
-          <code>list($name, $email) = explode(',', $line);</code> — clean one-liner for CSV lines, config pairs, or delimiter-split data.
+          <code>list($name, $email) = explode(',', $line);</code> â€” clean one-liner for CSV lines, config pairs, or delimiter-split data.
         </div>
         <div class="hl-box">
           <strong><i class="bi bi-lightbulb me-1"></i>Tip 4: <code>sprintf()</code> for templates</strong><br>
-          <code>sprintf('Hello %s, your ID is %04d', $name, $id);</code> — cleaner than concatenation with built-in formatting.
+          <code>sprintf('Hello %s, your ID is %04d', $name, $id);</code> â€” cleaner than concatenation with built-in formatting.
         </div>
         <div class="hl-box">
           <strong><i class="bi bi-lightbulb me-1"></i>Tip 5: URL &amp; file checks with <code>str_starts_with</code>/<code>str_ends_with</code></strong><br>
-          <code>str_starts_with($url, 'https://')</code> for protocol; <code>str_ends_with($file, '.pdf')</code> for extension — readable and fast.
+          <code>str_starts_with($url, 'https://')</code> for protocol; <code>str_ends_with($file, '.pdf')</code> for extension â€” readable and fast.
         </div>
         <div class="hl-box">
           <strong><i class="bi bi-lightbulb me-1"></i>Tip 6: Trim all user input</strong><br>
-          <code>$input = trim($_POST['email']);</code> — users paste extra whitespace. Combine with <code>filter_var()</code> for robust validation.
+          <code>$input = trim($_POST['email']);</code> â€” users paste extra whitespace. Combine with <code>filter_var()</code> for robust validation.
         </div>
       </div>
     </div>
@@ -1230,7 +1229,7 @@ vendor/bin/rector process src/ --set php84</code></pre>
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq4">
-              <span class="q-tag tag-easy">Easy</span> Q4: define() vs const — what's the difference?
+              <span class="q-tag tag-easy">Easy</span> Q4: define() vs const â€” what's the difference?
             </button>
           </h2>
           <div id="pq4" class="accordion-collapse collapse">
@@ -1268,7 +1267,7 @@ vendor/bin/rector process src/ --set php84</code></pre>
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq7">
-              <span class="q-tag tag-easy">Easy</span> Q7: foreach vs for vs while — when to use each?
+              <span class="q-tag tag-easy">Easy</span> Q7: foreach vs for vs while â€” when to use each?
             </button>
           </h2>
           <div id="pq7" class="accordion-collapse collapse">
@@ -1378,7 +1377,7 @@ vendor/bin/rector process src/ --set php84</code></pre>
             </button>
           </h2>
           <div id="pq16" class="accordion-collapse collapse">
-            <div class="accordion-body"><code>str_contains($haystack, $needle)</code> (PHP 8.0+) returns a boolean — cleaner for existence checks. <code>strpos()</code> returns the integer position or <code>false</code> if not found — requires strict <code>!== false</code> check. Always prefer <code>str_contains()</code> when you only need a yes/no answer.</div>
+            <div class="accordion-body"><code>str_contains($haystack, $needle)</code> (PHP 8.0+) returns a boolean â€” cleaner for existence checks. <code>strpos()</code> returns the integer position or <code>false</code> if not found â€” requires strict <code>!== false</code> check. Always prefer <code>str_contains()</code> when you only need a yes/no answer.</div>
           </div>
         </div>
         <div class="accordion-item">
@@ -1388,7 +1387,7 @@ vendor/bin/rector process src/ --set php84</code></pre>
             </button>
           </h2>
           <div id="pq17" class="accordion-collapse collapse">
-            <div class="accordion-body"><code>trim($str)</code> removes whitespace from both ends. <code>ltrim()</code>/<code>rtrim()</code> for left/right only. Critical for sanitizing user input — emails, usernames, and file paths often have accidental spaces from copy-paste.</div>
+            <div class="accordion-body"><code>trim($str)</code> removes whitespace from both ends. <code>ltrim()</code>/<code>rtrim()</code> for left/right only. Critical for sanitizing user input â€” emails, usernames, and file paths often have accidental spaces from copy-paste.</div>
           </div>
         </div>
         <div class="accordion-item">
@@ -1410,7 +1409,7 @@ vendor/bin/rector process src/ --set php84</code></pre>
             </button>
           </h2>
           <div id="pq19" class="accordion-collapse collapse">
-            <div class="accordion-body">Use <code>mb_*</code> functions: <code>mb_strlen()</code>, <code>mb_substr()</code>, <code>mb_strpos()</code>, <code>mb_strtolower()</code>. Set internal encoding: <code>mb_internal_encoding('UTF-8')</code>. <code>strlen()</code> counts bytes — a single emoji or CJK character can be 3-4 bytes, causing bugs in truncation and validation.</div>
+            <div class="accordion-body">Use <code>mb_*</code> functions: <code>mb_strlen()</code>, <code>mb_substr()</code>, <code>mb_strpos()</code>, <code>mb_strtolower()</code>. Set internal encoding: <code>mb_internal_encoding('UTF-8')</code>. <code>strlen()</code> counts bytes â€” a single emoji or CJK character can be 3-4 bytes, causing bugs in truncation and validation.</div>
           </div>
         </div>
         <div class="accordion-item">
@@ -1437,7 +1436,7 @@ vendor/bin/rector process src/ --set php84</code></pre>
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pq21">
-              <span class="q-tag tag-easy">Easy</span> Q21: Function vs method — what's the difference?
+              <span class="q-tag tag-easy">Easy</span> Q21: Function vs method â€” what's the difference?
             </button>
           </h2>
           <div id="pq21" class="accordion-collapse collapse">
@@ -1637,7 +1636,7 @@ vendor/bin/rector process src/ --set php84</code></pre>
             </button>
           </h2>
           <div id="pq38" class="accordion-collapse collapse">
-            <div class="accordion-body">beginTransaction() → execute queries → commit()/rollBack(). Wrap in try/catch. Nested transactions not natively supported (use savepoints).</div>
+            <div class="accordion-body">beginTransaction() â†’ execute queries â†’ commit()/rollBack(). Wrap in try/catch. Nested transactions not natively supported (use savepoints).</div>
           </div>
         </div>
         <div class="accordion-item">
@@ -1824,7 +1823,7 @@ vendor/bin/rector process src/ --set php84</code></pre>
             </button>
           </h2>
           <div id="pq53" class="accordion-collapse collapse">
-            <div class="accordion-body">$this->createMock(Interface::class) → set up expectations with expects/with/willReturn → inject into tested class → assert with assertTrue/assertEquals.</div>
+            <div class="accordion-body">$this->createMock(Interface::class) â†’ set up expectations with expects/with/willReturn â†’ inject into tested class â†’ assert with assertTrue/assertEquals.</div>
           </div>
         </div>
         <div class="accordion-item">
@@ -1978,7 +1977,7 @@ $top = array_pop($stack);</code></pre>Or use SplStack for an OOP approach.</div>
             </button>
           </h2>
           <div id="pq63" class="accordion-collapse collapse">
-            <div class="accordion-body">Abstracts data access logic behind an interface. Controllers don't know about PDO/ORM — they call $repo->findById(). Swappable implementations (MySQL, Redis, in-memory). Testable with mocks.</div>
+            <div class="accordion-body">Abstracts data access logic behind an interface. Controllers don't know about PDO/ORM â€” they call $repo->findById(). Swappable implementations (MySQL, Redis, in-memory). Testable with mocks.</div>
           </div>
         </div>
         <div class="accordion-item">
@@ -1988,7 +1987,7 @@ $top = array_pop($stack);</code></pre>Or use SplStack for an OOP approach.</div>
             </button>
           </h2>
           <div id="pq64" class="accordion-collapse collapse">
-            <div class="accordion-body">DI: dependencies passed via constructor (explicit, testable). Service Locator: dependencies requested from a container inside the class (hidden coupling). DI is preferred — follows Inversion of Control.</div>
+            <div class="accordion-body">DI: dependencies passed via constructor (explicit, testable). Service Locator: dependencies requested from a container inside the class (hidden coupling). DI is preferred â€” follows Inversion of Control.</div>
           </div>
         </div>
         <div class="accordion-item">
@@ -2016,7 +2015,7 @@ $top = array_pop($stack);</code></pre>Or use SplStack for an OOP approach.</div>
             </button>
           </h2>
           <div id="pq66" class="accordion-collapse collapse">
-            <div class="accordion-body">Single Responsibility Principle — a class should have one reason to change. Makes code easier to understand, test, and maintain. If a class does too much, split it into separate classes.</div>
+            <div class="accordion-body">Single Responsibility Principle â€” a class should have one reason to change. Makes code easier to understand, test, and maintain. If a class does too much, split it into separate classes.</div>
           </div>
         </div>
         <div class="accordion-item">
@@ -2036,7 +2035,7 @@ $top = array_pop($stack);</code></pre>Or use SplStack for an OOP approach.</div>
             </button>
           </h2>
           <div id="pq68" class="accordion-collapse collapse">
-            <div class="accordion-body">Liskov Substitution: subtypes should replace their base types without breaking behavior. Violation: Square extends Rectangle — setting width on a Square also changes height, breaking Rectangle expectations.</div>
+            <div class="accordion-body">Liskov Substitution: subtypes should replace their base types without breaking behavior. Violation: Square extends Rectangle â€” setting width on a Square also changes height, breaking Rectangle expectations.</div>
           </div>
         </div>
         <div class="accordion-item">
@@ -2072,7 +2071,7 @@ $top = array_pop($stack);</code></pre>Or use SplStack for an OOP approach.</div>
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/bootstrap/bootstrap.bundle.min.js"></script>
 <script>
 const sidebar = document.getElementById('sidebar');
 const toggle = document.getElementById('sidebarToggle');

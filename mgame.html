@@ -1,11 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aesthetic Memory</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="lib/google-fonts/orbitron/orbitron.css">
+    <link rel="stylesheet" href="lib/google-fonts/rajdhani/rajdhani.css">
     <style>
         :root {
             --bg-dark: #05000a;
@@ -174,8 +175,8 @@
     </svg>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        import { getDatabase, ref, push, onValue, query, orderByChild } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+        import { initializeApp } from "lib/firebase/firebase-app.js";
+        import { getDatabase, ref, push, onValue, query, orderByChild } from "lib/firebase/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAtL3oDD3MgkyCCgGpU72KjmDILIN9B3ek",

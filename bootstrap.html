@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <style>
@@ -29,9 +29,9 @@
 </style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bootstrap 5.3 — Complete Guide</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <title>Bootstrap 5.3 â€” Complete Guide</title>
+  <link href="lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="lib/bootstrap-icons/bootstrap-icons.min.css">
   <style>
     :root {
       --bs-purple: #6f42c1;
@@ -250,9 +250,8 @@
       margin-bottom: .3rem;
     }
   </style>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="lib/google-fonts/space-grotesk/space-grotesk.css">
+  <link rel="stylesheet" href="lib/google-fonts/jetbrains-mono/jetbrains-mono.css">
 <style>
 /* ===== Jap Hub design system - graphql pattern (injected layer) ===== */
 :root {
@@ -449,7 +448,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
 <body>
 
 <button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
-<a href="index.html" class="home-link" aria-label="Go back to home page"><span>←</span> Home</a>
+<a href="index.html" class="home-link" aria-label="Go back to home page"><span>â†</span> Home</a>
 <button class="theme-btn" id="themeBtn" aria-label="Toggle dark mode"><i class="bi bi-moon-fill"></i></button>
 
 <!-- ===== SIDEBAR ===== -->
@@ -521,16 +520,16 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
   <!-- ==================== CDN ==================== -->
   <section id="cdn">
     <h2><i class="bi bi-download me-2"></i>CDN Setup</h2>
-    <p class="text-muted">The fastest way to start — add these two lines inside <code>&lt;head&gt;</code>.</p>
+    <p class="text-muted">The fastest way to start â€” add these two lines inside <code>&lt;head&gt;</code>.</p>
     <div class="card">
       <div class="card-body">
         <div class="code-label">CSS (head)</div>
         <pre><code><span class="cm">&lt;!-- Bootstrap 5.3 CSS --&gt;</span>
-<span class="kw">&lt;</span><span class="fn">link</span> <span class="at">href</span>=<span class="str">"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"</span> <span class="at">rel</span>=<span class="str">"stylesheet"</span><span class="kw">&gt;</span></code></pre>
+<span class="kw">&lt;</span><span class="fn">link</span> <span class="at">href</span>=<span class="str">"lib/bootstrap/bootstrap.min.css"</span> <span class="at">rel</span>=<span class="str">"stylesheet"</span><span class="kw">&gt;</span></code></pre>
 
         <div class="code-label mt-3">JS (before &lt;/body&gt;)</div>
         <pre><code><span class="cm">&lt;!-- Bootstrap 5.3 JS Bundle (includes Popper) --&gt;</span>
-<span class="kw">&lt;</span><span class="fn">script</span> <span class="at">src</span>=<span class="str">"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"</span><span class="kw">&gt;&lt;/</span><span class="fn">script</span><span class="kw">&gt;</span></code></pre>
+<span class="kw">&lt;</span><span class="fn">script</span> <span class="at">src</span>=<span class="str">"lib/bootstrap/bootstrap.bundle.min.js"</span><span class="kw">&gt;&lt;/</span><span class="fn">script</span><span class="kw">&gt;</span></code></pre>
 
         <div class="highlight-box">
           <strong><i class="bi bi-lightbulb me-1"></i> Tip:</strong> Always use the <code>bootstrap.bundle.min.js</code> version (includes Popper for tooltips &amp; dropdowns). The separate <code>bootstrap.min.js</code> requires you to add Popper separately.
@@ -595,7 +594,7 @@ btn.addEventListener(<span class="str">'click'</span>, () => {
 });</code></pre>
 
         <div class="highlight-box">
-          <strong><i class="bi bi-palette me-1"></i> CSS Variables:</strong> In dark mode, Bootstrap switches all CSS variables. You can reference them: <code>var(--bs-body-bg)</code>, <code>var(--bs-body-color)</code>, <code>var(--bs-border-color)</code> — they adapt automatically.
+          <strong><i class="bi bi-palette me-1"></i> CSS Variables:</strong> In dark mode, Bootstrap switches all CSS variables. You can reference them: <code>var(--bs-body-bg)</code>, <code>var(--bs-body-color)</code>, <code>var(--bs-border-color)</code> â€” they adapt automatically.
         </div>
       </div>
     </div>
@@ -632,7 +631,7 @@ btn.addEventListener(<span class="str">'click'</span>, () => {
 
         <div class="highlight-box">
           <strong><i class="bi bi-grid me-1"></i> Breakpoints:</strong>
-          <code>xs</code> (&lt;576px) — <code>sm</code> (≥576px) — <code>md</code> (≥768px) — <code>lg</code> (≥992px) — <code>xl</code> (≥1200px) — <code>xxl</code> (≥1400px)
+          <code>xs</code> (&lt;576px) â€” <code>sm</code> (â‰¥576px) â€” <code>md</code> (â‰¥768px) â€” <code>lg</code> (â‰¥992px) â€” <code>xl</code> (â‰¥1200px) â€” <code>xxl</code> (â‰¥1400px)
         </div>
       </div>
     </div>
@@ -986,7 +985,7 @@ btn.addEventListener(<span class="str">'click'</span>, () => {
 
         <div class="highlight-box">
           <strong><i class="bi bi-arrows-angle-expand me-1"></i> Modal Sizes:</strong>
-          <code>modal-sm</code> — <code>modal-lg</code> — <code>modal-xl</code> — <code>modal-fullscreen</code>.
+          <code>modal-sm</code> â€” <code>modal-lg</code> â€” <code>modal-xl</code> â€” <code>modal-fullscreen</code>.
           Add to <code>.modal-dialog</code>.
         </div>
 
@@ -1004,7 +1003,7 @@ btn.addEventListener(<span class="str">'click'</span>, () => {
                 </div>
                 <div class="modal-body">
                   <p>This is a live Bootstrap modal demo!</p>
-                  <p>Modals are built with pure HTML &amp; JS — no extra libraries needed.</p>
+                  <p>Modals are built with pure HTML &amp; JS â€” no extra libraries needed.</p>
                 </div>
                 <div class="modal-footer">
                   <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -1096,7 +1095,7 @@ btn.addEventListener(<span class="str">'click'</span>, () => {
   <!-- ==================== SPACING ==================== -->
   <section id="spacing">
     <h2><i class="bi bi-arrows-angle-expand me-2"></i>Spacing Utilities</h2>
-    <p class="text-muted">Margin (<code>m-*</code>) and padding (<code>p-*</code>) with responsive variants. Scale: 0–5 plus auto.</p>
+    <p class="text-muted">Margin (<code>m-*</code>) and padding (<code>p-*</code>) with responsive variants. Scale: 0â€“5 plus auto.</p>
     <div class="card">
       <div class="card-body">
         <div class="table-responsive">
@@ -1242,7 +1241,7 @@ btn.addEventListener(<span class="str">'click'</span>, () => {
       <div class="card-body">
         <div class="code-label">Setup</div>
         <pre><code><span class="cm">&lt;!-- Add to &lt;head&gt; --&gt;</span>
-<span class="kw">&lt;</span><span class="fn">link</span> <span class="at">rel</span>=<span class="str">"stylesheet"</span> <span class="at">href</span>=<span class="str">"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"</span><span class="kw">&gt;</span></code></pre>
+<span class="kw">&lt;</span><span class="fn">link</span> <span class="at">rel</span>=<span class="str">"stylesheet"</span> <span class="at">href</span>=<span class="str">"lib/bootstrap-icons/bootstrap-icons.min.css"</span><span class="kw">&gt;</span></code></pre>
 
         <div class="code-label mt-3">Usage</div>
         <pre><code><span class="cm">&lt;!-- Basic --&gt;</span>
@@ -1382,7 +1381,7 @@ $font-family-base:  <span class="str">'Inter', sans-serif</span>;</code></pre>
               <span style="font-size:1.5rem;color:var(--bs-purple);flex-shrink:0"><i class="bi bi-speedometer2"></i></span>
               <div>
                 <h6 class="fw-bold mb-1">Performance</h6>
-                <p class="small text-muted mb-0">Use <code>loading="lazy"</code> on images. Don't import all JS components if you only need a few — import individually via NPM.</p>
+                <p class="small text-muted mb-0">Use <code>loading="lazy"</code> on images. Don't import all JS components if you only need a few â€” import individually via NPM.</p>
               </div>
             </div>
           </div>
@@ -1441,6 +1440,6 @@ $font-family-base:  <span class="str">'Inter', sans-serif</span>;</code></pre>
     new bootstrap.Modal(document.getElementById('demoModal'));
   });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/bootstrap/bootstrap.bundle.min.js"></script>
 </body>
 </html>

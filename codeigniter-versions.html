@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" data-bs-theme="light">
 <head>
 <style>
@@ -30,11 +30,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CodeIgniter Versions - Complete Guide: 1.x to 4.x, Upgrade Path & PHP Support</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="lib/bootstrap-icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="lib/google-fonts/space-grotesk/space-grotesk.css">
+  <link rel="stylesheet" href="lib/google-fonts/jetbrains-mono/jetbrains-mono.css">
   <style>
     :root {
       --ci-red: #dd4814;
@@ -481,7 +480,7 @@
 <body>
 
 <button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
-<a href="index.html" class="home-link" aria-label="Go back to home page"><span>←</span> Home</a>
+<a href="index.html" class="home-link" aria-label="Go back to home page"><span>â†</span> Home</a>
 
 <!-- ===== SIDEBAR ===== -->
 <nav id="sidebar">
@@ -495,16 +494,16 @@
     <a class="nav-link" href="#era1"><i class="bi bi-circle"></i> CI 1.x (2006)</a>
     <a class="nav-link" href="#era2"><i class="bi bi-circle"></i> CI 2.x (2011)</a>
     <a class="nav-link" href="#era3"><i class="bi bi-circle-half"></i> CI 3.x (2015)</a>
-    <a class="nav-link" href="#era4"><i class="bi bi-circle-fill"></i> CI 4.x (2020 → now)</a>
+    <a class="nav-link" href="#era4"><i class="bi bi-circle-fill"></i> CI 4.x (2020 â†’ now)</a>
 
     <div class="nav-section">Version Matrix</div>
     <a class="nav-link" href="#php-matrix"><i class="bi bi-diagram-3"></i> PHP Support Ladder</a>
     <a class="nav-link" href="#release-map"><i class="bi bi-map"></i> 4.x Release Map</a>
 
     <div class="nav-section">Upgrading</div>
-    <a class="nav-link" href="#ci3-to-ci4"><i class="bi bi-arrow-repeat"></i> CI3 → CI4 Migration</a>
+    <a class="nav-link" href="#ci3-to-ci4"><i class="bi bi-arrow-repeat"></i> CI3 â†’ CI4 Migration</a>
     <a class="nav-link" href="#code-map"><i class="bi bi-code-square"></i> Code Mapping Table</a>
-    <a class="nav-link" href="#ci4-to-ci4"><i class="bi bi-arrow-up-circle"></i> CI4 → CI4 Minor Upgrades</a>
+    <a class="nav-link" href="#ci4-to-ci4"><i class="bi bi-arrow-up-circle"></i> CI4 â†’ CI4 Minor Upgrades</a>
 
     <div class="nav-section">Decide</div>
     <a class="nav-link" href="#which-version"><i class="bi bi-question-circle"></i> Which Version to Use</a>
@@ -527,7 +526,7 @@
       <span class="hero-badge"><b>Current</b> 4.7.4</span>
       <span class="hero-badge"><b>Requires</b> PHP 8.2+</span>
       <span class="hero-badge ember"><b>Legacy</b> 3.x EOL 2022</span>
-      <span class="hero-badge ember"><b>Fork</b> CI3 → CI4 = rewrite</span>
+      <span class="hero-badge ember"><b>Fork</b> CI3 â†’ CI4 = rewrite</span>
     </div>
 
     <div class="lineage">
@@ -572,7 +571,7 @@
               <tr><td><strong>1.x</strong></td><td>2006</td><td><span class="php-badge php-4">PHP 4</span></td><td>Dead</td><td>Procedural-era MVC, no namespaces</td></tr>
               <tr><td><strong>2.x</strong></td><td>2011</td><td><span class="php-badge php-5">PHP 5.1+</span></td><td>Dead</td><td>Super-object, drivers, packages</td></tr>
               <tr><td><strong>3.x</strong></td><td>2015</td><td><span class="php-badge php-5">PHP 5.6+</span></td><td><span style="color:#d64545;font-weight:700">EOL 2022</span></td><td>Same model, hardened + hashed passwords</td></tr>
-              <tr><td><strong>4.x</strong></td><td>2020</td><td><span class="php-badge php-7">PHP 7.4+</span> → <span class="php-badge php-8">PHP 8.2+</span></td><td>Active</td><td>Namespaces, Composer, Spark CLI, services</td></tr>
+              <tr><td><strong>4.x</strong></td><td>2020</td><td><span class="php-badge php-7">PHP 7.4+</span> â†’ <span class="php-badge php-8">PHP 8.2+</span></td><td>Active</td><td>Namespaces, Composer, Spark CLI, services</td></tr>
             </tbody>
           </table>
         </div>
@@ -765,7 +764,7 @@
 
   <!-- ==================== CI3 TO CI4 ==================== -->
   <section id="ci3-to-ci4">
-    <h2><i class="bi bi-arrow-repeat me-2"></i>CI3 → CI4 Migration Path</h2>
+    <h2><i class="bi bi-arrow-repeat me-2"></i>CI3 â†’ CI4 Migration Path</h2>
     <p>
       Moving from 3.x to 4.x is a <strong>rewrite with a map</strong>. The good news: every concept maps
       to something familiar. Do it in this order.
@@ -866,7 +865,7 @@ spark              <span class="cm"># CLI tool</span></code></pre>
 
   <!-- ==================== CI4 TO CI4 ==================== -->
   <section id="ci4-to-ci4">
-    <h2><i class="bi bi-arrow-up-circle me-2"></i>CI4 → CI4 Minor Upgrades</h2>
+    <h2><i class="bi bi-arrow-up-circle me-2"></i>CI4 â†’ CI4 Minor Upgrades</h2>
     <p>Upgrading within 4.x is the easy path &mdash; the official docs publish a per-version upgrade page.</p>
 
     <div class="card">
@@ -886,7 +885,7 @@ php spark serve
 php spark test
 
 <span class="cm"># 5. Check the upgrade notes for Config changes</span>
-<span class="cm">#    e.g. 4.7 changed some Config defaults — update app/Config/*</span></code></pre>
+<span class="cm">#    e.g. 4.7 changed some Config defaults â€” update app/Config/*</span></code></pre>
       </div>
     </div>
 
@@ -896,7 +895,7 @@ php spark test
           <table class="table table-hover mb-0 cmd-table">
             <thead class="table-light"><tr><th style="width:34%">Known break points</th><th>What to check</th></tr></thead>
             <tbody>
-              <tr><td>PHP requirement bump</td><td>4.5→PHP 8.1, 4.7→PHP 8.2 &mdash; verify host PHP first</td></tr>
+              <tr><td>PHP requirement bump</td><td>4.5â†’PHP 8.1, 4.7â†’PHP 8.2 &mdash; verify host PHP first</td></tr>
               <tr><td>Config changes</td><td>New/changed defaults in app/Config; env keys renamed</td></tr>
               <tr><td>Session / cookie handling</td><td>Encrypted cookies &amp; handler changes in 4.5+</td></tr>
               <tr><td>Cache engine</td><td>4.4 reworked cache; check cache drivers config</td></tr>
@@ -969,7 +968,7 @@ php spark test
 </div>
 
 <!-- ===== SCRIPTS ===== -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/bootstrap/bootstrap.bundle.min.js"></script>
 <script>
   const sidebar = document.getElementById('sidebar');
   const toggle = document.getElementById('sidebarToggle');

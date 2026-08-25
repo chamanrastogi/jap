@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <style>
@@ -29,10 +29,11 @@
 </style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Modern HTML & CSS — Latest Features Guide</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <title>Modern HTML & CSS â€” Latest Features Guide</title>
+  <link href="lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="lib/bootstrap-icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="lib/google-fonts/outfit/outfit.css">
+  <link rel="stylesheet" href="lib/google-fonts/jetbrains-mono/jetbrains-mono.css">
   <style>
     :root {
       --coral: #ff6b6b;
@@ -264,9 +265,8 @@ pre .tag { color: #f07178; }
     .label-new { color: var(--coral); }
     .code-comment { color: #676e95; font-style: italic; }
   </style>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="lib/google-fonts/space-grotesk/space-grotesk.css">
+  <link rel="stylesheet" href="lib/google-fonts/jetbrains-mono/jetbrains-mono.css">
 <style>
 /* ===== Jap Hub design system - graphql pattern (injected layer) ===== */
 :root {
@@ -463,7 +463,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
 <body>
 
 <button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
-<a href="index.html" class="home-link" aria-label="Go back to home page"><span>←</span> Home</a>
+<a href="index.html" class="home-link" aria-label="Go back to home page"><span>â†</span> Home</a>
 
 <!-- ===== SIDEBAR ===== -->
 <nav id="sidebar">
@@ -509,9 +509,9 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
         <span style="color:var(--indigo)">HTML</span>
         <span class="text-muted mx-1">&amp;</span>
         <span style="color:var(--amber)">CSS</span>
-        <span class="text-muted" style="font-size:1rem;font-weight:400"> — Modern Features</span>
+        <span class="text-muted" style="font-size:1rem;font-weight:400"> â€” Modern Features</span>
       </h1>
-      <p class="text-muted mb-0 fs-5">What works in browsers today — HTML5+ and CSS3+ latest</p>
+      <p class="text-muted mb-0 fs-5">What works in browsers today â€” HTML5+ and CSS3+ latest</p>
     </div>
     <div class="ms-auto d-flex gap-2">
       <span class="version-chip" style="background:#eef2ff;color:var(--indigo)">
@@ -532,7 +532,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
     <div class="card">
       <div class="card-header"><i class="bi bi-diagram-2 me-1"></i> Structure</div>
       <div class="card-body">
-        <p>Semantic HTML gives meaning to content — better for SEO, accessibility, and code readability.</p>
+        <p>Semantic HTML gives meaning to content â€” better for SEO, accessibility, and code readability.</p>
         <pre><code><span class="kw">&lt;header</span><span class="kw">&gt;</span>  <span class="cm">&lt;!-- site/page header --&gt;</span>
 <span class="kw">&lt;nav</span><span class="kw">&gt;</span>     <span class="cm">&lt;!-- navigation block --&gt;</span>
 <span class="kw">&lt;main</span><span class="kw">&gt;</span>    <span class="cm">&lt;!-- primary content (1 per page) --&gt;</span>
@@ -687,7 +687,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
   <span class="kw">&lt;p</span><span class="kw">&gt;</span>Popover content.<span class="kw">&lt;/p</span><span class="kw">&gt;</span>
 <span class="kw">&lt;/div</span><span class="kw">&gt;</span></code></pre>
         <div class="highlight-box new-box">
-          <strong><i class="bi bi-star-fill me-1"></i> Popover API:</strong> New in 2024 — no JS needed for tooltips/menus/popups. <code>popover="auto"</code> (light dismiss) or <code>popover="manual"</code> (stay open). Use <code>popovertarget</code> on triggers. Supported in all modern browsers.
+          <strong><i class="bi bi-star-fill me-1"></i> Popover API:</strong> New in 2024 â€” no JS needed for tooltips/menus/popups. <code>popover="auto"</code> (light dismiss) or <code>popover="manual"</code> (stay open). Use <code>popovertarget</code> on triggers. Supported in all modern browsers.
         </div>
       </div>
     </div>
@@ -793,7 +793,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
 }</code></pre>
 
         <div class="highlight-box new-box mt-3">
-          <strong><i class="bi bi-star-fill me-1"></i> Subgrid</strong> — inherits track sizing from parent grid:
+          <strong><i class="bi bi-star-fill me-1"></i> Subgrid</strong> â€” inherits track sizing from parent grid:
           <pre style="margin-top:.5rem"><code><span class="tp">.parent</span> {
   <span class="kw">display</span>: <span class="kw">grid</span>;
   <span class="kw">grid-template-columns</span>: <span class="fn">repeat</span>(<span class="num">3</span>, <span class="num">1fr</span>);
@@ -848,7 +848,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
         <div class="side-by-side mt-3">
           <div>
             <div class="label-old">Media Queries (viewport)</div>
-            <pre style="font-size:.75rem"><code><span class="cm">/* 🚫 Depends on screen size */</span>
+            <pre style="font-size:.75rem"><code><span class="cm">/* ðŸš« Depends on screen size */</span>
 @media (<span class="kw">max-width</span>: <span class="num">768px</span>) {
   <span class="tp">.sidebar-card</span> {
     <span class="kw">flex-direction</span>: <span class="kw">column</span>;
@@ -857,7 +857,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
           </div>
           <div>
             <div class="label-new">Container Queries</div>
-            <pre style="font-size:.75rem"><code><span class="cm">/* ✅ Depends on container size */</span>
+            <pre style="font-size:.75rem"><code><span class="cm">/* âœ… Depends on container size */</span>
 @container (<span class="kw">max-width</span>: <span class="num">400px</span>) {
   <span class="tp">.sidebar-card</span> {
     <span class="kw">flex-direction</span>: <span class="kw">column</span>;
@@ -874,7 +874,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
     <h2 class="css-heading"><i class="bi bi-diagram-3 me-2" style="color:var(--amber)"></i>Modern Selectors</h2>
 
     <div class="card">
-      <div class="card-header"><i class="bi bi-magic me-1"></i> :has() — The Parent Selector</div>
+      <div class="card-header"><i class="bi bi-magic me-1"></i> :has() â€” The Parent Selector</div>
       <div class="card-body">
         <pre><code><span class="cm">/* Select a card that CONTAINS an image */</span>
 <span class="tp">.card</span><span class="tp">:has</span>(img) {
@@ -902,17 +902,17 @@ h2<span class="tp">:has</span>(+ p) {
     <div class="card">
       <div class="card-header"><i class="bi bi-scissors me-1"></i> :where(), :is(), :not()</div>
       <div class="card-body">
-        <pre><code><span class="cm">/* :where() — zero specificity (great for resets) */</span>
+        <pre><code><span class="cm">/* :where() â€” zero specificity (great for resets) */</span>
 <span class="tp">:where</span>(h1, h2, h3) { <span class="kw">margin</span>: <span class="num">0</span>; }     <span class="cm">/* specificity = 0 */</span>
 h1 { <span class="kw">margin</span>: <span class="num">1rem</span>; }                   <span class="cm">/* wins (specificity = 0,0,1) */</span>
 
-<span class="cm">/* :is() — same as :where() but keeps specificity */</span>
+<span class="cm">/* :is() â€” same as :where() but keeps specificity */</span>
 <span class="tp">:is</span>(h1, h2, h3) { <span class="kw">color</span>: blue; }      <span class="cm">/* specificity = 0,0,1 */</span>
 
 <span class="cm">/* :not() now supports selector lists */</span>
 <span class="tp">:not</span>(<span class="tp">.error</span>, <span class="tp">.warning</span>, <span class="tp">.disabled</span>) { <span class="kw">opacity</span>: <span class="num">1</span>; }
 
-<span class="cm">/* Combo — style cards that have images AND are not disabled */</span>
+<span class="cm">/* Combo â€” style cards that have images AND are not disabled */</span>
 <span class="tp">.card</span><span class="tp">:has</span>(img)<span class="tp">:not</span>(<span class="tp">.disabled</span>) {
   <span class="kw">opacity</span>: <span class="num">1</span>;
 }</code></pre>
@@ -955,9 +955,9 @@ h1 { <span class="kw">margin</span>: <span class="num">1rem</span>; }           
     <h2 class="css-heading"><i class="bi bi-layers me-2" style="color:var(--amber)"></i>Layers &amp; Nesting</h2>
 
     <div class="card">
-      <div class="card-header"><i class="bi bi-stack me-1"></i> @layer — Cascade Control</div>
+      <div class="card-header"><i class="bi bi-stack me-1"></i> @layer â€” Cascade Control</div>
       <div class="card-body">
-        <p>Control the cascade explicitly — framework styles never override your components.</p>
+        <p>Control the cascade explicitly â€” framework styles never override your components.</p>
         <pre><code>@layer reset, base, components, utilities;
 
 @layer reset {
@@ -978,12 +978,12 @@ h1 { <span class="kw">margin</span>: <span class="num">1rem</span>; }           
   <span class="tp">.mt-4</span> { <span class="kw">margin-top</span>: <span class="num">1rem</span>; }
 }
 
-<span class="cm">/* Later layers override earlier ones — even with lower specificity */</span></code></pre>
+<span class="cm">/* Later layers override earlier ones â€” even with lower specificity */</span></code></pre>
       </div>
     </div>
 
     <div class="card">
-      <div class="card-header"><i class="bi bi-asterisk me-1"></i> @property — Registered Custom Properties</div>
+      <div class="card-header"><i class="bi bi-asterisk me-1"></i> @property â€” Registered Custom Properties</div>
       <div class="card-body">
         <p>Define typed CSS variables for animation, fallbacks, and validation.</p>
         <pre><code>@property --primary-color {
@@ -1007,7 +1007,7 @@ h1 { <span class="kw">margin</span>: <span class="num">1rem</span>; }           
   --primary-color: red;
 }</code></pre>
         <div class="highlight-box css-box">
-          Without <code>@property</code>, CSS animations on custom properties don't work — the browser doesn't know the type. With <code>@property</code>, it can interpolate between colors/lengths/angles.
+          Without <code>@property</code>, CSS animations on custom properties don't work â€” the browser doesn't know the type. With <code>@property</code>, it can interpolate between colors/lengths/angles.
         </div>
       </div>
     </div>
@@ -1055,10 +1055,10 @@ p<span class="tp">::first-letter</span> {
 }
 body {
   <span class="kw">font-family</span>: <span class="str">'MyVariableFont'</span>, <span class="kw">sans-serif</span>;
-  <span class="kw">font-weight</span>: <span class="num">400</span>;             <span class="cm">/* or 372 — any value in range */</span>
+  <span class="kw">font-weight</span>: <span class="num">400</span>;             <span class="cm">/* or 372 â€” any value in range */</span>
 }</code></pre>
         <div class="highlight-box new-box">
-          <strong><i class="bi bi-star-fill me-1"></i> text-wrap: balance</strong> — single line of CSS and your headings look like a designer typeset them. <code>pretty</code> prevents orphans. Both are supported in Chrome 117+, Safari 17.5+, Firefox 121+.
+          <strong><i class="bi bi-star-fill me-1"></i> text-wrap: balance</strong> â€” single line of CSS and your headings look like a designer typeset them. <code>pretty</code> prevents orphans. Both are supported in Chrome 117+, Safari 17.5+, Firefox 121+.
         </div>
       </div>
     </div>
@@ -1071,7 +1071,7 @@ body {
     <div class="card">
       <div class="card-header"><i class="bi bi-eyedropper me-1"></i> Modern Color Spaces</div>
       <div class="card-body">
-        <pre><code><span class="cm">/* OKLCH — perceptually uniform, wider gamut */</span>
+        <pre><code><span class="cm">/* OKLCH â€” perceptually uniform, wider gamut */</span>
 <span class="tp">.primary</span> {
   <span class="kw">background</span>: <span class="fn">oklch</span>(<span class="num">0.6</span> <span class="num">0.2</span> <span class="num">280</span>);   <span class="cm">/* lightness, chroma, hue */</span>
 }
@@ -1079,7 +1079,7 @@ body {
   <span class="kw">color</span>: <span class="fn">oklch</span>(<span class="num">0.4</span> <span class="num">0.15</span> <span class="num">200</span>);       <span class="cm">/* dark cyan */</span>
 }
 
-<span class="cm">/* color-mix() — blend two colors */</span>
+<span class="cm">/* color-mix() â€” blend two colors */</span>
 <span class="tp">.mixed</span> {
   <span class="kw">background</span>: <span class="fn">color-mix</span>(in oklch, red <span class="num">40%</span>, blue <span class="num">60%</span>);
 }
@@ -1106,7 +1106,7 @@ input[type=<span class="str">"checkbox"</span>] {
   <span class="kw">accent-color</span>: <span class="fn">var</span>(--coral);
 }</code></pre>
         <div class="highlight-box new-box">
-          <strong><i class="bi bi-star-fill me-1"></i> OKLCH</strong> is the color space of the future — perceptually uniform, works like HSL but actually looks right. <code>color-mix()</code> replaces preprocessor darken/lighten. Supported in all modern browsers.
+          <strong><i class="bi bi-star-fill me-1"></i> OKLCH</strong> is the color space of the future â€” perceptually uniform, works like HSL but actually looks right. <code>color-mix()</code> replaces preprocessor darken/lighten. Supported in all modern browsers.
         </div>
       </div>
     </div>
@@ -1210,7 +1210,7 @@ document<span class="tp">.startViewTransition</span>(() => {
   <span class="kw">view-transition-name</span>: gallery-image;
 }</code></pre>
         <div class="highlight-box new-box">
-          <strong><i class="bi bi-star-fill me-1"></i> View Transitions API</strong> — smooth animations between DOM states. The browser handles the complexity. Supported in Chrome 111+, Safari 18+, and coming to Firefox.
+          <strong><i class="bi bi-star-fill me-1"></i> View Transitions API</strong> â€” smooth animations between DOM states. The browser handles the complexity. Supported in Chrome 111+, Safari 18+, and coming to Firefox.
         </div>
       </div>
     </div>
@@ -1218,7 +1218,7 @@ document<span class="tp">.startViewTransition</span>(() => {
     <div class="card">
       <div class="card-header"><i class="bi bi-timeline me-1"></i> Scroll-Driven Animations</div>
       <div class="card-body">
-        <pre><code><span class="cm">/* Animate based on scroll position — no JS intersection observer */</span>
+        <pre><code><span class="cm">/* Animate based on scroll position â€” no JS intersection observer */</span>
 @keyframes fade-in {
   from { <span class="kw">opacity</span>: <span class="num">0</span>; scale: <span class="num">0.8</span>; }
   to { <span class="kw">opacity</span>: <span class="num">1</span>; scale: <span class="num">1</span>; }
@@ -1243,7 +1243,7 @@ header {
   <span class="kw">top</span>: <span class="num">0</span>;
 }
 
-<span class="cm">/* @starting-style — animate elements entering the DOM */</span>
+<span class="cm">/* @starting-style â€” animate elements entering the DOM */</span>
 @starting-style {
   <span class="tp">.toast</span> {
     <span class="kw">opacity</span>: <span class="num">0</span>;
@@ -1315,7 +1315,7 @@ p {
   <span class="kw">contain-intrinsic-size</span>: <span class="num">0</span> <span class="num">500px</span>;
 }</code></pre>
         <div class="highlight-box css-box">
-          <strong><code>content-visibility: auto</code></strong> — skip rendering of offscreen elements. Major performance boost for long pages. <code>contain-intrinsic-size</code> prevents scrollbar jank by reserving space.
+          <strong><code>content-visibility: auto</code></strong> â€” skip rendering of offscreen elements. Major performance boost for long pages. <code>contain-intrinsic-size</code> prevents scrollbar jank by reserving space.
         </div>
       </div>
     </div>
@@ -1359,10 +1359,10 @@ p {
           <div class="col-md-6">
             <ul class="small mb-0">
               <li><strong>Every <code>&lt;img&gt;</code> needs <code>alt</code></strong> (even <code>alt=""</code> for decorative)</li>
-              <li><strong>Color contrast</strong> — 4.5:1 for text, 3:1 for large text (18px+)</li>
-              <li><strong>Focus indicators</strong> — never <code>outline: none</code> without replacement</li>
-              <li><strong>Labels on form inputs</strong> — use <code>&lt;label&gt;</code> or <code>aria-label</code></li>
-              <li><strong>Heading hierarchy</strong> — h1 → h2 → h3 (never skip levels)</li>
+              <li><strong>Color contrast</strong> â€” 4.5:1 for text, 3:1 for large text (18px+)</li>
+              <li><strong>Focus indicators</strong> â€” never <code>outline: none</code> without replacement</li>
+              <li><strong>Labels on form inputs</strong> â€” use <code>&lt;label&gt;</code> or <code>aria-label</code></li>
+              <li><strong>Heading hierarchy</strong> â€” h1 â†’ h2 â†’ h3 (never skip levels)</li>
             </ul>
           </div>
           <div class="col-md-6">
@@ -1370,8 +1370,8 @@ p {
               <li><strong>aria-expanded</strong> on expandable elements (accordions, menus)</li>
               <li><strong>aria-current="page"</strong> on current nav item</li>
               <li><strong>role="button"</strong> on clickable divs (better: use <code>&lt;button&gt;</code>)</li>
-              <li><strong>Focus management</strong> — trap focus in modals, return on close</li>
-              <li><strong>Reduce motion</strong> — respect <code>prefers-reduced-motion</code></li>
+              <li><strong>Focus management</strong> â€” trap focus in modals, return on close</li>
+              <li><strong>Reduce motion</strong> â€” respect <code>prefers-reduced-motion</code></li>
             </ul>
           </div>
         </div>
@@ -1415,7 +1415,7 @@ p {
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/bootstrap/bootstrap.bundle.min.js"></script>
 <script>
   document.getElementById('sidebarToggle')?.addEventListener('click', function () {
     document.getElementById('sidebar').classList.toggle('show');

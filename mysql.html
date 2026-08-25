@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <style>
@@ -29,9 +29,9 @@
 </style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MySQL Q&A — 130+ Questions from Basic to Advanced</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <title>MySQL Q&A â€” 130+ Questions from Basic to Advanced</title>
+  <link href="lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="lib/bootstrap-icons/bootstrap-icons.min.css">
   <style>
     :root {
       --mysql-blue: #00758f;
@@ -165,9 +165,8 @@
     @media (min-width: 992px) { .home-link { left: calc(var(--sidebar-width) + 14px); } }
     @media (max-width: 991.98px) { .home-link { left: 4rem; } }
   </style>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="lib/google-fonts/space-grotesk/space-grotesk.css">
+  <link rel="stylesheet" href="lib/google-fonts/jetbrains-mono/jetbrains-mono.css">
 <style>
 /* ===== Jap Hub design system - graphql pattern (injected layer) ===== */
 :root {
@@ -363,13 +362,13 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
 </style></head>
 <body>
 <button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
-<a href="index.html" class="home-link" aria-label="Go back to home page"><span>←</span> Home</a>
+<a href="index.html" class="home-link" aria-label="Go back to home page"><span>â†</span> Home</a>
 
 <!-- ===== SIDEBAR ===== -->
 <nav id="sidebar">
   <div class="brand">
     <h5><i class="bi bi-database me-2" style="color:var(--mysql-orange)"></i>MySQL</h5>
-    <small class="d-block mt-1">Q&A — Basic to Advanced</small>
+    <small class="d-block mt-1">Q&A â€” Basic to Advanced</small>
   </div>
   <div class="py-2">
     <div class="nav-section">Basics</div>
@@ -424,7 +423,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
   <!-- ==================== BASICS ==================== -->
   <section id="basics">
     <h2><i class="bi bi-info-circle me-2"></i>MySQL Basics</h2>
-    <div class="section-desc">Core concepts — database, table, schema, and fundamental SQL operations.</div>
+    <div class="section-desc">Core concepts â€” database, table, schema, and fundamental SQL operations.</div>
     <div class="accordion">
 
       <div class="accordion-item">
@@ -448,7 +447,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
         </h2>
         <div id="q2" class="accordion-collapse collapse" data-bs-parent="#basics">
           <div class="accordion-body">
-            In MySQL, <strong>database</strong> and <strong>schema</strong> are synonymous — <code>CREATE DATABASE</code> and <code>CREATE SCHEMA</code> do the same thing. However, in other RDBMS like PostgreSQL, a schema is a namespace within a database (tables, views, etc.), while a database is a container of schemas.
+            In MySQL, <strong>database</strong> and <strong>schema</strong> are synonymous â€” <code>CREATE DATABASE</code> and <code>CREATE SCHEMA</code> do the same thing. However, in other RDBMS like PostgreSQL, a schema is a namespace within a database (tables, views, etc.), while a database is a container of schemas.
           </div>
         </div>
       </div>
@@ -513,8 +512,8 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
         <div id="q6" class="accordion-collapse collapse" data-bs-parent="#basics">
           <div class="accordion-body">
             <ul>
-              <li><strong>CHAR(n)</strong> — Fixed-length. Always stores exactly <code>n</code> characters, padding with spaces. Max 255 characters. Faster for fixed-length data like country codes, ZIP codes.</li>
-              <li><strong>VARCHAR(n)</strong> — Variable-length. Stores up to <code>n</code> characters, using 1–2 extra bytes for length prefix. Max 65,535 characters (subject to row size). Saves space for variable-length data like names, emails.</li>
+              <li><strong>CHAR(n)</strong> â€” Fixed-length. Always stores exactly <code>n</code> characters, padding with spaces. Max 255 characters. Faster for fixed-length data like country codes, ZIP codes.</li>
+              <li><strong>VARCHAR(n)</strong> â€” Variable-length. Stores up to <code>n</code> characters, using 1â€“2 extra bytes for length prefix. Max 65,535 characters (subject to row size). Saves space for variable-length data like names, emails.</li>
             </ul>
           </div>
         </div>
@@ -530,12 +529,12 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
           <div class="accordion-body">
             Major storage engines:
             <ul>
-              <li><strong>InnoDB</strong> (default) — ACID-compliant, transactions, foreign keys, row-level locking</li>
-              <li><strong>MyISAM</strong> — No transactions, table-level locking, full-text search (older), faster for reads</li>
-              <li><strong>Memory (HEAP)</strong> — In-memory data, volatile, extremely fast</li>
-              <li><strong>CSV</strong> — Stores data as CSV files</li>
-              <li><strong>Archive</strong> — Compressed storage, insert-only, no indexing</li>
-              <li><strong>NDB Cluster</strong> — Distributed, high-availability clustering</li>
+              <li><strong>InnoDB</strong> (default) â€” ACID-compliant, transactions, foreign keys, row-level locking</li>
+              <li><strong>MyISAM</strong> â€” No transactions, table-level locking, full-text search (older), faster for reads</li>
+              <li><strong>Memory (HEAP)</strong> â€” In-memory data, volatile, extremely fast</li>
+              <li><strong>CSV</strong> â€” Stores data as CSV files</li>
+              <li><strong>Archive</strong> â€” Compressed storage, insert-only, no indexing</li>
+              <li><strong>NDB Cluster</strong> â€” Distributed, high-availability clustering</li>
             </ul>
             Check engine: <code>SHOW ENGINES;</code>
           </div>
@@ -572,15 +571,15 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
             <table class="table table-bordered table-sm">
               <thead><tr><th>Command</th><th>Type</th><th>Rollback?</th><th>Speed</th><th>Auto-increment</th><th>Where clause?</th></tr></thead>
               <tbody>
-                <tr><td><code>DROP</code></td><td>DDL</td><td>No</td><td>Fast</td><td>—</td><td>No</td></tr>
+                <tr><td><code>DROP</code></td><td>DDL</td><td>No</td><td>Fast</td><td>â€”</td><td>No</td></tr>
                 <tr><td><code>TRUNCATE</code></td><td>DDL</td><td>No</td><td>Fast</td><td>Reset</td><td>No</td></tr>
                 <tr><td><code>DELETE</code></td><td>DML</td><td>Yes (in transaction)</td><td>Slow</td><td>Keeps</td><td>Yes</td></tr>
               </tbody>
             </table>
             <ul>
-              <li><code>DROP TABLE</code> — Removes the table structure and data entirely.</li>
-              <li><code>TRUNCATE TABLE</code> — Removes all rows, resets auto-increment, cannot be rolled back in most cases.</li>
-              <li><code>DELETE FROM</code> — Removes rows one by one, can use <code>WHERE</code>, triggers fire, can be rolled back.</li>
+              <li><code>DROP TABLE</code> â€” Removes the table structure and data entirely.</li>
+              <li><code>TRUNCATE TABLE</code> â€” Removes all rows, resets auto-increment, cannot be rolled back in most cases.</li>
+              <li><code>DELETE FROM</code> â€” Removes rows one by one, can use <code>WHERE</code>, triggers fire, can be rolled back.</li>
             </ul>
           </div>
         </div>
@@ -648,10 +647,10 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
         <div id="q13" class="accordion-collapse collapse" data-bs-parent="#basics">
           <div class="accordion-body">
             <ul>
-              <li><strong>DDL</strong> (Data Definition Language) — <code>CREATE</code>, <code>ALTER</code>, <code>DROP</code>, <code>TRUNCATE</code>, <code>RENAME</code></li>
-              <li><strong>DML</strong> (Data Manipulation Language) — <code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code></li>
-              <li><strong>DCL</strong> (Data Control Language) — <code>GRANT</code>, <code>REVOKE</code></li>
-              <li><strong>TCL</strong> (Transaction Control Language) — <code>COMMIT</code>, <code>ROLLBACK</code>, <code>SAVEPOINT</code></li>
+              <li><strong>DDL</strong> (Data Definition Language) â€” <code>CREATE</code>, <code>ALTER</code>, <code>DROP</code>, <code>TRUNCATE</code>, <code>RENAME</code></li>
+              <li><strong>DML</strong> (Data Manipulation Language) â€” <code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code></li>
+              <li><strong>DCL</strong> (Data Control Language) â€” <code>GRANT</code>, <code>REVOKE</code></li>
+              <li><strong>TCL</strong> (Transaction Control Language) â€” <code>COMMIT</code>, <code>ROLLBACK</code>, <code>SAVEPOINT</code></li>
             </ul>
           </div>
         </div>
@@ -680,8 +679,8 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
           <div class="accordion-body">
             Both combine result sets from multiple <code>SELECT</code> queries. Both require the same number of columns and compatible data types.
             <ul>
-              <li><strong>UNION</strong> — Removes duplicate rows (performs a sort/distinct). Slower.</li>
-              <li><strong>UNION ALL</strong> — Keeps all rows including duplicates. Faster.</li>
+              <li><strong>UNION</strong> â€” Removes duplicate rows (performs a sort/distinct). Slower.</li>
+              <li><strong>UNION ALL</strong> â€” Keeps all rows including duplicates. Faster.</li>
             </ul>
           </div>
         </div>
@@ -829,12 +828,12 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
           <div class="accordion-body">
             Common aggregate functions:
             <ul>
-              <li><code>COUNT()</code> — Number of rows</li>
-              <li><code>SUM()</code> — Sum of values</li>
-              <li><code>AVG()</code> — Average value</li>
-              <li><code>MIN()</code> — Minimum value</li>
-              <li><code>MAX()</code> — Maximum value</li>
-              <li><code>GROUP_CONCAT()</code> — Concatenates values into a string</li>
+              <li><code>COUNT()</code> â€” Number of rows</li>
+              <li><code>SUM()</code> â€” Sum of values</li>
+              <li><code>AVG()</code> â€” Average value</li>
+              <li><code>MIN()</code> â€” Minimum value</li>
+              <li><code>MAX()</code> â€” Maximum value</li>
+              <li><code>GROUP_CONCAT()</code> â€” Concatenates values into a string</li>
             </ul>
             <pre><code><span class="kw">SELECT</span> department,
        <span class="fn">COUNT</span>(*) <span class="kw">AS</span> emp_count,
@@ -877,8 +876,8 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
         <div id="q25" class="accordion-collapse collapse" data-bs-parent="#sql-queries">
           <div class="accordion-body">
             <ul>
-              <li><code>IN</code> — Evaluates a list of values. Can be inefficient with large subquery result sets (materializes the entire list).</li>
-              <li><code>EXISTS</code> — Returns boolean (true/false) based on whether the subquery returns any rows. Stops scanning as soon as a match is found. Often faster for correlated subqueries.</li>
+              <li><code>IN</code> â€” Evaluates a list of values. Can be inefficient with large subquery result sets (materializes the entire list).</li>
+              <li><code>EXISTS</code> â€” Returns boolean (true/false) based on whether the subquery returns any rows. Stops scanning as soon as a match is found. Often faster for correlated subqueries.</li>
             </ul>
             <pre><code><span class="cm">-- IN</span>
 <span class="kw">SELECT</span> * <span class="kw">FROM</span> users
@@ -1073,9 +1072,9 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
               </tbody>
             </table>
             <ul>
-              <li><strong>ROW_NUMBER</strong> — Unique sequential number, no ties.</li>
-              <li><strong>RANK</strong> — Same rank for ties, but skips next number.</li>
-              <li><strong>DENSE_RANK</strong> — Same rank for ties, no skipping.</li>
+              <li><strong>ROW_NUMBER</strong> â€” Unique sequential number, no ties.</li>
+              <li><strong>RANK</strong> â€” Same rank for ties, but skips next number.</li>
+              <li><strong>DENSE_RANK</strong> â€” Same rank for ties, no skipping.</li>
             </ul>
           </div>
         </div>
@@ -1201,14 +1200,14 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
         <div id="q38" class="accordion-collapse collapse" data-bs-parent="#datatypes">
           <div class="accordion-body">
             <ul>
-              <li><code>VARCHAR(n)</code> — Variable-length, max 65,535 (row limit)</li>
-              <li><code>CHAR(n)</code> — Fixed-length, max 255</li>
-              <li><code>TEXT</code> — Variable-length, max 65,535 bytes</li>
-              <li><code>MEDIUMTEXT</code> — Max 16,777,215 bytes (~16MB)</li>
-              <li><code>LONGTEXT</code> — Max 4,294,967,295 bytes (~4GB)</li>
-              <li><code>BLOB</code> — Binary large object (like TEXT but binary)</li>
-              <li><code>ENUM</code> — String with predefined values (e.g., <code>ENUM('small','medium','large')</code>)</li>
-              <li><code>SET</code> — Collection of predefined values (can select multiple)</li>
+              <li><code>VARCHAR(n)</code> â€” Variable-length, max 65,535 (row limit)</li>
+              <li><code>CHAR(n)</code> â€” Fixed-length, max 255</li>
+              <li><code>TEXT</code> â€” Variable-length, max 65,535 bytes</li>
+              <li><code>MEDIUMTEXT</code> â€” Max 16,777,215 bytes (~16MB)</li>
+              <li><code>LONGTEXT</code> â€” Max 4,294,967,295 bytes (~4GB)</li>
+              <li><code>BLOB</code> â€” Binary large object (like TEXT but binary)</li>
+              <li><code>ENUM</code> â€” String with predefined values (e.g., <code>ENUM('small','medium','large')</code>)</li>
+              <li><code>SET</code> â€” Collection of predefined values (can select multiple)</li>
             </ul>
           </div>
         </div>
@@ -1253,8 +1252,8 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
         <div id="q40" class="accordion-collapse collapse" data-bs-parent="#datatypes">
           <div class="accordion-body">
             <ul>
-              <li><strong>VARCHAR</strong> — Stored inline in the row (up to row size limit), can have default values, can be indexed fully.</li>
-              <li><strong>TEXT</strong> — Stored offline (pointer in row), no default value, requires prefix length for indexing.</li>
+              <li><strong>VARCHAR</strong> â€” Stored inline in the row (up to row size limit), can have default values, can be indexed fully.</li>
+              <li><strong>TEXT</strong> â€” Stored offline (pointer in row), no default value, requires prefix length for indexing.</li>
             </ul>
             Use <code>VARCHAR</code> for short strings (names, emails). Use <code>TEXT</code> for long content (articles, descriptions).
           </div>
@@ -1270,7 +1269,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
         <div id="q41" class="accordion-collapse collapse" data-bs-parent="#datatypes">
           <div class="accordion-body">
             <code>ENUM</code> is a string object that can have only one value chosen from a predefined list. Example: <code>status ENUM('active', 'inactive', 'banned')</code>.
-            <br><strong>Pros:</strong> Compact storage (1–2 bytes), validation built-in.
+            <br><strong>Pros:</strong> Compact storage (1â€“2 bytes), validation built-in.
             <br><strong>Cons:</strong> Adding new values requires <code>ALTER TABLE</code>; not portable to other databases.
             <br>Consider using a <strong>lookup table</strong> or <code>VARCHAR</code> with <code>CHECK</code> constraint instead.
           </div>
@@ -1309,12 +1308,12 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
           <div class="accordion-body">
             JOIN combines rows from two or more tables based on a related column. Types:
             <ul>
-              <li><strong>INNER JOIN</strong> — Returns rows that have matching values in both tables</li>
-              <li><strong>LEFT JOIN</strong> (or LEFT OUTER JOIN) — Returns all rows from left table + matched rows from right table</li>
-              <li><strong>RIGHT JOIN</strong> — Returns all rows from right table + matched rows from left table</li>
-              <li><strong>CROSS JOIN</strong> — Cartesian product of both tables</li>
-              <li><strong>NATURAL JOIN</strong> — Joins on columns with the same name (not recommended for clarity)</li>
-              <li><strong>SELF JOIN</strong> — Joining a table with itself</li>
+              <li><strong>INNER JOIN</strong> â€” Returns rows that have matching values in both tables</li>
+              <li><strong>LEFT JOIN</strong> (or LEFT OUTER JOIN) â€” Returns all rows from left table + matched rows from right table</li>
+              <li><strong>RIGHT JOIN</strong> â€” Returns all rows from right table + matched rows from left table</li>
+              <li><strong>CROSS JOIN</strong> â€” Cartesian product of both tables</li>
+              <li><strong>NATURAL JOIN</strong> â€” Joins on columns with the same name (not recommended for clarity)</li>
+              <li><strong>SELF JOIN</strong> â€” Joining a table with itself</li>
             </ul>
           </div>
         </div>
@@ -1408,7 +1407,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
         </h2>
         <div id="q48" class="accordion-collapse collapse" data-bs-parent="#joins">
           <div class="accordion-body">
-            A <strong>CROSS JOIN</strong> produces the Cartesian product of two tables — every row from table A paired with every row from table B. No join condition is specified.
+            A <strong>CROSS JOIN</strong> produces the Cartesian product of two tables â€” every row from table A paired with every row from table B. No join condition is specified.
             <pre><code><span class="kw">SELECT</span> colors.name, sizes.name
 <span class="kw">FROM</span> colors
 <span class="kw">CROSS JOIN</span> sizes;
@@ -1430,8 +1429,8 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
         <div id="q49" class="accordion-collapse collapse" data-bs-parent="#joins">
           <div class="accordion-body">
             <ul>
-              <li><strong>JOIN</strong> — MySQL optimizer can leverage indexes more effectively. Generally faster for correlated data.</li>
-              <li><strong>Subquery</strong> — Easier to read and maintain. Modern MySQL (8.0+) has better subquery optimization (auto-transform many subqueries to joins).</li>
+              <li><strong>JOIN</strong> â€” MySQL optimizer can leverage indexes more effectively. Generally faster for correlated data.</li>
+              <li><strong>Subquery</strong> â€” Easier to read and maintain. Modern MySQL (8.0+) has better subquery optimization (auto-transform many subqueries to joins).</li>
             </ul>
             <strong>Best practice:</strong> Prefer JOINs for large datasets. Use subqueries for readability when the dataset is small or when you need intermediate aggregations.
           </div>
@@ -1499,15 +1498,15 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
         <div id="q52" class="accordion-collapse collapse" data-bs-parent="#indexing">
           <div class="accordion-body">
             <ul>
-              <li><strong>B-Tree Index</strong> — Default for InnoDB/MyISAM</li>
-              <li><strong>UNIQUE Index</strong> — Ensures all values are unique</li>
-              <li><strong>PRIMARY KEY</strong> — Unique + NOT NULL; clustered index in InnoDB</li>
-              <li><strong>FULLTEXT Index</strong> — For full-text search (MATCH ... AGAINST)</li>
-              <li><strong>SPATIAL Index</strong> — For geographic data types (POINT, POLYGON)</li>
-              <li><strong>Hash Index</strong> — Only in Memory engine</li>
-              <li><strong>Composite Index</strong> — Multi-column index, leftmost prefix rule applies</li>
-              <li><strong>Descending Index</strong> — MySQL 8.0+</li>
-              <li><strong>Functional Index</strong> — MySQL 8.0.13+ — index on expressions</li>
+              <li><strong>B-Tree Index</strong> â€” Default for InnoDB/MyISAM</li>
+              <li><strong>UNIQUE Index</strong> â€” Ensures all values are unique</li>
+              <li><strong>PRIMARY KEY</strong> â€” Unique + NOT NULL; clustered index in InnoDB</li>
+              <li><strong>FULLTEXT Index</strong> â€” For full-text search (MATCH ... AGAINST)</li>
+              <li><strong>SPATIAL Index</strong> â€” For geographic data types (POINT, POLYGON)</li>
+              <li><strong>Hash Index</strong> â€” Only in Memory engine</li>
+              <li><strong>Composite Index</strong> â€” Multi-column index, leftmost prefix rule applies</li>
+              <li><strong>Descending Index</strong> â€” MySQL 8.0+</li>
+              <li><strong>Functional Index</strong> â€” MySQL 8.0.13+ â€” index on expressions</li>
             </ul>
           </div>
         </div>
@@ -1525,11 +1524,11 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
             <br><br>
             <strong>Leftmost Prefix Rule:</strong> A composite index can be used for queries on any leftmost subset of its columns. An index on <code>(A, B, C)</code> can optimize:
             <ul>
-              <li><code>WHERE A = ?</code> — uses index</li>
-              <li><code>WHERE A = ? AND B = ?</code> — uses index</li>
-              <li><code>WHERE A = ? AND B = ? AND C = ?</code> — uses index fully</li>
-              <li><code>WHERE B = ?</code> — <strong>cannot</strong> use the index (skips column A)</li>
-              <li><code>WHERE A = ? AND C = ?</code> — uses index for A but not for C (gap)</li>
+              <li><code>WHERE A = ?</code> â€” uses index</li>
+              <li><code>WHERE A = ? AND B = ?</code> â€” uses index</li>
+              <li><code>WHERE A = ? AND B = ? AND C = ?</code> â€” uses index fully</li>
+              <li><code>WHERE B = ?</code> â€” <strong>cannot</strong> use the index (skips column A)</li>
+              <li><code>WHERE A = ? AND C = ?</code> â€” uses index for A but not for C (gap)</li>
             </ul>
           </div>
         </div>
@@ -1576,11 +1575,11 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
 <span class="kw">GROUP BY</span> u.id;</code></pre>
             Key columns in EXPLAIN output:
             <ul>
-              <li><strong>type</strong> — <code>ALL</code> (bad), <code>range</code>, <code>ref</code>, <code>eq_ref</code>, <code>const</code> (best)</li>
-              <li><strong>possible_keys</strong> — Indexes MySQL could use</li>
-              <li><strong>key</strong> — Index MySQL actually used</li>
-              <li><strong>rows</strong> — Estimated rows examined</li>
-              <li><strong>Extra</strong> — <code>Using index</code> (covering), <code>Using filesort</code> (bad), <code>Using temporary</code> (bad)</li>
+              <li><strong>type</strong> â€” <code>ALL</code> (bad), <code>range</code>, <code>ref</code>, <code>eq_ref</code>, <code>const</code> (best)</li>
+              <li><strong>possible_keys</strong> â€” Indexes MySQL could use</li>
+              <li><strong>key</strong> â€” Index MySQL actually used</li>
+              <li><strong>rows</strong> â€” Estimated rows examined</li>
+              <li><strong>Extra</strong> â€” <code>Using index</code> (covering), <code>Using filesort</code> (bad), <code>Using temporary</code> (bad)</li>
             </ul>
             Use <code>EXPLAIN ANALYZE</code> (MySQL 8.0.18+) for actual execution times.
           </div>
@@ -1626,12 +1625,12 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
         <div id="q58" class="accordion-collapse collapse" data-bs-parent="#indexing">
           <div class="accordion-body">
             <ul>
-              <li><strong>Write-heavy tables</strong> — Each INSERT/UPDATE/DELETE must update all indexes</li>
-              <li><strong>Small tables</strong> — Full table scan is faster than index traversal</li>
-              <li><strong>Low cardinality columns</strong> — e.g., gender column (M/F)</li>
-              <li><strong>Too many indexes</strong> — Increased storage and slower writes</li>
-              <li><strong>Columns frequently updated</strong> — Index maintenance overhead</li>
-              <li><strong>Queries with <code>LIKE '%text%'</code></strong> — Wildcard at start prevents B-Tree usage</li>
+              <li><strong>Write-heavy tables</strong> â€” Each INSERT/UPDATE/DELETE must update all indexes</li>
+              <li><strong>Small tables</strong> â€” Full table scan is faster than index traversal</li>
+              <li><strong>Low cardinality columns</strong> â€” e.g., gender column (M/F)</li>
+              <li><strong>Too many indexes</strong> â€” Increased storage and slower writes</li>
+              <li><strong>Columns frequently updated</strong> â€” Index maintenance overhead</li>
+              <li><strong>Queries with <code>LIKE '%text%'</code></strong> â€” Wildcard at start prevents B-Tree usage</li>
             </ul>
           </div>
         </div>
@@ -1680,12 +1679,12 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
         <div id="q61" class="accordion-collapse collapse" data-bs-parent="#normalization">
           <div class="accordion-body">
             <ul>
-              <li><strong>1NF</strong> — Each column contains atomic values. No repeating groups. Each row must be unique.</li>
-              <li><strong>2NF</strong> — Must be in 1NF. Every non-key column must be fully functionally dependent on the entire primary key (no partial dependency). Relevant for composite keys.</li>
-              <li><strong>3NF</strong> — Must be in 2NF. No transitive dependency — non-key columns should not depend on other non-key columns.</li>
-              <li><strong>BCNF</strong> — Stricter version of 3NF. Every determinant must be a candidate key.</li>
+              <li><strong>1NF</strong> â€” Each column contains atomic values. No repeating groups. Each row must be unique.</li>
+              <li><strong>2NF</strong> â€” Must be in 1NF. Every non-key column must be fully functionally dependent on the entire primary key (no partial dependency). Relevant for composite keys.</li>
+              <li><strong>3NF</strong> â€” Must be in 2NF. No transitive dependency â€” non-key columns should not depend on other non-key columns.</li>
+              <li><strong>BCNF</strong> â€” Stricter version of 3NF. Every determinant must be a candidate key.</li>
             </ul>
-            <strong>Example violation:</strong> Table <code>Employee(emp_id, dept_id, dept_location)</code> — <code>dept_location</code> depends on <code>dept_id</code>, not <code>emp_id</code> (3NF violation). Solution: separate <code>Department</code> table.
+            <strong>Example violation:</strong> Table <code>Employee(emp_id, dept_id, dept_location)</code> â€” <code>dept_location</code> depends on <code>dept_id</code>, not <code>emp_id</code> (3NF violation). Solution: separate <code>Department</code> table.
           </div>
         </div>
       </div>
@@ -1763,12 +1762,12 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
         <div id="q65" class="accordion-collapse collapse" data-bs-parent="#constraints">
           <div class="accordion-body">
             <ul>
-              <li><code>NOT NULL</code> — Column cannot contain NULL values</li>
-              <li><code>UNIQUE</code> — All values in the column must be distinct</li>
-              <li><code>PRIMARY KEY</code> — NOT NULL + UNIQUE (one per table)</li>
-              <li><code>FOREIGN KEY</code> — Enforces referential integrity (InnoDB only)</li>
-              <li><code>CHECK</code> — Validates values based on an expression (MySQL 8.0.16+ enforced)</li>
-              <li><code>DEFAULT</code> — Provides a default value when none is specified</li>
+              <li><code>NOT NULL</code> â€” Column cannot contain NULL values</li>
+              <li><code>UNIQUE</code> â€” All values in the column must be distinct</li>
+              <li><code>PRIMARY KEY</code> â€” NOT NULL + UNIQUE (one per table)</li>
+              <li><code>FOREIGN KEY</code> â€” Enforces referential integrity (InnoDB only)</li>
+              <li><code>CHECK</code> â€” Validates values based on an expression (MySQL 8.0.16+ enforced)</li>
+              <li><code>DEFAULT</code> â€” Provides a default value when none is specified</li>
             </ul>
           </div>
         </div>
@@ -1802,10 +1801,10 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
         <div id="q67" class="accordion-collapse collapse" data-bs-parent="#constraints">
           <div class="accordion-body">
             <ul>
-              <li><strong>ON DELETE CASCADE</strong> — When a parent row is deleted, all child rows are automatically deleted.</li>
-              <li><strong>ON DELETE SET NULL</strong> — When a parent row is deleted, the FK column in child rows is set to NULL.</li>
-              <li><strong>ON DELETE RESTRICT</strong> — Prevents deletion of parent row if child rows exist (default).</li>
-              <li><strong>ON DELETE NO ACTION</strong> — Same as RESTRICT in MySQL.</li>
+              <li><strong>ON DELETE CASCADE</strong> â€” When a parent row is deleted, all child rows are automatically deleted.</li>
+              <li><strong>ON DELETE SET NULL</strong> â€” When a parent row is deleted, the FK column in child rows is set to NULL.</li>
+              <li><strong>ON DELETE RESTRICT</strong> â€” Prevents deletion of parent row if child rows exist (default).</li>
+              <li><strong>ON DELETE NO ACTION</strong> â€” Same as RESTRICT in MySQL.</li>
             </ul>
           </div>
         </div>
@@ -2010,8 +2009,8 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
         <div id="q76" class="accordion-collapse collapse" data-bs-parent="#triggers">
           <div class="accordion-body">
             <ul>
-              <li><strong>BEFORE</strong> — Fires before the operation. Can modify values before writing. Can raise errors to prevent the operation.</li>
-              <li><strong>AFTER</strong> — Fires after the operation. Cannot modify the data. Useful for logging, audit trails, cascading actions.</li>
+              <li><strong>BEFORE</strong> â€” Fires before the operation. Can modify values before writing. Can raise errors to prevent the operation.</li>
+              <li><strong>AFTER</strong> â€” Fires after the operation. Cannot modify the data. Useful for logging, audit trails, cascading actions.</li>
             </ul>
           </div>
         </div>
@@ -2093,10 +2092,10 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
         <div id="q80" class="accordion-collapse collapse" data-bs-parent="#transactions">
           <div class="accordion-body">
             <ul>
-              <li><strong>A — Atomicity</strong>: All operations succeed or all fail (rollback).</li>
-              <li><strong>C — Consistency</strong>: Transaction moves DB from one valid state to another.</li>
-              <li><strong>I — Isolation</strong>: Concurrent transactions are isolated from each other.</li>
-              <li><strong>D — Durability</strong>: Committed changes persist even after system failure (via redo logs).</li>
+              <li><strong>A â€” Atomicity</strong>: All operations succeed or all fail (rollback).</li>
+              <li><strong>C â€” Consistency</strong>: Transaction moves DB from one valid state to another.</li>
+              <li><strong>I â€” Isolation</strong>: Concurrent transactions are isolated from each other.</li>
+              <li><strong>D â€” Durability</strong>: Committed changes persist even after system failure (via redo logs).</li>
             </ul>
           </div>
         </div>
@@ -2134,9 +2133,9 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
         <div id="q82" class="accordion-collapse collapse" data-bs-parent="#transactions">
           <div class="accordion-body">
             <ul>
-              <li><strong>Dirty Read</strong> — Transaction A reads uncommitted data from B. If B rolls back, A read invalid data. Prevented by <code>READ COMMITTED</code>+.</li>
-              <li><strong>Non-Repeatable Read</strong> — Transaction A reads same row twice with different values because B committed an update in between. Prevented by <code>REPEATABLE READ</code>+.</li>
-              <li><strong>Phantom Read</strong> — Transaction A runs same query twice and sees different rows because B inserted rows. InnoDB prevents phantoms at <code>REPEATABLE READ</code> using <strong>next-key locks</strong>.</li>
+              <li><strong>Dirty Read</strong> â€” Transaction A reads uncommitted data from B. If B rolls back, A read invalid data. Prevented by <code>READ COMMITTED</code>+.</li>
+              <li><strong>Non-Repeatable Read</strong> â€” Transaction A reads same row twice with different values because B committed an update in between. Prevented by <code>REPEATABLE READ</code>+.</li>
+              <li><strong>Phantom Read</strong> â€” Transaction A runs same query twice and sees different rows because B inserted rows. InnoDB prevents phantoms at <code>REPEATABLE READ</code> using <strong>next-key locks</strong>.</li>
             </ul>
           </div>
         </div>
@@ -2152,13 +2151,13 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
           <div class="accordion-body">
             InnoDB uses various locking mechanisms:
             <ul>
-              <li><strong>Row-level locks</strong> (record locks) — Lock individual index records</li>
-              <li><strong>Gap locks</strong> — Lock gaps between index records to prevent phantom inserts</li>
-              <li><strong>Next-key locks</strong> — Record lock + gap lock combination</li>
-              <li><strong>Shared (S) locks</strong> — Allow reading, block writing (<code>SELECT ... LOCK IN SHARE MODE</code>)</li>
-              <li><strong>Exclusive (X) locks</strong> — Block both reading and writing (<code>SELECT ... FOR UPDATE</code>)</li>
-              <li><strong>Intention locks</strong> — Table-level locks indicating intent to acquire row-level locks</li>
-              <li><strong>AUTO-INC locks</strong> — For auto-increment column insertion</li>
+              <li><strong>Row-level locks</strong> (record locks) â€” Lock individual index records</li>
+              <li><strong>Gap locks</strong> â€” Lock gaps between index records to prevent phantom inserts</li>
+              <li><strong>Next-key locks</strong> â€” Record lock + gap lock combination</li>
+              <li><strong>Shared (S) locks</strong> â€” Allow reading, block writing (<code>SELECT ... LOCK IN SHARE MODE</code>)</li>
+              <li><strong>Exclusive (X) locks</strong> â€” Block both reading and writing (<code>SELECT ... FOR UPDATE</code>)</li>
+              <li><strong>Intention locks</strong> â€” Table-level locks indicating intent to acquire row-level locks</li>
+              <li><strong>AUTO-INC locks</strong> â€” For auto-increment column insertion</li>
             </ul>
           </div>
         </div>
@@ -2280,7 +2279,7 @@ long_query_time = 2  <span class="cm">-- seconds</span>
               <li>Check for <code>ALL</code> (full table scan) in type column</li>
               <li>Check for <code>Using filesort</code> or <code>Using temporary</code> in Extra</li>
               <li>Add appropriate indexes (check if existing indexes are being used)</li>
-              <li>Avoid <code>SELECT *</code> — fetch only needed columns</li>
+              <li>Avoid <code>SELECT *</code> â€” fetch only needed columns</li>
               <li>Ensure JOIN columns are indexed</li>
               <li>Break complex queries into simpler steps with temp tables</li>
               <li>Use <code>EXISTS</code> instead of <code>IN</code> for subqueries</li>
@@ -2362,16 +2361,16 @@ long_query_time = 2  <span class="cm">-- seconds</span>
           <div class="accordion-body">
             Key configuration parameters for MySQL 8.0:
             <ul>
-              <li><code>innodb_buffer_pool_size</code> — Set to 60-80% of available RAM (most important)</li>
-              <li><code>innodb_log_file_size</code> — Larger for write-heavy workloads (1-4 GB)</li>
-              <li><code>innodb_flush_log_at_trx_commit</code> — 1 (safest), 2 (faster, some risk)</li>
-              <li><code>max_connections</code> — Tune based on concurrent user count</li>
-              <li><code>query_cache_type</code> — 0 (disabled, removed in 8.0)</li>
-              <li><code>tmp_table_size</code> / <code>max_heap_table_size</code> — For temp tables in memory</li>
-              <li><code>sort_buffer_size</code> — Per-session, don't set too high</li>
-              <li><code>join_buffer_size</code> — Larger for JOIN-heavy workloads</li>
-              <li><code>thread_cache_size</code> — Number of cached threads for reuse</li>
-              <li><code>innodb_io_capacity</code> — Tune for SSD vs HDD</li>
+              <li><code>innodb_buffer_pool_size</code> â€” Set to 60-80% of available RAM (most important)</li>
+              <li><code>innodb_log_file_size</code> â€” Larger for write-heavy workloads (1-4 GB)</li>
+              <li><code>innodb_flush_log_at_trx_commit</code> â€” 1 (safest), 2 (faster, some risk)</li>
+              <li><code>max_connections</code> â€” Tune based on concurrent user count</li>
+              <li><code>query_cache_type</code> â€” 0 (disabled, removed in 8.0)</li>
+              <li><code>tmp_table_size</code> / <code>max_heap_table_size</code> â€” For temp tables in memory</li>
+              <li><code>sort_buffer_size</code> â€” Per-session, don't set too high</li>
+              <li><code>join_buffer_size</code> â€” Larger for JOIN-heavy workloads</li>
+              <li><code>thread_cache_size</code> â€” Number of cached threads for reuse</li>
+              <li><code>innodb_io_capacity</code> â€” Tune for SSD vs HDD</li>
             </ul>
             Tools: <code>mysql-tuner</code>, <code>pt-variable-advisor</code>, <code>pt-config-diff</code>
           </div>
@@ -2506,9 +2505,9 @@ gunzip < backup.sql.gz | mysql -u root -p mydatabase</code></pre>
           <div class="accordion-body">
             The <strong>binary log</strong> (binlog) contains a record of all changes to the database (INSERT, UPDATE, DELETE, DDL). It is used for:
             <ul>
-              <li><strong>Replication</strong> — Slave reads binlog from master</li>
-              <li><strong>Point-in-time recovery</strong> — Restore to a specific time</li>
-              <li><strong>Audit</strong> — Track all data changes</li>
+              <li><strong>Replication</strong> â€” Slave reads binlog from master</li>
+              <li><strong>Point-in-time recovery</strong> â€” Restore to a specific time</li>
+              <li><strong>Audit</strong> â€” Track all data changes</li>
             </ul>
             <pre><code><span class="cm">-- Check binary log status</span>
 <span class="kw">SHOW VARIABLES LIKE</span> <span class="str">'log_bin'</span>;
@@ -2627,10 +2626,10 @@ mysql --version</code></pre>
         <div id="q105" class="accordion-collapse collapse" data-bs-parent="#replication">
           <div class="accordion-body">
             <ul>
-              <li><strong>Asynchronous</strong> — Master does not wait for slave. Default. Fast but risk of data loss.</li>
-              <li><strong>Semisynchronous</strong> — Master waits for at least one slave to acknowledge receipt. Balance of speed and safety.</li>
-              <li><strong>Group Replication</strong> — Multi-primary or single-primary with automatic failover (MySQL 5.7+). Uses Paxos-like consensus.</li>
-              <li><strong>GTID-based</strong> — Uses Global Transaction Identifiers for easier failover and management.</li>
+              <li><strong>Asynchronous</strong> â€” Master does not wait for slave. Default. Fast but risk of data loss.</li>
+              <li><strong>Semisynchronous</strong> â€” Master waits for at least one slave to acknowledge receipt. Balance of speed and safety.</li>
+              <li><strong>Group Replication</strong> â€” Multi-primary or single-primary with automatic failover (MySQL 5.7+). Uses Paxos-like consensus.</li>
+              <li><strong>GTID-based</strong> â€” Uses Global Transaction Identifiers for easier failover and management.</li>
             </ul>
           </div>
         </div>
@@ -2645,9 +2644,9 @@ mysql --version</code></pre>
         <div id="q106" class="accordion-collapse collapse" data-bs-parent="#replication">
           <div class="accordion-body">
             <ul>
-              <li><strong>Statement-based (SBR)</strong> — Logs actual SQL statements. Compact logs. Can break with non-deterministic functions (<code>NOW()</code>, <code>UUID()</code>).</li>
-              <li><strong>Row-based (RBR)</strong> — Logs individual row changes. More data but safer. Default in MySQL 8.0 for DML.</li>
-              <li><strong>Mixed (MBR)</strong> — MySQL chooses automatically (statement where safe, row where not). Default in some versions.</li>
+              <li><strong>Statement-based (SBR)</strong> â€” Logs actual SQL statements. Compact logs. Can break with non-deterministic functions (<code>NOW()</code>, <code>UUID()</code>).</li>
+              <li><strong>Row-based (RBR)</strong> â€” Logs individual row changes. More data but safer. Default in MySQL 8.0 for DML.</li>
+              <li><strong>Mixed (MBR)</strong> â€” MySQL chooses automatically (statement where safe, row where not). Default in some versions.</li>
             </ul>
             <pre><code><span class="kw">SHOW VARIABLES LIKE</span> <span class="str">'binlog_format'</span>;</code></pre>
           </div>
@@ -2700,9 +2699,9 @@ relay_log = /var/log/mysql/mysql-relay-bin.log</code></pre>
           <div class="accordion-body">
             <strong>MySQL InnoDB Cluster</strong> provides a complete high-availability solution using Group Replication, MySQL Router, and MySQL Shell. It offers automatic failover, multi-primary writes (optional), and automatic routing of client connections. It is the recommended HA solution for MySQL 8.0. Components:
             <ul>
-              <li><strong>Group Replication</strong> — Data synchronization across servers</li>
-              <li><strong>MySQL Router</strong> — Load balancing and automatic routing</li>
-              <li><strong>MySQL Shell</strong> — Admin API for cluster management (<code>dba.createCluster()</code>)</li>
+              <li><strong>Group Replication</strong> â€” Data synchronization across servers</li>
+              <li><strong>MySQL Router</strong> â€” Load balancing and automatic routing</li>
+              <li><strong>MySQL Shell</strong> â€” Admin API for cluster management (<code>dba.createCluster()</code>)</li>
             </ul>
           </div>
         </div>
@@ -2729,7 +2728,7 @@ relay_log = /var/log/mysql/mysql-relay-bin.log</code></pre>
               <li>Use <strong>prepared statements</strong> with parameterized queries (PDO in PHP, preparedStatement in Java)</li>
               <li>Validate and sanitize all user inputs</li>
               <li>Use stored procedures with parameters</li>
-              <li>Escape strings: <code>mysql_real_escape_string()</code> (deprecated — use prepared statements)</li>
+              <li>Escape strings: <code>mysql_real_escape_string()</code> (deprecated â€” use prepared statements)</li>
               <li>Apply the principle of least privilege to database users</li>
               <li>Never concatenate user input directly into SQL queries</li>
             </ul>
@@ -2746,11 +2745,11 @@ relay_log = /var/log/mysql/mysql-relay-bin.log</code></pre>
         <div id="q110" class="accordion-collapse collapse" data-bs-parent="#security">
           <div class="accordion-body">
             <ul>
-              <li><strong>mysql_native_password</strong> — Legacy, SHA1-based. Fast but less secure.</li>
-              <li><strong>caching_sha2_password</strong> — Default in MySQL 8.0. SHA-256 with caching. More secure.</li>
-              <li><strong>sha256_password</strong> — SHA-256 without caching. Requires SSL/TLS.</li>
-              <li><strong>auth_socket</strong> / <strong>unix_socket</strong> — Uses OS authentication for local connections.</li>
-              <li><strong>LDAP, Kerberos, FIDO</strong> — Enterprise authentication plugins.</li>
+              <li><strong>mysql_native_password</strong> â€” Legacy, SHA1-based. Fast but less secure.</li>
+              <li><strong>caching_sha2_password</strong> â€” Default in MySQL 8.0. SHA-256 with caching. More secure.</li>
+              <li><strong>sha256_password</strong> â€” SHA-256 without caching. Requires SSL/TLS.</li>
+              <li><strong>auth_socket</strong> / <strong>unix_socket</strong> â€” Uses OS authentication for local connections.</li>
+              <li><strong>LDAP, Kerberos, FIDO</strong> â€” Enterprise authentication plugins.</li>
             </ul>
           </div>
         </div>
@@ -2806,10 +2805,10 @@ mysql -u root -p --ssl-mode=REQUIRED
         <div id="q113" class="accordion-collapse collapse" data-bs-parent="#security">
           <div class="accordion-body">
             <ul>
-              <li><strong>InnoDB Tablespace Encryption</strong> — Transparent Data Encryption (TDE) for InnoDB tables. Uses two-tier encryption key architecture. Available in MySQL 5.7+ Enterprise and MySQL 8.0 Community.</li>
-              <li><strong>Binary Log Encryption</strong> — Encrypts binary and relay logs (MySQL 8.0.14+).</li>
-              <li><strong>File-level encryption</strong> — OS-level (LUKS, BitLocker, eCryptfs).</li>
-              <li><strong>General Tablespace Encryption</strong> — Encrypt general tablespaces.</li>
+              <li><strong>InnoDB Tablespace Encryption</strong> â€” Transparent Data Encryption (TDE) for InnoDB tables. Uses two-tier encryption key architecture. Available in MySQL 5.7+ Enterprise and MySQL 8.0 Community.</li>
+              <li><strong>Binary Log Encryption</strong> â€” Encrypts binary and relay logs (MySQL 8.0.14+).</li>
+              <li><strong>File-level encryption</strong> â€” OS-level (LUKS, BitLocker, eCryptfs).</li>
+              <li><strong>General Tablespace Encryption</strong> â€” Encrypt general tablespaces.</li>
             </ul>
           </div>
         </div>
@@ -2850,7 +2849,7 @@ mysql -u root -p --ssl-mode=REQUIRED
     <div>
       <p class="text-muted small mb-0">
         <i class="bi bi-database me-1" style="color:var(--mysql-orange)"></i>
-        MySQL Q&amp;A Guide — 114+ Questions
+        MySQL Q&amp;A Guide â€” 114+ Questions
       </p>
     </div>
     <div>
@@ -2862,7 +2861,7 @@ mysql -u root -p --ssl-mode=REQUIRED
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/bootstrap/bootstrap.bundle.min.js"></script>
 <script>
   document.getElementById('sidebarToggle')?.addEventListener('click', function () {
     document.getElementById('sidebar').classList.toggle('show');

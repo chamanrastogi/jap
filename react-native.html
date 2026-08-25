@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" data-bs-theme="light">
 <head>
 <style>
@@ -30,11 +30,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>React Native - Complete Guide: Expo, Components, New Architecture & Deployment</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="lib/bootstrap-icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="lib/google-fonts/sora/sora.css">
+  <link rel="stylesheet" href="lib/google-fonts/jetbrains-mono/jetbrains-mono.css">
   <style>
     :root {
       --rn-cyan: #61dafb;
@@ -520,9 +519,8 @@
     .cmp .use { font-size: .7rem; color: var(--rn-ink-faint); margin-top: .2rem; line-height: 1.45; }
     footer { border-top: 1px solid var(--rn-line); }
   </style>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="lib/google-fonts/space-grotesk/space-grotesk.css">
+  <link rel="stylesheet" href="lib/google-fonts/jetbrains-mono/jetbrains-mono.css">
 <style>
 /* ===== Jap Hub design system - graphql pattern (injected layer) ===== */
 :root {
@@ -719,7 +717,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
 <body>
 
 <button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
-<a href="index.html" class="home-link" aria-label="Go back to home page"><span>←</span> Home</a>
+<a href="index.html" class="home-link" aria-label="Go back to home page"><span>â†</span> Home</a>
 <button class="theme-btn" id="themeBtn" aria-label="Toggle dark mode"><i class="bi bi-moon-stars"></i></button>
 
 <!-- ===== SIDEBAR ===== -->
@@ -779,7 +777,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
         </div>
         <div class="stat-strip">
           <div class="stat"><span class="num">2</span><span class="lbl">stores / one codebase</span></div>
-          <div class="stat"><span class="num">6×</span><span class="lbl">RN releases per year</span></div>
+          <div class="stat"><span class="num">6Ã—</span><span class="lbl">RN releases per year</span></div>
           <div class="stat"><span class="num">0.82</span><span class="lbl">first all New Arch</span></div>
           <div class="stat"><span class="num">100%</span><span class="lbl">JS/TS + native</span></div>
         </div>
@@ -789,7 +787,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
           <div class="device" id="device">
             <div class="device-notch"></div>
             <div class="device-screen">
-              <div class="device-statusbar"><span>9:41</span><span>▲ 100%</span></div>
+              <div class="device-statusbar"><span>9:41</span><span>â–² 100%</span></div>
               <div class="app-header">Today</div>
               <div class="app-sub">2 tasks &middot; build with &lt;View&gt; + &lt;Text&gt;</div>
               <div class="app-row"><span class="dot"></span><div><b>Chant 108 japs</b><small>habit &middot; 5:30 AM</small></div></div>
@@ -800,8 +798,8 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
             <div class="device-home"></div>
           </div>
           <div class="device-controls">
-            <button class="device-btn active" data-platform="ios">iOS · UIKit</button>
-            <button class="device-btn" data-platform="android">Android · Material</button>
+            <button class="device-btn active" data-platform="ios">iOS Â· UIKit</button>
+            <button class="device-btn" data-platform="android">Android Â· Material</button>
           </div>
           <div class="device-caption">same &lt;Text&gt; &mdash; rendered natively</div>
         </div>
@@ -869,10 +867,10 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
 
     <div class="card">
       <div class="card-body">
-        <pre><code><span class="cm"># Create an app (SDK 57 → React Native 0.86, React 19.2)</span>
+        <pre><code><span class="cm"># Create an app (SDK 57 â†’ React Native 0.86, React 19.2)</span>
 npx create-expo-app<span class="tp">@latest</span> myapp
 
-<span class="cm"># Start the dev server → scan the QR code with Expo Go</span>
+<span class="cm"># Start the dev server â†’ scan the QR code with Expo Go</span>
 cd myapp
 npx expo start
 
@@ -927,7 +925,7 @@ npx expo-doctor</code></pre>
     index.tsx         <span class="cm"># route "/"</span>
     about.tsx         <span class="cm"># route "/about"</span>
     profile/[id].tsx  <span class="cm"># dynamic route "/profile/:id"</span>
-  components/         <span class="cm"># reusable UI (Button, Card, …)</span>
+  components/         <span class="cm"># reusable UI (Button, Card, â€¦)</span>
   constants/          <span class="cm"># colors, theme tokens</span>
   assets/             <span class="cm"># images, fonts, icons</span>
   app.json            <span class="cm"># app config (name, icon, splash)</span>
@@ -939,7 +937,7 @@ npx expo-doctor</code></pre>
     <div class="card">
       <div class="card-header">app.json essentials</div>
       <div class="card-body">
-        <pre><code>{ <span class="cm">// app.json — the single source of app identity</span>
+        <pre><code>{ <span class="cm">// app.json â€” the single source of app identity</span>
   <span class="str">"expo"</span>: {
     <span class="str">"name"</span>: <span class="str">"MyApp"</span>,
     <span class="str">"slug"</span>: <span class="str">"myapp"</span>,
@@ -964,14 +962,14 @@ npx expo-doctor</code></pre>
     </p>
 
     <div class="cmp-grid mb-4">
-      <div class="cmp"><span class="name">View</span><div class="web">≈ div</div><div class="use">Layout container. The workhorse of every screen.</div></div>
-      <div class="cmp"><span class="name">Text</span><div class="web">≈ p / span</div><div class="use">Every string on screen must live inside Text.</div></div>
-      <div class="cmp"><span class="name">ScrollView</span><div class="web">≈ body scroll</div><div class="use">Scrollable container for small content sets.</div></div>
-      <div class="cmp"><span class="name">FlatList</span><div class="web">≈ virtualized list</div><div class="use">Efficient long lists — only renders visible rows.</div></div>
-      <div class="cmp"><span class="name">Pressable</span><div class="web">≈ button / a</div><div class="use">Touchable element with pressed/disabled styles.</div></div>
-      <div class="cmp"><span class="name">TextInput</span><div class="web">≈ input</div><div class="use">Text entry with keyboard handling.</div></div>
-      <div class="cmp"><span class="name">Image</span><div class="web">≈ img</div><div class="use">Remote or bundled images.</div></div>
-      <div class="cmp"><span class="name">SafeAreaView</span><div class="web">&mdash;</div><div class="use">Pad past the notch / status bar. (deprecated in RN 0.86 — use react-native-safe-area-context).</div></div>
+      <div class="cmp"><span class="name">View</span><div class="web">â‰ˆ div</div><div class="use">Layout container. The workhorse of every screen.</div></div>
+      <div class="cmp"><span class="name">Text</span><div class="web">â‰ˆ p / span</div><div class="use">Every string on screen must live inside Text.</div></div>
+      <div class="cmp"><span class="name">ScrollView</span><div class="web">â‰ˆ body scroll</div><div class="use">Scrollable container for small content sets.</div></div>
+      <div class="cmp"><span class="name">FlatList</span><div class="web">â‰ˆ virtualized list</div><div class="use">Efficient long lists â€” only renders visible rows.</div></div>
+      <div class="cmp"><span class="name">Pressable</span><div class="web">â‰ˆ button / a</div><div class="use">Touchable element with pressed/disabled styles.</div></div>
+      <div class="cmp"><span class="name">TextInput</span><div class="web">â‰ˆ input</div><div class="use">Text entry with keyboard handling.</div></div>
+      <div class="cmp"><span class="name">Image</span><div class="web">â‰ˆ img</div><div class="use">Remote or bundled images.</div></div>
+      <div class="cmp"><span class="name">SafeAreaView</span><div class="web">&mdash;</div><div class="use">Pad past the notch / status bar. (deprecated in RN 0.86 â€” use react-native-safe-area-context).</div></div>
     </div>
 
     <div class="card">
@@ -1004,7 +1002,7 @@ npx expo-doctor</code></pre>
     </div>
 
     <div class="card">
-      <div class="card-header">FlatList — virtualized long lists</div>
+      <div class="card-header">FlatList â€” virtualized long lists</div>
       <div class="card-body">
         <pre><code><span class="kw">import</span> { FlatList, Text, View } <span class="kw">from</span> <span class="str">'react-native'</span>;
 
@@ -1040,7 +1038,7 @@ npx expo-doctor</code></pre>
       <div class="card-body">
         <pre><code><span class="kw">const</span> styles = StyleSheet.<span class="fn">create</span>({
   card: {
-    flexDirection: <span class="str">'row'</span>,         <span class="cm">// flexbox is default — like display:flex</span>
+    flexDirection: <span class="str">'row'</span>,         <span class="cm">// flexbox is default â€” like display:flex</span>
     alignItems: <span class="str">'center'</span>,
     justifyContent: <span class="str">'space-between'</span>,
     gap: <span class="num">8</span>,                      <span class="cm">// gap works, like CSS gap</span>
@@ -1055,7 +1053,7 @@ npx expo-doctor</code></pre>
   title: { fontSize: <span class="num">16</span>, fontWeight: <span class="str">'600'</span>, color: <span class="str">'#14182b'</span> },
 });
 
-<span class="cm">// Merge styles: array wins last → great for pressed / selected states</span>
+<span class="cm">// Merge styles: array wins last â†’ great for pressed / selected states</span>
 &lt;<span class="kw">View</span> <span class="fn">style</span>={[styles.card, isSelected &amp;&amp; styles.cardSelected]} /&gt;
 
 <span class="cm">// Platform-specific values inside one style</span>
@@ -1064,7 +1062,7 @@ fontFamily: Platform.<span class="fn">select</span>({ ios: <span class="str">'He
     </div>
 
     <div class="card">
-      <div class="card-header">Web CSS → RN cheat</div>
+      <div class="card-header">Web CSS â†’ RN cheat</div>
       <div class="card-body">
         <div class="table-responsive">
           <table class="table table-hover mb-0 cmd-table">
@@ -1111,7 +1109,7 @@ fontFamily: Platform.<span class="fn">select</span>({ ios: <span class="str">'He
     <div class="card">
       <div class="card-header">Screen-fitting layout</div>
       <div class="card-body">
-        <pre><code>&lt;<span class="kw">View</span> <span class="fn">style</span>={{ flex: <span class="num">1</span> }}&gt;      <span class="cm">// fills remaining height — the app shell</span>
+        <pre><code>&lt;<span class="kw">View</span> <span class="fn">style</span>={{ flex: <span class="num">1</span> }}&gt;      <span class="cm">// fills remaining height â€” the app shell</span>
   &lt;<span class="kw">Header</span> /&gt;
   &lt;<span class="kw">ScrollView</span> <span class="fn">style</span>={{ flex: <span class="num">1</span> }}&gt;   <span class="cm">// scrollable middle</span>
     &lt;<span class="kw">Content</span> /&gt;
@@ -1132,18 +1130,18 @@ fontFamily: Platform.<span class="fn">select</span>({ ios: <span class="str">'He
 
     <div class="card">
       <div class="card-body">
-        <pre><code><span class="cm">// app/_layout.tsx — root layout</span>
+        <pre><code><span class="cm">// app/_layout.tsx â€” root layout</span>
 <span class="kw">import</span> { Stack } <span class="kw">from</span> <span class="str">'expo-router'</span>;
 
 <span class="kw">export default function</span> <span class="fn">RootLayout</span>() {
   <span class="kw">return</span> &lt;<span class="kw">Stack</span> /&gt;;
 }
 
-<span class="cm">// app/index.tsx — screen at "/"</span>
+<span class="cm">// app/index.tsx â€” screen at "/"</span>
 <span class="kw">import</span> { router } <span class="kw">from</span> <span class="str">'expo-router'</span>;
 &lt;<span class="kw">Pressable</span> <span class="fn">onPress</span>={() =&gt; router.<span class="fn">push</span>(<span class="str">'/profile/42'</span>)}&gt;...&lt;/Pressable&gt;;
 
-<span class="cm">// app/profile/[id].tsx — dynamic route, typed</span>
+<span class="cm">// app/profile/[id].tsx â€” dynamic route, typed</span>
 <span class="kw">import</span> { useLocalSearchParams } <span class="kw">from</span> <span class="str">'expo-router'</span>;
 
 <span class="kw">export default function</span> <span class="fn">Profile</span>() {
@@ -1167,7 +1165,7 @@ fontFamily: Platform.<span class="fn">select</span>({ ios: <span class="str">'He
 
     <div class="card">
       <div class="card-body">
-        <pre><code><span class="cm">// 1. The Platform module — branch inline</span>
+        <pre><code><span class="cm">// 1. The Platform module â€” branch inline</span>
 <span class="kw">import</span> { Platform, StyleSheet } <span class="kw">from</span> <span class="str">'react-native'</span>;
 
 <span class="kw">const</span> isIos = Platform.OS === <span class="str">'ios'</span>;      <span class="cm">// 'ios' | 'android' | 'web' | 'windows' | 'macos'</span>
@@ -1178,10 +1176,10 @@ fontFamily: Platform.<span class="fn">select</span>({ ios: <span class="str">'He
   },
 });
 
-<span class="cm">// 2. Platform-specific files — rename with .ios. / .android.</span>
-<span class="cm">//   Card.ios.tsx    → compiles on iOS only</span>
-<span class="cm">//   Card.android.tsx → compiles on Android only</span>
-<span class="cm">//   Card.tsx         → fallback / web</span>
+<span class="cm">// 2. Platform-specific files â€” rename with .ios. / .android.</span>
+<span class="cm">//   Card.ios.tsx    â†’ compiles on iOS only</span>
+<span class="cm">//   Card.android.tsx â†’ compiles on Android only</span>
+<span class="cm">//   Card.tsx         â†’ fallback / web</span>
 <span class="kw">import</span> Card <span class="kw">from</span> <span class="str">'./Card'</span>;  <span class="cm">// resolves per-platform automatically</span></code></pre>
       </div>
     </div>
@@ -1218,7 +1216,7 @@ fontFamily: Platform.<span class="fn">select</span>({ ios: <span class="str">'He
   <span class="kw">return</span> res.<span class="fn">json</span>();
 };
 
-<span class="cm">// Load once with useEffect — then render states</span>
+<span class="cm">// Load once with useEffect â€” then render states</span>
 <span class="kw">const</span> [users, setUsers] = <span class="fn">useState</span>([]);
 <span class="kw">const</span> [<span class="kw">loading</span>, setLoading] = <span class="fn">useState</span>(<span class="tp">true</span>);
 
@@ -1255,7 +1253,7 @@ fontFamily: Platform.<span class="fn">select</span>({ ios: <span class="str">'He
 
     <div class="card">
       <div class="card-body">
-        <pre><code><span class="cm">// Zustand — the lightweight store most RN teams use</span>
+        <pre><code><span class="cm">// Zustand â€” the lightweight store most RN teams use</span>
 <span class="kw">import</span> { create } <span class="kw">from</span> <span class="str">'zustand'</span>;
 
 <span class="kw">const</span> useCart = <span class="fn">create</span>((set) =&gt; ({
@@ -1292,9 +1290,9 @@ fontFamily: Platform.<span class="fn">select</span>({ ios: <span class="str">'He
           <table class="table table-hover mb-0">
             <thead class="table-light"><tr><th style="width:22%"></th><th>Legacy (frozen Jun 2025)</th><th>New Architecture</th></tr></thead>
             <tbody>
-              <tr><td><strong>UI layer</strong></td><td>UI Manager, async</td><td>Fabric — synchronous rendering</td></tr>
-              <tr><td><strong>Native modules</strong></td><td>Bridge, JSON serialization</td><td>TurboModules — direct JSI calls</td></tr>
-              <tr><td><strong>JS ↔ native</strong></td><td>Async JSON bridge</td><td>JSI — zero-copy, sync, shared memory</td></tr>
+              <tr><td><strong>UI layer</strong></td><td>UI Manager, async</td><td>Fabric â€” synchronous rendering</td></tr>
+              <tr><td><strong>Native modules</strong></td><td>Bridge, JSON serialization</td><td>TurboModules â€” direct JSI calls</td></tr>
+              <tr><td><strong>JS â†” native</strong></td><td>Async JSON bridge</td><td>JSI â€” zero-copy, sync, shared memory</td></tr>
               <tr><td><strong>Startup mode</strong></td><td>Bridged runtime</td><td>Bridgeless by default</td></tr>
               <tr><td><strong>Engine</strong></td><td>Hermes V0 (default)</td><td>Hermes V1 (default since 0.84)</td></tr>
             </tbody>
@@ -1306,8 +1304,8 @@ fontFamily: Platform.<span class="fn">select</span>({ ios: <span class="str">'He
     <div class="card">
       <div class="card-body">
         <pre><code><span class="cm">// What "bridge vs JSI" means in practice: native calls are now direct.</span>
-<span class="cm">// Legacy:  JS → JSON → Bridge → native → JSON → JS   (async, every call)</span>
-<span class="cm">// New:     JS → JSI → native function                  (sync, no copy)</span>
+<span class="cm">// Legacy:  JS â†’ JSON â†’ Bridge â†’ native â†’ JSON â†’ JS   (async, every call)</span>
+<span class="cm">// New:     JS â†’ JSI â†’ native function                  (sync, no copy)</span>
 
 <span class="cm">// Native modules via Expo Modules API work on the New Architecture by default:</span>
 npx create-expo-module<span class="tp">@latest</span> --local</code></pre>
@@ -1328,11 +1326,11 @@ npx create-expo-module<span class="tp">@latest</span> --local</code></pre>
     <div class="card">
       <div class="card-body">
         <pre><code><span class="cm"># The tool chain, in order of how often you use it</span>
-npx expo start           <span class="cm"># Metro dev server — press "j" for the RN DevTools</span>
+npx expo start           <span class="cm"># Metro dev server â€” press "j" for the RN DevTools</span>
 <span class="cm">#   - React Native DevTools: components tree, profiler, console</span>
-<span class="cm">#   - Press "r" → reload, "m" → toggle the debug menu</span>
+<span class="cm">#   - Press "r" â†’ reload, "m" â†’ toggle the debug menu</span>
 
-<span class="cm"># Metro is the bundler — same role as Webpack/Vite, but for native</span>
+<span class="cm"># Metro is the bundler â€” same role as Webpack/Vite, but for native</span>
 <span class="cm">#   - Bundles your JS on the fly, hot-reloads on save</span>
 
 <span class="cm"># Useful dev-time packages</span>
@@ -1341,7 +1339,7 @@ npm install --save-dev reactotron-core <span class="cm"># Reactotron: network/lo
     </div>
 
     <div class="card">
-      <div class="card-header">Common issues → fixes</div>
+      <div class="card-header">Common issues â†’ fixes</div>
       <div class="card-body">
         <div class="table-responsive">
           <table class="table table-hover mb-0">
@@ -1394,7 +1392,7 @@ test(<span class="str">'handles taps'</span>, () =&gt; {
     <h2><i class="bi bi-rocket-takeoff me-2"></i>Build &amp; Deploy</h2>
 
     <div class="card">
-      <div class="card-header">EAS Build — the cloud build service</div>
+      <div class="card-header">EAS Build â€” the cloud build service</div>
       <div class="card-body">
         <pre><code>npm install -g eas-cli
 eas login
@@ -1437,7 +1435,7 @@ eas update --channel production</code></pre>
     </div>
 
     <div class="warn-box">
-      <strong>Version discipline:</strong> bump <code class="inline">app.json → version</code> and the native build number
+      <strong>Version discipline:</strong> bump <code class="inline">app.json â†’ version</code> and the native build number
       (<code class="inline">buildNumber</code> / <code class="inline">versionCode</code>) on every release. Stores reject a build
       that repeats an existing version number.
     </div>
@@ -1475,9 +1473,9 @@ eas update --channel production</code></pre>
           <table class="table table-hover mb-0">
             <thead class="table-light"><tr><th>Expo SDK</th><th>React Native</th><th>React</th><th>Notes</th></tr></thead>
             <tbody>
-              <tr><td><strong>57</strong></td><td>0.86</td><td>19.2</td><td>June 2026 — non-breaking</td></tr>
-              <tr><td><strong>56</strong></td><td>0.85</td><td>19.2.3</td><td>May 2026 — Hermes V1 default</td></tr>
-              <tr><td><strong>55</strong></td><td>0.83</td><td>19.2</td><td>Feb 2026 — New Arch only, no legacy</td></tr>
+              <tr><td><strong>57</strong></td><td>0.86</td><td>19.2</td><td>June 2026 â€” non-breaking</td></tr>
+              <tr><td><strong>56</strong></td><td>0.85</td><td>19.2.3</td><td>May 2026 â€” Hermes V1 default</td></tr>
+              <tr><td><strong>55</strong></td><td>0.83</td><td>19.2</td><td>Feb 2026 â€” New Arch only, no legacy</td></tr>
               <tr><td><strong>54</strong></td><td>0.81</td><td>19.1</td><td>Last SDK with legacy option</td></tr>
             </tbody>
           </table>
@@ -1513,7 +1511,7 @@ eas update --channel production</code></pre>
 </div>
 
 <!-- ===== SCRIPTS ===== -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/bootstrap/bootstrap.bundle.min.js"></script>
 <script>
   const sidebar = document.getElementById('sidebar');
   const toggle = document.getElementById('sidebarToggle');
@@ -1565,8 +1563,8 @@ eas update --channel production</code></pre>
       device.classList.toggle('android', p === 'android');
       device.style.setProperty('--accent-glow', p === 'ios' ? 'rgba(97,218,251,.18)' : 'rgba(106,90,249,.20)');
       deviceCaption.textContent = p === 'ios'
-        ? 'same <Text> — rendered as UIKit UILabel'
-        : 'same <Text> — rendered as Android TextView';
+        ? 'same <Text> â€” rendered as UIKit UILabel'
+        : 'same <Text> â€” rendered as Android TextView';
     });
   });
 </script>

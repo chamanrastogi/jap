@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <style>
@@ -29,10 +29,10 @@
 </style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>htmx — Complete Guide: Attributes, Patterns & Backend Integration</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+  <title>htmx â€” Complete Guide: Attributes, Patterns & Backend Integration</title>
+  <link href="lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="lib/bootstrap-icons/bootstrap-icons.min.css">
+  <script src="lib/htmx/htmx.min.js"></script>
   <style>
     :root {
       --htmx-blue: #3d72f5;
@@ -248,9 +248,8 @@
       background: rgba(61,114,245,.12);
     }
   </style>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="lib/google-fonts/space-grotesk/space-grotesk.css">
+  <link rel="stylesheet" href="lib/google-fonts/jetbrains-mono/jetbrains-mono.css">
 <style>
 /* ===== Jap Hub design system - graphql pattern (injected layer) ===== */
 :root {
@@ -643,7 +642,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
             <tr><td>hx-target</td><td>CSS selector for the element to swap content into</td></tr>
             <tr><td>hx-swap</td><td>How to swap the response (innerHTML, outerHTML, etc.)</td></tr>
             <tr><td>hx-select</td><td>Select a subset of the response to swap</td></tr>
-            <tr><td>hx-select-oob</td><td>Out-of-band swap — update multiple elements</td></tr>
+            <tr><td>hx-select-oob</td><td>Out-of-band swap â€” update multiple elements</td></tr>
             <tr><td>hx-preserve</td><td>Preserve element content across swaps</td></tr>
             <tr><td>hx-swap-oob</td><td>Mark element as out-of-band in the response</td></tr>
           </tbody>
@@ -891,7 +890,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
   <!-- ==================== PHP ==================== -->
   <section id="php">
     <h2><i class="bi bi-filetype-php me-2"></i>PHP Integration</h2>
-    <p class="text-muted">htmx works naturally with PHP — the server returns HTML fragments, not JSON.</p>
+    <p class="text-muted">htmx works naturally with PHP â€” the server returns HTML fragments, not JSON.</p>
 
     <div class="card">
       <div class="card-header">Basic PHP Handler</div>
@@ -957,7 +956,7 @@ $id = <span class="fn">filter_input</span>(INPUT_POST, <span class="str">'id'</s
     </div>
 
     <div class="highlight-box">
-      <strong>&#9654; Key insight:</strong> PHP is a natural fit for htmx. You don't need a JSON API — just write HTML fragments as responses. Set headers like <code>HX-Trigger</code> from PHP using <code>header('HX-Trigger: {"myEvent": "data"}')</code>.
+      <strong>&#9654; Key insight:</strong> PHP is a natural fit for htmx. You don't need a JSON API â€” just write HTML fragments as responses. Set headers like <code>HX-Trigger</code> from PHP using <code>header('HX-Trigger: {"myEvent": "data"}')</code>.
     </div>
   </section>
 
@@ -980,7 +979,7 @@ $id = <span class="fn">filter_input</span>(INPUT_POST, <span class="str">'id'</s
   @include('partials.post-list')
 <span class="el">&lt;/div&gt;</span></code></pre>
 
-        <pre><code><span class="cm">// Controller — check for htmx request</span>
+        <pre><code><span class="cm">// Controller â€” check for htmx request</span>
 <span class="kw">use</span> <span class="tp">Illuminate</span>\<span class="tp">Http</span>\<span class="tp">Request</span>;
 
 <span class="kw">class</span> <span class="tp">PostController</span> <span class="kw">extends</span> <span class="tp">Controller</span>
@@ -1040,7 +1039,7 @@ $id = <span class="fn">filter_input</span>(INPUT_POST, <span class="str">'id'</s
         <span class="kw">return</span> $validator-&gt;<span class="fn">errors</span>()-><span class="fn">first</span>(<span class="str">'email'</span>);
     }
 
-    <span class="kw">return</span> <span class="str">'✓ Email is available'</span>;
+    <span class="kw">return</span> <span class="str">'âœ“ Email is available'</span>;
 });</code></pre>
       </div>
     </div>
@@ -1122,7 +1121,7 @@ $id = <span class="fn">filter_input</span>(INPUT_POST, <span class="str">'id'</s
     evt.detail.parameters[<span class="str">'_token'</span>] = <span class="str">'csrf-value'</span>;
 });
 
-<span class="cm">// HX-Trigger from server — listen for custom events</span>
+<span class="cm">// HX-Trigger from server â€” listen for custom events</span>
 <span class="nb">document</span>.<span class="fn">addEventListener</span>(<span class="str">'post-created'</span>, <span class="kw">function</span>(evt) {
     <span class="fn">showToast</span>(<span class="str">'Post #'</span> + evt.detail.id + <span class="str">' created!'</span>);
 });</code></pre>
@@ -1306,7 +1305,7 @@ $id = <span class="fn">filter_input</span>(INPUT_POST, <span class="str">'id'</s
 </div>
 
 <!-- ===== SCRIPTS ===== -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/bootstrap/bootstrap.bundle.min.js"></script>
 <script>
   const sidebar = document.getElementById('sidebar');
   const toggle = document.getElementById('sidebarToggle');

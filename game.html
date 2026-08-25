@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -8,11 +8,11 @@
     />
     <title>Cube Runner X</title>
     <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        href="lib/bootstrap/bootstrap.min.css"
         rel="stylesheet"
     />
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+        @import url('lib/google-fonts/poppins/poppins.css');
 
         :root{
             --bg-1:#08111f;
@@ -785,7 +785,7 @@
 <body>
 
     <a href="index.html" class="home-link" aria-label="Go back to home page">
-        <span>←</span>
+        <span>â†</span>
         <span>Home</span>
     </a>
 
@@ -813,8 +813,8 @@
             </div>
 
             <div class="hud-actions">
-                <button id="pause-btn" class="hud-btn" title="Pause">⏸</button>
-                <button id="sound-btn" class="hud-btn" title="Sound">🔊</button>
+                <button id="pause-btn" class="hud-btn" title="Pause">â¸</button>
+                <button id="sound-btn" class="hud-btn" title="Sound">ðŸ”Š</button>
             </div>
         </div>
 
@@ -840,10 +840,10 @@
 
         <div class="mobile-controls">
             <div class="left-pad">
-                <button id="left-btn" class="control-btn">◀</button>
-                <button id="right-btn" class="control-btn">▶</button>
+                <button id="left-btn" class="control-btn">â—€</button>
+                <button id="right-btn" class="control-btn">â–¶</button>
             </div>
-            <button id="jump-btn" class="control-btn big">▲</button>
+            <button id="jump-btn" class="control-btn big">â–²</button>
         </div>
     </div>
 
@@ -954,7 +954,7 @@
 
                 <div class="sticky-action">
                     <button id="start-btn" class="btn btn-primary w-100 rounded-pill fw-bold">
-                        ▶ Play now
+                        â–¶ Play now
                     </button>
                 </div>
             </div>
@@ -980,7 +980,7 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="lib/threejs/three.min.js"></script>
     <script>
         const STORAGE_KEY = 'cubeRunnerXMobileSaveV2';
 
@@ -1209,7 +1209,7 @@
         }
 
         function syncSoundButtons() {
-            soundBtn.textContent = soundOn ? '🔊' : '🔇';
+            soundBtn.textContent = soundOn ? 'ðŸ”Š' : 'ðŸ”‡';
             menuSoundBtn.textContent = soundOn ? 'Sound: On' : 'Sound: Off';
             menuSoundBtn.classList.toggle('active', soundOn);
         }
@@ -1456,7 +1456,7 @@
             pauseLayer.classList.add('d-none');
             uiLayer.classList.remove('d-none');
             gameOverStats.classList.add('d-none');
-            startBtn.innerHTML = '▶ Play now';
+            startBtn.innerHTML = 'â–¶ Play now';
             if (menuCard) menuCard.scrollTo({ top: 0, behavior: 'auto' });
             clock.start();
             showToast(CHARACTERS[selectedCharacter].name + ' ready');
@@ -1482,7 +1482,7 @@
             finalBest.innerText = Math.floor(highScore);
             finalCoins.innerText = coins;
             finalTime.innerText = survivalTime.toFixed(1) + 's';
-            startBtn.innerHTML = '▶ Play again';
+            startBtn.innerHTML = 'â–¶ Play again';
 
             if (menuCard) menuCard.scrollTo({ top: 0, behavior: 'smooth' });
         }

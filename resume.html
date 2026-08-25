@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <style>
@@ -32,15 +32,14 @@
     <title>Chaman Rastogi | Senior PHP / Laravel Backend Developer</title>
     
     <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="lib/bootstrap/bootstrap.min.css" rel="stylesheet">
     
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="lib/google-fonts/inter/inter.css">
+  <link rel="stylesheet" href="lib/google-fonts/jetbrains-mono/jetbrains-mono.css">
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="lib/font-awesome/css/all.min.css">
 
     <style>
         :root {
@@ -83,7 +82,7 @@
         }
         a:hover { color: var(--accent3); }
 
-        /* ── Home Link ── */
+        /* â”€â”€ Home Link â”€â”€ */
         .home-link {
             position: fixed; top: 16px; right: 16px; z-index: 1200;
             display: inline-flex; align-items: center; gap: 8px;
@@ -98,7 +97,7 @@
         }
         .home-link:hover { color: var(--accent); border-color: var(--accent); }
 
-        /* ── Sidebar ── */
+        /* â”€â”€ Sidebar â”€â”€ */
         .sidebar {
             position: fixed; top: 0; left: 0; width: 60px; height: 100vh;
             border-right: 1px solid var(--card-border);
@@ -137,7 +136,7 @@
             position: relative;
         }
 
-        /* ── Floating BG Orbs ── */
+        /* â”€â”€ Floating BG Orbs â”€â”€ */
         .orb {
             position: fixed;
             border-radius: 50%;
@@ -150,7 +149,7 @@
         .orb-2 { width: 300px; height: 300px; background: #8b5cf6; bottom: 200px; left: -80px; }
         .orb-3 { width: 200px; height: 200px; background: var(--accent3); bottom: -50px; right: 30%; }
 
-        /* ── Prompt Lines ── */
+        /* â”€â”€ Prompt Lines â”€â”€ */
         .prompt-line {
             margin-bottom: 1.5rem;
             font-size: 14px;
@@ -159,7 +158,7 @@
         .prompt-user { color: var(--accent); font-weight: 600; }
         .prompt-symbol { color: var(--text-muted); margin: 0 8px; }
         
-        /* ── Highlight ── */
+        /* â”€â”€ Highlight â”€â”€ */
         .bg-highlight {
             background: linear-gradient(135deg, var(--accent), var(--accent2));
             color: #000;
@@ -170,7 +169,7 @@
             letter-spacing: -0.5px;
         }
 
-        /* ── Badges ── */
+        /* â”€â”€ Badges â”€â”€ */
         .term-badge {
             border: 1px solid var(--card-border);
             color: var(--text-dim);
@@ -187,7 +186,7 @@
             color: var(--accent3);
         }
 
-        /* ── Cards with 3D tilt ── */
+        /* â”€â”€ Cards with 3D tilt â”€â”€ */
         .tilt-card {
             perspective: 800px;
         }
@@ -217,7 +216,7 @@
             margin-bottom: 12px;
         }
 
-        /* ── Tech Stack ── */
+        /* â”€â”€ Tech Stack â”€â”€ */
         .tech-grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
@@ -239,7 +238,7 @@
         .tech-item i { font-size: 28px; margin-bottom: 8px; display: block; }
         .tech-item span { font-size: 10px; font-family: var(--font-mono); }
 
-        /* ── Skill Bars ── */
+        /* â”€â”€ Skill Bars â”€â”€ */
         .skill-bar-wrap { margin-bottom: 16px; }
         .skill-bar-label {
             display: flex; justify-content: space-between;
@@ -261,7 +260,7 @@
             transition: width 1.5s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        /* ── Timeline ── */
+        /* â”€â”€ Timeline â”€â”€ */
         .timeline { position: relative; }
         .timeline::before {
             content: '';
@@ -336,7 +335,7 @@
             font-size: 11px;
         }
 
-        /* ── Project Cards ── */
+        /* â”€â”€ Project Cards â”€â”€ */
         .project-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
@@ -371,7 +370,7 @@
         .project-banner span { position: relative; z-index: 1; }
         .project-body { padding: 20px; }
 
-        /* ── Achievements ── */
+        /* â”€â”€ Achievements â”€â”€ */
         .stat-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
@@ -394,7 +393,7 @@
         }
         .stat-label { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
 
-        /* ── Glass Form ── */
+        /* â”€â”€ Glass Form â”€â”€ */
         .glass-card {
             background: rgba(12, 12, 20, 0.6);
             backdrop-filter: blur(16px);
@@ -434,7 +433,7 @@
         }
         .btn-accent:hover { opacity: 0.92; color: #000; transform: translateY(-1px); }
 
-        /* ── Responsive ── */
+        /* â”€â”€ Responsive â”€â”€ */
         @media (max-width: 768px) {
             .sidebar { display: none; }
             .main-content { margin-left: auto; padding: 20px; }
@@ -474,12 +473,12 @@
 
         <!-- Terminal Header -->
         <div class="d-flex justify-content-between text-muted mb-5" style="font-size: 10px; font-family: var(--font-mono);">
-            <span>● ● ●</span>
-            <span>BASH — 80×24</span>
+            <span>â— â— â—</span>
+            <span>BASH â€” 80Ã—24</span>
             <span>TTY01</span>
         </div>
 
-        <!-- ═══ HERO ═══ -->
+        <!-- â•â•â• HERO â•â•â• -->
         <section class="mb-5 position-relative" style="z-index: 1;">
             <div class="prompt-line">
                 <span class="prompt-user">chaman@developer</span><span class="prompt-symbol">:</span><span class="prompt-symbol">~</span><span class="prompt-symbol">$</span> ./about.sh
@@ -503,7 +502,7 @@
             </div>
         </section>
 
-        <!-- ═══ EXPERTISE ═══ -->
+        <!-- â•â•â• EXPERTISE â•â•â• -->
         <section class="mb-5 mt-5 pt-5" id="expertise" style="position: relative; z-index: 1;">
             <div class="prompt-line">
                 <span class="prompt-user">chaman@developer</span><span class="prompt-symbol">:</span><span class="prompt-symbol">~</span><span class="prompt-symbol">$</span> cat expertise.json
@@ -536,7 +535,7 @@
             </div>
         </section>
 
-        <!-- ═══ TECH STACK ═══ -->
+        <!-- â•â•â• TECH STACK â•â•â• -->
         <section class="mb-5 mt-5" style="position: relative; z-index: 1;">
             <div class="tilt-card-inner" style="padding: 28px;">
                 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
@@ -572,7 +571,7 @@
             </div>
         </section>
 
-        <!-- ═══ SKILL BARS ═══ -->
+        <!-- â•â•â• SKILL BARS â•â•â• -->
         <section class="mb-5 mt-5" id="skills" style="position: relative; z-index: 1;">
             <div class="prompt-line">
                 <span class="prompt-user">chaman@developer</span><span class="prompt-symbol">:</span><span class="prompt-symbol">~</span><span class="prompt-symbol">$</span> cat proficiency.dat
@@ -609,7 +608,7 @@
             </div>
         </section>
 
-        <!-- ═══ EXPERIENCE ═══ -->
+        <!-- â•â•â• EXPERIENCE â•â•â• -->
         <section class="mb-5 mt-5 pt-4" id="experience" style="position: relative; z-index: 1;">
             <div class="prompt-line">
                 <span class="prompt-user">chaman@developer</span><span class="prompt-symbol">:</span><span class="prompt-symbol">~</span><span class="prompt-symbol">$</span> history | grep "employment"
@@ -618,14 +617,14 @@
                 <!-- Job 1 -->
                 <div class="timeline-item">
                     <div class="timeline-dot active"></div>
-                    <div class="timeline-date active-date mb-2">AUG 2024 — PRESENT</div>
+                    <div class="timeline-date active-date mb-2">AUG 2024 â€” PRESENT</div>
                     <div class="timeline-content">
                         <h5>SENIOR PHP DEVELOPER @ MASTHEAD TECHNOLOGIES PVT. LTD.</h5>
-                        <p class="text-dim mb-1"><span class="timeline-bullet">▸</span>Built secure REST APIs using Laravel and Core PHP to support seamless integration and data exchange.</p>
-                        <p class="text-dim mb-1"><span class="timeline-bullet">▸</span>Optimized MySQL queries and improved application performance.</p>
-                        <p class="text-dim mb-1"><span class="timeline-bullet">▸</span>Developed enterprise dashboard and reporting solutions to enhance data visibility and decision-making.</p>
-                        <p class="text-dim mb-1"><span class="timeline-bullet">▸</span>Collaborated with cross-functional teams and clients to align project goals.</p>
-                        <p class="text-dim mb-2"><span class="timeline-bullet">▸</span>Developed automation scripts and cron jobs.</p>
+                        <p class="text-dim mb-1"><span class="timeline-bullet">â–¸</span>Built secure REST APIs using Laravel and Core PHP to support seamless integration and data exchange.</p>
+                        <p class="text-dim mb-1"><span class="timeline-bullet">â–¸</span>Optimized MySQL queries and improved application performance.</p>
+                        <p class="text-dim mb-1"><span class="timeline-bullet">â–¸</span>Developed enterprise dashboard and reporting solutions to enhance data visibility and decision-making.</p>
+                        <p class="text-dim mb-1"><span class="timeline-bullet">â–¸</span>Collaborated with cross-functional teams and clients to align project goals.</p>
+                        <p class="text-dim mb-2"><span class="timeline-bullet">â–¸</span>Developed automation scripts and cron jobs.</p>
                         <p class="text-muted mb-1" style="font-size: 11px; font-family: var(--font-mono);">Tech: Laravel, MySQL, REST APIs, JavaScript, jQuery, Bootstrap, AJAX, Cron Jobs</p>
                         <div class="d-flex gap-2 flex-wrap mt-2">
                             <span class="term-badge">#enterprise-apps</span>
@@ -637,14 +636,14 @@
                 <!-- Job 2 -->
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
-                    <div class="timeline-date mb-2">MAR 2023 — JUN 2024</div>
+                    <div class="timeline-date mb-2">MAR 2023 â€” JUN 2024</div>
                     <div class="timeline-content">
                         <h5>SENIOR WEB DEVELOPER @ HSI CORPORATE SERVICES PVT. LTD.</h5>
-                        <p class="text-dim mb-1"><span class="timeline-bullet">▸</span>Developed Laravel and WordPress applications to enhance user experience and functionality.</p>
-                        <p class="text-dim mb-1"><span class="timeline-bullet">▸</span>Integrated third-party APIs and optimized websites for improved performance.</p>
-                        <p class="text-dim mb-1"><span class="timeline-bullet">▸</span>Developed responsive web applications using HTML, CSS, and JavaScript frameworks.</p>
-                        <p class="text-dim mb-1"><span class="timeline-bullet">▸</span>Collaborated with cross-functional teams to define project requirements.</p>
-                        <p class="text-dim mb-2"><span class="timeline-bullet">▸</span>Enhanced user experience through effective UI/UX design practices.</p>
+                        <p class="text-dim mb-1"><span class="timeline-bullet">â–¸</span>Developed Laravel and WordPress applications to enhance user experience and functionality.</p>
+                        <p class="text-dim mb-1"><span class="timeline-bullet">â–¸</span>Integrated third-party APIs and optimized websites for improved performance.</p>
+                        <p class="text-dim mb-1"><span class="timeline-bullet">â–¸</span>Developed responsive web applications using HTML, CSS, and JavaScript frameworks.</p>
+                        <p class="text-dim mb-1"><span class="timeline-bullet">â–¸</span>Collaborated with cross-functional teams to define project requirements.</p>
+                        <p class="text-dim mb-2"><span class="timeline-bullet">â–¸</span>Enhanced user experience through effective UI/UX design practices.</p>
                         <p class="text-muted mb-1" style="font-size: 11px; font-family: var(--font-mono);">Tech: HTML, CSS, JS, jQuery, Bootstrap, Photoshop, Core PHP, MySQL, WordPress, Laravel</p>
                         <div class="d-flex gap-2 flex-wrap mt-2">
                             <span class="term-badge">#laravel</span>
@@ -656,11 +655,11 @@
                 <!-- Job 3 -->
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
-                    <div class="timeline-date mb-2">NOV 2021 — NOV 2022</div>
+                    <div class="timeline-date mb-2">NOV 2021 â€” NOV 2022</div>
                     <div class="timeline-content">
                         <h5>SOFTWARE DEVELOPER @ CONNECTING DOTS INFOTECH</h5>
-                        <p class="text-dim mb-1"><span class="timeline-bullet">▸</span>WordPress & Angular development: design themes, manage content, develop web apps.</p>
-                        <p class="text-dim mb-1"><span class="timeline-bullet">▸</span>Built sites for diverse clients across multiple industries.</p>
+                        <p class="text-dim mb-1"><span class="timeline-bullet">â–¸</span>WordPress & Angular development: design themes, manage content, develop web apps.</p>
+                        <p class="text-dim mb-1"><span class="timeline-bullet">â–¸</span>Built sites for diverse clients across multiple industries.</p>
                         <p class="text-muted mb-2" style="font-size: 11px; font-family: var(--font-mono);">Tech: HTML, CSS, JS, jQuery, Bootstrap, Photoshop, Core PHP, MySQL, WordPress, Node.js, Angular</p>
                         <p class="text-muted mb-2" style="font-size: 11px; font-family: var(--font-mono);">Sites: lightraysolutions.com, sdgconsults.com, mindwars.co.in, ullu.app</p>
                         <div class="d-flex gap-2 flex-wrap mt-2">
@@ -673,11 +672,11 @@
                 <!-- Job 4 -->
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
-                    <div class="timeline-date mb-2">SEP 2020 — SEP 2021</div>
+                    <div class="timeline-date mb-2">SEP 2020 â€” SEP 2021</div>
                     <div class="timeline-content">
                         <h5>FULL STACK DEVELOPER @ THE CATALYST GROUP</h5>
-                        <p class="text-dim mb-1"><span class="timeline-bullet">▸</span>PHP website maintenance: fix bugs, optimize performance, ensure security.</p>
-                        <p class="text-dim mb-1"><span class="timeline-bullet">▸</span>LMS & E-commerce development with Shopify and payment gateway integration.</p>
+                        <p class="text-dim mb-1"><span class="timeline-bullet">â–¸</span>PHP website maintenance: fix bugs, optimize performance, ensure security.</p>
+                        <p class="text-dim mb-1"><span class="timeline-bullet">â–¸</span>LMS & E-commerce development with Shopify and payment gateway integration.</p>
                         <p class="text-muted mb-2" style="font-size: 11px; font-family: var(--font-mono);">Tech: HTML, CSS, JS, jQuery, Bootstrap, Photoshop, Core PHP, MySQL, Shopify</p>
                         <p class="text-muted mb-2" style="font-size: 11px; font-family: var(--font-mono);">Sites: thecatalystgroup.info, thecatalystquiz.com</p>
                         <div class="d-flex gap-2 flex-wrap mt-2">
@@ -690,10 +689,10 @@
                 <!-- Job 5 -->
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
-                    <div class="timeline-date mb-2">FEB 2020 — JUL 2020</div>
+                    <div class="timeline-date mb-2">FEB 2020 â€” JUL 2020</div>
                     <div class="timeline-content">
                         <h5>SR. PHP DEVELOPER @ MAGICBYTE SOLUTIONS</h5>
-                        <p class="text-dim mb-1"><span class="timeline-bullet">▸</span>PHP & WordPress development: design themes, develop plugins, manage content.</p>
+                        <p class="text-dim mb-1"><span class="timeline-bullet">â–¸</span>PHP & WordPress development: design themes, develop plugins, manage content.</p>
                         <p class="text-muted mb-2" style="font-size: 11px; font-family: var(--font-mono);">Tech: HTML, CSS, JS, jQuery, Bootstrap, Photoshop, Core PHP, MySQL, WordPress</p>
                         <p class="text-muted mb-0" style="font-size: 11px; font-family: var(--font-mono);">Sites: gallerylala.com, defencebyte.com, allaroundsecurityny.com</p>
                     </div>
@@ -701,11 +700,11 @@
                 <!-- Job 6 -->
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
-                    <div class="timeline-date mb-2">DEC 2014 — DEC 2019</div>
+                    <div class="timeline-date mb-2">DEC 2014 â€” DEC 2019</div>
                     <div class="timeline-content">
                         <h5>SR. PHP DEVELOPER @ ADIT24X7</h5>
-                        <p class="text-dim mb-1"><span class="timeline-bullet">▸</span>PHP website maintenance: fix bugs, optimize performance, manage backups.</p>
-                        <p class="text-dim mb-1"><span class="timeline-bullet">▸</span>Built and maintained 10+ client websites over a 5-year tenure.</p>
+                        <p class="text-dim mb-1"><span class="timeline-bullet">â–¸</span>PHP website maintenance: fix bugs, optimize performance, manage backups.</p>
+                        <p class="text-dim mb-1"><span class="timeline-bullet">â–¸</span>Built and maintained 10+ client websites over a 5-year tenure.</p>
                         <p class="text-muted mb-2" style="font-size: 11px; font-family: var(--font-mono);">Tech: HTML, CSS, JS, jQuery, Bootstrap, Photoshop, Core PHP, MySQL, WordPress</p>
                         <p class="text-muted mb-0" style="font-size: 11px; font-family: var(--font-mono);">Sites: studionatraj.com, gaurangdixit.com, listenforce.com, fudku.com</p>
                     </div>
@@ -713,17 +712,17 @@
                 <!-- Job 7 -->
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
-                    <div class="timeline-date mb-2">AUG 2012 — FEB 2013</div>
+                    <div class="timeline-date mb-2">AUG 2012 â€” FEB 2013</div>
                     <div class="timeline-content">
                         <h5>PHP DEVELOPER @ 3D WEB</h5>
-                        <p class="text-dim mb-1"><span class="timeline-bullet">▸</span>PHP development with Core PHP, MySQL, HTML, CSS, JavaScript.</p>
+                        <p class="text-dim mb-1"><span class="timeline-bullet">â–¸</span>PHP development with Core PHP, MySQL, HTML, CSS, JavaScript.</p>
                         <p class="text-muted mb-0" style="font-size: 11px; font-family: var(--font-mono);">Tech: HTML, CSS, JS, jQuery, Bootstrap, Photoshop, Core PHP, MySQL</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ═══ PROJECTS ═══ -->
+        <!-- â•â•â• PROJECTS â•â•â• -->
         <section class="mb-5 mt-5 pt-4" id="projects" style="position: relative; z-index: 1;">
             <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
                 <div class="prompt-line mb-0">
@@ -803,7 +802,7 @@
             </div>
         </section>
 
-        <!-- ═══ ACHIEVEMENTS ═══ -->
+        <!-- â•â•â• ACHIEVEMENTS â•â•â• -->
         <section class="mb-5 mt-5 pt-4" id="achievements" style="position: relative; z-index: 1;">
             <div class="prompt-line">
                 <span class="prompt-user">chaman@developer</span><span class="prompt-symbol">:</span><span class="prompt-symbol">~</span><span class="prompt-symbol">$</span> cat achievements.log
@@ -836,7 +835,7 @@
             </div>
         </section>
 
-        <!-- ═══ EDUCATION ═══ -->
+        <!-- â•â•â• EDUCATION â•â•â• -->
         <section class="mb-5 mt-5 pt-4" id="education" style="position: relative; z-index: 1;">
             <div class="prompt-line">
                 <span class="prompt-user">chaman@developer</span><span class="prompt-symbol">:</span><span class="prompt-symbol">~</span><span class="prompt-symbol">$</span> cat education.log
@@ -872,7 +871,7 @@
             </div>
         </section>
 
-        <!-- ═══ SOFT SKILLS ═══ -->
+        <!-- â•â•â• SOFT SKILLS â•â•â• -->
         <section class="mb-5 mt-5 pt-4" id="soft-skills" style="position: relative; z-index: 1;">
             <div class="prompt-line">
                 <span class="prompt-user">chaman@developer</span><span class="prompt-symbol">:</span><span class="prompt-symbol">~</span><span class="prompt-symbol">$</span> cat soft-skills.json
@@ -890,7 +889,7 @@
             </div>
         </section>
 
-        <!-- ═══ CONTACT ═══ -->
+        <!-- â•â•â• CONTACT â•â•â• -->
         <section class="mb-5 mt-5 pt-4" id="contact" style="position: relative; z-index: 1;">
             <div class="prompt-line">
                 <span class="prompt-user">chaman@developer</span><span class="prompt-symbol">:</span><span class="prompt-symbol">~</span><span class="prompt-symbol">$</span> ./send_message.sh --to "chaman"
@@ -948,7 +947,7 @@
         <!-- Footer -->
         <footer class="mt-5 pt-5 pb-3 border-top border-secondary border-opacity-10 d-flex flex-column flex-md-row justify-content-between align-items-center text-muted" style="font-size: 10px; font-family: var(--font-mono); position: relative; z-index: 1;">
             <div class="mb-2 mb-md-0">CHAMAN RASTOGI :: RESUME V2.0</div>
-            <div class="mb-2 mb-md-0">© 2026 ALL RIGHTS RESERVED</div>
+            <div class="mb-2 mb-md-0">Â© 2026 ALL RIGHTS RESERVED</div>
             <div class="d-flex gap-3">
                 <a href="index.html" class="text-muted text-decoration-underline">HOME</a>
                 <a href="#" class="text-muted text-decoration-underline">PRINT</a>
@@ -957,6 +956,6 @@
 
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/bootstrap/bootstrap.bundle.min.js"></script>
 </body>
 </html>

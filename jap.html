@@ -1,20 +1,17 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jap Machine — Mantra Counter</title>
+  <title>Jap Machine â€” Mantra Counter</title>
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#14100a" />
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f1dd" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="lib/bootstrap/bootstrap.min.css" rel="stylesheet" />
+  <link href="lib/font-awesome/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="lib/google-fonts/anton/anton.css">
+  <link rel="stylesheet" href="lib/google-fonts/outfit/outfit.css">
+  <link rel="stylesheet" href="lib/google-fonts/noto-sans-devanagari/noto-sans-devanagari.css">
+  <link rel="stylesheet" href="lib/google-fonts/jetbrains-mono/jetbrains-mono.css">
 
   <style>
     :root {
@@ -846,7 +843,7 @@
               <div class="word-halo" aria-hidden="true"></div>
               <div class="counter-overlay">
                 <button id="japBtn" type="button" class="btn-jap text-main" onclick="incrementCount()" aria-label="Tap to count one recitation">
-                  <div id="activeMantraHindi" class="sigil-word sigil-word--deva">ॐ भूर्भुवः स्वः</div>
+                  <div id="activeMantraHindi" class="sigil-word sigil-word--deva">à¥ à¤­à¥‚à¤°à¥à¤­à¥à¤µà¤ƒ à¤¸à¥à¤µà¤ƒ</div>
                   <div id="counterValue" class="counter-value fw-bold font-mono">0</div>
                   <div class="tap-hint fw-bold">
                     <i class="fas fa-hand-pointer text-accent me-1" aria-hidden="true"></i> Tap
@@ -854,7 +851,7 @@
                 </button>
               </div>
             </div>
-            <div class="mala-caption font-mono" id="malaText">ॐ भूर्भुवः स्वः • 0 / 108</div>
+            <div class="mala-caption font-mono" id="malaText">à¥ à¤­à¥‚à¤°à¥à¤­à¥à¤µà¤ƒ à¤¸à¥à¤µà¤ƒ â€¢ 0 / 108</div>
           </div>
 
           <div class="card-app chant-ctl">
@@ -894,7 +891,7 @@
 
             <div class="mb-3">
               <label class="field-label" for="mantraInput">Custom mantra</label>
-              <input id="mantraInput" name="mantra" type="text" class="form-control" placeholder="e.g. Gayatri Mantra…" autocomplete="off" />
+              <input id="mantraInput" name="mantra" type="text" class="form-control" placeholder="e.g. Gayatri Mantraâ€¦" autocomplete="off" />
             </div>
 
             <div class="row g-2 mb-3">
@@ -906,7 +903,7 @@
                   <option value="21">21</option>
                   <option value="51">51</option>
                   <option value="1008">1008</option>
-                  <option value="0">∞</option>
+                  <option value="0">âˆž</option>
                 </select>
               </div>
               <div class="col-5">
@@ -937,19 +934,19 @@
               <div class="col-6">
                 <label class="field-label" for="ambientSelect">Ambient sound</label>
                 <select id="ambientSelect" name="ambient" class="form-select" onchange="handleAmbientChange()">
-                  <option value="">🔇 No sound</option>
-                  <option value="https://actions.google.com/sounds/v1/water/rain_on_roof.ogg">🌧️ Gentle rain</option>
-                  <option value="https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg">🌊 Ocean</option>
-                  <option value="https://actions.google.com/sounds/v1/nature/fire_crackling_and_crickets.ogg">🔥 Night fire</option>
+                  <option value="">ðŸ”‡ No sound</option>
+                  <option value="https://actions.google.com/sounds/v1/water/rain_on_roof.ogg">ðŸŒ§ï¸ Gentle rain</option>
+                  <option value="https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg">ðŸŒŠ Ocean</option>
+                  <option value="https://actions.google.com/sounds/v1/nature/fire_crackling_and_crickets.ogg">ðŸ”¥ Night fire</option>
                 </select>
               </div>
               <div class="col-6">
                 <label class="field-label" for="soundSelect">Tap sound</label>
                 <select id="soundSelect" name="sound" class="form-select" onchange="updateClickSound()">
-                  <option value="sine">🔔 Soft bell</option>
-                  <option value="triangle">🔊 Tibetan bowl</option>
-                  <option value="click">👆 Click</option>
-                  <option value="none">🔇 Mute</option>
+                  <option value="sine">ðŸ”” Soft bell</option>
+                  <option value="triangle">ðŸ”Š Tibetan bowl</option>
+                  <option value="click">ðŸ‘† Click</option>
+                  <option value="none">ðŸ”‡ Mute</option>
                 </select>
               </div>
             </div>
@@ -970,7 +967,7 @@
             <div class="search-box mb-2">
               <i class="fas fa-search" aria-hidden="true"></i>
               <label class="visually-hidden" for="mantraSearch">Search mantras</label>
-              <input id="mantraSearch" name="search" type="text" class="form-control rounded-pill" placeholder="Search mantra, deity, or category…" oninput="renderMantras()" autocomplete="off" />
+              <input id="mantraSearch" name="search" type="text" class="form-control rounded-pill" placeholder="Search mantra, deity, or categoryâ€¦" oninput="renderMantras()" autocomplete="off" />
             </div>
 
             <div class="category-scroll mb-2" id="categoryFilters"></div>
@@ -1039,15 +1036,15 @@
         <div class="card-app mb-1">
           <div class="panel-title mb-2">About Japa</div>
           <div class="guide-card">
-            <p class="mb-2"><strong>Japa</strong> (जप) is the meditative repetition of a mantra. It is a core practice in Hindu, Buddhist, and Sikh traditions for focusing the mind and connecting with the divine.</p>
-            <p class="mb-2"><strong>Mala beads</strong> typically have 108 beads — a sacred number in Eastern traditions representing the wholeness of existence. One full mala = 108 recitations.</p>
+            <p class="mb-2"><strong>Japa</strong> (à¤œà¤ª) is the meditative repetition of a mantra. It is a core practice in Hindu, Buddhist, and Sikh traditions for focusing the mind and connecting with the divine.</p>
+            <p class="mb-2"><strong>Mala beads</strong> typically have 108 beads â€” a sacred number in Eastern traditions representing the wholeness of existence. One full mala = 108 recitations.</p>
             <p class="mb-1"><strong>How to practice:</strong></p>
             <ul class="mb-2">
               <li>Sit comfortably with a calm mind and set your intention</li>
               <li>Recite the mantra aloud, in a whisper, or silently</li>
-              <li>Use the counter to track — one tap per recitation</li>
+              <li>Use the counter to track â€” one tap per recitation</li>
               <li>Focus on the sound and meaning of the mantra</li>
-              <li>Consistency matters more than quantity — daily practice is key</li>
+              <li>Consistency matters more than quantity â€” daily practice is key</li>
             </ul>
             <p class="mb-0 small text-muted-custom">Each mantra carries a specific vibration and intention. Choose the one that resonates with your current need.</p>
           </div>
@@ -1081,7 +1078,7 @@
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/bootstrap/bootstrap.bundle.min.js"></script>
 
 <script>
 const STORAGE_KEYS = {
@@ -1119,36 +1116,36 @@ const STORAGE_KEYS = {
   }
 
   const MANTRAS = [
-    { id: 'gayatri', name: 'Gayatri Mantra', text: 'ॐ भूर्भुवः स्वः', category: 'Vedic', subtitle: 'Wisdom and illumination', tags: ['Wisdom', 'Light'], meaning: 'The most revered Vedic mantra for wisdom, spiritual light, and higher consciousness.' },
-    { id: 'om_namah_shivaya', name: 'Om Namah Shivaya', text: 'ॐ नमः शिवाय', category: 'Shiva', subtitle: 'Peace and devotion', tags: ['Peace', 'Shiva'], meaning: 'A well-known Shiva mantra used for inner peace, devotion, and self-realization.' },
-    { id: 'maha_mrityunjaya', name: 'Maha Mrityunjaya Mantra', text: 'ॐ त्र्यम्बकं यजामहे', category: 'Shiva', subtitle: 'Healing and protection', tags: ['Healing', 'Protection'], meaning: 'A powerful Shiva mantra for healing, strength, and overcoming difficulties.' },
-    { id: 'shani_beej', name: 'Shani Beej Mantra', text: 'ॐ शं शनैश्चराय नमः', category: 'Planetary', subtitle: 'Discipline and patience', tags: ['Shani', 'Discipline'], meaning: 'A Shani mantra for discipline, patience, resilience, and karmic balance.' },
-    { id: 'om_shri_ganeshaya', name: 'Om Shri Ganeshaya Namah', text: 'ॐ श्री गणेशाय नमः', category: 'Ganesha', subtitle: 'Remove obstacles', tags: ['Beginnings', 'Obstacles'], meaning: 'A Ganesha mantra for removing obstacles, new beginnings, and success.' },
-    { id: 'om_hanumate_namah', name: 'Om Hanumate Namah', text: 'ॐ हनुमते नमः', category: 'Hanuman', subtitle: 'Courage and strength', tags: ['Strength', 'Courage'], meaning: 'A Hanuman mantra for courage, strength, devotion, and protection.' },
-    { id: 'om_shanti', name: 'Om Shanti Shanti Shanti', text: 'ॐ शान्तिः शान्तिः शान्तिः', category: 'Peace', subtitle: 'Peace mantra', tags: ['Peace', 'Calm'], meaning: 'A peace mantra invoking calmness in body, speech, and mind.' },
-    { id: 'hari_om', name: 'Hari Om', text: 'हरि ॐ', category: 'General', subtitle: 'Supreme consciousness', tags: ['Peace', 'Meditation'], meaning: 'A simple yet powerful mantra connecting with supreme consciousness.' },
-    { id: 'so_ham', name: 'So Ham', text: 'सो ऽहम्', category: 'General', subtitle: 'I am that', tags: ['Meditation', 'Self'], meaning: 'A meditation mantra affirming oneness with the universe.' },
-    { id: 'om_mane_padme_hum', name: 'Om Mani Padme Hum', text: 'ॐ मणि पद्मे हूँ', category: 'Buddhist', subtitle: 'Compassion', tags: ['Compassion', 'Peace'], meaning: 'The most famous Buddhist mantra of compassion, wisdom, and purification.' },
-    { id: 'om_ah_hum', name: 'Om Ah Hum', text: 'ॐ आः हूँ', category: 'Buddhist', subtitle: 'Body speech mind', tags: ['Purification', 'Meditation'], meaning: 'A Tibetan Buddhist mantra purifying body, speech, and mind.' },
-    { id: 'guru_om', name: 'Guru Om', text: 'गुरु ॐ', category: 'General', subtitle: 'Guru mantra', tags: ['Guru', 'Guidance'], meaning: 'A mantra honoring the spiritual teacher and seeking guidance.' },
-    { id: 'durga_durgatihara', name: 'Durgatihara Mantra', text: 'ॐ दुर्गा दुर्गतिहारिणी', category: 'Devi', subtitle: 'Protection and strength', tags: ['Durga', 'Protection'], meaning: 'A Durga mantra for protection, strength, and removing difficulties.' },
-    { id: 'lakshmi_om_shrim', name: 'Om Shrim Mahalakshmi', text: 'ॐ श्रीं महालक्ष्म्यै नमः', category: 'Devi', subtitle: 'Abundance and prosperity', tags: ['Lakshmi', 'Abundance'], meaning: 'A Lakshmi mantra for abundance, prosperity, beauty, and grace.' },
-    { id: 'saraswati_om_aim', name: 'Om Aim Saraswatyai', text: 'ॐ ऐं सरस्वत्यै नमः', category: 'Devi', subtitle: 'Knowledge and wisdom', tags: ['Saraswati', 'Knowledge'], meaning: 'A Saraswati mantra for knowledge, wisdom, creativity, and learning.' },
-    { id: 'krishna_om_namah', name: 'Om Krishnaya Namah', text: 'ॐ कृष्णाय नमः', category: 'Vishnu', subtitle: 'Love and joy', tags: ['Krishna', 'Love'], meaning: 'A Krishna mantra for love, joy, compassion, and devotion.' },
-    { id: 'vishnu_om_namo', name: 'Om Namo Narayanaya', text: 'ॐ नमो नारायणाय', category: 'Vishnu', subtitle: 'Preservation and peace', tags: ['Vishnu', 'Peace'], meaning: 'A Vishnu mantra for preservation, peace, protection, and cosmic order.' },
-    { id: 'ram_om_ramaya', name: 'Om Ramaya Namah', text: 'ॐ रामाय नमः', category: 'Vishnu', subtitle: 'Righteousness and strength', tags: ['Ram', 'Dharma'], meaning: 'A Rama mantra for righteousness, strength, courage, and dharma.' },
-    { id: 'kali_om_krim', name: 'Om Krim Kalikayai', text: 'ॐ क्रीं कालिकायै नमः', category: 'Devi', subtitle: 'Transformation and power', tags: ['Kali', 'Power'], meaning: 'A Kali mantra for transformation, protection, and removing negativity.' },
-    { id: 'budh_beej', name: 'Budh Beej Mantra', text: 'ॐ ब्रां ब्रीं ब्रौं सः बुधाय नमः', category: 'Planetary', subtitle: 'Intellect and communication', tags: ['Mercury', 'Intellect'], meaning: 'A Mercury (Budh) mantra for intellect, communication, and analytical skills.' },
-    { id: 'guru_beej', name: 'Guru Beej Mantra', text: 'ॐ ग्रां ग्रीण ग्रौं सः गुरवे नमः', category: 'Planetary', subtitle: 'Wisdom and guidance', tags: ['Jupiter', 'Wisdom'], meaning: 'A Jupiter (Guru) mantra for wisdom, knowledge, prosperity, and guidance.' },
-    { id: 'mangal_beej', name: 'Mangal Beej Mantra', text: 'ॐ म्रां म्रीण म्रौं सः मङ्गलाय नमः', category: 'Planetary', subtitle: 'Energy and courage', tags: ['Mars', 'Energy'], meaning: 'A Mars (Mangal) mantra for energy, courage, ambition, and strength.' },
-    { id: 'shukra_beej', name: 'Shukra Beej Mantra', text: 'ॐ ट्रां ट्रीण ट्रौं सः शुक्राय नमः', category: 'Planetary', subtitle: 'Love and luxury', tags: ['Venus', 'Love'], meaning: 'A Venus (Shukra) mantra for love, beauty, luxury, and harmonious relationships.' },
-    { id: 'rahu_beej', name: 'Rahu Beej Mantra', text: 'ॐ र्रां र्रीण र्रौं सः रहवे नमः', category: 'Planetary', subtitle: 'Remove obstacles', tags: ['Rahu', 'Obstacles'], meaning: 'A Rahu mantra for removing obstacles, confusion, and unexpected challenges.' },
-    { id: 'ketu_beej', name: 'Ketu Beej Mantra', text: 'ॐ स्रां स्रीण स्रौं सः केतवे नमः', category: 'Planetary', subtitle: 'Spiritual growth', tags: ['Ketu', 'Spirituality'], meaning: 'A Ketu mantra for spiritual growth, detachment, and liberation.' },
-    { id: 'surya_beej', name: 'Surya Beej Mantra', text: 'ॐ ह्रां ह्रीण ह्रौं सः सूर्याय नमः', category: 'Planetary', subtitle: 'Health and vitality', tags: ['Sun', 'Health'], meaning: 'A Sun (Surya) mantra for health, vitality, confidence, and leadership.' },
-    { id: 'nirvana_shatkam', name: 'Nirvana Shatkam', text: 'मनो बुद्ध्यहंकार चित्तानि नाहम्', category: 'Advaita', subtitle: 'Non-duality', tags: ['Advaita', 'Self'], meaning: 'A Vedantic mantra by Adi Shankara affirming the nature of the self beyond body and mind.' },
-    { id: 'asato_ma', name: 'Asato Ma Sadgamaya', text: 'असतो मा सद्गमय', category: 'Vedic', subtitle: 'Lead me to truth', tags: ['Truth', 'Light'], meaning: 'A Vedic prayer seeking guidance from darkness to light, from ignorance to truth.' },
-    { id: 'shanti_mantra', name: 'Shanti Mantra (Full)', text: 'ॐ सह नाववतु', category: 'Vedic', subtitle: 'Peace and harmony', tags: ['Peace', 'Harmony'], meaning: 'A Vedic peace mantra prayed for harmony between teacher and student.' },
-    { id: 'bhagavad_gita', name: 'Gita Dhyanam', text: 'पार्थाय प्रतिबोधिताम्', category: 'General', subtitle: 'Gita invocation', tags: ['Gita', 'Wisdom'], meaning: 'An invocation to the Bhagavad Gita for wisdom and guidance.' }
+    { id: 'gayatri', name: 'Gayatri Mantra', text: 'à¥ à¤­à¥‚à¤°à¥à¤­à¥à¤µà¤ƒ à¤¸à¥à¤µà¤ƒ', category: 'Vedic', subtitle: 'Wisdom and illumination', tags: ['Wisdom', 'Light'], meaning: 'The most revered Vedic mantra for wisdom, spiritual light, and higher consciousness.' },
+    { id: 'om_namah_shivaya', name: 'Om Namah Shivaya', text: 'à¥ à¤¨à¤®à¤ƒ à¤¶à¤¿à¤µà¤¾à¤¯', category: 'Shiva', subtitle: 'Peace and devotion', tags: ['Peace', 'Shiva'], meaning: 'A well-known Shiva mantra used for inner peace, devotion, and self-realization.' },
+    { id: 'maha_mrityunjaya', name: 'Maha Mrityunjaya Mantra', text: 'à¥ à¤¤à¥à¤°à¥à¤¯à¤®à¥à¤¬à¤•à¤‚ à¤¯à¤œà¤¾à¤®à¤¹à¥‡', category: 'Shiva', subtitle: 'Healing and protection', tags: ['Healing', 'Protection'], meaning: 'A powerful Shiva mantra for healing, strength, and overcoming difficulties.' },
+    { id: 'shani_beej', name: 'Shani Beej Mantra', text: 'à¥ à¤¶à¤‚ à¤¶à¤¨à¥ˆà¤¶à¥à¤šà¤°à¤¾à¤¯ à¤¨à¤®à¤ƒ', category: 'Planetary', subtitle: 'Discipline and patience', tags: ['Shani', 'Discipline'], meaning: 'A Shani mantra for discipline, patience, resilience, and karmic balance.' },
+    { id: 'om_shri_ganeshaya', name: 'Om Shri Ganeshaya Namah', text: 'à¥ à¤¶à¥à¤°à¥€ à¤—à¤£à¥‡à¤¶à¤¾à¤¯ à¤¨à¤®à¤ƒ', category: 'Ganesha', subtitle: 'Remove obstacles', tags: ['Beginnings', 'Obstacles'], meaning: 'A Ganesha mantra for removing obstacles, new beginnings, and success.' },
+    { id: 'om_hanumate_namah', name: 'Om Hanumate Namah', text: 'à¥ à¤¹à¤¨à¥à¤®à¤¤à¥‡ à¤¨à¤®à¤ƒ', category: 'Hanuman', subtitle: 'Courage and strength', tags: ['Strength', 'Courage'], meaning: 'A Hanuman mantra for courage, strength, devotion, and protection.' },
+    { id: 'om_shanti', name: 'Om Shanti Shanti Shanti', text: 'à¥ à¤¶à¤¾à¤¨à¥à¤¤à¤¿à¤ƒ à¤¶à¤¾à¤¨à¥à¤¤à¤¿à¤ƒ à¤¶à¤¾à¤¨à¥à¤¤à¤¿à¤ƒ', category: 'Peace', subtitle: 'Peace mantra', tags: ['Peace', 'Calm'], meaning: 'A peace mantra invoking calmness in body, speech, and mind.' },
+    { id: 'hari_om', name: 'Hari Om', text: 'à¤¹à¤°à¤¿ à¥', category: 'General', subtitle: 'Supreme consciousness', tags: ['Peace', 'Meditation'], meaning: 'A simple yet powerful mantra connecting with supreme consciousness.' },
+    { id: 'so_ham', name: 'So Ham', text: 'à¤¸à¥‹ à¤½à¤¹à¤®à¥', category: 'General', subtitle: 'I am that', tags: ['Meditation', 'Self'], meaning: 'A meditation mantra affirming oneness with the universe.' },
+    { id: 'om_mane_padme_hum', name: 'Om Mani Padme Hum', text: 'à¥ à¤®à¤£à¤¿ à¤ªà¤¦à¥à¤®à¥‡ à¤¹à¥‚à¤', category: 'Buddhist', subtitle: 'Compassion', tags: ['Compassion', 'Peace'], meaning: 'The most famous Buddhist mantra of compassion, wisdom, and purification.' },
+    { id: 'om_ah_hum', name: 'Om Ah Hum', text: 'à¥ à¤†à¤ƒ à¤¹à¥‚à¤', category: 'Buddhist', subtitle: 'Body speech mind', tags: ['Purification', 'Meditation'], meaning: 'A Tibetan Buddhist mantra purifying body, speech, and mind.' },
+    { id: 'guru_om', name: 'Guru Om', text: 'à¤—à¥à¤°à¥ à¥', category: 'General', subtitle: 'Guru mantra', tags: ['Guru', 'Guidance'], meaning: 'A mantra honoring the spiritual teacher and seeking guidance.' },
+    { id: 'durga_durgatihara', name: 'Durgatihara Mantra', text: 'à¥ à¤¦à¥à¤°à¥à¤—à¤¾ à¤¦à¥à¤°à¥à¤—à¤¤à¤¿à¤¹à¤¾à¤°à¤¿à¤£à¥€', category: 'Devi', subtitle: 'Protection and strength', tags: ['Durga', 'Protection'], meaning: 'A Durga mantra for protection, strength, and removing difficulties.' },
+    { id: 'lakshmi_om_shrim', name: 'Om Shrim Mahalakshmi', text: 'à¥ à¤¶à¥à¤°à¥€à¤‚ à¤®à¤¹à¤¾à¤²à¤•à¥à¤·à¥à¤®à¥à¤¯à¥ˆ à¤¨à¤®à¤ƒ', category: 'Devi', subtitle: 'Abundance and prosperity', tags: ['Lakshmi', 'Abundance'], meaning: 'A Lakshmi mantra for abundance, prosperity, beauty, and grace.' },
+    { id: 'saraswati_om_aim', name: 'Om Aim Saraswatyai', text: 'à¥ à¤à¤‚ à¤¸à¤°à¤¸à¥à¤µà¤¤à¥à¤¯à¥ˆ à¤¨à¤®à¤ƒ', category: 'Devi', subtitle: 'Knowledge and wisdom', tags: ['Saraswati', 'Knowledge'], meaning: 'A Saraswati mantra for knowledge, wisdom, creativity, and learning.' },
+    { id: 'krishna_om_namah', name: 'Om Krishnaya Namah', text: 'à¥ à¤•à¥ƒà¤·à¥à¤£à¤¾à¤¯ à¤¨à¤®à¤ƒ', category: 'Vishnu', subtitle: 'Love and joy', tags: ['Krishna', 'Love'], meaning: 'A Krishna mantra for love, joy, compassion, and devotion.' },
+    { id: 'vishnu_om_namo', name: 'Om Namo Narayanaya', text: 'à¥ à¤¨à¤®à¥‹ à¤¨à¤¾à¤°à¤¾à¤¯à¤£à¤¾à¤¯', category: 'Vishnu', subtitle: 'Preservation and peace', tags: ['Vishnu', 'Peace'], meaning: 'A Vishnu mantra for preservation, peace, protection, and cosmic order.' },
+    { id: 'ram_om_ramaya', name: 'Om Ramaya Namah', text: 'à¥ à¤°à¤¾à¤®à¤¾à¤¯ à¤¨à¤®à¤ƒ', category: 'Vishnu', subtitle: 'Righteousness and strength', tags: ['Ram', 'Dharma'], meaning: 'A Rama mantra for righteousness, strength, courage, and dharma.' },
+    { id: 'kali_om_krim', name: 'Om Krim Kalikayai', text: 'à¥ à¤•à¥à¤°à¥€à¤‚ à¤•à¤¾à¤²à¤¿à¤•à¤¾à¤¯à¥ˆ à¤¨à¤®à¤ƒ', category: 'Devi', subtitle: 'Transformation and power', tags: ['Kali', 'Power'], meaning: 'A Kali mantra for transformation, protection, and removing negativity.' },
+    { id: 'budh_beej', name: 'Budh Beej Mantra', text: 'à¥ à¤¬à¥à¤°à¤¾à¤‚ à¤¬à¥à¤°à¥€à¤‚ à¤¬à¥à¤°à¥Œà¤‚ à¤¸à¤ƒ à¤¬à¥à¤§à¤¾à¤¯ à¤¨à¤®à¤ƒ', category: 'Planetary', subtitle: 'Intellect and communication', tags: ['Mercury', 'Intellect'], meaning: 'A Mercury (Budh) mantra for intellect, communication, and analytical skills.' },
+    { id: 'guru_beej', name: 'Guru Beej Mantra', text: 'à¥ à¤—à¥à¤°à¤¾à¤‚ à¤—à¥à¤°à¥€à¤£ à¤—à¥à¤°à¥Œà¤‚ à¤¸à¤ƒ à¤—à¥à¤°à¤µà¥‡ à¤¨à¤®à¤ƒ', category: 'Planetary', subtitle: 'Wisdom and guidance', tags: ['Jupiter', 'Wisdom'], meaning: 'A Jupiter (Guru) mantra for wisdom, knowledge, prosperity, and guidance.' },
+    { id: 'mangal_beej', name: 'Mangal Beej Mantra', text: 'à¥ à¤®à¥à¤°à¤¾à¤‚ à¤®à¥à¤°à¥€à¤£ à¤®à¥à¤°à¥Œà¤‚ à¤¸à¤ƒ à¤®à¤™à¥à¤—à¤²à¤¾à¤¯ à¤¨à¤®à¤ƒ', category: 'Planetary', subtitle: 'Energy and courage', tags: ['Mars', 'Energy'], meaning: 'A Mars (Mangal) mantra for energy, courage, ambition, and strength.' },
+    { id: 'shukra_beej', name: 'Shukra Beej Mantra', text: 'à¥ à¤Ÿà¥à¤°à¤¾à¤‚ à¤Ÿà¥à¤°à¥€à¤£ à¤Ÿà¥à¤°à¥Œà¤‚ à¤¸à¤ƒ à¤¶à¥à¤•à¥à¤°à¤¾à¤¯ à¤¨à¤®à¤ƒ', category: 'Planetary', subtitle: 'Love and luxury', tags: ['Venus', 'Love'], meaning: 'A Venus (Shukra) mantra for love, beauty, luxury, and harmonious relationships.' },
+    { id: 'rahu_beej', name: 'Rahu Beej Mantra', text: 'à¥ à¤°à¥à¤°à¤¾à¤‚ à¤°à¥à¤°à¥€à¤£ à¤°à¥à¤°à¥Œà¤‚ à¤¸à¤ƒ à¤°à¤¹à¤µà¥‡ à¤¨à¤®à¤ƒ', category: 'Planetary', subtitle: 'Remove obstacles', tags: ['Rahu', 'Obstacles'], meaning: 'A Rahu mantra for removing obstacles, confusion, and unexpected challenges.' },
+    { id: 'ketu_beej', name: 'Ketu Beej Mantra', text: 'à¥ à¤¸à¥à¤°à¤¾à¤‚ à¤¸à¥à¤°à¥€à¤£ à¤¸à¥à¤°à¥Œà¤‚ à¤¸à¤ƒ à¤•à¥‡à¤¤à¤µà¥‡ à¤¨à¤®à¤ƒ', category: 'Planetary', subtitle: 'Spiritual growth', tags: ['Ketu', 'Spirituality'], meaning: 'A Ketu mantra for spiritual growth, detachment, and liberation.' },
+    { id: 'surya_beej', name: 'Surya Beej Mantra', text: 'à¥ à¤¹à¥à¤°à¤¾à¤‚ à¤¹à¥à¤°à¥€à¤£ à¤¹à¥à¤°à¥Œà¤‚ à¤¸à¤ƒ à¤¸à¥‚à¤°à¥à¤¯à¤¾à¤¯ à¤¨à¤®à¤ƒ', category: 'Planetary', subtitle: 'Health and vitality', tags: ['Sun', 'Health'], meaning: 'A Sun (Surya) mantra for health, vitality, confidence, and leadership.' },
+    { id: 'nirvana_shatkam', name: 'Nirvana Shatkam', text: 'à¤®à¤¨à¥‹ à¤¬à¥à¤¦à¥à¤§à¥à¤¯à¤¹à¤‚à¤•à¤¾à¤° à¤šà¤¿à¤¤à¥à¤¤à¤¾à¤¨à¤¿ à¤¨à¤¾à¤¹à¤®à¥', category: 'Advaita', subtitle: 'Non-duality', tags: ['Advaita', 'Self'], meaning: 'A Vedantic mantra by Adi Shankara affirming the nature of the self beyond body and mind.' },
+    { id: 'asato_ma', name: 'Asato Ma Sadgamaya', text: 'à¤…à¤¸à¤¤à¥‹ à¤®à¤¾ à¤¸à¤¦à¥à¤—à¤®à¤¯', category: 'Vedic', subtitle: 'Lead me to truth', tags: ['Truth', 'Light'], meaning: 'A Vedic prayer seeking guidance from darkness to light, from ignorance to truth.' },
+    { id: 'shanti_mantra', name: 'Shanti Mantra (Full)', text: 'à¥ à¤¸à¤¹ à¤¨à¤¾à¤µà¤µà¤¤à¥', category: 'Vedic', subtitle: 'Peace and harmony', tags: ['Peace', 'Harmony'], meaning: 'A Vedic peace mantra prayed for harmony between teacher and student.' },
+    { id: 'bhagavad_gita', name: 'Gita Dhyanam', text: 'à¤ªà¤¾à¤°à¥à¤¥à¤¾à¤¯ à¤ªà¥à¤°à¤¤à¤¿à¤¬à¥‹à¤§à¤¿à¤¤à¤¾à¤®à¥', category: 'General', subtitle: 'Gita invocation', tags: ['Gita', 'Wisdom'], meaning: 'An invocation to the Bhagavad Gita for wisdom and guidance.' }
   ];
 
   let currentCategory = 'All';
@@ -1519,11 +1516,11 @@ const STORAGE_KEYS = {
   function updateProgressRing() {
     if (target === 0) {
       updateTicks(count % TICKS);
-      malaText.innerText = `${activeMantra.text} • ${count} (∞ Mode)`;
+      malaText.innerText = `${activeMantra.text} â€¢ ${count} (âˆž Mode)`;
     } else {
       const pct = Math.min(count / target, 1);
       updateTicks(Math.round(pct * TICKS));
-      malaText.innerText = `${activeMantra.text} • ${count} / ${target}`;
+      malaText.innerText = `${activeMantra.text} â€¢ ${count} / ${target}`;
     }
   }
 

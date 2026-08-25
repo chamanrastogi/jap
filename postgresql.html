@@ -1,0 +1,1067 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+    body {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(100, 116, 139, 0.35) transparent;
+    }
+    body::-webkit-scrollbar { width: 8px; }
+    body::-webkit-scrollbar-track { background: transparent; }
+    body::-webkit-scrollbar-thumb {
+      background: rgba(100, 116, 139, 0.35);
+      border-radius: 999px;
+    }
+    body::-webkit-scrollbar-thumb:hover { background: rgba(100, 116, 139, 0.55); }
+    #sidebar, .sidebar {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+    }
+    #sidebar::-webkit-scrollbar, .sidebar::-webkit-scrollbar { width: 5px; }
+    #sidebar::-webkit-scrollbar-track, .sidebar::-webkit-scrollbar-track { background: transparent; }
+    #sidebar::-webkit-scrollbar-thumb, .sidebar::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+    }
+    #sidebar::-webkit-scrollbar-thumb:hover, .sidebar::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.32);
+    }
+</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PostgreSQL Complete Guide â€” SQL, Joins, JSONB, Indexes &amp; Admin</title>
+  <link href="lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="lib/bootstrap-icons/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --pg-navy: #14283c;
+      --pg-blue: #336791;
+      --sidebar-width: 280px;
+    }
+    * { scroll-margin-top: 1rem; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f4f6fb;
+      display: flex;
+    }
+    #sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0; left: 0;
+      background: var(--pg-navy);
+      overflow-y: auto;
+      z-index: 1000;
+      transition: transform .3s;
+    }
+    #sidebar .brand { padding: 1.25rem 1.25rem .75rem; border-bottom: 1px solid rgba(255,255,255,.08); }
+    #sidebar .brand h5 { color: #fff; font-weight: 700; }
+    #sidebar .brand small { color: #adb5bd; font-size: .7rem; }
+    #sidebar .nav-link {
+      color: #c8cdd3;
+      padding: .5rem 1.25rem;
+      font-size: .88rem;
+      border-left: 3px solid transparent;
+      transition: all .15s;
+    }
+    #sidebar .nav-link:hover { color: #fff; background: rgba(255,255,255,.05); }
+    #sidebar .nav-link i { width: 1.3rem; }
+    #sidebar .nav-section {
+      color: #6c757d; font-size: .7rem; text-transform: uppercase;
+      letter-spacing: .08em; padding: 1rem 1.25rem .3rem; font-weight: 600;
+    }
+    #main { margin-left: var(--sidebar-width); flex: 1; padding: 2rem 2.5rem 4rem; max-width: 1100px; }
+    @media (max-width: 991.98px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.show { transform: translateX(0); }
+      #main { margin-left: 0; padding: 1.5rem; }
+    }
+    .sidebar-toggle {
+      position: fixed; top: .75rem; left: .75rem;
+      z-index: 1050; background: var(--pg-navy); color: #fff;
+      border: none; border-radius: .4rem; padding: .4rem .65rem; display: none;
+    }
+    @media (max-width: 991.98px) { .sidebar-toggle { display: block; } }
+    section { padding-top: 2.25rem; }
+    .section-desc { color: #6c757d; margin-bottom: 1.5rem; font-size: .95rem; }
+    .tip-row { display: flex; flex-direction: column; gap: .55rem; }
+    .tip-row .tip {
+      display: flex;
+      gap: .6rem;
+      align-items: flex-start;
+      font-size: .87rem;
+      color: #3a3d58;
+    }
+    .tip-row .tip i { color: var(--pg-blue); margin-top: .15rem; }
+    .schema-table td:first-child {
+      font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+      font-size: .8rem;
+      white-space: nowrap;
+    }
+    .home-link {
+      position: fixed; top: 14px; left: 14px; z-index: 1100;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 12px; border-radius: 999px;
+      background: rgba(255,255,255,.94); color: #0f172a;
+      text-decoration: none; font-size: .78rem; font-weight: 700;
+      box-shadow: 0 10px 28px rgba(0,0,0,.08);
+      border: 1px solid rgba(226,232,240,.9);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: .2s;
+    }
+    .home-link:hover { color: var(--pg-blue); }
+    @media (min-width: 992px) { .home-link { left: calc(var(--sidebar-width) + 14px); } }
+    @media (max-width: 991.98px) { .home-link { left: 4rem; } }
+  </style>
+  <link rel="stylesheet" href="lib/google-fonts/space-grotesk/space-grotesk.css">
+  <link rel="stylesheet" href="lib/google-fonts/jetbrains-mono/jetbrains-mono.css">
+<style>
+/* ===== Jap Hub design system - graphql pattern (injected layer) ===== */
+:root {
+  --acc: #336791;
+  --acc2: #4a90c2;
+  --acc-soft: color-mix(in srgb, var(--acc) 32%, #ffffff);
+  --ink-deep: #14283c;
+  --ink-2: #0e1f30;
+  --ink: var(--ink-deep);
+  --bg: color-mix(in srgb, var(--acc) 5%, #f6f4fc);
+  --surface: #ffffff;
+  --surface-soft: rgba(255,255,255,.72);
+  --muted: color-mix(in srgb, var(--acc) 24%, #64698a);
+  --border: color-mix(in srgb, var(--acc) 16%, #e4e0f3);
+  --code: #0e1120;
+  --code-text: #e7e4f6;
+  --good: #17b26a;
+}
+[data-bs-theme="dark"] {
+  --ink: #eef0fb;
+  --bg: color-mix(in srgb, var(--acc) 8%, #0e1120);
+  --surface: #161a2e;
+  --muted: #9aa2bb;
+  --border: color-mix(in srgb, var(--acc) 24%, #262b3f);
+  --code: #0a0d1e;
+  --code-text: #dcd8ef;
+}
+::selection { background: var(--acc); color: #fff; }
+body {
+  font-family: 'Space Grotesk', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background:
+    radial-gradient(52rem 30rem at 110% -6%, color-mix(in srgb, var(--acc) 11%, transparent), transparent 60%),
+    radial-gradient(40rem 28rem at -10% 8%, color-mix(in srgb, var(--acc2) 9%, transparent), transparent 55%),
+    var(--bg);
+  color: var(--ink);
+  display: flex;
+}
+h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', 'Segoe UI', sans-serif; }
+#sidebar {
+  background:
+    radial-gradient(120% 90% at 100% 0%, color-mix(in srgb, var(--acc2) 28%, transparent), transparent 55%),
+    linear-gradient(180deg, var(--ink-deep) 0%, var(--ink-2) 100%);
+}
+#sidebar .brand h5 { color: #fff; letter-spacing: .01em; }
+#sidebar .brand small { color: #a9bccd; font-size: .7rem; }
+#sidebar .nav-link { color: #c6ced8; font-family: 'Space Grotesk', sans-serif; }
+#sidebar .nav-link:hover { color: #fff; background: rgba(255,255,255,.06); }
+#sidebar .nav-link i { color: color-mix(in srgb, var(--acc-soft) 62%, #ffffff); }
+#sidebar .nav-link.active {
+  color: #fff;
+  border-left-color: var(--acc);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--acc) 22%, transparent), transparent);
+}
+#sidebar .nav-section { color: #8698ab; }
+.sidebar-toggle { background: var(--ink-deep); color: #fff; }
+#main { width: 100%; padding: 2rem 2.5rem 4rem; max-width: 1120px; }
+h2 {
+  color: var(--ink);
+  font-weight: 700;
+  margin-top: 2.2rem;
+  padding-bottom: .55rem;
+  border-bottom: none;
+  position: relative;
+}
+h2 i { color: var(--acc); }
+h2::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 58px; height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--acc), var(--acc2));
+}
+h3 { color: var(--ink); font-weight: 600; margin-top: 1.8rem; font-size: 1.12rem; }
+h3 i { color: var(--acc); }
+h4 { color: var(--ink); }
+.card {
+  border: 1px solid var(--border);
+  border-radius: .8rem;
+  background: var(--surface);
+  box-shadow: 0 4px 16px rgba(15, 18, 38, .05);
+  margin-bottom: 1.5rem;
+}
+.card-header {
+  background: color-mix(in srgb, var(--acc) 6%, var(--surface));
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+  font-size: .84rem;
+  color: var(--ink);
+  padding: .75rem 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.lang-pill {
+  margin-left: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .62rem;
+  font-weight: 600;
+  color: var(--acc);
+  background: color-mix(in srgb, var(--acc) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--acc) 22%, transparent);
+  padding: .12rem .5rem;
+  border-radius: 999px;
+  letter-spacing: .04em;
+}
+.card-body { padding: 1.25rem 1.35rem; }
+pre {
+  background: var(--code);
+  color: var(--code-text);
+  padding: 1.05rem 1.2rem;
+  border-radius: .6rem;
+  font-size: .82rem;
+  line-height: 1.6;
+  border: 1px solid rgba(255,255,255,.05);
+  overflow-x: auto;
+  position: relative;
+  margin: .8rem 0;
+}
+pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', ui-monospace, monospace; }
+code {
+  font-family: 'JetBrains Mono', 'Cascadia Code', ui-monospace, monospace;
+  font-size: .85em;
+  background: color-mix(in srgb, var(--acc) 10%, transparent);
+  color: var(--acc);
+  padding: .1em .35em;
+  border-radius: .35em;
+}
+pre code { background: transparent; color: inherit; padding: 0; border-radius: 0; }
+.kw { color: #c792ea; }
+.fn { color: #7ee0c3; }
+.str { color: #c3e88d; }
+.cm { color: #6c7693; font-style: italic; }
+.num { color: #ffb86c; }
+.tp { color: #82aaff; }
+.at { color: #f07178; }
+.highlight-box {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--acc2) 8%, transparent), color-mix(in srgb, var(--acc) 5%, transparent));
+  border-left: 4px solid var(--acc);
+  padding: 1rem 1.25rem;
+  border-radius: .45rem;
+  margin: 1rem 0;
+  font-size: .88rem;
+  color: var(--ink);
+}
+.table thead th {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--muted);
+  background: color-mix(in srgb, var(--acc) 6%, var(--surface));
+  border-bottom: 2px solid var(--border);
+}
+table.table { font-size: .86rem; }
+.cmd-table td:first-child {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .8rem;
+  white-space: nowrap;
+  color: var(--acc);
+}
+.schema-table td:first-child { color: var(--acc2); }
+.new-badge {
+  background: linear-gradient(135deg, var(--acc), var(--acc2));
+  color: #fff;
+  font-size: .62rem;
+  font-weight: 700;
+  padding: .15rem .55rem;
+  border-radius: 999px;
+  vertical-align: middle;
+}
+#main a { color: var(--acc); }
+#main a:hover { color: var(--acc2); }
+.home-link:hover { color: var(--acc); }
+:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; border-radius: 6px; }
+
+/* hero band (legacy doc template) */
+#main > div:first-child.d-flex {
+  background:
+    radial-gradient(120% 150% at 100% 0%, color-mix(in srgb, var(--acc2) 30%, transparent), transparent 55%),
+    radial-gradient(100% 140% at 0% 100%, color-mix(in srgb, var(--acc) 24%, transparent), transparent 50%),
+    linear-gradient(135deg, var(--ink-deep) 0%, var(--ink-2) 100%);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 20px;
+  padding: 2.2rem 1.9rem 1.7rem;
+  margin-bottom: 1.5rem;
+  color: #fff;
+  box-shadow: 0 24px 50px rgba(10, 12, 30, .18);
+}
+#main > div:first-child.d-flex h1 {
+  color: #fff !important;
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  margin-bottom: .55rem;
+}
+#main > div:first-child.d-flex h1 i { color: var(--acc-soft) !important; }
+#main > div:first-child.d-flex p {
+  color: rgba(255, 255, 255, .74) !important;
+  font-size: 1rem;
+}
+#main > div:first-child.d-flex .badge {
+  border-radius: 999px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .64rem;
+  font-weight: 600;
+  letter-spacing: .03em;
+}
+#main > div:first-child.d-flex .badge.bg-secondary { background: rgba(255,255,255,.14) !important; color: #fff; }
+#main > div:first-child.d-flex .badge.bg-success { background: var(--good) !important; }
+
+/* intro lead */
+#main > p.fs-5 {
+  color: var(--muted) !important;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  max-width: 52rem;
+}
+@media (max-width: 768px) {
+  #main { padding: 1.5rem 1.15rem 3rem; }
+  #main > div:first-child.d-flex { padding: 1.6rem 1.3rem 1.4rem; }
+}
+</style></head>
+<body>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar"><i class="bi bi-list fs-5"></i></button>
+<a href="index.html" class="home-link" aria-label="Go back to home page"><span>&larr;</span> Home</a>
+
+<!-- ===== SIDEBAR ===== -->
+<nav id="sidebar">
+  <div class="brand">
+    <h5><i class="bi bi-database-fill me-2" style="color:#5b9bd5"></i>PostgreSQL</h5>
+    <small class="d-block mt-1">The World's Most Advanced OSS Database</small>
+  </div>
+  <div class="py-2">
+    <div class="nav-section">Getting Started</div>
+    <a class="nav-link" href="#intro"><i class="bi bi-info-circle"></i> Introduction</a>
+    <a class="nav-link" href="#setup"><i class="bi bi-terminal"></i> Setup &amp; psql</a>
+
+    <div class="nav-section">SQL Essentials</div>
+    <a class="nav-link" href="#ddl"><i class="bi bi-table"></i> Tables &amp; Data Types</a>
+    <a class="nav-link" href="#crud"><i class="bi bi-pencil-square"></i> CRUD &amp; Upserts</a>
+    <a class="nav-link" href="#joins"><i class="bi bi-diagram-3"></i> Joins, CTEs &amp; Windows</a>
+
+    <div class="nav-section">Power Features</div>
+    <a class="nav-link" href="#indexes"><i class="bi bi-sort-up"></i> Indexing &amp; EXPLAIN</a>
+    <a class="nav-link" href="#jsonb"><i class="bi bi-braces"></i> JSONB</a>
+    <a class="nav-link" href="#functions"><i class="bi bi-code-slash"></i> Functions &amp; Triggers</a>
+
+    <div class="nav-section">Operations</div>
+    <a class="nav-link" href="#transactions"><i class="bi bi-arrow-repeat"></i> Transactions</a>
+    <a class="nav-link" href="#admin"><i class="bi bi-shield-lock"></i> Administration</a>
+    <a class="nav-link" href="#cheatsheet"><i class="bi bi-stars"></i> Cheat Sheet</a>
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<div id="main">
+
+  <!-- HERO -->
+  <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+    <div>
+      <h1 class="fw-bold mb-1">
+        <i class="bi bi-database-fill me-2"></i>PostgreSQL Guide
+      </h1>
+      <p class="mb-0 fs-5">SQL, Joins, Window Functions, JSONB, Indexing &amp; Administration</p>
+      <p class="mb-0 mt-1">
+        <span class="badge bg-secondary me-1">PostgreSQL 17</span>
+        <span class="badge bg-success me-1">psql</span>
+        <span class="badge bg-secondary">RDBMS</span>
+      </p>
+    </div>
+  </div>
+
+  <p class="fs-5 mb-5">
+    A complete working guide to <strong>PostgreSQL</strong> â€” the open-source relational database famous for
+    standards compliance, correctness and power features. Covers schema design, everyday SQL,
+    joins and CTEs, window functions, JSONB, indexes, transactions and server administration.
+  </p>
+
+  <!-- ==================== INTRO ==================== -->
+  <section id="intro">
+    <h2><i class="bi bi-info-circle me-2"></i>What is PostgreSQL?</h2>
+    <p class="section-desc">
+      PostgreSQL (started 1986 as POSTGRES at Berkeley) is an <strong>object-relational database</strong>.
+      It runs as a server process on port <strong>5432</strong>, stores data in databases containing schemas
+      containing tables, and is known for strict ACID compliance and a very rich feature set.
+    </p>
+
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-body text-center">
+            <i class="bi bi-patch-check display-6" style="color:var(--acc)"></i>
+            <h5 class="mt-2">Standards &amp; ACID</h5>
+            <p class="text-muted small mb-0">Closest mainstream DB to the SQL standard; MVCC keeps readers and writers from blocking each other.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-body text-center">
+            <i class="bi bi-boxes display-6" style="color:var(--acc2)"></i>
+            <h5 class="mt-2">Rich Data Types</h5>
+            <p class="text-muted small mb-0">Arrays, ranges, UUID, network, geometric types and first-class JSONB.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-body text-center">
+            <i class="bi bi-puzzle display-6" style="color:var(--good)"></i>
+            <h5 class="mt-2">Extensible</h5>
+            <p class="text-muted small mb-0">Extensions like PostGIS, pg_trgm, TimescaleDB; custom functions in PL/pgSQL, Python and more.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">PostgreSQL vs MySQL <span class="lang-pill">concept</span></div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead><tr><th style="width:20%">Concern</th><th>PostgreSQL</th><th>MySQL</th></tr></thead>
+          <tbody>
+            <tr><td>Standard SQL</td><td>Very close to the spec</td><td>Dialect quirks (silent truncation history)</td></tr>
+            <tr><td>Data types</td><td>Arrays, ranges, JSONB, custom types</td><td>Core types + JSON</td></tr>
+            <tr><td>Concurrency</td><td>MVCC, no read locks</td><td>InnoDB MVCC</td></tr>
+            <tr><td>Full-text / trigram search</td><td>Built-in FTS + pg_trgm fuzzy</td><td>Limited built-in</td></tr>
+            <tr><td>Replication</td><td>Streaming logical + physical</td><td>Built-in async GTID-based</td></tr>
+            <tr><td>Ecosystem fit</td><td>Analytics, GIS, complex apps</td><td>Simple web workloads, LAMP</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Naming hierarchy</strong> &mdash; unlike MySQL, in PostgreSQL a <em>schema</em> is a namespace
+      <em>inside</em> a database (<code>public.orders</code>). One cluster serves many databases; connect with
+      <code>psql -d dbname</code>. Default superuser is <code>postgres</code>.
+    </div>
+  </section>
+
+  <!-- ==================== SETUP ==================== -->
+  <section id="setup">
+    <h2><i class="bi bi-terminal me-2"></i>Setup &amp; psql</h2>
+    <p class="section-desc">Install the server, then live inside <strong>psql</strong> â€” the interactive terminal.</p>
+
+    <div class="card">
+      <div class="card-header">Install &amp; first connection <span class="lang-pill">bash</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm"># Windows (installer or winget)
+</span><span class="kw">winget</span> install PostgreSQL.PostgreSQL.17
+
+<span class="cm"># Connect as the postgres superuser
+</span><span class="kw">psql</span> -U postgres
+<span class="kw">psql</span> -U postgres -d shopdb -h localhost -p <span class="num">5432</span>
+
+<span class="cm"># Create database + user from the shell or inside psql
+</span><span class="kw">CREATE DATABASE</span> shopdb;
+<span class="kw">CREATE USER</span> app_user <span class="kw">WITH PASSWORD</span> <span class="str">'secret'</span>;
+<span class="kw">GRANT</span> <span class="kw">ALL PRIVILEGES</span> <span class="kw">ON DATABASE</span> shopdb <span class="kw">TO</span> app_user;</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Essential psql meta-commands <span class="lang-pill">psql</span></div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead><tr><th style="width:26%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>\l</td><td>List all databases</td></tr>
+            <tr><td>\c shopdb</td><td>Connect to a database</td></tr>
+            <tr><td>\dt</td><td>List tables in current schema</td></tr>
+            <tr><td>\d orders</td><td>Describe table (columns, indexes)</td></tr>
+            <tr><td>\dn</td><td>List schemas</td></tr>
+            <tr><td>\df</td><td>List functions</td></tr>
+            <tr><td>\du</td><td>List users/roles</td></tr>
+            <tr><td>\x</td><td>Toggle expanded (vertical) display</td></tr>
+            <tr><td>\timing</td><td>Show query execution time</td></tr>
+            <tr><td>\copy</td><td>Import/export CSV from the client</td></tr>
+            <tr><td>\q</td><td>Quit psql</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== DDL ==================== -->
+  <section id="ddl">
+    <h2><i class="bi bi-table me-2"></i>Tables &amp; Data Types</h2>
+    <p class="section-desc">Defining structure â€” CREATE, ALTER, constraints and the types worth knowing.</p>
+
+    <div class="card">
+      <div class="card-header">A realistic table <span class="lang-pill">sql</span></div>
+      <div class="card-body">
+        <pre><code><span class="kw">CREATE TABLE</span> products (
+    id          <span class="tp">BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY</span>,
+    sku         <span class="tp">TEXT</span>        <span class="kw">NOT NULL UNIQUE</span>,
+    name        <span class="tp">TEXT</span>        <span class="kw">NOT NULL CHECK</span> (<span class="fn">length</span>(name) <span class="kw">BETWEEN</span> <span class="num">1</span> <span class="kw">AND</span> <span class="num">200</span>),
+    price       <span class="tp">NUMERIC(10,2)</span> <span class="kw">NOT NULL CHECK</span> (price &gt;= <span class="num">0</span>),
+    stock       <span class="tp">INTEGER NOT NULL DEFAULT</span> <span class="num">0</span>,
+    tags        <span class="tp">TEXT[] DEFAULT</span> <span class="str">'{}'</span>,           <span class="cm">// native array!
+</span>    attributes  <span class="tp">JSONB DEFAULT</span> <span class="str">'{}'</span>::jsonb,
+    created_at  <span class="tp">TIMESTAMPTZ NOT NULL DEFAULT</span> <span class="fn">now</span>()
+);
+
+<span class="cm">// Foreign key with cascade
+</span><span class="kw">CREATE TABLE</span> order_items (
+    id         <span class="tp">BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY</span>,
+    order_id   <span class="tp">BIGINT REFERENCES</span> orders(id) <span class="kw">ON DELETE CASCADE</span>,
+    product_id <span class="tp">BIGINT REFERENCES</span> products(id),
+    qty        <span class="tp">SMALLINT NOT NULL CHECK</span> (qty &gt; <span class="num">0</span>)
+);
+
+<span class="cm">// Evolving safely
+</span><span class="kw">ALTER TABLE</span> products <span class="kw">ADD COLUMN</span> discount <span class="tp">NUMERIC(4,2) DEFAULT</span> <span class="num">0</span>;
+<span class="kw">ALTER TABLE</span> products <span class="kw">ALTER COLUMN</span> stock <span class="kw">SET DEFAULT</span> <span class="num">10</span>;
+<span class="kw">ALTER TABLE</span> products <span class="kw">DROP COLUMN</span> discount;
+<span class="kw">TRUNCATE TABLE</span> order_items <span class="kw">RESTART IDENTITY CASCADE</span>;  <span class="cm">// fast delete-all</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Types that matter <span class="lang-pill">reference</span></div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 schema-table">
+          <thead><tr><th style="width:26%">Type</th><th>Use for</th></tr></thead>
+          <tbody>
+            <tr><td>SMALLINT / INTEGER / BIGINT</td><td>Whole numbers â€” prefer BIGINT for ids</td></tr>
+            <tr><td>NUMERIC(p,s)</td><td>Exact decimals â€” money (never FLOAT for money)</td></tr>
+            <tr><td>TEXT / VARCHAR(n)</td><td>Strings â€” TEXT is idiomatic in PG</td></tr>
+            <tr><td>BOOLEAN</td><td>true / false / NULL</td></tr>
+            <tr><td>DATE / TIME / TIMESTAMPTZ</td><td>Always store instants as TIMESTAMPTZ</td></tr>
+            <tr><td>UUID</td><td>Generated ids via gen_random_uuid()</td></tr>
+            <tr><td>JSONB</td><td>Semi-structured data â€” indexable binary JSON</td></tr>
+            <tr><td>TEXT[] / INTEGER[]</td><td>Arrays of values</td></tr>
+            <tr><td>INT4RANGE / TSTZRANGE</td><td>Range types (bookings, validity windows)</td></tr>
+            <tr><td>SERIAL / IDENTITY</td><td>Auto-increment â€” prefer GENERATED ... AS IDENTITY</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CRUD ==================== -->
+  <section id="crud">
+    <h2><i class="bi bi-pencil-square me-2"></i>CRUD &amp; Upserts</h2>
+    <p class="section-desc">Everyday data manipulation â€” plus PostgreSQL's killer INSERT features.</p>
+
+    <div class="card">
+      <div class="card-header">Insert, update, delete <span class="lang-pill">sql</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm">// Insert one row, get generated columns back with RETURNING
+</span><span class="kw">INSERT INTO</span> products (sku, name, price)
+<span class="kw">VALUES</span> (<span class="str">'KB-001'</span>, <span class="str">'Mechanical Keyboard'</span>, <span class="num">3499.00</span>)
+<span class="kw">RETURNING</span> id, created_at;
+
+<span class="cm">// Multi-row insert
+</span><span class="kw">INSERT INTO</span> products (sku, name, price) <span class="kw">VALUES</span>
+    (<span class="str">'HUB-02'</span>, <span class="str">'USB-C Hub'</span>,   <span class="num">999.00</span>),
+    (<span class="str">'CAM-01'</span>, <span class="str">'Webcam 1080p'</span>, <span class="num">1599.00</span>);
+
+<span class="cm">// UPSERT â€” insert, or update conflict on unique constraint
+</span><span class="kw">INSERT INTO</span> products (sku, name, price)
+<span class="kw">VALUES</span> (<span class="str">'KB-001'</span>, <span class="str">'Keyboard Pro'</span>, <span class="num">3999.00</span>)
+<span class="kw">ON CONFLICT</span> (sku) <span class="kw">DO UPDATE SET</span>
+    name = <span class="tp">EXCLUDED</span>.name,
+    price = <span class="tp">EXCLUDED</span>.price;
+
+<span class="cm">// Update with join-style FROM clause
+</span><span class="kw">UPDATE</span> products p <span class="kw">SET</span> price = price * <span class="num">0.9</span>
+<span class="kw">FROM</span> categories c
+<span class="kw">WHERE</span> p.category_id = c.id <span class="kw">AND</span> c.name = <span class="str">'Clearance'</span>;
+
+<span class="cm">// Delete old rows
+</span><span class="kw">DELETE FROM</span> sessions <span class="kw">WHERE</span> expires_at &lt; <span class="fn">now</span>();</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Query patterns <span class="lang-pill">sql</span></div>
+      <div class="card-body">
+        <pre><code><span class="kw">SELECT</span> id, name, price,
+       price * <span class="num">0.18</span> <span class="kw">AS</span> gst
+<span class="kw">FROM</span> products
+<span class="kw">WHERE</span> price <span class="kw">BETWEEN</span> <span class="num">500</span> <span class="kw">AND</span> <span class="num">2000</span>
+  <span class="kw">AND</span> name <span class="kw">ILIKE</span> <span class="str">'%keyboard%'</span>     <span class="cm">// case-insensitive LIKE
+</span>  <span class="kw">AND</span> status <span class="kw">IN</span> (<span class="str">'active'</span>, <span class="str">'draft'</span>)
+<span class="kw">ORDER BY</span> price <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> <span class="num">20 OFFSET</span> <span class="num">40</span>;
+
+<span class="cm">// DISTINCT ON â€” first row per group (PG speciality!)
+</span><span class="kw">SELECT DISTINCT ON</span> (customer_id) *
+<span class="kw">FROM</span> orders
+<span class="kw">ORDER BY</span> customer_id, created_at <span class="kw">DESC</span>;
+
+<span class="cm">// COALESCE for defaults in output
+</span><span class="kw">SELECT</span> <span class="fn">COALESCE</span>(nickname, name) <span class="kw">AS</span> display_name <span class="kw">FROM</span> users;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== JOINS ==================== -->
+  <section id="joins">
+    <h2><i class="bi bi-diagram-3 me-2"></i>Joins, CTEs &amp; Window Functions</h2>
+    <p class="section-desc">Where PostgreSQL really shines â€” combining and analyzing sets of rows.</p>
+
+    <div class="card">
+      <div class="card-header">Join types <span class="lang-pill">sql</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm">// INNER â€” only matching pairs
+</span><span class="kw">SELECT</span> o.id, c.email, o.total
+<span class="kw">FROM</span> orders o
+<span class="kw">JOIN</span> customers c <span class="kw">ON</span> c.id = o.customer_id;
+
+<span class="cm">// LEFT â€” keep all left rows, NULL-fill right
+</span><span class="kw">SELECT</span> p.name, <span class="fn">count</span>(oi.id) <span class="kw">AS</span> times_ordered
+<span class="kw">FROM</span> products p
+<span class="kw">LEFT JOIN</span> order_items oi <span class="kw">ON</span> oi.product_id = p.id
+<span class="kw">GROUP BY</span> p.name
+<span class="kw">HAVING</span> <span class="fn">count</span>(oi.id) = <span class="num">0</span>;              <span class="cm">// never sold
+</span>
+<span class="cm">// SELF JOIN â€” employees and their managers
+</span><span class="kw">SELECT</span> e.name <span class="kw">AS</span> employee, m.name <span class="kw">AS</span> manager
+<span class="kw">FROM</span> employees e
+<span class="kw">LEFT JOIN</span> employees m <span class="kw">ON</span> m.id = e.manager_id;</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">CTEs â€” WITH (incl. recursive) <span class="lang-pill">sql</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm">// Readable pipelines with named sub-results
+</span><span class="kw">WITH</span> monthly <span class="kw">AS</span> (
+    <span class="kw">SELECT DATE_TRUNC</span>(<span class="str">'month'</span>, created_at) <span class="kw">AS</span> m, <span class="fn">sum</span>(total) <span class="kw">AS</span> revenue
+    <span class="kw">FROM</span> orders
+    <span class="kw">WHERE</span> status = <span class="str">'paid'</span>
+    <span class="kw">GROUP BY</span> <span class="num">1</span>
+)
+<span class="kw">SELECT</span> m, revenue,
+       <span class="fn">round</span>(revenue * <span class="num">100.0</span> / <span class="fn">sum</span>(revenue) <span class="kw">OVER</span> (), <span class="num">1</span>) <span class="kw">AS</span> pct_of_year
+<span class="kw">FROM</span> monthly
+<span class="kw">ORDER BY</span> m;
+
+<span class="cm">// Recursive CTE â€” walk an org chart / tree
+</span><span class="kw">WITH RECURSIVE</span> subordinates <span class="kw">AS</span> (
+    <span class="kw">SELECT</span> id, name, manager_id <span class="kw">FROM</span> employees <span class="kw">WHERE</span> id = <span class="num">42</span>
+    <span class="kw">UNION ALL</span>
+    <span class="kw">SELECT</span> e.id, e.name, e.manager_id
+    <span class="kw">FROM</span> employees e
+    <span class="kw">JOIN</span> subordinates s <span class="kw">ON</span> e.manager_id = s.id
+)
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> subordinates;</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Window functions <span class="lang-pill">sql</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm">// Rank within groups WITHOUT collapsing rows
+</span><span class="kw">SELECT</span> customer_id, id, total,
+       <span class="fn">ROW_NUMBER</span>() <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> customer_id <span class="kw">ORDER BY</span> total <span class="kw">DESC</span>) <span class="kw">AS</span> rn,
+       <span class="fn">RANK</span>()     <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> customer_id <span class="kw">ORDER BY</span> total <span class="kw">DESC</span>) <span class="kw">AS</span> rnk,
+       running_total
+<span class="kw">FROM</span> (
+    <span class="kw">SELECT</span> *, <span class="fn">SUM</span>(total) <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> customer_id <span class="kw">ORDER BY</span> created_at) <span class="kw">AS</span> running_total
+    <span class="kw">FROM</span> orders
+) t;
+
+<span class="cm">// Top-3 orders per customer (classic pattern)
+</span><span class="kw">WITH</span> ranked <span class="kw">AS</span> (
+    <span class="kw">SELECT</span> *, <span class="fn">ROW_NUMBER</span>() <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> customer_id <span class="kw">ORDER BY</span> total <span class="kw">DESC</span>) <span class="kw">AS</span> rn
+    <span class="kw">FROM</span> orders
+)
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> ranked <span class="kw">WHERE</span> rn &lt;= <span class="num">3</span>;
+
+<span class="cm">// LAG/LEAD â€” compare with previous/next row
+</span><span class="kw">SELECT</span> m, revenue,
+       revenue - <span class="fn">LAG</span>(revenue) <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> m) <span class="kw">AS</span> mom_change
+<span class="kw">FROM</span> monthly_revenue;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== INDEXES ==================== -->
+  <section id="indexes">
+    <h2><i class="bi bi-sort-up me-2"></i>Indexing &amp; EXPLAIN</h2>
+    <p class="section-desc">Indexes trade write overhead for read speed. PostgreSQL offers several index types.</p>
+
+    <div class="card">
+      <div class="card-header">Creating indexes <span class="lang-pill">sql</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm">// B-tree (default) â€” equality &amp; range on scalars
+</span><span class="kw">CREATE INDEX</span> idx_orders_customer <span class="kw">ON</span> orders (customer_id);
+
+<span class="cm">// Composite â€” column order matters (equality first, then sort/range)
+</span><span class="kw">CREATE INDEX</span> idx_orders_cust_date <span class="kw">ON</span> orders (customer_id, created_at <span class="kw">DESC</span>);
+
+<span class="cm">// Partial â€” only index the hot subset
+</span><span class="kw">CREATE INDEX</span> idx_orders_pending <span class="kw">ON</span> orders (created_at)
+    <span class="kw">WHERE</span> status = <span class="str">'pending'</span>;
+
+<span class="cm">// Expression index â€” index computed values
+</span><span class="kw">CREATE INDEX</span> idx_users_email_lc <span class="kw">ON</span> users (<span class="fn">lower</span>(email));
+
+<span class="cm">// GIN â€” arrays &amp; JSONB containment
+</span><span class="kw">CREATE INDEX</span> idx_products_tags <span class="kw">ON</span> products <span class="kw">USING GIN</span> (tags);
+<span class="kw">CREATE INDEX</span> idx_products_attrs <span class="kw">ON</span> products <span class="kw">USING GIN</span> (attributes);
+
+<span class="cm">// Unique + concurrency-safe builds in production
+</span><span class="kw">CREATE UNIQUE INDEX</span> idx_sku_unique <span class="kw">ON</span> products (sku);
+<span class="kw">CREATE INDEX CONCURRENTLY</span> idx_big_table_x <span class="kw">ON</span> big_table (col);
+
+<span class="kw">DROP INDEX</span> idx_orders_customer;</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Index types <span class="lang-pill">reference</span></div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead><tr><th style="width:18%">Type</th><th>Best for</th></tr></thead>
+          <tbody>
+            <tr><td>B-tree</td><td>=, &lt;, &gt;, ORDER BY on scalars â€” the default choice</td></tr>
+            <tr><td>Hash</td><td>Simple equality only</td></tr>
+            <tr><td>GIN</td><td>JSONB containment, arrays, full-text vectors</td></tr>
+            <tr><td>GiST</td><td>Geometric/spatial, ranges, K-nearest-neighbor</td></tr>
+            <tr><td>BRIN</td><td>Huge append-only tables (time series) â€” tiny footprint</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Reading the plan <span class="lang-pill">sql</span></div>
+      <div class="card-body">
+        <pre><code><span class="kw">EXPLAIN ANALYZE</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> orders <span class="kw">WHERE</span> customer_id = <span class="num">42</span> <span class="kw">AND</span> status = <span class="str">'paid'</span>;
+
+<span class="cm">// What to look for:
+// - Seq Scan on huge table  -> missing index
+// - Index Scan / Index Only Scan -> good
+// - rows=estimate vs actual -> stale statistics? run ANALYZE
+// - Sort node               -> consider indexing the ORDER BY columns</span></code></pre>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>VACUUM vs ANALYZE</strong> &mdash; autovacuum reclaims dead-tuple space; ANALYZE refreshes planner
+      statistics. Slow queries after bulk loads are usually solved by running <code>ANALYZE tablename</code>.
+    </div>
+  </section>
+
+  <!-- ==================== JSONB ==================== -->
+  <section id="jsonb">
+    <h2><i class="bi bi-braces me-2"></i>JSONB</h2>
+    <p class="section-desc">
+      Store flexible document-shaped data <em>inside</em> a relational table â€” indexed, queryable, composable.
+      Always prefer <code>jsonb</code> over <code>json</code> (binary, deduplicated, indexable).
+    </p>
+
+    <div class="card">
+      <div class="card-header">Operators &amp; queries <span class="lang-pill">sql</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm">// Fetch keys and values
+</span><span class="kw">SELECT</span> attributes-&gt;<span class="str">'color'</span>                <span class="cm">// jsonb value
+</span>     , attributes-&gt;&gt;<span class="str">'color'</span>               <span class="cm">// text value
+</span>     , attributes#&gt;<span class="str">'{dimensions,width}'</span>   <span class="cm">// nested path (jsonb)
+</span><span class="kw">FROM</span> products;
+
+<span class="cm">// Filter with containment (@&gt;) â€” uses the GIN index
+</span><span class="kw">SELECT</span> * <span class="kw">FROM</span> products
+<span class="kw">WHERE</span> attributes @&gt; <span class="str">'{"color": "black"}'</span>;
+
+<span class="cm>// Key existence
+</span><span class="kw">SELECT</span> * <span class="kw">FROM</span> products <span class="kw">WHERE</span> attributes ? <span class="str">'warranty_years'</span>;
+
+<span class="cm">// Modify JSON in place
+</span><span class="kw">UPDATE</span> products
+<span class="kw">SET</span> attributes = attributes || <span class="str">'{"warranty_years": 2}'</span>::jsonb
+<span class="kw">WHERE</span> sku = <span class="str">'KB-001'</span>;
+
+<span class="cm">// Build JSON output for APIs
+</span><span class="kw">SELECT</span> <span class="fn">json_build_object</span>(<span class="str">'id'</span>, id, <span class="str">'name'</span>, name, <span class="str">'price'</span>, price)
+<span class="kw">FROM</span> products <span class="kw">LIMIT</span> <span class="num">1</span>;
+<span class="kw">SELECT</span> <span class="fn">row_to_json</span>(t) <span class="kw">FROM</span> (<span class="kw">SELECT</span> id, name <span class="kw">FROM</span> products) t;</code></pre>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Rule of thumb</strong> &mdash; keep core business fields in real columns (typed, constrained,
+      fast) and use JSONB only for genuinely variable attributes. Don't turn PostgreSQL into MongoDB.
+    </div>
+  </section>
+
+  <!-- ==================== FUNCTIONS ==================== -->
+  <section id="functions">
+    <h2><i class="bi bi-code-slash me-2"></i>Functions &amp; Triggers</h2>
+    <p class="section-desc">Server-side logic in PL/pgSQL â€” computed defaults, audits and encapsulated rules.</p>
+
+    <div class="card">
+      <div class="card-header">A PL/pgSQL function <span class="lang-pill">sql</span></div>
+      <div class="card-body">
+        <pre><code><span class="kw">CREATE OR REPLACE FUNCTION</span> apply_discount(p_price <span class="tp">NUMERIC</span>, pct <span class="tp">INTEGER</span>)
+<span class="kw">RETURNS NUMERIC</span> <span class="kw">LANGUAGE plpgsql IMMUTABLE AS</span> $$
+<span class="kw">BEGIN</span>
+    <span class="kw">IF</span> pct <span class="kw">NOT BETWEEN</span> <span class="num">0</span> <span class="kw">AND</span> <span class="num">90</span> <span class="kw">THEN</span>
+        <span class="fn">RAISE EXCEPTION</span> <span class="str">'Discount %% must be between 0 and 90'</span>, pct;
+    <span class="kw">END IF</span>;
+    <span class="kw">RETURN ROUND</span>(p_price * (<span class="num">100</span> - pct) / <span class="num">100.0</span>, <span class="num">2</span>);
+<span class="kw">END</span>; $$;
+
+<span class="kw">SELECT</span> <span class="fn">apply_discount</span>(<span class="num">3499.00</span>, <span class="num">15</span>);   <span class="cm">// 2974.15</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Trigger â€” audit updated_at automatically <span class="lang-pill">sql</span></div>
+      <div class="card-body">
+        <pre><code><span class="kw">CREATE OR REPLACE FUNCTION</span> touch_updated_at()
+<span class="kw">RETURNS TRIGGER LANGUAGE plpgsql AS</span> $$
+<span class="kw">BEGIN</span>
+    <span class="kw">NEW</span>.updated_at := <span class="fn">now</span>();
+    <span class="kw">RETURN NEW</span>;
+<span class="kw">END</span>; $$;
+
+<span class="kw">CREATE TRIGGER</span> set_updated_at
+    <span class="kw">BEFORE UPDATE ON</span> products
+    <span class="kw">FOR EACH ROW EXECUTE FUNCTION</span> touch_updated_at();
+
+<span class="cm">// Audit log trigger â€” capture every price change
+</span><span class="kw">CREATE TABLE</span> price_audit (
+    product_id <span class="tp">BIGINT</span>, old_price <span class="tp">NUMERIC</span>, new_price <span class="tp">NUMERIC</span>,
+    changed_at <span class="tp">TIMESTAMPTZ DEFAULT</span> <span class="fn">now</span>()
+);
+
+<span class="kw">CREATE OR REPLACE FUNCTION</span> audit_price()
+<span class="kw">RETURNS TRIGGER LANGUAGE plpgsql AS</span> $$
+<span class="kw">BEGIN</span>
+    <span class="kw">IF</span> <span class="kw">NEW</span>.price <span class="op">&lt;&gt;</span> <span class="kw">OLD</span>.price <span class="kw">THEN</span>
+        <span class="kw">INSERT INTO</span> price_audit (product_id, old_price, new_price)
+        <span class="kw">VALUES</span> (<span class="kw">OLD</span>.id, <span class="kw">OLD</span>.price, <span class="kw">NEW</span>.price);
+    <span class="kw">END IF</span>;
+    <span class="kw">RETURN NEW</span>;
+<span class="kw">END</span>; $$;
+
+<span class="kw">CREATE TRIGGER</span> trg_price_audit
+    <span class="kw">AFTER UPDATE OF</span> price <span class="kw">ON</span> products
+    <span class="kw">FOR EACH ROW EXECUTE FUNCTION</span> audit_price();</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TRANSACTIONS ==================== -->
+  <section id="transactions">
+    <h2><i class="bi bi-arrow-repeat me-2"></i>Transactions</h2>
+    <p class="section-desc">
+      Transactions group statements into all-or-nothing units under ACID guarantees. PostgreSQL's MVCC means
+      readers never block writers and writers never block readers.
+    </p>
+
+    <div class="card">
+      <div class="card-header">Basic transaction <span class="lang-pill">sql</span></div>
+      <div class="card-body">
+        <pre><code><span class="kw">BEGIN</span>;
+
+    <span class="kw">UPDATE</span> accounts <span class="kw">SET</span> balance = balance - <span class="num">500</span> <span class="kw">WHERE</span> id = <span class="str">'alice'</span>;
+    <span class="kw">UPDATE</span> accounts <span class="kw">SET</span> balance = balance + <span class="num">500</span> <span class="kw">WHERE</span> id = <span class="str">'bob'</span>;
+
+    <span class="cm">// Check application expectations before committing...
+</span>
+<span class="kw">COMMIT</span>;          <span class="cm">// ...or ROLLBACK to undo everything
+</span>
+<span class="cm">// Savepoints allow partial rollback
+</span><span class="kw">BEGIN</span>;
+    <span class="kw">SAVEPOINT</span> step1;
+    <span class="kw">UPDATE</span> inventory <span class="kw">SET</span> stock = stock - <span class="num">1</span> <span class="kw">WHERE</span> sku = <span class="str">'KB-001'</span>;
+    <span class="cm">// oops, wrong SKU?
+</span>    <span class="kw">ROLLBACK TO SAVEPOINT</span> step1;
+<span class="kw">COMMIT</span>;</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Isolation levels <span class="lang-pill">reference</span></div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead><tr><th style="width:24%">Level</th><th>Guarantees</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>READ COMMITTED</td><td>No dirty reads</td><td><strong>Default</strong> â€” each statement sees latest committed snapshot</td></tr>
+            <tr><td>REPEATABLE READ</td><td>+ stable snapshot per transaction</td><td>Fails on serialization conflict instead of phantom anomalies</td></tr>
+            <tr><td>SERIALIZABLE</td><td>+ transactions behave as run sequentially</td><td>Highest safety, retry logic required in the app</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Set level per transaction <span class="lang-pill">sql</span></div>
+      <div class="card-body">
+        <pre><code><span class="kw">BEGIN ISOLATION LEVEL SERIALIZABLE</span>;
+    <span class="cm">// balance transfers that must not interleave
+</span><span class="kw">COMMIT</span>;
+
+<span class="cm">// Advisory lock â€” app-level mutual exclusion without locking rows
+</span><span class="kw">SELECT</span> <span class="fn">pg_advisory_lock</span>(<span class="num">12345</span>);
+<span class="cm">// ... critical section ...
+</span><span class="kw">SELECT</span> <span class="fn">pg_advisory_unlock</span>(<span class="num">12345</span>);</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ADMIN ==================== -->
+  <section id="admin">
+    <h2><i class="bi bi-shield-lock me-2"></i>Administration</h2>
+    <p class="section-desc">Roles, backups, maintenance and monitoring essentials.</p>
+
+    <div class="card">
+      <div class="card-header">Roles &amp; privileges <span class="lang-pill">sql</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm">// Roles are users AND groups in PG
+</span><span class="kw">CREATE ROLE</span> readonly <span class="kw">NOLOGIN</span>;
+<span class="kw">CREATE ROLE</span> app_user <span class="kw">LOGIN PASSWORD</span> <span class="str">'secret'</span>;
+<span class="kw">GRANT</span> readonly <span class="kw">TO</span> app_user;                 <span class="cm">// user inherits group role
+</span>
+<span class="kw">GRANT SELECT ON ALL TABLES IN SCHEMA</span> public <span class="kw">TO</span> readonly;
+<span class="kw">ALTER DEFAULT PRIVILEGES IN SCHEMA</span> public
+    <span class="kw">GRANT SELECT ON TABLES TO</span> readonly;      <span class="cm">// future tables too
+</span>
+<span class="cm">// Least privilege for writers
+</span><span class="kw">GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA</span> public <span class="kw">TO</span> app_user;
+<span class="kw">REVOKE DELETE ON</span> audit_log <span class="kw">FROM</span> app_user;
+
+<span class="fn">\du</span>                                          <span class="cm">// inspect roles
+</span><span class="kw">DROP ROLE IF EXISTS</span> old_user;</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Backup &amp; restore <span class="lang-pill">bash</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm"># Logical dump â€” single database
+</span><span class="kw">pg_dump</span> -U postgres -Fc shopdb &gt; shopdb.dump
+
+<span class="cm"># Plain SQL dump (readable, diffable)
+</span><span class="kw">pg_dump</span> -U postgres shopdb &gt; shopdb.sql
+
+<span class="cm"># Whole cluster incl. roles
+</span><span class="kw">pg_dumpall</span> -U postgres &gt; cluster.sql
+
+<span class="cm"># Restore custom-format dump (-C recreates db)
+</span><span class="kw">pg_restore</span> -U postgres -d shopdb --clean --if-exists shopdb.dump
+
+<span class="cm"># Copy a single table as CSV
+</span><span class="kw">COPY</span> products <span class="kw">TO</span> STDOUT <span class="kw">WITH CSV HEADER</span> &gt; products.csv
+<span class="kw">COPY</span> products <span class="kw">FROM STDIN WITH CSV HEADER</span> &lt; products.csv</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Maintenance &amp; monitoring <span class="lang-pill">sql</span></div>
+      <div class="card-body">
+        <pre><code><span class="kw">VACUUM VERBOSE</span> products;         <span class="cm">// reclaim dead tuples
+</span><span class="kw">VACUUM FULL</span>;                     <span class="cm">// rewrite table (locks! rare maintenance)
+</span><span class="kw">ANALYZE</span> products;                <span class="cm">// refresh planner stats
+</span><span class="kw">REINDEX TABLE CONCURRENTLY</span> products;
+
+<span class="cm">// What's running right now?
+</span><span class="kw">SELECT</span> pid, state, wait_event_type, query_start, <span class="fn">left</span>(query, <span class="num">60</span>)
+<span class="kw">FROM</span> pg_stat_activity
+<span class="kw">WHERE</span> datname = <span class="str">'shopdb'</span> <span class="kw">ORDER BY</span> query_start;
+
+<span class="cm">// Kill a stuck query
+</span><span class="kw">SELECT</span> <span class="fn">pg_cancel_backend</span>(<span class="num">12345</span>);   <span class="cm">// graceful
+</span><span class="kw">SELECT</span> <span class="fn">pg_terminate_backend</span>(<span class="num">12345</span>); <span class="cm">// forceful
+</span>
+<span class="cm">// Table bloat / sizes
+</span><span class="kw">SELECT RELNAME, n_live_tup, n_dead_tup FROM</span> pg_stat_user_tables;
+<span class="kw">SELECT</span> <span class="fn">pg_size_pretty</span>(<span class="fn">pg_total_relation_size</span>(<span class="str">'orders'</span>));</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CHEATSHEET ==================== -->
+  <section id="cheatsheet">
+    <h2><i class="bi bi-stars me-2"></i>Cheat Sheet</h2>
+    <div class="card">
+      <div class="card-header">One-page reference <span class="lang-pill">quick</span></div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead><tr><th style="width:46%">Command</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td>psql -U postgres -d db</td><td>Connect to database</td></tr>
+            <tr><td>\dt / \d tbl / \du</td><td>List tables / describe table / list roles</td></tr>
+            <tr><td>CREATE DATABASE / DROP DATABASE</td><td>Create/remove database</td></tr>
+            <tr><td>CREATE TABLE ... CONSTRAINTS</td><td>Define structure</td></tr>
+            <tr><td>INSERT ... RETURNING *</td><td>Add rows, echo results</td></tr>
+            <tr><td>INSERT ... ON CONFLICT DO UPDATE</td><td>UPSERT</td></tr>
+            <tr><td>SELECT ... JOIN / LEFT JOIN</td><td>Combine tables</td></tr>
+            <tr><td>WITH cte AS (...) SELECT ...</td><td>Readable query pipeline</td></tr>
+            <tr><td>OVER (PARTITION BY ... ORDER BY ...)</td><td>Window function frame</td></tr>
+            <tr><td>CREATE INDEX ... USING GIN(col)</td><td>Speed up JSON/array queries</td></tr>
+            <tr><td>EXPLAIN ANALYZE stmt</td><td>Execute &amp; show real plan</td></tr>
+            <tr><td>BEGIN / COMMIT / ROLLBACK</td><td>Transaction control</td></tr>
+            <tr><td>pg_dump -Fc db &gt; f.dump</td><td>Backup database</td></tr>
+            <tr><td>pg_restore -d db f.dump</td><td>Restore backup</td></tr>
+            <tr><td>VACUUM / ANALYZE tbl</td><td>Reclaim space / refresh stats</td></tr>
+            <tr><td>pg_stat_activity</td><td>See live connections &amp; queries</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="mt-5 pt-4" style="border-top:1px solid var(--border)">
+    <div class="row">
+      <div class="col-md-6">
+        <p class="fw-bold mb-2">PostgreSQL Quick Reference</p>
+        <p class="small text-secondary">Generated for study purposes. Always refer to the official documentation.</p>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <p class="small mb-1">
+          <a href="https://www.postgresql.org/docs/" target="_blank" rel="noopener"><i class="bi bi-book me-1"></i> PostgreSQL Docs</a>
+          &middot;
+          <a href="https://psql-tips.org/" target="_blank" rel="noopener"><i class="bi bi-terminal me-1"></i> psql Tips</a>
+          &middot;
+          <a href="https://github.com/postgres/postgres" target="_blank" rel="noopener"><i class="bi bi-github me-1"></i> GitHub</a>
+        </p>
+        <p class="small mb-0">PostgreSQL &copy; PostgreSQL Global Development Group</p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script src="lib/bootstrap/bootstrap.bundle.min.js"></script>
+<script>
+  document.getElementById('sidebarToggle')?.addEventListener('click', function () {
+    document.getElementById('sidebar').classList.toggle('show');
+  });
+  document.querySelectorAll('#sidebar .nav-link').forEach(function (link) {
+    link.addEventListener('click', function () {
+      document.getElementById('sidebar').classList.remove('show');
+    });
+  });
+</script>
+
+</body>
+</html>

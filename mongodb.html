@@ -1,0 +1,1030 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+    body {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(100, 116, 139, 0.35) transparent;
+    }
+    body::-webkit-scrollbar { width: 8px; }
+    body::-webkit-scrollbar-track { background: transparent; }
+    body::-webkit-scrollbar-thumb {
+      background: rgba(100, 116, 139, 0.35);
+      border-radius: 999px;
+    }
+    body::-webkit-scrollbar-thumb:hover { background: rgba(100, 116, 139, 0.55); }
+    #sidebar, .sidebar {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+    }
+    #sidebar::-webkit-scrollbar, .sidebar::-webkit-scrollbar { width: 5px; }
+    #sidebar::-webkit-scrollbar-track, .sidebar::-webkit-scrollbar-track { background: transparent; }
+    #sidebar::-webkit-scrollbar-thumb, .sidebar::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+    }
+    #sidebar::-webkit-scrollbar-thumb:hover, .sidebar::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.32);
+    }
+</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MongoDB Complete Guide â€” Documents, CRUD, Aggregation &amp; Indexing</title>
+  <link href="lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="lib/bootstrap-icons/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --mg-night: #001e2b;
+      --mg-leaf: #13aa52;
+      --sidebar-width: 280px;
+    }
+    * { scroll-margin-top: 1rem; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f4f6fb;
+      display: flex;
+    }
+    #sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0; left: 0;
+      background: var(--mg-night);
+      overflow-y: auto;
+      z-index: 1000;
+      transition: transform .3s;
+    }
+    #sidebar .brand { padding: 1.25rem 1.25rem .75rem; border-bottom: 1px solid rgba(255,255,255,.08); }
+    #sidebar .brand h5 { color: #fff; font-weight: 700; }
+    #sidebar .brand small { color: #adb5bd; font-size: .7rem; }
+    #sidebar .nav-link {
+      color: #c8cdd3;
+      padding: .5rem 1.25rem;
+      font-size: .88rem;
+      border-left: 3px solid transparent;
+      transition: all .15s;
+    }
+    #sidebar .nav-link:hover { color: #fff; background: rgba(255,255,255,.05); }
+    #sidebar .nav-link i { width: 1.3rem; }
+    #sidebar .nav-section {
+      color: #6c757d; font-size: .7rem; text-transform: uppercase;
+      letter-spacing: .08em; padding: 1rem 1.25rem .3rem; font-weight: 600;
+    }
+    #main { margin-left: var(--sidebar-width); flex: 1; padding: 2rem 2.5rem 4rem; max-width: 1100px; }
+    @media (max-width: 991.98px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.show { transform: translateX(0); }
+      #main { margin-left: 0; padding: 1.5rem; }
+    }
+    .sidebar-toggle {
+      position: fixed; top: .75rem; left: .75rem;
+      z-index: 1050; background: var(--mg-night); color: #fff;
+      border: none; border-radius: .4rem; padding: .4rem .65rem; display: none;
+    }
+    @media (max-width: 991.98px) { .sidebar-toggle { display: block; } }
+    section { padding-top: 2.25rem; }
+    .section-desc { color: #6c757d; margin-bottom: 1.5rem; font-size: .95rem; }
+    .tip-row { display: flex; flex-direction: column; gap: .55rem; }
+    .tip-row .tip {
+      display: flex;
+      gap: .6rem;
+      align-items: flex-start;
+      font-size: .87rem;
+      color: #3a3d58;
+    }
+    .tip-row .tip i { color: var(--mg-leaf); margin-top: .15rem; }
+    .schema-table td:first-child {
+      font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+      font-size: .8rem;
+      white-space: nowrap;
+    }
+    .home-link {
+      position: fixed; top: 14px; left: 14px; z-index: 1100;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 12px; border-radius: 999px;
+      background: rgba(255,255,255,.94); color: #0f172a;
+      text-decoration: none; font-size: .78rem; font-weight: 700;
+      box-shadow: 0 10px 28px rgba(0,0,0,.08);
+      border: 1px solid rgba(226,232,240,.9);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: .2s;
+    }
+    .home-link:hover { color: var(--mg-leaf); }
+    @media (min-width: 992px) { .home-link { left: calc(var(--sidebar-width) + 14px); } }
+    @media (max-width: 991.98px) { .home-link { left: 4rem; } }
+  </style>
+  <link rel="stylesheet" href="lib/google-fonts/space-grotesk/space-grotesk.css">
+  <link rel="stylesheet" href="lib/google-fonts/jetbrains-mono/jetbrains-mono.css">
+<style>
+/* ===== Jap Hub design system - graphql pattern (injected layer) ===== */
+:root {
+  --acc: #47a248;
+  --acc2: #12805c;
+  --acc-soft: color-mix(in srgb, var(--acc) 32%, #ffffff);
+  --ink-deep: #001e2b;
+  --ink-2: #04222e;
+  --ink: var(--ink-deep);
+  --bg: color-mix(in srgb, var(--acc) 5%, #f6f4fc);
+  --surface: #ffffff;
+  --surface-soft: rgba(255,255,255,.72);
+  --muted: color-mix(in srgb, var(--acc) 24%, #64698a);
+  --border: color-mix(in srgb, var(--acc) 16%, #e4e0f3);
+  --code: #0e1120;
+  --code-text: #e7e4f6;
+  --good: #17b26a;
+}
+[data-bs-theme="dark"] {
+  --ink: #eef0fb;
+  --bg: color-mix(in srgb, var(--acc) 8%, #0e1120);
+  --surface: #161a2e;
+  --muted: #9aa2bb;
+  --border: color-mix(in srgb, var(--acc) 24%, #262b3f);
+  --code: #0a0d1e;
+  --code-text: #dcd8ef;
+}
+::selection { background: var(--acc); color: #fff; }
+body {
+  font-family: 'Space Grotesk', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background:
+    radial-gradient(52rem 30rem at 110% -6%, color-mix(in srgb, var(--acc) 11%, transparent), transparent 60%),
+    radial-gradient(40rem 28rem at -10% 8%, color-mix(in srgb, var(--acc2) 9%, transparent), transparent 55%),
+    var(--bg);
+  color: var(--ink);
+  display: flex;
+}
+h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', 'Segoe UI', sans-serif; }
+#sidebar {
+  background:
+    radial-gradient(120% 90% at 100% 0%, color-mix(in srgb, var(--acc2) 28%, transparent), transparent 55%),
+    linear-gradient(180deg, var(--ink-deep) 0%, var(--ink-2) 100%);
+}
+#sidebar .brand h5 { color: #fff; letter-spacing: .01em; }
+#sidebar .brand small { color: #a9c9b6; font-size: .7rem; }
+#sidebar .nav-link { color: #c6d4cb; font-family: 'Space Grotesk', sans-serif; }
+#sidebar .nav-link:hover { color: #fff; background: rgba(255,255,255,.06); }
+#sidebar .nav-link i { color: color-mix(in srgb, var(--acc-soft) 62%, #ffffff); }
+#sidebar .nav-link.active {
+  color: #fff;
+  border-left-color: var(--acc);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--acc) 22%, transparent), transparent);
+}
+#sidebar .nav-section { color: #86a394; }
+.sidebar-toggle { background: var(--ink-deep); color: #fff; }
+#main { width: 100%; padding: 2rem 2.5rem 4rem; max-width: 1120px; }
+h2 {
+  color: var(--ink);
+  font-weight: 700;
+  margin-top: 2.2rem;
+  padding-bottom: .55rem;
+  border-bottom: none;
+  position: relative;
+}
+h2 i { color: var(--acc); }
+h2::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 58px; height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--acc), var(--acc2));
+}
+h3 { color: var(--ink); font-weight: 600; margin-top: 1.8rem; font-size: 1.12rem; }
+h3 i { color: var(--acc); }
+h4 { color: var(--ink); }
+.card {
+  border: 1px solid var(--border);
+  border-radius: .8rem;
+  background: var(--surface);
+  box-shadow: 0 4px 16px rgba(15, 18, 38, .05);
+  margin-bottom: 1.5rem;
+}
+.card-header {
+  background: color-mix(in srgb, var(--acc) 6%, var(--surface));
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+  font-size: .84rem;
+  color: var(--ink);
+  padding: .75rem 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.lang-pill {
+  margin-left: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .62rem;
+  font-weight: 600;
+  color: var(--acc);
+  background: color-mix(in srgb, var(--acc) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--acc) 22%, transparent);
+  padding: .12rem .5rem;
+  border-radius: 999px;
+  letter-spacing: .04em;
+}
+.card-body { padding: 1.25rem 1.35rem; }
+pre {
+  background: var(--code);
+  color: var(--code-text);
+  padding: 1.05rem 1.2rem;
+  border-radius: .6rem;
+  font-size: .82rem;
+  line-height: 1.6;
+  border: 1px solid rgba(255,255,255,.05);
+  overflow-x: auto;
+  position: relative;
+  margin: .8rem 0;
+}
+pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', ui-monospace, monospace; }
+code {
+  font-family: 'JetBrains Mono', 'Cascadia Code', ui-monospace, monospace;
+  font-size: .85em;
+  background: color-mix(in srgb, var(--acc) 10%, transparent);
+  color: var(--acc);
+  padding: .1em .35em;
+  border-radius: .35em;
+}
+pre code { background: transparent; color: inherit; padding: 0; border-radius: 0; }
+.kw { color: #c792ea; }
+.fn { color: #7ee0c3; }
+.str { color: #c3e88d; }
+.cm { color: #6c7693; font-style: italic; }
+.num { color: #ffb86c; }
+.tp { color: #82aaff; }
+.at { color: #f07178; }
+.highlight-box {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--acc2) 8%, transparent), color-mix(in srgb, var(--acc) 5%, transparent));
+  border-left: 4px solid var(--acc);
+  padding: 1rem 1.25rem;
+  border-radius: .45rem;
+  margin: 1rem 0;
+  font-size: .88rem;
+  color: var(--ink);
+}
+.table thead th {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--muted);
+  background: color-mix(in srgb, var(--acc) 6%, var(--surface));
+  border-bottom: 2px solid var(--border);
+}
+table.table { font-size: .86rem; }
+.cmd-table td:first-child {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .8rem;
+  white-space: nowrap;
+  color: var(--acc);
+}
+.schema-table td:first-child { color: var(--acc2); }
+.new-badge {
+  background: linear-gradient(135deg, var(--acc), var(--acc2));
+  color: #fff;
+  font-size: .62rem;
+  font-weight: 700;
+  padding: .15rem .55rem;
+  border-radius: 999px;
+  vertical-align: middle;
+}
+#main a { color: var(--acc); }
+#main a:hover { color: var(--acc2); }
+.home-link:hover { color: var(--acc); }
+:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; border-radius: 6px; }
+
+/* hero band (legacy doc template) */
+#main > div:first-child.d-flex {
+  background:
+    radial-gradient(120% 150% at 100% 0%, color-mix(in srgb, var(--acc2) 30%, transparent), transparent 55%),
+    radial-gradient(100% 140% at 0% 100%, color-mix(in srgb, var(--acc) 24%, transparent), transparent 50%),
+    linear-gradient(135deg, var(--ink-deep) 0%, var(--ink-2) 100%);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 20px;
+  padding: 2.2rem 1.9rem 1.7rem;
+  margin-bottom: 1.5rem;
+  color: #fff;
+  box-shadow: 0 24px 50px rgba(10, 12, 30, .18);
+}
+#main > div:first-child.d-flex h1 {
+  color: #fff !important;
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  margin-bottom: .55rem;
+}
+#main > div:first-child.d-flex h1 i { color: var(--acc-soft) !important; }
+#main > div:first-child.d-flex p {
+  color: rgba(255, 255, 255, .74) !important;
+  font-size: 1rem;
+}
+#main > div:first-child.d-flex .badge {
+  border-radius: 999px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .64rem;
+  font-weight: 600;
+  letter-spacing: .03em;
+}
+#main > div:first-child.d-flex .badge.bg-secondary { background: rgba(255,255,255,.14) !important; color: #fff; }
+#main > div:first-child.d-flex .badge.bg-success { background: var(--good) !important; }
+
+/* intro lead */
+#main > p.fs-5 {
+  color: var(--muted) !important;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  max-width: 52rem;
+}
+@media (max-width: 768px) {
+  #main { padding: 1.5rem 1.15rem 3rem; }
+  #main > div:first-child.d-flex { padding: 1.6rem 1.3rem 1.4rem; }
+}
+</style></head>
+<body>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar"><i class="bi bi-list fs-5"></i></button>
+<a href="index.html" class="home-link" aria-label="Go back to home page"><span>&larr;</span> Home</a>
+
+<!-- ===== SIDEBAR ===== -->
+<nav id="sidebar">
+  <div class="brand">
+    <h5><i class="bi bi-braces me-2" style="color:#13aa52"></i>MongoDB</h5>
+    <small class="d-block mt-1">Document DB &mdash; Complete Guide</small>
+  </div>
+  <div class="py-2">
+    <div class="nav-section">Getting Started</div>
+    <a class="nav-link" href="#intro"><i class="bi bi-info-circle"></i> Introduction</a>
+    <a class="nav-link" href="#setup"><i class="bi bi-download"></i> Setup &amp; mongosh</a>
+
+    <div class="nav-section">Working with Data</div>
+    <a class="nav-link" href="#crud"><i class="bi bi-pencil-square"></i> CRUD Operations</a>
+    <a class="nav-link" href="#operators"><i class="bi bi-funnel"></i> Query Operators</a>
+    <a class="nav-link" href="#schema-design"><i class="bi bi-diagram-3"></i> Schema Design</a>
+
+    <div class="nav-section">Performance</div>
+    <a class="nav-link" href="#indexing"><i class="bi bi-sort-up"></i> Indexing</a>
+    <a class="nav-link" href="#aggregation"><i class="bi bi-graph-up-arrow"></i> Aggregation Pipeline</a>
+    <a class="nav-link" href="#performance"><i class="bi bi-speedometer2"></i> Performance Tips</a>
+
+    <div class="nav-section">Operations</div>
+    <a class="nav-link" href="#transactions"><i class="bi bi-arrow-repeat"></i> Replication &amp; Transactions</a>
+    <a class="nav-link" href="#admin"><i class="bi bi-shield-lock"></i> Administration</a>
+    <a class="nav-link" href="#cheatsheet"><i class="bi bi-stars"></i> Cheat Sheet</a>
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<div id="main">
+
+  <!-- HERO -->
+  <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+    <div>
+      <h1 class="fw-bold mb-1">
+        <i class="bi bi-braces me-2"></i>MongoDB Guide
+      </h1>
+      <p class="mb-0 fs-5">Documents, CRUD, Aggregation Pipelines, Indexing &amp; Replication</p>
+      <p class="mb-0 mt-1">
+        <span class="badge bg-secondary me-1">MongoDB 8.x</span>
+        <span class="badge bg-success me-1">mongosh</span>
+        <span class="badge bg-secondary">NoSQL</span>
+      </p>
+    </div>
+  </div>
+
+  <p class="fs-5 mb-5">
+    A complete working guide to MongoDB â€” the most popular <strong>document database</strong>.
+    Covers the document model, every day CRUD operation, schema-design patterns,
+    indexes, aggregation pipelines, replica sets, transactions and administration.
+  </p>
+
+  <!-- ==================== INTRO ==================== -->
+  <section id="intro">
+    <h2><i class="bi bi-info-circle me-2"></i>What is MongoDB?</h2>
+    <p class="section-desc">
+      MongoDB is an open-source <strong>NoSQL document database</strong> (released 2009). Instead of rows and
+      columns it stores flexible <strong>BSON documents</strong> â€” JSON-like binary structures â€” inside
+      <strong>collections</strong>. One database holds many collections; one collection holds many documents.
+    </p>
+
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-body text-center">
+            <i class="bi bi-braces display-6" style="color:var(--acc)"></i>
+            <h5 class="mt-2">Document Model</h5>
+            <p class="text-muted small mb-0">Data is stored as JSON-like documents that map naturally to objects in code.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-body text-center">
+            <i class="bi bi-shapes display-6" style="color:var(--acc2)"></i>
+            <h5 class="mt-2">Flexible Schema</h5>
+            <p class="text-muted small mb-0">Documents in one collection can differ in fields â€” evolve without migrations.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-body text-center">
+            <i class="bi bi-diagram-2 display-6" style="color:var(--good)"></i>
+            <h5 class="mt-2">Horizontal Scaling</h5>
+            <p class="text-muted small mb-0">Built-in replication (replica sets) and sharding for scale-out growth.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">SQL vs MongoDB terminology <span class="lang-pill">concept</span></div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 schema-table">
+          <thead><tr><th style="width:26%">SQL</th><th style="width:26%">MongoDB</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td>Database</td><td>Database</td><td>Top-level container</td></tr>
+            <tr><td>Table</td><td>Collection</td><td>Group of records</td></tr>
+            <tr><td>Row</td><td>Document</td><td>A single record (BSON)</td></tr>
+            <tr><td>Column</td><td>Field</td><td>A named value inside a document</td></tr>
+            <tr><td>Primary key</td><td><code>_id</code></td><td>Auto-created ObjectId unless specified</td></tr>
+            <tr><td>JOIN</td><td><code>$lookup</code> / embedding</td><td>Combining related data</td></tr>
+            <tr><td>GROUP BY</td><td><code>$group</code> stage</td><td>Aggregation</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>When to choose MongoDB</strong> &mdash; rapidly evolving schemas, nested / hierarchical data
+      (product catalogs, user profiles, CMS content), high write throughput, and horizontal scale-out needs.
+      For heavily relational data with multi-table transactions and strict integrity, a relational DB
+      (PostgreSQL / MySQL) is usually the better fit.
+    </div>
+  </section>
+
+  <!-- ==================== SETUP ==================== -->
+  <section id="setup">
+    <h2><i class="bi bi-download me-2"></i>Setup &amp; mongosh</h2>
+    <p class="section-desc">
+      Install MongoDB Community Server + <strong>mongosh</strong> (the shell) and optionally
+      <strong>MongoDB Compass</strong> (GUI). Default port is <strong>27017</strong>.
+    </p>
+
+    <div class="card">
+      <div class="card-header">Install &amp; connect <span class="lang-pill">bash</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm"># Windows: install via the MSI or winget
+</span><span class="kw">winget</span> install MongoDB.Server
+<span class="kw">winget</span> install MongoDB.Shell
+
+<span class="cm"># Start the service (Windows)
+</span><span class="kw">net</span> start MongoDB
+
+<span class="cm"># Connect with the shell
+</span><span class="kw">mongosh</span>
+<span class="kw">mongosh</span> <span class="str">"mongodb://localhost:27017"</span>
+<span class="kw">mongosh</span> <span class="str">"mongodb+srv://user:pass@cluster0.xxxxx.mongodb.net/mydb"</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Databases &amp; collections <span class="lang-pill">mongosh</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm">// Switch (or lazily create) a database
+</span><span class="fn">use</span> <span class="str">shopdb</span>
+
+<span class="cm">// Collections are created on first insert â€” no CREATE TABLE step
+</span>db.<span class="fn">createCollection</span>(<span class="str">"products"</span>)
+
+<span class="cm">// Inspect what exists
+</span>db                                    <span class="cm">// current database
+</span><span class="fn">show</span> dbs                             <span class="cm">// list databases
+</span><span class="fn">show</span> collections                     <span class="cm">// list collections
+</span>db.products.<span class="fn">countDocuments</span>()          <span class="cm">// count docs
+</span>db.<span class="fn">getCollectionNames</span>()               <span class="cm">// array of names</span></code></pre>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Databases are lazy.</strong> <code>use shopdb</code> does not create anything on disk until the
+      first document is inserted. Same for collections â€” <code>db.products.insertOne({...})</code> creates
+      the collection automatically.
+    </div>
+  </section>
+
+  <!-- ==================== CRUD ==================== -->
+  <section id="crud">
+    <h2><i class="bi bi-pencil-square me-2"></i>CRUD Operations</h2>
+    <p class="section-desc">Create, Read, Update and Delete documents â€” the verbs you will use every day.</p>
+
+    <h3><i class="bi bi-plus-circle me-2"></i>Create</h3>
+    <div class="card">
+      <div class="card-header">insertOne / insertMany <span class="lang-pill">mongosh</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm">// Single document â€” _id (ObjectId) is auto-generated if omitted
+</span>db.products.<span class="fn">insertOne</span>({
+  name: <span class="str">"Mechanical Keyboard"</span>,
+  price: <span class="num">2499</span>,
+  tags: [<span class="str">"hardware"</span>, <span class="str">"keyboard"</span>],
+  stock: <span class="num">42</span>,
+  createdAt: <span class="kw">new</span> <span class="tp">Date</span>()
+})
+
+<span class="cm">// Many documents at once
+</span>db.products.<span class="fn">insertMany</span>([
+  { name: <span class="str">"USB-C Hub"</span>, price: <span class="num">899</span>, tags: [<span class="str">accessories</span>] },
+  { name: <span class="str">"Webcam 1080p"</span>, price: <span class="num">1599</span>, tags: [<span class="str">video</span>] },
+  { name: <span class="str">"Desk Mat"</span>, price: <span class="num">499</span>, tags: [<span class="str">accessories</span>] }
+])</code></pre>
+      </div>
+    </div>
+
+    <h3><i class="bi bi-search me-2"></i>Read</h3>
+    <div class="card">
+      <div class="card-header">find, findOne, projection, sort/skip/limit <span class="lang-pill">mongosh</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm">// All documents
+</span>db.products.<span class="fn">find</span>()
+
+<span class="cm">// Filter + projection (1 = include, 0 = exclude; _id included by default)
+</span>db.products.<span class="fn">find</span>(
+  { price: { <span class="at">$lte</span>: <span class="num">1000</span> } },
+  { name: <span class="num">1</span>, price: <span class="num">1</span>, _id: <span class="num">0</span> }
+)
+
+<span class="cm">// First match only
+</span>db.products.<span class="fn">findOne</span>({ name: <span class="str">"USB-C Hub"</span> })
+
+<span class="cm">// Sort desc by price, skip 5, take 10 â€” pagination
+</span>db.products.<span class="fn">find</span>().<span class="fn">sort</span>({ price: -<span class="num">1</span> }).<span class="fn">skip</span>(<span class="num">5</span>).<span class="fn">limit</span>(<span class="num">10</span>)
+
+<span class="cm">// Count
+</span>db.products.<span class="fn">countDocuments</span>({ stock: { <span class="at">$gt</span>: <span class="num">0</span> } })</code></pre>
+      </div>
+    </div>
+
+    <h3><i class="bi bi-arrow-clockwise me-2"></i>Update</h3>
+    <div class="card">
+      <div class="card-header">updateOne / updateMany / upsert <span class="lang-pill">mongosh</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm">// Update first match
+</span>db.products.<span class="fn">updateOne</span>(
+  { name: <span class="str">"USB-C Hub"</span> },
+  { <span class="at">$set</span>: { price: <span class="num">999</span> }, <span class="at">$inc</span>: { stock: -<span class="num">1</span> } }
+)
+
+<span class="cm">// Update ALL matches
+</span>db.products.<span class="fn">updateMany</span>(
+  { tags: <span class="str">"accessories"</span> },
+  { <span class="at">$set</span>: { discounted: <span class="kw">true</span> } }
+)
+
+<span class="cm">// Upsert â€” update if exists, insert if not
+</span>db.products.<span class="fn">updateOne</span>(
+  { sku: <span class="str">"KB-001"</span> },
+  { <span class="at">$set</span>: { name: <span class="str">"Keyboard Pro"</span>, price: <span class="num">3499</span> } },
+  { upsert: <span class="kw">true</span> }
+)
+
+<span class="cm">// replaceOne swaps the whole document (except _id)
+</span>db.products.<span class="fn">replaceOne</span>({ sku: <span class="str">"KB-001"</span> }, { name: <span class="str">"New"</span>, price: <span class="num">1</span> })</code></pre>
+      </div>
+    </div>
+
+    <h3><i class="bi bi-trash3 me-2"></i>Delete</h3>
+    <div class="card">
+      <div class="card-header">deleteOne / deleteMany <span class="lang-pill">mongosh</span></div>
+      <div class="card-body">
+        <pre><code>db.products.<span class="fn">deleteOne</span>({ sku: <span class="str">"KB-001"</span> })
+
+<span class="cm">// Remove everything matching (no filter = remove ALL documents!)
+</span>db.products.<span class="fn">deleteMany</span>({ stock: <span class="num">0</span> })
+
+<span class="cm">// Drop the whole collection including its indexes
+</span>db.products.<span class="fn">drop</span>()</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== OPERATORS ==================== -->
+  <section id="operators">
+    <h2><i class="bi bi-funnel me-2"></i>Query Operators</h2>
+    <p class="section-desc">Operators are the <code>$</code>-prefixed keys that make queries expressive.</p>
+
+    <div class="card">
+      <div class="card-header">Comparison &amp; logical <span class="lang-pill">reference</span></div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead><tr><th style="width:22%">Operator</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>$eq / $ne</td><td>Equals / not equals (<code>{ price: { $ne: 999 } }</code>)</td></tr>
+            <tr><td>$gt / $gte</td><td>Greater than (or equal)</td></tr>
+            <tr><td>$lt / $lte</td><td>Less than (or equal)</td></tr>
+            <tr><td>$in / $nin</td><td>Value in (or not in) a list: <code>{ tag: { $in: ["a","b"] } }</code></td></tr>
+            <tr><td>$and / $or</td><td>Combine conditions explicitly</td></tr>
+            <tr><td>$not / $nor</td><td>Negate a condition / none of the conditions match</td></tr>
+            <tr><td>$exists</td><td>Field present or absent: <code>{ discount: { $exists: true } }</code></td></tr>
+            <tr><td>$type</td><td>Match by BSON type: <code>{ age: { $type: "int" } }</code></td></tr>
+            <tr><td>$regex</td><td>Pattern match: <code>{ name: { $regex: /^usb/i } }</code></td></tr>
+            <tr><td>$size</td><td>Array has exact length: <code>{ tags: { $size: 2 } }</code></td></tr>
+            <tr><td>$all</td><td>Array contains ALL listed values</td></tr>
+            <tr><td>$elemMatch</td><td>One array element satisfies multiple conditions</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Update operators <span class="lang-pill">reference</span></div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead><tr><th style="width:22%">Operator</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>$set / $unset</td><td>Set a field's value / remove the field</td></tr>
+            <tr><td>$inc</td><td>Increment (negative decrements): <code>{ $inc: { stock: -1 } }</code></td></tr>
+            <tr><td>$mul</td><td>Multiply a field by a number</td></tr>
+            <tr><td>$rename</td><td>Rename a field</td></tr>
+            <tr><td>$push / $pull</td><td>Add to / remove from an array</td></tr>
+            <tr><td>$addToSet</td><td>Add to array only if not already present</td></tr>
+            <tr><td>$pop</td><td>Remove first (-1) or last (1) array element</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Nested fields use dot notation:</strong> <code>{ "address.city": "Jaipur" }</code> matches the
+      <code>city</code> field inside the embedded <code>address</code> document, and
+      <code>{ "scores.math": { $gte: 80 } }</code> reaches into arrays of sub-documents too.
+    </div>
+  </section>
+
+  <!-- ==================== SCHEMA DESIGN ==================== -->
+  <section id="schema-design">
+    <h2><i class="bi bi-diagram-3 me-2"></i>Schema Design</h2>
+    <p class="section-desc">
+      "Flexible schema" does not mean "no schema". Design documents around the <strong>queries your app runs</strong>.
+    </p>
+
+    <div class="card">
+      <div class="card-header">Embedding vs Referencing <span class="lang-pill">decision</span></div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead><tr><th style="width:20%">Aspect</th><th>Embed (sub-document / array)</th><th>Reference (_id link)</th></tr></thead>
+          <tbody>
+            <tr><td>Reads</td><td>One query â€” data ships together</td><td>Needs extra query / <code>$lookup</code></td></tr>
+            <tr><td>Best for</td><td>One-to-FEW (order items, address, comments on a post)</td><td>One-to-MANY / MANY-to-MANY (products &amp; categories)</td></tr>
+            <tr><td>Growth</td><td>Unbounded arrays hurt performance (16 MB doc cap)</td><td>Scales without bloating parents</td></tr>
+            <tr><td>Consistency</td><td>Atomic updates in one document</td><td>App-managed / transaction needed</td></tr>
+            <tr><td>Duplication</td><td>Possible denormalization</td><td>Normalized</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Common patterns <span class="lang-pill">mongosh</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm">// Pattern 1 â€” Embed one-to-few: order with line items
+</span>{
+  _id: <span class="tp">ObjectId</span>(<span class="str">"..."</span>),
+  customer: <span class="str">"Aarti"</span>,
+  items: [
+    { sku: <span class="str">"KB-001"</span>, qty: <span class="num">1</span>, price: <span class="num">3499</span> },
+    { sku: <span class="str">"HUB-02"</span>, qty: <span class="num">2</span>, price: <span class="num">999</span> }
+  ],
+  total: <span class="num">5497</span>
+}
+
+<span class="cm">// Pattern 2 â€” Reference one-to-many: product points to category
+</span>{ _id: <span class="tp">ObjectId</span>(<span class="str">"...A"</span>), name: <span class="str">"USB-C Hub"</span>, categoryId: <span class="tp">ObjectId</span>(<span class="str">"...B"</span>) }
+
+<span class="cm">// Pattern 3 â€” Extended reference: copy often-needed fields to avoid lookups
+</span>{ name: <span class="str">"USB-C Hub"</span>, categoryId: <span class="tp">ObjectId</span>(<span class="str">"...B"</span>), categoryName: <span class="str">"Accessories"</span> }</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Schema validation <span class="lang-pill">mongosh</span></div>
+      <div class="card-body">
+        <pre><code>db.<span class="fn">createCollection</span>(<span class="str">"products"</span>, {
+  validator: {
+    <span class="at">$jsonSchema</span>: {
+      required: [<span class="str">"name"</span>, <span class="str">"price"</span>],
+      properties: {
+        name:  { <span class="fn">bsonType</span>: <span class="str">"string"</span>, description: <span class="str">"required string"</span> },
+        price: { <span class="fn">bsonType</span>: <span class="str">"number"</span>, minimum: <span class="num">0</span> }
+      }
+    }
+  },
+  validationLevel: <span class="str">"moderate"</span>
+})</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== INDEXING ==================== -->
+  <section id="indexing">
+    <h2><i class="bi bi-sort-up me-2"></i>Indexing</h2>
+    <p class="section-desc">
+      Without an index every query scans the whole collection (COLLSCAN). Indexes turn that into an
+      index walk (IXSCAN) â€” the single biggest performance lever in MongoDB.
+    </p>
+
+    <div class="card">
+      <div class="card-header">Index types <span class="lang-pill">mongosh</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm">// Single field
+</span>db.products.<span class="fn">createIndex</span>({ price: <span class="num">1</span> })              <span class="cm">// 1 asc, -1 desc
+</span>
+<span class="cm">// Compound â€” order matters! Follows ESR rule
+</span>db.products.<span class="fn">createIndex</span>({ category: <span class="num">1</span>, price: -<span class="num">1</span> })
+<span class="cm">// Unique index
+</span>db.users.<span class="fn">createIndex</span>({ email: <span class="num">1</span> }, { unique: <span class="kw">true</span> })
+<span class="cm">// Text index for search
+</span>db.articles.<span class="fn">createIndex</span>({ title: <span class="str">"text"</span>, body: <span class="str">"text"</span> })
+<span class="cm">// TTL index â€” auto-delete after 3600s from createdAt
+</span>db.sessions.<span class="fn">createIndex</span>({ createdAt: <span class="num">1</span> }, { expireAfterSeconds: <span class="num">3600</span> })
+<span class="cm">// Partial index â€” smaller, only covers hot subset
+</span>db.orders.<span class="fn">createIndex</span>(
+  { createdAt: <span class="num">1</span> },
+  { partialFilterExpression: { status: <span class="str">"pending"</span> } }
+)
+
+db.products.<span class="fn">getIndexes</span>()                            <span class="cm">// list
+</span>db.products.<span class="fn">dropIndex</span>(<span class="str">"price_1"</span>)                    <span class="cm">// drop
+</span>db.products.<span class="fn">explain</span>(<span class="str">"executionStats"</span>).<span class="fn">find</span>({ price: <span class="num">999</span> })</code></pre>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>The ESR rule for compound indexes</strong> &mdash; order fields as
+      <strong>E</strong>quality first, then <strong>S</strong>ort, then <strong>R</strong>ange.
+      For <code>find({ category: "x" }).sort({ createdAt: -1 }).where(price &gt; 100)</code> build
+      <code>{ category: 1, createdAt: -1, price: 1 }</code>.
+    </div>
+
+    <div class="card">
+      <div class="card-header">Reading explain() <span class="lang-pill">checklist</span></div>
+      <div class="card-body">
+        <ul class="mb-0 small">
+          <li><strong>winningPlan.stage</strong> â€” want <code>IXSCAN</code>; avoid <code>COLLSCAN</code>.</li>
+          <li><strong>totalKeysExamined</strong> &asymp; <strong>nReturned</strong> â€” index is selective.</li>
+          <li><strong>totalDocsExamined</strong> much larger than <code>nReturned</code> &rarr; fetch overhead; consider a covered query (projection uses only indexed fields).</li>
+          <li><code>SORT</code> stage in plan &rarr; in-memory sort; add the sort fields to the index.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== AGGREGATION ==================== -->
+  <section id="aggregation">
+    <h2><i class="bi bi-graph-up-arrow me-2"></i>Aggregation Pipeline</h2>
+    <p class="section-desc">
+      The aggregation framework processes documents through a pipeline of stages â€” MongoDB's answer to
+      <code>GROUP BY</code>, joins, and ETL-style transformations.
+    </p>
+
+    <div class="card">
+      <div class="card-header">Core stages <span class="lang-pill">reference</span></div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead><tr><th style="width:22%">Stage</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td>$match</td><td>Filter documents (like find) â€” put early to use indexes</td></tr>
+            <tr><td>$group</td><td>Group by key, compute $sum / $avg / $min / $max / $count</td></tr>
+            <tr><td>$project</td><td>Reshape: keep/rename/compute fields</td></tr>
+            <tr><td>$sort / $limit / $skip</td><td>Order and paginate</td></tr>
+            <tr><td>$lookup</td><td>Left outer join with another collection</td></tr>
+            <tr><td>$unwind</td><td>Deconstruct an array into one doc per element</td></tr>
+            <tr><td>$addFields / $set</td><td>Add computed fields without dropping others</td></tr>
+            <tr><td>$facet</td><td>Run multiple sub-pipelines on the same input (faceted search)</td></tr>
+            <tr><td>$out / $merge</td><td>Write results to a collection</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Revenue per category (match &rarr; group &rarr; sort) <span class="lang-pill">pipeline</span></div>
+      <div class="card-body">
+        <pre><code>db.orders.<span class="fn">aggregate</span>([
+  { <span class="at">$match</span>:  { status: <span class="str">"paid"</span>, createdAt: { <span class="at">$gte</span>: <span class="kw">new</span> <span class="tp">Date</span>(<span class="str">"2026-01-01"</span>) } } },
+  { <span class="at">$unwind</span>: <span class="str">"$items"</span> },
+  { <span class="at">$group</span>: {
+      _id: <span class="str">"$items.category"</span>,
+      revenue: { <span class="at">$sum</span>: { <span class="at">$multiply</span>: [<span class="str">"$items.qty"</span>, <span class="str">"$items.price"</span>] } },
+      orders:  { <span class="at">$sum</span>: <span class="num">1</span> },
+      avgQty:  { <span class="at">$avg</span>: <span class="str">"$items.qty"</span> }
+  }},
+  { <span class="at">$sort</span>: { revenue: -<span class="num">1</span> } },
+  { <span class="at">$limit</span>: <span class="num">10</span> }
+])</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Join with $lookup <span class="lang-pill">pipeline</span></div>
+      <div class="card-body">
+        <pre><code>db.products.<span class="fn">aggregate</span>([
+  {
+    <span class="at">$lookup</span>: {
+      from: <span class="str">"categories"</span>,          <span class="cm">// foreign collection
+</span>      localField: <span class="str">"categoryId"</span>,     <span class="cm">// field here
+</span>      foreignField: <span class="str">"_id"</span>,          <span class="cm">// field there
+</span>      as: <span class="str">"category"</span>                <span class="cm">// output array field
+</span>    }
+  },
+  { <span class="at">$unwind</span>: <span class="str">"$category"</span> },         <span class="cm">// flatten 1-element array
+</span>  { <span class="at">$project</span>: { name: <span class="num">1</span>, price: <span class="num">1</span>, <span class="str">"category.name"</span>: <span class="num">1</span> } }
+])</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PERFORMANCE ==================== -->
+  <section id="performance">
+    <h2><i class="bi bi-speedometer2 me-2"></i>Performance Tips</h2>
+    <p class="section-desc">Habits that keep queries fast as data grows.</p>
+    <div class="tip-row">
+      <div class="tip"><i class="bi bi-check-circle-fill"></i><span><strong>Index your filters and sorts.</strong> Verify with <code>explain("executionStats")</code> â€” no COLLSCANs on large collections.</span></div>
+      <div class="tip"><i class="bi bi-check-circle-fill"></i><span><strong>Project only needed fields</strong> â€” less network I/O, enables covered queries.</span></div>
+      <div class="tip"><i class="bi bi-check-circle-fill"></i><span><strong>Put $match and $limit early</strong> in pipelines so later stages process fewer documents.</span></div>
+      <div class="tip"><i class="bi bi-check-circle-fill"></i><span><strong>Avoid unbounded embedded arrays</strong> â€” they bloat documents toward the 16&nbsp;MB limit and invalidate on every write.</span></div>
+      <div class="tip"><i class="bi bi-check-circle-fill"></i><span><strong>Use ObjectId-friendly pagination</strong> (<code>_id &gt; lastId</code>) instead of deep <code>skip()</code> offsets.</span></div>
+      <div class="tip"><i class="bi bi-check-circle-fill"></i><span><strong>Bulk writes</strong> with <code>bulkWrite()</code>/<code>insertMany</code> instead of loops of single ops.</span></div>
+      <div class="tip"><i class="bi bi-exclamation-triangle-fill"></i><span><strong>Leading wildcards kill regex performance</strong> â€” <code>/^abc/</code> can use an index, <code>/abc/</code> cannot.</span></div>
+    </div>
+  </section>
+
+  <!-- ==================== TRANSACTIONS ==================== -->
+  <section id="transactions">
+    <h2><i class="bi bi-arrow-repeat me-2"></i>Replication &amp; Transactions</h2>
+    <p class="section-desc">
+      Production deployments run a <strong>replica set</strong>: one PRIMARY accepts writes, SECONDARIES replicate
+      via the oplog and can be elected primary on failure. Transactions (4.0+) give multi-document ACID.
+    </p>
+
+    <div class="card">
+      <div class="card-header">Multi-document transaction <span class="lang-pill">mongosh</span></div>
+      <div class="card-body">
+        <pre><code><span class="kw">const</span> session = db.<span class="fn">getMongo</span>().<span class="fn">startSession</span>()
+
+<span class="kw">try</span> {
+  session.<span class="fn">startTransaction</span>()
+
+  <span class="kw">const</span> accounts = session.getDatabase(<span class="str">"shopdb"</span>).accounts
+  accounts.<span class="fn">updateOne</span>({ _id: <span class="str">"alice"</span> }, { <span class="at">$inc</span>: { balance: -<span class="num">500</span> } })
+  accounts.<span class="fn">updateOne</span>({ _id: <span class="str">"bob"</span>   }, { <span class="at">$inc</span>: { balance:  <span class="num">500</span> } })
+
+  session.<span class="fn">commitTransaction</span>()
+} <span class="kw">catch</span> (e) {
+  session.<span class="fn">abortTransaction</span>()
+} <span class="kw">finally</span> {
+  session.<span class="fn">endSession</span>()
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Write concern &amp; read preference <span class="lang-pill">concept</span></div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead><tr><th style="width:28%">Setting</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td>w: 1</td><td>Primary acknowledged â€” fastest, smallest durability guarantee</td></tr>
+            <tr><td>w: "majority"</td><td>Majority of replica set acknowledged â€” survives failover safely</td></tr>
+            <tr><td>j: true</td><td>Write is on disk journal before ack</td></tr>
+            <tr><td>readPreference primary</td><td>Reads hit primary â€” always consistent</td></tr>
+            <tr><td>readPreference secondaryPreferred</td><td>Scale reads off primary â€” may see stale data</td></tr>
+            <tr><td>readConcern "majority"</td><td>Only read data persisted on majority</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ADMIN ==================== -->
+  <section id="admin">
+    <h2><i class="bi bi-shield-lock me-2"></i>Administration</h2>
+    <p class="section-desc">Users, backups and everyday server commands.</p>
+
+    <div class="card">
+      <div class="card-header">Users &amp; roles <span class="lang-pill">mongosh</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm">// Enable auth first: security.authorization: enabled in mongod.conf
+</span>use admin
+db.<span class="fn">createUser</span>({
+  user: <span class="str">"appuser"</span>,
+  pwd:  <span class="fn">passwordPrompt</span>(),
+  roles: [ { role: <span class="str">"readWrite"</span>, db: <span class="str">"shopdb"</span> } ]
+})
+
+<span class="fn">show</span> users
+db.<span class="fn">changeUserPassword</span>(<span class="str">"appuser"</span>, <span class="str">"newpass"</span>)
+db.<span class="fn">dropUser</span>(<span class="str">"appuser"</span>)
+
+<span class="cm">// Built-in roles: read, readWrite, dbAdmin, userAdmin,
+// clusterAdmin, backup, restore, root</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Backup &amp; restore <span class="lang-pill">bash</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm"># Logical dump of a whole server / one db / one collection
+</span><span class="kw">mongodump</span> --uri=<span class="str">"mongodb://localhost:27017"</span> --out=/backups
+<span class="kw">mongodump</span> --db=shopdb --collection=products --out=/backups
+
+<span class="cm"># Restore
+</span><span class="kw">mongorestore</span> --db=shopdb /backups/shopdb
+
+<span class="cm"># Copy one collection between servers
+</span><span class="kw">mongoexport</span> --db=shopdb --collection=products --jsonFields=name,price --out=products.json
+<span class="kw">mongoimport</span> --db=shopdb --collection=products --file=products.json
+
+<span class="cm"># Server stats
+</span><span class="kw">mongostat</span>
+<span class="kw">mongotop</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Everyday diagnostics <span class="lang-pill">mongosh</span></div>
+      <div class="card-body">
+        <pre><code>db.<span class="fn">serverStatus</span>()                 <span class="cm">// connections, opcounters, memory
+</span>db.<span class="fn">stats</span>()                        <span class="cm">// storage sizes
+</span>db.currentOp()                    <span class="cm">// running operations
+</span>db.<span class="fn">killOp</span>(opId)                   <span class="cm">// kill a runaway op
+</span>rs.<span class="fn">status</span>()                       <span class="cm">// replica set health
+</span>sh.<span class="fn">status</span>()                       <span class="cm">// sharding topology
+</span>db.<span class="fn">setProfilingLevel</span>(<span class="num">1</span>, { slowms: <span class="num">100</span> })  <span class="cm">// log slow ops
+</span>db.system.profile.<span class="fn">find</span>().<span class="fn">sort</span>({ ts: -<span class="num">1</span> }).<span class="fn">limit</span>(<span class="num">5</span>)</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CHEATSHEET ==================== -->
+  <section id="cheatsheet">
+    <h2><i class="bi bi-stars me-2"></i>Cheat Sheet</h2>
+    <div class="card">
+      <div class="card-header">One-page reference <span class="lang-pill">quick</span></div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead><tr><th style="width:46%">Command</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td>use shopdb</td><td>Switch/create database</td></tr>
+            <tr><td>show dbs / show collections</td><td>List databases / collections</td></tr>
+            <tr><td>db.c.insertOne(doc)</td><td>Create one document</td></tr>
+            <tr><td>db.c.insertMany([docs])</td><td>Create many documents</td></tr>
+            <tr><td>db.c.find(filter, projection)</td><td>Query documents</td></tr>
+            <tr><td>db.c.findOne(filter)</td><td>First matching document</td></tr>
+            <tr><td>db.c.updateOne(f, update, {upsert})</td><td>Update first match</td></tr>
+            <tr><td>db.c.updateMany(f, update)</td><td>Update all matches</td></tr>
+            <tr><td>db.c.deleteOne(f) / deleteMany(f)</td><td>Delete documents</td></tr>
+            <tr><td>db.c.countDocuments(f)</td><td>Count matches</td></tr>
+            <tr><td>db.c.createIndex({f: 1}, {unique})</td><td>Create index</td></tr>
+            <tr><td>db.c.getIndexes() / dropIndex(name)</td><td>List / drop indexes</td></tr>
+            <tr><td>db.c.aggregate([stages])</td><td>Run aggregation pipeline</td></tr>
+            <tr><td>db.c.explain("executionStats").find(f)</td><td>Analyze query plan</td></tr>
+            <tr><td>db.c.drop()</td><td>Drop collection</td></tr>
+            <tr><td>mongodump / mongorestore</td><td>Backup / restore</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="mt-5 pt-4" style="border-top:1px solid var(--border)">
+    <div class="row">
+      <div class="col-md-6">
+        <p class="fw-bold mb-2">MongoDB Quick Reference</p>
+        <p class="small text-secondary">Generated for study purposes. Always refer to the official documentation.</p>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <p class="small mb-1">
+          <a href="https://www.mongodb.com/docs/" target="_blank" rel="noopener"><i class="bi bi-book me-1"></i> MongoDB Docs</a>
+          &middot;
+          <a href="https://www.mongodb.com/docs/manual/reference/operator/" target="_blank" rel="noopener"><i class="bi bi-funnel me-1"></i> Operator Reference</a>
+          &middot;
+          <a href="https://github.com/mongodb/mongo" target="_blank" rel="noopener"><i class="bi bi-github me-1"></i> GitHub</a>
+        </p>
+        <p class="small mb-0">MongoDB &copy; MongoDB Inc.</p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script src="lib/bootstrap/bootstrap.bundle.min.js"></script>
+<script>
+  document.getElementById('sidebarToggle')?.addEventListener('click', function () {
+    document.getElementById('sidebar').classList.toggle('show');
+  });
+  document.querySelectorAll('#sidebar .nav-link').forEach(function (link) {
+    link.addEventListener('click', function () {
+      document.getElementById('sidebar').classList.remove('show');
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <style>
@@ -30,8 +30,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Angular 21 - Complete Guide: CLI Commands, Signals & Concepts</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="lib/bootstrap-icons/bootstrap-icons.min.css">
   <style>
     :root {
       --angular-red: #dd0031;
@@ -217,9 +217,8 @@
       .home-link { left: 4rem; }
     }
   </style>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="lib/google-fonts/space-grotesk/space-grotesk.css">
+  <link rel="stylesheet" href="lib/google-fonts/jetbrains-mono/jetbrains-mono.css">
 <style>
 /* ===== Jap Hub design system - graphql pattern (injected layer) ===== */
 :root {
@@ -416,7 +415,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
 <body>
 
 <button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
-<a href="index.html" class="home-link" aria-label="Go back to home page"><span>←</span> Home</a>
+<a href="index.html" class="home-link" aria-label="Go back to home page"><span>â†</span> Home</a>
 
 <!-- ===== SIDEBAR ===== -->
 <nav id="sidebar">
@@ -741,7 +740,7 @@ npm create analog<span class="tp">@latest</span></code></pre>
     </div>
 
     <div class="card">
-      <div class="card-header">Control Flow (@ syntax — Angular 17+)</div>
+      <div class="card-header">Control Flow (@ syntax â€” Angular 17+)</div>
       <div class="card-body">
         <pre><code>&lt;!-- <span class="tp">@if</span> --&gt;
 <span class="tp">@if</span> (isLoggedIn) {
@@ -914,23 +913,23 @@ npm create analog<span class="tp">@latest</span></code></pre>
       <div class="card-body">
         <pre><code><span class="kw">import</span> { signal, computed, effect, linkedSignal } <span class="kw">from</span> <span class="str">'@angular/core'</span>;
 
-<span class="cm">// signal — writable reactive value</span>
+<span class="cm">// signal â€” writable reactive value</span>
 <span class="kw">const</span> count = <span class="fn">signal</span>(<span class="num">0</span>);
 count.<span class="fn">set</span>(<span class="num">5</span>);              <span class="cm">// set directly</span>
 count.<span class="fn">update</span>(c =&gt; c + <span class="num">1</span>); <span class="cm">// update based on current</span>
 console.<span class="fn">log</span>(<span class="fn">count</span>());      <span class="cm">// read (signal is a getter function)</span>
 
-<span class="cm">// computed — derived value (read-only, lazy)</span>
+<span class="cm">// computed â€” derived value (read-only, lazy)</span>
 <span class="kw">const</span> double = <span class="fn">computed</span>(() =&gt; <span class="fn">count</span>() * <span class="num">2</span>);
 
-<span class="cm">// effect — runs side effects when signals change</span>
+<span class="cm">// effect â€” runs side effects when signals change</span>
 <span class="kw">const</span> logEffect = <span class="fn">effect</span>(() =&gt; {
   console.<span class="fn">log</span>(<span class="str">`Count is: ${count()}`</span>);
 });
 <span class="cm">// Effects run during change detection by default</span>
 <span class="cm">// Cleanup: logEffect.destroy()</span>
 
-<span class="cm">// linkedSignal — writable signal derived from another (Angular 20+)</span>
+<span class="cm">// linkedSignal â€” writable signal derived from another (Angular 20+)</span>
 <span class="kw">const</span> firstName = <span class="fn">signal</span>(<span class="str">'John'</span>);
 <span class="kw">const</span> lastName = <span class="fn">signal</span>(<span class="str">'Doe'</span>);
 <span class="kw">const</span> fullName = <span class="fn">linkedSignal</span>({
@@ -1580,7 +1579,7 @@ ng add <span class="tp">@angular</span>/ssr
     </div>
 
     <div class="card mt-4">
-      <div class="card-header">Angular 21 — What's New</div>
+      <div class="card-header">Angular 21 â€” What's New</div>
       <div class="card-body">
         <div class="table-responsive">
           <table class="table table-hover mb-0 cmd-table">
@@ -1593,7 +1592,7 @@ ng add <span class="tp">@angular</span>/ssr
               <tr><td>Incremental Hydration</td><td>Stable</td></tr>
               <tr><td>Route-level render modes</td><td>Stable</td></tr>
               <tr><td>Zoneless Change Detection</td><td>Stable</td></tr>
-              <tr><td>Angular v22</td><td>Preview (next.12) — June 2026</td></tr>
+              <tr><td>Angular v22</td><td>Preview (next.12) â€” June 2026</td></tr>
             </tbody>
           </table>
         </div>
@@ -1622,7 +1621,7 @@ ng add <span class="tp">@angular</span>/ssr
 </div>
 
 <!-- ===== SCRIPTS ===== -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/bootstrap/bootstrap.bundle.min.js"></script>
 <script>
   const sidebar = document.getElementById('sidebar');
   const toggle = document.getElementById('sidebarToggle');

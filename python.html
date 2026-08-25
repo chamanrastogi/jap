@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <style>
@@ -30,8 +30,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Python 3.14 - Complete Guide: Syntax, Concepts & Reference</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="lib/bootstrap-icons/bootstrap-icons.min.css">
   <style>
     :root {
       --py-blue: #306998;
@@ -210,9 +210,8 @@
       .home-link { left: 4rem; }
     }
   </style>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="lib/google-fonts/space-grotesk/space-grotesk.css">
+  <link rel="stylesheet" href="lib/google-fonts/jetbrains-mono/jetbrains-mono.css">
 <style>
 /* ===== Jap Hub design system - graphql pattern (injected layer) ===== */
 :root {
@@ -612,7 +611,7 @@ result = <span class="kw">None</span>         <span class="cm"># null / absence 
     <div class="card">
       <div class="card-header">Lists, Tuples, Sets, Dicts</div>
       <div class="card-body">
-        <pre><code><span class="cm"># List — mutable ordered sequence</span>
+        <pre><code><span class="cm"># List â€” mutable ordered sequence</span>
 nums = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>]
 nums.<span class="fn">append</span>(<span class="num">4</span>)         <span class="cm"># [1, 2, 3, 4]</span>
 nums.<span class="fn">insert</span>(<span class="num">0</span>, <span class="num">0</span>)    <span class="cm"># [0, 1, 2, 3, 4]</span>
@@ -620,18 +619,18 @@ nums.<span class="fn">pop</span>()              <span class="cm"># removes & ret
 nums.<span class="fn">sort</span>()            <span class="cm"># in-place sort</span>
 sliced = nums[<span class="num">1</span>:<span class="num">3</span>]   <span class="cm"># [1, 2]</span>
 
-<span class="cm"># Tuple — immutable ordered sequence</span>
+<span class="cm"># Tuple â€” immutable ordered sequence</span>
 point = (<span class="num">10</span>, <span class="num">20</span>)
 x, y = point           <span class="cm"># tuple unpacking</span>
 
-<span class="cm"># Set — unordered, unique elements</span>
+<span class="cm"># Set â€” unordered, unique elements</span>
 unique = {<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">2</span>}  <span class="cm"># {1, 2, 3}</span>
 unique.<span class="fn">add</span>(<span class="num">4</span>)
 a &amp; b                  <span class="cm"># intersection</span>
 a | b                  <span class="cm"># union</span>
 a - b                  <span class="cm"># difference</span>
 
-<span class="cm"># Dict — key-value mapping</span>
+<span class="cm"># Dict â€” key-value mapping</span>
 user = {<span class="str">"name"</span>: <span class="str">"Alice"</span>, <span class="str">"age"</span>: <span class="num">30</span>}
 user[<span class="str">"email"</span>] = <span class="str">"a@b.com"</span>
 user.<span class="fn">get</span>(<span class="str">"phone"</span>, <span class="str">"N/A"</span>)   <span class="cm"># safe access with default</span>
@@ -744,7 +743,7 @@ nums.<span class="fn">sort</span>(key=<span class="kw">lambda</span> x: x[<span 
     <div class="card">
       <div class="card-header">Decorators &amp; Closures</div>
       <div class="card-body">
-        <pre><code><span class="cm"># Decorator — a function that wraps another</span>
+        <pre><code><span class="cm"># Decorator â€” a function that wraps another</span>
 <span class="kw">def</span> <span class="fn">timer</span>(func):
     <span class="kw">import</span> time
     <span class="kw">def</span> <span class="fn">wrapper</span>(*args, **kwargs):
@@ -958,7 +957,7 @@ deactivate</code></pre>
     </div>
 
     <div class="card">
-      <div class="card-header">uv — Fast Package Manager (Modern Alternative)</div>
+      <div class="card-header">uv â€” Fast Package Manager (Modern Alternative)</div>
       <div class="card-body">
         <pre><code><span class="cm"># Install uv (Rust-based, 10-100x faster than pip)</span>
 pip install uv
@@ -996,7 +995,7 @@ T = <span class="tp">TypeVar</span>(<span class="str">"T"</span>)
 <span class="kw">def</span> <span class="fn">run_hook</span>(hook: <span class="tp">Callable</span>[[<span class="kw">str</span>], <span class="kw">None</span>], data: <span class="kw">str</span>):
     <span class="fn">hook</span>(data)
 
-<span class="cm"># TypedDict — typed dictionary</span>
+<span class="cm"># TypedDict â€” typed dictionary</span>
 <span class="kw">from</span> typing <span class="kw">import</span> <span class="tp">TypedDict</span>
 <span class="kw">class</span> <span class="tp">Movie</span>(<span class="tp">TypedDict</span>):
     title: <span class="kw">str</span>
@@ -1145,7 +1144,7 @@ asyncio.<span class="fn">run</span>(<span class="fn">main</span>())
           <div class="col-md-6">
             <h6><i class="bi bi-pencil-square text-primary me-1"></i> Code Style</h6>
             <ul class="small text-muted ps-3">
-              <li>Follow <strong>PEP 8</strong> — 4-space indentation, 88 chars line length</li>
+              <li>Follow <strong>PEP 8</strong> â€” 4-space indentation, 88 chars line length</li>
               <li>Use <code>black</code> for automatic formatting</li>
               <li>Use <code>ruff</code> for linting (fast, Rust-based)</li>
               <li>Snake case for functions/variables: <code>my_function</code></li>
@@ -1222,7 +1221,7 @@ asyncio.<span class="fn">run</span>(<span class="fn">main</span>())
 </div>
 
 <!-- ===== SCRIPTS ===== -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/bootstrap/bootstrap.bundle.min.js"></script>
 <script>
   const sidebar = document.getElementById('sidebar');
   const toggle = document.getElementById('sidebarToggle');
