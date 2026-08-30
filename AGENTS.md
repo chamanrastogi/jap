@@ -1,7 +1,7 @@
 # Jap App Hub — Project Guide
 
 ## What this is
-Static HTML/CSS/JS collection served as a GitHub Pages site. No build tools, no package manager, no framework — just plain `.html` files with Bootstrap 5 CDN.
+Static HTML/CSS/JS collection served as a GitHub Pages site. No build tools, no package manager, no framework — just plain `.html` files with self-hosted vendor assets (no CDNs).
 
 ## Key files
 - `index.html` — Hub/entry page with search, categories, and app grid
@@ -17,8 +17,13 @@ Static HTML/CSS/JS collection served as a GitHub Pages site. No build tools, no 
 - No build step; full repo is deployed as-is
 
 ## Style conventions
-- Bootstrap 5.3.x from CDN (`https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css`)
-- Bootstrap Icons from CDN (`https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css`)
+- All libraries self-hosted under `assets/vendor/` — never add CDN links to pages:
+  - `assets/vendor/bootstrap/` — Bootstrap 5.3.3 `bootstrap.min.css` + `bootstrap.bundle.min.js` (all pages, incl. former 5.3.0/5.3.2 users)
+  - `assets/vendor/bootstrap-icons/` — icons CSS + fonts
+  - `assets/vendor/font-awesome/` — FA 6.4.0 CSS + webfonts
+  - `assets/vendor/fonts/fonts.css` — all Google Fonts families (woff2 in `files/`); replaces every `fonts.googleapis.com/css2` link/@import
+  - `assets/vendor/three/`, `htmx/`, `tailwind/`, `firebase/` — per-app libs
+- Code-sample URLs inside tutorial pages (e.g. `bootstrap.html` install snippets) intentionally still show CDN URLs — do not "fix" them
 - Glass-morphism theme: `.glass-card`, `.hero-shell`, `.section-panel`
 - Custom saffron/orange accent color (`--saffron: #ff9933`)
 - Dark mode via `data-bs-theme` toggle (stored in localStorage)
@@ -32,7 +37,7 @@ page-specific classes (`.vs-card`, `.diagram-box`, `.badge-diet`, etc. stay work
 
 - **Layout**: fixed dark gradient sidebar (`#sidebar`, 280px, uses `--sidebar-width`) + `#main`
   (flex child, `max-width: 1120px`, `padding: 2rem 2.5rem 4rem`).
-- **Fonts**: `Space Grotesk` (UI/headings) + `JetBrains Mono` (code) from Google Fonts.
+- **Fonts**: `Space Grotesk` (UI/headings) + `JetBrains Mono` (code), served locally from `assets/vendor/fonts/fonts.css`.
 - **Per-page tokens** set in the injected `:root` — never reuse `--ink`/`--surface` for page vars
   (they collide; `node-express.html`, `codeigniter-versions.html` already own them and are already
   graphql-style — leave them alone):
