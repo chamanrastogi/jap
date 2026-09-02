@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+    body {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(100, 116, 139, 0.35) transparent;
+    }
+    body::-webkit-scrollbar { width: 8px; }
+    body::-webkit-scrollbar-track { background: transparent; }
+    body::-webkit-scrollbar-thumb {
+      background: rgba(100, 116, 139, 0.35);
+      border-radius: 999px;
+    }
+    body::-webkit-scrollbar-thumb:hover { background: rgba(100, 116, 139, 0.55); }
+    #sidebar, .sidebar {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+    }
+    #sidebar::-webkit-scrollbar, .sidebar::-webkit-scrollbar { width: 5px; }
+    #sidebar::-webkit-scrollbar-track, .sidebar::-webkit-scrollbar-track { background: transparent; }
+    #sidebar::-webkit-scrollbar-thumb, .sidebar::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+    }
+    #sidebar::-webkit-scrollbar-thumb:hover, .sidebar::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.32);
+    }
+</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TypeScript - Complete Guide: Types, Generics &amp; Patterns</title>
+  <link href="lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="lib/bootstrap-icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="lib/google-fonts/space-grotesk/space-grotesk.css">
+  <link rel="stylesheet" href="lib/google-fonts/jetbrains-mono/jetbrains-mono.css">
+  <style>
+    :root {
+      --ts-blue: #3178C6;
+      --ts-blue-deep: #235A97;
+      --ts-mint: #4ec9b0;
+      --ts-mint-soft: #7edcd2;
+      --ts-navy: #0f172a;
+      --ts-navy-2: #162032;
+      --ts-sky: #5ba4e6;
+      --ts-bg: #f6f7fb;
+      --ts-surface: #ffffff;
+      --ts-muted: #6b7086;
+      --ts-border: #e2e5ef;
+      --ts-green: #17b26a;
+      --ts-code: #0e1120;
+      --sidebar-width: 280px;
+    }
+    * { scroll-margin-top: 1rem; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(49,120,198,0.07), transparent 26%),
+        radial-gradient(circle at bottom left, rgba(78,201,176,0.05), transparent 24%),
+        var(--ts-bg);
+      color: #2a2d44;
+      display: flex;
+    }
+    h1, h2, h3, h4, .brand-font {
+      font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+    }
+
+    /* ---------- Sidebar ---------- */
+    #sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0; left: 0;
+      background: linear-gradient(180deg, var(--ts-navy) 0%, var(--ts-navy-2) 100%);
+      overflow-y: auto;
+      z-index: 1000;
+      transition: transform .3s;
+    }
+    #sidebar .brand {
+      padding: 1.25rem 1.25rem .85rem;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+    #sidebar .brand svg { flex-shrink: 0; filter: drop-shadow(0 0 10px rgba(49,120,198,.5)); }
+    #sidebar .brand h5 { color: #fff; font-weight: 700; margin: 0; letter-spacing: .01em; }
+    #sidebar .brand small { color: #a9a6c9; font-size: .7rem; }
+    #sidebar .nav-link {
+      color: #c3bfdd;
+      padding: .5rem 1.25rem;
+      font-size: .88rem;
+      border-left: 3px solid transparent;
+      transition: all .15s;
+    }
+    #sidebar .nav-link:hover {
+      color: #fff;
+      background: rgba(255,255,255,.06);
+    }
+    #sidebar .nav-link.active {
+      color: #fff;
+      border-left-color: var(--ts-blue);
+      background: linear-gradient(90deg, rgba(49,120,198,.16), rgba(78,201,176,.08));
+    }
+    #sidebar .nav-link i { width: 1.3rem; color: var(--ts-mint-soft); }
+    #sidebar .nav-section {
+      color: #7d79a8;
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      padding: 1rem 1.25rem .3rem;
+      font-weight: 700;
+    }
+    .sidebar-toggle {
+      position: fixed;
+      top: .75rem; left: .75rem;
+      z-index: 1050;
+      background: var(--ts-navy);
+      color: #fff;
+      border: none;
+      border-radius: .4rem;
+      padding: .4rem .65rem;
+      display: none;
+    }
+    @media (max-width: 991.98px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.show { transform: translateX(0); }
+      #main { margin-left: 0 !important; padding: 1.5rem !important; }
+      .sidebar-toggle { display: block; }
+    }
+
+    /* ---------- Main ---------- */
+    #main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 0 2.5rem 4rem;
+    }
+
+    /* ---------- Home link ---------- */
+    .home-link {
+      position: fixed;
+      top: 14px; left: 14px;
+      z-index: 1100;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.94);
+      color: #14172e;
+      text-decoration: none;
+      font-size: .78rem;
+      font-weight: 700;
+      box-shadow: 0 10px 28px rgba(0,0,0,.08);
+      border: 1px solid rgba(226,232,240,.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: .2s;
+    }
+    .home-link:hover { color: var(--ts-blue); }
+    @media (min-width: 992px) { .home-link { left: calc(var(--sidebar-width) + 14px); } }
+    @media (max-width: 991.98px) { .home-link { left: 4rem; } }
+
+    /* ---------- Hero band ---------- */
+    .hero-band {
+      margin: 0 -2.5rem;
+      padding: 3rem 2.5rem 2.75rem;
+      background:
+        radial-gradient(120% 120% at 85% 0%, rgba(49,120,198,.32), transparent 50%),
+        radial-gradient(90% 90% at 0% 100%, rgba(78,201,176,.24), transparent 45%),
+        linear-gradient(135deg, var(--ts-navy) 0%, var(--ts-navy-2) 100%);
+      color: #fff;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      margin-bottom: .7rem;
+      padding: .32rem .68rem;
+      border-radius: 999px;
+      border: 1px solid rgba(91,164,230,.35);
+      background: rgba(49,120,198,.12);
+      color: var(--ts-sky);
+      font-size: .66rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .hero-title {
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -.02em;
+      margin-bottom: .9rem;
+    }
+    .ts-gradient-text {
+      background: linear-gradient(90deg, var(--ts-sky), var(--ts-mint-soft));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero-sub {
+      max-width: 30rem;
+      color: #bdb8de;
+      font-size: .92rem;
+      line-height: 1.65;
+      margin-bottom: 1.2rem;
+    }
+    .hero-cta, .hero-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      padding: .6rem 1rem;
+      border-radius: .55rem;
+      font-size: .82rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+    .hero-cta {
+      background: linear-gradient(135deg, var(--ts-blue), var(--ts-blue-deep));
+      color: #fff;
+      box-shadow: 0 12px 28px rgba(49,120,198,.32);
+    }
+    .hero-cta:hover { color: #fff; transform: translateY(-1px); }
+    .hero-ghost {
+      border: 1px solid rgba(255,255,255,.18);
+      color: #e5e2f6;
+    }
+    .hero-ghost:hover { color: #fff; background: rgba(255,255,255,.07); }
+
+    /* ---------- Type Shield (signature element) ---------- */
+    .type-shield { display: flex; flex-direction: column; gap: .45rem; }
+    .shield-pane {
+      border-radius: .75rem;
+      border: 1px solid rgba(255,255,255,.1);
+      background: rgba(10,12,28,.72);
+      box-shadow: 0 24px 50px rgba(0,0,0,.35);
+      overflow: hidden;
+    }
+    .shield-head {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .5rem .75rem;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      background: rgba(255,255,255,.03);
+    }
+    .dot { width: .5rem; height: .5rem; border-radius: 50%; background: #3a3d5c; }
+    .dot:nth-child(1) { background: #ff5f57; }
+    .dot:nth-child(2) { background: #febc2e; }
+    .dot:nth-child(3) { background: #28c840; }
+    .shield-file {
+      margin-left: .3rem;
+      color: #8f8bb4;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .68rem;
+    }
+    .check-btn {
+      margin-left: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      border: 1px solid rgba(78,201,176,.4);
+      background: rgba(78,201,176,.16);
+      color: var(--ts-mint-soft);
+      font-size: .68rem;
+      font-weight: 700;
+      padding: .22rem .55rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background .18s ease, color .18s ease;
+    }
+    .check-btn:hover { background: rgba(78,201,176,.32); color: #fff; }
+    .shield-pane pre { border-radius: 0; background: transparent; border: none; }
+    .shield-label { margin-left: auto; color: #8f8bb4; font-family: 'JetBrains Mono', monospace; font-size: .66rem; }
+
+    .error-line { opacity: 1; transition: opacity .4s ease; }
+    .error-line.hidden { opacity: .25; }
+    .shield-pane-error.loading .error-line { opacity: .25; }
+    .shield-pane-error.loading .shield-pane-shimmer::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(100deg, transparent 30%, rgba(255,95,87,.15) 50%, transparent 70%);
+      background-size: 240% 100%;
+      animation: shimmer 1s linear infinite;
+      pointer-events: none;
+    }
+    .shield-pane-shimmer { position: relative; }
+    @keyframes shimmer { to { background-position: -240% 0; } }
+    @media (prefers-reduced-motion: reduce) {
+      .shield-pane-error.loading .shield-pane-shimmer::after { animation: none; }
+      html { scroll-behavior: auto; }
+    }
+    .error-status { font-family: 'JetBrains Mono', monospace; font-size: .68rem; font-weight: 600; }
+    .error-status.err { color: #ff5f57; }
+    .error-status.ok { color: var(--ts-green); }
+
+    /* ---------- Sections ---------- */
+    section { padding-top: 2.75rem; }
+    .sec-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      color: var(--ts-blue);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      margin-bottom: .2rem;
+    }
+    h2 {
+      font-weight: 700;
+      color: var(--ts-navy);
+      position: relative;
+      padding-bottom: .55rem;
+      margin-bottom: 1.1rem;
+    }
+    h2::after {
+      content: "";
+      position: absolute;
+      left: 0; bottom: 0;
+      width: 58px; height: 3px;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--ts-blue), var(--ts-mint));
+    }
+    h3 {
+      font-weight: 600;
+      color: var(--ts-navy);
+      margin-top: 1.8rem;
+      font-size: 1.12rem;
+    }
+    #main .card {
+      border: 1px solid var(--ts-border);
+      border-radius: .8rem;
+      box-shadow: 0 4px 16px rgba(20,23,46,.05);
+      margin-bottom: 1.5rem;
+      background: var(--ts-surface);
+    }
+    #main .card-header {
+      background: #f8f9fd;
+      border-bottom: 1px solid var(--ts-border);
+      font-weight: 600;
+      font-size: .84rem;
+      color: var(--ts-navy);
+      padding: .75rem 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .lang-pill {
+      margin-left: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .62rem;
+      font-weight: 600;
+      color: var(--ts-blue);
+      background: rgba(49,120,198,.08);
+      border: 1px solid rgba(49,120,198,.18);
+      padding: .12rem .5rem;
+      border-radius: 999px;
+      letter-spacing: .04em;
+    }
+    #main .card-body { padding: 1.25rem 1.35rem; }
+
+    pre {
+      background: var(--ts-code);
+      color: #e7e4f6;
+      padding: 1.05rem 1.2rem;
+      border-radius: .6rem;
+      font-size: .82rem;
+      overflow-x: auto;
+      position: relative;
+      border: 1px solid rgba(255,255,255,.05);
+      line-height: 1.6;
+    }
+    pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
+    .kw { color: #c792ea; }
+    .fn { color: #7ee0c3; }
+    .str { color: #c3e88d; }
+    .cm { color: #6c7693; font-style: italic; }
+    .num { color: #ffb86c; }
+    .tp { color: #82aaff; }
+
+    .highlight-box {
+      background: linear-gradient(135deg, rgba(49,120,198,.07), rgba(78,201,176,.05));
+      border-left: 4px solid var(--ts-blue);
+      padding: 1rem 1.25rem;
+      border-radius: .45rem;
+      margin: 1rem 0;
+      font-size: .88rem;
+      color: #3a3d58;
+    }
+
+    table.table { font-size: .86rem; }
+    .table thead th {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--ts-muted);
+      background: #f8f9fd;
+      border-bottom: 2px solid var(--ts-border);
+    }
+    .cmd-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .8rem;
+      white-space: nowrap;
+      color: var(--ts-blue);
+    }
+    .type-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .8rem;
+      color: var(--ts-mint);
+      white-space: nowrap;
+    }
+
+    .new-badge {
+      background: linear-gradient(135deg, var(--ts-blue), var(--ts-mint));
+      color: #fff;
+      font-size: .62rem;
+      font-weight: 700;
+      padding: .15rem .55rem;
+      border-radius: 999px;
+      vertical-align: middle;
+    }
+
+    /* ---------- Directive chips ---------- */
+    .chip-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: .55rem;
+    }
+    .dir-chip {
+      display: flex;
+      flex-direction: column;
+      gap: .15rem;
+      padding: .7rem .8rem;
+      border: 1px solid var(--ts-border);
+      border-radius: .7rem;
+      background: #fff;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+    .dir-chip:hover {
+      transform: translateY(-2px);
+      border-color: rgba(49,120,198,.4);
+      box-shadow: 0 10px 22px rgba(49,120,198,.12);
+    }
+    .dir-chip code {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--ts-blue);
+      font-size: .76rem;
+      font-weight: 600;
+    }
+    .dir-chip small { color: var(--ts-muted); font-size: .68rem; line-height: 1.35; }
+
+    .tip-row { display: flex; flex-direction: column; gap: .55rem; }
+    .tip-row .tip {
+      display: flex;
+      gap: .6rem;
+      align-items: flex-start;
+      font-size: .87rem;
+      color: #3a3d58;
+    }
+    .tip-row .tip i { color: var(--ts-blue); margin-top: .15rem; }
+
+    :focus-visible {
+      outline: 2px solid var(--ts-blue);
+      outline-offset: 2px;
+      border-radius: 6px;
+    }
+
+    footer { border-top: 1px solid var(--ts-border); }
+    footer a { color: var(--ts-blue); text-decoration: none; font-weight: 600; }
+    footer a:hover { color: var(--ts-mint); }
+
+    @media (max-width: 991.98px) {
+      .hero-band { margin: 0 -1.5rem; padding: 2rem 1.5rem 1.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar"><i class="bi bi-list fs-5"></i></button>
+<a href="index.html" class="home-link" aria-label="Go back to home page"><span>&larr;</span> Home</a>
+
+<!-- ===== SIDEBAR ===== -->
+<nav id="sidebar">
+  <div class="brand">
+    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#5ba4e6" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+      <rect x="2" y="3" width="20" height="18" rx="3"/>
+      <path d="M7 8h6M7 12h10M7 16h4"/>
+    </svg>
+    <div>
+      <h5>TypeScript</h5>
+      <small>v5.7 &mdash; Complete Guide</small>
+    </div>
+  </div>
+  <div class="py-2">
+    <div class="nav-section">Getting Started</div>
+    <a class="nav-link" href="#intro"><i class="bi bi-info-circle"></i> What is TypeScript?</a>
+    <a class="nav-link" href="#setup"><i class="bi bi-download"></i> Installation &amp; Setup</a>
+
+    <div class="nav-section">Core Types</div>
+    <a class="nav-link" href="#basics"><i class="bi bi-braces"></i> Basic Types</a>
+    <a class="nav-link" href="#interfaces"><i class="bi bi-diagram-3"></i> Interfaces &amp; Types</a>
+    <a class="nav-link" href="#functions"><i class="bi bi-arrow-right-square"></i> Functions</a>
+    <a class="nav-link" href="#classes"><i class="bi bi-grid-3x3-gap"></i> Classes</a>
+
+    <div class="nav-section">Advanced</div>
+    <a class="nav-link" href="#generics"><i class="bi bi-infinity"></i> Generics</a>
+    <a class="nav-link" href="#utility"><i class="bi bi-tools"></i> Utility Types</a>
+    <a class="nav-link" href="#advanced"><i class="bi bi-lightning-charge"></i> Advanced Types</a>
+    <a class="nav-link" href="#config"><i class="bi bi-gear"></i> tsconfig.json</a>
+
+    <div class="nav-section">Patterns</div>
+    <a class="nav-link" href="#react"><i class="bi bi-filetype-tsx"></i> TypeScript + React</a>
+    <a class="nav-link" href="#patterns"><i class="bi bi-check2-square"></i> Best Practices</a>
+    <a class="nav-link" href="#cheatsheet"><i class="bi bi-stars"></i> Cheat Sheet</a>
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<div id="main">
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero-band">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-6">
+        <span class="hero-eyebrow"><i class="bi bi-shield-check"></i> TypeScript &middot; JavaScript &middot; Type Safety</span>
+        <h1 class="hero-title">Catch bugs before<br><span class="ts-gradient-text">they ship.</span></h1>
+        <p class="hero-sub">
+          TypeScript adds a compile-time type system to JavaScript: catch errors before runtime,
+          get autocompletion everywhere, and refactor with confidence. This guide covers every core
+          feature from basic types to advanced patterns.
+        </p>
+        <div class="d-flex flex-wrap gap-2">
+          <a class="hero-cta" href="#setup"><i class="bi bi-rocket-takeoff"></i> Start with setup</a>
+          <a class="hero-ghost" href="#basics">Explore types</a>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="type-shield" role="presentation">
+          <div class="shield-pane">
+            <div class="shield-head">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              <span class="shield-file">app.ts</span>
+              <button class="check-btn" id="checkBtn"><i class="bi bi-play-fill"></i> Check</button>
+            </div>
+            <pre class="mb-0"><code><span class="kw">function</span> <span class="fn">greet</span>(<span class="fn">name</span>: <span class="tp">string</span>): <span class="tp">string</span> {
+  <span class="kw">return</span> <span class="str">`Hello, ${name}!`</span>;
+}
+
+<span class="cm">// This is fine</span>
+<span class="fn">greet</span>(<span class="str">"TypeScript"</span>);
+
+<span class="cm">// Error: number is not assignable to string</span>
+<span class="fn">greet</span>(<span class="num">42</span>);</code></pre>
+          </div>
+
+          <div class="shield-pane shield-pane-error shield-pane-shimmer" id="errorPane">
+            <div class="shield-head">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              <span class="error-status" id="errorStatus">3 errors</span>
+              <span class="shield-label">problems</span>
+            </div>
+            <pre class="mb-0"><code class="error-line" id="errorCode"><span class="cm">app.ts(8,7): error TS2345:</span>
+  <span class="str">Argument of type 'number'</span>
+  <span class="str">is not assignable to parameter</span>
+  <span class="str">of type 'string'.</span>
+
+<span class="cm">Found 1 error.</span>
+<span class="fn">TypeScript catches it at compile time.</span></code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== INTRO ==================== -->
+  <section id="intro">
+    <span class="sec-kicker">Introduction</span>
+    <h2>What is TypeScript?</h2>
+    <p class="fs-6 text-secondary">
+      TypeScript is a strongly-typed superset of JavaScript created by Microsoft in 2012. It adds
+      <strong>static type checking</strong>, <strong>interfaces</strong>, <strong>generics</strong>,
+      and <strong>advanced type operators</strong> to JavaScript &mdash; all erased at compile time,
+      producing plain JS that runs anywhere.
+    </p>
+
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-body text-center">
+            <i class="bi bi-shield-check display-6" style="color:var(--ts-blue)"></i>
+            <h5 class="mt-2">Type Safety</h5>
+            <p class="text-muted small mb-0">Catch errors at compile time instead of in production.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-body text-center">
+            <i class="bi bi-lightbulb display-6" style="color:var(--ts-mint)"></i>
+            <h5 class="mt-2">IntelliSense</h5>
+            <p class="text-muted small mb-0">Full autocompletion, go-to-definition, and inline docs.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-body text-center">
+            <i class="bi bi-arrow-repeat display-6" style="color:var(--ts-green)"></i>
+            <h5 class="mt-2">Refactor Safely</h5>
+            <p class="text-muted small mb-0">Rename a property and see every broken reference instantly.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">TypeScript vs JavaScript <span class="lang-pill">concept</span></div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead><tr><th style="width:18%">Concern</th><th>JavaScript</th><th>TypeScript</th></tr></thead>
+          <tbody>
+            <tr><td>Type checking</td><td>Dynamic (runtime errors)</td><td>Static (compile-time errors)</td></tr>
+            <tr><td>Interfaces</td><td>None</td><td>Full interface &amp; type system</td></tr>
+            <tr><td>Generics</td><td>None</td><td>Full generic programming</td></tr>
+            <tr><td>IDE support</td><td>Basic</td><td>Autocomplete, refactoring, navigation</td></tr>
+            <tr><td>Error surface</td><td>Runtime</td><td>Compile time</td></tr>
+            <tr><td>Learning curve</td><td>Low</td><td>Moderate (types are optional)</td></tr>
+            <tr><td>Output</td><td>JS</td><td>JS (types erased)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>When to use TypeScript</strong> &mdash; any project that will be maintained by more than one
+      person, any codebase larger than a handful of files, and any application where runtime type errors
+      would be costly. For a throwaway script, plain JavaScript is fine.
+    </div>
+  </section>
+
+  <!-- ==================== SETUP ==================== -->
+  <section id="setup">
+    <span class="sec-kicker">Step 01 &mdash; Setup</span>
+    <h2>Installation &amp; Setup</h2>
+    <p>
+      TypeScript ships as an <code>npm</code> package. The <code>tsc</code> compiler reads
+      <code>.ts</code> files and emits plain <code>.js</code>.
+    </p>
+
+    <div class="card">
+      <div class="card-header">Installation <span class="lang-pill">bash</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm"># Install TypeScript globally</span>
+<span class="kw">npm</span> install -g typescript
+
+<span class="cm"># Check version</span>
+<span class="kw">tsc</span> --version
+
+<span class="cm"># Initialize a tsconfig.json</span>
+<span class="kw">tsc</span> --init
+
+<span class="cm"># Compile a single file</span>
+<span class="kw">tsc</span> app.ts
+
+<span class="cm"># Watch mode (recompile on save)</span>
+<span class="kw">tsc</span> --watch
+
+<span class="cm"># Compile with project config</span>
+<span class="kw">tsc</span>
+
+<span class="cm"># Install types for Node.js projects</span>
+<span class="kw">npm</span> install -D @types/node</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">package.json Scripts <span class="lang-pill">json</span></div>
+      <div class="card-body">
+        <pre><code>{
+  <span class="str">"scripts"</span>: {
+    <span class="str">"build"</span>: <span class="str">"tsc"</span>,
+    <span class="str">"dev"</span>: <span class="str">"tsc --watch"</span>,
+    <span class="str">"check"</span>: <span class="str">"tsc --noEmit"</span>
+  },
+  <span class="str">"devDependencies"</span>: {
+    <span class="str">"typescript"</span>: <span class="str">"^5.7.0"</span>,
+    <span class="str">"@types/node"</span>: <span class="str">"^22.0.0"</span>
+  }
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Quick Compile Commands <span class="lang-pill">reference</span></div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead><tr><th style="width:40%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>tsc</td><td>Compile all files per tsconfig.json</td></tr>
+            <tr><td>tsc --noEmit</td><td>Type-check without emitting output</td></tr>
+            <tr><td>tsc --watch</td><td>Watch mode &mdash; recompile on change</td></tr>
+            <tr><td>tsc --init</td><td>Generate a default tsconfig.json</td></tr>
+            <tr><td>tsc --strict</td><td>Enable all strict type-checking options</td></tr>
+            <tr><td>tsc --outDir dist</td><td>Output compiled JS to dist/</td></tr>
+            <tr><td>tsc --declaration</td><td>Generate .d.ts declaration files</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BASIC TYPES ==================== -->
+  <section id="basics">
+    <span class="sec-kicker">Step 02 &mdash; Basics</span>
+    <h2>Basic Types</h2>
+    <p>
+      Every value in TypeScript has a type. You can annotate variables explicitly or let TypeScript
+      <strong>infer</strong> the type from the initial value.
+    </p>
+
+    <div class="card">
+      <div class="card-header">Primitive Types <span class="lang-pill">typescript</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm">// Explicit annotations</span>
+<span class="kw">let</span> <span class="fn">name</span>: <span class="tp">string</span> = <span class="str">"Alice"</span>;
+<span class="kw">let</span> <span class="fn">age</span>: <span class="tp">number</span> = <span class="num">30</span>;
+<span class="kw">let</span> <span class="fn">active</span>: <span class="tp">boolean</span> = <span class="kw">true</span>;
+<span class="kw">let</span> <span class="fn">nothing</span>: <span class="tp">null</span> = <span class="kw">null</span>;
+<span class="kw">let</span> <span class="fn">notDefined</span>: <span class="tp">undefined</span> = <span class="kw">undefined</span>;
+
+<span class="cm">// Type inference (no annotation needed)</span>
+<span class="kw">let</span> <span class="fn">city</span> = <span class="str">"Mumbai"</span>;      <span class="cm">// inferred as string</span>
+<span class="kw">let</span> <span class="fn">count</span> = <span class="num">42</span>;            <span class="cm">// inferred as number</span>
+
+<span class="cm">// Arrays</span>
+<span class="kw">let</span> <span class="fn">scores</span>: <span class="tp">number</span>[] = [<span class="num">90</span>, <span class="num">85</span>, <span class="num">78</span>];
+<span class="kw">let</span> <span class="fn">names</span>: <span class="tp">string</span>[] = [<span class="str">"a"</span>, <span class="str">"b"</span>];
+<span class="kw">let</span> <span class="fn">mixed</span>: (<span class="tp">string</span> | <span class="tp">number</span>)[] = [<span class="num">1</span>, <span class="str">"two"</span>, <span class="num">3</span>];
+
+<span class="cm">// Tuple</span>
+<span class="kw">let</span> <span class="fn">pair</span>: [<span class="tp">string</span>, <span class="tp">number</span>] = [<span class="str">"age"</span>, <span class="num">25</span>];</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Special Types <span class="lang-pill">typescript</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm">// any — disables type checking (avoid)</span>
+<span class="kw">let</span> <span class="fn">risky</span>: <span class="tp">any</span> = <span class="num">42</span>;
+risky = <span class="str">"now a string"</span>;  <span class="cm">// no error</span>
+
+<span class="cm">// unknown — safe alternative to any</span>
+<span class="kw">let</span> <span class="fn">input</span>: <span class="tp">unknown</span> = <span class="str">"hello"</span>;
+<span class="cm">// input.toUpperCase();  // Error: must narrow first</span>
+<span class="kw">if</span> (<span class="kw">typeof</span> input === <span class="str">"string"</span>) {
+  input.<span class="fn">toUpperCase</span>();    <span class="cm">// OK after narrowing</span>
+}
+
+<span class="cm">// never — values that never occur</span>
+<span class="kw">function</span> <span class="fn">throwError</span>(msg: <span class="tp">string</span>): <span class="tp">never</span> {
+  <span class="kw">throw new</span> <span class="fn">Error</span>(msg);
+}
+
+<span class="cm">// void — function that returns nothing</span>
+<span class="kw">function</span> <span class="fn">log</span>(msg: <span class="tp">string</span>): <span class="tp">void</span> {
+  console.<span class="fn">log</span>(msg);
+}
+
+<span class="cm">// Object type</span>
+<span class="kw">function</span> <span class="fn">printId</span>(obj: <span class="tp">object</span>): <span class="tp">void</span> {
+  console.<span class="fn">log</span>(obj);
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Type Assertions <span class="lang-pill">typescript</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm">// When you know more than TypeScript</span>
+<span class="kw">let</span> <span class="fn">value</span>: <span class="tp">unknown</span> = <span class="str">"hello"</span>;
+
+<span class="cm">// Angle-bracket syntax (not in .tsx files)</span>
+<span class="kw">let</span> <span class="fn">len</span> = (<span class="tp">value</span> <span class="kw">as</span> <span class="tp">string</span>).<span class="fn">length</span>;
+
+<span class="cm">// as syntax (preferred, works in .tsx)</span>
+<span class="kw">let</span> <span class="fn">len2</span> = (<span class="fn">value</span> <span class="kw">as</span> <span class="tp">string</span>).<span class="fn">length</span>;</code></pre>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Prefer <code>unknown</code> over <code>any</code>.</strong> The <code>unknown</code> type forces
+      you to check the value before using it, while <code>any</code> silently disables all type checking.
+    </div>
+  </section>
+
+  <!-- ==================== INTERFACES & TYPES ==================== -->
+  <section id="interfaces">
+    <span class="sec-kicker">Step 03 &mdash; Shapes</span>
+    <h2>Interfaces &amp; Type Aliases</h2>
+    <p>
+      Both <code>interface</code> and <code>type</code> describe the shape of objects. Interfaces can be
+      <strong>extended</strong> and <strong>merged</strong>; type aliases support <strong>unions</strong>,
+      <strong>intersections</strong>, and <strong>mapped types</strong>.
+    </p>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Interfaces <span class="lang-pill">typescript</span></div>
+          <div class="card-body">
+            <pre><code><span class="kw">interface</span> <span class="tp">User</span> {
+  <span class="fn">id</span>: <span class="tp">number</span>;
+  <span class="fn">name</span>: <span class="tp">string</span>;
+  <span class="fn">email</span>: <span class="tp">string</span>;
+  <span class="fn">avatar</span>?: <span class="tp">string</span>;  <span class="cm">// optional</span>
+}
+
+<span class="cm">// Extending</span>
+<span class="kw">interface</span> <span class="tp">Admin</span> <span class="kw">extends</span> <span class="tp">User</span> {
+  <span class="fn">role</span>: <span class="str">"admin"</span> | <span class="str">"superadmin"</span>;
+  <span class="fn">permissions</span>: <span class="tp">string</span>[];
+}
+
+<span class="cm">// Merging (declaration merging)</span>
+<span class="kw">interface</span> <span class="tp">User</span> {
+  <span class="fn">createdAt</span>: <span class="tp">Date</span>;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Type Aliases <span class="lang-pill">typescript</span></div>
+          <div class="card-body">
+            <pre><code><span class="kw">type</span> <span class="tp">Point</span> = {
+  <span class="fn">x</span>: <span class="tp">number</span>;
+  <span class="fn">y</span>: <span class="tp">number</span>;
+};
+
+<span class="cm">// Union</span>
+<span class="kw">type</span> <span class="tp">Status</span> = <span class="str">"active"</span> | <span class="str">"inactive"</span> | <span class="str">"banned"</span>;
+
+<span class="cm">// Intersection</span>
+<span class="kw">type</span> <span class="tp">Timestamped</span> = {
+  <span class="fn">createdAt</span>: <span class="tp">Date</span>;
+  <span class="fn">updatedAt</span>: <span class="tp">Date</span>;
+};
+<span class="kw">type</span> <span class="tp">Post</span> = <span class="tp">User</span> &amp; <span class="tp">Timestamped</span> &amp; {
+  <span class="fn">title</span>: <span class="tp">string</span>;
+  <span class="fn">body</span>: <span class="tp">string</span>;
+};
+
+<span class="cm">// Literal type</span>
+<span class="kw">type</span> <span class="tp">Direction</span> = <span class="str">"up"</span> | <span class="str">"down"</span> | <span class="str">"left"</span> | <span class="str">"right"</span>;</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Interface vs Type — When to Use Which <span class="lang-pill">reference</span></div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead><tr><th style="width:22%">Feature</th><th>interface</th><th>type</th></tr></thead>
+          <tbody>
+            <tr><td>Extending</td><td><code>extends</code></td><td><code>&amp;</code> (intersection)</td></tr>
+            <tr><td>Declaration merging</td><td>Yes</td><td>No</td></tr>
+            <tr><td>Unions</td><td>No</td><td>Yes (<code>A | B</code>)</td></tr>
+            <tr><td>Tuples</td><td>No</td><td>Yes (<code>[string, number]</code>)</td></tr>
+            <tr><td>Mapped types</td><td>No</td><td>Yes</td></tr>
+            <tr><td>Best for</td><td>Object shapes, class contracts</td><td>Unions, intersections, computed types</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FUNCTIONS ==================== -->
+  <section id="functions">
+    <span class="sec-kicker">Step 04 &mdash; Functions</span>
+    <h2>Functions</h2>
+    <p>
+      TypeScript adds types to function parameters and return values. The compiler can infer return types,
+      but explicit annotations document intent and catch mistakes early.
+    </p>
+
+    <div class="card">
+      <div class="card-header">Function Types <span class="lang-pill">typescript</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm">// Explicit parameter and return types</span>
+<span class="kw">function</span> <span class="fn">add</span>(a: <span class="tp">number</span>, b: <span class="tp">number</span>): <span class="tp">number</span> {
+  <span class="kw">return</span> a + b;
+}
+
+<span class="cm">// Arrow function</span>
+<span class="kw">const</span> <span class="fn">multiply</span> = (a: <span class="tp">number</span>, b: <span class="tp">number</span>): <span class="tp">number</span> =&gt; a * b;
+
+<span class="cm">// Optional parameters (must be last)</span>
+<span class="kw">function</span> <span class="fn">greet</span>(name: <span class="tp">string</span>, greeting?: <span class="tp">string</span>): <span class="tp">string</span> {
+  <span class="kw">return</span> <span class="str">`${greeting ?? "Hello"}, ${name}!`</span>;
+}
+
+<span class="cm">// Default parameters</span>
+<span class="kw">function</span> <span class="fn">createUser</span>(name: <span class="tp">string</span>, role = <span class="str">"user"</span>): <span class="tp">void</span> {
+  console.<span class="fn">log</span>(<span class="str">`Created ${role}: ${name}`</span>);
+}
+
+<span class="cm">// Rest parameters</span>
+<span class="kw">function</span> <span class="fn">sum</span>(...nums: <span class="tp">number</span>[]): <span class="tp">number</span> {
+  <span class="kw">return</span> nums.<span class="fn">reduce</span>((a, b) =&gt; a + b, <span class="num">0</span>);
+}
+
+<span class="cm">// Function type alias</span>
+<span class="kw">type</span> <span class="tp">Callback</span> = (<span class="fn">data</span>: <span class="tp">string</span>) =&gt; <span class="tp">void</span>;
+<span class="kw">function</span> <span class="fn">process</span>(cb: <span class="tp">Callback</span>): <span class="tp">void</span> {
+  <span class="fn">cb</span>(<span class="str">"done"</span>);
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Overloads <span class="lang-pill">typescript</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm">// Function overloads — multiple call signatures</span>
+<span class="kw">function</span> <span class="fn">format</span>(value: <span class="tp">string</span>): <span class="tp">string</span>;
+<span class="kw">function</span> <span class="fn">format</span>(value: <span class="tp">number</span>): <span class="tp">string</span>;
+<span class="kw">function</span> <span class="fn">format</span>(value: <span class="tp">string</span> | <span class="tp">number</span>): <span class="tp">string</span> {
+  <span class="kw">if</span> (<span class="kw">typeof</span> value === <span class="str">"string"</span>) <span class="kw">return</span> value.<span class="fn">toUpperCase</span>();
+  <span class="kw">return</span> value.<span class="fn">toFixed</span>(<span class="num">2</span>);
+}
+
+<span class="fn">format</span>(<span class="str">"hello"</span>);  <span class="cm">// OK</span>
+<span class="fn">format</span>(<span class="num">3.14</span>);     <span class="cm">// OK</span>
+<span class="cm">// format(true);  // Error</span></code></pre>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>TypeScript infers return types.</strong> For simple functions, you can omit the return type
+      annotation and let the compiler infer it. Add explicit returns for public APIs and exported functions
+      to document your contract.
+    </div>
+  </section>
+
+  <!-- ==================== CLASSES ==================== -->
+  <section id="classes">
+    <span class="sec-kicker">Step 05 &mdash; Classes</span>
+    <h2>Classes</h2>
+    <p>
+      TypeScript classes add access modifiers (<code>public</code>, <code>private</code>,
+      <code>protected</code>), <code>readonly</code>, and <code>abstract</code> to JavaScript's class syntax.
+    </p>
+
+    <div class="card">
+      <div class="card-header">Class Basics <span class="lang-pill">typescript</span></div>
+      <div class="card-body">
+        <pre><code><span class="kw">class</span> <span class="tp">Animal</span> {
+  <span class="kw">public</span> <span class="fn">name</span>: <span class="tp">string</span>;
+  <span class="kw">protected</span> <span class="fn">species</span>: <span class="tp">string</span>;
+  <span class="kw">private</span> <span class="fn">id</span>: <span class="tp">number</span>;
+  <span class="kw">readonly</span> <span class="fn">createdAt</span>: <span class="tp">Date</span>;
+
+  <span class="kw">constructor</span>(name: <span class="tp">string</span>, species: <span class="tp">string</span>, id: <span class="tp">number</span>) {
+    <span class="kw">this</span>.name = name;
+    <span class="kw">this</span>.species = species;
+    <span class="kw">this</span>.id = id;
+    <span class="kw">this</span>.createdAt = <span class="kw">new</span> <span class="fn">Date</span>();
+  }
+
+  <span class="kw">public</span> <span class="fn">speak</span>(): <span class="tp">string</span> {
+    <span class="kw">return</span> <span class="str">`${this.name} makes a sound`</span>;
+  }
+}
+
+<span class="kw">class</span> <span class="tp">Dog</span> <span class="kw">extends</span> <span class="tp">Animal</span> {
+  <span class="kw">constructor</span>(name: <span class="tp">string</span>, id: <span class="tp">number</span>) {
+    <span class="kw">super</span>(name, <span class="str">"Canine"</span>, id);
+  }
+
+  <span class="kw">public</span> <span class="fn">speak</span>(): <span class="tp">string</span> {
+    <span class="kw">return</span> <span class="str">`${this.name} barks`</span>;
+  }
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Shorthand Constructor + Abstract Classes <span class="lang-pill">typescript</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm">// Parameter property shorthand</span>
+<span class="kw">class</span> <span class="tp">Point</span> {
+  <span class="kw">constructor</span>(
+    <span class="kw">public</span> <span class="fn">x</span>: <span class="tp">number</span>,
+    <span class="kw">public</span> <span class="fn">y</span>: <span class="tp">number</span>,
+  ) {}
+}
+
+<span class="kw">const</span> <span class="fn">p</span> = <span class="kw">new</span> <span class="fn">Point</span>(<span class="num">10</span>, <span class="num">20</span>);
+console.<span class="fn">log</span>(p.x);  <span class="cm">// 10</span>
+
+<span class="cm">// Abstract class</span>
+<span class="kw">abstract class</span> <span class="tp">Shape</span> {
+  <span class="kw">abstract</span> <span class="fn">area</span>(): <span class="tp">number</span>;
+  <span class="kw">abstract</span> <span class="fn">perimeter</span>(): <span class="tp">number</span>;
+
+  <span class="fn">describe</span>(): <span class="tp">string</span> {
+    <span class="kw">return</span> <span class="str">`Area: ${this.area()}, Perimeter: ${this.perimeter()}`</span>;
+  }
+}
+
+<span class="kw">class</span> <span class="tp">Circle</span> <span class="kw">extends</span> <span class="tp">Shape</span> {
+  <span class="kw">constructor</span>(<span class="kw">public</span> <span class="fn">radius</span>: <span class="tp">number</span>) { <span class="kw">super</span>(); }
+  <span class="fn">area</span>(): <span class="tp">number</span> { <span class="kw">return</span> Math.PI * <span class="kw">this</span>.radius ** <span class="num">2</span>; }
+  <span class="fn">perimeter</span>(): <span class="tp">number</span> { <span class="kw">return</span> <span class="num">2</span> * Math.PI * <span class="kw">this</span>.radius; }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== GENERICS ==================== -->
+  <section id="generics">
+    <span class="sec-kicker">Step 06 &mdash; Generics</span>
+    <h2>Generics</h2>
+    <p>
+      Generics let you write <strong>reusable code</strong> that works with any type while preserving
+      type safety. They are the backbone of utility types, data structures, and library APIs.
+    </p>
+
+    <div class="card">
+      <div class="card-header">Generic Functions &amp; Interfaces <span class="lang-pill">typescript</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm">// Generic function</span>
+<span class="kw">function</span> <span class="fn">identity</span>&lt;<span class="tp">T</span>&gt;(arg: <span class="tp">T</span>): <span class="tp">T</span> {
+  <span class="kw">return</span> arg;
+}
+
+<span class="kw">const</span> <span class="fn">str</span> = <span class="fn">identity</span>&lt;<span class="tp">string</span>&gt;(<span class="str">"hello"</span>);  <span class="cm">// string</span>
+<span class="kw">const</span> <span class="fn">num</span> = <span class="fn">identity</span>(<span class="num">42</span>);                <span class="cm">// inferred as number</span>
+
+<span class="cm">// Generic interface</span>
+<span class="kw">interface</span> <span class="tp">ApiResponse</span>&lt;<span class="tp">T</span>&gt; {
+  <span class="fn">data</span>: <span class="tp">T</span>;
+  <span class="fn">status</span>: <span class="tp">number</span>;
+  <span class="fn">message</span>: <span class="tp">string</span>;
+}
+
+<span class="kw">const</span> <span class="fn">res</span>: <span class="tp">ApiResponse</span>&lt;<span class="tp">User</span>&gt; = {
+  <span class="fn">data</span>: { <span class="fn">id</span>: <span class="num">1</span>, <span class="fn">name</span>: <span class="str">"Alice"</span>, <span class="fn">email</span>: <span class="str">"a@b.com"</span> },
+  <span class="fn">status</span>: <span class="num">200</span>,
+  <span class="fn">message</span>: <span class="str">"OK"</span>,
+};
+
+<span class="cm">// Generic with constraints</span>
+<span class="kw">function</span> <span class="fn">getLength</span>&lt;<span class="tp">T</span> <span class="kw">extends</span> { <span class="fn">length</span>: <span class="tp">number</span> }&gt;(arg: <span class="tp">T</span>): <span class="tp">number</span> {
+  <span class="kw">return</span> arg.<span class="fn">length</span>;
+}
+
+<span class="fn">getLength</span>(<span class="str">"hello"</span>);     <span class="cm">// 5</span>
+<span class="fn">getLength</span>([<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>]);   <span class="cm">// 3</span>
+<span class="cm">// getLength(42);         // Error: number has no .length</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Generic Classes &amp; Defaults <span class="lang-pill">typescript</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm">// Generic class</span>
+<span class="kw">class</span> <span class="tp">Stack</span>&lt;<span class="tp">T</span>&gt; {
+  <span class="kw">private</span> <span class="fn">items</span>: <span class="tp">T</span>[] = [];
+
+  <span class="fn">push</span>(item: <span class="tp">T</span>): <span class="tp">void</span> { <span class="kw">this</span>.items.<span class="fn">push</span>(item); }
+  <span class="fn">pop</span>(): <span class="tp">T</span> | <span class="kw">undefined</span> { <span class="kw">return</span> <span class="kw">this</span>.items.<span class="fn">pop</span>(); }
+  <span class="fn">peek</span>(): <span class="tp">T</span> | <span class="kw">undefined</span> { <span class="kw">return</span> <span class="kw">this</span>.items[<span class="kw">this</span>.items.length - <span class="num">1</span>]; }
+  <span class="fn">size</span>(): <span class="tp">number</span> { <span class="kw">return</span> <span class="kw">this</span>.items.length; }
+}
+
+<span class="kw">const</span> <span class="fn">nums</span> = <span class="kw">new</span> <span class="fn">Stack</span>&lt;<span class="tp">number</span>&gt;();
+nums.<span class="fn">push</span>(<span class="num">1</span>);
+nums.<span class="fn">push</span>(<span class="num">2</span>);
+<span class="cm">// nums.push("3");  // Error</span>
+
+<span class="cm">// Generic with default type</span>
+<span class="kw">interface</span> <span class="tp">Paginated</span>&lt;<span class="tp">T</span> = <span class="tp">unknown</span>&gt; {
+  <span class="fn">items</span>: <span class="tp">T</span>[];
+  <span class="fn">total</span>: <span class="tp">number</span>;
+  <span class="fn">page</span>: <span class="tp">number</span>;
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== UTILITY TYPES ==================== -->
+  <section id="utility">
+    <span class="sec-kicker">Step 07 &mdash; Utilities</span>
+    <h2>Utility Types</h2>
+    <p>
+      TypeScript ships built-in utility types that transform existing types. They eliminate boilerplate
+      and keep your type definitions DRY.
+    </p>
+
+    <div class="card">
+      <div class="card-header">Essential Utility Types <span class="lang-pill">reference</span></div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 type-table">
+          <thead><tr><th style="width:28%">Utility</th><th>What it does</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td>Partial&lt;T&gt;</td><td>All properties optional</td><td><code>Partial&lt;User&gt;</code></td></tr>
+            <tr><td>Required&lt;T&gt;</td><td>All properties required</td><td><code>Required&lt;User&gt;</code></td></tr>
+            <tr><td>Readonly&lt;T&gt;</td><td>All properties readonly</td><td><code>Readonly&lt;User&gt;</code></td></tr>
+            <tr><td>Pick&lt;T, K&gt;</td><td>Only selected keys</td><td><code>Pick&lt;User, "id" | "name"&gt;</code></td></tr>
+            <tr><td>Omit&lt;T, K&gt;</td><td>All except specified keys</td><td><code>Omit&lt;User, "password"&gt;</code></td></tr>
+            <tr><td>Record&lt;K, V&gt;</td><td>Object with keys K and values V</td><td><code>Record&lt;string, number&gt;</code></td></tr>
+            <tr><td>Exclude&lt;T, U&gt;</td><td>Remove types from union</td><td><code>Exclude&lt;Status, "banned"&gt;</code></td></tr>
+            <tr><td>Extract&lt;T, U&gt;</td><td>Keep only matching types</td><td><code>Extract&lt;Status, "active" | "banned"&gt;</code></td></tr>
+            <tr><td>NonNullable&lt;T&gt;</td><td>Remove null and undefined</td><td><code>NonNullable&lt;string | null&gt;</code></td></tr>
+            <tr><td>ReturnType&lt;T&gt;</td><td>Extract function return type</td><td><code>ReturnType&lt;typeof greet&gt;</code></td></tr>
+            <tr><td>Parameters&lt;T&gt;</td><td>Extract function params</td><td><code>Parameters&lt;typeof greet&gt;</code></td></tr>
+            <tr><td>InstanceType&lt;T&gt;</td><td>Extract class instance type</td><td><code>InstanceType&lt;typeof Animal&gt;</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Practical Examples <span class="lang-pill">typescript</span></div>
+      <div class="card-body">
+        <pre><code><span class="kw">interface</span> <span class="tp">User</span> {
+  <span class="fn">id</span>: <span class="tp">number</span>;
+  <span class="fn">name</span>: <span class="tp">string</span>;
+  <span class="fn">email</span>: <span class="tp">string</span>;
+  <span class="fn">password</span>: <span class="tp">string</span>;
+}
+
+<span class="cm">// Update function — only pass changed fields</span>
+<span class="kw">function</span> <span class="fn">updateUser</span>(id: <span class="tp">number</span>, changes: <span class="tp">Partial</span>&lt;<span class="tp">Omit</span>&lt;<span class="tp">User</span>, <span class="str">"id"</span>&gt;&gt;) {
+  <span class="cm">// changes could have any subset of name, email, password</span>
+}
+
+<span class="cm">// Public user — no password</span>
+<span class="kw">type</span> <span class="tp">PublicUser</span> = <span class="tp">Omit</span>&lt;<span class="tp">User</span>, <span class="str">"password"</span>&gt;;
+
+<span class="cm">// Lookup table</span>
+<span class="kw">type</span> <span class="tp">UserRoles</span> = <span class="tp">Record</span>&lt;<span class="tp">string</span>, <span class="str">"admin"</span> | <span class="str">"editor"</span> | <span class="str">"viewer"</span>&gt;;
+<span class="kw">const</span> <span class="fn">roles</span>: <span class="tp">UserRoles</span> = {
+  <span class="fn">alice</span>: <span class="str">"admin"</span>,
+  <span class="fn">bob</span>: <span class="str">"editor"</span>,
+};
+
+<span class="cm">// Immutability</span>
+<span class="kw">type</span> <span class="tp">FrozenUser</span> = <span class="tp">Readonly</span>&lt;<span class="tp">User</span>&gt;;
+<span class="cm">// frozenUser.name = "x";  // Error: readonly</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ADVANCED TYPES ==================== -->
+  <section id="advanced">
+    <span class="sec-kicker">Step 08 &mdash; Advanced</span>
+    <h2>Advanced Types</h2>
+    <p>
+      Conditional types, mapped types, template literal types, and discriminated unions let you build
+      precise, self-documenting type systems.
+    </p>
+
+    <div class="card">
+      <div class="card-header">Discriminated Unions <span class="lang-pill">typescript</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm">// A discriminated union uses a common literal property</span>
+<span class="kw">type</span> <span class="tp">Result</span>&lt;<span class="tp">T</span>&gt; =
+  | { <span class="fn">status</span>: <span class="str">"ok"</span>; <span class="fn">data</span>: <span class="tp">T</span> }
+  | { <span class="fn">status</span>: <span class="str">"error"</span>; <span class="fn">message</span>: <span class="tp">string</span> };
+
+<span class="kw">function</span> <span class="fn">handleResult</span>&lt;<span class="tp">T</span>&gt;(result: <span class="tp">Result</span>&lt;<span class="tp">T</span>&gt;) {
+  <span class="kw">if</span> (result.status === <span class="str">"ok"</span>) {
+    console.<span class="fn">log</span>(result.data);    <span class="cm">// TypeScript knows data exists</span>
+  } <span class="kw">else</span> {
+    console.<span class="fn">error</span>(result.message); <span class="cm">// TypeScript knows message exists</span>
+  }
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Conditional Types <span class="lang-pill">typescript</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm">// T extends U ? X : Y</span>
+<span class="kw">type</span> <span class="tp">IsString</span>&lt;<span class="tp">T</span>&gt; = <span class="tp">T</span> <span class="kw">extends</span> <span class="tp">string</span> ? <span class="kw">true</span> : <span class="kw">false</span>;
+
+<span class="kw">type</span> <span class="tp">A</span> = <span class="tp">IsString</span>&lt;<span class="str">"hello"</span>&gt;;  <span class="cm">// true</span>
+<span class="kw">type</span> <span class="tp">B</span> = <span class="tp">IsString</span>&lt;<span class="num">42</span>&gt;;       <span class="cm">// false</span>
+
+<span class="cm">// infer keyword — extract types</span>
+<span class="kw">type</span> <span class="tp">Unpack</span>&lt;<span class="tp">T</span>&gt; = <span class="tp">T</span> <span class="kw">extends</span> <span class="tp">Promise</span>&lt;<span class="kw">infer</span> <span class="tp">U</span>&gt; ? <span class="tp">U</span> : <span class="tp">T</span>;
+<span class="kw">type</span> <span class="tp">Result</span> = <span class="tp">Unpack</span>&lt;<span class="tp">Promise</span>&lt;<span class="tp">string</span>&gt;&gt;;  <span class="cm">// string</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Mapped Types &amp; Template Literals <span class="lang-pill">typescript</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm">// Mapped type — transform every property</span>
+<span class="kw">type</span> <span class="tp">Optional</span>&lt;<span class="tp">T</span>&gt; = {
+  [<span class="tp">K</span> <span class="kw">in</span> <span class="kw">keyof</span> <span class="tp">T</span>]?: <span class="tp">T</span>[<span class="tp">K</span>];
+};
+
+<span class="cm">// Template literal types</span>
+<span class="kw">type</span> <span class="tp">EventName</span> = <span class="str">"click"</span> | <span class="str">"hover"</span> | <span class="str">"focus"</span>;
+<span class="kw">type</span> <span class="tp">Handler</span> = <span class="str">`on${Capitalize&lt;EventName&gt;}`</span>;
+<span class="cm">// "onClick" | "onHover" | "onFocus"</span>
+
+<span class="cm">// Type guards</span>
+<span class="kw">function</span> <span class="fn">isString</span>(val: <span class="tp">unknown</span>): val <span class="kw">is</span> <span class="tp">string</span> {
+  <span class="kw">return</span> <span class="kw">typeof</span> val === <span class="str">"string"</span>;
+}
+
+<span class="kw">const</span> <span class="fn">x</span>: <span class="tp">unknown</span> = <span class="str">"hello"</span>;
+<span class="kw">if</span> (<span class="fn">isString</span>(x)) {
+  console.<span class="fn">log</span>(x.<span class="fn">toUpperCase</span>());  <span class="cm">// OK</span>
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TSCONFIG ==================== -->
+  <section id="config">
+    <span class="sec-kicker">Step 09 &mdash; Config</span>
+    <h2>tsconfig.json Reference</h2>
+    <p>
+      <code>tsconfig.json</code> configures the compiler: which files to include, how strict the checks are,
+      and where output goes.
+    </p>
+
+    <div class="card">
+      <div class="card-header">Essential Options <span class="lang-pill">json</span></div>
+      <div class="card-body">
+        <pre><code>{
+  <span class="str">"compilerOptions"</span>: {
+    <span class="str">"target"</span>: <span class="str">"ES2022"</span>,
+    <span class="str">"module"</span>: <span class="str">"NodeNext"</span>,
+    <span class="str">"moduleResolution"</span>: <span class="str">"NodeNext"</span>,
+    <span class="str">"outDir"</span>: <span class="str">"./dist"</span>,
+    <span class="str">"rootDir"</span>: <span class="str">"./src"</span>,
+    <span class="str">"strict"</span>: <span class="kw">true</span>,
+    <span class="str">"esModuleInterop"</span>: <span class="kw">true</span>,
+    <span class="str">"skipLibCheck"</span>: <span class="kw">true</span>,
+    <span class="str">"forceConsistentCasingInFileNames"</span>: <span class="kw">true</span>,
+    <span class="str">"resolveJsonModule"</span>: <span class="kw">true</span>,
+    <span class="str">"declaration"</span>: <span class="kw">true</span>,
+    <span class="str">"declarationMap"</span>: <span class="kw">true</span>,
+    <span class="str">"sourceMap"</span>: <span class="kw">true</span>
+  },
+  <span class="str">"include"</span>: [<span class="str">"src/**/*"</span>],
+  <span class="str">"exclude"</span>: [<span class="str">"node_modules"</span>, <span class="str">"dist"</span>]
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Strict Mode Flags <span class="lang-pill">reference</span></div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead><tr><th style="width:38%">Flag</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td>strict: true</td><td>Enables all strict flags below</td></tr>
+            <tr><td>noImplicitAny</td><td>Error on <code>any</code> inferred silently</td></tr>
+            <tr><td>strictNullChecks</td><td><code>null</code> and <code>undefined</code> are distinct types</td></tr>
+            <tr><td>strictFunctionTypes</td><td>Stricter function parameter checking</td></tr>
+            <tr><td>strictBindCallApply</td><td>Stricter checking of <code>bind</code>, <code>call</code>, <code>apply</code></td></tr>
+            <tr><td>noImplicitThis</td><td>Error on <code>this</code> with inferred <code>any</code></td></tr>
+            <tr><td>alwaysStrict</td><td>Emit <code>"use strict"</code> in every file</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Always enable <code>strict: true</code>.</strong> It turns on all strict type-checking options
+      at once. Start a new project with strict mode and only relax it if you have a concrete reason.
+    </div>
+  </section>
+
+  <!-- ==================== TYPESCRIPT + REACT ==================== -->
+  <section id="react">
+    <span class="sec-kicker">Step 10 &mdash; React</span>
+    <h2>TypeScript + React</h2>
+    <p>
+      TypeScript is the standard for React projects. Every <code>.tsx</code> file gets full type checking
+      for props, state, hooks, and events.
+    </p>
+
+    <div class="card">
+      <div class="card-header">Component Props <span class="lang-pill">tsx</span></div>
+      <div class="card-body">
+        <pre><code><span class="cm">// Interface for props</span>
+<span class="kw">interface</span> <span class="tp">ButtonProps</span> {
+  <span class="fn">variant</span>?: <span class="str">"primary"</span> | <span class="str">"secondary"</span> | <span class="str">"danger"</span>;
+  <span class="fn">size</span>?: <span class="str">"sm"</span> | <span class="str">"md"</span> | <span class="str">"lg"</span>;
+  <span class="fn">disabled</span>?: <span class="tp">boolean</span>;
+  <span class="fn">onClick</span>?: () =&gt; <span class="kw">void</span>;
+  <span class="fn">children</span>: React.<span class="tp">ReactNode</span>;
+}
+
+<span class="kw">function</span> <span class="fn">Button</span>({
+  variant = <span class="str">"primary"</span>,
+  size = <span class="str">"md"</span>,
+  disabled = <span class="kw">false</span>,
+  onClick,
+  children,
+}: <span class="tp">ButtonProps</span>) {
+  <span class="kw">return</span> (
+    &lt;<span class="kw">button</span>
+      <span class="fn">className</span>={<span class="str">`btn btn-${variant} btn-${size}`</span>}
+      <span class="fn">disabled</span>={<span class="fn">disabled</span>}
+      <span class="fn">onClick</span>={<span class="fn">onClick</span>}
+    &gt;
+      {children}
+    &lt;/<span class="kw">button</span>&gt;
+  );
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Hooks &amp; Events <span class="lang-pill">tsx</span></div>
+      <div class="card-body">
+        <pre><code><span class="kw">import</span> { useState, useRef, useEffect } <span class="kw">from</span> <span class="str">"react"</span>;
+
+<span class="cm">// useState with types</span>
+<span class="kw">const</span> [count, setCount] = <span class="fn">useState</span>&lt;<span class="tp">number</span>&gt;(<span class="num">0</span>);
+<span class="kw">const</span> [user, setUser] = <span class="fn">useState</span>&lt;<span class="tp">User</span> | <span class="kw">null</span>&gt;(<span class="kw">null</span>);
+
+<span class="cm">// useRef with types</span>
+<span class="kw">const</span> inputRef = <span class="fn">useRef</span>&lt;<span class="tp">HTMLInputElement</span>&gt;(<span class="kw">null</span>);
+<span class="kw">const</span> timerRef = <span class="fn">useRef</span>&lt;<span class="tp">ReturnType</span>&lt;<span class="kw">typeof</span> <span class="fn">setTimeout</span>&gt; | <span class="kw">null</span>&gt;(<span class="kw">null</span>);
+
+<span class="cm">// Event handlers</span>
+<span class="kw">function</span> <span class="fn">handleChange</span>(e: React.<span class="tp">ChangeEvent</span>&lt;<span class="tp">HTMLInputElement</span>&gt;) {
+  <span class="fn">setValue</span>(e.target.value);
+}
+
+<span class="kw">function</span> <span class="fn">handleSubmit</span>(e: React.<span class="tp">FormEvent</span>&lt;<span class="tp">HTMLFormElement</span>&gt;) {
+  e.<span class="fn">preventDefault</span>();
+}
+
+<span class="cm">// Generic component</span>
+<span class="kw">function</span> <span class="fn">List</span>&lt;<span class="tp">T</span> <span class="kw">extends</span> { <span class="fn">id</span>: <span class="tp">string</span> }&gt;({
+  items,
+  renderItem,
+}: {
+  items: <span class="tp">T</span>[];
+  renderItem: (item: <span class="tp">T</span>) =&gt; React.<span class="tp">ReactNode</span>;
+}) {
+  <span class="kw">return</span> &lt;<span class="kw">ul</span>&gt;{items.<span class="fn">map</span>(item =&gt; &lt;<span class="kw">li</span> <span class="fn">key</span>={<span class="fn">item</span>.id}&gt;{<span class="fn">renderItem</span>(item)}&lt;/li&gt;)}&lt;/ul&gt;;
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Context with Types <span class="lang-pill">tsx</span></div>
+      <div class="card-body">
+        <pre><code><span class="kw">interface</span> <span class="tp">AuthContextType</span> {
+  <span class="fn">user</span>: <span class="tp">User</span> | <span class="kw">null</span>;
+  <span class="fn">login</span>: (<span class="fn">email</span>: <span class="tp">string</span>, <span class="fn">password</span>: <span class="tp">string</span>) =&gt; <span class="tp">Promise</span>&lt;<span class="kw">void</span>&gt;;
+  <span class="fn">logout</span>: () =&gt; <span class="kw">void</span>;
+}
+
+<span class="kw">const</span> AuthContext = React.<span class="fn">createContext</span>&lt;<span class="tp">AuthContextType</span> | <span class="kw">null</span>&gt;(<span class="kw">null</span>);
+
+<span class="kw">function</span> <span class="fn">useAuth</span>(): <span class="tp">AuthContextType</span> {
+  <span class="kw">const</span> ctx = React.<span class="fn">useContext</span>(AuthContext);
+  <span class="kw">if</span> (!ctx) <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">"useAuth must be inside AuthProvider"</span>);
+  <span class="kw">return</span> ctx;
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BEST PRACTICES ==================== -->
+  <section id="patterns">
+    <span class="sec-kicker">Step 11 &mdash; Practices</span>
+    <h2>Best Practices</h2>
+
+    <div class="highlight-box">
+      <strong>Enable <code>strict: true</code></strong> from day one. It catches the most common mistakes
+      and forces you to write explicit, intentional code.
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Do</div>
+          <div class="card-body">
+            <ul class="list-unstyled mb-0">
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use <code>unknown</code> instead of <code>any</code></li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Enable <code>strict: true</code> in tsconfig</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use type inference when the type is obvious</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Prefer interfaces for object shapes</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use discriminated unions for state machines</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use <code>as const</code> for literal values</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use generic constraints (<code>extends</code>)</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use <code>@types/</code> packages for libraries</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Don't</div>
+          <div class="card-body">
+            <ul class="list-unstyled mb-0">
+              <li class="mb-2"><i class="bi bi-x-circle-fill text-danger me-2"></i>Don't use <code>any</code> as a quick escape</li>
+              <li class="mb-2"><i class="bi bi-x-circle-fill text-danger me-2"></i>Don't annotate when inference is clear</li>
+              <li class="mb-2"><i class="bi bi-x-circle-fill text-danger me-2"></i>Don't use <code>@ts-ignore</code> without a comment</li>
+              <li class="mb-2"><i class="bi bi-x-circle-fill text-danger me-2"></i>Don't over-abstract with too many generics</li>
+              <li class="mb-2"><i class="bi bi-x-circle-fill text-danger me-2"></i>Don't mix <code>interface</code> and <code>type</code> inconsistently</li>
+              <li class="mb-2"><i class="bi bi-x-circle-fill text-danger me-2"></i>Don't use enums (prefer <code>as const</code> objects)</li>
+              <li class="mb-2"><i class="bi bi-x-circle-fill text-danger me-2"></i>Don't use <code>Object</code>, <code>String</code>, <code>Number</code> wrapper types</li>
+              <li class="mb-2"><i class="bi bi-x-circle-fill text-danger me-2"></i>Don't ignore the compiler &mdash; fix the error</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CHEAT SHEET ==================== -->
+  <section id="cheatsheet">
+    <span class="sec-kicker">Step 12 &mdash; Cheat Sheet</span>
+    <h2>Quick Reference</h2>
+
+    <h3>Essential utilities</h3>
+    <div class="card">
+      <div class="card-body">
+        <div class="chip-grid">
+          <div class="dir-chip"><code>Partial&lt;T&gt;</code><small>Make all props optional</small></div>
+          <div class="dir-chip"><code>Required&lt;T&gt;</code><small>Make all props required</small></div>
+          <div class="dir-chip"><code>Readonly&lt;T&gt;</code><small>Make all props readonly</small></div>
+          <div class="dir-chip"><code>Pick&lt;T, K&gt;</code><small>Select specific keys</small></div>
+          <div class="dir-chip"><code>Omit&lt;T, K&gt;</code><small>Remove specific keys</small></div>
+          <div class="dir-chip"><code>Record&lt;K, V&gt;</code><small>Key-value object type</small></div>
+          <div class="dir-chip"><code>Exclude&lt;T, U&gt;</code><small>Remove from union</small></div>
+          <div class="dir-chip"><code>Extract&lt;T, U&gt;</code><small>Keep from union</small></div>
+          <div class="dir-chip"><code>NonNullable&lt;T&gt;</code><small>Remove null/undefined</small></div>
+          <div class="dir-chip"><code>ReturnType&lt;T&gt;</code><small>Function return type</small></div>
+          <div class="dir-chip"><code>Parameters&lt;T&gt;</code><small>Function param types</small></div>
+          <div class="dir-chip"><code>InstanceType&lt;T&gt;</code><small>Class instance type</small></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Recipes</div>
+          <div class="card-body">
+            <ul class="list-unstyled mb-0" style="font-size:.86rem">
+              <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--ts-blue)"></i>Use <code>unknown</code> + narrowing instead of <code>any</code></li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--ts-blue)"></i>Discriminated unions for state machines</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--ts-blue)"></i><code>Partial&lt;T&gt;</code> for update functions</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--ts-blue)"></i><code>Omit&lt;T, "id"&gt;</code> for create payloads</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--ts-blue)"></i><code>as const</code> for enums replacement</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--ts-blue)"></i>Generic constraints with <code>extends</code></li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--ts-blue)"></i><code>noEmit</code> for CI type-checking</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Project Structure</div>
+          <div class="card-body">
+            <pre><code>src/
+  types/        # Shared type definitions
+    index.ts
+    api.ts
+    models.ts
+  utils/        # Generic helpers
+  services/     # API / business logic
+  components/   # React components
+  hooks/        # Custom hooks
+  index.ts      # Entry point
+
+tsconfig.json   # Compiler config
+package.json</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="mt-5 pt-4">
+    <div class="row">
+      <div class="col-md-6">
+        <p class="fw-bold mb-2 font-base">TypeScript Quick Reference</p>
+        <p class="small text-secondary">Generated for study purposes. Always refer to the official documentation.</p>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <p class="small mb-1">
+          <a href="https://www.typescriptlang.org" target="_blank" rel="noopener"><i class="bi bi-book me-1"></i> TypeScript Docs</a>
+          &middot;
+          <a href="https://github.com/microsoft/TypeScript" target="_blank" rel="noopener"><i class="bi bi-github me-1"></i> GitHub</a>
+          &middot;
+          <a href="https://typehero.org" target="_blank" rel="noopener"><i class="bi bi-lightning me-1"></i> TypeHero</a>
+        </p>
+        <p class="small mb-0">TypeScript &copy; Microsoft &middot; v5.7+</p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script src="lib/bootstrap/bootstrap.bundle.min.js"></script>
+<script>
+  document.getElementById('sidebarToggle')?.addEventListener('click', function () {
+    document.getElementById('sidebar').classList.toggle('show');
+  });
+  document.querySelectorAll('#sidebar .nav-link').forEach(function (link) {
+    link.addEventListener('click', function () {
+      document.getElementById('sidebar').classList.remove('show');
+    });
+  });
+
+  var checkBtn = document.getElementById('checkBtn');
+  var errorPane = document.getElementById('errorPane');
+  var errorStatus = document.getElementById('errorStatus');
+  var errorCode = document.getElementById('errorCode');
+
+  checkBtn.addEventListener('click', function () {
+    if (checkBtn.disabled) return;
+    checkBtn.disabled = true;
+    errorPane.classList.add('loading');
+    errorStatus.className = 'error-status';
+
+    setTimeout(function () {
+      errorPane.classList.remove('loading');
+      errorCode.classList.remove('hidden');
+      errorStatus.className = 'error-status err';
+      errorStatus.textContent = '1 error';
+      checkBtn.disabled = false;
+    }, 900);
+  });
+
+  var sections = document.querySelectorAll('section[id]');
+  var navLinks = document.querySelectorAll('#sidebar .nav-link');
+  function setActiveNav() {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 100;
+      if (window.scrollY >= top) current = section.getAttribute('id');
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+    });
+  }
+  window.addEventListener('scroll', setActiveNav);
+  setActiveNav();
+</script>
+</body>
+</html>

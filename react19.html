@@ -474,6 +474,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
     <div class="nav-section">Advanced</div>
     <a class="nav-link" href="#routing"><i class="bi bi-signpost-2"></i> Routing</a>
     <a class="nav-link" href="#context"><i class="bi bi-layers"></i> Context & State</a>
+    <a class="nav-link" href="#redux"><i class="bi bi-box-seam"></i> Redux Toolkit</a>
     <a class="nav-link" href="#performance"><i class="bi bi-speedometer2"></i> Performance</a>
     <a class="nav-link" href="#forms"><i class="bi bi-input-cursor-text"></i> Forms</a>
     <a class="nav-link" href="#typescript"><i class="bi bi-filetype-tsx"></i> TypeScript</a>
@@ -1617,6 +1618,161 @@ npm run preview</code></pre>
   );
 }</code></pre>
       </div>
+    </div>
+  </section>
+
+  <!-- ==================== REDUX TOOLKIT ==================== -->
+  <section id="redux">
+    <h2><i class="bi bi-box-seam me-2"></i>Redux Toolkit <span class="new-badge">RTK</span></h2>
+    <p>Redux Toolkit is the official, recommended way to write Redux logic. It eliminates boilerplate, includes sensible defaults, and comes with TypeScript support out of the box.</p>
+
+    <div class="card">
+      <div class="card-header">Installation</div>
+      <div class="card-body">
+        <pre><code>npm install @reduxjs/toolkit react-redux</code></pre>
+      </div>
+    </div>
+
+    <h3>createSlice + configureStore</h3>
+    <div class="card">
+      <div class="card-header">store/counterSlice.ts</div>
+      <div class="card-body">
+        <pre><code><span class="kw">import</span> { createSlice, configureStore, PayloadAction } <span class="kw">from</span> <span class="str">'@reduxjs/toolkit'</span>;
+
+<span class="kw">interface</span> <span class="tp">CounterState</span> {
+  <span class="fn">value</span>: <span class="tp">number</span>;
+}
+
+<span class="kw">const</span> <span class="fn">counterSlice</span> = <span class="fn">createSlice</span>({
+  <span class="fn">name</span>: <span class="str">'counter'</span>,
+  <span class="fn">initialState</span>: { <span class="fn">value</span>: <span class="num">0</span> } <span class="kw">as</span> <span class="tp">CounterState</span>,
+  <span class="fn">reducers</span>: {
+    <span class="fn">increment</span>(state) {
+      state.value += <span class="num">1</span>;  <span class="cm">// Immer: safe "mutation"</span>
+    },
+    <span class="fn">decrement</span>(state) {
+      state.value -= <span class="num">1</span>;
+    },
+    <span class="fn">incrementByAmount</span>(state, action: <span class="tp">PayloadAction</span>&lt;<span class="tp">number</span>&gt;) {
+      state.value += action.payload;
+    },
+    <span class="fn">reset</span>(state) {
+      state.value = <span class="num">0</span>;
+    },
+  },
+});
+
+<span class="kw">export</span> <span class="kw">const</span> { increment, decrement, incrementByAmount, reset } = counterSlice.actions;
+<span class="kw">export default</span> counterSlice.reducer;
+
+<span class="cm">// store/index.ts</span>
+<span class="kw">export const</span> store = <span class="fn">configureStore</span>({
+  <span class="fn">reducer</span>: {
+    <span class="fn">counter</span>: counterSlice.reducer,
+  },
+});
+
+<span class="kw">export type</span> <span class="tp">RootState</span> = <span class="tp">ReturnType</span>&lt;<span class="kw">typeof</span> store.<span class="fn">getState</span>&gt;;
+<span class="kw">export type</span> <span class="tp">AppDispatch</span> = <span class="kw">typeof</span> store.<span class="fn">dispatch</span>;</code></pre>
+      </div>
+    </div>
+
+    <h3>Typed Hooks</h3>
+    <div class="card">
+      <div class="card-header">hooks.ts</div>
+      <div class="card-body">
+        <pre><code><span class="kw">import</span> { useDispatch, useSelector } <span class="kw">from</span> <span class="str">'react-redux'</span>;
+<span class="kw">import type</span> { <span class="tp">RootState</span>, <span class="tp">AppDispatch</span> } <span class="kw">from</span> <span class="str">'./store'</span>;
+
+<span class="kw">export const</span> <span class="fn">useAppDispatch</span> = useDispatch.<span class="fn">withTypes</span>&lt;<span class="tp">AppDispatch</span>&gt;();
+<span class="kw">export const</span> <span class="fn">useAppSelector</span> = useSelector.<span class="fn">withTypes</span>&lt;<span class="tp">RootState</span>&gt;();</code></pre>
+      </div>
+    </div>
+
+    <h3>Using in Components</h3>
+    <div class="card">
+      <div class="card-header">Counter.tsx</div>
+      <div class="card-body">
+        <pre><code><span class="kw">import</span> { useAppDispatch, useAppSelector } <span class="kw">from</span> <span class="str">'./hooks'</span>;
+<span class="kw">import</span> { increment, decrement, reset } <span class="kw">from</span> <span class="str">'./counterSlice'</span>;
+
+<span class="kw">function</span> <span class="fn">Counter</span>() {
+  <span class="kw">const</span> count = <span class="fn">useAppSelector</span>((state) =&gt; state.counter.value);
+  <span class="kw">const</span> dispatch = <span class="fn">useAppDispatch</span>();
+
+  <span class="kw">return</span> (
+    &lt;<span class="kw">div</span>&gt;
+      &lt;<span class="kw">span</span>&gt;{count}&lt;/<span class="kw">span</span>&gt;
+      &lt;<span class="kw">button</span> <span class="fn">onClick</span>={() =&gt; <span class="fn">dispatch</span>(<span class="fn">increment</span>())}&gt;+1&lt;/<span class="kw">button</span>&gt;
+      &lt;<span class="kw">button</span> <span class="fn">onClick</span>={() =&gt; <span class="fn">dispatch</span>(<span class="fn">decrement</span>())}&gt;-1&lt;/<span class="kw">button</span>&gt;
+      &lt;<span class="kw">button</span> <span class="fn">onClick</span>={() =&gt; <span class="fn">dispatch</span>(<span class="fn">reset</span>())}&gt;Reset&lt;/<span class="kw">button</span>&gt;
+    &lt;/<span class="kw">div</span>&gt;
+  );
+}</code></pre>
+      </div>
+    </div>
+
+    <h3>Async Thunks</h3>
+    <div class="card">
+      <div class="card-header">store/usersSlice.ts</div>
+      <div class="card-body">
+        <pre><code><span class="kw">import</span> { createSlice, createAsyncThunk } <span class="kw">from</span> <span class="str">'@reduxjs/toolkit'</span>;
+
+<span class="kw">interface</span> <span class="tp">User</span> { <span class="fn">id</span>: <span class="tp">number</span>; <span class="fn">name</span>: <span class="tp">string</span>; }
+
+<span class="kw">export const</span> <span class="fn">fetchUsers</span> = <span class="fn">createAsyncThunk</span>(
+  <span class="str">'users/fetchUsers'</span>,
+  <span class="kw">async</span> () =&gt; {
+    <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'/api/users'</span>);
+    <span class="kw">return</span> (<span class="kw">await</span> res.<span class="fn">json</span>()) <span class="kw">as</span> <span class="tp">User</span>[];
+  }
+);
+
+<span class="kw">const</span> <span class="fn">usersSlice</span> = <span class="fn">createSlice</span>({
+  <span class="fn">name</span>: <span class="str">'users'</span>,
+  <span class="fn">initialState</span>: {
+    <span class="fn">items</span>: [] <span class="kw">as</span> <span class="tp">User</span>[],
+    <span class="fn">status</span>: <span class="str">'idle'</span> <span class="kw">as</span> <span class="str">'idle'</span> | <span class="str">'loading'</span> | <span class="str">'succeeded'</span> | <span class="str">'failed'</span>,
+    <span class="fn">error</span>: <span class="kw">null</span> <span class="kw">as</span> <span class="tp">string</span> | <span class="kw">null</span>,
+  },
+  <span class="fn">reducers</span>: {},
+  <span class="fn">extraReducers</span>: (builder) =&gt; {
+    builder
+      .<span class="fn">addCase</span>(<span class="fn">fetchUsers</span>.pending, (state) =&gt; {
+        state.status = <span class="str">'loading'</span>;
+      })
+      .<span class="fn">addCase</span>(<span class="fn">fetchUsers</span>.fulfilled, (state, action) =&gt; {
+        state.status = <span class="str">'succeeded'</span>;
+        state.items = action.payload;
+      })
+      .<span class="fn">addCase</span>(<span class="fn">fetchUsers</span>.rejected, (state, action) =&gt; {
+        state.status = <span class="str">'failed'</span>;
+        state.error = action.error.message ?? <span class="kw">null</span>;
+      });
+  },
+});</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">When to Use What <span class="hook-badge">GUIDE</span></div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead><tr><th style="width:22%">Approach</th><th>Best For</th></tr></thead>
+          <tbody>
+            <tr><td>useState</td><td>Local component state (one or two values)</td></tr>
+            <tr><td>useReducer</td><td>Complex local state with multiple transitions</td></tr>
+            <tr><td>Context API</td><td>Theme, locale, auth &mdash; low-frequency updates shared widely</td></tr>
+            <tr><td>Zustand</td><td>Small-to-medium global state with minimal boilerplate</td></tr>
+            <tr><td>Redux Toolkit</td><td>Complex apps, many slices, undo/redo, devtools, middleware</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>RTK includes Immer</strong> &mdash; you can write "mutating" reducers that are actually
+      immutable updates under the hood. No spread-operator gymnastics needed.
     </div>
   </section>
 
