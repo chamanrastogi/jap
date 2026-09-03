@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <style>
@@ -64,6 +64,15 @@
     .home-link:hover { color: #2563eb; }
     @media (min-width: 992px) { .home-link { left: calc(var(--sidebar-width) + 14px); } }
     @media (max-width: 991.98px) { .home-link { left: 4rem; } }
+    @media (max-width: 767.98px) {
+      #main { padding: 1.25rem 1rem 3rem; }
+      .home-link { left: 3.5rem; font-size: .72rem; padding: 6px 10px; }
+      .sidebar-toggle { top: .6rem; left: .6rem; }
+    }
+    @media (max-width: 575.98px) {
+      #main { padding: 1rem .75rem 2.5rem; }
+      .home-link { left: 3rem; font-size: .68rem; padding: 5px 8px; }
+    }
     .accordion-item { border: none; margin-bottom: 0.25rem; border-radius: .5rem !important; }
     .accordion-button { font-weight: 600; color: var(--php-dark); background: #fff; border-radius: .5rem !important; box-shadow: 0 1px 3px rgba(0,0,0,.04); }
     .accordion-button:not(.collapsed) { background: #eef2ff; color: var(--php-blue); box-shadow: none; }
@@ -279,7 +288,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
 <body>
 
 <button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
-<a href="index.html" class="home-link"><span>&larr;</span> Home</a>
+<a href="index.html" class="home-link"><i class="bi bi-arrow-left"></i> Home</a>
 
 <nav id="sidebar">
   <div class="brand">

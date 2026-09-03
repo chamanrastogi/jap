@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" data-bs-theme="light">
 <head>
 <style>
@@ -91,6 +91,15 @@
     .home-link:hover { color: #2563eb; }
     @media (min-width: 992px) { .home-link { left: calc(var(--sidebar-width) + 14px); } }
     @media (max-width: 991.98px) { .home-link { left: 4rem; } }
+    @media (max-width: 767.98px) {
+      #main { padding: 1.25rem 1rem 3rem; }
+      .home-link { left: 3.5rem; font-size: .72rem; padding: 6px 10px; }
+      .sidebar-toggle { top: .6rem; left: .6rem; }
+    }
+    @media (max-width: 575.98px) {
+      #main { padding: 1rem .75rem 2.5rem; }
+      .home-link { left: 3rem; font-size: .68rem; padding: 5px 8px; }
+    }
     .callout { padding: 1rem 1.25rem; border-radius: .5rem; margin: 1rem 0; border-left: 4px solid; }
     .callout-info { background: #e8f4f8; border-color: #17a2b8; }
     .callout-tip { background: #e8f8e8; border-color: #28a745; }
@@ -295,7 +304,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
 <body>
 
 <button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
-<a href="index.html" class="home-link"><span>&larr;</span> Home</a>
+<a href="index.html" class="home-link"><i class="bi bi-arrow-left"></i> Home</a>
 
 <nav id="sidebar">
   <div class="brand">

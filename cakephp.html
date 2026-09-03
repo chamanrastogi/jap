@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <style>
@@ -194,6 +194,15 @@
     }
     @media (max-width: 991.98px) {
       .home-link { left: 4rem; }
+    }
+    @media (max-width: 767.98px) {
+      #main { padding: 1.25rem 1rem 3rem; }
+      .home-link { left: 3.5rem; font-size: .72rem; padding: 6px 10px; }
+      .sidebar-toggle { top: .6rem; left: .6rem; }
+    }
+    @media (max-width: 575.98px) {
+      #main { padding: 1rem .75rem 2.5rem; }
+      .home-link { left: 3rem; font-size: .68rem; padding: 5px 8px; }
     }
   </style>
   <link rel="stylesheet" href="lib/google-fonts/space-grotesk/space-grotesk.css">
@@ -394,7 +403,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
 <body>
 
 <button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
-<a href="index.html" class="home-link" aria-label="Go back to home page"><span>â†</span> Home</a>
+<a href="index.html" class="home-link" aria-label="Go back to home page"><i class="bi bi-arrow-left"></i> Home</a>
 
 <!-- ===== SIDEBAR ===== -->
 <nav id="sidebar">

@@ -266,6 +266,15 @@
     .home-link:hover { background: var(--dark-bg); color: #fff; border-color: var(--dark-bg); box-shadow: 0 8px 24px rgba(26,26,46,.15); }
     @media (min-width: 992px) { .home-link { left: calc(var(--sidebar-width) + 14px); } }
     @media (max-width: 991.98px) { .home-link { left: 4rem; } }
+    @media (max-width: 767.98px) {
+      #main { padding: 1.25rem 1rem 3rem; }
+      .home-link { left: 3.5rem; font-size: .72rem; padding: 6px 10px; }
+      .sidebar-toggle { top: .6rem; left: .6rem; }
+    }
+    @media (max-width: 575.98px) {
+      #main { padding: 1rem .75rem 2.5rem; }
+      .home-link { left: 3rem; font-size: .68rem; padding: 5px 8px; }
+    }
 
     .loading-state {
       text-align: center; padding: 4rem; color: var(--text-muted);

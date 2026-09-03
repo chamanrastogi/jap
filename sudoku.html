@@ -701,10 +701,24 @@
         }
         .toast.show { opacity: 1; transform: translateX(-50%) translateY(-4px); }
 
+        @media (max-width: 480px) {
+            .game-screen { padding: 10px 12px 16px; }
+            .utils-row { gap: 6px; }
+            .util-btn { min-width: 80px; padding: 8px 8px; font-size: 0.52rem; }
+            .numpad { gap: 4px; }
+            .numpad-btn { font-size: 1rem; border-radius: 8px; }
+            .start-screen { padding: 30px 16px 26px; }
+        }
+
         @media (max-width: 380px) {
-            .game-screen { padding: 10px 12px 14px; }
-            .utils-row .util-btn { min-width: 0; }
-            .hints { gap: 3px 8px; font-size: 0.58rem; }
+            .game-screen { padding: 8px 8px 12px; }
+            .utils-row { gap: 5px; }
+            .utils-row .util-btn { flex: 1 1 40%; min-width: 0; }
+            .util-btn { padding: 7px 6px; font-size: 0.5rem; }
+            .numpad { gap: 3px; }
+            .numpad-btn { font-size: 0.92rem; border-radius: 7px; }
+            .hints { gap: 3px 6px; font-size: 0.56rem; }
+            .hints kbd { font-size: 0.5rem; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -718,10 +732,7 @@
 </head>
 <body>
 
-<a href="index.html" class="home-link" aria-label="Go back to home page">
-    <i class="bi bi-house-door-fill"></i>
-    <span>Home</span>
-</a>
+<a href="index.html" class="home-link" aria-label="Go back to home page"><i class="bi bi-arrow-left"></i> Home</a>
 
 <div class="sheet" id="appSheet">
 
