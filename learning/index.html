@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Start learning a new programming language — pick a route, read its first sentence, open a guide. 38 offline study guides." />
+  <title>Learn a New Language — Start Here · Jap App Hub</title>
+  <link href="../assets/vendor/bootstrap/bootstrap.min.css" rel="stylesheet" />
+  <link href="../assets/vendor/font-awesome/all.min.css" rel="stylesheet" />
+  <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.min.css" rel="stylesheet" />
+  <link href="../assets/vendor/fonts/fonts.css" rel="stylesheet" />
+  <style>
+    :root {
+      --abyss: #101a2e;
+      --abyss-2: #182747;
+      --paper: #f2ede1;
+      --card-l: #fffdf6;
+      --stamp: #e4572e;
+      --stamp-deep: #b23a17;
+      --lagoon: #0e7c7b;
+      --lagoon-deep: #0a5e5d;
+      --gold: #c9a227;
+      --ink: #23201a;
+      --ink-soft: #6d6353;
+      --line: rgba(35, 32, 26, 0.14);
+      --line-strong: rgba(228, 87, 46, 0.45);
+      --shadow: 0 24px 54px rgba(16, 26, 46, 0.14);
+      --bg: radial-gradient(46rem 26rem at 110% -8%, rgba(228, 87, 46, 0.14), transparent 60%),
+        radial-gradient(36rem 24rem at -10% 6%, rgba(14, 124, 123, 0.12), transparent 55%),
+        linear-gradient(180deg, #f7f2e7 0%, #f2ede1 60%, #ece4d2 100%);
+      --topbar: rgba(255, 253, 246, 0.86);
+      --shelf: rgba(255, 253, 246, 0.66);
+    }
+    [data-bs-theme="dark"] {
+      --paper: #0f1626;
+      --card-l: #182238;
+      --ink: #f0e9d8;
+      --ink-soft: #b3a78f;
+      --line: rgba(240, 233, 216, 0.14);
+      --line-strong: rgba(228, 87, 46, 0.55);
+      --shadow: 0 28px 60px rgba(0, 0, 0, 0.5);
+      --bg: radial-gradient(46rem 26rem at 110% -8%, rgba(228, 87, 46, 0.16), transparent 60%),
+        radial-gradient(36rem 24rem at -10% 6%, rgba(14, 124, 123, 0.14), transparent 55%),
+        linear-gradient(180deg, #141c31 0%, #0f1626 60%, #0b111f 100%);
+      --topbar: rgba(20, 28, 49, 0.86);
+      --shelf: rgba(24, 34, 56, 0.66);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; min-height: 100vh; color: var(--ink); background: var(--bg);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-size: 16px; line-height: 1.5; overflow-x: hidden;
+    }
+    :focus-visible { outline: 3px solid var(--stamp); outline-offset: 2px; border-radius: 8px; }
+    .wrap { max-width: 1220px; margin: 0 auto; padding: 0.9rem; }
+    .font-display { font-family: 'Fraunces', Georgia, serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* top bar */
+    .topbar {
+      position: sticky; top: 0.5rem; z-index: 1020;
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.5rem 0.6rem; border: 1px solid var(--line); border-radius: 16px;
+      background: var(--topbar); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 10px 24px rgba(16, 26, 46, 0.08);
+    }
+    .home-link {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      min-height: 44px; padding: 0.55rem 0.9rem; border-radius: 12px;
+      border: 1px solid var(--line); color: var(--ink); text-decoration: none;
+      font-weight: 600; font-size: 0.85rem; background: transparent;
+    }
+    .home-link:hover { border-color: var(--line-strong); color: var(--stamp-deep); }
+    [data-bs-theme="dark"] .home-link:hover { color: #ff8a5c; }
+    .search-box { position: relative; flex: 1; min-width: 120px; }
+    .search-box .glyph { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); color: var(--ink-soft); font-size: 0.85rem; pointer-events: none; }
+    .search-box input {
+      width: 100%; min-height: 44px; padding: 0.6rem 0.8rem 0.6rem 2.4rem;
+      border-radius: 12px; border: 1px solid var(--line);
+      background: transparent; color: var(--ink); font-size: 0.9rem;
+    }
+    .search-box input::placeholder { color: var(--ink-soft); }
+    .search-box input:focus { border-color: var(--line-strong); box-shadow: 0 0 0 0.25rem rgba(228, 87, 46, 0.14); outline: none; }
+    .icon-btn {
+      width: 44px; height: 44px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid var(--line); border-radius: 12px; background: transparent; color: var(--ink-soft); font-size: 0.9rem; cursor: pointer;
+    }
+    .icon-btn:hover { color: var(--stamp-deep); border-color: var(--line-strong); }
+    .count-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;
+      min-height: 44px; padding: 0.55rem 0.85rem; border-radius: 999px;
+      background: var(--abyss); color: #f6efe0; font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace;
+    }
+    [data-bs-theme="dark"] .count-badge { background: #f6efe0; color: var(--abyss); }
+
+    /* hero */
+    .hero {
+      margin-top: 0.8rem; border: 1px solid var(--line); border-radius: 24px;
+      background: linear-gradient(135deg, var(--abyss) 0%, var(--abyss-2) 100%);
+      color: #f4eddc; overflow: hidden; position: relative; box-shadow: var(--shadow);
+    }
+    .hero::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(30rem 16rem at 95% 0%, rgba(228, 87, 46, 0.28), transparent 60%),
+        radial-gradient(24rem 16rem at 0% 100%, rgba(14, 124, 123, 0.25), transparent 60%);
+    }
+    .hero-inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 1.5rem; padding: 2rem 1.8rem; align-items: center; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 0.8rem;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.66rem; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase; color: #f0b49a;
+      border: 1px solid rgba(240, 180, 154, 0.35); border-radius: 999px; padding: 0.35rem 0.8rem;
+    }
+    .eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--stamp); box-shadow: 0 0 0 3px rgba(228, 87, 46, 0.25); }
+    .hero h1 {
+      font-family: 'Fraunces', Georgia, serif; font-weight: 600;
+      font-size: clamp(2.4rem, 5.2vw, 3.9rem); line-height: 1.02; letter-spacing: -0.015em; margin: 0 0 0.8rem;
+    }
+    .hero h1 em { font-style: italic; color: #ffb08a; }
+    .hero p.lede { max-width: 32rem; color: #d8cdb4; font-size: 0.98rem; line-height: 1.7; margin: 0 0 1.2rem; }
+    .route-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .route-btn {
+      min-height: 44px; padding: 0.65rem 1rem; border-radius: 14px; cursor: pointer;
+      border: 1px solid rgba(244, 237, 220, 0.28); background: rgba(244, 237, 220, 0.06);
+      color: #f4eddc; font-size: 0.84rem; font-weight: 600;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+    }
+    .route-btn:hover { transform: translateY(-2px); border-color: #ffb08a; }
+    .route-btn.active { background: var(--stamp); border-color: var(--stamp); color: #fff; }
+    .route-btn.ghost { border-style: dashed; }
+    .hero-note { margin-top: 0.9rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.06em; color: #b9ad93; }
+
+    /* signature: passport stamp terminal */
+    .passport {
+      background: var(--paper); color: var(--ink); border-radius: 18px; padding: 0;
+      transform: rotate(1.2deg); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(35, 32, 26, 0.2); overflow: hidden; max-width: 460px; width: 100%; justify-self: center;
+    }
+    [data-bs-theme="dark"] .passport { border-color: rgba(240, 233, 216, 0.2); }
+    .passport-head {
+      display: flex; align-items: center; justify-content: space-between; gap: 0.6rem;
+      padding: 0.7rem 1rem; border-bottom: 2px dashed rgba(35, 32, 26, 0.25);
+      font-family: 'JetBrains Mono', monospace; font-size: 0.66rem; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-soft);
+    }
+    .stamp-seal {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      color: var(--stamp-deep); border: 2px solid var(--stamp); border-radius: 8px;
+      padding: 0.15rem 0.5rem; transform: rotate(-6deg);
+      font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; font-weight: 800; letter-spacing: 0.14em;
+    }
+    [data-bs-theme="dark"] .stamp-seal { color: #ff8a5c; }
+    .passport-body { padding: 1.1rem 1.1rem 1rem; }
+    .hello-lang { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--lagoon-deep); margin-bottom: 0.4rem; min-height: 1.1rem; }
+    [data-bs-theme="dark"] .hello-lang { color: #5fd0cd; }
+    .hello-code {
+      font-family: 'JetBrains Mono', monospace; font-size: 1.02rem; line-height: 1.6;
+      background: #101a2e; color: #ffe9d6; border-radius: 12px; padding: 0.9rem 1rem; min-height: 4.4rem;
+    }
+    .hello-code .caret { display: inline-block; width: 9px; height: 1.1em; background: #ffb08a; vertical-align: text-bottom; animation: blink 1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+    .passport-foot { display: flex; gap: 0.5rem; padding: 0 1.1rem 1.1rem; flex-wrap: wrap; }
+    .passport-foot button {
+      flex: 1; min-height: 44px; border-radius: 10px; cursor: pointer; font-weight: 700; font-size: 0.8rem;
+      border: 1px solid rgba(35, 32, 26, 0.25); background: transparent; color: var(--ink);
+    }
+    .passport-foot button.primary { background: var(--stamp); border-color: var(--stamp); color: #fff; }
+    .passport-foot button:hover { transform: translateY(-1px); }
+
+    /* stats strip */
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.55rem; margin-top: 0.8rem; }
+    .stat {
+      border: 1px solid var(--line); border-radius: 16px; padding: 0.85rem 1rem;
+      background: var(--shelf); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    }
+    .stat .k { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); display: block; margin-bottom: 0.2rem; }
+    .stat .v { font-family: 'Fraunces', serif; font-size: 1.7rem; font-weight: 700; line-height: 1; }
+    .stat .n { font-size: 0.72rem; color: var(--ink-soft); }
+
+    /* shelves */
+    .shelf { margin-top: 0.8rem; border: 1px solid var(--line); border-radius: 20px; padding: 1.1rem; background: var(--shelf); }
+    .shelf-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 0.6rem; margin-bottom: 0.8rem; }
+    .shelf-label { font-family: 'JetBrains Mono', monospace; font-size: 0.64rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--stamp-deep); display: flex; align-items: center; gap: 0.5rem; }
+    [data-bs-theme="dark"] .shelf-label { color: #ff8a5c; }
+    .shelf-label::before { content: ""; width: 22px; height: 2px; background: var(--stamp); border-radius: 2px; }
+    .shelf h2 { font-family: 'Fraunces', serif; font-size: 1.45rem; font-weight: 600; margin: 0.25rem 0 0; letter-spacing: -0.01em; }
+    .shelf .hint { font-size: 0.78rem; color: var(--ink-soft); max-width: 34rem; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 0.65rem; }
+
+    /* stamp card — the one bold move */
+    .stamp-card {
+      position: relative; display: flex; flex-direction: column; gap: 0.45rem;
+      padding: 0.95rem 0.95rem 0.85rem; border-radius: 16px; text-decoration: none; color: inherit;
+      background: var(--card-l); border: 1px solid var(--line);
+      outline: 1px dashed transparent; outline-offset: 4px;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, outline-color 0.2s ease;
+    }
+    .stamp-card::before {
+      content: ""; position: absolute; inset: 6px; border: 1px dashed var(--line);
+      border-radius: 11px; pointer-events: none;
+    }
+    .stamp-card:hover { transform: translateY(-3px) rotate(-0.4deg); border-color: var(--line-strong); outline-color: var(--line-strong); box-shadow: var(--shadow); }
+    .stamp-top { display: flex; align-items: center; gap: 0.55rem; }
+    .seal {
+      width: 2.5rem; height: 2.5rem; flex-shrink: 0; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--abyss); color: #f6efe0;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; font-weight: 800; letter-spacing: 0.04em;
+      border: 2px solid var(--gold);
+    }
+    .stamp-top .t { min-width: 0; flex: 1; }
+    .stamp-name { font-weight: 700; font-size: 0.92rem; line-height: 1.25; }
+    .stamp-sub { font-family: 'JetBrains Mono', monospace; font-size: 0.64rem; color: var(--ink-soft); letter-spacing: 0.05em; }
+    .admit {
+      flex-shrink: 0; font-family: 'JetBrains Mono', monospace; font-size: 0.58rem; font-weight: 800;
+      letter-spacing: 0.12em; color: var(--lagoon-deep); border: 1.5px solid var(--lagoon);
+      border-radius: 6px; padding: 0.15rem 0.4rem; transform: rotate(4deg);
+    }
+    [data-bs-theme="dark"] .admit { color: #5fd0cd; }
+    .stamp-desc { font-size: 0.78rem; line-height: 1.55; color: var(--ink-soft); margin: 0; flex-grow: 1; }
+    .hello-chip {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; line-height: 1.5;
+      background: rgba(16, 26, 46, 0.06); border: 1px solid var(--line);
+      border-radius: 9px; padding: 0.45rem 0.6rem; overflow-x: auto; white-space: nowrap; color: var(--ink);
+    }
+    [data-bs-theme="dark"] .hello-chip { background: rgba(0, 0, 0, 0.35); }
+    .hello-chip .k { color: var(--stamp-deep); }
+    [data-bs-theme="dark"] .hello-chip .k { color: #ff8a5c; }
+    .stamp-meta { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+    .dots { display: inline-flex; align-items: center; gap: 0.3rem; font-family: 'JetBrains Mono', monospace; font-size: 0.64rem; color: var(--ink-soft); }
+    .dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--line); display: inline-block; }
+    .dots i.on { background: var(--stamp); }
+    .dots i.on.teal { background: var(--lagoon); }
+    .go { font-size: 0.74rem; font-weight: 700; color: var(--stamp-deep); display: inline-flex; align-items: center; gap: 0.35rem; }
+    [data-bs-theme="dark"] .go { color: #ff8a5c; }
+    .stamp-card:hover .go { gap: 0.55rem; }
+    .go { transition: gap 0.2s ease; }
+
+    .empty { display: none; text-align: center; padding: 1.6rem 1rem; border: 1px dashed var(--line-strong); border-radius: 16px; color: var(--ink-soft); font-size: 0.86rem; }
+    .empty.show { display: block; }
+    .results-line { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+
+    footer.site { margin-top: 0.8rem; border: 1px solid var(--line); border-radius: 16px; padding: 1rem 1.1rem; display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; justify-content: space-between; font-size: 0.76rem; color: var(--ink-soft); background: var(--shelf); }
+    footer.site a { color: var(--stamp-deep); font-weight: 700; text-decoration: none; }
+    [data-bs-theme="dark"] footer.site a { color: #ff8a5c; }
+    .back-top { position: fixed; right: 1rem; bottom: 1rem; z-index: 1030; width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--line); background: var(--topbar); color: var(--ink-soft); opacity: 0; transform: translateY(10px); pointer-events: none; transition: opacity 0.25s ease, transform 0.25s ease; }
+    .back-top.visible { opacity: 1; transform: none; pointer-events: auto; }
+    .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+
+    @media (max-width: 991.98px) {
+      .hero-inner { grid-template-columns: 1fr; padding: 1.5rem 1.1rem; }
+      .passport { justify-self: start; transform: rotate(0deg); }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 575.98px) {
+      .wrap { padding: 0.5rem; }
+      .hero h1 { font-size: 2.1rem; }
+      .count-badge span.long { display: none; }
+      .cards { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .hello-code .caret { animation: none; }
+      .stamp-card:hover { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <a class="home-link" href="../index.html" aria-label="Back to home">← Home</a>
+      <div class="search-box">
+        <i class="fas fa-search glyph" aria-hidden="true"></i>
+        <input id="q" type="text" placeholder="Search 38 guides — try &quot;python&quot; or &quot;job&quot;…" aria-label="Search guides" autocomplete="off" spellcheck="false" />
+      </div>
+      <span class="count-badge"><i class="fas fa-passport" aria-hidden="true"></i><span id="count">38</span>&nbsp;<span class="long">guides</span></span>
+      <button class="icon-btn" id="themeBtn" title="Toggle dark or light mode" aria-label="Toggle dark or light mode"><i class="fas fa-moon" aria-hidden="true"></i></button>
+    </div>
+
+    <header class="hero">
+      <div class="hero-inner">
+        <div>
+          <span class="eyebrow"><span class="dot"></span> Phrasebook · 38 offline guides</span>
+          <h1>Pick a language.<br />Learn its <em>first sentence.</em></h1>
+          <p class="lede">Every programming language is a country. This page is the passport office: choose what you want to build, read each language&rsquo;s version of &ldquo;hello&rdquo;, then open the full guide and stay a while.</p>
+          <div class="route-row" role="group" aria-label="Choose a learning route">
+            <button class="route-btn" data-route="websites"><i class="fas fa-globe" aria-hidden="true"></i> I want to build websites</button>
+            <button class="route-btn" data-route="backend"><i class="fas fa-server" aria-hidden="true"></i> I want a backend job</button>
+            <button class="route-btn" data-route="data"><i class="fas fa-database" aria-hidden="true"></i> I want apps &amp; data</button>
+            <button class="route-btn ghost" data-route="all"><i class="fas fa-asterisk" aria-hidden="true"></i> Show everything</button>
+          </div>
+          <p class="hero-note" id="routeNote">START WITH ONE ROUTE — FINISH ONE GUIDE BEFORE STAMPING THE NEXT.</p>
+        </div>
+        <div class="passport" aria-label="Live hello demo">
+          <div class="passport-head"><span>First-sentence desk</span><span class="stamp-seal">✓ Admit</span></div>
+          <div class="passport-body">
+            <div class="hello-lang" id="helloLang">Python · gentle</div>
+            <div class="hello-code"><span id="helloCode">print("hello")</span><span class="caret" aria-hidden="true"></span></div>
+          </div>
+          <div class="passport-foot">
+            <button type="button" id="helloPrev">← Prev hello</button>
+            <button type="button" class="primary" id="helloOpen">Open this guide →</button>
+            <button type="button" id="helloNext">Next hello →</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="stats" aria-label="Library facts">
+      <div class="stat"><span class="k">Guides</span><span class="v" id="statGuides">38</span><span class="n d-block">Every page works offline.</span></div>
+      <div class="stat"><span class="k">Routes</span><span class="v">3</span><span class="n d-block">Websites · backend · data.</span></div>
+      <div class="stat"><span class="k">First step</span><span class="v font-mono" style="font-size:1.15rem;padding-top:0.3rem">hello</span><span class="n d-block">One sentence per language.</span></div>
+      <div class="stat"><span class="k">Cost</span><span class="v">₹0</span><span class="n d-block">No sign-up, no tracking.</span></div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mt-3 mb-1 px-1">
+      <span class="results-line" id="resultsLine">38 guides shown</span>
+      <span class="results-line">Gentle ●○○ · Steady ●●○ · Steep ●●●</span>
+    </div>
+
+    <main id="shelves"></main>
+    <div class="empty mt-2" id="empty">No guide matches that search. Clear the search box or pick “Show everything”.</div>
+
+    <footer class="site">
+      <span><i class="fas fa-passport me-1" aria-hidden="true"></i>Learn Home — the beginner door into Jap App Hub · all guides are flat HTML, readable offline</span>
+      <span class="d-flex gap-2 align-items-center"><a href="../index.html">← Home</a><span aria-hidden="true">·</span><a href="practice.html">Test yourself</a><span aria-hidden="true">·</span><span>© 2026</span></span>
+    </footer>
+  </div>
+  <button class="back-top" id="backTop" aria-label="Back to top" title="Back to top"><i class="fas fa-arrow-up" aria-hidden="true"></i></button>
+
+  <script src="../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script>
+    var GUIDES = [
+      { shelf: "First words", shelfHint: "Zero experience? Start on this shelf and finish exactly one card.", file: "html-css.html", code: "HTML", name: "HTML + CSS", sub: "markup · styling", desc: "What every page is made of. Read tags, then make text change colour.", hello: "<p>hello</p>", level: 1, time: "2 wks", routes: ["websites"], tags: "html css first beginner web" },
+      { shelf: "First words", file: "javascript-jquery.html", code: "JS", name: "JavaScript + jQuery", sub: "your first logic", desc: "Variables, clicks and fetch. The language every website speaks.", hello: 'console.log("hello")', level: 1, time: "3 wks", routes: ["websites"], tags: "javascript jquery beginner frontend dom" },
+      { shelf: "First words", file: "python.html", code: "PY", name: "Python 3.14", sub: "gentlest syntax", desc: "Short lines, readable words. Good first pick for school or data.", hello: 'print("hello")', level: 1, time: "3 wks", routes: ["backend", "data"], tags: "python beginner data automation" },
+      { shelf: "First words", file: "phplearn.html", code: "PHP", name: "PHP, Deeply", sub: "beginner → advanced", desc: "One long road from echo to OOP, security and 70 practice questions.", hello: 'echo "hello";', level: 1, time: "4 wks", routes: ["backend"], tags: "php beginner oop backend" },
+      { shelf: "Websites that move", shelfHint: "You can read HTML and JS. Pick the flavour of interactive site you want.", file: "typescript.html", code: "TS", name: "TypeScript", sub: "JS with seatbelts", desc: "Types that catch mistakes before visitors do. Learn after basic JS.", hello: 'const hi: string = "hello"', level: 2, time: "2 wks", routes: ["websites"], tags: "typescript javascript types frontend" },
+      { shelf: "Websites that move", file: "htmx.html", code: "HX", name: "htmx 2.x", sub: "HTML that talks", desc: "Click, swap, done — dynamic pages with almost no JavaScript.", hello: '<div hx-get="/hello">', level: 1, time: "1 wk", routes: ["websites", "backend"], tags: "htmx html ajax hypermedia" },
+      { shelf: "Websites that move", file: "vue3.html", code: "VUE", name: "Vue 3.5", sub: "gentle framework", desc: "The kindest first framework. Templates that feel like plain HTML.", hello: "{{ hello }}", level: 2, time: "3 wks", routes: ["websites"], tags: "vue frontend spa framework" },
+      { shelf: "Websites that move", file: "react19.html", code: "RE", name: "React 19", sub: "most job posts", desc: "Components, hooks and server parts. Heavier, but hiring is heavy too.", hello: "<Hello />", level: 2, time: "4 wks", routes: ["websites"], tags: "react frontend hooks jobs" },
+      { shelf: "Websites that move", file: "angular21.html", code: "NG", name: "Angular 21", sub: "full toolbox", desc: "Signals, routing and forms in one opinionated box. For big teams.", hello: "{{ hello }}", level: 3, time: "5 wks", routes: ["websites"], tags: "angular typescript enterprise spa" },
+      { shelf: "Websites that move", file: "bt.html", code: "TW", name: "Tailwind CSS 4", sub: "dress websites fast", desc: "Bootstrap thinking translated to utilities, with patterns that ship.", hello: 'class="text-lg"', level: 1, time: "1 wk", routes: ["websites"], tags: "tailwind css design bootstrap" },
+      { shelf: "Websites that move", file: "bootstrap.html", code: "BS", name: "Bootstrap 5.3", sub: "classic grid", desc: "Rows, columns and components that look decent on day one.", hello: 'class="lead"', level: 1, time: "1 wk", routes: ["websites"], tags: "bootstrap css responsive" },
+      { shelf: "Backends & jobs", shelfHint: "You want server work. PHP first if jobs near you say PHP; JS or Python otherwise.", file: "laravel13.html", code: "LV", name: "Laravel 13", sub: "PHP jobs leader", desc: "Routes, Eloquent and queues — the complete artisan reference.", hello: "Route::get('/hello')", level: 2, time: "5 wks", routes: ["backend"], tags: "laravel php backend jobs mvc" },
+      { shelf: "Backends & jobs", file: "laravel-api-testing.html", code: "TST", name: "Laravel API + Testing", sub: "prove it works", desc: "APIs, Pest tests and the N+1s interviewers love to ask about.", hello: "assertOk('/api/hello')", level: 3, time: "3 wks", routes: ["backend"], tags: "laravel testing api pest phpunit" },
+      { shelf: "Backends & jobs", file: "graphql.html", code: "GQL", name: "GraphQL + Laravel", sub: "ask exactly", desc: "Schemas, queries and Lighthouse, with auth and N+1 fixes.", hello: "{ hello }", level: 3, time: "2 wks", routes: ["backend"], tags: "graphql api lighthouse laravel" },
+      { shelf: "Backends & jobs", file: "symfony.html", code: "SF", name: "Symfony 7.x", sub: "enterprise PHP", desc: "Console, Doctrine and API Platform, plus an honest Laravel comparison.", hello: "#[Route('/hello')]", level: 3, time: "5 wks", routes: ["backend"], tags: "symfony php doctrine enterprise" },
+      { shelf: "Backends & jobs", file: "cakephp.html", code: "CK5", name: "CakePHP 5.4", sub: "convention pace", desc: "Bake, scaffold and ship. Still running plenty of real stores.", hello: "$this->set('hi')", level: 2, time: "3 wks", routes: ["backend"], tags: "cakephp php mvc" },
+      { shelf: "Backends & jobs", file: "cakephp28.html", code: "CK2", name: "CakePHP 2.8", sub: "legacy duty", desc: "Only open if your job already runs it. Legacy syntax, mapped clearly.", hello: "$this->set('hi')", level: 2, time: "2 wks", routes: ["backend"], tags: "cakephp legacy php" },
+      { shelf: "Backends & jobs", file: "codeigniter.html", code: "CI4", name: "CodeIgniter 4.x", sub: "small & quick", desc: "Spark commands and query builder for light hosting and fast pages.", hello: "return view('hello')", level: 1, time: "2 wks", routes: ["backend"], tags: "codeigniter php mvc spark" },
+      { shelf: "Backends & jobs", file: "codeigniter-versions.html", code: "CIV", name: "CodeIgniter Versions", sub: "1.x → 4.x map", desc: "Which CI you have, and the full CI3-to-CI4 upgrade path.", hello: "CI3 → CI4", level: 2, time: "1 wk", routes: ["backend"], tags: "codeigniter upgrade migration" },
+      { shelf: "Backends & jobs", file: "cake-upgrade-guide.html", code: "UP", name: "CakePHP Upgrade Path", sub: "old → stable", desc: "Step-by-step route off legacy Cake onto a supported release.", hello: "2.x → 5.x", level: 2, time: "1 wk", routes: ["backend"], tags: "cakephp upgrade migration" },
+      { shelf: "Backends & jobs", file: "node-express.html", code: "NEX", name: "Node + Express", sub: "JS all the way", desc: "Middleware, REST and JWT using the JS you already know.", hello: 'res.send("hello")', level: 2, time: "3 wks", routes: ["backend", "websites"], tags: "node express javascript backend rest" },
+      { shelf: "Backends & jobs", file: "django.html", code: "DJ", name: "Django 5.2", sub: "Python backend", desc: "Models, admin and DRF. Batteries included, interviews included.", hello: 'HttpResponse("hello")', level: 2, time: "4 wks", routes: ["backend", "data"], tags: "django python backend drf" },
+      { shelf: "Backends & jobs", file: "wordpress.html", code: "WP", name: "WordPress Dev", sub: "freelance fast", desc: "Themes, hooks and blocks. The quickest path to paid client work.", hello: "add_action('init')", level: 1, time: "3 wks", routes: ["backend", "websites"], tags: "wordpress php freelance cms" },
+      { shelf: "Backends & jobs", file: "php-cron.html", code: "CRN", name: "PHP Cron Jobs", sub: "night shift", desc: "Scheduled scripts that run while you sleep — batches, memory, logs.", hello: "* * * * * hello.php", level: 2, time: "1 wk", routes: ["backend"], tags: "php cron cli linux" },
+      { shelf: "Data & storage", shelfHint: "Every app keeps things somewhere. Learn one SQL page properly, skim the rest.", file: "mysql.html", code: "MY", name: "MySQL Q&A", sub: "114 questions", desc: "Joins to replication. The interview-heavy SQL page to grind.", hello: "SELECT 'hello';", level: 2, time: "3 wks", routes: ["data", "backend"], tags: "mysql sql database interview" },
+      { shelf: "Data & storage", file: "postgresql.html", code: "PG", name: "PostgreSQL", sub: "grown-up SQL", desc: "JSON, search and tuning for apps that outgrow basics.", hello: "SELECT 'hello';", level: 2, time: "3 wks", routes: ["data", "backend"], tags: "postgresql sql database" },
+      { shelf: "Data & storage", file: "mongodb.html", code: "MDB", name: "MongoDB", sub: "documents", desc: "Collections and pipelines for data shaped like objects, not rows.", hello: "db.hi.insertOne({})", level: 2, time: "2 wks", routes: ["data", "backend"], tags: "mongodb nosql database" },
+      { shelf: "Tools of the trade", shelfHint: "Ten-minute pages. Read one whenever a tutorial says a word you don't know.", file: "git.html", code: "GIT", name: "Git Commands", sub: "save your work", desc: "Every command with the situation it rescues you from.", hello: 'git commit -m "hi"', level: 1, time: "3 days", routes: ["websites", "backend", "data"], tags: "git version control cli" },
+      { shelf: "Tools of the trade", file: "grep.html", code: "GRP", name: "grep", sub: "find anything", desc: "Search any codebase in seconds. 30 flags, zero fear.", hello: 'grep -r "hi" .', level: 1, time: "1 day", routes: ["backend", "data"], tags: "grep regex terminal linux" },
+      { shelf: "Tools of the trade", file: "ls.html", code: "LS", name: "ls", sub: "see clearly", desc: "Every flag a–z, plus the Windows equivalents nobody tells you.", hello: "ls -la", level: 1, time: "1 day", routes: ["backend", "data"], tags: "ls terminal cli windows" },
+      { shelf: "Get hired", shelfHint: "Only after one route above. Practice out loud, not just in your head.", file: "laravel-tips.html", code: "TIP", name: "Laravel Tips", sub: "350+ tricks", desc: "Short Eloquent and Blade wins to steal for real projects.", hello: "Tip #1: eager load", level: 2, time: "ongoing", routes: ["backend"], tags: "laravel tips eloquent" },
+      { shelf: "Get hired", file: "interview.html", code: "Q&A", name: "PHP / Laravel Interview", sub: "100+ answers", desc: "Core PHP, OOP and Laravel, written as answers you can say aloud.", hello: "Tell me about OOP…", level: 2, time: "2 wks", routes: ["backend"], tags: "interview php laravel jobs" },
+      { shelf: "Get hired", file: "laravel-interview.html", code: "LVQ", name: "Laravel Interview", sub: "deep drill", desc: "Queues, caching and Laravel 11+ features, question by question.", hello: "Explain queues…", level: 3, time: "2 wks", routes: ["backend"], tags: "laravel interview jobs" },
+      { shelf: "Get hired", file: "interview-quiz.html", code: "QUIZ", name: "Interview Quiz", sub: "flashcards", desc: "150+ cards with progress tracking. Ten minutes a day counts.", hello: "Flip a card…", level: 2, time: "daily", routes: ["backend", "data", "websites"], tags: "quiz interview flashcards" },
+      { shelf: "Get hired", file: "practice.html", code: "MCQ", name: "Practice MCQ", sub: "instant feedback", desc: "Multiple choice from real cases. Wrong answers teach here.", hello: "Pick A, B, C…", level: 2, time: "daily", routes: ["backend", "data", "websites"], tags: "mcq practice quiz" },
+      { shelf: "Get hired", file: "problems.html", code: "CASE", name: "Case Problems", sub: "94 scenarios", desc: "Architecture situations with solutions. Think before you peek.", hello: "Design a queue…", level: 3, time: "3 wks", routes: ["backend", "data"], tags: "architecture cases system design" },
+      { shelf: "Get hired", file: "react-native.html", code: "RN", name: "React Native", sub: "phones next?", desc: "Only after React. One codebase, two app stores, Expo included.", hello: "<Text>hello</Text>", level: 3, time: "4 wks", routes: ["data", "websites"], tags: "react-native mobile expo" },
+      { shelf: "Get hired", file: "ai-roadmap.html", code: "AI", name: "AI Roadmap", sub: "after basics", desc: "What to learn after one language, in an order that stays sane.", hello: "Step 1: finish basics", level: 2, time: "1 wk", routes: ["data", "backend", "websites"], tags: "ai roadmap career" },
+      { shelf: "Get hired", file: "python-tips.html", code: "PY+", name: "Python Tips", sub: "100+ tips · first steps", desc: "Setup to stdlib: 104 quick Python wins with copy-paste code.", hello: "104 tips", level: 1, time: "1 wk", routes: ["backend", "data"], tags: "python tips tricks interview" }
+    ];
+
+    var LEVEL_WORD = { 1: "Gentle", 2: "Steady", 3: "Steep" };
+    var activeRoute = "all";
+    var shelvesEl = document.getElementById("shelves");
+    var qEl = document.getElementById("q");
+    var resultsLine = document.getElementById("resultsLine");
+    var emptyEl = document.getElementById("empty");
+    var countEl = document.getElementById("count");
+
+    function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+    function dots(level, teal) {
+      var out = "";
+      for (var i = 1; i <= 3; i++) out += '<i class="' + (i <= level ? ("on" + (teal ? " teal" : "")) : "") + '" aria-hidden="true"></i>';
+      return out;
+    }
+    function matchGuide(g, term) {
+      if (!term) return true;
+      var hay = (g.name + " " + g.desc + " " + g.file + " " + g.tags + " " + g.shelf).toLowerCase();
+      return term.split(/\s+/).every(function (w) { return hay.indexOf(w) !== -1; });
+    }
+    function inRoute(g) { return activeRoute === "all" || g.routes.indexOf(activeRoute) !== -1; }
+
+    function render() {
+      var term = qEl.value.trim().toLowerCase();
+      var order = [];
+      GUIDES.forEach(function (g) { if (order.indexOf(g.shelf) === -1) order.push(g.shelf); });
+      var shown = 0, html = "";
+      order.forEach(function (shelf) {
+        var items = GUIDES.filter(function (g) { return g.shelf === shelf && inRoute(g) && matchGuide(g, term); });
+        if (!items.length) return;
+        shown += items.length;
+        var hint = items[0].shelfHint || "";
+        html += '<section class="shelf reveal" aria-label="' + esc(shelf) + '">'
+          + '<div class="shelf-head"><div><span class="shelf-label">' + esc(shelf) + '</span><h2>' + esc(shelf) + '</h2></div>'
+          + (hint ? '<p class="hint mb-0">' + esc(hint) + '</p>' : '') + '</div>'
+          + '<div class="cards">'
+          + items.map(function (g) {
+            var teal = g.shelf === "Data & storage" || g.shelf === "Tools of the trade";
+            return '<a class="stamp-card" href="' + esc(g.file) + '">'
+              + '<div class="stamp-top"><span class="seal">' + esc(g.code) + '</span>'
+              + '<span class="t"><span class="stamp-name d-block">' + esc(g.name) + '</span>'
+              + '<span class="stamp-sub">' + esc(g.sub) + ' · ' + esc(g.time) + '</span></span>'
+              + '<span class="admit">Admit</span></div>'
+              + '<p class="stamp-desc">' + esc(g.desc) + '</p>'
+              + '<div class="hello-chip" aria-label="First sentence in ' + esc(g.name) + '"><span class="k">hello → </span>' + esc(g.hello) + '</div>'
+              + '<div class="stamp-meta"><span class="dots">' + dots(g.level, teal) + '&nbsp;' + LEVEL_WORD[g.level] + '</span>'
+              + '<span class="go">Open guide <i class="fas fa-arrow-right" aria-hidden="true"></i></span></div>'
+              + '</a>';
+          }).join("") + '</div></section>';
+      });
+      shelvesEl.innerHTML = html;
+      resultsLine.textContent = shown + " guide" + (shown === 1 ? "" : "s") + " shown" + (activeRoute !== "all" ? " · " + activeRoute + " route" : "") + (term ? ' · "' + qEl.value.trim() + '"' : "");
+      countEl.textContent = shown;
+      emptyEl.classList.toggle("show", shown === 0);
+      observeReveals();
+    }
+
+    /* route pathfinder */
+    var NOTES = {
+      all: "START WITH ONE ROUTE — FINISH ONE GUIDE BEFORE STAMPING THE NEXT.",
+      websites: "WEBSITES ROUTE: HTML + CSS → JavaScript → one of Vue or React. Ignore the backend shelf for now.",
+      backend: "BACKEND ROUTE: PHP deeply (or Python) → Laravel (or Django) → MySQL → interview shelf.",
+      data: "APPS + DATA ROUTE: Python → one database → Node or React Native. Small steps, working projects."
+    };
+    document.querySelectorAll(".route-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        activeRoute = btn.getAttribute("data-route");
+        document.querySelectorAll(".route-btn").forEach(function (b) { b.classList.toggle("active", b === btn); });
+        document.getElementById("routeNote").textContent = NOTES[activeRoute];
+        render();
+        document.getElementById("shelves").scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+
+    /* hello rotator (signature) */
+    var helloPool = GUIDES.filter(function (g) { return ["python.html", "phplearn.html", "javascript-jquery.html", "html-css.html", "laravel13.html", "django.html", "node-express.html", "react19.html"].indexOf(g.file) !== -1; });
+    var helloIdx = 0, helloTimer = null;
+    var helloLang = document.getElementById("helloLang"), helloCode = document.getElementById("helloCode"), helloOpen = document.getElementById("helloOpen");
+    function showHello(i) {
+      helloIdx = (i + helloPool.length) % helloPool.length;
+      var g = helloPool[helloIdx];
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce) {
+        helloLang.textContent = g.name + " · " + LEVEL_WORD[g.level].toLowerCase();
+        helloCode.textContent = g.hello;
+        helloOpen.onclick = function () { window.location.href = g.file; };
+        return;
+      }
+      var full = g.hello, pos = 0;
+      helloLang.textContent = g.name + " · " + LEVEL_WORD[g.level].toLowerCase();
+      helloOpen.onclick = function () { window.location.href = g.file; };
+      clearInterval(helloTimer);
+      helloTimer = setInterval(function () {
+        pos++;
+        helloCode.textContent = full.slice(0, pos);
+        if (pos >= full.length) { clearInterval(helloTimer); helloTimer = setTimeout(function () { showHello(helloIdx + 1); }, 2600); }
+      }, 45);
+    }
+    document.getElementById("helloNext").addEventListener("click", function () { showHello(helloIdx + 1); });
+    document.getElementById("helloPrev").addEventListener("click", function () { showHello(helloIdx - 1); });
+
+    /* search */
+    var debounce = null;
+    qEl.addEventListener("input", function () { clearTimeout(debounce); debounce = setTimeout(render, 120); });
+    document.addEventListener("keydown", function (e) {
+      var tag = (e.target.tagName || "").toLowerCase();
+      var typing = tag === "input" || tag === "textarea" || e.target.isContentEditable;
+      if (e.key === "/" && !typing) { e.preventDefault(); qEl.focus(); }
+      if (e.key === "Escape" && document.activeElement === qEl && qEl.value) { qEl.value = ""; render(); }
+    });
+
+    /* theme (shared key with hub) */
+    function paintThemeIcon() {
+      var dark = document.documentElement.getAttribute("data-bs-theme") === "dark";
+      document.querySelector("#themeBtn i").className = dark ? "fas fa-sun" : "fas fa-moon";
+    }
+    try {
+      var stored = localStorage.getItem("hub_theme");
+      if (stored) document.documentElement.setAttribute("data-bs-theme", stored);
+    } catch (e) {}
+    paintThemeIcon();
+    document.getElementById("themeBtn").addEventListener("click", function () {
+      var root = document.documentElement;
+      var next = root.getAttribute("data-bs-theme") === "light" ? "dark" : "light";
+      root.setAttribute("data-bs-theme", next);
+      try { localStorage.setItem("hub_theme", next); } catch (e) {}
+      paintThemeIcon();
+    });
+
+    /* reveal + counters + back-to-top */
+    function observeReveals() {
+      var els = document.querySelectorAll(".reveal:not(.in)");
+      if (!("IntersectionObserver" in window)) { els.forEach(function (el) { el.classList.add("in"); }); return; }
+      var ob = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("in"); ob.unobserve(en.target); } });
+      }, { threshold: 0.08 });
+      els.forEach(function (el) { ob.observe(el); });
+    }
+    (function countUp() {
+      var el = document.getElementById("statGuides"), end = GUIDES.length, t0 = performance.now(), dur = 700;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { el.textContent = end; return; }
+      (function tick(now) {
+        var p = Math.min((now - t0) / dur, 1), e = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(end * e);
+        if (p < 1) requestAnimationFrame(tick);
+      })(t0);
+    })();
+    var backTop = document.getElementById("backTop");
+    window.addEventListener("scroll", function () { backTop.classList.toggle("visible", window.scrollY > 320); }, { passive: true });
+    backTop.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
+
+    render();
+    showHello(0);
+  </script>
+</body>
+</html>

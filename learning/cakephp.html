@@ -1,0 +1,1818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+    body {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(100, 116, 139, 0.35) transparent;
+    }
+    body::-webkit-scrollbar { width: 8px; }
+    body::-webkit-scrollbar-track { background: transparent; }
+    body::-webkit-scrollbar-thumb {
+      background: rgba(100, 116, 139, 0.35);
+      border-radius: 999px;
+    }
+    body::-webkit-scrollbar-thumb:hover { background: rgba(100, 116, 139, 0.55); }
+    #sidebar, .sidebar {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+    }
+    #sidebar::-webkit-scrollbar, .sidebar::-webkit-scrollbar { width: 5px; }
+    #sidebar::-webkit-scrollbar-track, .sidebar::-webkit-scrollbar-track { background: transparent; }
+    #sidebar::-webkit-scrollbar-thumb, .sidebar::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+    }
+    #sidebar::-webkit-scrollbar-thumb:hover, .sidebar::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.32);
+    }
+</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CakePHP 5.4 - Complete Guide: Commands & Concepts</title>
+  <link href="../lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --cakephp-red: #d33c43;
+      --cakephp-dark: #1e1e2f;
+      --sidebar-width: 280px;
+    }
+    * { scroll-margin-top: 1rem; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f4f6fb;
+      display: flex;
+    }
+    #sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0; left: 0;
+      background: var(--cakephp-dark);
+      overflow-y: auto;
+      z-index: 1000;
+      transition: transform .3s;
+    }
+    #sidebar .brand {
+      padding: 1.25rem 1.25rem .75rem;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    #sidebar .brand h5 { color: #fff; font-weight: 700; }
+    #sidebar .brand small { color: #adb5bd; }
+    #sidebar .nav-link {
+      color: #c8cdd3;
+      padding: .5rem 1.25rem;
+      font-size: .88rem;
+      border-left: 3px solid transparent;
+      transition: all .15s;
+    }
+    #sidebar .nav-link:hover {
+      color: #fff;
+      background: rgba(255,255,255,.05);
+    }
+    #sidebar .nav-link i { width: 1.3rem; }
+    #sidebar .nav-section {
+      color: #6c757d;
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      padding: 1rem 1.25rem .3rem;
+      font-weight: 600;
+    }
+    #main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 2rem 2.5rem 4rem;
+      max-width: 1100px;
+    }
+    @media (max-width: 991.98px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.show { transform: translateX(0); }
+      #main { margin-left: 0; padding: 1.5rem; }
+    }
+    .sidebar-toggle {
+      position: fixed;
+      top: .75rem; left: .75rem;
+      z-index: 1050;
+      background: var(--cakephp-dark);
+      color: #fff;
+      border: none;
+      border-radius: .4rem;
+      padding: .4rem .65rem;
+      display: none;
+    }
+    @media (max-width: 991.98px) {
+      .sidebar-toggle { display: block; }
+    }
+    h2 {
+      font-weight: 700;
+      color: var(--cakephp-dark);
+      margin-top: 2.5rem;
+      padding-bottom: .5rem;
+      border-bottom: 3px solid var(--cakephp-red);
+    }
+    h3 {
+      font-weight: 600;
+      color: #2c3e50;
+      margin-top: 1.8rem;
+    }
+    .card {
+      border: none;
+      border-radius: .75rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      margin-bottom: 1.5rem;
+    }
+    .card-header {
+      background: #fff;
+      border-bottom: 1px solid #e9ecef;
+      font-weight: 600;
+      padding: 1rem 1.25rem;
+    }
+    .card-body { padding: 1.5rem; }
+    pre {
+      background: #1e1e2f;
+      color: #e6e6e6;
+      padding: 1rem 1.25rem;
+      border-radius: .5rem;
+      font-size: .82rem;
+      overflow-x: auto;
+      position: relative;
+    }
+    pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
+    .kw { color: #c792ea; }
+    .fn { color: #82aaff; }
+    .str { color: #c3e88d; }
+    .cm { color: #546e7a; font-style: italic; }
+    .num { color: #f78c6c; }
+    .tp { color: #ffcb6b; }
+    [data-bs-theme="dark"] .kw { color: #c792ea; }
+    [data-bs-theme="dark"] .fn { color: #82aaff; }
+    [data-bs-theme="dark"] .str { color: #c3e88d; }
+    [data-bs-theme="dark"] .cm { color: #546e7a; }
+    [data-bs-theme="dark"] .num { color: #f78c6c; }
+    [data-bs-theme="dark"] .tp { color: #ffcb6b; }
+
+    .cmd-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+      white-space: nowrap;
+      color: var(--cakephp-red);
+    }
+    .badge-cake { background: var(--cakephp-red); color: #fff; }
+    .highlight-box {
+      background: #eef2ff;
+      border-left: 4px solid var(--cakephp-red);
+      padding: 1rem 1.25rem;
+      border-radius: .4rem;
+      margin: 1rem 0;
+    }
+    .home-link {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 1100;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.94);
+      color: #0f172a;
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 700;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: 0.2s;
+    }
+    .home-link:hover { color: #2563eb; }
+    @media (min-width: 992px) {
+      .home-link { left: calc(var(--sidebar-width) + 14px); }
+    }
+    @media (max-width: 991.98px) {
+      .home-link { left: 4rem; }
+    }
+    @media (max-width: 767.98px) {
+      #main { padding: 1.25rem 1rem 3rem; }
+      .home-link { left: 3.5rem; font-size: .72rem; padding: 6px 10px; }
+      .sidebar-toggle { top: .6rem; left: .6rem; }
+    }
+    @media (max-width: 575.98px) {
+      #main { padding: 1rem .75rem 2.5rem; }
+      .home-link { left: 3rem; font-size: .68rem; padding: 5px 8px; }
+    }
+  </style>
+  <link rel="stylesheet" href="../lib/google-fonts/space-grotesk/space-grotesk.css">
+  <link rel="stylesheet" href="../lib/google-fonts/jetbrains-mono/jetbrains-mono.css">
+<style>
+/* ===== Jap Hub design system - graphql pattern (injected layer) ===== */
+:root {
+  --acc: #d33c43;
+  --acc2: #8f1d22;
+  --acc-soft: color-mix(in srgb, var(--acc) 32%, #ffffff);
+  --ink-deep: #1c1616;
+  --ink-2: #0f1126;
+  --ink: var(--ink-deep);
+  --bg: color-mix(in srgb, var(--acc) 5%, #f6f4fc);
+  --surface: #ffffff;
+  --surface-soft: rgba(255,255,255,.72);
+  --muted: color-mix(in srgb, var(--acc) 24%, #64698a);
+  --border: color-mix(in srgb, var(--acc) 16%, #e4e0f3);
+  --code: #0e1120;
+  --code-text: #e7e4f6;
+  --good: #17b26a;
+}
+[data-bs-theme="dark"] {
+  --ink: #eef0fb;
+  --bg: color-mix(in srgb, var(--acc) 8%, #0e1120);
+  --surface: #161a2e;
+  --muted: #9aa2bb;
+  --border: color-mix(in srgb, var(--acc) 24%, #262b3f);
+  --code: #0a0d1e;
+  --code-text: #dcd8ef;
+}
+::selection { background: var(--acc); color: #fff; }
+body {
+  font-family: 'Space Grotesk', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background:
+    radial-gradient(52rem 30rem at 110% -6%, color-mix(in srgb, var(--acc) 11%, transparent), transparent 60%),
+    radial-gradient(40rem 28rem at -10% 8%, color-mix(in srgb, var(--acc2) 9%, transparent), transparent 55%),
+    var(--bg);
+  color: var(--ink);
+  display: flex;
+}
+h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', 'Segoe UI', sans-serif; }
+#sidebar {
+  background:
+    radial-gradient(120% 90% at 100% 0%, color-mix(in srgb, var(--acc2) 28%, transparent), transparent 55%),
+    linear-gradient(180deg, var(--ink-deep) 0%, var(--ink-2) 100%);
+}
+#sidebar .brand h5 { color: #fff; letter-spacing: .01em; }
+#sidebar .brand small { color: #a9a6c9; font-size: .7rem; }
+#sidebar .nav-link { color: #c9c6e3; font-family: 'Space Grotesk', sans-serif; }
+#sidebar .nav-link:hover { color: #fff; background: rgba(255,255,255,.06); }
+#sidebar .nav-link i { color: color-mix(in srgb, var(--acc-soft) 62%, #ffffff); }
+#sidebar .nav-link.active {
+  color: #fff;
+  border-left-color: var(--acc);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--acc) 22%, transparent), transparent);
+}
+#sidebar .nav-section { color: #8d89b8; }
+.sidebar-toggle { background: var(--ink-deep); color: #fff; }
+#main { width: 100%; padding: 2rem 2.5rem 4rem; max-width: 1120px; }
+h2 {
+  color: var(--ink);
+  font-weight: 700;
+  margin-top: 2.2rem;
+  padding-bottom: .55rem;
+  border-bottom: none;
+  position: relative;
+}
+h2 i { color: var(--acc); }
+h2::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 58px; height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--acc), var(--acc2));
+}
+h3 { color: var(--ink); font-weight: 600; }
+h3 i { color: var(--acc); }
+h4 { color: var(--ink); }
+.card {
+  border: 1px solid var(--border);
+  border-radius: .8rem;
+  background: var(--surface);
+  box-shadow: 0 4px 16px rgba(15, 18, 38, .05);
+}
+.card-header {
+  background: color-mix(in srgb, var(--acc) 6%, var(--surface));
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+  font-size: .84rem;
+  color: var(--ink);
+  padding: .75rem 1.1rem;
+}
+.card-body { padding: 1.25rem 1.35rem; }
+pre {
+  background: var(--code);
+  color: var(--code-text);
+  padding: 1.05rem 1.2rem;
+  border-radius: .6rem;
+  font-size: .82rem;
+  line-height: 1.6;
+  border: 1px solid rgba(255,255,255,.05);
+  overflow-x: auto;
+}
+pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', ui-monospace, monospace; }
+code {
+  font-family: 'JetBrains Mono', 'Cascadia Code', ui-monospace, monospace;
+  font-size: .85em;
+  background: color-mix(in srgb, var(--acc) 10%, transparent);
+  color: var(--acc);
+  padding: .1em .35em;
+  border-radius: .35em;
+}
+pre code { background: transparent; color: inherit; padding: 0; border-radius: 0; }
+.kw { color: #c792ea; }
+.fn { color: #7ee0c3; }
+.str { color: #c3e88d; }
+.cm { color: #6c7693; font-style: italic; }
+.num { color: #ffb86c; }
+.tp { color: #82aaff; }
+.at { color: #f07178; }
+.highlight-box {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--acc2) 8%, transparent), color-mix(in srgb, var(--acc) 5%, transparent));
+  border-left: 4px solid var(--acc);
+  padding: 1rem 1.25rem;
+  border-radius: .45rem;
+  color: var(--ink);
+}
+.table thead th {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--muted);
+  background: color-mix(in srgb, var(--acc) 6%, var(--surface));
+  border-bottom: 2px solid var(--border);
+}
+.cmd-table td:first-child { color: var(--acc); }
+.new-badge {
+  background: linear-gradient(135deg, var(--acc), var(--acc2));
+  color: #fff;
+  font-weight: 600;
+}
+#main a { color: var(--acc); }
+#main a:hover { color: var(--acc2); }
+.home-link:hover { color: var(--acc); }
+:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; border-radius: 6px; }
+
+/* hero band (legacy doc template) */
+#main > div:first-child.d-flex {
+  background:
+    radial-gradient(120% 150% at 100% 0%, color-mix(in srgb, var(--acc2) 30%, transparent), transparent 55%),
+    radial-gradient(100% 140% at 0% 100%, color-mix(in srgb, var(--acc) 24%, transparent), transparent 50%),
+    linear-gradient(135deg, var(--ink-deep) 0%, var(--ink-2) 100%);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 20px;
+  padding: 2.2rem 1.9rem 1.7rem;
+  margin-bottom: 1.5rem;
+  color: #fff;
+  box-shadow: 0 24px 50px rgba(10, 12, 30, .18);
+}
+#main > div:first-child.d-flex h1 {
+  color: #fff !important;
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  margin-bottom: .55rem;
+}
+#main > div:first-child.d-flex h1 i { color: var(--acc-soft) !important; }
+#main > div:first-child.d-flex p {
+  color: rgba(255, 255, 255, .74) !important;
+  font-size: 1rem;
+}
+#main > div:first-child.d-flex .badge {
+  border-radius: 999px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .64rem;
+  font-weight: 600;
+  letter-spacing: .03em;
+}
+#main > div:first-child.d-flex .badge.bg-secondary { background: rgba(255,255,255,.14) !important; color: #fff; }
+#main > div:first-child.d-flex .badge.bg-success { background: var(--good) !important; }
+#main > div:first-child.d-flex .badge.bg-warning { background: #f7a54c !important; color: #241810 !important; }
+
+/* intro lead */
+#main > p.fs-5 {
+  color: var(--muted) !important;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  max-width: 52rem;
+}
+@media (max-width: 768px) {
+  #main { padding: 1.5rem 1.15rem 3rem; }
+  #main > div:first-child.d-flex { padding: 1.6rem 1.3rem 1.4rem; }
+}
+</style></head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
+<a href="../index.html" class="home-link" aria-label="Go back to home page"><i class="bi bi-arrow-left"></i> Home</a>
+
+<!-- ===== SIDEBAR ===== -->
+<nav id="sidebar">
+  <div class="brand">
+    <h5><i class="bi bi-lightning-charge-fill me-2"></i>CakePHP</h5>
+    <small class="d-block mt-1">v5.4.0 &mdash; Complete Guide</small>
+  </div>
+  <div class="py-2">
+    <div class="nav-section">Getting Started</div>
+    <a class="nav-link" href="#install"><i class="bi bi-download"></i> Installation</a>
+    <a class="nav-link" href="#commands"><i class="bi bi-terminal"></i> Commands Reference</a>
+
+    <div class="nav-section">Core Concepts</div>
+    <a class="nav-link" href="#mvc"><i class="bi bi-diagram-3"></i> MVC Architecture</a>
+    <a class="nav-link" href="#routing"><i class="bi bi-signpost-2"></i> Routing</a>
+    <a class="nav-link" href="#controllers"><i class="bi bi-gear"></i> Controllers</a>
+    <a class="nav-link" href="#orm"><i class="bi bi-database"></i> ORM &amp; Models</a>
+    <a class="nav-link" href="#associations"><i class="bi bi-link-45deg"></i> Associations</a>
+    <a class="nav-link" href="#behaviors"><i class="bi bi-puzzle"></i> Behaviors</a>
+    <a class="nav-link" href="#validation"><i class="bi bi-check2-square"></i> Validation</a>
+    <a class="nav-link" href="#views"><i class="bi bi-eye"></i> Views &amp; Templates</a>
+
+    <div class="nav-section">Advanced</div>
+    <a class="nav-link" href="#auth"><i class="bi bi-shield-lock"></i> Authentication</a>
+    <a class="nav-link" href="#authorization"><i class="bi bi-key"></i> Authorization</a>
+    <a class="nav-link" href="#queue"><i class="bi bi-arrow-repeat"></i> Queue / Jobs</a>
+    <a class="nav-link" href="#api"><i class="bi bi-globe"></i> REST API</a>
+    <a class="nav-link" href="#middleware"><i class="bi bi-funnel"></i> Middleware</a>
+
+    <div class="nav-section">DevOps &amp; QA</div>
+    <a class="nav-link" href="#testing"><i class="bi bi-check-circle"></i> Testing</a>
+    <a class="nav-link" href="#best-practices"><i class="bi bi-star"></i> Best Practices</a>
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<div id="main">
+
+  <!-- HERO -->
+  <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+    <div>
+      <h1 class="fw-bold mb-1" style="color:var(--cakephp-dark)">
+        <i class="bi bi-lightning-charge-fill" style="color:var(--cakephp-red)"></i>
+        CakePHP
+      </h1>
+      <p class="text-muted mb-0 fs-5">
+        Complete Command Reference &amp; Concept Guide
+        <span class="badge bg-secondary ms-2">v5.4.0</span>
+        <span class="badge bg-warning text-dark ms-1">PHP 8.1+</span>
+      </p>
+    </div>
+  </div>
+
+  <p class="fs-5 text-muted mb-5">
+    CakePHP is a rapid development framework for PHP that follows MVC patterns.
+    This guide covers all <strong>console commands</strong>, <strong>core concepts</strong>,
+    and <strong>practical code examples</strong> for CakePHP 5.4.
+  </p>
+
+  <!-- ==================== INSTALL ==================== -->
+  <section id="install">
+    <h2><i class="bi bi-download me-2"></i>Installation</h2>
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="cm"># Create a new CakePHP application</span>
+<span class="kw">composer</span> create-project --prefer-dist cakephp/app myapp
+
+<span class="cm"># Install the Bake plugin (code generation)</span>
+<span class="kw">composer</span> <span class="kw">require</span> --<span class="kw">dev</span> cakephp/<span class="kw">bake</span>
+
+<span class="cm"># Install Queue plugin</span>
+<span class="kw">composer</span> <span class="kw">require</span> cakephp/queue
+
+<span class="cm"># Install Authentication plugin</span>
+<span class="kw">composer</span> <span class="kw">require</span> cakephp/authentication
+
+<span class="cm"># Start the development server</span>
+bin/cake server
+
+<span class="cm"># Start with FrankenPHP (CakePHP 5.3+)</span>
+bin/cake server --frankenphp</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== COMMANDS ==================== -->
+  <section id="commands">
+    <h2><i class="bi bi-terminal me-2"></i>Console Commands Reference</h2>
+    <p class="text-muted">All commands are run via <code>bin/cake &lt;command&gt;</code> from the application root.</p>
+
+    <h3>Bake &mdash; Code Generation</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:32%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>bake all</td><td>Bake all models, controllers, templates for all tables</td></tr>
+            <tr><td>bake model &lt;table&gt;</td><td>Generate Table and Entity class for a table</td></tr>
+            <tr><td>bake controller &lt;name&gt;</td><td>Generate a controller with CRUD actions</td></tr>
+            <tr><td>bake template &lt;controller&gt;</td><td>Generate view template files</td></tr>
+            <tr><td>bake migration &lt;name&gt;</td><td>Generate a migration file</td></tr>
+            <tr><td>bake fixture &lt;name&gt;</td><td>Generate a test fixture</td></tr>
+            <tr><td>bake test &lt;type&gt; &lt;name&gt;</td><td>Generate a PHPUnit test case</td></tr>
+            <tr><td>bake command &lt;name&gt;</td><td>Generate a custom CLI command</td></tr>
+            <tr><td>bake form &lt;name&gt;</td><td>Generate a form class</td></tr>
+            <tr><td>bake cell &lt;name&gt;</td><td>Generate a cell class</td></tr>
+            <tr><td>bake mailer &lt;name&gt;</td><td>Generate a mailer class</td></tr>
+            <tr><td>bake behavior &lt;name&gt;</td><td>Generate a behavior class</td></tr>
+            <tr><td>bake component &lt;name&gt;</td><td>Generate a component class</td></tr>
+            <tr><td>bake helper &lt;name&gt;</td><td>Generate a helper class</td></tr>
+            <tr><td>bake middleware &lt;name&gt;</td><td>Generate a middleware class</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Cache</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:32%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>cache clear</td><td>Clear all cache</td></tr>
+            <tr><td>cache clear_all</td><td>Clear all configured cache engines</td></tr>
+            <tr><td>cache clear_group &lt;group&gt;</td><td>Clear a specific cache group</td></tr>
+            <tr><td>cache list</td><td>List configured cache engines</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Internationalization (I18n)</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:32%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>i18n extract</td><td>Extract translation strings from source files</td></tr>
+            <tr><td>i18n init</td><td>Initialize a locale catalog</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Migrations</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:32%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>migrations migrate</td><td>Run all pending migrations</td></tr>
+            <tr><td>migrations rollback</td><td>Roll back the last migration(s)</td></tr>
+            <tr><td>migrations status</td><td>View migration status</td></tr>
+            <tr><td>migrations dump</td><td>Dump the migrations schema</td></tr>
+            <tr><td>migrations mark_migrated</td><td>Mark a migration as migrated without running</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Plugins</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:32%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>plugin list</td><td>List all available plugins</td></tr>
+            <tr><td>plugin load &lt;name&gt;</td><td>Load a plugin into the application</td></tr>
+            <tr><td>plugin loaded</td><td>Show currently loaded plugins</td></tr>
+            <tr><td>plugin unload &lt;name&gt;</td><td>Unload a plugin</td></tr>
+            <tr><td>plugin assets symlink</td><td>Symlink plugin webroot assets</td></tr>
+            <tr><td>plugin assets copy</td><td>Copy plugin webroot assets</td></tr>
+            <tr><td>plugin assets remove</td><td>Remove copied plugin assets</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Routes</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:32%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>routes</td><td>Display all connected routes</td></tr>
+            <tr><td>routes check &lt;url&gt;</td><td>Check which route matches a URL</td></tr>
+            <tr><td>routes generate &lt;name&gt; &lt;params&gt;</td><td>Generate a URL from a route name</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Schema &amp; Database</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:32%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>schema_cache build</td><td>Build schema cache for all tables</td></tr>
+            <tr><td>schema_cache clear</td><td>Clear schema cache</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Utility</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:32%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>server</td><td>Start PHP development server</td></tr>
+            <tr><td>server --frankenphp</td><td>Start with FrankenPHP</td></tr>
+            <tr><td>version</td><td>Show CakePHP version</td></tr>
+            <tr><td>help &lt;command&gt;</td><td>Show help for a command</td></tr>
+            <tr><td>completion</td><td>Generate shell completion script</td></tr>
+            <tr><td>console</td><td>Start a CakePHP REPL console</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MVC ==================== -->
+  <section id="mvc">
+    <h2><i class="bi bi-diagram-3 me-2"></i>MVC Architecture</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body text-center">
+            <i class="bi bi-database display-6" style="color:var(--cakephp-red)"></i>
+            <h5 class="mt-2">Model</h5>
+            <p class="text-muted small">Business logic &amp; data access. Table objects + Entities.</p>
+            <code class="small">src/Model/Table/</code>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body text-center">
+            <i class="bi bi-gear display-6" style="color:var(--cakephp-red)"></i>
+            <h5 class="mt-2">Controller</h5>
+            <p class="text-muted small">Request handling, flow control, data passing.</p>
+            <code class="small">src/Controller/</code>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body text-center">
+            <i class="bi bi-eye display-6" style="color:var(--cakephp-red)"></i>
+            <h5 class="mt-2">View</h5>
+            <p class="text-muted small">Presentation layer. Templates, layouts, elements.</p>
+            <code class="small">templates/</code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ROUTING ==================== -->
+  <section id="routing">
+    <h2><i class="bi bi-signpost-2 me-2"></i>Routing</h2>
+    <p>Define routes in <code>config/routes.php</code>. CakePHP 5 uses the scoped routing pattern.</p>
+
+    <div class="card">
+      <div class="card-header">Basic Routing</div>
+      <div class="card-body">
+        <pre><code><span class="cm">// config/routes.php</span>
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">Routing</span>\<span class="tp">RouteBuilder</span>;
+
+<span class="kw">return</span> <span class="kw">function</span> (<span class="tp">RouteBuilder</span> <span class="kw">$routes</span>): <span class="tp">void</span> {
+    <span class="kw">$routes</span>-><span class="fn">setRouteClass</span>(<span class="tp">DashedRoute</span>::<span class="kw">class</span>);
+
+    <span class="kw">$routes</span>-><span class="fn">scope</span>(<span class="str">'/'</span>, <span class="kw">function</span> (<span class="tp">RouteBuilder</span> <span class="kw">$routes</span>): <span class="tp">void</span> {
+        <span class="kw">$routes</span>-><span class="fn">connect</span>(<span class="str">'/'</span>, [<span class="str">'controller'</span> => <span class="str">'Pages'</span>, <span class="str">'action'</span> => <span class="str">'display'</span>, <span class="str">'home'</span>]);
+
+        <span class="cm">// Named route</span>
+        <span class="kw">$routes</span>-><span class="fn">connect</span>(<span class="str">'/blog/:slug'</span>, [<span class="str">'controller'</span> => <span class="str">'Articles'</span>, <span class="str">'action'</span> => <span class="str">'view'</span>])
+            -><span class="fn">setPass</span>([<span class="str">'slug'</span>])
+            -><span class="fn">setPatterns</span>([<span class="str">'slug'</span> => <span class="str">'[a-z0-9-]+'</span>])
+            -><span class="fn">setName</span>(<span class="str">'article:view'</span>);
+
+        <span class="cm">// RESTful resource routes</span>
+        <span class="kw">$routes</span>-><span class="fn">extensions</span>([<span class="str">'json'</span>, <span class="str">'xml'</span>]);
+        <span class="kw">$routes</span>-><span class="fn">resources</span>(<span class="str">'Articles'</span>);
+
+        <span class="cm">// API prefix scoping</span>
+        <span class="kw">$routes</span>-><span class="fn">prefix</span>(<span class="str">'Api'</span>, <span class="kw">function</span> (<span class="tp">RouteBuilder</span> <span class="kw">$routes</span>): <span class="tp">void</span> {
+            <span class="kw">$routes</span>-><span class="fn">resources</span>(<span class="str">'Articles'</span>);
+        });
+
+        <span class="kw">$routes</span>-><span class="fn">fallback</span>();
+    });
+};</code></pre>
+      </div>
+    </div>
+
+    <h3>Resource Route Mapping</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-light">
+            <tr><th>HTTP Method</th><th>URL</th><th>Controller Action</th><th>Route Name</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>GET</td><td>/articles</td><td>ArticlesController::index()</td><td>articles:index</td></tr>
+            <tr><td>GET</td><td>/articles/{id}</td><td>ArticlesController::view()</td><td>articles:view</td></tr>
+            <tr><td>POST</td><td>/articles</td><td>ArticlesController::add()</td><td>articles:add</td></tr>
+            <tr><td>PUT/PATCH</td><td>/articles/{id}</td><td>ArticlesController::edit()</td><td>articles:edit</td></tr>
+            <tr><td>DELETE</td><td>/articles/{id}</td><td>ArticlesController::delete()</td><td>articles:delete</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CONTROLLERS ==================== -->
+  <section id="controllers">
+    <h2><i class="bi bi-gear me-2"></i>Controllers</h2>
+    <div class="card">
+      <div class="card-header">ArticlesController.php &mdash; CRUD Example</div>
+      <div class="card-body">
+        <pre><code><span class="cm">// src/Controller/ArticlesController.php</span>
+<span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Controller</span>;
+
+<span class="kw">class</span> <span class="tp">ArticlesController</span> <span class="kw">extends</span> <span class="tp">AppController</span>
+{
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">initialize</span>(): <span class="tp">void</span>
+    {
+        <span class="kw">parent</span>::<span class="fn">initialize</span>();
+        <span class="kw">$this</span>-><span class="fn">loadComponent</span>(<span class="str">'Paginator'</span>);
+        <span class="kw">$this</span>-><span class="fn">loadComponent</span>(<span class="str">'Flash'</span>);
+        <span class="kw">$this</span>-><span class="fn">loadComponent</span>(<span class="str">'Authentication.Authentication'</span>);
+    }
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">index</span>()
+    {
+        <span class="kw">$articles</span> = <span class="kw">$this</span>-><span class="fn">Paginator</span>-><span class="fn">paginate</span>(
+            <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">find</span>()-><span class="fn">contain</span>([<span class="str">'Authors'</span>])
+        );
+        <span class="kw">$this</span>-><span class="fn">set</span>(<span class="fn">compact</span>(<span class="str">'articles'</span>));
+    }
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">view</span>(<span class="kw">$id</span> = <span class="kw">null</span>)
+    {
+        <span class="kw">$article</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)
+            -><span class="fn">get</span>(<span class="kw">$id</span>, contain: [<span class="str">'Authors'</span>, <span class="str">'Tags'</span>]);
+        <span class="kw">$this</span>-><span class="fn">set</span>(<span class="fn">compact</span>(<span class="str">'article'</span>));
+    }
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">add</span>()
+    {
+        <span class="kw">$article</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">newEmptyEntity</span>();
+        <span class="kw">if</span> (<span class="kw">$this</span>-><span class="fn">request</span>-><span class="fn">is</span>(<span class="str">'post'</span>)) {
+            <span class="kw">$article</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)
+                -><span class="fn">patchEntity</span>(<span class="kw">$article</span>, <span class="kw">$this</span>-><span class="fn">request</span>-><span class="fn">getData</span>());
+            <span class="kw">if</span> (<span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">save</span>(<span class="kw">$article</span>)) {
+                <span class="kw">$this</span>-><span class="fn">Flash</span>-><span class="fn">success</span>(<span class="str">'Article saved.'</span>);
+                <span class="kw">return</span> <span class="kw">$this</span>-><span class="fn">redirect</span>([<span class="str">'action'</span> => <span class="str">'index'</span>]);
+            }
+            <span class="kw">$this</span>-><span class="fn">Flash</span>-><span class="fn">error</span>(<span class="str">'Unable to save article.'</span>);
+        }
+        <span class="kw">$this</span>-><span class="fn">set</span>(<span class="fn">compact</span>(<span class="str">'article'</span>));
+    }
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">edit</span>(<span class="kw">$id</span> = <span class="kw">null</span>)
+    {
+        <span class="kw">$article</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">get</span>(<span class="kw">$id</span>);
+        <span class="kw">if</span> (<span class="kw">$this</span>-><span class="fn">request</span>-><span class="fn">is</span>([<span class="str">'post'</span>, <span class="str">'put'</span>])) {
+            <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)
+                -><span class="fn">patchEntity</span>(<span class="kw">$article</span>, <span class="kw">$this</span>-><span class="fn">request</span>-><span class="fn">getData</span>());
+            <span class="kw">if</span> (<span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">save</span>(<span class="kw">$article</span>)) {
+                <span class="kw">$this</span>-><span class="fn">Flash</span>-><span class="fn">success</span>(<span class="str">'Article updated.'</span>);
+                <span class="kw">return</span> <span class="kw">$this</span>-><span class="fn">redirect</span>([<span class="str">'action'</span> => <span class="str">'index'</span>]);
+            }
+            <span class="kw">$this</span>-><span class="fn">Flash</span>-><span class="fn">error</span>(<span class="str">'Unable to update article.'</span>);
+        }
+        <span class="kw">$this</span>-><span class="fn">set</span>(<span class="fn">compact</span>(<span class="str">'article'</span>));
+    }
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">delete</span>(<span class="kw">$id</span> = <span class="kw">null</span>)
+    {
+        <span class="kw">$this</span>-><span class="fn">request</span>-><span class="fn">allowMethod</span>([<span class="str">'post'</span>, <span class="str">'delete'</span>]);
+        <span class="kw">$article</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">get</span>(<span class="kw">$id</span>);
+        <span class="kw">if</span> (<span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">delete</span>(<span class="kw">$article</span>)) {
+            <span class="kw">$this</span>-><span class="fn">Flash</span>-><span class="fn">success</span>(<span class="str">'Article deleted.'</span>);
+        } <span class="kw">else</span> {
+            <span class="kw">$this</span>-><span class="fn">Flash</span>-><span class="fn">error</span>(<span class="str">'Unable to delete article.'</span>);
+        }
+        <span class="kw">return</span> <span class="kw">$this</span>-><span class="fn">redirect</span>([<span class="str">'action'</span> => <span class="str">'index'</span>]);
+    }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ORM ==================== -->
+  <section id="orm">
+    <h2><i class="bi bi-database me-2"></i>ORM &amp; Models</h2>
+
+    <h3>Table Object</h3>
+    <div class="card">
+      <div class="card-header">ArticlesTable.php</div>
+      <div class="card-body">
+        <pre><code><span class="cm">// src/Model/Table/ArticlesTable.php</span>
+<span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Model</span>\<span class="tp">Table</span>;
+
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">ORM</span>\<span class="tp">Table</span>;
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">Validation</span>\<span class="tp">Validator</span>;
+
+<span class="kw">class</span> <span class="tp">ArticlesTable</span> <span class="kw">extends</span> <span class="tp">Table</span>
+{
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">initialize</span>(<span class="tp">array</span> <span class="kw">$config</span>): <span class="tp">void</span>
+    {
+        <span class="kw">$this</span>-><span class="fn">setTable</span>(<span class="str">'articles'</span>);
+        <span class="kw">$this</span>-><span class="fn">setPrimaryKey</span>(<span class="str">'id'</span>);
+        <span class="kw">$this</span>-><span class="fn">setDisplayField</span>(<span class="str">'title'</span>);
+        <span class="kw">$this</span>-><span class="fn">addBehavior</span>(<span class="str">'Timestamp'</span>);
+        <span class="kw">$this</span>-><span class="fn">belongsTo</span>(<span class="str">'Authors'</span>, [<span class="str">'foreignKey'</span> => <span class="str">'author_id'</span>]);
+        <span class="kw">$this</span>-><span class="fn">belongsToMany</span>(<span class="str">'Tags'</span>, [<span class="str">'joinTable'</span> => <span class="str">'articles_tags'</span>]);
+        <span class="kw">$this</span>-><span class="fn">hasMany</span>(<span class="str">'Comments'</span>);
+    }
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">validationDefault</span>(<span class="tp">Validator</span> <span class="kw">$validator</span>): <span class="tp">Validator</span>
+    {
+        <span class="kw">$validator</span>
+            -><span class="fn">requirePresence</span>(<span class="str">'title'</span>, <span class="str">'create'</span>)
+            -><span class="fn">notEmptyString</span>(<span class="str">'title'</span>)
+            -><span class="fn">maxLength</span>(<span class="str">'title'</span>, <span class="num">255</span>)
+            -><span class="fn">requirePresence</span>(<span class="str">'body'</span>)
+            -><span class="fn">notEmptyString</span>(<span class="str">'body'</span>);
+        <span class="kw">return</span> <span class="kw">$validator</span>;
+    }
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">findPublished</span>(<span class="kw">$query</span>, <span class="tp">array</span> <span class="kw">$options</span>)
+    {
+        <span class="kw">return</span> <span class="kw">$query</span>-><span class="fn">where</span>([<span class="str">'published'</span> => <span class="kw">true</span>]);
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <h3>Entity</h3>
+    <div class="card">
+      <div class="card-header">Article.php</div>
+      <div class="card-body">
+        <pre><code><span class="cm">// src/Model/Entity/Article.php</span>
+<span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Model</span>\<span class="tp">Entity</span>;
+
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">ORM</span>\<span class="tp">Entity</span>;
+
+<span class="kw">class</span> <span class="tp">Article</span> <span class="kw">extends</span> <span class="tp">Entity</span>
+{
+    <span class="kw">protected</span> <span class="tp">array</span> <span class="kw">$_accessible</span> = [
+        <span class="str">'title'</span> => <span class="kw">true</span>,
+        <span class="str">'body'</span> => <span class="kw">true</span>,
+        <span class="str">'author_id'</span> => <span class="kw">true</span>,
+        <span class="str">'published'</span> => <span class="kw">true</span>,
+        <span class="str">'tags'</span> => <span class="kw">true</span>,
+        <span class="str">'comments'</span> => <span class="kw">true</span>,
+        <span class="str">'*'</span> => <span class="kw">false</span>,
+    ];
+
+    <span class="kw">protected</span> <span class="kw">function</span> <span class="fn">_getExcerpt</span>()
+    {
+        <span class="kw">return</span> <span class="fn">substr</span>(<span class="kw">$this</span>-><span class="fn">body</span>, <span class="num">0</span>, <span class="num">150</span>) . <span class="str">'...'</span>;
+    }
+
+    <span class="kw">protected</span> <span class="kw">function</span> <span class="fn">_setTitle</span>(<span class="kw">$value</span>)
+    {
+        <span class="kw">return</span> <span class="fn">trim</span>(<span class="kw">$value</span>);
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <h3>Query Builder Examples</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="kw">$articles</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>);
+
+<span class="kw">$all</span> = <span class="kw">$articles</span>-><span class="fn">find</span>()-><span class="fn">all</span>();
+
+<span class="kw">$recent</span> = <span class="kw">$articles</span>-><span class="fn">find</span>()
+    -><span class="fn">where</span>([<span class="str">'created >='</span> => <span class="kw">new</span> \<span class="tp">DateTime</span>(<span class="str">'-7 days'</span>)])
+    -><span class="fn">orderBy</span>([<span class="str">'created'</span> => <span class="str">'DESC'</span>])
+    -><span class="fn">all</span>();
+
+<span class="kw">$withAuthors</span> = <span class="kw">$articles</span>-><span class="fn">find</span>()
+    -><span class="fn">contain</span>([<span class="str">'Authors'</span>, <span class="str">'Tags'</span>])
+    -><span class="fn">where</span>([<span class="str">'Articles.published'</span> => <span class="kw">true</span>])
+    -><span class="fn">all</span>();
+
+<span class="kw">$first</span> = <span class="kw">$articles</span>-><span class="fn">find</span>()-><span class="fn">first</span>();
+
+<span class="kw">$total</span> = <span class="kw">$articles</span>-><span class="fn">find</span>()-><span class="fn">count</span>();
+
+<span class="kw">$published</span> = <span class="kw">$articles</span>-><span class="fn">find</span>(<span class="str">'published'</span>);
+
+<span class="kw">$titles</span> = <span class="kw">$articles</span>-><span class="fn">find</span>()
+    -><span class="fn">select</span>([<span class="str">'id'</span>, <span class="str">'title'</span>])
+    -><span class="fn">where</span>([<span class="str">'published'</span> => <span class="kw">true</span>])
+    -><span class="fn">all</span>();
+
+<span class="kw">$search</span> = <span class="kw">$articles</span>-><span class="fn">find</span>()
+    -><span class="fn">where</span>([<span class="str">'title LIKE'</span> => <span class="str">'%cake%'</span>])
+    -><span class="fn">all</span>();
+
+<span class="kw">$byIds</span> = <span class="kw">$articles</span>-><span class="fn">find</span>()
+    -><span class="fn">where</span>([<span class="str">'id IN'</span> => [<span class="num">1</span>, <span class="num">3</span>, <span class="num">5</span>]])
+    -><span class="fn">all</span>();
+
+<span class="cm">// Pagination</span>
+<span class="kw">$this</span>-><span class="fn">paginate</span> = [
+    <span class="str">'contain'</span> => [<span class="str">'Authors'</span>],
+    <span class="str">'limit'</span> => <span class="num">20</span>,
+    <span class="str">'order'</span> => [<span class="str">'Articles.created'</span> => <span class="str">'DESC'</span>],
+];
+<span class="kw">$paginated</span> = <span class="kw">$this</span>-><span class="fn">paginate</span>(<span class="kw">$articles</span>-><span class="fn">find</span>());</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ASSOCIATIONS ==================== -->
+  <section id="associations">
+    <h2><i class="bi bi-link-45deg me-2"></i>Associations</h2>
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">BelongsTo</div>
+          <div class="card-body">
+            <pre><code><span class="kw">$this</span>-><span class="fn">belongsTo</span>(<span class="str">'Authors'</span>, [
+    <span class="str">'foreignKey'</span> => <span class="str">'author_id'</span>,
+]);
+<span class="cm">// $article->author->name</span></code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">HasMany</div>
+          <div class="card-body">
+            <pre><code><span class="kw">$this</span>-><span class="fn">hasMany</span>(<span class="str">'Comments'</span>, [
+    <span class="str">'foreignKey'</span> => <span class="str">'article_id'</span>,
+]);
+<span class="cm">// $article->comments[0]->body</span></code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">HasOne</div>
+          <div class="card-body">
+            <pre><code><span class="kw">$this</span>-><span class="fn">hasOne</span>(<span class="str">'Profiles'</span>, [
+    <span class="str">'foreignKey'</span> => <span class="str">'user_id'</span>,
+]);
+<span class="cm">// $user->profile->avatar</span></code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">BelongsToMany</div>
+          <div class="card-body">
+            <pre><code><span class="kw">$this</span>-><span class="fn">belongsToMany</span>(<span class="str">'Tags'</span>, [
+    <span class="str">'joinTable'</span> => <span class="str">'articles_tags'</span>,
+    <span class="str">'foreignKey'</span> => <span class="str">'article_id'</span>,
+    <span class="str">'targetForeignKey'</span> => <span class="str">'tag_id'</span>,
+]);
+<span class="cm">// $article->tags[0]->name</span></code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BEHAVIORS ==================== -->
+  <section id="behaviors">
+    <h2><i class="bi bi-puzzle me-2"></i>Behaviors</h2>
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="cm">// Timestamp - auto-manages created/modified</span>
+<span class="kw">$this</span>-><span class="fn">addBehavior</span>(<span class="str">'Timestamp'</span>, [
+    <span class="str">'events'</span> => [
+        <span class="str">'Model.beforeSave'</span> => [
+            <span class="str">'created'</span> => <span class="str">'new'</span>,
+            <span class="str">'modified'</span> => <span class="str">'always'</span>,
+        ],
+    ],
+]);
+
+<span class="cm">// Tree - hierarchical data (nested set)</span>
+<span class="kw">$this</span>-><span class="fn">addBehavior</span>(<span class="str">'Tree'</span>, [<span class="str">'level'</span> => <span class="str">'level'</span>]);
+
+<span class="cm">// CounterCache - auto-counts associated records</span>
+<span class="kw">$this</span>-><span class="fn">addBehavior</span>(<span class="str">'CounterCache'</span>, [
+    <span class="str">'Authors'</span> => [<span class="str">'article_count'</span>],
+]);
+
+<span class="cm">// Translate - multi-language fields</span>
+<span class="kw">$this</span>-><span class="fn">addBehavior</span>(<span class="str">'Translate'</span>, [
+    <span class="str">'fields'</span> => [<span class="str">'title'</span>, <span class="str">'body'</span>],
+    <span class="str">'translationTable'</span> => <span class="str">'articles_translations'</span>,
+]);</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== VALIDATION ==================== -->
+  <section id="validation">
+    <h2><i class="bi bi-check2-square me-2"></i>Validation</h2>
+    <div class="card">
+      <div class="card-header">validationDefault()</div>
+      <div class="card-body">
+        <pre><code><span class="kw">public</span> <span class="kw">function</span> <span class="fn">validationDefault</span>(<span class="tp">Validator</span> <span class="kw">$validator</span>): <span class="tp">Validator</span>
+{
+    <span class="kw">$validator</span>
+        -><span class="fn">scalar</span>(<span class="str">'title'</span>)
+        -><span class="fn">maxLength</span>(<span class="str">'title'</span>, <span class="num">200</span>)
+        -><span class="fn">minLength</span>(<span class="str">'title'</span>, <span class="num">5</span>)
+        -><span class="fn">notEmptyString</span>(<span class="str">'title'</span>)
+        -><span class="fn">requirePresence</span>(<span class="str">'title'</span>, <span class="str">'create'</span>);
+
+    <span class="kw">$validator</span>
+        -><span class="fn">scalar</span>(<span class="str">'body'</span>)
+        -><span class="fn">notEmptyString</span>(<span class="str">'body'</span>);
+
+    <span class="kw">$validator</span>
+        -><span class="fn">email</span>(<span class="str">'email'</span>)
+        -><span class="fn">notEmptyString</span>(<span class="str">'email'</span>);
+
+    <span class="kw">$validator</span>
+        -><span class="fn">integer</span>(<span class="str">'author_id'</span>)
+        -><span class="fn">notEmptyString</span>(<span class="str">'author_id'</span>);
+
+    <span class="kw">$validator</span>
+        -><span class="fn">date</span>(<span class="str">'publish_date'</span>)
+        -><span class="fn">allowEmptyDate</span>(<span class="str">'publish_date'</span>);
+
+    <span class="kw">$validator</span>
+        -><span class="fn">add</span>(<span class="str">'url'</span>, <span class="str">'valid-url'</span>, [
+            <span class="str">'rule'</span> => [<span class="str">'custom'</span>, <span class="str">'/^https?:\/\/.+/'</span>],
+            <span class="str">'message'</span> => <span class="str">'Must be a valid URL.'</span>,
+        ]);
+
+    <span class="kw">return</span> <span class="kw">$validator</span>;
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== VIEWS ==================== -->
+  <section id="views">
+    <h2><i class="bi bi-eye me-2"></i>Views &amp; Templates</h2>
+
+    <div class="card">
+      <div class="card-header">Layout &mdash; default.php</div>
+      <div class="card-body">
+        <pre><code>&lt;!-- templates/layout/<span class="kw">default</span>.php --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;?= <span class="kw">$this</span>-&gt;Html-&gt;<span class="fn">charset</span>() ?&gt;
+    &lt;meta name=<span class="str">"viewport"</span> content=<span class="str">"width=device-width"</span>&gt;
+    &lt;title&gt;&lt;?= <span class="fn">h</span>(<span class="kw">$this</span>-&gt;<span class="fn">fetch</span>(<span class="str">'title'</span>)) ?&gt;&lt;/title&gt;
+    &lt;?= <span class="kw">$this</span>-&gt;Html-&gt;<span class="fn">meta</span>(<span class="str">'icon'</span>) ?&gt;
+    &lt;?= <span class="kw">$this</span>-&gt;Html-&gt;<span class="fn">css</span>([<span class="str">'normalize'</span>, <span class="str">'milligram'</span>, <span class="str">'cake'</span>]) ?&gt;
+    &lt;?= <span class="kw">$this</span>-&gt;<span class="fn">fetch</span>(<span class="str">'meta'</span>) ?&gt;
+    &lt;?= <span class="kw">$this</span>-&gt;<span class="fn">fetch</span>(<span class="str">'css'</span>) ?&gt;
+    &lt;?= <span class="kw">$this</span>-&gt;<span class="fn">fetch</span>(<span class="str">'script'</span>) ?&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;nav&gt;...&lt;/nav&gt;
+    &lt;?= <span class="kw">$this</span>-&gt;<span class="tp">Flash</span>-&gt;<span class="fn">render</span>() ?&gt;
+    &lt;section&gt;&lt;?= <span class="kw">$this</span>-&gt;<span class="fn">fetch</span>(<span class="str">'content'</span>) ?&gt;&lt;/section&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Articles List &mdash; index.php</div>
+      <div class="card-body">
+        <pre><code>&lt;!-- templates/Articles/index.php --&gt;
+&lt;h1&gt;Articles&lt;/h1&gt;
+&lt;p&gt;&lt;?= <span class="kw">$this</span>-&gt;Html-&gt;<span class="fn">link</span>(<span class="str">'Add Article'</span>, [<span class="str">'action'</span> =&gt; <span class="str">'add'</span>]) ?&gt;&lt;/p&gt;
+&lt;table&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;&lt;?= <span class="kw">$this</span>-&gt;<span class="tp">Paginator</span>-&gt;<span class="fn">sort</span>(<span class="str">'title'</span>) ?&gt;&lt;/th&gt;
+            &lt;th&gt;&lt;?= <span class="kw">$this</span>-&gt;<span class="tp">Paginator</span>-&gt;<span class="fn">sort</span>(<span class="str">'created'</span>) ?&gt;&lt;/th&gt;
+            &lt;th&gt;<span class="tp">Actions</span>&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;?<span class="kw">php</span> <span class="kw">foreach</span> (<span class="kw">$articles</span> <span class="kw">as</span> <span class="kw">$article</span>): ?&gt;
+        &lt;tr&gt;
+            &lt;td&gt;&lt;?= <span class="fn">h</span>(<span class="kw">$article</span>-&gt;title) ?&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;?= <span class="kw">$article</span>-&gt;created-&gt;<span class="fn">format</span>(<span class="str">'Y-m-d'</span>) ?&gt;&lt;/td&gt;
+            &lt;td&gt;
+                &lt;?= <span class="kw">$this</span>-&gt;Html-&gt;<span class="fn">link</span>(<span class="str">'View'</span>, [<span class="str">'action'</span> =&gt; <span class="str">'view'</span>, <span class="kw">$article</span>-&gt;id]) ?&gt;
+                &lt;?= <span class="kw">$this</span>-&gt;Form-&gt;<span class="fn">postLink</span>(<span class="str">'Delete'</span>,
+                    [<span class="str">'action'</span> =&gt; <span class="str">'delete'</span>, <span class="kw">$article</span>-&gt;id],
+                    [<span class="str">'confirm'</span> =&gt; <span class="str">'Are you sure?'</span>])
+                ?&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;?<span class="kw">php</span> <span class="kw">endforeach</span>; ?&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div <span class="kw">class</span>=<span class="str">"paginator"</span>&gt;
+    &lt;ul <span class="kw">class</span>=<span class="str">"pagination"</span>&gt;
+        &lt;?= <span class="kw">$this</span>-&gt;<span class="tp">Paginator</span>-&gt;<span class="fn">first</span>(<span class="str">'&amp;laquo; First'</span>) ?&gt;
+        &lt;?= <span class="kw">$this</span>-&gt;<span class="tp">Paginator</span>-&gt;<span class="fn">numbers</span>() ?&gt;
+        &lt;?= <span class="kw">$this</span>-&gt;<span class="tp">Paginator</span>-&gt;<span class="fn">last</span>(<span class="str">'Last &amp;raquo;'</span>) ?&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Form Helper &mdash; add.php</div>
+      <div class="card-body">
+        <pre><code>&lt;!-- templates/Articles/add.php --&gt;
+&lt;h1&gt;Add <span class="tp">Article</span>&lt;/h1&gt;
+&lt;?= <span class="kw">$this</span>-&gt;Form-&gt;<span class="fn">create</span>(<span class="kw">$article</span>) ?&gt;
+    &lt;?= <span class="kw">$this</span>-&gt;Form-&gt;<span class="fn">control</span>(<span class="str">'title'</span>, [<span class="str">'label'</span> =&gt; <span class="str">'Title'</span>]) ?&gt;
+    &lt;?= <span class="kw">$this</span>-&gt;Form-&gt;<span class="fn">control</span>(<span class="str">'body'</span>, [<span class="str">'rows'</span> =&gt; <span class="str">'10'</span>]) ?&gt;
+    &lt;?= <span class="kw">$this</span>-&gt;Form-&gt;<span class="fn">control</span>(<span class="str">'author_id'</span>, [
+        <span class="str">'options'</span> =&gt; <span class="kw">$authors</span>,
+    ]) ?&gt;
+    &lt;?= <span class="kw">$this</span>-&gt;Form-&gt;<span class="fn">control</span>(<span class="str">'published'</span>, [<span class="str">'type'</span> =&gt; <span class="str">'checkbox'</span>]) ?&gt;
+    &lt;?= <span class="kw">$this</span>-&gt;Form-&gt;<span class="fn">button</span>(<span class="str">'Save'</span>) ?&gt;
+&lt;?= <span class="kw">$this</span>-&gt;Form-&gt;<span class="fn">end</span>() ?&gt;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== AUTHENTICATION ==================== -->
+  <section id="auth">
+    <h2><i class="bi bi-shield-lock me-2"></i>Authentication</h2>
+    <p>Uses the official <code>cakephp/authentication</code> plugin.</p>
+
+    <div class="card">
+      <div class="card-header">Application.php &mdash; Middleware Setup</div>
+      <div class="card-body">
+        <pre><code><span class="kw">namespace</span> <span class="tp">App</span>;
+
+<span class="kw">use</span> <span class="tp">Authentication</span>\AuthenticationService;
+<span class="kw">use</span> <span class="tp">Authentication</span>\AuthenticationServiceInterface;
+<span class="kw">use</span> <span class="tp">Authentication</span>\AuthenticationServiceProviderInterface;
+<span class="kw">use</span> <span class="tp">Authentication</span>\<span class="tp">Middleware</span>\AuthenticationMiddleware;
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">Http</span>\<span class="tp">MiddlewareQueue</span>;
+<span class="kw">use</span> <span class="tp">Psr</span>\<span class="tp">Http</span>\<span class="tp">Message</span>\ServerRequestInterface;
+
+<span class="kw">class</span> Application <span class="kw">extends</span> BaseApplication
+    <span class="kw">implements</span> AuthenticationServiceProviderInterface
+{
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">middleware</span>(<span class="tp">MiddlewareQueue</span> <span class="kw">$queue</span>): <span class="tp">MiddlewareQueue</span>
+    {
+        <span class="kw">$queue</span>-><span class="fn">add</span>(<span class="kw">new</span> <span class="fn">AuthenticationMiddleware</span>(<span class="kw">$this</span>));
+        <span class="kw">return</span> <span class="kw">$queue</span>;
+    }
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">getAuthenticationService</span>(
+        ServerRequestInterface <span class="kw">$request</span>
+    ): AuthenticationServiceInterface {
+        <span class="kw">$service</span> = <span class="kw">new</span> <span class="fn">AuthenticationService</span>();
+        <span class="kw">$service</span>-><span class="fn">loadIdentifier</span>(<span class="str">'Authentication.Password'</span>, [
+            <span class="str">'fields'</span> => [<span class="str">'username'</span> => <span class="str">'email'</span>, <span class="str">'password'</span> => <span class="str">'password'</span>],
+        ]);
+        <span class="kw">$service</span>-><span class="fn">loadAuthenticator</span>(<span class="str">'Authentication.Session'</span>);
+        <span class="kw">$service</span>-><span class="fn">loadAuthenticator</span>(<span class="str">'Authentication.Form'</span>, [
+            <span class="str">'fields'</span> => [<span class="str">'username'</span> => <span class="str">'email'</span>],
+            <span class="str">'loginUrl'</span> => <span class="str">'/users/login'</span>,
+        ]);
+        <span class="kw">return</span> <span class="kw">$service</span>;
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">UsersController &mdash; Login / Logout</div>
+      <div class="card-body">
+        <pre><code><span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Controller</span>;
+
+<span class="kw">class</span> <span class="tp">UsersController</span> <span class="kw">extends</span> <span class="tp">AppController</span>
+{
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">beforeFilter</span>(\<span class="tp">Cake</span>\<span class="tp">Event</span>\EventInterface <span class="kw">$event</span>)
+    {
+        <span class="kw">parent</span>::<span class="fn">beforeFilter</span>(<span class="kw">$event</span>);
+        <span class="kw">$this</span>-><span class="fn">Authentication</span>-><span class="fn">addUnauthenticatedActions</span>([<span class="str">'login'</span>]);
+    }
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">login</span>()
+    {
+        <span class="kw">$result</span> = <span class="kw">$this</span>-><span class="fn">Authentication</span>-><span class="fn">getResult</span>();
+        <span class="kw">if</span> (<span class="kw">$result</span> && <span class="kw">$result</span>-><span class="fn">isValid</span>()) {
+            <span class="kw">return</span> <span class="kw">$this</span>-><span class="fn">redirect</span>([<span class="str">'controller'</span> => <span class="str">'Articles'</span>, <span class="str">'action'</span> => <span class="str">'index'</span>]);
+        }
+        <span class="kw">if</span> (<span class="kw">$this</span>-><span class="fn">request</span>-><span class="fn">is</span>(<span class="str">'post'</span>)) {
+            <span class="kw">$this</span>-><span class="fn">Flash</span>-><span class="fn">error</span>(<span class="str">'Invalid credentials.'</span>);
+        }
+    }
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">logout</span>()
+    {
+        <span class="kw">$this</span>-><span class="fn">Authentication</span>-><span class="fn">logout</span>();
+        <span class="kw">return</span> <span class="kw">$this</span>-><span class="fn">redirect</span>([<span class="str">'controller'</span> => <span class="str">'Users'</span>, <span class="str">'action'</span> => <span class="str">'login'</span>]);
+    }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== AUTHORIZATION ==================== -->
+  <section id="authorization">
+    <h2><i class="bi bi-key me-2"></i>Authorization</h2>
+    <p>Uses the official <code>cakephp/authorization</code> plugin with policy classes.</p>
+
+    <div class="card">
+      <div class="card-header">ArticlePolicy.php</div>
+      <div class="card-body">
+        <pre><code><span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Policy</span>;
+
+<span class="kw">use</span> <span class="tp">App</span>\<span class="tp">Model</span>\<span class="tp">Entity</span>\<span class="tp">Article</span>;
+<span class="kw">use</span> <span class="tp">Authorization</span>\IdentityInterface;
+
+<span class="kw">class</span> ArticlePolicy
+{
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">canIndex</span>(?IdentityInterface <span class="kw">$user</span>) { <span class="kw">return</span> <span class="kw">true</span>; }
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">canView</span>(?IdentityInterface <span class="kw">$user</span>, <span class="tp">Article</span> <span class="kw">$article</span>) { <span class="kw">return</span> <span class="kw">true</span>; }
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">canAdd</span>(IdentityInterface <span class="kw">$user</span>) { <span class="kw">return</span> <span class="kw">true</span>; }
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">canEdit</span>(IdentityInterface <span class="kw">$user</span>, <span class="tp">Article</span> <span class="kw">$article</span>)
+    {
+        <span class="kw">return</span> <span class="kw">$user</span>-><span class="fn">getIdentifier</span>() === <span class="kw">$article</span>-><span class="fn">author_id</span>;
+    }
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">canDelete</span>(IdentityInterface <span class="kw">$user</span>, <span class="tp">Article</span> <span class="kw">$article</span>)
+    {
+        <span class="kw">return</span> <span class="kw">$this</span>-><span class="fn">canEdit</span>(<span class="kw">$user</span>, <span class="kw">$article</span>);
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="cm">// In AppController::initialize()</span>
+<span class="kw">$this</span>-><span class="fn">loadComponent</span>(<span class="str">'Authorization.Authorization'</span>);
+
+<span class="cm">// In a controller action:</span>
+<span class="kw">public</span> <span class="kw">function</span> <span class="fn">edit</span>(<span class="kw">$id</span> = <span class="kw">null</span>)
+{
+    <span class="kw">$article</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">get</span>(<span class="kw">$id</span>);
+    <span class="kw">$this</span>-><span class="fn">Authorization</span>-><span class="fn">authorize</span>(<span class="kw">$article</span>);
+    <span class="cm">// continues only if authorized</span>
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== QUEUE ==================== -->
+  <section id="queue">
+    <h2><i class="bi bi-arrow-repeat me-2"></i>Queue / Job System</h2>
+    <p>The <code>cakephp/queue</code> plugin provides deferred job execution. Jobs are pushed to a transport and processed by a worker.</p>
+
+    <h3>Installation</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="kw">composer</span> <span class="kw">require</span> cakephp/queue
+bin/cake plugin load <span class="tp">Queue</span></code></pre>
+      </div>
+    </div>
+
+    <h3>1. Define a Queue Job</h3>
+    <div class="card">
+      <div class="card-header">src/Queue/Job/SendEmailJob.php</div>
+      <div class="card-body">
+        <pre><code><span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Queue</span>\<span class="tp">Job</span>;
+
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">Queue</span>\<span class="tp">Job</span>\JobInterface;
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">Queue</span>\<span class="tp">Job</span>\<span class="tp">Message</span>;
+
+<span class="kw">class</span> SendEmailJob <span class="kw">implements</span> JobInterface
+{
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">execute</span>(<span class="tp">array</span> <span class="kw">$data</span>, <span class="tp">Message</span> <span class="kw">$message</span>): <span class="tp">bool</span>
+    {
+        <span class="kw">$to</span> = <span class="kw">$data</span>[<span class="str">'to'</span>] ?? <span class="kw">null</span>;
+        <span class="kw">$subject</span> = <span class="kw">$data</span>[<span class="str">'subject'</span>] ?? <span class="str">'No subject'</span>;
+        <span class="kw">$body</span> = <span class="kw">$data</span>[<span class="str">'body'</span>] ?? <span class="str">''</span>;
+
+        <span class="kw">if</span> (!<span class="kw">$to</span>) {
+            <span class="kw">throw</span> <span class="kw">new</span> \<span class="tp">RuntimeException</span>(<span class="str">'Recipient required.'</span>);
+        }
+
+        <span class="cm">// Send the email (pseudo)</span>
+        <span class="cm">// Mailer::send($to, $subject, $body);</span>
+
+        <span class="kw">return</span> <span class="kw">true</span>; <span class="cm">// true = success, false = retry</span>
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <h3>2. Push a Job onto the Queue</h3>
+    <div class="card">
+      <div class="card-header">QueueManager::push()</div>
+      <div class="card-body">
+        <pre><code><span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">Queue</span>\<span class="tp">QueueManager</span>;
+
+<span class="cm">// Basic push</span>
+<span class="tp">QueueManager</span>::<span class="fn">push</span>(SendEmailJob::<span class="kw">class</span>, [
+    <span class="str">'to'</span> => <span class="str">'user@example.com'</span>,
+    <span class="str">'subject'</span> => <span class="str">'Welcome!'</span>,
+    <span class="str">'body'</span> => <span class="str">'Thank you for registering.'</span>,
+]);
+
+<span class="cm">// Push with options (delay, priority, queue)</span>
+<span class="tp">QueueManager</span>::<span class="fn">push</span>(SendEmailJob::<span class="kw">class</span>, <span class="kw">$data</span>, [
+    <span class="str">'config'</span> => <span class="str">'default'</span>,
+    <span class="str">'queue'</span> => <span class="str">'emails'</span>,
+    <span class="str">'delay'</span> => <span class="str">'+5 minutes'</span>,
+]);
+
+<span class="cm">// Example inside a Controller</span>
+<span class="kw">public</span> <span class="kw">function</span> <span class="fn">register</span>()
+{
+    <span class="kw">$user</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Users'</span>)
+        -><span class="fn">newEntity</span>(<span class="kw">$this</span>-><span class="fn">request</span>-><span class="fn">getData</span>());
+    <span class="kw">if</span> (<span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Users'</span>)-><span class="fn">save</span>(<span class="kw">$user</span>)) {
+        <span class="tp">QueueManager</span>::<span class="fn">push</span>(SendEmailJob::<span class="kw">class</span>, [
+            <span class="str">'to'</span> => <span class="kw">$user</span>-><span class="fn">email</span>,
+            <span class="str">'subject'</span> => <span class="str">'Welcome!'</span>,
+            <span class="str">'body'</span> => <span class="str">'Thank you for registering.'</span>,
+        ]);
+        <span class="kw">$this</span>-><span class="fn">Flash</span>-><span class="fn">success</span>(<span class="str">'Registration successful.'</span>);
+        <span class="kw">return</span> <span class="kw">$this</span>-><span class="fn">redirect</span>([<span class="str">'action'</span> => <span class="str">'login'</span>]);
+    }
+    <span class="kw">$this</span>-><span class="fn">Flash</span>-><span class="fn">error</span>(<span class="str">'Registration failed.'</span>);
+}</code></pre>
+      </div>
+    </div>
+
+    <h3>3. Worker Command</h3>
+    <div class="card">
+      <div class="card-header">Run the Queue Worker</div>
+      <div class="card-body">
+        <pre><code><span class="cm"># Start the worker (processes queued jobs)</span>
+bin/cake queue worker
+
+<span class="cm"># Short alias</span>
+bin/cake worker
+
+<span class="cm"># With all options</span>
+bin/cake queue worker \
+    --config <span class="kw">default</span> \
+    --queue emails \
+    --max-jobs <span class="num">50</span> \
+    --max-runtime <span class="num">3600</span> \
+    --max-attempts <span class="num">3</span> \
+    --verbose
+
+<span class="cm"># Options:</span>
+<span class="cm"># --config / -c        Queue config name (default)</span>
+<span class="cm"># --queue / -Q         Queue name to bind to</span>
+<span class="cm"># --processor / -p     Processor class</span>
+<span class="cm"># --logger / -l        Logger for verbose output</span>
+<span class="cm"># --max-jobs / -i      Stop after N jobs</span>
+<span class="cm"># --max-runtime / -r   Stop after N seconds</span>
+<span class="cm"># --max-attempts / -a  Max retry count per job</span>
+<span class="cm"># --verbose / -v       Verbose logging</span></code></pre>
+      </div>
+    </div>
+
+    <h3>4. Failed Jobs</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="cm"># Configure failed job storage in config/app.php:</span>
+<span class="str">'Queue'</span> => [
+    <span class="str">'default'</span> => [
+        <span class="str">'failed'</span> => [
+            <span class="str">'className'</span> => \<span class="tp">Cake</span>\<span class="tp">Queue</span>\<span class="tp">Failed</span>\FailedJobsTable::<span class="kw">class</span>,
+            <span class="str">'table'</span> => <span class="str">'failed_jobs'</span>,
+        ],
+    ],
+];
+
+<span class="cm"># Commands</span>
+bin/cake queue requeue   # Requeue failed jobs
+bin/cake queue purge     # Purge failed jobs</code></pre>
+      </div>
+    </div>
+
+    <h3>Queue Configuration</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="cm">// config/app.php</span>
+<span class="kw">return</span> [
+    <span class="str">'Queue'</span> => [
+        <span class="str">'default'</span> => [
+            <span class="str">'queue'</span> => <span class="str">'default'</span>,
+            <span class="str">'url'</span> => <span class="fn">env</span>(<span class="str">'QUEUE_URL'</span>, <span class="str">'null://'</span>),
+            <span class="cm">// Transport examples:</span>
+            <span class="cm">// 'url' => 'file:///tmp/queue'       (filesystem)</span>
+            <span class="cm">// 'url' => 'redis://localhost:6379'  (Redis)</span>
+            <span class="cm">// 'url' => 'amqp://guest:pass@localhost:5672' (RabbitMQ)</span>
+        ],
+    ],
+];</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== API ==================== -->
+  <section id="api">
+    <h2><i class="bi bi-globe me-2"></i>RESTful API</h2>
+    <p>CakePHP has first-class support for building REST APIs using resource routes, JSON views, and content negotiation.</p>
+
+    <h3>Route Setup</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="cm">// config/routes.php</span>
+<span class="kw">$routes</span>-><span class="fn">scope</span>(<span class="str">'/api'</span>, <span class="kw">function</span> (<span class="tp">RouteBuilder</span> <span class="kw">$routes</span>): <span class="tp">void</span> {
+    <span class="kw">$routes</span>-><span class="fn">setExtensions</span>([<span class="str">'json'</span>]);
+    <span class="kw">$routes</span>-><span class="fn">resources</span>(<span class="str">'Articles'</span>);
+});
+
+<span class="cm">// Or with prefix</span>
+<span class="kw">$routes</span>-><span class="fn">prefix</span>(<span class="str">'Api'</span>, <span class="kw">function</span> (<span class="tp">RouteBuilder</span> <span class="kw">$routes</span>): <span class="tp">void</span> {
+    <span class="kw">$routes</span>-><span class="fn">setExtensions</span>([<span class="str">'json'</span>]);
+    <span class="kw">$routes</span>-><span class="fn">resources</span>(<span class="str">'Articles'</span>);
+});</code></pre>
+      </div>
+    </div>
+
+    <h3>API Controller</h3>
+    <div class="card">
+      <div class="card-header">src/Controller/Api/ArticlesController.php</div>
+      <div class="card-body">
+        <pre><code><span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Controller</span>\<span class="tp">Api</span>;
+
+<span class="kw">use</span> <span class="tp">App</span>\<span class="tp">Controller</span>\<span class="tp">AppController</span>;
+
+<span class="kw">class</span> <span class="tp">ArticlesController</span> <span class="kw">extends</span> <span class="tp">AppController</span>
+{
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">initialize</span>(): <span class="tp">void</span>
+    {
+        <span class="kw">parent</span>::<span class="fn">initialize</span>();
+        <span class="kw">$this</span>-><span class="fn">loadComponent</span>(<span class="str">'RequestHandler'</span>);
+        <span class="kw">$this</span>-><span class="fn">loadComponent</span>(<span class="str">'Authentication.Authentication'</span>);
+        <span class="kw">$this</span>-><span class="fn">loadComponent</span>(<span class="str">'Authorization.Authorization'</span>);
+    }
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">viewClasses</span>(): <span class="tp">array</span>
+    {
+        <span class="kw">return</span> [\<span class="tp">Cake</span>\<span class="tp">View</span>\JsonView::<span class="kw">class</span>];
+    }
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">index</span>()
+    {
+        <span class="kw">$articles</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)
+            -><span class="fn">find</span>()-><span class="fn">contain</span>([<span class="str">'Authors'</span>, <span class="str">'Tags'</span>])-><span class="fn">all</span>();
+        <span class="kw">$this</span>-><span class="fn">set</span>(<span class="fn">compact</span>(<span class="str">'articles'</span>));
+        <span class="kw">$this</span>-><span class="fn">viewBuilder</span>()-><span class="fn">setOption</span>(<span class="str">'serialize'</span>, [<span class="str">'articles'</span>]);
+    }
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">view</span>(<span class="kw">$id</span> = <span class="kw">null</span>)
+    {
+        <span class="kw">$article</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)
+            -><span class="fn">get</span>(<span class="kw">$id</span>, contain: [<span class="str">'Authors'</span>, <span class="str">'Tags'</span>]);
+        <span class="kw">$this</span>-><span class="fn">Authorization</span>-><span class="fn">authorize</span>(<span class="kw">$article</span>);
+        <span class="kw">$this</span>-><span class="fn">set</span>(<span class="fn">compact</span>(<span class="str">'article'</span>));
+        <span class="kw">$this</span>-><span class="fn">viewBuilder</span>()-><span class="fn">setOption</span>(<span class="str">'serialize'</span>, [<span class="str">'article'</span>]);
+    }
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">add</span>()
+    {
+        <span class="kw">$article</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">newEmptyEntity</span>();
+        <span class="kw">$article</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)
+            -><span class="fn">patchEntity</span>(<span class="kw">$article</span>, <span class="kw">$this</span>-><span class="fn">request</span>-><span class="fn">getData</span>());
+        <span class="kw">if</span> (<span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">save</span>(<span class="kw">$article</span>)) {
+            <span class="kw">$message</span> = <span class="str">'Saved'</span>;
+            <span class="kw">$this</span>-><span class="fn">set</span>(<span class="str">'article'</span>, <span class="kw">$article</span>);
+            <span class="kw">$this</span>-><span class="fn">response</span> = <span class="kw">$this</span>-><span class="fn">response</span>-><span class="fn">withStatus</span>(<span class="num">201</span>);
+        } <span class="kw">else</span> {
+            <span class="kw">$message</span> = <span class="str">'Error'</span>;
+            <span class="kw">$this</span>-><span class="fn">response</span> = <span class="kw">$this</span>-><span class="fn">response</span>-><span class="fn">withStatus</span>(<span class="num">422</span>);
+            <span class="kw">$this</span>-><span class="fn">set</span>(<span class="str">'errors'</span>, <span class="kw">$article</span>-><span class="fn">getErrors</span>());
+        }
+        <span class="kw">$this</span>-><span class="fn">set</span>(<span class="fn">compact</span>(<span class="str">'message'</span>));
+        <span class="kw">$this</span>-><span class="fn">viewBuilder</span>()
+            -><span class="fn">setOption</span>(<span class="str">'serialize'</span>, [<span class="str">'message'</span>, <span class="str">'article'</span>, <span class="str">'errors'</span>]);
+    }
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">edit</span>(<span class="kw">$id</span> = <span class="kw">null</span>)
+    {
+        <span class="kw">$article</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">get</span>(<span class="kw">$id</span>);
+        <span class="kw">$this</span>-><span class="fn">Authorization</span>-><span class="fn">authorize</span>(<span class="kw">$article</span>);
+        <span class="kw">$article</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)
+            -><span class="fn">patchEntity</span>(<span class="kw">$article</span>, <span class="kw">$this</span>-><span class="fn">request</span>-><span class="fn">getData</span>());
+        <span class="kw">$message</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">save</span>(<span class="kw">$article</span>)
+            ? <span class="str">'Updated'</span> : <span class="str">'Error'</span>;
+        <span class="kw">$this</span>-><span class="fn">response</span> = <span class="kw">$message</span> === <span class="str">'Error'</span>
+            ? <span class="kw">$this</span>-><span class="fn">response</span>-><span class="fn">withStatus</span>(<span class="num">422</span>)
+            : <span class="kw">$this</span>-><span class="fn">response</span>;
+        <span class="kw">$this</span>-><span class="fn">set</span>(<span class="fn">compact</span>(<span class="str">'message'</span>, <span class="str">'article'</span>));
+        <span class="kw">$this</span>-><span class="fn">viewBuilder</span>()
+            -><span class="fn">setOption</span>(<span class="str">'serialize'</span>, [<span class="str">'message'</span>, <span class="str">'article'</span>]);
+    }
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">delete</span>(<span class="kw">$id</span> = <span class="kw">null</span>)
+    {
+        <span class="kw">$this</span>-><span class="fn">request</span>-><span class="fn">allowMethod</span>([<span class="str">'delete'</span>]);
+        <span class="kw">$article</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">get</span>(<span class="kw">$id</span>);
+        <span class="kw">$this</span>-><span class="fn">Authorization</span>-><span class="fn">authorize</span>(<span class="kw">$article</span>);
+        <span class="kw">$message</span> = <span class="kw">$this</span>-><span class="fn">fetchTable</span>(<span class="str">'Articles'</span>)-><span class="fn">delete</span>(<span class="kw">$article</span>)
+            ? <span class="str">'Deleted'</span> : <span class="str">'Error'</span>;
+        <span class="kw">$this</span>-><span class="fn">response</span> = <span class="kw">$message</span> === <span class="str">'Error'</span>
+            ? <span class="kw">$this</span>-><span class="fn">response</span>-><span class="fn">withStatus</span>(<span class="num">422</span>)
+            : <span class="kw">$this</span>-><span class="fn">response</span>;
+        <span class="kw">$this</span>-><span class="fn">set</span>(<span class="fn">compact</span>(<span class="str">'message'</span>));
+        <span class="kw">$this</span>-><span class="fn">viewBuilder</span>()-><span class="fn">setOption</span>(<span class="str">'serialize'</span>, [<span class="str">'message'</span>]);
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <h3>Body Parser Middleware</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="cm">// src/Application.php middleware()</span>
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">Http</span>\<span class="tp">Middleware</span>\BodyParserMiddleware;
+
+<span class="kw">$middlewareQueue</span>-><span class="fn">add</span>(<span class="kw">new</span> <span class="fn">BodyParserMiddleware</span>());
+<span class="cm">// Auto-parses JSON/XML request bodies</span></code></pre>
+      </div>
+    </div>
+
+    <h3>Request / Response Examples</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="cm">// GET /api/articles.json</span>
+<span class="cm">// Response:</span>
+{
+    <span class="str">"articles"</span>: [
+        {
+            <span class="str">"id"</span>: <span class="num">1</span>,
+            <span class="str">"title"</span>: <span class="str">"Hello CakePHP"</span>,
+            <span class="str">"author"</span>: { <span class="str">"id"</span>: <span class="num">1</span>, <span class="str">"name"</span>: <span class="str">"John"</span> },
+            <span class="str">"tags"</span>: [{ <span class="str">"id"</span>: <span class="num">1</span>, <span class="str">"name"</span>: <span class="str">"php"</span> }]
+        }
+    ]
+}
+
+<span class="cm">// POST /api/articles.json</span>
+<span class="cm">// Headers: Content-Type: application/json</span>
+<span class="cm">// Body: {"title": "New", "body": "...", "author_id": 1}</span>
+<span class="cm">// Response (201): {"message": "Saved", "article": {...}}</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MIDDLEWARE ==================== -->
+  <section id="middleware">
+    <h2><i class="bi bi-funnel me-2"></i>Middleware</h2>
+    <div class="card">
+      <div class="card-header">Full Middleware Stack</div>
+      <div class="card-body">
+        <pre><code><span class="cm">// src/Application.php</span>
+<span class="kw">use</span> <span class="tp">Authentication</span>\<span class="tp">Middleware</span>\AuthenticationMiddleware;
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">Http</span>\<span class="tp">Middleware</span>\BodyParserMiddleware;
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">Http</span>\<span class="tp">Middleware</span>\CsrfProtectionMiddleware;
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">Routing</span>\<span class="tp">Middleware</span>\RoutingMiddleware;
+
+<span class="kw">public</span> <span class="kw">function</span> <span class="fn">middleware</span>(<span class="tp">MiddlewareQueue</span> <span class="kw">$queue</span>): <span class="tp">MiddlewareQueue</span>
+{
+    <span class="kw">return</span> <span class="kw">$queue</span>
+        -><span class="fn">add</span>(<span class="kw">new</span> <span class="fn">ErrorHandlerMiddleware</span>(<span class="tp">Configure</span>::<span class="fn">read</span>(<span class="str">'Error'</span>)))
+        -><span class="fn">add</span>(<span class="kw">new</span> <span class="fn">AssetMiddleware</span>())
+        -><span class="fn">add</span>(<span class="kw">new</span> <span class="fn">BodyParserMiddleware</span>())
+        -><span class="fn">add</span>(<span class="kw">new</span> <span class="fn">RoutingMiddleware</span>(<span class="kw">$this</span>))
+        -><span class="fn">add</span>(<span class="kw">new</span> <span class="fn">CsrfProtectionMiddleware</span>([<span class="str">'httponly'</span> => <span class="kw">true</span>]))
+        -><span class="fn">add</span>(<span class="kw">new</span> <span class="fn">AuthenticationMiddleware</span>(<span class="kw">$this</span>));
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Custom CORS Middleware</div>
+      <div class="card-body">
+        <pre><code><span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Middleware</span>;
+
+<span class="kw">use</span> <span class="tp">Psr</span>\<span class="tp">Http</span>\<span class="tp">Message</span>\ResponseInterface;
+<span class="kw">use</span> <span class="tp">Psr</span>\<span class="tp">Http</span>\<span class="tp">Message</span>\ServerRequestInterface;
+<span class="kw">use</span> <span class="tp">Psr</span>\<span class="tp">Http</span>\<span class="tp">Server</span>\MiddlewareInterface;
+<span class="kw">use</span> <span class="tp">Psr</span>\<span class="tp">Http</span>\<span class="tp">Server</span>\RequestHandlerInterface;
+
+<span class="kw">class</span> CorsMiddleware <span class="kw">implements</span> MiddlewareInterface
+{
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">process</span>(
+        ServerRequestInterface <span class="kw">$request</span>,
+        RequestHandlerInterface <span class="kw">$handler</span>
+    ): ResponseInterface {
+        <span class="kw">$response</span> = <span class="kw">$handler</span>-><span class="fn">handle</span>(<span class="kw">$request</span>);
+        <span class="kw">return</span> <span class="kw">$response</span>
+            -><span class="fn">withHeader</span>(<span class="str">'Access-Control-Allow-Origin'</span>, <span class="str">'*'</span>)
+            -><span class="fn">withHeader</span>(
+                <span class="str">'Access-Control-Allow-Headers'</span>,
+                <span class="str">'X-Requested-With, Content-Type, Authorization'</span>
+            )
+            -><span class="fn">withHeader</span>(
+                <span class="str">'Access-Control-Allow-Methods'</span>,
+                <span class="str">'GET, POST, PUT, DELETE, PATCH, OPTIONS'</span>
+            );
+    }
+}
+
+<span class="cm">// Register: $middlewareQueue->add(new CorsMiddleware());</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TESTING ==================== -->
+  <section id="testing">
+    <h2><i class="bi bi-check-circle me-2"></i>Testing</h2>
+    <p>CakePHP uses <strong>PHPUnit</strong>. Tests live in <code>tests/</code>. Run with <code>vendor/bin/phpunit</code>.</p>
+
+    <div class="card">
+      <div class="card-header">Model Test</div>
+      <div class="card-body">
+        <pre><code><span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Test</span>\<span class="tp">TestCase</span>\<span class="tp">Model</span>\<span class="tp">Table</span>;
+
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">ORM</span>\TableRegistry;
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">TestSuite</span>\<span class="tp">TestCase</span>;
+
+<span class="kw">class</span> ArticlesTableTest <span class="kw">extends</span> <span class="tp">TestCase</span>
+{
+    <span class="kw">protected</span> <span class="tp">array</span> <span class="kw">$fixtures</span> = [<span class="str">'app.Articles'</span>, <span class="str">'app.Authors'</span>];
+
+    <span class="kw">private</span> \<span class="tp">App</span>\<span class="tp">Model</span>\<span class="tp">Table</span>\<span class="tp">ArticlesTable</span> <span class="kw">$Articles</span>;
+
+    <span class="kw">protected</span> <span class="kw">function</span> <span class="fn">setUp</span>(): <span class="tp">void</span>
+    {
+        <span class="kw">parent</span>::<span class="fn">setUp</span>();
+        <span class="kw">$this</span>-><span class="fn">Articles</span> = TableRegistry::<span class="fn">getTableLocator</span>()-><span class="fn">get</span>(<span class="str">'Articles'</span>);
+    }
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">testFindPublished</span>(): <span class="tp">void</span>
+    {
+        <span class="kw">$results</span> = <span class="kw">$this</span>-><span class="fn">Articles</span>-><span class="fn">find</span>(<span class="str">'published'</span>)-><span class="fn">all</span>();
+        <span class="kw">$this</span>-><span class="fn">assertCount</span>(<span class="num">2</span>, <span class="kw">$results</span>);
+    }
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">testValidation</span>(): <span class="tp">void</span>
+    {
+        <span class="kw">$entity</span> = <span class="kw">$this</span>-><span class="fn">Articles</span>-><span class="fn">newEntity</span>([<span class="str">'title'</span> => <span class="str">''</span>]);
+        <span class="kw">$this</span>-><span class="fn">assertNotEmpty</span>(<span class="kw">$entity</span>-><span class="fn">getErrors</span>()[<span class="str">'title'</span>]);
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Controller Test</div>
+      <div class="card-body">
+        <pre><code><span class="kw">namespace</span> <span class="tp">App</span>\<span class="tp">Test</span>\<span class="tp">TestCase</span>\<span class="tp">Controller</span>;
+
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">TestSuite</span>\IntegrationTestTrait;
+<span class="kw">use</span> <span class="tp">Cake</span>\<span class="tp">TestSuite</span>\<span class="tp">TestCase</span>;
+
+<span class="kw">class</span> ArticlesControllerTest <span class="kw">extends</span> <span class="tp">TestCase</span>
+{
+    <span class="kw">use</span> IntegrationTestTrait;
+
+    <span class="kw">protected</span> <span class="tp">array</span> <span class="kw">$fixtures</span> = [
+        <span class="str">'app.Articles'</span>, <span class="str">'app.Authors'</span>,
+        <span class="str">'app.Tags'</span>, <span class="str">'app.ArticlesTags'</span>,
+    ];
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">testIndex</span>(): <span class="tp">void</span>
+    {
+        <span class="kw">$this</span>-><span class="fn">get</span>(<span class="str">'/articles'</span>);
+        <span class="kw">$this</span>-><span class="fn">assertResponseOk</span>();
+    }
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">testView</span>(): <span class="tp">void</span>
+    {
+        <span class="kw">$this</span>-><span class="fn">get</span>(<span class="str">'/articles/view/1'</span>);
+        <span class="kw">$this</span>-><span class="fn">assertResponseOk</span>();
+        <span class="kw">$this</span>-><span class="fn">assertResponseContains</span>(<span class="str">'Hello'</span>);
+    }
+
+    <span class="kw">public</span> <span class="kw">function</span> <span class="fn">testAddUnauthenticated</span>(): <span class="tp">void</span>
+    {
+        <span class="kw">$this</span>-><span class="fn">post</span>(<span class="str">'/articles/add'</span>, [<span class="str">'title'</span> => <span class="str">'Test'</span>]);
+        <span class="kw">$this</span>-><span class="fn">assertRedirect</span>([<span class="str">'controller'</span> => <span class="str">'Users'</span>, <span class="str">'action'</span> => <span class="str">'login'</span>]);
+    }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BEST PRACTICES ==================== -->
+  <section id="best-practices">
+    <h2><i class="bi bi-star me-2"></i>Best Practices</h2>
+
+    <div class="highlight-box">
+      <strong>Naming Conventions</strong> &mdash; Tables: plural snake_case (<code>articles</code>).
+      Table classes: plural PascalCase (<code>ArticlesTable</code>). Entities: singular PascalCase (<code>Article</code>).
+      Controllers: plural PascalCase (<code>ArticlesController</code>). Foreign keys: singular snake_case (<code>author_id</code>).
+      Join tables: alphabetical order (<code>articles_tags</code>).
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Recommended Folder Structure</div>
+          <div class="card-body">
+            <pre><code>myapp/
+  bin/cake
+  config/
+    app.php
+    routes.php
+  src/
+    <span class="tp">Command</span>/
+    <span class="tp">Controller</span>/
+      <span class="tp">Api</span>/
+    <span class="tp">Middleware</span>/
+    <span class="tp">Model</span>/
+      <span class="tp">Entity</span>/
+      <span class="tp">Table</span>/
+    <span class="tp">Policy</span>/
+    <span class="tp">Queue</span>/<span class="tp">Job</span>/
+  templates/
+    layout/
+    element/
+    Articles/
+  tests/
+    Fixture/
+    <span class="tp">TestCase</span>/
+  webroot/</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">Key Guidelines</div>
+          <div class="card-body">
+            <ul class="list-unstyled mb-0">
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Always use <code>h()</code> when outputting user data</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use <code>contain()</code> for eager loading</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Fat models, skinny controllers</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Behaviors for reusable model logic</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Components for reusable controller logic</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Enable CSRF for web routes</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Use migrations for schema changes</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Disable debug mode in production</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Never commit .env files</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="mt-5 pt-4 border-top text-muted">
+    <div class="row">
+      <div class="col-md-6">
+        <p class="fw-bold mb-2">CakePHP 5.4 Quick Reference</p>
+        <p class="small">Generated for study purposes. Always refer to the official documentation.</p>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <p class="small mb-1">
+          <a href="https://book.cakephp.org/5.x/" target="_blank" class="text-decoration-none">
+            <i class="bi bi-book me-1"></i> Documentation
+          </a>
+          &middot;
+          <a href="https://api.cakephp.org/" target="_blank" class="text-decoration-none">
+            <i class="bi bi-code-slash me-1"></i> API
+          </a>
+          &middot;
+          <a href="https://github.com/cakephp/cakephp" target="_blank" class="text-decoration-none">
+            <i class="bi bi-github me-1"></i> GitHub
+          </a>
+        </p>
+        <p class="small mb-0">
+          CakePHP &copy; Cake Software Foundation. v5.4.0 &mdash; PHP 8.1+
+        </p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script src="../lib/bootstrap/bootstrap.bundle.min.js"></script>
+<script>
+  document.getElementById('sidebarToggle')?.addEventListener('click', function () {
+    document.getElementById('sidebar').classList.toggle('show');
+  });
+  document.querySelectorAll('#sidebar .nav-link').forEach(function (link) {
+    link.addEventListener('click', function () {
+      document.getElementById('sidebar').classList.remove('show');
+    });
+  });
+</script>
+</body>
+</html>

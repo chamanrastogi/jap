@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Full-Stack Developer Interview â€” 280+ Questions</title>
+<link href="../lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vendor/bootstrap-icons/bootstrap-icons.min.css">
+<link rel="stylesheet" href="../lib/google-fonts/fraunces/fraunces.css">
+  <link rel="stylesheet" href="../lib/google-fonts/outfit/outfit.css">
+  <link rel="stylesheet" href="../lib/google-fonts/jetbrains-mono/jetbrains-mono.css">
+<style>
+:root {
+  --gold: #e0b057;
+  --gold-bright: #f2c87e;
+  --gold-dim: rgba(224,176,87,0.12);
+  --gold-glow: rgba(224,176,87,0.22);
+  --paper: #f2ead8;
+  --ink: #0c0f16;
+  --ink-elev: #141927;
+  --card: #1a2131;
+  --hover: #212a3e;
+  --text: #d9dee9;
+  --muted: #7e879c;
+  --faint: #5b6378;
+  --line: rgba(255,255,255,0.065);
+  --line-strong: rgba(255,255,255,0.14);
+  --success: #4ade80;
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --info: #7dd3fc;
+  --sidebar-w: 300px;
+  --serif: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+  --sans: 'Outfit', system-ui, -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+[data-bs-theme="light"] {
+  --gold: #9a6a1c;
+  --gold-bright: #7a5213;
+  --gold-dim: rgba(154,106,28,0.10);
+  --gold-glow: rgba(154,106,28,0.22);
+  --paper: #2a2312;
+  --ink: #f4efe3;
+  --ink-elev: #fbf8ef;
+  --card: #fffdf6;
+  --hover: #f2ecdc;
+  --text: #2b2518;
+  --muted: #6f6752;
+  --faint: #a0987f;
+  --line: rgba(60,45,15,0.10);
+  --line-strong: rgba(60,45,15,0.18);
+  --success: #15803d; --warning: #b45309; --danger: #b91c1c; --info: #0369a1;
+}
+* { scroll-margin-top: 1.2rem; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation: none !important; transition: none !important; }
+}
+body {
+  font-family: var(--sans);
+  background: var(--ink);
+  color: var(--text);
+  display: flex;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  transition: background .35s, color .35s;
+}
+.sidebar {
+  width: var(--sidebar-w);
+  height: 100vh;
+  position: fixed;
+  top: 0; left: 0;
+  background: linear-gradient(180deg, var(--ink-elev), var(--ink) 62%);
+  border-right: 1px solid var(--line);
+  overflow-y: auto;
+  z-index: 1000;
+  transition: transform .3s, background .35s;
+  scrollbar-width: thin;
+}
+.sidebar::before {
+  content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 3px;
+  background: linear-gradient(180deg, var(--gold), transparent 72%);
+  opacity: .55; pointer-events: none;
+}
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--faint); border-radius: 4px; }
+.sidebar-brand {
+  padding: 1.4rem 1.4rem 1.1rem;
+  border-bottom: 1px solid var(--line);
+  display: flex; align-items: flex-start; gap: .8rem;
+}
+.sidebar-brand .icon {
+  width: 40px; height: 40px; border-radius: 11px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+  color: #171204;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.05rem; flex-shrink: 0;
+  box-shadow: 0 6px 18px var(--gold-glow);
+}
+.sidebar-brand h5 {
+  margin: 0; font-family: var(--serif); font-weight: 560;
+  font-size: 1.02rem; line-height: 1.25; color: var(--paper);
+}
+.sidebar-brand small {
+  font-family: var(--mono); font-size: .56rem; color: var(--muted);
+  text-transform: uppercase; letter-spacing: .12em;
+}
+.sidebar .contents-label {
+  display: flex; align-items: center; gap: .6rem;
+  padding: 1.05rem 1.4rem .5rem;
+  color: var(--muted); font-family: var(--mono); font-size: .58rem;
+  text-transform: uppercase; letter-spacing: .18em;
+}
+.sidebar .contents-label::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+.sidebar .nav-section {
+  color: var(--gold); font-family: var(--mono); font-size: .62rem;
+  text-transform: uppercase; letter-spacing: .14em;
+  padding: 1rem 1.4rem .35rem; font-weight: 600;
+  display: flex; align-items: baseline; gap: .55rem;
+}
+.sidebar .nav-section .num { color: var(--gold-bright); }
+.sidebar .nav-link {
+  display: flex; align-items: center; gap: .7rem;
+  color: var(--muted); padding: .4rem 1.4rem;
+  font-size: .78rem; font-weight: 500; text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: all .15s; position: relative;
+}
+.sidebar .nav-link:hover { color: var(--text); background: var(--gold-dim); }
+.sidebar .nav-link i { width: 1.1rem; font-size: .72rem; color: var(--faint); transition: color .15s; }
+.sidebar .nav-link:hover i { color: var(--gold); }
+.sidebar .nav-link .count {
+  margin-left: auto; font-family: var(--mono); font-size: .56rem;
+  color: var(--faint); padding: .04rem .5rem;
+  border: 1px solid var(--line); border-radius: 999px;
+}
+.sidebar .nav-link:hover .count { color: var(--gold); border-color: var(--gold-dim); }
+.main-content {
+  margin-left: var(--sidebar-w);
+  flex: 1; padding: 0; max-width: 1220px;
+}
+.sidebar-toggle {
+  position: fixed; top: .7rem; left: .7rem; z-index: 1050;
+  background: var(--ink-elev); color: var(--text);
+  border: 1px solid var(--line); border-radius: .55rem;
+  padding: .35rem .6rem; display: none;
+  box-shadow: 0 4px 14px rgba(0,0,0,.25);
+}
+@media (max-width: 991px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.show { transform: translateX(0); }
+  .main-content { margin-left: 0; }
+  .sidebar-toggle { display: block; }
+}
+.home-link {
+  position: fixed; top: 12px; left: 12px; z-index: 1100;
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 6px 12px; border-radius: 999px;
+  background: var(--ink-elev); color: var(--muted);
+  text-decoration: none; font-size: .7rem; font-weight: 600;
+  font-family: var(--mono); letter-spacing: .05em;
+  border: 1px solid var(--line); box-shadow: 0 4px 14px rgba(0,0,0,.25);
+  transition: .2s;
+}
+.home-link:hover { color: var(--gold); border-color: var(--gold-dim); }
+@media (min-width: 992px) { .home-link { left: calc(var(--sidebar-w) + 12px); } }
+@media (max-width: 991px) { .home-link { left: 3.5rem; } }
+@media (max-width: 767.98px) {
+  .main-content { padding: 1.25rem 1rem 3rem; }
+  .home-link { left: 3rem; font-size: .65rem; padding: 5px 8px; }
+  .sidebar-toggle { top: .6rem; left: .6rem; }
+}
+@media (max-width: 575.98px) {
+  .main-content { padding: 1rem .75rem 2.5rem; }
+  .home-link { left: 2.5rem; font-size: .62rem; padding: 4px 7px; }
+}
+.theme-btn {
+  position: fixed; top: 12px; right: 12px; z-index: 1100;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--ink-elev); color: var(--muted);
+  border: 1px solid var(--line); box-shadow: 0 4px 14px rgba(0,0,0,.25);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .95rem; cursor: pointer; transition: .2s;
+}
+.theme-btn:hover { color: var(--gold); border-color: var(--gold-dim); }
+.hero-bar {
+  position: relative;
+  padding: 1.6rem clamp(1.25rem, 4vw, 2.6rem) 1.7rem;
+  background:
+    radial-gradient(900px 360px at 88% -30%, var(--gold-dim), transparent 60%),
+    var(--ink-elev);
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+  animation: heroIn .6s ease both;
+}
+@keyframes heroIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.running-head {
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--mono); font-size: .56rem; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--faint);
+  border-bottom: 1px solid var(--line);
+  padding-bottom: .6rem; margin-bottom: 1.3rem;
+}
+.running-head .rh-title { color: var(--gold); }
+.hero-eyebrow {
+  font-family: var(--mono); font-size: .6rem; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--gold);
+  display: flex; align-items: center; gap: .5rem; margin-bottom: .7rem;
+}
+.hero-eyebrow::before { content: ''; width: 26px; height: 1px; background: var(--gold); }
+.hero-title {
+  font-family: var(--serif); font-weight: 560;
+  font-size: clamp(1.9rem, 3.4vw, 2.7rem);
+  line-height: 1.08; letter-spacing: -0.01em;
+  color: var(--paper); margin: 0 0 .7rem; max-width: 20ch;
+}
+.hero-title em { font-style: italic; color: var(--gold); }
+.hero-sub { color: var(--muted); font-size: .9rem; max-width: 58ch; line-height: 1.6; margin: 0; }
+.hero-sub strong { color: var(--text); font-weight: 600; }
+.hero-stats {
+  display: flex; gap: 1.1rem; margin-top: 1.2rem; flex-wrap: wrap;
+}
+.hero-stat {
+  font-family: var(--mono); font-size: .6rem; color: var(--faint);
+  display: inline-flex; align-items: center; gap: .4rem;
+}
+.hero-stat b { color: var(--text); font-weight: 600; font-size: .8rem; }
+.hero-folio {
+  position: absolute; right: 1.5rem; bottom: 1.1rem;
+  font-family: var(--mono); font-size: .58rem; letter-spacing: .14em;
+  color: var(--faint); opacity: .5;
+}
+.stats-row {
+  display: flex; align-items: stretch; flex-wrap: wrap;
+  background: var(--ink-elev);
+  border-bottom: 1px solid var(--line);
+  padding: 0 clamp(1.25rem, 4vw, 2.6rem);
+}
+.stat-cell {
+  display: flex; flex-direction: column; justify-content: center; gap: .1rem;
+  padding: .85rem 1.6rem .85rem 0; margin-right: 1.6rem;
+  border-right: 1px solid var(--line);
+}
+.stat-cell:last-of-type { border-right: 0; margin-right: 0; }
+.stat-num { font-family: var(--mono); font-size: 1.05rem; font-weight: 600; color: var(--paper); line-height: 1.1; }
+.stat-num.accent { color: var(--gold); }
+.stat-num.success { color: var(--success); }
+.stat-num.warning { color: var(--warning); }
+.stat-label { font-family: var(--mono); font-size: .54rem; text-transform: uppercase; letter-spacing: .15em; color: var(--faint); }
+.download-link {
+  margin-left: auto; align-self: center;
+  display: inline-flex; align-items: center; gap: .45rem;
+  padding: .5rem .95rem; border-radius: 999px;
+  border: 1px solid var(--gold-dim); background: var(--gold-dim);
+  color: var(--gold); font-family: var(--mono); font-size: .6rem;
+  letter-spacing: .06em; text-transform: uppercase; text-decoration: none;
+  transition: .18s;
+}
+.download-link:hover { background: var(--gold); color: #171204; border-color: var(--gold); }
+.tab-bar {
+  display: flex; gap: .45rem; padding: .9rem clamp(1.25rem, 4vw, 2.6rem);
+  border-bottom: 1px solid var(--line);
+  overflow-x: auto; flex-wrap: wrap;
+}
+.tab-bar::-webkit-scrollbar { height: 2px; }
+.tab-bar::-webkit-scrollbar-thumb { background: var(--faint); border-radius: 4px; }
+.tab {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .42rem .9rem; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--card);
+  color: var(--muted); font-family: var(--mono); font-size: .6rem;
+  letter-spacing: .08em; text-transform: uppercase;
+  cursor: pointer; transition: all .15s; white-space: nowrap;
+}
+.tab:hover { color: var(--gold); border-color: var(--gold-dim); }
+.tab.active { color: var(--gold); border-color: var(--gold-dim); background: var(--gold-dim); }
+.tab .tab-num { color: var(--faint); }
+.tab.active .tab-num { color: var(--gold); }
+.tab .tab-count {
+  font-family: var(--mono); font-size: .54rem; padding: .05rem .4rem; border-radius: 999px;
+  background: rgba(255,255,255,.06); color: var(--muted);
+}
+.tab.active .tab-count { background: rgba(224,176,87,.15); color: var(--gold); }
+.search-bar-wrap {
+  padding: .9rem clamp(1.25rem, 4vw, 2.6rem);
+  border-bottom: 1px solid var(--line);
+  display: flex; gap: .7rem; align-items: center; flex-wrap: wrap;
+}
+.search-wrap { position: relative; flex: 1; min-width: 220px; }
+.search-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--faint); font-size: .78rem; }
+.search-input {
+  width: 100%;
+  background: var(--card); border: 1px solid var(--line); color: var(--text);
+  padding: .58rem 1rem .58rem 2.6rem; border-radius: 999px;
+  font-size: .84rem; font-weight: 500; outline: none; transition: .2s;
+}
+.search-input::placeholder { color: var(--faint); }
+.search-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-dim); }
+.search-kbd {
+  position: absolute; right: .8rem; top: 50%; transform: translateY(-50%);
+  font-family: var(--mono); font-size: .6rem; color: var(--faint);
+  border: 1px solid var(--line); border-radius: 5px; padding: .06rem .42rem;
+  pointer-events: none;
+}
+.filter-chips { display: flex; gap: .4rem; flex-wrap: wrap; }
+.chip {
+  padding: .4rem .85rem; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--card);
+  color: var(--muted); font-family: var(--mono); font-size: .58rem;
+  letter-spacing: .06em; text-transform: uppercase;
+  cursor: pointer; transition: all .15s; white-space: nowrap; user-select: none;
+}
+.chip:hover { border-color: var(--gold-dim); color: var(--gold); }
+.chip.active { background: var(--gold); color: #171204; border-color: var(--gold); }
+.content-body { padding: 1.6rem clamp(1.25rem, 4vw, 2.6rem) 3.4rem; }
+.chapter-band {
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  column-gap: 1rem; row-gap: .25rem;
+  padding: 2.1rem 0 1rem; margin-bottom: .6rem;
+  border-bottom: 1px solid var(--line-strong);
+  position: relative;
+}
+.chapter-band::after {
+  content: ''; position: absolute; left: 0; bottom: -1px;
+  height: 2px; width: 56px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+.chapter-band.reveal { opacity: 0; transform: translateY(10px); transition: opacity .5s ease, transform .5s ease; }
+.chapter-band.reveal.in { opacity: 1; transform: none; }
+.chapter-num { font-family: var(--serif); font-style: italic; font-weight: 600; font-size: 1.6rem; color: var(--gold); line-height: 1; }
+.chapter-name { font-family: var(--serif); font-weight: 560; font-size: 1.35rem; color: var(--paper); letter-spacing: -0.01em; }
+.chapter-count { font-family: var(--mono); font-size: .58rem; letter-spacing: .12em; color: var(--faint); text-transform: uppercase; }
+.chapter-desc { width: 100%; color: var(--muted); font-size: .8rem; line-height: 1.55; margin-top: .5rem; max-width: 76ch; }
+.section-group { margin-bottom: 2.4rem; }
+.section-header {
+  display: flex; align-items: center; gap: .8rem;
+  padding: .9rem 0 .45rem;
+  border-bottom: 1px solid var(--line);
+}
+.section-header h2 {
+  font-family: var(--serif); font-weight: 560; font-size: 1.22rem;
+  margin: 0; color: var(--paper);
+  display: flex; align-items: center; gap: .6rem;
+}
+.section-header h2 i { color: var(--gold); font-size: .92rem; }
+.section-header .section-count {
+  margin-left: auto;
+  font-family: var(--mono); font-size: .56rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--faint);
+  border: 1px solid var(--line); padding: .12rem .6rem; border-radius: 999px;
+}
+.section-desc {
+  color: var(--muted); font-size: .76rem; margin: .55rem 0 .9rem;
+  font-weight: 400; line-height: 1.6; max-width: 80ch;
+}
+.q-card {
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 10px; margin-bottom: .42rem;
+  transition: border-color .2s; overflow: hidden;
+}
+.q-card:hover { border-color: var(--gold-dim); }
+.q-card-header {
+  display: flex; align-items: center; gap: .85rem;
+  padding: .78rem .95rem .78rem .9rem; cursor: pointer;
+  transition: background .15s; user-select: none;
+}
+.q-card-header:hover { background: var(--hover); }
+.q-num {
+  font-family: var(--mono); font-size: .62rem; font-weight: 600;
+  color: var(--faint); min-width: 3.1rem; text-align: right;
+  transition: color .15s; flex-shrink: 0;
+}
+.q-card-header:hover .q-num { color: var(--gold); }
+.q-card.open .q-num { color: var(--gold); }
+.q-text { flex: 1; font-size: .84rem; font-weight: 600; line-height: 1.45; color: var(--text); }
+.q-badges { display: flex; gap: .35rem; flex-shrink: 0; align-items: center; }
+.q-tech {
+  font-family: var(--mono); font-size: .54rem; color: var(--faint);
+  border: 1px solid var(--line); padding: .1rem .45rem; border-radius: 5px;
+  letter-spacing: .08em;
+}
+.q-badge {
+  font-family: var(--mono); font-size: .54rem; font-weight: 600; padding: .13rem .5rem;
+  border-radius: 999px; text-transform: uppercase; letter-spacing: .08em;
+}
+.qb-easy { background: rgba(74,222,128,0.12); color: #4ade80; }
+.qb-med { background: rgba(251,191,36,0.12); color: #fbbf24; }
+.qb-hard { background: rgba(248,113,113,0.12); color: #f87171; }
+[data-bs-theme="light"] .qb-easy { background: rgba(21,128,61,.1); color: #15803d; }
+[data-bs-theme="light"] .qb-med { background: rgba(180,83,9,.1); color: #b45309; }
+[data-bs-theme="light"] .qb-hard { background: rgba(185,28,28,.1); color: #b91c1c; }
+.q-expand { color: var(--faint); font-size: .7rem; transition: transform .2s; }
+.q-card.open .q-expand { transform: rotate(180deg); color: var(--gold); }
+.q-progress { display: inline-flex; align-items: center; gap: .28rem; flex-shrink: 0; }
+.q-progress .dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--ink); border: 1px solid var(--line-strong);
+  cursor: pointer; transition: .15s;
+}
+.q-progress .dot:hover { transform: scale(1.25); }
+.q-progress .dot.got { background: var(--success); border-color: var(--success); }
+.q-progress .dot.review { background: var(--warning); border-color: var(--warning); }
+.q-progress .dot.skip { background: var(--faint); border-color: var(--faint); }
+.q-card-body {
+  display: none;
+  padding: 0 1.05rem 1.1rem;
+  border-top: 1px solid var(--line);
+  background: var(--ink);
+  font-size: .82rem; line-height: 1.72; color: var(--muted);
+}
+.q-card.open .q-card-body { display: block; animation: fadeSlide .22s ease; }
+@keyframes fadeSlide { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+.ans-label {
+  display: inline-flex; align-items: center; gap: .45rem;
+  font-family: var(--mono); font-size: .54rem; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--gold);
+  margin: .9rem 0 .5rem;
+}
+.ans-label::after { content: ''; flex: 1; height: 1px; min-width: 40px; background: var(--line); }
+.q-card-body code {
+  background: var(--gold-dim); padding: .1rem .32rem; border-radius: .25rem;
+  font-size: .78rem; color: var(--gold-bright); font-family: var(--mono);
+}
+[data-bs-theme="light"] .q-card-body code { color: #8a5a12; }
+.q-card-body pre {
+  background: #0b0f16; color: #dfe4ee;
+  padding: .9rem 1.05rem; border-radius: .65rem;
+  border: 1px solid rgba(255,255,255,.05);
+  overflow-x: auto; font-size: .74rem; line-height: 1.6;
+  margin: .7rem 0; font-family: var(--mono);
+}
+.q-card-body pre code { background: transparent; color: inherit; padding: 0; font-size: inherit; }
+.q-card-body strong { color: var(--text); font-weight: 600; }
+.q-card-body ul, .q-card-body ol { padding-left: 1.2rem; margin: .45rem 0; }
+.q-card-body li { margin-bottom: .2rem; }
+.q-card-body table { font-size: .78rem; margin: .5rem 0; }
+.q-card-body .table { color: var(--muted); }
+.q-card-body .table-bordered { border-color: var(--line); }
+.kw { color: #c792ea; }
+.fn { color: #82aaff; }
+.str { color: #c3e88d; }
+.cm { color: #546e7a; font-style: italic; }
+.num { color: #f78c6c; }
+.tp { color: #ffcb6b; }
+.empty-state { text-align: center; padding: 4rem 1rem; color: var(--faint); }
+.empty-state i { font-size: 2rem; margin-bottom: .7rem; display: block; opacity: .4; }
+.empty-state h5 { font-weight: 600; color: var(--paper); font-family: var(--serif); font-size: 1.15rem; }
+.empty-state p { font-size: .8rem; }
+.footer {
+  padding: 1.2rem clamp(1.25rem, 4vw, 2.6rem) 2.4rem;
+  border-top: 1px solid var(--line); color: var(--faint); font-size: .64rem;
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem;
+  font-family: var(--mono);
+}
+.footer kbd {
+  background: var(--card); border: 1px solid var(--line);
+  padding: .08rem .4rem; border-radius: 5px;
+  font-family: var(--mono); font-size: .58rem; color: var(--muted);
+}
+#scrollTop {
+  position: fixed; bottom: 1.3rem; right: 1.3rem; z-index: 999;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--gold); color: #171204; border: none;
+  display: none; align-items: center; justify-content: center;
+  cursor: pointer; box-shadow: 0 10px 24px var(--gold-glow);
+  font-size: 1rem; transition: .2s;
+}
+#scrollTop.show { display: flex; }
+#scrollTop:hover { transform: translateY(-2px); background: var(--gold-bright); }
+@media (max-width: 640px) {
+  .q-num { min-width: 2.4rem; }
+  .q-card-header { gap: .6rem; }
+  .q-tech { display: none; }
+  .stat-cell { padding-right: 1rem; margin-right: 1rem; }
+}
+.tab:focus-visible, .chip:focus-visible, .q-card-header:focus-visible,
+.home-link:focus-visible, .theme-btn:focus-visible, .sidebar-toggle:focus-visible,
+.download-link:focus-visible, #scrollTop:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+</style>
+</head>
+<body>
+
+<a href="../index.html" class="home-link"><i class="bi bi-arrow-left"></i> Home</a>
+<button class="theme-btn" id="themeToggle" title="Toggle theme"><i class="bi bi-sun-fill"></i></button>
+<button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="icon"><i class="bi bi-book-half"></i></div>
+    <div>
+      <h5>The Senior Full-Stack Interview</h5>
+      <small>Q &amp; A Ledger &middot; Reference Series</small>
+    </div>
+  </div>
+  <div class="contents-label">Contents</div>
+  <div class="py-1" id="sidebarNav"></div>
+</nav>
+
+<div class="main-content" id="mainContent">
+  <div class="hero-bar">
+    <div class="running-head">
+      <span class="rh-title">The Senior Full-Stack Interview</span>
+      <span>Reference Ledger &middot; 2026</span>
+    </div>
+    <div class="hero-eyebrow">PHP &middot; MySQL &middot; Laravel &middot; JavaScript</div>
+    <h1 class="hero-title">Every question an interviewer <em>really</em> asks.</h1>
+    <p class="hero-sub"><strong id="totalQ">0</strong> questions and the answers senior engineers are expected to know â€” organised as chapters, indexed like a ledger, and made for the night before the interview.</p>
+    <div class="hero-stats">
+      <span class="hero-stat">Entries <b id="statTotal2">0</b></span>
+      <span class="hero-stat">Progress <b id="progressPct" style="color:var(--gold)">0%</b></span>
+      <span class="hero-stat">Revealed <b id="statViewed2">0</b></span>
+    </div>
+    <span class="hero-folio">JAPAPP &middot; REF 03</span>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-cell">
+      <span class="stat-num" id="statTotal">0</span>
+      <span class="stat-label">Entries</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-num accent" id="statViewed">0</span>
+      <span class="stat-label">Revealed</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-num success" id="statGot">0</span>
+      <span class="stat-label">Got it</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-num warning" id="statReview">0</span>
+      <span class="stat-label">Review</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-num" id="statShown">0</span>
+      <span class="stat-label">Showing</span>
+    </div>
+    <a class="download-link" id="downloadBtn" href="#"><i class="bi bi-download"></i> Export ledger</a>
+  </div>
+
+  <div class="tab-bar" id="tabBar"></div>
+
+  <div class="search-bar-wrap">
+    <div class="search-wrap">
+      <i class="bi bi-search search-icon"></i>
+      <input class="search-input" id="searchInput" placeholder="Search the index..." spellcheck="false">
+      <span class="search-kbd">/</span>
+    </div>
+    <div class="filter-chips" id="diffFilters">
+      <span class="chip active" data-filter="diff-all">All</span>
+      <span class="chip" data-filter="diff-easy">Easy</span>
+      <span class="chip" data-filter="diff-med">Medium</span>
+      <span class="chip" data-filter="diff-hard">Hard</span>
+    </div>
+  </div>
+
+  <div class="content-body" id="contentBody"></div>
+
+  <div class="footer">
+    <span><kbd>/</kbd> search &middot; <kbd>Esc</kbd> clear &middot; click to reveal an answer</span>
+    <span>&copy; 2026 Jap App Hub &middot; REF 03</span>
+  </div>
+</div>
+
+<button id="scrollTop" title="Scroll to top"><i class="bi bi-chevron-up"></i></button>
+
+<script id="qData" type="application/json">[
+{"id":1,"s":"php-basics","d":"easy","q":"What is PHP?","a":"PHP (<strong>H</strong>ypertext <strong>P</strong>reprocessor) is a widely-used open-source server-side scripting language designed for web development. It runs on the server, generating dynamic page content, and is loosely typed, interpreted, and supports OOP."},
+{"id":2,"s":"php-basics","d":"easy","q":"How do you declare variables in PHP?","a":"Variables start with a <code>$</code> sign. They are loosely typed â€” no type declaration is required. Example: <code>$name = \"John\";</code>. PHP 7+ supports typed properties; PHP 8+ adds union types."},
+{"id":3,"s":"php-basics","d":"easy","q":"What is the difference between echo and print?","a":"<code>echo</code> can output multiple strings separated by commas and is slightly faster. <code>print</code> returns 1 so it can be used in expressions. Both are language constructs, not functions."},
+{"id":4,"s":"php-basics","d":"easy","q":"What are the main PHP data types?","a":"PHP 8 supports 10 types: <code>string</code>, <code>int</code>, <code>float</code>, <code>bool</code>, <code>array</code>, <code>object</code>, <code>null</code>, <code>resource</code>, <code>true</code>, <code>false</code> (PHP 8.2+)."},
+{"id":5,"s":"php-basics","d":"easy","q":"What does isset() and empty() do?","a":"<code>isset()</code> checks if a variable is declared and not <code>null</code>. <code>empty()</code> returns true when the value is <code>\"\"</code>, <code>0</code>, <code>\"0\"</code>, <code>null</code>, <code>false</code>, <code>[]</code>, or uninitialized."},
+{"id":6,"s":"php-basics","d":"easy","q":"How do you define constants in PHP?","a":"Use <code>define(\"NAME\", value)</code> (runtime) or the <code>const</code> keyword (compile-time, in classes). Constants are case-sensitive by convention uppercase."},
+{"id":7,"s":"php-basics","d":"med","q":"Explain == vs === in PHP.","a":"<code>==</code> (loose) coerces types before comparing, e.g. <code>\"5\" == 5</code> is true. <code>===</code> (strict) checks both value and type, so <code>\"5\" === 5</code> is false. Always prefer <code>===</code>."},
+{"id":8,"s":"php-basics","d":"med","q":"What is the difference between include and require?","a":"Both include and evaluate a file. <code>require</code> throws a fatal error if missing; <code>include</code> issues a warning and continues. Their <code>_once</code> variants prevent loading the same file more than once."},
+{"id":9,"s":"php-basics","d":"easy","q":"What is a PHP session?","a":"A session stores user data across requests. Use <code>session_start()</code> to begin, read/write via <code>$_SESSION</code>. File-based by default (or Redis/memcached in production), identified by a cookie (<code>PHPSESSID</code>)."},
+{"id":10,"s":"php-basics","d":"med","q":"What are PHP superglobals?","a":"Built-in arrays accessible everywhere: <code>$_GET</code>, <code>$_POST</code>, <code>$_REQUEST</code>, <code>$_SESSION</code>, <code>$_COOKIE</code>, <code>$_SERVER</code>, <code>$_FILES</code>, <code>$_ENV</code>, <code>$GLOBALS</code>."},
+{"id":11,"s":"php-basics","d":"easy","q":"How do you loop through an array in PHP?","a":"Use <code>foreach ($array as $value)</code>. For indexed arrays, <code>for ($i = 0; $i < count($arr); $i++)</code>. PHP 8.4 introduced <code>array_find()</code>, <code>array_any()</code>, <code>array_all()</code>."},
+{"id":12,"s":"php-basics","d":"med","q":"What PHP array functions do you use daily?","a":"<code>array_map()</code>, <code>array_filter()</code>, <code>array_reduce()</code>, <code>array_merge()</code>, <code>array_keys()</code>, <code>in_array()</code>, <code>array_search()</code>, <code>sort()</code>, <code>array_unique()</code>, <code>array_chunk()</code>, <code>array_column()</code>."},
+{"id":13,"s":"php-basics","d":"med","q":"What is type hinting?","a":"Type hints specify expected types for arguments, return values, and properties. PHP enforces them at runtime. PHP 8.0+ supports union types (<code>string|int</code>), mixed, and named arguments."},
+{"id":14,"s":"php-basics","d":"med","q":"What is the nullsafe operator?","a":"<code>?-></code> (PHP 8.0+) short-circuits method/property access when the left side is null. Instead of nested checks, write <code>$user?->profile?->bio</code>. Returns null if any part is null."},
+{"id":15,"s":"php-basics","d":"hard","q":"Explain PHP 8 attributes and their use.","a":"PHP 8.0+ attributes (<code>#[Attribute]</code>) add structured metadata to classes, methods, properties. Read via reflection. Laravel uses them for routes, event listeners, model casting. Example: <code>#[Route('get', '/dashboard')]</code>."},
+{"id":16,"s":"php-basics","d":"med","q":"Explain the match expression in PHP 8.","a":"<code>match</code> (PHP 8.0+) is a strict, expression-based alternative to <code>switch</code>. It returns a value, doesn't need <code>break</code>, supports multiple conditions per arm, and throws <code>UnhandledMatchError</code> on no match."},
+{"id":17,"s":"php-basics","d":"hard","q":"What are PHP 8.4 property hooks?","a":"PHP 8.4 introduces property hooks for custom get/set logic: <code>public string $name { get => ...; set => ...; }</code>. Also asymmetric visibility (public get, private set)."},
+{"id":18,"s":"php-basics","d":"hard","q":"What are fibers in PHP?","a":"Fibers (PHP 8.1+) are lightweight coroutines for cooperative multitasking. A fiber can be suspended (<code>Fiber::suspend()</code>) and resumed (<code>$fiber->resume()</code>) from the main context."},
+{"id":19,"s":"php-basics","d":"med","q":"How do you handle errors in PHP?","a":"Use <code>try/catch</code> for exceptions. Set custom handler via <code>set_error_handler()</code>. PHP 8.0+ converts many warnings to <code>ErrorException</code>. Use <code>finally</code> for cleanup."},
+{"id":20,"s":"php-basics","d":"hard","q":"Explain PHP memory management.","a":"PHP uses reference counting for primitive types and generational garbage collection for complex objects. Memory leaks occur from circular references, static closures capturing large data, global variables, and unclosed resources. Use <code>memory_get_usage()</code> to monitor and <code>unset()</code> to free."},
+{"id":21,"s":"php-basics","d":"hard","q":"What happens internally when a PHP request executes?","a":"1. Zend Engine initializes 2. PHP file parsed into AST 3. AST compiled to opcodes 4. Opcodes executed on Zend VM 5. Output buffer managed 6. Headers sent 7. Cleanup/shutdown functions run 8. Memory freed. OpCache caches compiled opcodes between requests."},
+{"id":22,"s":"oop","d":"easy","q":"What is a class vs an object?","a":"A <strong>class</strong> is a blueprint defining properties and methods. An <strong>object</strong> is an instance of a class created via <code>new</code>."},
+{"id":23,"s":"oop","d":"easy","q":"What are visibility modifiers?","a":"<code>public</code> â€” accessible everywhere. <code>protected</code> â€” within class and subclasses. <code>private</code> â€” within the declaring class only."},
+{"id":24,"s":"oop","d":"easy","q":"What is constructor promotion?","a":"PHP 8.0+ allows declaring and assigning properties directly in the constructor: <code>public function __construct(private int $id, public string $name) {}</code>."},
+{"id":25,"s":"oop","d":"med","q":"Explain inheritance in PHP.","a":"A child class extends a parent using <code>extends</code>. PHP supports single inheritance. Use <code>parent::</code> to call parent methods. <code>final</code> prevents overriding."},
+{"id":26,"s":"oop","d":"med","q":"What is an interface vs abstract class?","a":"An <strong>interface</strong> declares method signatures only; a class can implement multiple. An <strong>abstract class</strong> provides partial implementation and properties; a class extends only one."},
+{"id":27,"s":"oop","d":"med","q":"What are traits?","a":"Traits enable code reuse in single-inheritance languages. They contain methods/properties used via <code>use TraitName</code> in any class, sharing behavior across unrelated classes."},
+{"id":28,"s":"oop","d":"med","q":"Explain the static keyword and late static binding.","a":"<code>static</code> properties/methods belong to the class, not instances. <code>static::</code> resolves to the calling class at runtime (late static binding), while <code>self::</code> resolves to the class where it's written."},
+{"id":29,"s":"oop","d":"hard","q":"Explain SOLID principles in depth.","a":"<strong>S</strong>ingle Responsibility: each class has one reason to change.<br><strong>O</strong>pen/Closed: open for extension, closed for modification.<br><strong>L</strong>iskov Substitution: subtypes must be substitutable for base types.<br><strong>I</strong>nterface Segregation: many specific interfaces > one general.<br><strong>D</strong>ependency Inversion: depend on abstractions, not concretions."},
+{"id":30,"s":"oop","d":"hard","q":"What are PHP magic methods? Name 10+","a":"<code>__construct()</code>, <code>__destruct()</code>, <code>__call()</code>/<code>__callStatic()</code>, <code>__get()</code>/<code>__set()</code>, <code>__invoke()</code>, <code>__toString()</code>, <code>__clone()</code>, <code>__serialize()</code>/<code>__unserialize()</code>, <code>__wakeup()</code>, <code>__sleep()</code>, <code>__isset()</code>, <code>__unset()</code>, <code>__set_state()</code>, <code>__debugInfo()</code>."},
+{"id":31,"s":"oop","d":"med","q":"What is dependency injection?","a":"DI is a pattern where an object receives its dependencies externally (via constructor, setter, or property). Constructor injection passes dependencies via constructor params. Laravel's IoC container auto-resolves them."},
+{"id":32,"s":"oop","d":"med","q":"What is clone and __clone()?","a":"<code>$b = clone $a</code> creates a shallow copy. <code>__clone()</code> is called after for deep-copy behavior (e.g., cloning nested objects). PHP 8.3+ allows <code>__clone()</code> to modify readonly properties."},
+{"id":33,"s":"oop","d":"hard","q":"Explain the Repository pattern.","a":"Repository separates data access from business logic. Repository classes encapsulate queries (<code>find()</code>, <code>create()</code>, <code>paginate()</code>). Bound via service container for testability. Contrast with Active Record (Eloquent) where model handles data + persistence."},
+{"id":34,"s":"oop","d":"med","q":"Instanceof vs is_a()?","a":"<code>instanceof</code> is an operator; <code>is_a()</code> is a function that accepts a class name string. Prefer <code>instanceof</code> for readability and type safety."},
+{"id":35,"s":"oop","d":"hard","q":"Explain the 4 pillars of OOP with examples.","a":"<strong>Encapsulation</strong>: bundling data + methods (<code>private</code> properties, public getters). <strong>Inheritance</strong>: child extends parent (<code>class Admin extends User</code>). <strong>Polymorphism</strong>: same interface different implementations (interface + multiple implementations). <strong>Abstraction</strong>: hide complexity (<code>abstract class</code> or interface)."},
+{"id":36,"s":"oop","d":"hard","q":"Composition vs Inheritance â€” when to use which?","a":"<strong>Inheritance</strong>: \"is-a\" relationship (e.g., Admin is a User). Use when child truly extends parent behavior. <strong>Composition</strong>: \"has-a\" relationship (e.g., Car has an Engine). Prefer composition for flexibility â€” swap implementations at runtime, avoid deep hierarchies, easier to test."},
+{"id":37,"s":"oop","d":"hard","q":"Common design patterns you've used in projects.","a":"<strong>Repository</strong> - data abstraction layer. <strong>Strategy</strong> - interchangeable algorithms (mail drivers, cache backends). <strong>Decorator</strong> - middleware pipeline. <strong>Observer</strong> - events/listeners. <strong>Factory</strong> - complex object creation. <strong>Singleton</strong> - single instance (use sparingly)."},
+{"id":38,"s":"oop","d":"hard","q":"Why is Singleton considered an anti-pattern?","a":"Singletons introduce global state, making code tightly coupled and hard to test. They hide dependencies, violate SRP, and create hidden coupling. Prefer DI with container-managed singletons instead of hard-coded <code>getInstance()</code> patterns."},
+{"id":39,"s":"composer","d":"easy","q":"What is Composer?","a":"PHP's dependency manager. Reads <code>composer.json</code>, resolves dependencies, installs in <code>vendor/</code>. Provides PSR-4 autoloader."},
+{"id":40,"s":"composer","d":"easy","q":"What is composer.json vs composer.lock?","a":"<strong>composer.json</strong>: project manifest with dependencies/autoload rules/scripts. <strong>composer.lock</strong>: records exact installed versions for consistent environments. Commit lock file to VCS."},
+{"id":41,"s":"composer","d":"med","q":"How does PSR-4 autoloading work?","a":"Maps namespaces to directories. <code>App\\Models\\User</code> maps to <code>app/Models/User.php</code>. Configured in <code>composer.json</code> under <code>autoload.psr-4</code>. Run <code>composer dump-autoload</code> to regenerate."},
+{"id":42,"s":"composer","d":"easy","q":"composer install vs composer update?","a":"<code>install</code> reads lock file and installs exact versions. <code>update</code> resolves latest versions matching constraints and updates the lock file."},
+{"id":43,"s":"composer","d":"med","q":"What is the vendor directory?","a":"Contains installed packages and <code>autoload.php</code>. Should NOT be committed (add to <code>.gitignore</code>). Regenerate with <code>composer install</code>."},
+{"id":44,"s":"composer","d":"hard","q":"How do you create a custom Composer package?","a":"Create directory with <code>composer.json</code> (name, type, require, autoload PSR-4). Implement classes, push to GitHub, publish on Packagist. Users install via <code>composer require vendor/package</code>."},
+{"id":45,"s":"composer","d":"hard","q":"What are Composer scripts and events?","a":"Shell/PHP callables triggered by lifecycle events (<code>pre-install-cmd</code>, <code>post-update-cmd</code>). Defined in <code>composer.json</code> under <code>scripts</code>. Useful for clearing cache, running migrations after install."},
+{"id":46,"s":"composer","d":"med","q":"dump-autoload vs dump-autoload -o?","a":"<code>dump-autoload</code> regenerates autoloader. <code>-o</code> (optimize) generates classmap for PSR-0/4 classes, improving production performance by converting namespace lookups to explicit class mappings."},
+{"id":47,"s":"composer","d":"hard","q":"How do Composer version constraints work?","a":"Exact: <code>1.2.3</code>. Tilde <code>~1.2</code> allows patch bumps. Caret <code>^1.2.3</code> allows minor. Wildcard <code>1.2.*</code>. Pre-release: <code>^1.0@beta</code>."},
+
+{"id":48,"s":"mysql-fundamentals","d":"easy","q":"What is the difference between SQL and MySQL?","a":"<strong>SQL</strong> (Structured Query Language) is the standard language for querying databases. <strong>MySQL</strong> is an open-source RDBMS that implements SQL. SQL is the language; MySQL is one of many database systems that use it."},
+{"id":49,"s":"mysql-fundamentals","d":"easy","q":"Explain DDL, DML, DCL, TCL, DQL.","a":"<strong>DDL</strong> (Data Definition): CREATE, ALTER, DROP, TRUNCATE. <strong>DML</strong> (Data Manipulation): SELECT, INSERT, UPDATE, DELETE. <strong>DCL</strong> (Data Control): GRANT, REVOKE. <strong>TCL</strong> (Transaction Control): COMMIT, ROLLBACK, SAVEPOINT. <strong>DQL</strong> (Data Query): SELECT (often grouped under DML)."},
+{"id":50,"s":"mysql-fundamentals","d":"easy","q":"Explain PRIMARY KEY, FOREIGN KEY, UNIQUE KEY, CHECK constraints.","a":"<strong>PRIMARY KEY</strong>: uniquely identifies rows (NOT NULL + UNIQUE). <strong>FOREIGN KEY</strong>: enforces referential integrity across tables. <strong>UNIQUE</strong>: ensures all values in column(s) are distinct. <strong>CHECK</strong>: validates values against an expression (MySQL 8.0.16+ enforced)."},
+{"id":51,"s":"mysql-fundamentals","d":"med","q":"What is normalization? Explain 1NF, 2NF, 3NF, BCNF.","a":"<strong>1NF</strong>: atomic columns, no repeating groups, unique rows. <strong>2NF</strong>: 1NF + no partial dependency (every non-key column depends on full PK). <strong>3NF</strong>: 2NF + no transitive dependency (non-key columns don't depend on other non-key columns). <strong>BCNF</strong>: stricter 3NF â€” every determinant must be a candidate key."},
+{"id":52,"s":"mysql-fundamentals","d":"med","q":"What is denormalization and when would you use it?","a":"Denormalization intentionally adds redundancy for read performance. Use for: reporting/analytics, high-traffic read-heavy apps, pre-computed aggregates, OLAP workloads. Trade-off: slower writes, more storage, data inconsistency risk."},
+{"id":53,"s":"mysql-joins","d":"easy","q":"Explain INNER JOIN, LEFT JOIN, RIGHT JOIN, FULL OUTER JOIN.","a":"<strong>INNER JOIN</strong>: matching rows in both tables. <strong>LEFT JOIN</strong>: all rows from left + matched from right (NULL where no match). <strong>RIGHT JOIN</strong>: all from right + matched from left. <strong>FULL OUTER JOIN</strong>: all rows from both (MySQL doesn't support directly; use UNION of LEFT and RIGHT JOIN)."},
+{"id":54,"s":"mysql-joins","d":"med","q":"What is a SELF JOIN?","a":"A table joined with itself using aliases. Example: employees table with manager_id referencing same table. <code>SELECT e1.name AS employee, e2.name AS manager FROM employees e1 LEFT JOIN employees e2 ON e1.manager_id = e2.id</code>."},
+{"id":55,"s":"mysql-joins","d":"easy","q":"What is a CROSS JOIN?","a":"Produces Cartesian product of two tables â€” every row from A paired with every row from B. No join condition. <code>SELECT * FROM colors CROSS JOIN sizes</code>. Use carefully on large tables."},
+{"id":56,"s":"mysql-joins","d":"med","q":"Difference between JOIN and UNION.","a":"<strong>JOIN</strong>: combines columns from different tables based on a relationship. <strong>UNION</strong>: combines rows from multiple SELECT queries (same number of columns). UNION removes duplicates; UNION ALL keeps them."},
+{"id":57,"s":"mysql-joins","d":"hard","q":"Write a query to find users with no orders (unmatched records).","a":"<code>SELECT u.* FROM users u LEFT JOIN orders o ON u.id = o.user_id WHERE o.id IS NULL</code>. Alternative: <code>NOT EXISTS (SELECT 1 FROM orders WHERE user_id = u.id)</code>. Avoid NOT IN if NULLs are present."},
+{"id":58,"s":"mysql-indexing","d":"easy","q":"What is an index in MySQL?","a":"A data structure (B-Tree by default) that speeds up data retrieval at the cost of additional storage and slower writes. Helps find rows without scanning the entire table. InnoDB uses B+Tree indexes where leaf nodes contain the actual data (clustered) or PK references (secondary)."},
+{"id":59,"s":"mysql-indexing","d":"med","q":"Types of indexes in MySQL.","a":"<strong>B-Tree</strong> (default), <strong>UNIQUE</strong>, <strong>PRIMARY KEY</strong> (clustered in InnoDB), <strong>FULLTEXT</strong> (text search), <strong>SPATIAL</strong> (geographic), <strong>Composite</strong> (multi-column), <strong>Descending</strong> (MySQL 8+), <strong>Functional</strong> (MySQL 8.0.13+, index on expressions), <strong>Hash</strong> (Memory engine only)."},
+{"id":60,"s":"mysql-indexing","d":"med","q":"Clustered vs Non-clustered indexes.","a":"<strong>Clustered</strong>: table data stored in B-Tree ordered by PK (InnoDB). One per table. Secondary indexes store PK as pointer. <strong>Non-clustered</strong>: index structure separate from data. Leaf nodes contain row pointers. MyISAM uses non-clustered. InnoDB secondary indexes are non-clustered."},
+{"id":61,"s":"mysql-indexing","d":"med","q":"What are composite indexes and the leftmost prefix rule?","a":"A composite index on multiple columns (e.g., <code>(A, B, C)</code>). The leftmost prefix rule means the index can optimize queries on any leftmost subset: <code>A</code>, <code>A+B</code>, <code>A+B+C</code>. Queries starting with <code>B</code> alone can't use it."},
+{"id":62,"s":"mysql-indexing","d":"hard","q":"What is a covering index?","a":"An index containing <em>all</em> columns needed by a query. MySQL satisfies the query entirely from the index without accessing table rows. Indicated by <code>Using index</code> in EXPLAIN Extra column."},
+{"id":63,"s":"mysql-indexing","d":"hard","q":"How do you identify missing indexes?","a":"Use <code>EXPLAIN</code> to see full table scans (type=ALL), high rows examined. Enable <code>slow_query_log</code>. Use Performance Schema's <code>table_io_waits_summary</code>. Look for queries with <code>Using filesort</code> (missing ORDER BY index) or <code>Using temporary</code>."},
+{"id":64,"s":"mysql-indexing","d":"med","q":"When should you avoid indexes?","a":"Write-heavy tables (each write updates all indexes), small tables (scan faster than index), low-cardinality columns (gender M/F), too many indexes, columns with frequent updates, <code>LIKE '%text'</code> queries (wildcard start)."},
+{"id":65,"s":"mysql-optimization","d":"hard","q":"How do you optimize slow queries?","a":"1. Use EXPLAIN to analyze execution plan 2. Check for full table scans (type=ALL) 3. Add appropriate indexes 4. Avoid SELECT * 5. Use LIMIT 6. Optimize JOINs (index FK columns) 7. Rewrite subqueries as JOINs 8. Use query cache (MySQL 8 removed) 9. Partition large tables 10. Consider summary/aggregate tables."},
+{"id":66,"s":"mysql-optimization","d":"hard","q":"What is EXPLAIN and EXPLAIN ANALYZE?","a":"<strong>EXPLAIN</strong> shows the query execution plan (access type, possible keys, rows examined, extra info). <strong>EXPLAIN ANALYZE</strong> (MySQL 8.0.18+) runs the query and provides actual execution times and row counts alongside the plan. Key columns: type (ALL=worst, const=best), key, rows, Extra."},
+{"id":67,"s":"mysql-optimization","d":"hard","q":"What causes full table scans?","a":"Missing indexes, <code>WHERE</code> on unindexed columns, function wrapping index columns (<code>WHERE YEAR(date) = 2024</code>), <code>LIKE '%text'</code> leading wildcard, data type mismatches (<code>WHERE string_col = 123</code>), OR conditions mixing indexed/non-indexed columns."},
+{"id":68,"s":"mysql-optimization","d":"hard","q":"How do LIMIT and OFFSET affect performance?","a":"High <code>OFFSET</code> values are slow â€” MySQL still scans all skipped rows. Use <strong>keyset pagination</strong> (cursor-based) instead: <code>WHERE id > :last_id LIMIT 20</code>. This uses the index directly and avoids scanning skipped rows."},
+{"id":69,"s":"mysql-transactions","d":"easy","q":"What is a transaction? Explain ACID.","a":"A transaction is a unit of SQL operations executed atomically. <strong>ACID</strong>: <strong>A</strong>tomicity (all or nothing), <strong>C</strong>onsistency (data remains valid), <strong>I</strong>solation (concurrent transactions don't interfere), <strong>D</strong>urability (committed changes persist). InnoDB supports with <code>START TRANSACTION</code>/<code>COMMIT</code>/<code>ROLLBACK</code>."},
+{"id":70,"s":"mysql-transactions","d":"med","q":"COMMIT vs ROLLBACK vs SAVEPOINT.","a":"<strong>COMMIT</strong>: permanently saves all transaction changes. <strong>ROLLBACK</strong>: undoes all changes since transaction start. <strong>SAVEPOINT</strong>: creates a named point within a transaction to roll back to partially: <code>SAVEPOINT sp; ROLLBACK TO sp;</code>."},
+{"id":71,"s":"mysql-transactions","d":"hard","q":"Explain isolation levels in MySQL.","a":"<strong>READ UNCOMMITTED</strong>: dirty reads allowed. <strong>READ COMMITTED</strong>: only committed data (prevents dirty reads). <strong>REPEATABLE READ</strong> (default): consistent reads within transaction (prevents non-repeatable reads). <strong>SERIALIZABLE</strong>: fully isolated, prevents phantom reads. Higher isolation = more locking overhead."},
+{"id":72,"s":"mysql-transactions","d":"hard","q":"Explain dirty read, non-repeatable read, phantom read.","a":"<strong>Dirty read</strong>: Transaction A reads uncommitted changes from Transaction B. <strong>Non-repeatable read</strong>: A reads same row twice, B modifies it between reads â€” different values. <strong>Phantom read</strong>: A runs same query twice, B inserts new rows between â€” different row sets."},
+{"id":73,"s":"mysql-transactions","d":"hard","q":"Shared lock vs Exclusive lock. How do deadlocks happen?","a":"<strong>Shared lock (S)</strong>: for reads; multiple transactions can hold simultaneously. <strong>Exclusive lock (X)</strong>: for writes; only one transaction holds. <strong>Deadlock</strong>: Transaction A locks Row 1 and waits for Row 2; Transaction B locks Row 2 and waits for Row 1. MySQL detects and kills one (innodb_deadlock_detect). Prevention: consistent lock order, keep transactions short, use READ COMMITTED."},
+{"id":74,"s":"mysql-advanced","d":"med","q":"What are stored procedures vs functions?","a":"<strong>Stored Procedure</strong>: may return multiple result sets, can modify data, supports IN/OUT/INOUT params, called via <code>CALL</code>. <strong>Function</strong>: returns single value, can be used in SQL (<code>SELECT fn()</code>), read-only, only IN params. Use procedures for operations, functions for computed values."},
+{"id":75,"s":"mysql-advanced","d":"med","q":"What are triggers in MySQL?","a":"Stored programs that auto-execute on INSERT/UPDATE/DELETE. BEFORE triggers can modify values; AFTER triggers for logging/auditing. Limitations: no ALTER/DROP/CREATE inside, no result sets, hard to debug, performance impact on bulk operations."},
+{"id":76,"s":"mysql-advanced","d":"easy","q":"What are views vs materialized views?","a":"<strong>View</strong>: virtual table based on a SELECT query. Always shows current data. <strong>Materialized view</strong>: physically stored snapshot (MySQL doesn't support natively; use tables + events to refresh). Views for security/simplification; materialized for performance on expensive queries."},
+{"id":77,"s":"mysql-advanced","d":"hard","q":"What are CTEs and recursive CTEs?","a":"Common Table Expressions (MySQL 8+) are temporary named result sets within a query. Improves readability. Recursive CTEs reference themselves for hierarchical data: <code>WITH RECURSIVE org AS (SELECT ... WHERE manager_id IS NULL UNION ALL SELECT e.* FROM employees e JOIN org ON e.manager_id = org.id)</code>."},
+{"id":78,"s":"mysql-advanced","d":"hard","q":"Explain window functions: ROW_NUMBER, RANK, DENSE_RANK, LEAD, LAG.","a":"Window functions perform calculations across related rows without collapsing them. <strong>ROW_NUMBER()</strong>: unique sequential number. <strong>RANK()</strong>: same rank for ties, skips numbers. <strong>DENSE_RANK()</strong>: same rank for ties, no skip. <strong>LEAD()</strong>: access next row's value. <strong>LAG()</strong>: access previous row's value."},
+{"id":79,"s":"mysql-advanced","d":"hard","q":"What is table partitioning and sharding?","a":"<strong>Partitioning</strong>: divides a table into segments (RANGE, LIST, HASH, KEY) within same server. Improves query pruning, easier archiving. <strong>Sharding</strong>: distributes data across multiple servers horizontally. Sharding adds complexity (cross-shard queries, rebalancing). Use partitioning first; sharding when exceeding single-server capacity."},
+{"id":80,"s":"mysql-practical","d":"med","q":"Find the second highest salary.","a":"<code>SELECT DISTINCT salary FROM employees ORDER BY salary DESC LIMIT 1 OFFSET 1</code>. Using window function: <code>SELECT DISTINCT salary FROM (SELECT salary, DENSE_RANK() OVER (ORDER BY salary DESC) rnk FROM employees) ranked WHERE rnk = 2</code>."},
+{"id":81,"s":"mysql-practical","d":"med","q":"Find and delete duplicate rows.","a":"Find: <code>SELECT email, COUNT(*) FROM users GROUP BY email HAVING COUNT(*) > 1</code>. Delete keeping lowest ID: <code>DELETE u1 FROM users u1 JOIN users u2 ON u1.email = u2.email WHERE u1.id > u2.id</code>. Or use CTE + ROW_NUMBER()."},
+{"id":82,"s":"mysql-practical","d":"med","q":"Top 5 highest salaries per department.","a":"<code>SELECT * FROM (SELECT name, salary, department, DENSE_RANK() OVER (PARTITION BY department ORDER BY salary DESC) rnk FROM employees) ranked WHERE rnk <= 5</code>. Use ROW_NUMBER() for exactly 5 without ties."},
+{"id":83,"s":"mysql-practical","d":"hard","q":"Running totals and pivoting data.","a":"Running total: <code>SELECT date, amount, SUM(amount) OVER (ORDER BY date) AS running_total FROM sales</code>. Pivot (no PIVOT in MySQL): <code>SELECT department, SUM(CASE WHEN gender='Male' THEN 1 ELSE 0 END) AS male_count, SUM(CASE WHEN gender='Female' THEN 1 ELSE 0 END) AS female_count FROM employees GROUP BY department</code>."},
+{"id":84,"s":"mysql-practical","d":"hard","q":"Design an e-commerce database.","a":"Tables: <code>users</code> (id, name, email), <code>categories</code> (id, name, parent_id), <code>products</code> (id, category_id, name, price, stock), <code>orders</code> (id, user_id, status, total, created_at), <code>order_items</code> (id, order_id, product_id, quantity, price), <code>reviews</code> (id, product_id, user_id, rating, body). Index FK columns, product name/category for search."},
+{"id":85,"s":"mysql-performance","d":"hard","q":"How do you optimize inserts and bulk inserts?","a":"Use multi-row INSERT (<code>VALUES (...), (...)</code>). Disable indexes temporarily during bulk load. Use <code>LOAD DATA INFILE</code> for large CSV imports. Set <code>autocommit=0</code> and commit periodically. InnoDB: increase <code>innodb_buffer_pool_size</code>. Use partitioned tables. Consider <code>INSERT ... ON DUPLICATE KEY UPDATE</code> for upserts."},
+{"id":86,"s":"mysql-performance","d":"hard","q":"Archive strategies for large tables.","a":"Partition by date (e.g., monthly) and <code>DROP/TRUNCATE</code> old partitions. Use <code>pt-archiver</code> (Percona) for controlled archiving. Move cold data to Archive storage engine. Export old data to files. Delete in small batches (<code>LIMIT 1000</code> in loop). Consider time-series databases for logging data."},
+{"id":87,"s":"mysql-replication","d":"med","q":"Explain MySQL replication. Master-Replica vs GTID.","a":"<strong>Master-Replica</strong>: master writes binlog, replica reads and applies relay log. Async by default; semi-sync available. <strong>GTID</strong> (Global Transaction ID, MySQL 5.6+): each transaction gets a unique ID. Simplifies failover and replica management. No need to track binlog positions."},
+{"id":88,"s":"mysql-replication","d":"med","q":"Backup strategies: mysqldump vs physical backups.","a":"<strong>mysqldump</strong>: logical backup (SQL statements). Portable, easy to restore. Slow for large DBs. Use <code>--single-transaction</code> for InnoDB consistency. <strong>Physical backup</strong>: copies data files directly (Percona XtraBackup, MySQL Enterprise Backup). Fast backup/restore, good for large DBs, point-in-time recovery."},
+{"id":89,"s":"mysql-scenario","d":"hard","q":"A query taking 30s suddenly takes 5 minutes. How do you troubleshoot?","a":"1. Check <code>SHOW PROCESSLIST</code> for blocking queries 2. Examine slow query log and recent <code>EXPLAIN</code> 3. Look for missing indexes (maybe a new index was dropped?) 4. Check table statistics â€” run <code>ANALYZE TABLE</code> 5. Check for table locks/ deadlocks 6. Monitor system resources (disk I/O, memory, CPU) 7. Check if execution plan changed due to data distribution shifts."},
+{"id":90,"s":"mysql-scenario","d":"hard","q":"A table has 100M rows. How to improve search performance?","a":"1. Ensure proper indexes (composite for common query patterns) 2. Use covering indexes 3. Partition by date/category 4. Implement search via ElasticSearch/MeiliSearch for full-text 5. Use summary/aggregate tables for reporting 6. Implement keyset pagination 7. Consider read replicas for distribution 8. Archive old data 9. Use Redis caching for frequent queries."},
+{"id":91,"s":"mysql-scenario","d":"hard","q":"How do you migrate a large DB with minimal downtime?","a":"Use Percona XtraBackup or MySQL Enterprise Backup for initial sync. Set up replication, switch app traffic. Use pt-online-schema-change for schema migrations without downtime (creates shadow table, syncs via triggers, swaps atomically). For smaller windows: batch process in chunks with throttling."},
+
+{"id":92,"s":"laravel-basics","d":"easy","q":"What is Laravel?","a":"Open-source PHP framework by Taylor Otwell. MVC pattern, Eloquent ORM, Blade templating, routing, auth, queues, testing. Current major version is Laravel 13. Built-in features for modern PHP development."},
+{"id":93,"s":"laravel-basics","d":"easy","q":"What is Artisan?","a":"CLI tool providing scaffolding commands (<code>make:model</code>, <code>make:controller</code>), database management (<code>migrate</code>), caching, queue management, and more. <code>php artisan list</code> shows all available commands."},
+{"id":94,"s":"laravel-basics","d":"easy","q":"What is the Laravel directory structure?","a":"<code>app/</code> (Models, Controllers, Livewire), <code>config/</code>, <code>database/</code> (migrations, seeders), <code>resources/</code> (views), <code>routes/</code>, <code>storage/</code>. Laravel 11+ has a leaner structure with fewer generated files."},
+{"id":95,"s":"laravel-basics","d":"med","q":"Explain the service container.","a":"IoC container managing class dependencies. Auto-resolves classes via reflection, binds interfaces to implementations, registers singletons. Foundation of Laravel's bootstrapping. Access via <code>app()</code> helper or type-hinting in constructors."},
+{"id":96,"s":"laravel-basics","d":"med","q":"What are service providers?","a":"Central bootstrapping mechanism. Register services, bindings, middleware in <code>register()</code> and <code>boot()</code> methods. Created with <code>make:provider</code>. Config service providers in <code>config/app.php</code>."},
+{"id":97,"s":"laravel-basics","d":"med","q":"What are facades?","a":"Static-like interface to container-bound classes. <code>Cache::get()</code> resolves to <code>resolve('cache')->get()</code>. Each facade has a <code>getFacadeAccessor()</code> returning the container binding key. Real-time facades available in Laravel 8+."},
+{"id":98,"s":"laravel-basics","d":"med","q":"Difference between env() and config()?","a":"<code>env()</code> reads <code>.env</code> directly (use only in config files). <code>config()</code> reads cached config (use in application code). After <code>config:cache</code>, <code>env()</code> returns null outside config files."},
+{"id":99,"s":"laravel-basics","d":"med","q":"Explain the Laravel request lifecycle.","a":"1. Request enters <code>index.php</code> 2. Autoloader loads Composer deps 3. App instance created 4. Service providers register/boot 5. Middleware pipeline runs 6. Route matched 7. Controller/dispatch returns response 8. Response sent to client 9. Terminable middleware runs."},
+{"id":100,"s":"laravel-basics","d":"easy","q":"What are migrations?","a":"Version control for database schema. Each migration has <code>up()</code> (apply) and <code>down()</code> (rollback). Run with <code>php artisan migrate</code>. Create with <code>make:migration</code>."},
+{"id":101,"s":"laravel-basics","d":"easy","q":"What are seeders and factories?","a":"<strong>Seeders</strong>: populate database with test data (<code>php artisan db:seed</code>). <strong>Factories</strong>: use Faker to generate fake model data. <code>User::factory()->count(10)->create()</code>."},
+{"id":102,"s":"laravel-basics","d":"hard","q":"What are Laravel 11+ structural changes?","a":"Simplified skeleton: fewer service providers, no separate HTTP/Console kernels, <code>bootstrap/app.php</code> for routing/middleware config, <code>routes/console.php</code> merged, component-first approach, default SQLite."},
+{"id":103,"s":"laravel-basics","d":"hard","q":"Explain the pipeline pattern in Laravel.","a":"Passes an object through a queue of pipes. Each pipe can modify the object or perform actions. Used by middleware (request through middleware classes), queued job chains, mail sending. Implemented by <code>Illuminate\\Pipeline\\Pipeline</code>."},
+{"id":104,"s":"laravel-basics","d":"med","q":"What is php artisan optimize?","a":"Caches config, routes, events, and views for production. Run before deploy. Use <code>optimize:clear</code> during development. Individual commands: <code>config:cache</code>, <code>route:cache</code>, <code>view:cache</code>."},
+
+{"id":105,"s":"routing","d":"easy","q":"How to define a route in Laravel?","a":"<code>Route::get('/url', [Controller::class, 'method'])</code>. Supports get, post, put, patch, delete, options. Route files: <code>routes/web.php</code> (web) and <code>routes/api.php</code> (API with prefix)."},
+{"id":106,"s":"routing","d":"easy","q":"What are named routes?","a":"<code>Route::get('/profile', ...)->name('profile')</code>. Generate URLs with <code>route('profile', $params)</code> or <code>redirect()->route('profile')</code>. Makes URLs maintainable."},
+{"id":107,"s":"routing","d":"med","q":"What are route model bindings?","a":"Auto-injects models into controllers. Implicit: <code>/users/{user}</code> fetches by ID. Custom column: <code>/users/{user:slug}</code>. Explicit: <code>Route::bind('user', fn($value) => ...)</code> in <code>AppServiceProvider</code>."},
+{"id":108,"s":"routing","d":"med","q":"What is middleware?","a":"Filters HTTP requests before reaching the route handler. Examples: <code>auth</code>, <code>throttle</code>, <code>verified</code>, <code>cors</code>. Can be assigned to routes, groups, or globally. Middleware runs in the pipeline sequentially."},
+{"id":109,"s":"routing","d":"easy","q":"How to group routes?","a":"<code>Route::prefix('admin')->middleware('auth')->group(function () { Route::get(...); });</code>. Can nest groups, combine prefix/middleware/name/domain."},
+{"id":110,"s":"routing","d":"hard","q":"What is rate limiting?","a":"Restricts requests per time window. Define using <code>RateLimiter::for('api', fn($job) => $job->limit(60)->minute())</code>. Apply via <code>throttle:api</code> middleware. Can set different limits per authenticated/guest users."},
+{"id":111,"s":"routing","d":"med","q":"What are signed URLs?","a":"HMAC-signed URLs for one-time or limited-time access: <code>URL::signedRoute('unsubscribe', ['user' => 1])</code>. Verify with <code>$request->hasValidSignature()</code>. Temporary versions: <code>temporarySignedRoute()</code> with expiration."},
+{"id":112,"s":"routing","d":"med","q":"How does route caching work?","a":"<code>php artisan route:cache</code> serializes all routes for faster matching. Only works with closure-free controllers (no closures in route definitions). Must re-cache after route changes."},
+
+{"id":113,"s":"blade","d":"easy","q":"What is Blade?","a":"Laravel's templating engine. Uses <code>.blade.php</code> files, compiles to plain PHP cached in <code>storage/framework/views</code>. Provides directives like <code>@if</code>, <code>@foreach</code>, <code>@yield</code>, <code>@section</code>."},
+{"id":114,"s":"blade","d":"easy","q":"How do you escape data in Blade?","a":"<code>{{ $var }}</code> auto-escapes via <code>htmlspecialchars()</code>. <code>{!! $var !!}</code> for raw output (dangerous with user input). Use with caution to avoid XSS."},
+{"id":115,"s":"blade","d":"med","q":"How do Blade components work?","a":"Class-based: <code>php artisan make:component Alert</code> creates PHP class + Blade template. Render as <code><x-alert /></code>. Accept attributes, slots, named slots. Anonymous components: just the Blade file in <code>views/components/</code>."},
+{"id":116,"s":"blade","d":"med","q":"What are stacks and pushes?","a":"<code>@push('scripts')...@endpush</code> adds to a stack in child view. <code>@stack('scripts')</code> renders all pushed content in the layout. <code>@prepend</code> adds to beginning. Useful for adding JS/CSS from child views."},
+{"id":117,"s":"blade","d":"hard","q":"How do custom Blade directives work?","a":"<code>Blade::directive('name', fn($expr) => \"<?php ... ?>\")</code> in a service provider's <code>boot()</code>. Returns raw PHP string for compiled views. Also: <code>Blade::if()</code> for simple conditionals."},
+
+{"id":118,"s":"eloquent","d":"easy","q":"What is Eloquent?","a":"Laravel's Active Record ORM. Each model maps to a database table, each instance to a row. Provides CRUD, relationships, accessors, mutators, scopes, and events out of the box."},
+{"id":119,"s":"eloquent","d":"easy","q":"What are Eloquent naming conventions?","a":"Snake-case plural tables (<code>users</code>), PK is <code>id</code>, FK columns are <code>user_id</code>, pivot tables alphabetical (<code>role_user</code>), timestamps <code>created_at</code>/<code>updated_at</code>."},
+{"id":120,"s":"eloquent","d":"med","q":"What relationships does Eloquent support?","a":"<code>hasOne</code>, <code>hasMany</code>, <code>belongsTo</code>, <code>belongsToMany</code>, <code>hasManyThrough</code>, <code>morphTo</code>/<code>morphMany</code>, <code>morphToMany</code>. <code>hasOneThrough</code> also available."},
+{"id":121,"s":"eloquent","d":"med","q":"What is eager loading?","a":"Fetches related models upfront to avoid N+1 queries. <code>User::with('posts.comments')->get()</code>. Can constrain: <code>with(['posts' => fn($q) => $q->where('published', true)])</code>. <code>load()</code> for lazy eager loading."},
+{"id":122,"s":"eloquent","d":"med","q":"What are accessors and mutators?","a":"<code>Attribute::make(get: fn($val) => ..., set: fn($val) => ...)</code>. Transform attributes on retrieval/getting. Example: <code>protected function name(): Attribute { return Attribute::make(get: fn($v) => ucfirst($v)); }</code>."},
+{"id":123,"s":"eloquent","d":"med","q":"What are scopes?","a":"<strong>Local scopes</strong>: reusable query methods: <code>scopePopular($q) { $q->where('views', '>', 1000); }</code>. Called: <code>User::popular()->get()</code>. <strong>Global scopes</strong>: apply constraints to all queries on a model."},
+{"id":124,"s":"eloquent","d":"hard","q":"Explain model events and observers.","a":"Lifecycle events: <code>creating</code>, <code>created</code>, <code>updating</code>, <code>updated</code>, <code>saving</code>, <code>saved</code>, <code>deleting</code>, <code>deleted</code>, <code>restoring</code>, <code>restored</code>, <code>retrieved</code>. Use Observers (<code>php artisan make:observer UserObserver --model=User</code>) for clean separation."},
+{"id":125,"s":"eloquent","d":"hard","q":"What is the N+1 problem?","a":"Querying N items then accessing a relation per item causes N extra SQL queries. Example: <code>$users = User::all(); foreach($users as $user) { echo $user->posts->count(); }</code> â€” 1 query for users + N for posts. Fix: eager load with <code>with('posts')</code>."},
+{"id":126,"s":"eloquent","d":"hard","q":"How to optimize Eloquent performance?","a":"Use <code>select()</code> for specific columns, eager loading (<code>with()</code>), <code>chunk()</code>/<code>chunkById()</code> for large datasets, <code>cursor()</code> for memory-efficient iteration (returns generators), <code>when()</code> for conditional queries, DB indexes, <code>withCount()</code>/<code>withSum()</code> for aggregates."},
+{"id":127,"s":"eloquent","d":"hard","q":"Explain polymorphic relationships.","a":"A model belongs to multiple models on one association. Uses <code>commentable_id</code> + <code>commentable_type</code>. Example: Comments can belong to Posts or Videos. <code>morphMany()</code> on Post/Video, <code>morphTo()</code> on Comment."},
+{"id":128,"s":"eloquent","d":"med","q":"What is paginate vs simplePaginate vs cursorPaginate?","a":"<code>paginate()</code>: returns items + pagination links (count query). <code>simplePaginate()</code>: only prev/next (no count) â€” faster. <code>cursorPaginate()</code>: offsetless pagination using a <code>WHERE clause</code> on ordered column â€” best for large datasets and real-time data."},
+
+{"id":129,"s":"validation","d":"easy","q":"How does validation work in Laravel?","a":"<code>$request->validate([...])</code> in controllers. On failure, redirects back with errors or returns JSON errors. Custom error messages, nested validation, array validation supported."},
+{"id":130,"s":"validation","d":"easy","q":"What are Form Requests?","a":"Dedicated validation classes: <code>php artisan make:request StoreUserRequest</code>. Define <code>rules()</code> and <code>authorize()</code>. Type-hint in controller method â€” Laravel auto-resolves and validates before the method runs."},
+{"id":131,"s":"validation","d":"med","q":"What are common validation rules?","a":"<code>required</code>, <code>email</code>, <code>unique:table,column</code>, <code>exists:table,column</code>, <code>min</code>/<code>max</code>, <code>confirmed</code>, <code>file</code>/<code>image</code>, <code>regex</code>, <code>numeric</code>, <code>string</code>, <code>array</code>, <code>in:foo,bar</code>, <code>date</code>, <code>after:today</code>, <code>prohibited_if</code>."},
+{"id":132,"s":"validation","d":"med","q":"Explain Laravel's auth system.","a":"Guards (session, token, sanctum) define auth method. Providers (Eloquent, database) retrieve users. Starter kits: Breeze (minimal), Jetstream (teams, 2FA), Fortify (headless backend). <code>auth()</code> helper for current user."},
+{"id":133,"s":"validation","d":"med","q":"What is Sanctum?","a":"API token auth for SPAs and mobile apps. Cookie-based for SPAs (same-site), token-based for API clients. Each token can have abilities (scopes). Lightweight alternative to Passport."},
+{"id":134,"s":"validation","d":"med","q":"What are Gates and Policies?","a":"<strong>Gates</strong>: closure-based authorization checks. <strong>Policies</strong>: classes organizing auth logic per model. Use <code>$this->authorize()</code> in controllers, <code>@can</code> in Blade, <code>Gate::allows()</code> anywhere."},
+{"id":135,"s":"validation","d":"hard","q":"How do you create custom validation rules?","a":"<code>php artisan make:rule Uppercase</code>. Rule class implements <code>ValidationRule</code> with <code>validate(string $attribute, mixed $value, Closure $fail)</code>. Call <code>$fail('message')</code> on failure. Can also use closure rules inline."},
+
+{"id":136,"s":"api-testing","d":"easy","q":"How to create an API in Laravel?","a":"Define routes in <code>routes/api.php</code> (prefix: <code>/api</code>). Return JSON: <code>response()->json(['message' => 'OK'], 200)</code>. Use API resources for transformation. Sanctum for auth."},
+{"id":137,"s":"api-testing","d":"med","q":"What are API Resources?","a":"<code>php artisan make:resource UserResource</code>. Transform Eloquent models to JSON. Define <code>toArray($request)</code>. <code>UserResource::collection($users)</code> for collections. Conditionally include attributes with <code>when()</code>."},
+{"id":138,"s":"api-testing","d":"med","q":"What is Pest PHP?","a":"Testing framework built on PHPUnit with cleaner syntax. Default in Laravel 11+. Uses closures: <code>test('name', fn() => expect(true)->toBeTrue())</code>. Higher-order expectations, arch testing."},
+{"id":139,"s":"api-testing","d":"hard","q":"What is the difference between PUT, PATCH, and POST?","a":"<strong>POST</strong>: create new resource. <strong>PUT</strong>: replace entire resource (all fields required). <strong>PATCH</strong>: partial update (only changed fields). In practice, many apps use POST for create, PUT for full update, PATCH for partial."},
+{"id":140,"s":"api-testing","d":"hard","q":"How do you secure APIs?","a":"Use HTTPS, authentication (Sanctum/Passport/JWT), rate limiting (<code>throttle</code> middleware), input validation, CORS configuration, API versioning, OAuth2 for third-party, API keys for machine-to-machine, encrypt sensitive data, log requests."},
+{"id":141,"s":"api-testing","d":"med","q":"How to test HTTP endpoints?","a":"<code>$this->get('/api/users')</code>, <code>->assertStatus(200)</code>, <code>->assertJsonStructure([...])</code>, <code>->assertJsonCount(15, 'data')</code>. Use <code>actingAs($user)</code> for auth. Pest: <code>get('/api/users')->assertOk()</code>."},
+
+{"id":142,"s":"queues-advanced","d":"med","q":"How do queues work in Laravel?","a":"Defer tasks by dispatching jobs: <code>SendWelcomeEmail::dispatch($user)</code>. Workers process jobs: <code>php artisan queue:work</code>. Drivers: database, Redis, SQS, Beanstalkd. Jobs can be delayed, batched, chained."},
+{"id":143,"s":"queues-advanced","d":"med","q":"What are events and listeners?","a":"Events decouple side effects from core logic. <code>event(new UserRegistered($user))</code>. Listeners handle the event â€” can be queued via <code>ShouldQueue</code>. <code>EventServiceProvider</code> maps events to listeners."},
+{"id":144,"s":"queues-advanced","d":"hard","q":"What is Laravel Reverb and broadcasting?","a":"Reverb is a first-party WebSocket server (Laravel 11+). Real-time events via WebSockets. Echo (JS library) listens on frontend: <code>Echo.channel('orders').listen('OrderShipped', ...)</code>. Supports private/presence channels."},
+{"id":145,"s":"queues-advanced","d":"med","q":"How does caching work in Laravel?","a":"<code>Cache::remember('key', $seconds, fn() => ...)</code>. Drivers: file, Redis, Memcached, DynamoDB. Tags for grouping:: <code>Cache::tags(['posts'])->put('key', $val)</code>. Cache prefix in <code>config/cache.php</code>."},
+{"id":146,"s":"queues-advanced","d":"hard","q":"What is Laravel Octane?","a":"Serves app in-memory via Swoole or RoadRunner. Boots once, handles many requests â€” dramatically faster. Run <code>php artisan octane:start</code>. Must avoid stateful singletons, static properties, and request-bound state."},
+{"id":147,"s":"queues-advanced","d":"hard","q":"What is Laravel Scout?","a":"Full-text search for Eloquent. Integrates with MeiliSearch, Algolia. Add <code>Searchable</code> trait to model. <code>Post::search('query')->where('category_id', 5)->paginate()</code>. Queue indexing for performance."},
+
+{"id":148,"s":"security","d":"easy","q":"How does Laravel prevent SQL injection?","a":"Eloquent uses PDO parameter binding (auto-escaped). Raw queries use <code>DB::select('...', [$params])</code> with bound parameters. Always use binding, never string interpolation in raw SQL."},
+{"id":149,"s":"security","d":"easy","q":"How does CSRF protection work?","a":"Laravel generates a CSRF token per session. <code>@csrf</code> blade directive adds hidden token field. <code>VerifyCsrfToken</code> middleware validates on POST/PUT/PATCH/DELETE. Exclude specific routes if needed (e.g., webhooks)."},
+{"id":150,"s":"security","d":"med","q":"How does Laravel prevent XSS?","a":"Blade's <code>{{ }}</code> escapes via <code>htmlspecialchars()</code>. Avoid <code>{!! !!}</code> with user input. Use CSP headers. Sanitize HTML with HTML Purifier if allowing rich content."},
+{"id":151,"s":"security","d":"med","q":"How does encryption work in Laravel?","a":"AES-256-CBC/GCM via <code>Crypt::encrypt()</code>/<code>decrypt()</code>. Uses <code>APP_KEY</code> in <code>.env</code>. Authenticated encryption includes HMAC for integrity verification."},
+{"id":152,"s":"security","d":"hard","q":"What are .env best practices?","a":"Never commit .env to VCS. Use <code>.env.example</code> as template. Production: <code>APP_DEBUG=false</code>, <code>APP_ENV=production</code>, strong <code>APP_KEY</code>. Restrict file permissions (600). Use different keys per environment."},
+{"id":153,"s":"security","d":"med","q":"How to deploy Laravel?","a":"<code>composer install --no-dev</code>, <code>config:cache</code>, <code>route:cache</code>, <code>view:cache</code>, run migrations, set permissions (<code>storage</code>, <code>bootstrap/cache</code>). Tools: Laravel Forge (VPS), Vapor (serverless), Envoyer (zero-downtime)."},
+
+{"id":154,"s":"cakephp","d":"med","q":"How does CakePHP's ORM work?","a":"CakePHP uses a Data Mapper/Table pattern. <code>Table</code> objects represent database tables; <code>Entity</code> objects represent rows. Uses conventions for associations, contains behaviors for reusable logic, and supports eager/lazy loading."},
+{"id":155,"s":"cakephp","d":"med","q":"How do you load models dynamically?","a":"Use <code>TableRegistry::getTableLocator()->get('Articles')</code> (CakePHP 4+) or <code>$this->loadModel('Articles')</code> in controllers. Models can be loaded on-demand without manual instantiation."},
+{"id":156,"s":"cakephp","d":"hard","q":"How to optimize CakePHP applications?","a":"Enable query caching, use eager loading (<code>contain()</code>), disable lazy loading, use <code>find('list')</code> for dropdowns, enable APCu/Redis for cache, use <code>--optimize-autoloader</code>, minimize plugins, use <code>make:model --type=table</code> for pre-built queries."},
+{"id":157,"s":"cakephp","d":"med","q":"Difference between find('all') and find('first')?","a":"<code>find('all')</code> returns a <code>Collection</code> of multiple entities (or <code>ResultSet</code>). <code>find('first')</code> returns a single Entity or <code>null</code>. Both accept conditions, order, contain, etc."},
+{"id":158,"s":"cakephp","d":"med","q":"How do you create custom components and helpers?","a":"<strong>Components</strong>: <code>src/Controller/Component/MyComponent.php</code> â€” shared controller logic. Load in controllers: <code>$this->loadComponent('My')</code>. <strong>Helpers</strong>: <code>src/View/Helper/MyHelper.php</code> â€” shared view logic. Load: <code>$this->loadHelper('My')</code>."},
+
+{"id":159,"s":"javascript","d":"easy","q":"Difference between var, let, and const?","a":"<strong>var</strong>: function-scoped, hoisted, can be redeclared. <strong>let</strong>: block-scoped, hoisted but not initialized (TDZ), cannot redeclare. <strong>const</strong>: block-scoped, cannot reassign, but object properties can be mutated. Use const by default, let when reassigning."},
+{"id":160,"s":"javascript","d":"med","q":"Explain event bubbling and event delegation.","a":"<strong>Bubbling</strong>: events propagate from target element up through ancestors. <strong>Event delegation</strong>: attach a single listener to a parent to handle events from multiple children using <code>e.target</code>. Improves performance for dynamic lists."},
+{"id":161,"s":"javascript","d":"med","q":"What is a Promise?","a":"An object representing eventual completion of async operation. States: pending, fulfilled, rejected. Chaining via <code>.then()</code>, error handling via <code>.catch()</code>. <code>Promise.all()</code>, <code>Promise.race()</code>, <code>Promise.allSettled()</code> for concurrency."},
+{"id":162,"s":"javascript","d":"med","q":"Synchronous vs asynchronous JavaScript.","a":"<strong>Synchronous</strong>: code executes sequentially, blocking until each operation completes. <strong>Asynchronous</strong>: operations can run in the background (callbacks, promises, async/await). JS uses event loop to handle async operations via callback queue."},
+{"id":163,"s":"javascript","d":"hard","q":"Explain closures with examples.","a":"A closure is a function that retains access to its outer function's variables even after the outer function has returned. Used for data privacy, currying, event handlers. Example: <code>function counter() { let count = 0; return () => ++count; }</code>. Each call creates a new count scope."},
+
+{"id":164,"s":"practical","d":"med","q":"Reverse a string without using strrev().","a":"<code>function reverseString($s) { $r = ''; for ($i = strlen($s) - 1; $i >= 0; $i--) { $r .= $s[$i]; } return $r; }</code>. Alternative: <code>implode('', array_reverse(str_split($s)))</code>."},
+{"id":165,"s":"practical","d":"med","q":"Find duplicate values in an array.","a":"<code>function findDuplicates($arr) { return array_keys(array_filter(array_count_values($arr), fn($c) => $c > 1)); }</code>. In JS: <code>arr.filter((item, i) => arr.indexOf(item) !== i)</code>. For large arrays, use a Set."},
+{"id":166,"s":"practical","d":"med","q":"Find the second highest salary using SQL.","a":"<code>SELECT DISTINCT salary FROM employees ORDER BY salary DESC LIMIT 1 OFFSET 1</code>. Window: <code>SELECT DISTINCT salary FROM (SELECT salary, DENSE_RANK() OVER (ORDER BY salary DESC) rnk FROM employees) ranked WHERE rnk = 2</code>."},
+{"id":167,"s":"practical","d":"med","q":"Check if a string is a palindrome.","a":"<code>function isPalindrome($s) { $s = strtolower(preg_replace('/[^a-z0-9]/', '', $s)); return $s === strrev($s); }</code>. Two-pointer: compare first/last characters moving inward."},
+{"id":168,"s":"practical","d":"hard","q":"Process a CSV with 10M records without memory issues.","a":"Open file with <code>fopen()</code> and read line-by-line with <code>fgetcsv()</code>. Use a generator: <code>function csvReader($path) { if (($h = fopen($path, 'r')) !== false) { while (($row = fgetcsv($h)) !== false) yield $row; fclose($h); } }</code>. Process in batches, insert in chunks of 500."},
+
+{"id":169,"s":"projects","d":"med","q":"Describe the most challenging project you've worked on.","a":"Structure your answer with <strong>STAR method</strong>: Situation, Task, Action, Result. Focus on technical complexity, architecture decisions, team coordination, and measurable outcomes (performance gains, scalability improvements)."},
+{"id":170,"s":"projects","d":"med","q":"Tell me about a performance issue you solved.","a":"Example: Database query taking 30s due to N+1 problem â€” added eager loading and composite indexing, reduced to 100ms. Or: API response slow due to serialization â€” implemented caching layer and response transformers. Always include before/after metrics."},
+{"id":171,"s":"projects","d":"med","q":"How have you optimized cron jobs?","a":"Batch operations instead of single inserts, use queues for parallel processing, checkpoint/resume for long-running jobs, monitor with Laravel Horizon, log execution times, stagger schedules to avoid resource contention, use <code>withoutOverlapping</code>."},
+{"id":172,"s":"projects","d":"med","q":"What caching strategies have you used?","a":"OPCache (PHP bytecode), Redis for application cache (query results, sessions), full-page cache for static content, CDN for assets, database query cache, Eloquent eager loading as 'query cache', browser caching with Cache-Control headers."},
+{"id":173,"s":"projects","d":"med","q":"Why should we hire you?","a":"Focus on: proven track record with similar tech stack, experience scaling applications, mentoring junior devs, code quality practices (testing, CI/CD, code review), business impact (performance improvements, feature delivery), continuous learning."},
+
+{"id":174,"s":"case-problems","d":"hard","q":"Blog with categories, tags, comments","a":"<strong>Models:</strong> Post, Category (hasMany posts), Tag (belongsToMany posts), Comment (polymorphic morphTo). <strong>Features:</strong> SoftDeletes on Post, Form Request validation, Policy for authorization, eager load relationships. <strong>Edge cases:</strong> Unauthorized access, empty tags, soft-deleted posts not visible."},
+{"id":175,"s":"case-problems","d":"hard","q":"Shopping cart session + DB merge","a":"<strong>Approach:</strong> Cart model with user_id (nullable), product_id, quantity. CartService: addItem(), removeItem(), getTotal(). Guests store in session. On login event, mergeCarts() upserts. <strong>Edge cases:</strong> Product deleted during session, duplicate items, quantity overflow."},
+{"id":176,"s":"case-problems","d":"hard","q":"Multi-step form with persistence","a":"<strong>Approach:</strong> UserRegistration model with JSON data column, current_step, completed. Validate step-by-step. Store session temp, persist on advance. <strong>Edge cases:</strong> Browser close mid-form, expired sessions, back button data loss."},
+{"id":177,"s":"case-problems","d":"hard","q":"Role-based access control (RBAC)","a":"<strong>Approach:</strong> Role (belongsToMany users), Permission (belongsToMany roles). Gate::define() with hasPermission(). Cache permissions. Middleware role:admin. <strong>Edge cases:</strong> Circular permissions, super admin bypass, cache invalidation."},
+{"id":178,"s":"case-problems","d":"hard","q":"RESTful API with pagination/filtering","a":"<strong>Approach:</strong> Product::query()->when() for conditionals. Whitelist sort columns. API Resource collection. QueryString Form Request validation. <strong>Edge cases:</strong> Invalid sort field, SQL injection via sort, very large datasets."},
+{"id":179,"s":"case-problems","d":"hard","q":"Queue-based email with retries","a":"<strong>Approach:</strong> SendBulkNotification job with tries=3, backoff=[5,10,30]. Notification::send() inside job. Log status in NotificationLog. Check cancelled_at flag. <strong>Edge cases:</strong> Email provider rate limits, large recipient lists, partial failures."},
+{"id":180,"s":"case-problems","d":"hard","q":"File upload with image optimization","a":"<strong>Approach:</strong> Intervention Image for resizing. S3 storage with CloudFront CDN. Queue resize jobs. Polymorphic media table. Validation: image|mimes:jpg,png,webp|max:2048. <strong>Edge cases:</strong> Malicious file upload, disk quota, CDN cache purge."},
+{"id":181,"s":"case-problems","d":"hard","q":"Real-time chat with Reverb","a":"<strong>Approach:</strong> Message model (user_id, conversation_id, body). Broadcast MessageSent via ShouldBroadcast. Private channels with auth. Typing indicator on debounce. Unread count via conversation_user.last_read_at. <strong>Edge cases:</strong> Offline messages, concurrent connections, message ordering."},
+{"id":182,"s":"case-problems","d":"hard","q":"Multi-tenant SaaS with subdomains","a":"<strong>Approach:</strong> Route::domain('{tenant}.app.com'). Middleware resolves Tenant by subdomain, sets tenant_id. Global scope filters by tenant. Cache per-tenant config. <strong>Edge cases:</strong> Cross-tenant data leakage, subdomain takeover, DNS propagation."},
+{"id":183,"s":"case-problems","d":"hard","q":"Stripe payment + webhooks","a":"<strong>Approach:</strong> Cashier/Stripe SDK. Checkout session creation. Webhook controller (CSRF exempt) handles checkout.session.completed, charge.refunded. Queue processing. Verify Stripe signature. <strong>Edge cases:</strong> Duplicate webhooks, expired sessions, refund race conditions."},
+{"id":184,"s":"case-problems","d":"hard","q":"Search with Scout + MeiliSearch","a":"<strong>Approach:</strong> Scout + Searchable trait on Product. toSearchableArray() includes category. Product::search('query')->where('category_id', 5)->paginate(). Configure filterable/sortable. Queue indexing. <strong>Edge cases:</strong> Sync lag, typo-tolerance, empty results, re-indexing."},
+{"id":185,"s":"php-basics","d":"easy","q":"Tell me about yourself in 2-3 minutes.","a":"Structure: 1) Current role & company â€” what you do now 2) Past experience â€” relevant roles and tech stacks 3) Key achievements â€” measurable outcomes 4) Why this role â€” what excites you about the position. Keep it concise, relevant, and practice out loud."},
+{"id":186,"s":"oop","d":"med","q":"Explain the differences between self, static, and parent. When would you use each?","a":"<strong>self::</strong> resolves to the class where it's written â€” early binding. Used for accessing the current class's static members. <strong>static::</strong> resolves to the calling class at runtime â€” late static binding. Used in traits and base classes where child behavior is needed. <strong>parent::</strong> accesses the parent class's overridden methods/properties. Example: <code>parent::__construct()</code> calls the parent constructor."},
+{"id":187,"s":"oop","d":"hard","q":"Compare abstract class vs interface vs trait with a real-world example.","a":"<strong>Abstract class:</strong> \"is-a\" relationship, can have properties and implemented methods. Use when classes share a common base (e.g., <code>abstract class PaymentGateway</code>). <strong>Interface:</strong> \"can-do\" contract, no properties. Use for capability guarantees (e.g., <code>interface Billable</code>). <strong>Trait:</strong> code reuse without inheritance. Use for shared behavior across unrelated classes (e.g., <code>trait Loggable</code>). Example: <code>abstract class Animal { abstract public function sound(); } interface Swimmable { public function swim(); } trait Herdable { public function herd() { ... } } class Duck extends Animal implements Swimmable { use Herdable; }</code>."},
+{"id":188,"s":"mysql-fundamentals","d":"med","q":"Explain the differences between WHERE, HAVING, GROUP BY, and ORDER BY.","a":"<strong>WHERE</strong>: filters rows before aggregation. <strong>GROUP BY</strong>: groups rows for aggregate functions (e.g., <code>SELECT department, COUNT(*) FROM employees GROUP BY department</code>). <strong>HAVING</strong>: filters groups after aggregation (like WHERE but for GROUP BY). <strong>ORDER BY</strong>: sorts the final result set. Execution order: WHERE â†’ GROUP BY â†’ HAVING â†’ SELECT â†’ ORDER BY."},
+{"id":189,"s":"mysql-optimization","d":"hard","q":"How do you optimize a query running on a table with 5 million records?","a":"1. Check EXPLAIN for full table scans 2. Add appropriate indexes (composite for multi-condition WHERE) 3. Use covering indexes 4. Avoid SELECT * â€” fetch only needed columns 5. Partition large tables 6. Use keyset pagination instead of OFFSET 7. Consider summary/aggregate tables 8. Archive old data 9. Use Redis caching for frequent queries 10. Ensure JOIN columns are indexed."},
+{"id":190,"s":"mysql-fundamentals","d":"med","q":"What is the difference between DELETE, TRUNCATE, and DROP?","a":"<strong>DELETE</strong>: DML â€” removes rows one by one (can use WHERE), triggers fire, can be rolled back, does not reset auto-increment. <strong>TRUNCATE</strong>: DDL â€” removes all rows by deallocating data pages, no WHERE, no triggers, resets auto-increment, faster. <strong>DROP</strong>: DDL â€” removes the entire table structure and data, cannot roll back, requires recreation."},
+{"id":191,"s":"api-testing","d":"easy","q":"What is REST?","a":"Representational State Transfer â€” architectural style for APIs. Key principles: statelessness (no client context on server), resource-based URLs (<code>/api/users/123</code>), standard HTTP methods (GET/POST/PUT/PATCH/DELETE), JSON/XML representations, uniform interface, cacheability, layered system."},
+{"id":192,"s":"api-testing","d":"med","q":"What authentication methods have you used?","a":"<strong>Sanctum</strong>: token-based for SPAs (cookie) and mobile apps. <strong>JWT</strong>: stateless auth via Authorization header. <strong>OAuth2</strong>: third-party auth via Socialite. <strong>API Keys</strong>: machine-to-machine, stored in <code>.env</code>. <strong>Basic Auth</strong>: headers over HTTPS. <strong>Session-based</strong>: cookies + CSRF."}
+]</script>
+
+<script>
+const STORAGE_KEY = 'sf_progress';
+const EL = (s, p) => (p||document).querySelector(s);
+const ELS = (s, p) => (p||document).querySelectorAll(s);
+const SECTION_NAMES = {
+  'php-basics':'PHP Basics','oop':'OOP in PHP','composer':'Composer',
+  'mysql-fundamentals':'SQL Fundamentals','mysql-joins':'Joins & Subqueries','mysql-indexing':'Indexing',
+  'mysql-optimization':'Query Optimization','mysql-transactions':'Transactions & Locking','mysql-advanced':'Advanced MySQL',
+  'mysql-practical':'Practical SQL','mysql-performance':'Performance','mysql-replication':'Replication & Backup',
+  'mysql-scenario':'Scenario-Based',
+  'laravel-basics':'Laravel Basics','routing':'Routing & Controllers','blade':'Blade & Views','eloquent':'Eloquent ORM','validation':'Validation & Auth',
+  'api-testing':'API & Testing','queues-advanced':'Queues & Advanced','security':'Security & Deployment',
+  'cakephp':'CakePHP','javascript':'JavaScript & jQuery',
+  'practical':'Practical Coding','projects':'Real Project Questions','case-problems':'Case Problems'
+};
+const SECTION_PARENT = {
+  'php-basics':'php','oop':'php','composer':'php',
+  'mysql-fundamentals':'mysql','mysql-joins':'mysql','mysql-indexing':'mysql','mysql-optimization':'mysql','mysql-transactions':'mysql','mysql-advanced':'mysql','mysql-practical':'mysql','mysql-performance':'mysql','mysql-replication':'mysql','mysql-scenario':'mysql',
+  'laravel-basics':'laravel','routing':'laravel','blade':'laravel','eloquent':'laravel','validation':'laravel',
+  'api-testing':'advanced','queues-advanced':'advanced','security':'advanced',
+  'cakephp':'advanced','javascript':'advanced',
+  'practical':'practical','projects':'practical','case-problems':'practical'
+};
+const PARENT_LABELS = {php:'PHP Core',mysql:'MySQL',laravel:'Laravel',advanced:'Advanced Topics',practical:'Practical'};
+const SECTION_DESCS = {
+  'php-basics':'Core language syntax, variable handling, data types, and foundational PHP constructs.',
+  'oop':'Object-oriented programming in PHP â€” classes, inheritance, interfaces, traits, and magic methods.',
+  'composer':'Dependency management, autoloading (PSR-4), package creation, and version constraints.',
+  'mysql-fundamentals':'SQL basics â€” CREATE, SELECT, INSERT, UPDATE, DELETE, data types, and constraints.',
+  'mysql-joins':'INNER/LEFT/RIGHT/CROSS JOINs, self-joins, subqueries, UNION, and correlated subqueries.',
+  'mysql-indexing':'B+tree indexes, composite indexes, cardinality, EXPLAIN, covering indexes, and index maintenance.',
+  'mysql-optimization':'Query optimization, slow query log, temp tables, keyset pagination, and materialized views.',
+  'mysql-transactions':'ACID, isolation levels, deadlocks, gap locking, MVCC, and transaction best practices.',
+  'mysql-advanced':'CTEs, window functions, stored procedures, triggers, events, JSON, and GIS in MySQL.',
+  'mysql-practical':'Real-world data analysis queries, CRUD operations, and common business-logic SQL patterns.',
+  'mysql-performance':'Performance benchmarking, configuration tuning, profiling, schema optimization, and caching strategies.',
+  'mysql-replication':'Master-slave, GTID, group replication, failover, backups, point-in-time recovery, and disaster planning.',
+  'mysql-scenario':'Architecture and troubleshooting scenarios for large-scale MySQL deployments (100M+ rows).',
+  'laravel-basics':'Laravel fundamentals â€” lifecycle, service container, facades, Artisan, config, and env management.',
+  'routing':'Route definitions, middleware, controller binding, route model binding, rate limiting, and API versioning.',
+  'blade':'Blade templating â€” layouts, components, slots, stacks, directives, and rendering optimization.',
+  'eloquent':'Eloquent ORM â€” relationships, eager loading, accessors/mutators, scopes, serialization, and performance.',
+  'validation':'Form requests, validation rules, custom rules, authorization gates/policies, and middleware security.',
+  'api-testing':'RESTful API design, Postman collections, PHPUnit feature tests, HTTP responses, and API documentation.',
+  'queues-advanced':'Queue drivers, jobs, events, listeners, notifications, broadcasting, scheduled tasks, and horizon.',
+  'security':'Laravel security best practices â€” XSS, CSRF, SQL injection, mass assignment, encryption, and authentication.',
+  'cakephp':'CakePHP conventions â€” MVC, bake, ORM, behaviors, components, and migration from legacy CakePHP patterns.',
+  'javascript':'JavaScript/jQuery essentials for full-stack devs â€” AJAX, event handling, DOM manipulation, and ES6+.',
+  'practical':'Hands-on coding patterns and problem-solving exercises for PHP and Laravel development scenarios.',
+  'projects':'Real-world project experience questions covering architecture decisions, trade-offs, and team collaboration.',
+  'case-problems':'Complex case problems combining PHP, Laravel, MySQL, design patterns, and system architecture decisions.'
+};
+const SECTION_ICONS = {
+  'php-basics':'bi-code-slash','oop':'bi-diagram-3','composer':'bi-box-seam',
+  'mysql-fundamentals':'bi-database','mysql-joins':'bi-diagram-3','mysql-indexing':'bi-sort-up','mysql-optimization':'bi-speedometer2','mysql-transactions':'bi-arrow-repeat','mysql-advanced':'bi-code-slash','mysql-practical':'bi-terminal','mysql-performance':'bi-graph-up','mysql-replication':'bi-diagram-2','mysql-scenario':'bi-question-lg',
+  'laravel-basics':'bi-lightning','routing':'bi-signpost-2','blade':'bi-eye','eloquent':'bi-database','validation':'bi-check2-square',
+  'api-testing':'bi-globe','queues-advanced':'bi-arrow-repeat','security':'bi-shield-lock',
+  'cakephp':'bi-cup-hot','javascript':'bi-filetype-js',
+  'practical':'bi-laptop','projects':'bi-person-workspace','case-problems':'bi-gear'
+};
+const SECTION_ORDER = ['php-basics','oop','composer','mysql-fundamentals','mysql-joins','mysql-indexing','mysql-optimization','mysql-transactions','mysql-advanced','mysql-practical','mysql-performance','mysql-replication','mysql-scenario','laravel-basics','routing','blade','eloquent','validation','api-testing','queues-advanced','security','cakephp','javascript','practical','projects','case-problems'];
+const PART_NUM = { php: 'I', mysql: 'II', laravel: 'III', advanced: 'IV', practical: 'V' };
+const PART_DESCS = {
+  php: 'The language behind the framework â€” syntax, objects, and dependency management.',
+  mysql: 'Designing, querying, and keeping a database fast when it holds millions of rows.',
+  laravel: 'From the request lifecycle to Eloquent to security â€” the framework inside and out.',
+  advanced: 'APIs, queues, real-time, and the deployment discipline of a senior engineer.',
+  practical: 'Code, architecture, and the real project stories interviewers probe for.'
+};
+
+let questions = [];
+let filtered = [];
+let progress = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+let searchTerm = '';
+let diffFilter = 'all';
+let tabFilter = 'all';
+let firstRender = true;
+
+function init() {
+  const data = document.getElementById('qData');
+  questions = JSON.parse(data.textContent);
+  rebuild();
+  renderTabs();
+  document.getElementById('tabBar').addEventListener('click', e => {
+    const tab = e.target.closest('.tab');
+    if (!tab) return;
+    ELS('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    tabFilter = tab.dataset.tab;
+    rebuild();
+  });
+  document.getElementById('downloadBtn').addEventListener('click', e => {
+    e.preventDefault();
+    downloadTxt();
+  });
+}
+
+function rebuild() {
+  applyFilters();
+  renderSidebar();
+  renderContent();
+  updateStats();
+}
+
+function applyFilters() {
+  filtered = questions.filter(q => {
+    if (tabFilter !== 'all' && SECTION_PARENT[q.s] !== tabFilter) return false;
+    if (diffFilter !== 'all' && q.d !== diffFilter) return false;
+    if (searchTerm) {
+      const t = searchTerm.toLowerCase();
+      const match = q.q.toLowerCase().includes(t);
+      if (!match) return false;
+    }
+    return true;
+  });
+}
+
+function renderTabs() {
+  const bar = document.getElementById('tabBar');
+  const counts = {all: questions.length};
+  Object.keys(PARENT_LABELS).forEach(k => counts[k] = questions.filter(q => SECTION_PARENT[q.s] === k).length);
+  let html = `<span class="tab active" data-tab="all">All <span class="tab-count">${counts.all}</span></span>`;
+  Object.keys(PARENT_LABELS).forEach(k => {
+    html += `<span class="tab" data-tab="${k}"><span class="tab-num">${PART_NUM[k]}</span> ${PARENT_LABELS[k]} <span class="tab-count">${counts[k]}</span></span>`;
+  });
+  bar.innerHTML = html;
+}
+
+function downloadTxt() {
+  let txt = '=== Senior Full-Stack Developer Interview Questions ===\n';
+  txt += `Total Questions: ${questions.length}\n\n`;
+  SECTION_ORDER.forEach(s => {
+    const qs = questions.filter(q => q.s === s);
+    if (!qs.length) return;
+    txt += `\n--- ${SECTION_NAMES[s]} (${qs.length} Q) ---\n`;
+    txt += `${SECTION_DESCS[s]}\n\n`;
+    qs.forEach((q, i) => {
+      const ctx = q.a.replace(/<[^>]*>/g, '');
+      txt += `${i+1}. [${q.d.toUpperCase()}] ${q.q}\n   ${ctx.replace(/\n/g, '\n   ')}\n\n`;
+    });
+  });
+  txt += '\nGenerated by Jap App Hub - interview.html\n';
+  const blob = new Blob([txt], {type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'interview-questions.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function renderSidebar() {
+  const nav = document.getElementById('sidebarNav');
+  let html = '';
+  let currentParent = '';
+  SECTION_ORDER.forEach(s => {
+    const count = questions.filter(q => q.s === s).length;
+    const p = SECTION_PARENT[s];
+    if (p !== currentParent) {
+      currentParent = p;
+      html += `<div class="nav-section"><span class="num">${PART_NUM[p]}</span>${PARENT_LABELS[p]}</div>`;
+    }
+    html += `<a class="nav-link" href="#sec-${s}"><i class="${SECTION_ICONS[s] || 'bi-tag'}"></i>${SECTION_NAMES[s]} <span class="count">${count}</span></a>`;
+  });
+  nav.innerHTML = html;
+  nav.querySelectorAll('.nav-link').forEach(a => a.addEventListener('click', () => {
+    document.getElementById('sidebar').classList.remove('show');
+  }));
+}
+
+function renderContent() {
+  const body = document.getElementById('contentBody');
+  if (filtered.length === 0) {
+    body.innerHTML = `<div class="empty-state"><i class="bi bi-search"></i><h5>No entries match</h5><p>Broaden the search or clear a filter â€” the chapter is still here.</p></div>`;
+    firstRender = false;
+    return;
+  }
+  let html = '';
+  let currentParent = '';
+  SECTION_ORDER.forEach(s => {
+    const qs = filtered.filter(q => q.s === s);
+    if (!qs.length) return;
+    const p = SECTION_PARENT[s];
+    if (p !== currentParent) {
+      currentParent = p;
+      const partQs = questions.filter(q => SECTION_PARENT[q.s] === p);
+      html += `<div class="chapter-band${firstRender ? ' reveal' : ' in'}">
+        <span class="chapter-num">${PART_NUM[p]}.</span>
+        <span class="chapter-name">${PARENT_LABELS[p]}</span>
+        <span class="chapter-count">${partQs.length} entries</span>
+        <span class="chapter-desc">${PART_DESCS[p]}</span>
+      </div>`;
+    }
+    const sectionName = SECTION_NAMES[s] || s;
+    const total = questions.filter(q => q.s === s).length;
+    const secIds = questions.filter(q => q.s === s).map(q => q.id);
+    const range = secIds.length ? String(secIds[0]).padStart(3, '0') + '\u2013' + String(secIds[secIds.length - 1]).padStart(3, '0') : '';
+    html += `<div class="section-group" id="sec-${s}">
+      <div class="section-header">
+        <h2><i class="${SECTION_ICONS[s] || 'bi-tag'}"></i>${sectionName}</h2>
+        <span class="section-count">${qs.length}/${total} &middot; ${range}</span>
+      </div>
+      <div class="section-desc">${SECTION_DESCS[s] || ''}</div>`;
+    qs.forEach((q, idx) => {
+      const prog = progress[q.id];
+      const isOpen = prog === 'revealed';
+      html += `<div class="q-card${isOpen ? ' open' : ''}">
+        <div class="q-card-header" data-id="${q.id}" tabindex="0" role="button" aria-expanded="${isOpen ? 'true' : 'false'}">
+          <span class="q-num">${String(q.id).padStart(3, '0')}</span>
+          <span class="q-text">${q.q}</span>
+          <div class="q-badges">
+            <span class="q-tech">${PART_NUM[SECTION_PARENT[q.s]]}</span>
+            <span class="q-badge qb-${q.d}">${q.d === 'easy' ? 'Easy' : q.d === 'med' ? 'Med' : 'Hard'}</span>
+          </div>
+          <div class="q-progress">
+            <span class="dot got${prog === 'got' ? ' got' : ''}" data-action="got" title="Got it"></span>
+            <span class="dot review${prog === 'review' ? ' review' : ''}" data-action="review" title="Review"></span>
+            <span class="dot skip${prog === 'skip' ? ' skip' : ''}" data-action="skip" title="Skip"></span>
+          </div>
+          <i class="bi bi-chevron-down q-expand"></i>
+        </div>
+        <div class="q-card-body"><span class="ans-label">Answer</span>${q.a}</div>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+  firstRender = false;
+  body.innerHTML = html;
+
+  body.querySelectorAll('.q-card-header').forEach(h => {
+    h.addEventListener('click', e => {
+      if (e.target.closest('.q-progress')) return;
+      const card = h.closest('.q-card');
+      const b = card.querySelector('.q-card-body');
+      const id = parseInt(h.dataset.id);
+      const wasOpen = card.classList.contains('open');
+      card.classList.toggle('open');
+      h.setAttribute('aria-expanded', String(!wasOpen));
+      progress[id] = wasOpen ? 'viewed' : 'revealed';
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+      if (!wasOpen) highlightCode(b);
+      updateStats();
+    });
+    h.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        h.click();
+      }
+    });
+    h.querySelectorAll('.dot').forEach(d => {
+      d.addEventListener('click', e => {
+        e.stopPropagation();
+        const id = parseInt(h.dataset.id);
+        const action = d.dataset.action;
+        if (progress[id] === action) delete progress[id];
+        else progress[id] = action;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+        renderContent();
+        updateStats();
+      });
+    });
+  });
+  highlightCode();
+  bindReveals();
+}
+
+function bindReveals() {
+  const bands = ELS('.chapter-band.reveal');
+  if (!bands.length) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    bands.forEach(b => b.classList.add('in'));
+    return;
+  }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (en.isIntersecting) {
+        en.target.classList.add('in');
+        io.unobserve(en.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  bands.forEach(b => io.observe(b));
+}
+
+function highlightCode(ctx) {
+  (ctx||document).querySelectorAll('.q-card-body pre code').forEach(b => {
+    let h = b.innerHTML;
+    h = h.replace(/(\/\/.*?)(?:\n|$)/g,'<span class="cm">$1</span>\n')
+         .replace(/(\/\*[\s\S]*?\*\/)/g,'<span class="cm">$1</span>')
+         .replace(/(#[^\n]*)/g,'<span class="cm">$1</span>')
+         .replace(/(&lt;\?php)/g,'<span class="cm">$1</span>')
+         .replace(/("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')/g,'<span class="str">$1</span>')
+         .replace(/\b(\d+(?:\.\d+)?)\b/g,'<span class="num">$1</span>')
+         .replace(/\b(string|int|float|bool|array|void|mixed|never|self|static|callable|iterable|object|Resource|null|true|false)\b(?!\s*\()/g,'<span class="tp">$1</span>')
+         .replace(/\b(if|else|for|foreach|while|function|return|new|class|public|private|protected|static|readonly|use|namespace|extends|implements|const|echo|fn|as|abstract|final|trait|interface|enum|throw|try|catch|finally|switch|case|default|break|continue|declare|strict_types|global|include|require|list|isset|unset|die|exit|array|instanceof|clone|match|SELECT|FROM|WHERE|JOIN|LEFT|RIGHT|INNER|OUTER|CROSS|ON|AND|OR|IN|NOT|EXISTS|LIKE|GROUP BY|ORDER BY|HAVING|LIMIT|OFFSET|INSERT|INTO|VALUES|UPDATE|SET|DELETE|CREATE|TABLE|ALTER|DROP|INDEX|UNIQUE|FULLTEXT|PRIMARY|KEY|FOREIGN|REFERENCES|CONSTRAINT|DEFAULT|CHECK|CASCADE|SET NULL|TRUNCATE|DISTINCT|UNION|ALL|CASE|WHEN|THEN|ELSE|END|AS|COUNT|SUM|AVG|MIN|MAX|COALESCE|NULL|IS|BETWEEN|OVER|PARTITION|RANK|DENSE_RANK|ROW_NUMBER|LEAD|LAG|NTILE|FIRST_VALUE|LAST_VALUE|START|TRANSACTION|COMMIT|ROLLBACK|SAVEPOINT|DELIMITER|PROCEDURE|FUNCTION|BEGIN|END|DECLARE|CURSOR|LOOP|WHILE|REPEAT|UNTIL|ITERATE|LEAVE|RETURN|DETERMINISTIC|LANGUAGE|SQL|SECURITY|DEFINER|INVOKER|GRANT|REVOKE|EXPLAIN|ANALYZE|DESCRIBE|SHOW|USE|DATABASE|SCHEMA|CHARSET|COLLATE|ENGINE|InnoDB|MyISAM|MEMORY|AUTO_INCREMENT|CURRENT_TIMESTAMP|NOW)\b/g,'<span class="kw">$1</span>')
+         .replace(/(\$[\w]+)/g,'<span class="kw">$1</span>')
+         .replace(/\b(dd|dump|response|view|redirect|route|auth|bcrypt|collect|array_merge|count|implode|json_encode|json_decode|strlen|substr|str_replace|preg_match|preg_replace|explode|in_array|array_key_exists|method_exists|array_map|array_filter|array_reduce|array_keys|array_values|array_search|sort|array_unique|array_chunk|array_column|session_start|resolve|app|config|env|__|trans|event|dispatch|queue|notify|broadcast|validator|Rule|sometimes|required_with|filled|present|prohibited|prohibited_if|prohibits|missing)\(/g,'<span class="fn">$1</span>(');
+    b.innerHTML = h;
+  });
+}
+
+function updateStats() {
+  const total = questions.length;
+  const shown = filtered.length;
+  const viewed = Object.keys(progress).filter(k => {
+    const v = progress[k];
+    return v && v !== 'skip';
+  }).length;
+  const got = Object.values(progress).filter(v => v === 'got').length;
+  const review = Object.values(progress).filter(v => v === 'review').length;
+  document.getElementById('totalQ').textContent = total;
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statViewed').textContent = viewed;
+  document.getElementById('statGot').textContent = got;
+  document.getElementById('statReview').textContent = review;
+  document.getElementById('statShown').textContent = shown;
+  const pct = total > 0 ? Math.round((viewed / total) * 100) : 0;
+  document.getElementById('progressPct').textContent = pct + '%';
+  const t2 = document.getElementById('statTotal2');
+  if (t2) t2.textContent = total;
+  const v2 = document.getElementById('statViewed2');
+  if (v2) v2.textContent = viewed;
+}
+
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchTerm = e.target.value;
+  applyFilters();
+  renderContent();
+  updateStats();
+});
+
+document.getElementById('diffFilters').addEventListener('click', e => {
+  const chip = e.target.closest('.chip');
+  if (!chip) return;
+  ELS('.chip[data-filter]').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  diffFilter = chip.dataset.filter.replace('diff-', '');
+  applyFilters();
+  renderContent();
+  updateStats();
+});
+
+document.getElementById('themeToggle').addEventListener('click', () => {
+  const html = document.documentElement;
+  const theme = html.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-bs-theme', theme);
+  localStorage.setItem('sf_theme', theme);
+  document.getElementById('themeToggle').innerHTML = theme === 'dark' ? '<i class="bi bi-sun-fill"></i>' : '<i class="bi bi-moon-fill"></i>';
+});
+
+document.getElementById('sidebarToggle').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('show');
+});
+
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+    if (e.key === 'Escape') { e.target.value = ''; searchTerm = ''; applyFilters(); renderContent(); updateStats(); e.target.blur(); }
+    return;
+  }
+  if (e.key === '/') { e.preventDefault(); document.getElementById('searchInput').focus(); }
+});
+
+const scrollBtn = document.getElementById('scrollTop');
+window.addEventListener('scroll', () => scrollBtn.classList.toggle('show', window.scrollY > 400));
+scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
+
+(function initTheme() {
+  const saved = localStorage.getItem('sf_theme');
+  if (saved) {
+    document.documentElement.setAttribute('data-bs-theme', saved);
+    document.getElementById('themeToggle').innerHTML = saved === 'dark' ? '<i class="bi bi-sun-fill"></i>' : '<i class="bi bi-moon-fill"></i>';
+  }
+})();
+
+init();
+</script>
+</body>
+</html>

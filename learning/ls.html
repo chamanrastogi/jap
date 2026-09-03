@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+    body {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(100, 116, 139, 0.35) transparent;
+    }
+    body::-webkit-scrollbar { width: 8px; }
+    body::-webkit-scrollbar-track { background: transparent; }
+    body::-webkit-scrollbar-thumb {
+      background: rgba(100, 116, 139, 0.35);
+      border-radius: 999px;
+    }
+    body::-webkit-scrollbar-thumb:hover { background: rgba(100, 116, 139, 0.55); }
+    #sidebar, .sidebar {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+    }
+    #sidebar::-webkit-scrollbar, .sidebar::-webkit-scrollbar { width: 5px; }
+    #sidebar::-webkit-scrollbar-track, .sidebar::-webkit-scrollbar-track { background: transparent; }
+    #sidebar::-webkit-scrollbar-thumb, .sidebar::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+    }
+    #sidebar::-webkit-scrollbar-thumb:hover, .sidebar::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.32);
+    }
+</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ls Command â€” Complete Reference (Linux, macOS, CMD &amp; PowerShell)</title>
+  <link href="../lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../lib/google-fonts/outfit/outfit.css">
+  <link rel="stylesheet" href="../lib/google-fonts/jetbrains-mono/jetbrains-mono.css">
+  <style>
+    :root {
+      --term-green: #4ade80;
+      --term-cyan: #22d3ee;
+      --term-amber: #fbbf24;
+      --term-pink: #f472b6;
+      --term-purple: #a78bfa;
+      --sidebar-bg: #0b1220;
+      --sidebar-width: 280px;
+    }
+    * { scroll-margin-top: 1rem; }
+    body {
+      font-family: 'Outfit', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f6f8fc;
+      display: flex;
+    }
+    #sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0; left: 0;
+      background: var(--sidebar-bg);
+      overflow-y: auto;
+      z-index: 1000;
+      transition: transform .3s;
+    }
+    #sidebar::before {
+      content: "";
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(800px 300px at 20% -10%, rgba(74,222,128,.12), transparent 60%),
+        radial-gradient(700px 250px at 90% 10%, rgba(34,211,238,.10), transparent 60%);
+      pointer-events: none;
+    }
+    #sidebar .brand {
+      padding: 1.25rem 1.25rem .75rem;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      position: relative;
+    }
+    #sidebar .brand h5 { color: #fff; font-weight: 700; }
+    #sidebar .brand small { color: #94a3b8; }
+    #sidebar .nav-link {
+      color: #cbd5e1;
+      padding: .5rem 1.25rem;
+      font-size: .88rem;
+      border-left: 3px solid transparent;
+      transition: all .15s;
+      text-decoration: none;
+      display: block;
+      position: relative;
+    }
+    #sidebar .nav-link:hover {
+      color: #fff;
+      background: rgba(255,255,255,.05);
+    }
+    #sidebar .nav-link i { width: 1.3rem; }
+    #sidebar .nav-section {
+      color: #64748b;
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      padding: 1rem 1.25rem .3rem;
+      font-weight: 700;
+    }
+    #main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 2rem 2.5rem 4rem;
+      max-width: 1100px;
+    }
+    @media (max-width: 991.98px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.show { transform: translateX(0); }
+      #main { margin-left: 0; padding: 1.5rem; }
+    }
+    .sidebar-toggle {
+      position: fixed;
+      top: .75rem; left: .75rem;
+      z-index: 1050;
+      background: var(--sidebar-bg);
+      color: #fff;
+      border: none;
+      border-radius: .4rem;
+      padding: .4rem .65rem;
+      display: none;
+    }
+    @media (max-width: 991.98px) {
+      .sidebar-toggle { display: block; }
+    }
+    h2 {
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: 2.5rem;
+      padding-bottom: .5rem;
+      border-bottom: 3px solid #e2e8f0;
+    }
+    h2.ls-heading { border-bottom-color: var(--term-green); }
+    h2.cmd-heading { border-bottom-color: var(--term-cyan); }
+    h2.ps-heading { border-bottom-color: var(--term-purple); }
+    h2.tips-heading { border-bottom-color: var(--term-amber); }
+    h2.recipes-heading { border-bottom-color: var(--term-pink); }
+    h3 {
+      font-weight: 600;
+      color: #1e293b;
+      margin-top: 1.8rem;
+    }
+    .card {
+      border: none;
+      border-radius: .75rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+    .card-header {
+      background: #fff;
+      border-bottom: 1px solid #e9ecef;
+      font-weight: 600;
+      padding: 1rem 1.25rem;
+    }
+    .card-body { padding: 1.5rem; }
+    pre.term {
+      background: linear-gradient(180deg, #0b1220 0%, #0a0f1c 100%);
+      color: #e2e8f0;
+      padding: 1.1rem 1.25rem;
+      border-radius: .6rem;
+      font-size: .85rem;
+      overflow-x: auto;
+      position: relative;
+      border: 1px solid #1e293b;
+    }
+    pre.term::before {
+      content: "$";
+      position: absolute;
+      left: .9rem;
+      top: 1.1rem;
+      color: var(--term-green);
+      font-weight: 700;
+    }
+    pre.term.no-prompt::before { content: ""; }
+    pre.term code {
+      font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace;
+      display: block;
+      padding-left: 1.4rem;
+    }
+    pre.term .c-comment { color: #64748b; font-style: italic; }
+    pre.term .c-flag    { color: var(--term-cyan); }
+    pre.term .c-string  { color: var(--term-amber); }
+    pre.term .c-cmd     { color: var(--term-green); font-weight: 600; }
+    pre.term .c-output  { color: #cbd5e1; }
+    pre.term .c-ps      { color: var(--term-purple); font-weight: 600; }
+    pre.term .c-cmdwin  { color: var(--term-cyan); font-weight: 600; }
+
+    pre:not(.term) {
+      background: #1e1e2f;
+      color: #e6e6e6;
+      padding: 1rem 1.25rem;
+      border-radius: .5rem;
+      font-size: .82rem;
+      overflow-x: auto;
+    }
+    pre:not(.term) code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
+
+    .kw { color: #c792ea; }
+    .fn { color: #82aaff; }
+    .str { color: #c3e88d; }
+    .cm { color: #546e7a; font-style: italic; }
+    .num { color: #f78c6c; }
+    .tp { color: #ffcb6b; }
+    [data-bs-theme="dark"] .kw { color: #c792ea; }
+    [data-bs-theme="dark"] .fn { color: #82aaff; }
+    [data-bs-theme="dark"] .str { color: #c3e88d; }
+    [data-bs-theme="dark"] .cm { color: #546e7a; }
+    [data-bs-theme="dark"] .num { color: #f78c6c; }
+    [data-bs-theme="dark"] .tp { color: #ffcb6b; }
+
+.cmd-table td:first-child, .cmd-table th:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+      white-space: nowrap;
+    }
+    .cmd-table td:first-child {
+      color: #0f172a;
+      font-weight: 600;
+    }
+    .flag-pill {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem;
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+      padding: .12rem .55rem;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+    .flag-pill.long {
+      background: #eef2ff;
+      color: #4338ca;
+      border-color: #c7d2fe;
+    }
+    .cmd-pill {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem;
+      background: #ecfeff;
+      color: #0e7490;
+      border: 1px solid #a5f3fc;
+      padding: .12rem .55rem;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+    .ps-pill {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem;
+      background: #f5f3ff;
+      color: #6d28d9;
+      border: 1px solid #ddd6fe;
+      padding: .12rem .55rem;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+    .highlight-box {
+      background: #f0fdf4;
+      border-left: 4px solid var(--term-green);
+      padding: 1rem 1.25rem;
+      border-radius: .4rem;
+      margin: 1rem 0;
+    }
+    .tip-box {
+      background: #fffbeb;
+      border-left: 4px solid var(--term-amber);
+      padding: 1rem 1.25rem;
+      border-radius: .4rem;
+      margin: 1rem 0;
+    }
+    .warn-box {
+      background: #fef2f2;
+      border-left: 4px solid #ef4444;
+      padding: 1rem 1.25rem;
+      border-radius: .4rem;
+      margin: 1rem 0;
+    }
+    .info-box {
+      background: #eff6ff;
+      border-left: 4px solid #3b82f6;
+      padding: 1rem 1.25rem;
+      border-radius: .4rem;
+      margin: 1rem 0;
+    }
+    .new-badge {
+      background: #10b981;
+      color: #fff;
+      font-size: .65rem;
+      font-weight: 600;
+      padding: .15rem .5rem;
+      border-radius: 1rem;
+      vertical-align: middle;
+    }
+    .home-link {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 1100;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.94);
+      color: #0f172a;
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 700;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: 0.2s;
+    }
+    .home-link:hover { color: #047857; }
+    @media (min-width: 992px) {
+      .home-link { left: calc(var(--sidebar-width) + 14px); }
+    }
+    @media (max-width: 991.98px) {
+      .home-link { left: 4rem; }
+    }
+    @media (max-width: 767.98px) {
+      #main { padding: 1.25rem 1rem 3rem; }
+      .home-link { left: 3.5rem; font-size: .72rem; padding: 6px 10px; }
+      .sidebar-toggle { top: .6rem; left: .6rem; }
+    }
+    @media (max-width: 575.98px) {
+      #main { padding: 1rem .75rem 2.5rem; }
+      .home-link { left: 3rem; font-size: .68rem; padding: 5px 8px; }
+    }
+    .os-tab .nav-link {
+      color: #475569;
+      font-weight: 600;
+      border: none;
+      border-bottom: 3px solid transparent;
+      background: transparent;
+    }
+    .os-tab .nav-link.active {
+      color: #0f172a;
+      border-bottom-color: var(--term-green);
+    }
+    .os-tab-content {
+      background: #fff;
+      border-radius: 0 0 .5rem .5rem;
+      padding: 1rem;
+      border: 1px solid #e2e8f0;
+      border-top: 0;
+    }
+    kbd {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-bottom-width: 2px;
+      border-radius: .3rem;
+      padding: 1px 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .8rem;
+      color: #0f172a;
+    }
+    .pulse-dot {
+      display: inline-block;
+      width: .55rem; height: .55rem;
+      background: var(--term-green);
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 rgba(74,222,128,.7);
+      animation: pulse 1.6s infinite;
+      vertical-align: middle;
+      margin-right: .4rem;
+    }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(74,222,128,.7); }
+      70%  { box-shadow: 0 0 0 8px rgba(74,222,128,0); }
+      100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); }
+    }
+  </style>
+  <link rel="stylesheet" href="../lib/google-fonts/space-grotesk/space-grotesk.css">
+  <link rel="stylesheet" href="../lib/google-fonts/jetbrains-mono/jetbrains-mono.css">
+<style>
+/* ===== Jap Hub design system - graphql pattern (injected layer) ===== */
+:root {
+  --acc: #e8590c;
+  --acc2: #a02e08;
+  --acc-soft: color-mix(in srgb, var(--acc) 32%, #ffffff);
+  --ink-deep: #1d1713;
+  --ink-2: #0f1126;
+  --ink: var(--ink-deep);
+  --bg: color-mix(in srgb, var(--acc) 5%, #f6f4fc);
+  --surface: #ffffff;
+  --surface-soft: rgba(255,255,255,.72);
+  --muted: color-mix(in srgb, var(--acc) 24%, #64698a);
+  --border: color-mix(in srgb, var(--acc) 16%, #e4e0f3);
+  --code: #0e1120;
+  --code-text: #e7e4f6;
+  --good: #17b26a;
+}
+[data-bs-theme="dark"] {
+  --ink: #eef0fb;
+  --bg: color-mix(in srgb, var(--acc) 8%, #0e1120);
+  --surface: #161a2e;
+  --muted: #9aa2bb;
+  --border: color-mix(in srgb, var(--acc) 24%, #262b3f);
+  --code: #0a0d1e;
+  --code-text: #dcd8ef;
+}
+::selection { background: var(--acc); color: #fff; }
+body {
+  font-family: 'Space Grotesk', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background:
+    radial-gradient(52rem 30rem at 110% -6%, color-mix(in srgb, var(--acc) 11%, transparent), transparent 60%),
+    radial-gradient(40rem 28rem at -10% 8%, color-mix(in srgb, var(--acc2) 9%, transparent), transparent 55%),
+    var(--bg);
+  color: var(--ink);
+  display: flex;
+}
+h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', 'Segoe UI', sans-serif; }
+#sidebar {
+  background:
+    radial-gradient(120% 90% at 100% 0%, color-mix(in srgb, var(--acc2) 28%, transparent), transparent 55%),
+    linear-gradient(180deg, var(--ink-deep) 0%, var(--ink-2) 100%);
+}
+#sidebar .brand h5 { color: #fff; letter-spacing: .01em; }
+#sidebar .brand small { color: #a9a6c9; font-size: .7rem; }
+#sidebar .nav-link { color: #c9c6e3; font-family: 'Space Grotesk', sans-serif; }
+#sidebar .nav-link:hover { color: #fff; background: rgba(255,255,255,.06); }
+#sidebar .nav-link i { color: color-mix(in srgb, var(--acc-soft) 62%, #ffffff); }
+#sidebar .nav-link.active {
+  color: #fff;
+  border-left-color: var(--acc);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--acc) 22%, transparent), transparent);
+}
+#sidebar .nav-section { color: #8d89b8; }
+.sidebar-toggle { background: var(--ink-deep); color: #fff; }
+#main { width: 100%; padding: 2rem 2.5rem 4rem; max-width: 1120px; }
+h2 {
+  color: var(--ink);
+  font-weight: 700;
+  margin-top: 2.2rem;
+  padding-bottom: .55rem;
+  border-bottom: none;
+  position: relative;
+}
+h2 i { color: var(--acc); }
+h2::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 58px; height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--acc), var(--acc2));
+}
+h3 { color: var(--ink); font-weight: 600; }
+h3 i { color: var(--acc); }
+h4 { color: var(--ink); }
+.card {
+  border: 1px solid var(--border);
+  border-radius: .8rem;
+  background: var(--surface);
+  box-shadow: 0 4px 16px rgba(15, 18, 38, .05);
+}
+.card-header {
+  background: color-mix(in srgb, var(--acc) 6%, var(--surface));
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+  font-size: .84rem;
+  color: var(--ink);
+  padding: .75rem 1.1rem;
+}
+.card-body { padding: 1.25rem 1.35rem; }
+pre {
+  background: var(--code);
+  color: var(--code-text);
+  padding: 1.05rem 1.2rem;
+  border-radius: .6rem;
+  font-size: .82rem;
+  line-height: 1.6;
+  border: 1px solid rgba(255,255,255,.05);
+  overflow-x: auto;
+}
+pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', ui-monospace, monospace; }
+code {
+  font-family: 'JetBrains Mono', 'Cascadia Code', ui-monospace, monospace;
+  font-size: .85em;
+  background: color-mix(in srgb, var(--acc) 10%, transparent);
+  color: var(--acc);
+  padding: .1em .35em;
+  border-radius: .35em;
+}
+pre code { background: transparent; color: inherit; padding: 0; border-radius: 0; }
+.kw { color: #c792ea; }
+.fn { color: #7ee0c3; }
+.str { color: #c3e88d; }
+.cm { color: #6c7693; font-style: italic; }
+.num { color: #ffb86c; }
+.tp { color: #82aaff; }
+.at { color: #f07178; }
+.highlight-box {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--acc2) 8%, transparent), color-mix(in srgb, var(--acc) 5%, transparent));
+  border-left: 4px solid var(--acc);
+  padding: 1rem 1.25rem;
+  border-radius: .45rem;
+  color: var(--ink);
+}
+.table thead th {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--muted);
+  background: color-mix(in srgb, var(--acc) 6%, var(--surface));
+  border-bottom: 2px solid var(--border);
+}
+.cmd-table td:first-child { color: var(--acc); }
+.new-badge {
+  background: linear-gradient(135deg, var(--acc), var(--acc2));
+  color: #fff;
+  font-weight: 600;
+}
+#main a { color: var(--acc); }
+#main a:hover { color: var(--acc2); }
+.home-link:hover { color: var(--acc); }
+:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; border-radius: 6px; }
+
+/* hero band (legacy doc template) */
+#main > div:first-child.d-flex {
+  background:
+    radial-gradient(120% 150% at 100% 0%, color-mix(in srgb, var(--acc2) 30%, transparent), transparent 55%),
+    radial-gradient(100% 140% at 0% 100%, color-mix(in srgb, var(--acc) 24%, transparent), transparent 50%),
+    linear-gradient(135deg, var(--ink-deep) 0%, var(--ink-2) 100%);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 20px;
+  padding: 2.2rem 1.9rem 1.7rem;
+  margin-bottom: 1.5rem;
+  color: #fff;
+  box-shadow: 0 24px 50px rgba(10, 12, 30, .18);
+}
+#main > div:first-child.d-flex h1 {
+  color: #fff !important;
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  margin-bottom: .55rem;
+}
+#main > div:first-child.d-flex h1 i { color: var(--acc-soft) !important; }
+#main > div:first-child.d-flex p {
+  color: rgba(255, 255, 255, .74) !important;
+  font-size: 1rem;
+}
+#main > div:first-child.d-flex .badge {
+  border-radius: 999px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .64rem;
+  font-weight: 600;
+  letter-spacing: .03em;
+}
+#main > div:first-child.d-flex .badge.bg-secondary { background: rgba(255,255,255,.14) !important; color: #fff; }
+#main > div:first-child.d-flex .badge.bg-success { background: var(--good) !important; }
+#main > div:first-child.d-flex .badge.bg-warning { background: #f7a54c !important; color: #241810 !important; }
+
+/* intro lead */
+#main > p.fs-5 {
+  color: var(--muted) !important;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  max-width: 52rem;
+}
+@media (max-width: 768px) {
+  #main { padding: 1.5rem 1.15rem 3rem; }
+  #main > div:first-child.d-flex { padding: 1.6rem 1.3rem 1.4rem; }
+}
+</style></head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
+<a href="../index.html" class="home-link" aria-label="Go back to home page"><i class="bi bi-arrow-left"></i> Home</a>
+
+<!-- ===== SIDEBAR ===== -->
+<nav id="sidebar">
+  <div class="brand">
+    <h5><i class="bi bi-terminal-fill me-2" style="color:var(--term-green)"></i>ls Reference</h5>
+    <small class="d-block mt-1">List directory contents</small>
+  </div>
+  <div class="py-2">
+    <div class="nav-section">Basics</div>
+    <a class="nav-link" href="#intro"><i class="bi bi-info-circle"></i> Introduction</a>
+    <a class="nav-link" href="#basic"><i class="bi bi-play-circle"></i> Basic Usage</a>
+    <a class="nav-link" href="#format"><i class="bi bi-card-list"></i> Output Formats</a>
+
+    <div class="nav-section">Options</div>
+    <a class="nav-link" href="#flags"><i class="bi bi-flag"></i> All Flags (a&ndash;z)</a>
+    <a class="nav-link" href="#long"><i class="bi bi-list-ol"></i> Long Format (ls -l)</a>
+    <a class="nav-link" href="#hidden"><i class="bi bi-eye-slash"></i> Hidden Files</a>
+    <a class="nav-link" href="#sort"><i class="bi bi-sort-down"></i> Sorting</a>
+    <a class="nav-link" href="#recursive"><i class="bi bi-diagram-3"></i> Recursive</a>
+    <a class="nav-link" href="#filter"><i class="bi bi-funnel"></i> Filtering / Glob</a>
+
+    <div class="nav-section">Windows</div>
+    <a class="nav-link" href="#cmd"><i class="bi bi-windows"></i> CMD (dir)</a>
+    <a class="nav-link" href="#powershell"><i class="bi bi-lightning"></i> PowerShell</a>
+    <a class="nav-link" href="#wsl"><i class="bi bi-box"></i> WSL / Git Bash</a>
+
+    <div class="nav-section">Practical</div>
+    <a class="nav-link" href="#recipes"><i class="bi bi-bookmark-star"></i> Recipes</a>
+    <a class="nav-link" href="#tips"><i class="bi bi-lightbulb"></i> Pro Tips</a>
+    <a class="nav-link" href="#errors"><i class="bi bi-exclamation-triangle"></i> Common Errors</a>
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<div id="main">
+
+  <!-- HERO -->
+  <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+    <div>
+      <h1 class="fw-bold mb-1" style="color:#0f172a">
+        <i class="bi bi-terminal-fill" style="color:var(--term-green)"></i>
+        <code style="color:#0f172a">ls</code> &mdash; List Directory Contents
+      </h1>
+      <p class="text-muted mb-0 fs-5">
+        Complete reference for <strong>Linux</strong>, <strong>macOS</strong>, <strong>CMD</strong> and <strong>PowerShell</strong>
+        <span class="badge bg-success ms-2"><span class="pulse-dot"></span>100+ examples</span>
+        <span class="badge bg-secondary ms-1">POSIX</span>
+        <span class="badge bg-info ms-1">Cross-platform</span>
+      </p>
+    </div>
+  </div>
+
+  <p class="fs-5 text-muted mb-5">
+    The <code>ls</code> command lists files and directories in the current or specified path.
+    It is one of the most-used commands on Unix-like systems and is also available
+    on Windows through <strong>PowerShell</strong>, <strong>WSL</strong>, or <strong>Git Bash</strong>.
+    This guide covers <strong>every flag</strong>, <strong>output formats</strong>, <strong>sorting</strong>,
+    <strong>filtering</strong>, <strong>CMD equivalents</strong> (<code>dir</code>), and <strong>practical recipes</strong>.
+  </p>
+
+  <!-- ==================== INTRO ==================== -->
+  <section id="intro">
+    <h2 class="ls-heading"><i class="bi bi-info-circle me-2"></i>Introduction</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-book me-1"></i> What is <code>ls</code>?</div>
+      <div class="card-body">
+        <p><code>ls</code> (list) is a Unix/Linux command that displays the contents of a directory. It comes from the
+        <code>coreutils</code> package on Linux and ships in nearly every Unix-like system, including macOS.</p>
+        <ul>
+          <li><strong>Type:</strong> External command</li>
+          <li><strong>Package:</strong> <code>coreutils</code> (GNU) / BSD <code>ls</code> (macOS by default)</li>
+          <li><strong>Manual:</strong> <code>man ls</code> &middot; <code>ls --help</code></li>
+          <li><strong>Exit code:</strong> <code>0</code> on success, <code>1</code> on minor error, <code>2</code> on serious error</li>
+        </ul>
+        <div class="highlight-box">
+          <strong>Where is it?</strong> &mdash; <code>which ls</code> &rarr; <code>/bin/ls</code> (Linux) &middot; <code>/usr/bin/ls</code> (macOS) &middot; available in WSL and Git Bash on Windows.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Quick Start &mdash; the 5 commands you'll use 90% of the time</div>
+      <div class="card-body">
+<pre class="term"><code><span class="c-cmd">ls</span>                    <span class="c-comment"># plain list</span>
+<span class="c-cmd">ls -l</span>                <span class="c-comment"># long format (permissions, owner, size, date)</span>
+<span class="c-cmd">ls -a</span>                <span class="c-comment"># include hidden files (dotfiles)</span>
+<span class="c-cmd">ls -lh</span>               <span class="c-comment"># long format + human-readable sizes</span>
+<span class="c-cmd">ls -la</span>               <span class="c-comment"># long + hidden &rarr; the "full" view</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BASIC ==================== -->
+  <section id="basic">
+    <h2 class="ls-heading"><i class="bi bi-play-circle me-2"></i>Basic Usage</h2>
+
+    <div class="card">
+      <div class="card-header">Listing paths</div>
+      <div class="card-body">
+<pre class="term"><code><span class="c-cmd">ls</span>                            <span class="c-comment"># current directory</span>
+<span class="c-cmd">ls /usr/local/bin</span>           <span class="c-comment"># absolute path</span>
+<span class="c-cmd">ls ..</span>                        <span class="c-comment"># parent directory</span>
+<span class="c-cmd">ls ~</span>                         <span class="c-comment"># home directory</span>
+<span class="c-cmd">ls /etc /var /tmp</span>           <span class="c-comment"># multiple paths</span>
+<span class="c-cmd">ls -d /usr/*</span>                <span class="c-comment"># list directories inside /usr (not their contents)</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Multiple paths in one command</div>
+      <div class="card-body">
+<pre class="term"><code><span class="c-cmd">ls</span> src/ tests/ docs/
+<span class="c-comment"># src/:
+<span class="c-output">  app.js  index.js  utils.js
+</span><span class="c-comment"># tests/:
+<span class="c-output">  app.test.js  setup.js
+</span><span class="c-comment"># docs/:
+<span class="c-output">  README.md  CHANGELOG.md</span></span></span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FORMAT ==================== -->
+  <section id="format">
+    <h2 class="ls-heading"><i class="bi bi-card-list me-2"></i>Output Formats</h2>
+    <p>Two principal output shapes &mdash; <strong>short</strong> (default) and <strong>long</strong> (<code>-l</code>).
+       There are also comma-separated, slashes-after-dirs, and classification modes.</p>
+
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div class="card h-100">
+          <div class="card-header">Short format (default)</div>
+          <div class="card-body">
+<pre class="term no-prompt"><code><span class=<span class="str">"c-output"</span>>Documents  Downloads  Music  Pictures  Videos</span></code></pre>
+            <p class="text-muted small mb-0">Names separated by spaces, sorted alphabetically by default.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card h-100">
+          <div class="card-header">Long format <span class="flag-pill">-l</span></div>
+          <div class="card-body">
+<pre class="term no-prompt"><code><span class=<span class="str">"c-output"</span>>drwxr-xr-x  <span class="num">5</span> alice staff   <span class="num">160</span>B Jun  <span class="num">4</span> <span class="num">10</span>:<span class="num">14</span> Documents
+<span class="fn">-rw-r--r--</span>  <span class="num">1</span> alice staff   <span class="num">1.2</span>K Jun  <span class="num">4</span> <span class="num">09</span>:<span class="num">30</span> notes.txt
+lrwxr-xr-x  <span class="num">1</span> alice staff    <span class="num">32</span>B Jun  <span class="num">1</span> <span class="num">08</span>:<span class="num">00</span> link -&gt; target
+</span></code></pre>
+            <p class="text-muted small mb-0">Permissions, links, owner, group, size, mtime, name.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4 mt-1">
+      <div class="col-lg-6">
+        <div class="card h-100">
+          <div class="card-header">Comma-separated <span class="flag-pill">-m</span></div>
+          <div class="card-body">
+<pre class="term no-prompt"><code><span class=<span class="str">"c-output"</span>>Documents, Downloads, Music, Pictures, Videos</span></code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card h-100">
+          <div class="card-header">One per line <span class="flag-pill">-1</span></div>
+          <div class="card-body">
+<pre class="term no-prompt"><code><span class=<span class="str">"c-output"</span>>Documents
+Downloads
+Music
+Pictures
+Videos</span></code></pre>
+            <p class="text-muted small mb-0">Useful for piping into other tools.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card h-100">
+          <div class="card-header">Classify <span class="flag-pill">-F</span></div>
+          <div class="card-body">
+<pre class="term no-prompt"><code><span class=<span class="str">"c-output"</span>>Documents/  Downloads/  link@  notes.txt  script*</span></code></pre>
+            <p class="text-muted small mb-0"><code>/</code>=dir &middot; <code>@</code>=symlink &middot; <code>*</code>=executable &middot; <code>=</code>=socket &middot; <code>|</code>=FIFO</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card h-100">
+          <div class="card-header">Colorize <span class="flag-pill">--color</span></div>
+          <div class="card-body">
+<pre class="term no-prompt"><code><span class=<span class="str">"c-output"</span>>$ </span><span style=<span class="str">"color:#60a5fa"</span>>Documents</span>  <span style=<span class="str">"color:#60a5fa"</span>>Downloads</span>  <span style=<span class="str">"color:#facc15"</span>>link</span>  notes.txt  script<span style=<span class="str">"color:#86efac"</span>>*</span></code></pre>
+            <p class="text-muted small mb-0">Auto on most distros via alias <code>ls='ls --color=auto'</code>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FLAGS ==================== -->
+  <section id="flags">
+    <h2 class="ls-heading"><i class="bi bi-flag me-2"></i>All Flags Reference (a&ndash;z)</h2>
+    <p class="text-muted">A consolidated alphabetised reference. GNU <code>ls</code> on Linux.
+       BSD <code>ls</code> on macOS shares most of these; BSD-only flags are noted.</p>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:34%">Flag</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><span class="flag-pill">-a</span> <span class="flag-pill long">--all</span></td><td>Include hidden files (entries starting with <code>.</code>)</td></tr>
+            <tr><td><span class="flag-pill">-A</span> <span class="flag-pill long">--almost-all</span></td><td>Like <code>-a</code> but exclude <code>.</code> and <code>..</code></td></tr>
+            <tr><td><span class="flag-pill">-b</span> <span class="flag-pill long">--escape</span></td><td>Print C-style escapes for non-graphic characters</td></tr>
+            <tr><td><span class="flag-pill">-B</span> <span class="flag-pill long">--ignore-backups</span></td><td>Do not list entries ending with <code>~</code></td></tr>
+            <tr><td><span class="flag-pill">-c</span></td><td>Sort by ctime; with <code>-l</code> show ctime instead of mtime</td></tr>
+            <tr><td><span class="flag-pill">-C</span></td><td>List entries by columns (default when stdout is a tty)</td></tr>
+            <tr><td><span class="flag-pill">-d</span> <span class="flag-pill long">--directory</span></td><td>List directories themselves, not their contents</td></tr>
+            <tr><td><span class="flag-pill">-F</span> <span class="flag-pill long">--classify</span></td><td>Append indicator (<code>/@*=|&gt;</code>) to entries</td></tr>
+            <tr><td><span class="flag-pill">-g</span></td><td>Like <code>-l</code> but omit the owner column</td></tr>
+            <tr><td><span class="flag-pill">-G</span> <span class="flag-pill long">--no-group</span></td><td>In long listing, don't print group names</td></tr>
+            <tr><td><span class="flag-pill">-h</span> <span class="flag-pill long">--human-readable</span></td><td>Print sizes in K, M, G, T, P (with <code>-l</code>)</td></tr>
+            <tr><td><span class="flag-pill">-H</span> <span class="flag-pill long">--dereference-command-line</span></td><td>Follow symbolic links listed on the command line</td></tr>
+            <tr><td><span class="flag-pill">-i</span> <span class="flag-pill long">--inode</span></td><td>Print the inode number of each file</td></tr>
+            <tr><td><span class="flag-pill">-I</span> <span class="flag-pill long">--ignore=PATTERN</span></td><td>Do not list entries matching shell PATTERN</td></tr>
+            <tr><td><span class="flag-pill">-k</span> <span class="flag-pill long">--kibibytes</span></td><td>Use 1024-byte blocks for disk usage (default since coreutils 8)</td></tr>
+            <tr><td><span class="flag-pill">-l</span></td><td>Use a long listing format</td></tr>
+            <tr><td><span class="flag-pill">-L</span> <span class="flag-pill long">--dereference</span></td><td>Show info for the target of symbolic links</td></tr>
+            <tr><td><span class="flag-pill">-m</span></td><td>Fill width with entries separated by commas</td></tr>
+            <tr><td><span class="flag-pill">-n</span> <span class="flag-pill long">--numeric-uid-gid</span></td><td>Like <code>-l</code> but list numeric UIDs and GIDs</td></tr>
+            <tr><td><span class="flag-pill">-N</span> <span class="flag-pill long">--literal</span></td><td>Print raw entry names (no quoting)</td></tr>
+            <tr><td><span class="flag-pill">-o</span></td><td>Like <code>-l</code> but omit the group</td></tr>
+            <tr><td><span class="flag-pill">-p</span></td><td>Append <code>/</code> indicator to directories</td></tr>
+            <tr><td><span class="flag-pill">-q</span> <span class="flag-pill long">--hide-control-chars</span></td><td>Print <code>?</code> for non-graphic characters</td></tr>
+            <tr><td><span class="flag-pill">-Q</span> <span class="flag-pill long">--quote-name</span></td><td>Enclose entry names in double quotes</td></tr>
+            <tr><td><span class="flag-pill">-r</span> <span class="flag-pill long">--reverse</span></td><td>Reverse order while sorting</td></tr>
+            <tr><td><span class="flag-pill">-R</span> <span class="flag-pill long">--recursive</span></td><td>List subdirectories recursively</td></tr>
+            <tr><td><span class="flag-pill">-s</span> <span class="flag-pill long">--size</span></td><td>Print the allocated size of each file, in blocks</td></tr>
+            <tr><td><span class="flag-pill">-S</span></td><td>Sort by file size, largest first</td></tr>
+            <tr><td><span class="flag-pill">-t</span></td><td>Sort by modification time, newest first</td></tr>
+            <tr><td><span class="flag-pill">-T</span> <span class="flag-pill long">--tabsize=COLS</span></td><td>Assume tab stops at every COLS instead of 8</td></tr>
+            <tr><td><span class="flag-pill">-u</span></td><td>Sort by/atime; with <code>-l</code> show atime</td></tr>
+            <tr><td><span class="flag-pill">-U</span></td><td>Do not sort; list entries in directory order</td></tr>
+            <tr><td><span class="flag-pill">-v</span></td><td>Natural sort of (version) numbers within text</td></tr>
+            <tr><td><span class="flag-pill">-w</span> <span class="flag-pill long">--width=COLS</span></td><td>Set output width to COLS (0 = no wrap)</td></tr>
+            <tr><td><span class="flag-pill">-x</span></td><td>List entries by lines instead of by columns</td></tr>
+            <tr><td><span class="flag-pill">-X</span></td><td>Sort alphabetically by entry extension</td></tr>
+            <tr><td><span class="flag-pill">-1</span></td><td>List one file per line</td></tr>
+            <tr><td><span class="flag-pill long">--color[=WHEN]</span></td><td>Colorize output: <code>never</code> / <code>auto</code> / <code>always</code></td></tr>
+            <tr><td><span class="flag-pill long">--format=WORD</span></td><td>Format: <code>across</code> / <code>commas</code> / <code>horizontal</code> / <code>long</code> / <code>single-column</code> / <code>verbose</code> / <code>vertical</code></td></tr>
+            <tr><td><span class="flag-pill long">--sort=WORD</span></td><td>Sort by: <code>none</code> / <code>size</code> / <code>time</code> / <code>version</code> / <code>extension</code></td></tr>
+            <tr><td><span class="flag-pill long">--time=WORD</span></td><td>Show time as: <code>atime</code> / <code>access</code> / <code>use</code> / <code>ctime</code> / <code>status</code> / <code>birth</code> / <code>created</code> / <code>mtime</code> / <code>modification</code></td></tr>
+            <tr><td><span class="flag-pill long">--time-style=STYLE</span></td><td><code>full-iso</code>, <code>long-iso</code>, <code>iso</code>, <code>locale</code>, <code>+FORMAT</code> (strftime)</td></tr>
+            <tr><td><span class="flag-pill long">--block-size=SIZE</span></td><td>Scale sizes by SIZE: <code>K</code>, <code>M</code>, <code>G</code>... or bytes</td></tr>
+            <tr><td><span class="flag-pill long">--author</span></td><td>With <code>-l</code>, print the author of each file (GNU)</td></tr>
+            <tr><td><span class="flag-pill long">--group-directories-first</span></td><td>Group directories before files in the listing</td></tr>
+            <tr><td><span class="flag-pill long">--hide=PATTERN</span></td><td>Hide entries matching PATTERN (e.g. <code>--hide='*.o'</code>)</td></tr>
+            <tr><td><span class="flag-pill long">--si</span></td><td>Like <code>-h</code> but powers of 1000 (kB, MB, GB)</td></tr>
+            <tr><td><span class="flag-pill long">--version</span></td><td>Output version and exit</td></tr>
+            <tr><td><span class="flag-pill long">--help</span></td><td>Show help text and exit</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== LONG FORMAT ==================== -->
+  <section id="long">
+    <h2 class="ls-heading"><i class="bi bi-list-ol me-2"></i>Long Format &mdash; <code>ls -l</code> Decoded</h2>
+    <p>The long format packs nine pieces of information on every line.</p>
+
+    <div class="card">
+      <div class="card-header">Sample line</div>
+      <div class="card-body">
+<pre class="term no-prompt"><code><span class=<span class="str">"c-output"</span>>-rw-r--r--  <span class="num">1</span> alice staff  <span class="num">1.2</span>K  Jun  <span class="num">4</span> <span class="num">09</span>:<span class="num">30</span>  notes.txt</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-light">
+            <tr><th style="width:18%">Field</th><th style="width:20%">Example</th><th>Meaning</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1. Type</td><td><code>-</code></td><td><code>-</code>=file, <code>d</code>=dir, <code>l</code>=symlink, <code>b</code>=block, <code>c</code>=char, <code>p</code>=FIFO, <code>s</code>=socket</td></tr>
+            <tr><td>2. Permissions</td><td><code>rw-r--r--</code></td><td>owner / group / other &mdash; r=4, w=2, x=1</td></tr>
+            <tr><td>3. Hard links</td><td><code>1</code></td><td>Number of hard links to the inode</td></tr>
+            <tr><td>4. Owner</td><td><code>alice</code></td><td>User name (or UID with <code>-n</code>)</td></tr>
+            <tr><td>5. Group</td><td><code>staff</code></td><td>Group name (or GID with <code>-n</code>)</td></tr>
+            <tr><td>6. Size</td><td><code>1.2K</code></td><td>Bytes &middot; use <code>-h</code> for KB/MB/GB</td></tr>
+            <tr><td>7. Month</td><td><code>Jun</code></td><td>Modification month</td></tr>
+            <tr><td>8. Day</td><td><code>4</code></td><td>Modification day of month</td></tr>
+            <tr><td>9. Time</td><td><code>09:30</code></td><td>HH:MM, or year if older than 6 months</td></tr>
+            <tr><td>10. Name</td><td><code>notes.txt</code></td><td>File or directory name</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <strong>Pro tip:</strong> Use <code>ls -lhF</code> for the "default" long view most people want: long, human sizes, classify.
+    </div>
+  </section>
+
+  <!-- ==================== HIDDEN ==================== -->
+  <section id="hidden">
+    <h2 class="ls-heading"><i class="bi bi-eye-slash me-2"></i>Hidden Files</h2>
+    <p>On Unix, any file whose name starts with a dot (<code>.</code>) is hidden. <code>ls</code> skips them by default.</p>
+
+    <div class="card">
+      <div class="card-body">
+<pre class="term"><code><span class="c-cmd">ls -a</span>                  <span class="c-comment"># show all, including . and ..</span>
+<span class="c-cmd">ls -A</span>                  <span class="c-comment"># show all, except . and ..</span>
+<span class="c-cmd">ls -la ~</span>               <span class="c-comment"># long listing of all home-dir entries</span>
+<span class="c-cmd">ls -d .[!.]*</span>          <span class="c-comment"># only hidden files (bash glob)</span>
+<span class="c-cmd">ls --hide='*.log'</span>     <span class="c-comment"># hide by pattern (no leading dot required)</span>
+<span class="c-cmd">ls -I '*.tmp'</span>         <span class="c-comment"># ignore pattern</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Typical dotfiles</div>
+      <div class="card-body">
+<pre class="term no-prompt"><code><span class=<span class="str">"c-output"</span>>.bashrc        <span class="cm"># login shell config</span>
+.bash_profile  <span class="cm"># sourced at login</span>
+.zshrc         <span class="cm"># zsh config (macOS default since Catalina)</span>
+.gitconfig     <span class="cm"># git user/aliases</span>
+.<span class="kw">ssh</span>/          <span class="cm"># SSH keys &amp; known_hosts</span>
+.vscode/       <span class="cm"># VS Code settings</span>
+.ENV / .<span class="kw">env</span>    <span class="cm"># environment variables (never commit!)</span>
+.dockerignore  <span class="cm"># files excluded from Docker context</span></span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SORTING ==================== -->
+  <section id="sort">
+    <h2 class="ls-heading"><i class="bi bi-sort-down me-2"></i>Sorting</h2>
+
+    <div class="card">
+      <div class="card-body">
+<pre class="term"><code><span class="c-cmd">ls</span>                       <span class="c-comment"># alphabetical (default)</span>
+<span class="c-cmd">ls -r</span>                   <span class="c-comment"># reverse alphabetical</span>
+<span class="c-cmd">ls -t</span>                   <span class="c-comment"># newest first (mtime)</span>
+<span class="c-cmd">ls -tr</span>                  <span class="c-comment"># oldest first</span>
+<span class="c-cmd">ls -S</span>                   <span class="c-comment"># largest first</span>
+<span class="c-cmd">ls -Sr</span>                  <span class="c-comment"># smallest first</span>
+<span class="c-cmd">ls -X</span>                   <span class="c-comment"># by extension</span>
+<span class="c-cmd">ls -v</span>                   <span class="c-comment"># natural sort (file1, file2, file10)</span>
+<span class="c-cmd">ls -U</span>                   <span class="c-comment"># unsorted (directory order)</span>
+<span class="c-cmd">ls --sort=time</span>         <span class="c-comment"># same as -t</span>
+<span class="c-cmd">ls -l --time=birth</span>     <span class="c-comment"># sort by creation time (birth)</span>
+<span class="c-cmd">ls -l --time-style=full-iso</span>   <span class="c-comment"># 2026-06-04 09:30:42.000000000 +0530</span>
+<span class="c-cmd">ls -l --time-style=long-iso</span>   <span class="c-comment"># 2026-06-04 09:30</span>
+<span class="c-cmd">ls -l --time-style='+%Y-%m-%d %H:%M'</span>  <span class="c-comment"># strftime format</span></code></pre>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <strong>Tip:</strong> <code>ls -ltr</code> is the universal "show me the oldest files at the bottom" recipe used by sysadmins.
+    </div>
+  </section>
+
+  <!-- ==================== RECURSIVE ==================== -->
+  <section id="recursive">
+    <h2 class="ls-heading"><i class="bi bi-diagram-3 me-2"></i>Recursive Listing</h2>
+
+    <div class="card">
+      <div class="card-body">
+<pre class="term"><code><span class="c-cmd">ls -R</span>                   <span class="c-comment"># recurse into subdirectories</span>
+<span class="c-cmd">ls -R src/</span>             <span class="c-comment"># recurse from a specific path</span>
+<span class="c-cmd">ls -Rl</span>                 <span class="c-comment"># long + recursive</span>
+<span class="c-cmd">ls -lR | less</span>          <span class="c-comment"># scroll long trees with a pager</span>
+<span class="c-cmd">ls -d $(find . -type d)</span>  <span class="c-comment"># list all directories only</span>
+<span class="c-cmd">tree</span>                   <span class="c-comment"># pretty tree (install via: apt install tree / brew install tree)</span>
+<span class="c-cmd">tree -L 2</span>              <span class="c-comment"># limit to 2 levels deep</span>
+<span class="c-cmd">tree -a -I 'node_modules|.git'</span>  <span class="c-comment"># ignore build/output dirs</span></code></pre>
+      </div>
+    </div>
+
+    <div class="warn-box">
+      <strong>Careful:</strong> <code>ls -R /</code> on a system with millions of files (think <code>/var</code>) may take a while. Pipe through <code>less</code> or filter with <code>grep</code>.
+    </div>
+  </section>
+
+  <!-- ==================== FILTER ==================== -->
+  <section id="filter">
+    <h2 class="ls-heading"><i class="bi bi-funnel me-2"></i>Filtering &amp; Glob Patterns</h2>
+    <p>Glob patterns are expanded by the shell, not by <code>ls</code> itself.</p>
+
+    <div class="card">
+      <div class="card-body">
+<pre class="term"><code><span class="c-cmd">ls *.txt</span>                 <span class="c-comment"># all .txt files</span>
+<span class="c-cmd">ls file?.log</span>            <span class="c-comment"># file1.log, fileA.log (any single char)</span>
+<span class="c-cmd">ls file[0-9].log</span>        <span class="c-comment"># digits 0-9 only</span>
+<span class="c-cmd">ls [A-Z]*.md</span>            <span class="c-comment"># uppercase initial letter</span>
+<span class="c-cmd">ls **/*.js</span>              <span class="c-comment"># recursive (needs: shopt -s globstar in bash)</span>
+<span class="c-cmd">ls -I '*.min.js'</span>         <span class="c-comment"># ignore minified files</span>
+<span class="c-cmd">ls -d */</span>                <span class="c-comment"># only directories</span>
+<span class="c-cmd">ls -F | grep -v '/$'</span>    <span class="c-comment"># only files (non-dirs)</span>
+<span class="c-cmd">ls -1 | wc -l</span>           <span class="c-comment"># count entries</span>
+<span class="c-cmd">ls -lR | grep '^d'</span>      <span class="c-comment"># only directories (long format)</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Glob cheat sheet</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-sm cmd-table mb-0">
+            <thead class="table-light"><tr><th>Pattern</th><th>Matches</th></tr></thead>
+            <tbody>
+              <tr><td><code>*</code></td><td>Any string (no slash)</td></tr>
+              <tr><td><code>?</code></td><td>Any single char</td></tr>
+              <tr><td><code>[abc]</code></td><td>Any one of a, b, c</td></tr>
+              <tr><td><code>[a-z]</code></td><td>Any char in range a&ndash;z</td></tr>
+              <tr><td><code>[!abc]</code></td><td>Any char except a, b, c</td></tr>
+              <tr><td><code>{a,b,c}</code></td><td>Brace expansion (e.g. <code>file.{js,ts}</code>)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CMD ==================== -->
+  <section id="cmd">
+    <h2 class="cmd-heading"><i class="bi bi-windows me-2"></i>Windows CMD Equivalent &mdash; <code>dir</code></h2>
+    <p>The closest built-in equivalent of <code>ls</code> in Windows Command Prompt is <code>dir</code>. It produces similar information but with different flags and formatting.</p>
+
+    <div class="card">
+      <div class="card-header">Side-by-side &mdash; <code>ls</code> &harr; <code>dir</code></div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0 cmd-table">
+            <thead class="table-light">
+              <tr><th style="width:36%">ls (Linux/macOS)</th><th>dir (Windows CMD)</th><th>What it does</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>ls</code></td><td><code>dir</code></td><td>List current directory</td></tr>
+              <tr><td><code>ls -l</code></td><td><code>dir</code></td><td>Long listing (dir is long by default)</td></tr>
+              <tr><td><code>ls -a</code></td><td><code>dir /a</code></td><td>Show hidden + system files</td></tr>
+              <tr><td><code>ls -A</code></td><td><code>dir /a</code></td><td>Show all but <code>.</code> / <code>..</code></td></tr>
+              <tr><td><code>ls -la</code></td><td><code>dir /a</code></td><td>Long + hidden</td></tr>
+              <tr><td><code>ls -lh</code></td><td><code>dir</code></td><td>Long (already shows commas)</td></tr>
+              <tr><td><code>ls -R</code></td><td><code>dir /s</code></td><td>Recursive into subdirs</td></tr>
+              <tr><td><code>ls -1</code></td><td><code>dir /b</code></td><td>Bare format, one per line</td></tr>
+              <tr><td><code>ls -d */</code></td><td><code>dir /ad</code></td><td>Directories only</td></tr>
+              <tr><td><code>ls -t</code></td><td><code>dir /od</code></td><td>Sorted by date (oldest first)</td></tr>
+              <tr><td><code>ls -tr</code></td><td><code>dir /o-d</code></td><td>Newest first</td></tr>
+              <tr><td><code>ls -S</code></td><td><code>dir /os</code></td><td>Sorted by size (smallest first)</td></tr>
+              <tr><td><code>ls -Sr</code></td><td><code>dir /o-s</code></td><td>Largest first</td></tr>
+              <tr><td><code>ls -X</code></td><td><code>dir /oe</code></td><td>Sorted by extension</td></tr>
+              <tr><td><code>ls -r</code></td><td><code>dir /o-n</code></td><td>Reverse alpha order</td></tr>
+              <tr><td><code>ls *.txt</code></td><td><code>dir *.txt</code></td><td>Filter by glob</td></tr>
+              <tr><td><code>ls /path/to/dir</code></td><td><code>dir C:\path\to\dir</code></td><td>Absolute path</td></tr>
+              <tr><td><code>ls ..</code></td><td><code>dir ..</code></td><td>Parent directory</td></tr>
+              <tr><td><code>ls -i</code></td><td><code>dir /q</code></td><td>(different: shows owner, not inode)</td></tr>
+              <tr><td><code>ls -n</code></td><td><code>dir /-c</code></td><td>No thousands separator in sizes</td></tr>
+              <tr><td><code>ls -F</code></td><td><code>dir /-d</code></td><td>(different: dir itself has no <code>-F</code>)</td></tr>
+              <tr><td><code>ls -1 | wc -l</code></td><td><code>dir | find /c "file"</code></td><td>Count files</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Useful <code>dir</code> flags (no <code>ls</code> equivalent)</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover cmd-table mb-0">
+            <thead class="table-light"><tr><th style="width:34%">Flag</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>/p</code></td><td>Pause after each screen of information</td></tr>
+              <tr><td><code>/w</code></td><td>Wide list format (sort by columns)</td></tr>
+              <tr><td><code>/x</code></td><td>Show 8.3 short names for non-8dot3 files</td></tr>
+              <tr><td><code>/c</code></td><td>Show thousand separator in file sizes (default)</td></tr>
+              <tr><td><code>/-c</code></td><td>Disable thousand separator</td></tr>
+              <tr><td><code>/q</code></td><td>Show file owner</td></tr>
+              <tr><td><code>/a[:attributes]</code></td><td>Show files with attribute: <code>d</code> dirs, <code>h</code> hidden, <code>s</code> system, <code>r</code> read-only, <code>a</code> archive</td></tr>
+              <tr><td><code>/o[:order]</code></td><td>Sort by: <code>n</code> name, <code>s</code> size, <code>e</code> extension, <code>d</code> date, <code>g</code> group</td></tr>
+              <tr><td><code>/t[:timefield]</code></td><td>Time field: <code>c</code> creation, <code>a</code> last access, <code>w</code> last written (default)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Sample <code>dir</code> output</div>
+      <div class="card-body">
+<pre class="term no-prompt"><code><span class="c-cmdwin">C:\Users\Alice&gt;</span> <span class="c-ps">dir</span> <span class="c-output">C:\Windows
+ Volume in drive C has no label.
+ Volume Serial Number is <span class="num">1234</span>-<span class="num">5678</span>
+
+ Directory of C:\Windows
+
+<span class="num">06</span>/<span class="num">04</span>/<span class="num">2026</span>  <span class="num">09</span>:<span class="num">30</span> AM    <span class="kw">&lt;DIR</span><span class="kw">&gt;</span>          .
+<span class="num">06</span>/<span class="num">04</span>/<span class="num">2026</span>  <span class="num">09</span>:<span class="num">30</span> AM    <span class="kw">&lt;DIR</span><span class="kw">&gt;</span>          ..
+<span class="num">06</span>/<span class="num">03</span>/<span class="num">2026</span>  <span class="num">08</span>:<span class="num">15</span> PM             <span class="num">1</span>,<span class="num">234</span> addins
+<span class="num">06</span>/<span class="num">02</span>/<span class="num">2026</span>  <span class="num">10</span>:<span class="num">42</span> AM    <span class="kw">&lt;DIR</span><span class="kw">&gt;</span>          AppReadiness
+<span class="num">05</span>/<span class="num">29</span>/<span class="num">2026</span>  <span class="num">02</span>:<span class="num">11</span> PM           <span class="num">123</span>,<span class="num">456</span> explorer.exe
+              <span class="num">15</span> File(s)      <span class="num">4</span>,<span class="num">567</span>,<span class="num">890</span> bytes
+              <span class="num">22</span> Dir(s)  <span class="num">123</span>,<span class="num">456</span>,<span class="num">789</span>,<span class="num">012</span> bytes free</span></code></pre>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <strong>Tip:</strong> If you prefer Unix-style on Windows, install <strong>Git for Windows</strong> to get <code>ls</code>, <code>grep</code>, <code>awk</code>, and a real Bash terminal &mdash; free and ~50 MB.
+    </div>
+  </section>
+
+  <!-- ==================== POWERSHELL ==================== -->
+  <section id="powershell">
+    <h2 class="ps-heading"><i class="bi bi-lightning me-2"></i>PowerShell Equivalent</h2>
+    <p>PowerShell on Windows includes <code>ls</code> and <code>dir</code> as built-in <strong>aliases</strong> for the <code>Get-ChildItem</code> cmdlet.
+       For richer output, use <code>Get-ChildItem</code> directly.</p>
+
+    <div class="card">
+      <div class="card-body">
+<pre class="term"><code><span class="c-ps">ls</span>                              <span class="c-comment"># alias for Get-ChildItem</span>
+<span class="c-ps">dir</span>                             <span class="c-comment"># also alias for Get-ChildItem</span>
+<span class="c-ps">gci</span>                             <span class="c-comment"># shorter alias</span>
+<span class="c-ps">Get-ChildItem</span>                  <span class="c-comment"># full cmdlet name</span>
+<span class="c-ps">Get-ChildItem -Force</span>           <span class="c-comment"># like ls -a (include hidden)</span>
+<span class="c-ps">Get-ChildItem -Recurse</span>        <span class="c-comment"># like ls -R</span>
+<span class="c-ps">Get-ChildItem -File</span>           <span class="c-comment"># files only</span>
+<span class="c-ps">Get-ChildItem -Directory</span>      <span class="c-comment"># directories only (like ls -d */)</span>
+<span class="c-ps">Get-ChildItem *.txt</span>           <span class="c-comment"># filter by glob</span>
+<span class="c-ps">ls | Sort-Object Length -Descending</span>  <span class="c-comment"># like ls -S</span>
+<span class="c-ps">ls | Sort-Object LastWriteTime -Descending</span>  <span class="c-comment"># like ls -t</span>
+<span class="c-ps">Get-ChildItem | Select Name,Length,LastWriteTime</span>  <span class="c-comment"># custom columns</span>
+<span class="c-ps">ls | Where-Object { $_.Length -gt 1MB }</span>  <span class="c-comment"># filter by size</span>
+<span class="c-ps">(Get-ChildItem).Count</span>        <span class="c-comment"># count files (like ls -1 | wc -l)</span>
+<span class="c-ps">tree /F</span>                        <span class="c-comment"># pretty tree (built-in)</span>
+<span class="c-ps">tree /F /A</span>                     <span class="c-comment"># tree with ASCII only (no Unicode lines)</span></code></pre>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <strong>PowerShell objects &gt; text:</strong> <code>ls</code> in PowerShell returns <strong>objects</strong> with properties (<code>Name</code>, <code>Length</code>, <code>LastWriteTime</code>, <code>Mode</code>), not raw text. Pipe to <code>Format-Table</code>, <code>Where-Object</code>, <code>Select-Object</code> for powerful filtering &mdash; something the Unix <code>ls</code> cannot do on its own.
+    </div>
+
+    <div class="card">
+      <div class="card-header">PowerShell: list the 5 largest files in a directory</div>
+      <div class="card-body">
+<pre class="term"><code><span class="c-ps">Get-ChildItem -File -Recurse |
+  Sort-Object Length -Descending |
+  Select-Object -First 5 FullName, @{N='SizeMB';E={[math]::Round($_.Length/1MB,2)}}
+
+<span class="c-output">FullName                                   SizeMB
+--------                                   ------
+C:\data\big1.bin                          1024.50
+C:\data\big2.zip                            512.25
+C:\data\media\movie.mkv                    256.10
+C:\data\backup.tar                          128.00
+C:\data\dump.sql                             64.00</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== WSL ==================== -->
+  <section id="wsl">
+    <h2 class="ls-heading"><i class="bi bi-box me-2"></i>WSL / Git Bash / MSYS</h2>
+    <p>Three great ways to get real <code>ls</code> on Windows without leaving your machine:</p>
+
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5><i class="bi bi-ubuntu text-warning me-2"></i>WSL</h5>
+            <p class="small text-muted mb-2">Windows Subsystem for Linux. Full Linux <code>ls</code> with all flags.</p>
+<pre class="term no-prompt"><code><span class=<span class="str">"c-ps"</span>>wsl <span class="kw">ls</span> <span class="fn">-la</span></span>
+<span class=<span class="str">"c-ps"</span>>wsl <span class="kw">ls</span> /mnt/c/Users</span></code></pre>
+            <p class="small text-muted mb-0">Access Windows files under <code>/mnt/c/...</code></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5><i class="bi bi-git text-danger me-2"></i>Git Bash</h5>
+            <p class="small text-muted mb-2">Bundled with Git for Windows. Includes coreutils.</p>
+<pre class="term no-prompt"><code><span class=<span class="str">"c-ps"</span>><span class="kw">ls</span> <span class="fn">-lah</span></span>
+<span class=<span class="str">"c-ps"</span>><span class="kw">ls</span> <span class="fn">-R</span> <span class="fn">--color</span>=auto</span></code></pre>
+            <p class="small text-muted mb-0">Use the <code>Git Bash Here</code> context-menu.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5><i class="bi bi-terminal text-info me-2"></i>MSYS2 / Cygwin</h5>
+            <p class="small text-muted mb-2">POSIX compatibility layer. Full Unix toolchain.</p>
+<pre class="term no-prompt"><code><span class=<span class="str">"c-ps"</span>><span class="kw">pacman</span> <span class="fn">-S</span> coreutils</span>
+<span class=<span class="str">"c-ps"</span>><span class="kw">ls</span> <span class="fn">--color</span>=auto</span></code></pre>
+            <p class="small text-muted mb-0">Heavier than Git Bash, more complete than WSL.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== RECIPES ==================== -->
+  <section id="recipes">
+    <h2 class="recipes-heading"><i class="bi bi-bookmark-star me-2"></i>Recipes &mdash; Real-World Patterns</h2>
+
+    <div class="card">
+      <div class="card-header">Find the 10 largest files anywhere under a path</div>
+      <div class="card-body">
+<pre class="term"><code><span class="c-cmd">find /var -type f -exec ls -lh {} +</span> 2&gt;/dev/null \
+  | <span class="c-cmd">sort -k5 -h -r</span> \
+  | <span class="c-cmd">head -n 10</span>
+
+<span class="c-comment"># One-liner (no find needed on most distros)
+</span><span class="c-cmd">ls -lAR /var</span> | <span class="c-cmd">sort -k5 -h -r</span> | <span class="c-cmd">head</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">List every file modified in the last 24 hours</div>
+      <div class="card-body">
+<pre class="term"><code><span class="c-cmd">ls -lt --time-style=full-iso</span> \
+  | <span class="c-cmd">awk '$6 ~ /^'"$(date -u +%Y-%m-%d)"'/'</span>
+
+<span class="c-comment"># Better: combine with find for accuracy
+</span><span class="c-cmd">find . -type f -mtime -1 -exec ls -lh {} +</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Count files by extension</div>
+      <div class="card-body">
+<pre class="term"><code><span class="c-cmd">ls -1 *.js 2&gt;/dev/null | wc -l</span>
+<span class="c-cmd">ls -1 | sed 's/.*\.//' | sort | uniq -c | sort -rn</span>
+
+<span class="c-output">   42 js
+   18 ts
+   12 md
+    5 json</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">List files with absolute paths</div>
+      <div class="card-body">
+<pre class="term"><code><span class="c-cmd">ls -d "$PWD"/*</span>                       <span class="c-comment"># current dir</span>
+<span class="c-cmd">ls -d "$PWD"/**/*(.)</span>                <span class="c-comment"># zsh globstar, files only</span>
+<span class="c-cmd">find "$(pwd)" -maxdepth 1 -mindepth 1</span>  <span class="c-comment"># portable</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Watch a directory in real time (refresh every 2s)</div>
+      <div class="card-body">
+<pre class="term"><code><span class="c-cmd">watch -n 2 'ls -lh --color=auto'</span>           <span class="c-comment"># Linux</span>
+<span class="c-cmd">while true; do clear; ls -lh; sleep 2; done</span>   <span class="c-comment"># portable bash</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Compare two directories (file names only)</div>
+      <div class="card-body">
+<pre class="term"><code><span class="c-cmd">diff &lt;(ls -1 /etc) &lt;(ls -1 /etc.old)</span>
+
+<span class="c-comment"># Compare via contents
+</span><span class="c-cmd">diff -rq /etc /etc.old</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Find duplicate filenames across subdirectories</div>
+      <div class="card-body">
+<pre class="term"><code><span class="c-cmd">ls -R | awk '/:$/ {dir=$0; next} NF {print dir"/"$0}'</span> \
+  | <span class="c-cmd">awk -F/ '{print $NF}'</span> \
+  | <span class="c-cmd">sort | uniq -d</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Show inode usage (find hard-linked duplicates)</div>
+      <div class="card-body">
+<pre class="term"><code><span class="c-cmd">ls -li</span> | <span class="c-cmd">sort -n</span>            <span class="c-comment"># inodes ascending &rarr; duplicates cluster</span>
+<span class="c-cmd">find . -inum 1234567</span>       <span class="c-comment"># show all hard links to inode</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Total size of current directory</div>
+      <div class="card-body">
+<pre class="term"><code><span class="c-cmd">ls -lAR | awk '/^total/ {sum += $1} END {print sum, "blocks"}'</span>
+<span class="c-cmd">du -sh .</span>      <span class="c-comment"># the more common way</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TIPS ==================== -->
+  <section id="tips">
+    <h2 class="tips-heading"><i class="bi bi-lightbulb me-2"></i>Pro Tips &amp; Tricks</h2>
+
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="tip-box h-100">
+          <strong>1. The &ldquo;show me everything&rdquo; alias</strong>
+<pre class="term"><code><span class="c-cmd">alias ll='ls -lahF'</span>
+<span class="c-cmd">alias la='ls -A'</span>
+<span class="c-cmd">alias l='ls -CF'</span>
+
+<span class="c-comment"># Make it permanent (bash)
+</span><span class="c-cmd">echo "alias ll='ls -lahF'" &gt;&gt; ~/.bashrc</span>
+<span class="c-cmd">source ~/.bashrc</span></code></pre>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="tip-box h-100">
+          <strong>2. Colorize even when piped (force it on)</strong>
+<pre class="term"><code><span class="c-cmd">ls --color=always | less -R</span>
+<span class="c-cmd">ls -G | grep --color=never pattern</span>   <span class="c-comment"># grep on macOS, then strip</span></code></pre>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="tip-box h-100">
+          <strong>3. List only directories</strong>
+<pre class="term"><code><span class="c-cmd">ls -d */                      </span><span class="c-comment"># trailing slash trick</span>
+<span class="c-cmd">ls -l | grep '^d'             </span><span class="c-comment"># long format filter</span>
+<span class="c-cmd">ls -d .*/ */ 2&gt;/dev/null      </span><span class="c-comment"># include hidden dirs</span>
+<span class="c-cmd">find . -maxdepth 1 -type d    </span><span class="c-comment"># portable</span></code></pre>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="tip-box h-100">
+          <strong>4. ISO timestamps in long listing</strong>
+<pre class="term"><code><span class="c-cmd">ls -l --time-style=long-iso</span>
+<span class="c-output">-rw-r--r-- 1 alice staff 1200 2026-06-04 09:30 notes.txt</span>
+
+<span class="c-cmd">ls -l --time-style=full-iso</span>
+<span class="c-output">-rw-r--r-- 1 alice staff 1200 2026-06-04 09:30:42.123456789 +0530 notes.txt</span></code></pre>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="tip-box h-100">
+          <strong>5. Numeric permissions (chmod-style)</strong>
+<pre class="term"><code><span class="c-cmd">ls -l | awk '{print $1}' | tail -n +2</span>
+
+<span class="c-cmd"># rwxr-xr-x &rarr; 4+2+1  4+0+1  4+0+1 = 755
+# rw-r--r-- &rarr; 4+2+0  4+0+0  4+0+0 = 644
+# rwxrwxrwx &rarr; 777
+</span><span class="c-cmd">stat -c '%a %n' *</span>             <span class="c-comment"># better tool</span></code></pre>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="tip-box h-100">
+          <strong>6. Group directories first</strong>
+<pre class="term"><code><span class="c-cmd">ls --group-directories-first</span>
+<span class="c-cmd">ls -l --group-directories-first -F</span>
+
+<span class="c-cmd"># Make permanent
+</span><span class="c-cmd">alias ls='ls --group-directories-first --color=auto'</span></code></pre>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="tip-box h-100">
+          <strong>7. Avoid the &ldquo;Total N&rdquo; header (use &lt;kbd&gt;G&lt;/kbd&gt; in pager)</strong>
+<pre class="term"><code><span class="c-cmd">ls -lh | tail -n +2</span>            <span class="c-comment"># skip the "total" line</span>
+
+<span class="c-comment"># Or pipe to less and press G
+</span><span class="c-cmd">ls -lh | less</span>   <span class="c-cmd">$</span> <span class="c-output">then: press &lt;G&gt; to go to bottom</span></code></pre>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="tip-box h-100">
+          <strong>8. Quote names with spaces in scripts</strong>
+<pre class="term"><code><span class="c-cmd">ls -Q</span>                           <span class="c-comment"># double-quote names</span>
+<span class="c-cmd">ls -1 | while read -r f; do
+  echo "File: $f"
+done</span>
+
+<span class="c-cmd">find . -maxdepth 1 -print0 | xargs -0 -I{} echo {}</span>   <span class="c-comment"># null-delimited (safest)</span></code></pre>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="tip-box h-100">
+          <strong>9. Block-size overrides</strong>
+<pre class="term"><code><span class="c-cmd">ls -l --block-size=K</span>     <span class="c-comment"># always show KB</span>
+<span class="c-cmd">ls -l --block-size=M</span>     <span class="c-comment"># always show MB</span>
+<span class="c-cmd">ls -lh --si</span>             <span class="c-comment"># powers of 1000 (kB, MB, GB)</span></code></pre>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="tip-box h-100">
+          <strong>10. Production-safe defaults (for scripts)</strong>
+<pre class="term"><code><span class="c-cmd">ls -1 --color=never</span>          <span class="c-comment"># one per line, no escape codes</span>
+<span class="c-cmd">LC_ALL=C ls -1</span>              <span class="c-comment"># locale-independent sort</span>
+<span class="c-cmd">ls --quoting-style=literal</span>  <span class="c-comment"># no quotes, no escapes</span></code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ERRORS ==================== -->
+  <section id="errors">
+    <h2 class="ls-heading"><i class="bi bi-exclamation-triangle me-2"></i>Common Errors &amp; Fixes</h2>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-light">
+            <tr><th style="width:38%">Error message</th><th>Cause &amp; fix</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>ls: cannot access 'foo': No such file or directory</code></td>
+              <td>Path doesn't exist. Check spelling or use tab-completion. The directory may have been moved or deleted.</td>
+            </tr>
+            <tr>
+              <td><code>ls: cannot open directory 'foo': Permission denied</code></td>
+              <td>You lack read (r) permission. Fix with <code>sudo chmod +r foo</code> or run as a user with access.</td>
+            </tr>
+            <tr>
+              <td><code>ls: invalid option -- 'X'</code></td>
+              <td>You're probably on BSD/macOS <code>ls</code> where some GNU flags differ. Run <code>man ls</code> for the local man page.</td>
+            </tr>
+            <tr>
+              <td>Coloured output corrupts in pipe</td>
+              <td>ANSI codes are leaking. Use <code>ls --color=never</code> or pipe through <code>sed 's/\x1b\[[0-9;]*m//g'</code>.</td>
+            </tr>
+            <tr>
+              <td>Spaces in filenames break <code>for f in $(ls)</code></td>
+              <td>Never use <code>for f in $(ls)</code>. Use <code>find . -maxdepth 1 -print0 | while IFS= read -r -d '' f; do ... done</code> or <code>while read f; do ... done &lt; &lt;(ls -1)</code>.</td>
+            </tr>
+            <tr>
+              <td>Newlines in filenames break scripts</td>
+              <td>Use <code>find -print0</code> + <code>xargs -0</code> or <code>while read -d ''</code>. <code>ls</code> itself handles them, but downstream tools may not.</td>
+            </tr>
+            <tr>
+              <td><code>ls: .: Operation not permitted</code> (macOS)</td>
+              <td>macOS Catalina+ enforces Path Randomization in some apps. <code>ls</code> itself is unaffected &mdash; check whether you're inside a sandboxed app's data container.</td>
+            </tr>
+            <tr>
+              <td>Symbolic link loops</td>
+              <td><code>ls -L</code> follows links, can infinite-loop. Use <code>ls -l</code> (don't follow) and look at the <code>-&gt; target</code> arrow.</td>
+            </tr>
+            <tr>
+              <td>Sorting different on Linux vs macOS</td>
+              <td>macOS uses BSD <code>ls</code> which sorts case-insensitively by default. Force POSIX sort: <code>LC_ALL=C ls</code>.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CHEAT SHEET ==================== -->
+  <section id="cheatsheet">
+    <h2 class="ls-heading"><i class="bi bi-clipboard-check me-2"></i>One-Page Cheat Sheet</h2>
+    <div class="card">
+      <div class="card-body">
+<pre class="term no-prompt"><code><span class=<span class="str">"c-output"</span>># == Most common ==
+<span class="kw">ls</span>                 plain
+<span class="kw">ls</span> <span class="fn">-l</span>              long
+<span class="kw">ls</span> <span class="fn">-a</span>              include hidden
+<span class="kw">ls</span> <span class="fn">-la</span>             long + hidden
+<span class="kw">ls</span> <span class="fn">-lh</span>             long + human sizes
+<span class="kw">ls</span> <span class="fn">-lhF</span>            long + human + classify
+<span class="kw">ls</span> <span class="fn">-ltr</span>            long, oldest first (mtime)
+<span class="kw">ls</span> <span class="fn">-lS</span>             long, largest first
+<span class="kw">ls</span> <span class="fn">-R</span>              recursive
+<span class="kw">ls</span> <span class="fn">-1</span>              one per line
+
+<span class="cm"># == Filtering ==</span>
+<span class="kw">ls</span> *.txt           glob (shell expands)
+<span class="kw">ls</span> <span class="fn">-I</span> <span class="str">'*.log'</span>      ignore pattern
+<span class="kw">ls</span> <span class="fn">-d</span> */           only directories
+<span class="kw">ls</span> <span class="fn">-F</span> | <span class="kw">grep</span> <span class="fn">-v</span> <span class="str">'/$'</span>    only files
+<span class="kw">ls</span> <span class="fn">-1</span> | <span class="kw">wc</span> <span class="fn">-l</span>      count
+
+<span class="cm"># == Sorting ==</span>
+<span class="kw">ls</span> <span class="fn">-t</span>              newest first
+<span class="kw">ls</span> <span class="fn">-tr</span>             oldest first
+<span class="kw">ls</span> <span class="fn">-S</span>              largest first
+<span class="kw">ls</span> <span class="fn">-Sr</span>             smallest first
+<span class="kw">ls</span> <span class="fn">-v</span>              natural <span class="kw">sort</span>
+<span class="kw">ls</span> <span class="fn">--sort</span>=<span class="kw">time</span>     explicit
+
+<span class="cm"># == Time ==</span>
+<span class="kw">ls</span> <span class="fn">-l</span> <span class="fn">--time-style</span>=full-iso
+<span class="kw">ls</span> <span class="fn">-l</span> <span class="fn">--time-style</span>=long-iso
+<span class="kw">ls</span> <span class="fn">-l</span> <span class="fn">--time</span>=birth    creation <span class="kw">time</span>
+
+<span class="cm"># == Meta ==</span>
+<span class="kw">ls</span> <span class="fn">-i</span>              inode
+<span class="kw">ls</span> <span class="fn">-n</span>              numeric UIDs/GIDs
+<span class="kw">ls</span> <span class="fn">-g</span>              skip owner
+<span class="kw">ls</span> <span class="fn">-G</span>              skip group
+<span class="kw">ls</span> <span class="fn">-o</span>              skip group
+<span class="kw">ls</span> <span class="fn">-Q</span>              quote names
+<span class="kw">ls</span> <span class="fn">--version</span>       version
+<span class="kw">ls</span> <span class="fn">--help</span>          help
+
+<span class="cm"># == Windows (CMD) ==</span>
+dir                 basic
+dir /a              show all (incl. hidden)
+dir /s              recursive
+dir /b              bare format (one per line)
+dir /od             <span class="kw">sort</span> by <span class="kw">date</span>
+dir /o-d            <span class="kw">sort</span> by <span class="kw">date</span>, reverse
+dir /os             <span class="kw">sort</span> by size
+dir /oe             <span class="kw">sort</span> by extension
+dir /ad             directories only
+
+<span class="cm"># == PowerShell ==</span>
+<span class="kw">ls</span>                  <span class="kw">alias</span> <span class="kw">for</span> Get-ChildItem
+Get-ChildItem <span class="fn">-Force</span> <span class="fn">-Recurse</span> <span class="fn">-File</span>
+Get-ChildItem | Sort Length <span class="fn">-Descending</span> | Select <span class="fn">-First</span> <span class="num">10</span>
+<span class="kw">tree</span> /F /A          pretty <span class="kw">tree</span></span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <p class="text-muted small mt-5">
+    <i class="bi bi-info-circle"></i>
+    Pages deployed as-is via GitHub Pages &mdash; <a href="../index.html">back to hub</a>.
+  </p>
+</div>
+
+<script>
+  document.getElementById('sidebarToggle')?.addEventListener('click', () => {
+    document.getElementById('sidebar').classList.toggle('show');
+  });
+</script>
+</body>
+</html>

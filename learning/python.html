@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+    body {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(100, 116, 139, 0.35) transparent;
+    }
+    body::-webkit-scrollbar { width: 8px; }
+    body::-webkit-scrollbar-track { background: transparent; }
+    body::-webkit-scrollbar-thumb {
+      background: rgba(100, 116, 139, 0.35);
+      border-radius: 999px;
+    }
+    body::-webkit-scrollbar-thumb:hover { background: rgba(100, 116, 139, 0.55); }
+    #sidebar, .sidebar {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+    }
+    #sidebar::-webkit-scrollbar, .sidebar::-webkit-scrollbar { width: 5px; }
+    #sidebar::-webkit-scrollbar-track, .sidebar::-webkit-scrollbar-track { background: transparent; }
+    #sidebar::-webkit-scrollbar-thumb, .sidebar::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+    }
+    #sidebar::-webkit-scrollbar-thumb:hover, .sidebar::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.32);
+    }
+</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python 3.14 - Complete Guide: Syntax, Concepts & Reference</title>
+  <link href="../lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --py-blue: #306998;
+      --py-yellow: #ffd43b;
+      --py-dark: #1a1a2e;
+      --sidebar-width: 280px;
+    }
+    * { scroll-margin-top: 1rem; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f4f6fb;
+      display: flex;
+    }
+    #sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0; left: 0;
+      background: var(--py-dark);
+      overflow-y: auto;
+      z-index: 1000;
+      transition: transform .3s;
+    }
+    #sidebar .brand {
+      padding: 1.25rem 1.25rem .75rem;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    #sidebar .brand h5 { color: #fff; font-weight: 700; }
+    #sidebar .brand small { color: #adb5bd; }
+    #sidebar .nav-link {
+      color: #c8cdd3;
+      padding: .5rem 1.25rem;
+      font-size: .88rem;
+      border-left: 3px solid transparent;
+      transition: all .15s;
+    }
+    #sidebar .nav-link:hover {
+      color: #fff;
+      background: rgba(255,255,255,.05);
+    }
+    #sidebar .nav-link.active {
+      color: var(--py-yellow);
+      border-left-color: var(--py-yellow);
+      background: rgba(255,212,59,.08);
+    }
+    #sidebar .nav-link i { width: 1.3rem; }
+    #sidebar .nav-section {
+      color: #6c757d;
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      padding: 1rem 1.25rem .3rem;
+      font-weight: 600;
+    }
+    #main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 2rem 2.5rem 4rem;
+      max-width: 1100px;
+    }
+    @media (max-width: 991.98px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.show { transform: translateX(0); }
+      #main { margin-left: 0; padding: 1.5rem; }
+    }
+    .sidebar-toggle {
+      position: fixed;
+      top: .75rem; left: .75rem;
+      z-index: 1050;
+      background: var(--py-dark);
+      color: #fff;
+      border: none;
+      border-radius: .4rem;
+      padding: .4rem .65rem;
+      display: none;
+    }
+    @media (max-width: 991.98px) {
+      .sidebar-toggle { display: block; }
+    }
+    h2 {
+      font-weight: 700;
+      color: var(--py-dark);
+      margin-top: 2.5rem;
+      padding-bottom: .5rem;
+      border-bottom: 3px solid var(--py-blue);
+    }
+    h3 {
+      font-weight: 600;
+      color: #2c3e50;
+      margin-top: 1.8rem;
+    }
+    .card {
+      border: none;
+      border-radius: .75rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      margin-bottom: 1.5rem;
+    }
+    .card-header {
+      background: #fff;
+      border-bottom: 1px solid #e9ecef;
+      font-weight: 600;
+      padding: 1rem 1.25rem;
+    }
+    .card-body { padding: 1.5rem; }
+    pre {
+      background: #1e1e2f;
+      color: #e6e6e6;
+      padding: 1rem 1.25rem;
+      border-radius: .5rem;
+      font-size: .82rem;
+      overflow-x: auto;
+      position: relative;
+    }
+    pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
+    .kw { color: #c792ea; }
+    .fn { color: #82aaff; }
+    .str { color: #c3e88d; }
+    .cm { color: #546e7a; font-style: italic; }
+    .num { color: #f78c6c; }
+    .tp { color: #ffcb6b; }
+    [data-bs-theme="dark"] .kw { color: #c792ea; }
+    [data-bs-theme="dark"] .fn { color: #82aaff; }
+    [data-bs-theme="dark"] .str { color: #c3e88d; }
+    [data-bs-theme="dark"] .cm { color: #546e7a; }
+    [data-bs-theme="dark"] .num { color: #f78c6c; }
+    [data-bs-theme="dark"] .tp { color: #ffcb6b; }
+
+    .cmd-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+      white-space: nowrap;
+      color: var(--py-blue);
+    }
+    .highlight-box {
+      background: #eef2ff;
+      border-left: 4px solid var(--py-blue);
+      padding: 1rem 1.25rem;
+      border-radius: .4rem;
+      margin: 1rem 0;
+    }
+    .new-badge {
+      background: #10b981;
+      color: #fff;
+      font-size: .65rem;
+      font-weight: 600;
+      padding: .15rem .5rem;
+      border-radius: 1rem;
+      vertical-align: middle;
+    }
+    .home-link {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 1100;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.94);
+      color: #0f172a;
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 700;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: 0.2s;
+    }
+    .home-link:hover { color: #306998; }
+    @media (min-width: 992px) {
+      .home-link { left: calc(var(--sidebar-width) + 14px); }
+    }
+    @media (max-width: 991.98px) {
+      .home-link { left: 4rem; }
+    }
+    @media (max-width: 767.98px) {
+      #main { padding: 1.25rem 1rem 3rem; }
+      .home-link { left: 3.5rem; font-size: .72rem; padding: 6px 10px; }
+      .sidebar-toggle { top: .6rem; left: .6rem; }
+    }
+    @media (max-width: 575.98px) {
+      #main { padding: 1rem .75rem 2.5rem; }
+      .home-link { left: 3rem; font-size: .68rem; padding: 5px 8px; }
+    }
+  </style>
+  <link rel="stylesheet" href="../lib/google-fonts/space-grotesk/space-grotesk.css">
+  <link rel="stylesheet" href="../lib/google-fonts/jetbrains-mono/jetbrains-mono.css">
+<style>
+/* ===== Jap Hub design system - graphql pattern (injected layer) ===== */
+:root {
+  --acc: #3776ab;
+  --acc2: #ffd43b;
+  --acc-soft: color-mix(in srgb, var(--acc) 32%, #ffffff);
+  --ink-deep: #101c2a;
+  --ink-2: #0f1126;
+  --ink: var(--ink-deep);
+  --bg: color-mix(in srgb, var(--acc) 5%, #f6f4fc);
+  --surface: #ffffff;
+  --surface-soft: rgba(255,255,255,.72);
+  --muted: color-mix(in srgb, var(--acc) 24%, #64698a);
+  --border: color-mix(in srgb, var(--acc) 16%, #e4e0f3);
+  --code: #0e1120;
+  --code-text: #e7e4f6;
+  --good: #17b26a;
+}
+[data-bs-theme="dark"] {
+  --ink: #eef0fb;
+  --bg: color-mix(in srgb, var(--acc) 8%, #0e1120);
+  --surface: #161a2e;
+  --muted: #9aa2bb;
+  --border: color-mix(in srgb, var(--acc) 24%, #262b3f);
+  --code: #0a0d1e;
+  --code-text: #dcd8ef;
+}
+::selection { background: var(--acc); color: #fff; }
+body {
+  font-family: 'Space Grotesk', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background:
+    radial-gradient(52rem 30rem at 110% -6%, color-mix(in srgb, var(--acc) 11%, transparent), transparent 60%),
+    radial-gradient(40rem 28rem at -10% 8%, color-mix(in srgb, var(--acc2) 9%, transparent), transparent 55%),
+    var(--bg);
+  color: var(--ink);
+  display: flex;
+}
+h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', 'Segoe UI', sans-serif; }
+#sidebar {
+  background:
+    radial-gradient(120% 90% at 100% 0%, color-mix(in srgb, var(--acc2) 28%, transparent), transparent 55%),
+    linear-gradient(180deg, var(--ink-deep) 0%, var(--ink-2) 100%);
+}
+#sidebar .brand h5 { color: #fff; letter-spacing: .01em; }
+#sidebar .brand small { color: #a9a6c9; font-size: .7rem; }
+#sidebar .nav-link { color: #c9c6e3; font-family: 'Space Grotesk', sans-serif; }
+#sidebar .nav-link:hover { color: #fff; background: rgba(255,255,255,.06); }
+#sidebar .nav-link i { color: color-mix(in srgb, var(--acc-soft) 62%, #ffffff); }
+#sidebar .nav-link.active {
+  color: #fff;
+  border-left-color: var(--acc);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--acc) 22%, transparent), transparent);
+}
+#sidebar .nav-section { color: #8d89b8; }
+.sidebar-toggle { background: var(--ink-deep); color: #fff; }
+#main { width: 100%; padding: 2rem 2.5rem 4rem; max-width: 1120px; }
+h2 {
+  color: var(--ink);
+  font-weight: 700;
+  margin-top: 2.2rem;
+  padding-bottom: .55rem;
+  border-bottom: none;
+  position: relative;
+}
+h2 i { color: var(--acc); }
+h2::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 58px; height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--acc), var(--acc2));
+}
+h3 { color: var(--ink); font-weight: 600; }
+h3 i { color: var(--acc); }
+h4 { color: var(--ink); }
+.card {
+  border: 1px solid var(--border);
+  border-radius: .8rem;
+  background: var(--surface);
+  box-shadow: 0 4px 16px rgba(15, 18, 38, .05);
+}
+.card-header {
+  background: color-mix(in srgb, var(--acc) 6%, var(--surface));
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+  font-size: .84rem;
+  color: var(--ink);
+  padding: .75rem 1.1rem;
+}
+.card-body { padding: 1.25rem 1.35rem; }
+pre {
+  background: var(--code);
+  color: var(--code-text);
+  padding: 1.05rem 1.2rem;
+  border-radius: .6rem;
+  font-size: .82rem;
+  line-height: 1.6;
+  border: 1px solid rgba(255,255,255,.05);
+  overflow-x: auto;
+}
+pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', ui-monospace, monospace; }
+code {
+  font-family: 'JetBrains Mono', 'Cascadia Code', ui-monospace, monospace;
+  font-size: .85em;
+  background: color-mix(in srgb, var(--acc) 10%, transparent);
+  color: var(--acc);
+  padding: .1em .35em;
+  border-radius: .35em;
+}
+pre code { background: transparent; color: inherit; padding: 0; border-radius: 0; }
+.kw { color: #c792ea; }
+.fn { color: #7ee0c3; }
+.str { color: #c3e88d; }
+.cm { color: #6c7693; font-style: italic; }
+.num { color: #ffb86c; }
+.tp { color: #82aaff; }
+.at { color: #f07178; }
+.highlight-box {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--acc2) 8%, transparent), color-mix(in srgb, var(--acc) 5%, transparent));
+  border-left: 4px solid var(--acc);
+  padding: 1rem 1.25rem;
+  border-radius: .45rem;
+  color: var(--ink);
+}
+.table thead th {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--muted);
+  background: color-mix(in srgb, var(--acc) 6%, var(--surface));
+  border-bottom: 2px solid var(--border);
+}
+.cmd-table td:first-child { color: var(--acc); }
+.new-badge {
+  background: linear-gradient(135deg, var(--acc), var(--acc2));
+  color: #fff;
+  font-weight: 600;
+}
+#main a { color: var(--acc); }
+#main a:hover { color: var(--acc2); }
+.home-link:hover { color: var(--acc); }
+:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; border-radius: 6px; }
+
+/* hero band (legacy doc template) */
+#main > div:first-child.d-flex {
+  background:
+    radial-gradient(120% 150% at 100% 0%, color-mix(in srgb, var(--acc2) 30%, transparent), transparent 55%),
+    radial-gradient(100% 140% at 0% 100%, color-mix(in srgb, var(--acc) 24%, transparent), transparent 50%),
+    linear-gradient(135deg, var(--ink-deep) 0%, var(--ink-2) 100%);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 20px;
+  padding: 2.2rem 1.9rem 1.7rem;
+  margin-bottom: 1.5rem;
+  color: #fff;
+  box-shadow: 0 24px 50px rgba(10, 12, 30, .18);
+}
+#main > div:first-child.d-flex h1 {
+  color: #fff !important;
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  margin-bottom: .55rem;
+}
+#main > div:first-child.d-flex h1 i { color: var(--acc-soft) !important; }
+#main > div:first-child.d-flex p {
+  color: rgba(255, 255, 255, .74) !important;
+  font-size: 1rem;
+}
+#main > div:first-child.d-flex .badge {
+  border-radius: 999px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .64rem;
+  font-weight: 600;
+  letter-spacing: .03em;
+}
+#main > div:first-child.d-flex .badge.bg-secondary { background: rgba(255,255,255,.14) !important; color: #fff; }
+#main > div:first-child.d-flex .badge.bg-success { background: var(--good) !important; }
+#main > div:first-child.d-flex .badge.bg-warning { background: #f7a54c !important; color: #241810 !important; }
+
+/* intro lead */
+#main > p.fs-5 {
+  color: var(--muted) !important;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  max-width: 52rem;
+}
+@media (max-width: 768px) {
+  #main { padding: 1.5rem 1.15rem 3rem; }
+  #main > div:first-child.d-flex { padding: 1.6rem 1.3rem 1.4rem; }
+}
+</style></head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
+<a href="../index.html" class="home-link" aria-label="Go back to home page"><i class="bi bi-arrow-left"></i> Home</a>
+
+<!-- ===== SIDEBAR ===== -->
+<nav id="sidebar">
+  <div class="brand">
+    <h5><i class="bi bi-filetype-py me-2" style="color:var(--py-yellow)"></i>Python</h5>
+    <small class="d-block mt-1">v3.14 &mdash; Complete Guide</small>
+  </div>
+  <div class="py-2">
+    <div class="nav-section">Getting Started</div>
+    <a class="nav-link" href="#install"><i class="bi bi-download"></i> Installation & Setup</a>
+    <a class="nav-link" href="#commands"><i class="bi bi-terminal"></i> Python CLI & pip</a>
+
+    <div class="nav-section">Syntax & Types</div>
+    <a class="nav-link" href="#datatypes"><i class="bi bi-box"></i> Data Types</a>
+    <a class="nav-link" href="#collections"><i class="bi bi-layers"></i> Collections</a>
+    <a class="nav-link" href="#control"><i class="bi bi-diagram-3"></i> Control Flow</a>
+    <a class="nav-link" href="#functions"><i class="bi bi-arrow-repeat"></i> Functions</a>
+
+    <div class="nav-section">OOP & Modules</div>
+    <a class="nav-link" href="#oop"><i class="bi bi-puzzle"></i> Classes & OOP</a>
+    <a class="nav-link" href="#modules"><i class="bi bi-box-arrow-in-right"></i> Modules & Packages</a>
+    <a class="nav-link" href="#errors"><i class="bi bi-exclamation-triangle"></i> Error Handling</a>
+    <a class="nav-link" href="#io"><i class="bi bi-file-earmark"></i> File I/O</a>
+
+    <div class="nav-section">Advanced</div>
+    <a class="nav-link" href="#venv"><i class="bi bi-shield-check"></i> Virtual Environments</a>
+    <a class="nav-link" href="#typehints"><i class="bi bi-filetype-py"></i> Type Hints</a>
+    <a class="nav-link" href="#async"><i class="bi bi-lightning-charge"></i> Async / Await</a>
+    <a class="nav-link" href="#stdlib"><i class="bi bi-tools"></i> Standard Library</a>
+
+    <div class="nav-section">Testing & QA</div>
+    <a class="nav-link" href="#testing"><i class="bi bi-check-circle"></i> Testing</a>
+    <a class="nav-link" href="#best-practices"><i class="bi bi-star"></i> Best Practices</a>
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<div id="main">
+
+  <!-- HERO -->
+  <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+    <div>
+      <h1 class="fw-bold mb-1" style="color:var(--py-dark)">
+        <i class="bi bi-filetype-py" style="color:var(--py-blue)"></i>
+        Python
+      </h1>
+      <p class="text-muted mb-0 fs-5">
+        Complete Reference &amp; Concept Guide
+        <span class="badge bg-secondary ms-2">v3.14</span>
+        <span class="badge bg-warning text-dark ms-1">Cross-platform</span>
+        <span class="badge bg-success ms-1">Released Oct 2026</span>
+      </p>
+    </div>
+  </div>
+
+  <p class="fs-5 text-muted mb-5">
+    Python is a high-level, interpreted programming language known for its readability
+    and versatility. This guide covers <strong>core syntax</strong>, <strong>data structures</strong>,
+    <strong>OOP</strong>, and <strong>modern Python features</strong> up to 3.14.
+  </p>
+
+  <!-- ==================== INSTALL ==================== -->
+  <section id="install">
+    <h2><i class="bi bi-download me-2"></i>Installation &amp; Setup</h2>
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="cm"># Download Python 3.14 from python.org or use a package manager</span>
+
+<span class="cm"># macOS (Homebrew)</span>
+brew install python<span class="tp">@3.14</span>
+
+<span class="cm"># Ubuntu / Debian</span>
+sudo apt install python3.14 python3.14-venv python3.14-pip
+
+<span class="cm"># Windows (Chocolatey)</span>
+choco install python --version=<span class="num">3.14</span>.0
+
+<span class="cm"># Verify installation</span>
+python --version
+python -m pip --version
+
+<span class="cm"># Start the interactive REPL</span>
+python</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Python 3.14 New Features</div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-4"><span class="new-badge me-1">NEW</span> Improved error messages</div>
+          <div class="col-md-4"><span class="new-badge me-1">NEW</span> PEP 649 deferred annotations</div>
+          <div class="col-md-4"><span class="new-badge me-1">NEW</span> Python in-browser (Pyodide)</div>
+          <div class="col-md-4"><span class="new-badge me-1">NEW</span> Pattern matching <code>match/case</code></div>
+          <div class="col-md-4"><span class="new-badge me-1">NEW</span> Faster CPython (3.14 JIT)</div>
+          <div class="col-md-4"><span class="new-badge me-1">NEW</span> Free-threaded mode (no-GIL)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== COMMANDS ==================== -->
+  <section id="commands">
+    <h2><i class="bi bi-terminal me-2"></i>Python CLI &amp; pip Reference</h2>
+    <p class="text-muted">Essential commands for Python development.</p>
+
+    <h3>Python Interpreter</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:36%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>python script.py</td><td>Run a Python script</td></tr>
+            <tr><td>python -c "print('hi')"</td><td>Run inline code</td></tr>
+            <tr><td>python -m module_name</td><td>Run a module as script</td></tr>
+            <tr><td>python -i script.py</td><td>Run then enter interactive mode</td></tr>
+            <tr><td>python -O script.py</td><td>Run with basic optimizations</td></tr>
+            <tr><td>python -B script.py</td><td>Don't write .pyc files</td></tr>
+            <tr><td>python -v</td><td>Verbose import tracing</td></tr>
+            <tr><td>python -c "import this"</td><td>Display The Zen of Python</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="mt-4">pip Package Manager</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:36%">Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>pip install package</td><td>Install a package</td></tr>
+            <tr><td>pip install package==1.2.3</td><td>Install specific version</td></tr>
+            <tr><td>pip install -r requirements.txt</td><td>Install from requirements file</td></tr>
+            <tr><td>pip list</td><td>List installed packages</td></tr>
+            <tr><td>pip freeze &gt; requirements.txt</td><td>Export installed packages</td></tr>
+            <tr><td>pip uninstall package</td><td>Remove a package</td></tr>
+            <tr><td>pip show package</td><td>Show package details</td></tr>
+            <tr><td>pip cache purge</td><td>Clear pip cache</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== DATA TYPES ==================== -->
+  <section id="datatypes">
+    <h2><i class="bi bi-box me-2"></i>Data Types</h2>
+    <p>Python is dynamically typed. All values are objects with a type.</p>
+
+    <div class="card">
+      <div class="card-header">Primitive Types</div>
+      <div class="card-body">
+        <pre><code><span class="cm"># Numeric types</span>
+x = <span class="num">42</span>              <span class="cm"># int (unbounded)</span>
+y = <span class="num">3.14</span>            <span class="cm"># float (IEEE 754 double)</span>
+z = <span class="num">1</span> + <span class="num">2</span>j           <span class="cm"># complex</span>
+big = <span class="num">1_000_000</span>      <span class="cm"># underscores as separators</span>
+hex_val = <span class="num">0xff</span>       <span class="cm"># hexadecimal</span>
+bin_val = <span class="num">0b1010</span>     <span class="cm"># binary</span>
+
+<span class="cm"># Boolean</span>
+is_active = <span class="kw">True</span>      <span class="cm"># bool (subclass of int)</span>
+is_done = <span class="kw">False</span>
+
+<span class="cm"># String (immutable sequence of Unicode codepoints)</span>
+name = <span class="str">"Hello"</span>       <span class="cm"># double quotes</span>
+char = <span class="str">'A'</span>           <span class="cm"># single quotes</span>
+multi = <span class="str">"""Multi-line
+string"""</span>
+raw = <span class="str">r"c:\users\name"</span>  <span class="cm"># raw string (no escape)</span>
+fstr = <span class="str">f"Value {x}"</span>    <span class="cm"># f-string (Python 3.6+)</span>
+
+<span class="cm"># NoneType</span>
+result = <span class="kw">None</span>         <span class="cm"># null / absence of value</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Type Conversion &amp; Checking</div>
+      <div class="card-body">
+        <pre><code><span class="cm"># Explicit conversion</span>
+<span class="fn">int</span>(<span class="str">"42"</span>)         <span class="cm"># 42</span>
+<span class="fn">float</span>(<span class="str">"3.14"</span>)      <span class="cm"># 3.14</span>
+<span class="fn">str</span>(<span class="num">100</span>)          <span class="cm"># "100"</span>
+<span class="fn">bool</span>(<span class="num">1</span>)           <span class="cm"># True</span>
+<span class="fn">list</span>(<span class="str">"abc"</span>)       <span class="cm"># ['a', 'b', 'c']</span>
+
+<span class="cm"># Type checking</span>
+<span class="fn">isinstance</span>(x, <span class="kw">int</span>)   <span class="cm"># True</span>
+<span class="fn">type</span>(x)             <span class="cm"># &lt;class 'int'&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== COLLECTIONS ==================== -->
+  <section id="collections">
+    <h2><i class="bi bi-layers me-2"></i>Collections (Data Structures)</h2>
+
+    <div class="card">
+      <div class="card-header">Lists, Tuples, Sets, Dicts</div>
+      <div class="card-body">
+        <pre><code><span class="cm"># List â€” mutable ordered sequence</span>
+nums = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>]
+nums.<span class="fn">append</span>(<span class="num">4</span>)         <span class="cm"># [1, 2, 3, 4]</span>
+nums.<span class="fn">insert</span>(<span class="num">0</span>, <span class="num">0</span>)    <span class="cm"># [0, 1, 2, 3, 4]</span>
+nums.<span class="fn">pop</span>()              <span class="cm"># removes & returns last</span>
+nums.<span class="fn">sort</span>()            <span class="cm"># in-place sort</span>
+sliced = nums[<span class="num">1</span>:<span class="num">3</span>]   <span class="cm"># [1, 2]</span>
+
+<span class="cm"># Tuple â€” immutable ordered sequence</span>
+point = (<span class="num">10</span>, <span class="num">20</span>)
+x, y = point           <span class="cm"># tuple unpacking</span>
+
+<span class="cm"># Set â€” unordered, unique elements</span>
+unique = {<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">2</span>}  <span class="cm"># {1, 2, 3}</span>
+unique.<span class="fn">add</span>(<span class="num">4</span>)
+a &amp; b                  <span class="cm"># intersection</span>
+a | b                  <span class="cm"># union</span>
+a - b                  <span class="cm"># difference</span>
+
+<span class="cm"># Dict â€” key-value mapping</span>
+user = {<span class="str">"name"</span>: <span class="str">"Alice"</span>, <span class="str">"age"</span>: <span class="num">30</span>}
+user[<span class="str">"email"</span>] = <span class="str">"a@b.com"</span>
+user.<span class="fn">get</span>(<span class="str">"phone"</span>, <span class="str">"N/A"</span>)   <span class="cm"># safe access with default</span>
+<span class="kw">for</span> k, v <span class="kw">in</span> user.<span class="fn">items</span>():
+    <span class="fn">print</span>(k, v)</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">List Comprehensions</div>
+      <div class="card-body">
+        <pre><code><span class="cm"># Classic comprehension</span>
+squares = [x**<span class="num">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="num">10</span>)]
+<span class="cm"># [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]</span>
+
+<span class="cm"># With condition</span>
+evens = [x <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="num">20</span>) <span class="kw">if</span> x % <span class="num">2</span> == <span class="num">0</span>]
+
+<span class="cm"># Dict comprehension</span>
+square_map = {x: x**<span class="num">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="num">5</span>)}
+
+<span class="cm"># Set comprehension</span>
+unique_lens = {<span class="fn">len</span>(w) <span class="kw">for</span> w <span class="kw">in</span> words}
+
+<span class="cm"># Generator expression (lazy)</span>
+total = <span class="fn">sum</span>(x**<span class="num">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="num">100</span>))</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CONTROL FLOW ==================== -->
+  <section id="control">
+    <h2><i class="bi bi-diagram-3 me-2"></i>Control Flow</h2>
+
+    <div class="card">
+      <div class="card-header">Conditionals &amp; Loops</div>
+      <div class="card-body">
+        <pre><code><span class="cm"># if / elif / else</span>
+x = <span class="num">10</span>
+<span class="kw">if</span> x &gt; <span class="num">0</span>:
+    <span class="fn">print</span>(<span class="str">"positive"</span>)
+<span class="kw">elif</span> x == <span class="num">0</span>:
+    <span class="fn">print</span>(<span class="str">"zero"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">"negative"</span>)
+
+<span class="cm"># Ternary expression</span>
+status = <span class="str">"adult"</span> <span class="kw">if</span> age &gt;= <span class="num">18</span> <span class="kw">else</span> <span class="str">"minor"</span>
+
+<span class="cm"># for loop (iterate over iterable)</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">5</span>):
+    <span class="fn">print</span>(i)
+
+<span class="kw">for</span> idx, val <span class="kw">in</span> <span class="fn">enumerate</span>(items):
+    <span class="fn">print</span>(idx, val)
+
+<span class="cm"># while loop</span>
+<span class="kw">while</span> count &gt; <span class="num">0</span>:
+    count -= <span class="num">1</span>
+
+<span class="cm"># break / continue / else on loops</span>
+<span class="kw">for</span> n <span class="kw">in</span> nums:
+    <span class="kw">if</span> n == target:
+        <span class="kw">break</span>
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">"not found"</span>)  <span class="cm"># runs if no break</span>
+
+<span class="cm"># match / case (Python 3.10+, structural pattern matching)</span>
+<span class="kw">match</span> command:
+    <span class="kw">case</span> <span class="str">"start"</span>:
+        <span class="fn">start</span>()
+    <span class="kw">case</span> <span class="str">"stop"</span>:
+        <span class="fn">stop</span>()
+    <span class="kw">case</span> _:
+        <span class="fn">print</span>(<span class="str">"unknown"</span>)</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FUNCTIONS ==================== -->
+  <section id="functions">
+    <h2><i class="bi bi-arrow-repeat me-2"></i>Functions</h2>
+
+    <div class="card">
+      <div class="card-header">Defining Functions</div>
+      <div class="card-body">
+        <pre><code><span class="kw">def</span> <span class="fn">greet</span>(name: <span class="kw">str</span>, greeting: <span class="kw">str</span> = <span class="str">"Hello"</span>) -&gt; <span class="kw">str</span>:
+    <span class="str">"""Return a greeting string."""</span>
+    <span class="kw">return</span> <span class="str">f"<span class="str">{greeting}</span>, <span class="str">{name}</span>!"</span>
+
+<span class="cm"># *args (variable positional), **kwargs (variable keyword)</span>
+<span class="kw">def</span> <span class="fn">log</span>(*args, **kwargs):
+    <span class="kw">for</span> a <span class="kw">in</span> args: <span class="fn">print</span>(a)
+    <span class="kw">for</span> k, v <span class="kw">in</span> kwargs.<span class="fn">items</span>():
+        <span class="fn">print</span>(<span class="str">f"<span class="str">{k}</span> = <span class="str">{v}</span>"</span>)
+
+<span class="cm"># Positional-only (/) and keyword-only (*) parameters</span>
+<span class="kw">def</span> <span class="fn">div</span>(a: <span class="kw">float</span>, b: <span class="kw">float</span>, /) -&gt; <span class="kw">float</span>:
+    <span class="kw">return</span> a / b
+
+<span class="kw">def</span> <span class="fn">config</span>(*, debug: <span class="kw">bool</span> = <span class="kw">False</span>, timeout: <span class="kw">int</span> = <span class="num">30</span>):
+    <span class="kw">pass</span>
+
+<span class="cm"># Lambda (anonymous function)</span>
+square = <span class="kw">lambda</span> x: x**<span class="num">2</span>
+nums.<span class="fn">sort</span>(key=<span class="kw">lambda</span> x: x[<span class="num">1</span>])</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Decorators &amp; Closures</div>
+      <div class="card-body">
+        <pre><code><span class="cm"># Decorator â€” a function that wraps another</span>
+<span class="kw">def</span> <span class="fn">timer</span>(func):
+    <span class="kw">import</span> time
+    <span class="kw">def</span> <span class="fn">wrapper</span>(*args, **kwargs):
+        start = time.<span class="fn">perf_counter</span>()
+        result = <span class="fn">func</span>(*args, **kwargs)
+        elapsed = time.<span class="fn">perf_counter</span>() - start
+        <span class="fn">print</span>(<span class="str">f"<span class="str">{func.__name__}</span> took <span class="str">{elapsed:.3f}</span>s"</span>)
+        <span class="kw">return</span> result
+    <span class="kw">return</span> wrapper
+
+<span class="nd">@timer</span>
+<span class="kw">def</span> <span class="fn">slow_func</span>():
+    <span class="kw">return</span> <span class="fn">sum</span>(<span class="fn">range</span>(<span class="num">10_000_000</span>))
+
+<span class="cm"># functools.wraps preserves metadata</span>
+<span class="kw">from</span> functools <span class="kw">import</span> wraps
+
+<span class="kw">def</span> <span class="fn">log_calls</span>(func):
+    <span class="nd">@wraps</span>(func)
+    <span class="kw">def</span> <span class="fn">wrapper</span>(*args, **kwargs):
+        <span class="fn">print</span>(<span class="str">f"Calling <span class="str">{func.__name__}</span>"</span>)
+        <span class="kw">return</span> <span class="fn">func</span>(*args, **kwargs)
+    <span class="kw">return</span> wrapper</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== OOP ==================== -->
+  <section id="oop">
+    <h2><i class="bi bi-puzzle me-2"></i>Classes &amp; OOP</h2>
+
+    <div class="card">
+      <div class="card-header">Class Definition</div>
+      <div class="card-body">
+        <pre><code><span class="kw">class</span> <span class="tp">User</span>:
+    <span class="cm">"""Base class for all users."""</span>
+
+    <span class="cm"># Class variable (shared across all instances)</span>
+    role = <span class="str">"user"</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, name: <span class="kw">str</span>, email: <span class="kw">str</span>):
+        <span class="cm"># Instance variables</span>
+        self.name = name
+        self.email = email
+
+    <span class="kw">def</span> <span class="fn">greet</span>(self) -&gt; <span class="kw">str</span>:
+        <span class="kw">return</span> <span class="str">f"Hello, <span class="str">{self.name}</span>"</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="kw">def</span> <span class="fn">from_dict</span>(cls, data: <span class="kw">dict</span>) -&gt; <span class="str">"User"</span>:
+        <span class="kw">return</span> <span class="fn">cls</span>(data[<span class="str">"name"</span>], data[<span class="str">"email"</span>])
+
+    <span class="nd">@staticmethod</span>
+    <span class="kw">def</span> <span class="fn">validate_email</span>(email: <span class="kw">str</span>) -&gt; <span class="kw">bool</span>:
+        <span class="kw">return</span> <span class="str">"@"</span> <span class="kw">in</span> email
+
+    <span class="kw">def</span> <span class="fn">__repr__</span>(self) -&gt; <span class="kw">str</span>:
+        <span class="kw">return</span> <span class="str">f"User(<span class="str">{self.name!r}</span>, <span class="str">{self.email!r}</span>)"</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Inheritance &amp; Magic Methods</div>
+      <div class="card-body">
+        <pre><code><span class="kw">class</span> <span class="tp">Admin</span>(<span class="tp">User</span>):
+    role = <span class="str">"admin"</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, name, email, permissions: <span class="kw">list</span> = <span class="kw">None</span>):
+        <span class="kw">super</span>().<span class="fn">__init__</span>(name, email)
+        self.permissions = permissions <span class="kw">or</span> []
+
+<span class="cm"># Magic (dunder) methods</span>
+<span class="kw">class</span> <span class="tp">Vector</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, x, y):
+        self.x, self.y = x, y
+
+    <span class="kw">def</span> <span class="fn">__add__</span>(self, other):   <span class="cm"># +</span>
+        <span class="kw">return</span> <span class="tp">Vector</span>(self.x + other.x, self.y + other.y)
+
+    <span class="kw">def</span> <span class="fn">__eq__</span>(self, other):     <span class="cm"># ==</span>
+        <span class="kw">return</span> self.x == other.x <span class="kw">and</span> self.y == other.y
+
+    <span class="kw">def</span> <span class="fn">__str__</span>(self):           <span class="cm"># str()</span>
+        <span class="kw">return</span> <span class="str">f"Vector(<span class="str">{self.x}</span>, <span class="str">{self.y}</span>)"</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MODULES ==================== -->
+  <section id="modules">
+    <h2><i class="bi bi-box-arrow-in-right me-2"></i>Modules &amp; Packages</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="cm"># Import a module</span>
+<span class="kw">import</span> math
+math.<span class="fn">sqrt</span>(<span class="num">16</span>)
+
+<span class="cm"># Import specific names</span>
+<span class="kw">from</span> datetime <span class="kw">import</span> datetime, timedelta
+
+<span class="cm"># Alias</span>
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+<span class="cm"># A package is a directory with __init__.py (can be empty)</span>
+<span class="cm"># mypkg/</span>
+<span class="cm">#   __init__.py</span>
+<span class="cm">#   utils.py</span>
+<span class="cm">#   models.py</span>
+
+<span class="cm"># Conditional import with TYPE_CHECKING (avoids circular)</span>
+<span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">from</span> typing <span class="kw">import</span> TYPE_CHECKING
+<span class="kw">if</span> TYPE_CHECKING:
+    <span class="kw">from</span> .models <span class="kw">import</span> <span class="tp">Product</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ERROR HANDLING ==================== -->
+  <section id="errors">
+    <h2><i class="bi bi-exclamation-triangle me-2"></i>Error Handling</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="cm"># try / except / else / finally</span>
+<span class="kw">try</span>:
+    result = risky / divisor
+<span class="kw">except</span> <span class="tp">ZeroDivisionError</span>:
+    <span class="fn">print</span>(<span class="str">"Cannot divide by zero"</span>)
+<span class="kw">except</span> (<span class="tp">TypeError</span>, <span class="tp">ValueError</span>) <span class="kw">as</span> e:
+    <span class="fn">print</span>(<span class="str">f"Invalid operation: <span class="str">{e}</span>"</span>)
+<span class="kw">except</span> <span class="tp">Exception</span> <span class="kw">as</span> e:
+    <span class="fn">print</span>(<span class="str">f"Unexpected: <span class="str">{e}</span>"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">f"Result: <span class="str">{result}</span>"</span>)  <span class="cm"># runs if no exception</span>
+<span class="kw">finally</span>:
+    <span class="fn">cleanup</span>()                     <span class="cm"># always runs</span>
+
+<span class="cm"># Raise exceptions</span>
+<span class="kw">raise</span> <span class="tp">ValueError</span>(<span class="str">"Invalid input"</span>)
+<span class="kw">raise</span> <span class="tp">RuntimeError</span>(<span class="str">"Something went wrong"</span>) <span class="kw">from</span> cause
+
+<span class="cm"># Custom exception</span>
+<span class="kw">class</span> <span class="tp">AppError</span>(<span class="tp">Exception</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, message, code=<span class="num">500</span>):
+        <span class="kw">super</span>().<span class="fn">__init__</span>(message)
+        self.code = code</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FILE I/O ==================== -->
+  <section id="io">
+    <h2><i class="bi bi-file-earmark me-2"></i>File I/O</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="cm"># Context manager (auto-closes file)</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"data.txt"</span>, <span class="str">"r"</span>, encoding=<span class="str">"utf-8"</span>) <span class="kw">as</span> f:
+    content = f.<span class="fn">read</span>()          <span class="cm"># entire file as string</span>
+    lines = f.<span class="fn">readlines</span>()        <span class="cm"># list of lines</span>
+    <span class="kw">for</span> line <span class="kw">in</span> f:              <span class="cm"># iterate lazily</span>
+        <span class="fn">print</span>(line.<span class="fn">strip</span>())
+
+<span class="cm"># Writing</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"out.txt"</span>, <span class="str">"w"</span>, encoding=<span class="str">"utf-8"</span>) <span class="kw">as</span> f:
+    f.<span class="fn">write</span>(<span class="str">"Hello\n"</span>)
+    f.<span class="fn">writelines</span>([<span class="str">"line1\n"</span>, <span class="str">"line2\n"</span>])
+
+<span class="cm"># Modes: r (read), w (write), a (append), r+ (read+write)</span>
+<span class="cm"># Binary: rb, wb</span>
+
+<span class="cm"># Pathlib (modern file paths)</span>
+<span class="kw">from</span> pathlib <span class="kw">import</span> <span class="tp">Path</span>
+p = <span class="tp">Path</span>(<span class="str">"config/settings.json"</span>)
+data = p.<span class="fn">read_text</span>()           <span class="cm"># read as string</span>
+p.<span class="fn">write_text</span>(json_str)        <span class="cm"># write string</span>
+json.loads(p.<span class="fn">read_text</span>())</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== VENV ==================== -->
+  <section id="venv">
+    <h2><i class="bi bi-shield-check me-2"></i>Virtual Environments</h2>
+    <p class="text-muted">Isolate project dependencies to avoid version conflicts.</p>
+
+    <div class="card">
+      <div class="card-header">venv (built-in)</div>
+      <div class="card-body">
+        <pre><code><span class="cm"># Create environment</span>
+python -m venv .venv
+
+<span class="cm"># Activate</span>
+<span class="cm"># macOS / Linux:</span>
+<span class="kw">source</span> .venv/bin/activate
+<span class="cm"># Windows PowerShell:</span>
+.venv\Scripts\Activate.ps1
+
+<span class="cm"># Install packages (isolated)</span>
+pip install requests pytest
+
+<span class="cm"># Freeze dependencies</span>
+pip freeze &gt; requirements.txt
+
+<span class="cm"># Deactivate</span>
+deactivate</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">uv â€” Fast Package Manager (Modern Alternative)</div>
+      <div class="card-body">
+        <pre><code><span class="cm"># Install uv (Rust-based, 10-100x faster than pip)</span>
+pip install uv
+
+<span class="cm"># Create venv & sync</span>
+uv venv
+uv pip install -r requirements.txt
+
+<span class="cm"># Run scripts with automatic venv</span>
+uv run python script.py</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TYPE HINTS ==================== -->
+  <section id="typehints">
+    <h2><i class="bi bi-filetype-py me-2"></i>Type Hints (PEP 484)</h2>
+    <p class="text-muted">Optional static typing. Checked by <code>mypy</code>, <code>pyright</code>, or <code>pylance</code>.</p>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="kw">from</span> typing <span class="kw">import</span> <span class="tp">List</span>, <span class="tp">Dict</span>, <span class="tp">Optional</span>, <span class="tp">Union</span>, <span class="tp">Any</span>, <span class="tp">Callable</span>
+<span class="kw">from</span> typing <span class="kw">import</span> <span class="tp">TypeVar</span>, <span class="tp">Generic</span>
+
+T = <span class="tp">TypeVar</span>(<span class="str">"T"</span>)
+
+<span class="kw">def</span> <span class="fn">first</span>(items: <span class="tp">List</span>[T]) -&gt; <span class="tp">Optional</span>[T]:
+    <span class="kw">return</span> items[<span class="num">0</span>] <span class="kw">if</span> items <span class="kw">else</span> <span class="kw">None</span>
+
+<span class="cm"># Union (one of multiple types)</span>
+<span class="kw">def</span> <span class="fn">parse_id</span>(id: <span class="kw">str</span> | <span class="kw">int</span>) -&gt; <span class="kw">int</span>:  <span class="cm"># Python 3.10+ syntax</span>
+    <span class="kw">return</span> <span class="fn">int</span>(id)
+
+<span class="cm"># Callable[[ArgType], ReturnType]</span>
+<span class="kw">def</span> <span class="fn">run_hook</span>(hook: <span class="tp">Callable</span>[[<span class="kw">str</span>], <span class="kw">None</span>], data: <span class="kw">str</span>):
+    <span class="fn">hook</span>(data)
+
+<span class="cm"># TypedDict â€” typed dictionary</span>
+<span class="kw">from</span> typing <span class="kw">import</span> <span class="tp">TypedDict</span>
+<span class="kw">class</span> <span class="tp">Movie</span>(<span class="tp">TypedDict</span>):
+    title: <span class="kw">str</span>
+    year: <span class="kw">int</span>
+    rating: <span class="kw">float</span>
+
+<span class="cm"># Dataclass (auto-generates __init__, __repr__, etc.)</span>
+<span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass
+
+<span class="nd">@dataclass</span>
+<span class="kw">class</span> <span class="tp">Point</span>:
+    x: <span class="kw">float</span>
+    y: <span class="kw">float</span>
+    z: <span class="kw">float</span> = <span class="num">0.0</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ASYNC ==================== -->
+  <section id="async">
+    <h2><i class="bi bi-lightning-charge me-2"></i>Async / Await</h2>
+    <p class="text-muted">Concurrent code using <code>async/await</code> syntax (PEP 492, Python 3.5+).</p>
+
+    <div class="card">
+      <div class="card-body">
+        <pre><code><span class="kw">import</span> asyncio
+
+<span class="kw">async</span> <span class="kw">def</span> <span class="fn">fetch_data</span>(url: <span class="kw">str</span>) -&gt; <span class="kw">dict</span>:
+    <span class="kw">async with</span> aiohttp.<span class="tp">ClientSession</span>() <span class="kw">as</span> session:
+        <span class="kw">async with</span> session.<span class="fn">get</span>(url) <span class="kw">as</span> resp:
+            <span class="kw">return await</span> resp.<span class="fn">json</span>()
+
+<span class="kw">async</span> <span class="kw">def</span> <span class="fn">main</span>():
+    <span class="cm"># Run multiple tasks concurrently</span>
+    results = <span class="kw">await</span> asyncio.<span class="fn">gather</span>(
+        <span class="fn">fetch_data</span>(<span class="str">"https://api1.example.com"</span>),
+        <span class="fn">fetch_data</span>(<span class="str">"https://api2.example.com"</span>),
+    )
+    <span class="fn">print</span>(results)
+
+<span class="cm"># Entry point</span>
+asyncio.<span class="fn">run</span>(<span class="fn">main</span>())
+
+<span class="cm"># Async context managers & iterators</span>
+<span class="kw">class</span> <span class="tp">AsyncCounter</span>:
+    <span class="kw">async</span> <span class="kw">def</span> <span class="fn">__aiter__</span>(self):
+        <span class="kw">return</span> self
+    <span class="kw">async</span> <span class="kw">def</span> <span class="fn">__anext__</span>(self):
+        <span class="kw">if</span> self.n &gt;= <span class="num">5</span>: <span class="kw">raise</span> <span class="tp">StopAsyncIteration</span>
+        self.n += <span class="num">1</span>
+        <span class="kw">return</span> self.n</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== STDLIB ==================== -->
+  <section id="stdlib">
+    <h2><i class="bi bi-tools me-2"></i>Standard Library Highlights</h2>
+    <p class="text-muted">Python ships with a rich "batteries-included" standard library.</p>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:25%">Module</th><th>Purpose</th><th>Common Use</th></tr></thead>
+          <tbody>
+            <tr><td><code>os</code></td><td>Operating system interface</td><td>File paths, env vars, process mgmt</td></tr>
+            <tr><td><code>sys</code></td><td>Interpreter &amp; runtime</td><td>argv, exit, path, version info</td></tr>
+            <tr><td><code>json</code></td><td>JSON encoder/decoder</td><td>loads(), dumps(), load(), dump()</td></tr>
+            <tr><td><code>csv</code></td><td>CSV file reading/writing</td><td>reader(), writer(), DictReader</td></tr>
+            <tr><td><code>re</code></td><td>Regular expressions</td><td>search(), match(), findall(), sub()</td></tr>
+            <tr><td><code>datetime</code></td><td>Date &amp; time handling</td><td>date, datetime, timedelta, tz</td></tr>
+            <tr><td><code>collections</code></td><td>Specialized data structures</td><td>defaultdict, Counter, deque, namedtuple</td></tr>
+            <tr><td><code>itertools</code></td><td>Iterator building blocks</td><td>chain(), cycle(), groupby(), product()</td></tr>
+            <tr><td><code>functools</code></td><td>Higher-order functions</td><td>lru_cache, partial, reduce, wraps</td></tr>
+            <tr><td><code>pathlib</code></td><td>Object-oriented file paths</td><td>Path, PurePath (Python 3.4+)</td></tr>
+            <tr><td><code>subprocess</code></td><td>Spawn &amp; control processes</td><td>run(), Popen, check_output</td></tr>
+            <tr><td><code>logging</code></td><td>Flexible logging system</td><td>getLogger(), handlers, formatters</td></tr>
+            <tr><td><code>argparse</code></td><td>CLI argument parsing</td><td>ArgumentParser, add_argument()</td></tr>
+            <tr><td><code>hashlib</code></td><td>Cryptographic hashing</td><td>sha256(), md5(), pbkdf2_hmac</td></tr>
+            <tr><td><code>dataclasses</code></td><td>Data classes (PEP 557)</td><td>@dataclass, field(), asdict()</td></tr>
+            <tr><td><code>uuid</code></td><td>UUID generation</td><td>uuid4(), uuid1()</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TESTING ==================== -->
+  <section id="testing">
+    <h2><i class="bi bi-check-circle me-2"></i>Testing</h2>
+
+    <div class="card">
+      <div class="card-header">unittest (built-in)</div>
+      <div class="card-body">
+        <pre><code><span class="kw">import</span> unittest
+
+<span class="kw">class</span> <span class="tp">TestMath</span>(unittest.<span class="tp">TestCase</span>):
+    <span class="kw">def</span> <span class="fn">test_add</span>(self):
+        self.<span class="fn">assertEqual</span>(<span class="fn">add</span>(<span class="num">2</span>, <span class="num">3</span>), <span class="num">5</span>)
+
+    <span class="kw">def</span> <span class="fn">test_raises</span>(self):
+        <span class="kw">with</span> self.<span class="fn">assertRaises</span>(<span class="tp">ValueError</span>):
+            <span class="fn">validate</span>(<span class="str">""</span>)
+
+<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:
+    unittest.<span class="fn">main</span>()</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">pytest (third-party, most popular)</div>
+      <div class="card-body">
+        <pre><code><span class="cm"># test_math.py</span>
+<span class="kw">import</span> pytest
+
+<span class="kw">def</span> <span class="fn">test_add</span>():
+    <span class="kw">assert</span> <span class="fn">add</span>(<span class="num">2</span>, <span class="num">3</span>) == <span class="num">5</span>
+
+<span class="kw">def</span> <span class="fn">test_raises</span>():
+    <span class="kw">with</span> pytest.<span class="fn">raises</span>(<span class="tp">ValueError</span>):
+        <span class="fn">validate</span>(<span class="str">""</span>)
+
+<span class="nd">@pytest.mark.parametrize</span>(<span class="str">"a,b,expected"</span>, [
+    (<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>),
+    (<span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>),
+])
+<span class="kw">def</span> <span class="fn">test_params</span>(a, b, expected):
+    <span class="kw">assert</span> <span class="fn">add</span>(a, b) == expected</code></pre>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>&#9654; Run tests:</strong>
+      <code>python -m unittest discover</code> &mdash; or &mdash;
+      <code>pytest -v --cov=src</code> (with coverage)
+    </div>
+  </section>
+
+  <!-- ==================== BEST PRACTICES ==================== -->
+  <section id="best-practices">
+    <h2><i class="bi bi-star me-2"></i>Best Practices</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <h6><i class="bi bi-pencil-square text-primary me-1"></i> Code Style</h6>
+            <ul class="small text-muted ps-3">
+              <li>Follow <strong>PEP 8</strong> â€” 4-space indentation, 88 chars line length</li>
+              <li>Use <code>black</code> for automatic formatting</li>
+              <li>Use <code>ruff</code> for linting (fast, Rust-based)</li>
+              <li>Snake case for functions/variables: <code>my_function</code></li>
+              <li>Pascal case for classes: <code>MyClass</code></li>
+              <li>Constants in UPPER_CASE: <code>MAX_RETRIES</code></li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <h6><i class="bi bi-shield-check text-success me-1"></i> Project Structure</h6>
+            <ul class="small text-muted ps-3">
+              <li>Use <code>src/</code> layout or flat module per project</li>
+              <li>Always use virtual environments</li>
+              <li>Pin dependencies in <code>requirements.txt</code> or <code>pyproject.toml</code></li>
+              <li>Write type hints for all public APIs</li>
+              <li>Use <code>pathlib</code> over <code>os.path</code></li>
+              <li>Prefer f-strings over <code>.format()</code> or <code>%</code></li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <h6><i class="bi bi-speedometer2 text-warning me-1"></i> Performance</h6>
+            <ul class="small text-muted ps-3">
+              <li>Use <code>__slots__</code> for memory-efficient classes</li>
+              <li>Prefer <code>list.append</code> over <code>list += [item]</code></li>
+              <li>Use generator expressions over lists for large data</li>
+              <li>Profile with <code>cProfile</code> or <code>py-spy</code></li>
+              <li>Consider <code>numpy</code> for numerical heavy-lifting</li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <h6><i class="bi bi-lock text-danger me-1"></i> Security</h6>
+            <ul class="small text-muted ps-3">
+              <li>Never use <code>eval()</code> or <code>exec()</code> on untrusted input</li>
+              <li>Use <code>secrets</code> module, not <code>random</code>, for crypto</li>
+              <li>Sanitize with <code>shlex.quote()</code> for shell commands</li>
+              <li>Regularly update dependencies (<code>pip-audit</code>)</li>
+              <li>Use <code>hashlib.pbkdf2_hmac</code> for password hashing</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>&#9654; Recommended Tools:</strong>
+      <code>ruff</code> (linter) &middot;
+      <code>black</code> (formatter) &middot;
+      <code>mypy</code> (type checker) &middot;
+      <code>pytest</code> (testing) &middot;
+      <code>uv</code> (package mgmt) &middot;
+      <code>pre-commit</code> (hooks)
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="mt-5 pt-4 border-top text-muted">
+    <div class="row">
+      <div class="col-md-6">
+        <p class="fw-bold mb-2">Python 3.14 Quick Reference</p>
+        <p class="small">Generated for study purposes. Always refer to the official documentation.</p>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <p class="small mb-1">
+          <a href="https://docs.python.org/3/" target="_blank" class="text-decoration-none"><i class="bi bi-book me-1"></i> Official Docs</a>
+          &middot;
+          <a href="https://github.com/python/cpython" target="_blank" class="text-decoration-none"><i class="bi bi-github me-1"></i> GitHub</a>
+          &middot;
+          <a href="https://pypi.org/" target="_blank" class="text-decoration-none"><i class="bi bi-box me-1"></i> PyPI</a>
+        </p>
+        <p class="small text-muted">&copy; 2026 Study Guide</p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- ===== SCRIPTS ===== -->
+<script src="../lib/bootstrap/bootstrap.bundle.min.js"></script>
+<script>
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.getElementById('sidebarToggle');
+  toggle.addEventListener('click', () => sidebar.classList.toggle('show'));
+  document.querySelectorAll('#sidebar .nav-link').forEach(link => {
+    link.addEventListener('click', () => sidebar.classList.remove('show'));
+  });
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('#sidebar .nav-link');
+  function setActiveNav() {
+    let current = '';
+    sections.forEach(section => {
+      const top = section.offsetTop - 100;
+      if (window.scrollY >= top) current = section.getAttribute('id');
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+    });
+  }
+  window.addEventListener('scroll', setActiveNav);
+  setActiveNav();
+</script>
+</body>
+</html>

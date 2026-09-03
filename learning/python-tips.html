@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="100+ Python tips with inline code examples — setup, syntax, strings, collections, functions, OOP, files, debugging, stdlib and jobs." />
+    <title>Python Tips - 100+ Inline Code Examples</title>
+    <link href="../lib/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/vendor/bootstrap-icons/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="../lib/google-fonts/inter/inter.css" />
+    <link rel="stylesheet" href="../lib/google-fonts/jetbrains-mono/jetbrains-mono.css" />
+    <link rel="stylesheet" href="tips.css" />
+    <style>
+        :root { --acc: #3776ab; --acc-soft: rgba(55,118,171,.08); --ink-deep: #1e3a5f; }
+    </style>
+</head>
+<body>
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Open navigation"><i class="bi bi-list fs-5"></i></button>
+    <a href="../index.html" class="home-link" aria-label="Back to main hub"><i class="bi bi-arrow-left"></i> Home</a>
+    <button class="theme-btn" id="themeToggle" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi bi-moon-fill"></i></button>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+    <nav id="sidebar" aria-label="Tips sections">
+        <div class="brand">
+            <h5><i class="bi bi-filetype-py me-2" style="color:var(--acc)"></i>Python Tips</h5>
+            <small>100+ inline code examples</small><br />
+            <a class="guide-link" href="python.html">← Full Python guide</a>
+        </div>
+        <div class="py-2" id="sidebarNav">
+            <div class="nav-section">Start</div>
+            <a class="nav-link" href="#setup">Setup, REPL &amp; pip</a>
+            <a class="nav-link" href="#syntax">Syntax &amp; Style</a>
+            <div class="nav-section">Data</div>
+            <a class="nav-link" href="#strings">Strings &amp; f-strings</a>
+            <a class="nav-link" href="#collections">Lists, Dicts, Sets</a>
+            <a class="nav-link" href="#functions">Functions &amp; Lambdas</a>
+            <div class="nav-section">Build</div>
+            <a class="nav-link" href="#oop">Classes &amp; OOP</a>
+            <a class="nav-link" href="#files">Files, JSON &amp; CSV</a>
+            <a class="nav-link" href="#errors">Errors &amp; Debugging</a>
+            <div class="nav-section">Level up</div>
+            <a class="nav-link" href="#stdlib">Standard Library Gems</a>
+            <a class="nav-link" href="#prod">Speed, Packaging &amp; Jobs</a>
+        </div>
+    </nav>
+    <div id="main">
+        <div class="page-header">
+        <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+            <h1 class="fw-bold mb-0" style="color:var(--ink-deep);font-size:1.5rem"><i class="bi bi-filetype-py" style="color:var(--acc)"></i> Python Tips</h1>
+            <span class="badge rounded-pill" style="background:var(--acc)">100+</span>
+            <span class="badge bg-secondary">Python 3.10+</span>
+        </div>
+        <p class="text-muted mb-3" style="font-size:.85rem">Self-contained Python tips with inline code examples. No external links. Click any tip to expand and see the code.</p>
+        <div class="tip-of-day" id="tipOfDay"><span class="label"><i class="bi bi-lightbulb-fill me-1"></i>Tip of the Day</span><button class="close-tod" id="closeTod" aria-label="Dismiss">&times;</button><p class="mb-0 mt-1" id="todContent"></p></div>
+        <div class="progress-label" id="progressLabel"></div>
+        <div class="progress-wrap" id="progressWrap"><div class="bar" id="progressBar"></div></div>
+        <div class="toolbar">
+            <button id="expandAllBtn"><i class="bi bi-arrows-expand"></i> Expand All</button>
+            <button id="collapseAllBtn"><i class="bi bi-arrows-collapse"></i> Collapse All</button>
+            <button id="randomTipBtn"><i class="bi bi-shuffle"></i> Random Tip</button>
+        </div>
+        <button class="bookmark-chip" id="bookmarkFilter"><i class="bi bi-star-fill"></i> <span id="bookmarkLabel">Bookmarked</span> <span class="badge bg-secondary rounded-pill" id="bookmarkCount">0</span></button>
+        <div class="search-wrap"><i class="bi bi-search"></i><input type="text" id="tipSearch" placeholder="Search tips by keyword, code, or topic..." aria-label="Search tips" /></div>
+        <div class="search-status" id="searchStatus">Showing all tips</div>
+        </div>
+        <section id="setup"><h2><i class="bi bi-terminal"></i> Setup, REPL &amp; pip <span class="count">10</span></h2><p class="section-desc">Versions, virtual environments, packages and the interactive shell.</p><div class="card"><div class="card-body" id="list-setup"></div></div></section>
+        <section id="syntax"><h2><i class="bi bi-braces"></i> Syntax &amp; Style <span class="count">10</span></h2><p class="section-desc">Indentation, naming, comparisons and small syntax wins.</p><div class="card"><div class="card-body" id="list-syntax"></div></div></section>
+        <section id="strings"><h2><i class="bi bi-type"></i> Strings &amp; f-strings <span class="count">12</span></h2><p class="section-desc">Formatting, splitting, cleaning and comparing text.</p><div class="card"><div class="card-body" id="list-strings"></div></div></section>
+        <section id="collections"><h2><i class="bi bi-collection"></i> Lists, Dicts, Sets <span class="count">14</span></h2><p class="section-desc">Comprehensions, unpacking, counters and sorting.</p><div class="card"><div class="card-body" id="list-collections"></div></div></section>
+        <section id="functions"><h2><i class="bi bi-puzzle"></i> Functions &amp; Lambdas <span class="count">10</span></h2><p class="section-desc">Arguments, defaults that bite, caching and helpers.</p><div class="card"><div class="card-body" id="list-functions"></div></div></section>
+        <section id="oop"><h2><i class="bi bi-diagram-3"></i> Classes &amp; OOP <span class="count">10</span></h2><p class="section-desc">Constructors, dataclasses, properties and dunder methods.</p><div class="card"><div class="card-body" id="list-oop"></div></div></section>
+        <section id="files"><h2><i class="bi bi-folder2-open"></i> Files, JSON &amp; CSV <span class="count">8</span></h2><p class="section-desc">Reading, writing and finding files the modern way.</p><div class="card"><div class="card-body" id="list-files"></div></div></section>
+        <section id="errors"><h2><i class="bi bi-bug"></i> Errors &amp; Debugging <span class="count">8</span></h2><p class="section-desc">Exceptions done right, logging and the built-in debugger.</p><div class="card"><div class="card-body" id="list-errors"></div></div></section>
+        <section id="stdlib"><h2><i class="bi bi-box"></i> Standard Library Gems <span class="count">12</span></h2><p class="section-desc">Batteries included: dates, randomness, itertools and CLIs.</p><div class="card"><div class="card-body" id="list-stdlib"></div></div></section>
+        <section id="prod"><h2><i class="bi bi-speedometer2"></i> Speed, Packaging &amp; Jobs <span class="count">10</span></h2><p class="section-desc">Measure first, ship clean, answer interview one-liners.</p><div class="card"><div class="card-body" id="list-prod"></div></div></section>
+        <footer><p class="mb-0"><strong>Python Tips</strong> &mdash; 100+ self-contained tips with inline code examples. All code targets Python 3.10+. Full course: <a href="python.html">Python 3.14 guide</a>.</p></footer>
+    </div>
+    <script src="../lib/bootstrap/bootstrap.bundle.min.js"></script>
+    <script>
+    window.TIPS_PAGE = { key: 'python', flash: 'rgba(55,118,171,.12)' };
+    window.TIPS_DATA = {
+    'setup': [
+        ['Check your version','python and python3 can point to different installs — verify both.','python --version\npython3 --version\n# Windows: py --version'],
+        ['Use the py launcher (Windows)','Pick an exact version instead of fighting PATH.','py -3.12 script.py\npy -0p   # list installed versions'],
+        ['Always use a venv','One project, one environment — never pip install globally.','python -m venv .venv\n# Windows:\n.venv\\Scripts\\activate\n# macOS/Linux:\nsource .venv/bin/activate'],
+        ['Upgrade pip first','Old pip fails on new wheels with cryptic errors.','python -m pip install -U pip'],
+        ['Freeze what you install','Reproducible setups beat "works on my machine".','pip install requests\npip freeze > requirements.txt\npip install -r requirements.txt'],
+        ['Run modules with -m','Runs from the right directory, no path hacks.','python -m http.server 8000\npython -m json.tool data.json'],
+        ['Explore in the REPL','help, dir and type answer most "what is this?" questions.','help(len)\ndir([])\ntype({})\nexit()'],
+        ['Underscore holds the last result','Handy in the REPL for quick follow-up math.','>>> 2 + 3\n5\n>>> _ * 2\n10'],
+        ['Clear the REPL screen','Ctrl+L clears without losing history.','# Ctrl+L clears the screen\n# exit() or Ctrl+Z then Enter quits'],
+        ['Inspect installed packages','See versions and locations when imports misbehave.','pip show requests\npip list --outdated\npython -m site']
+    ],
+    'syntax': [
+        ['Indentation is syntax','Four spaces per level; never mix tabs and spaces.','def hi():\n    print("hi")\n    if True:\n        print("nested")'],
+        ['Name things like Python does','snake_case for functions, SHOUTING for constants.','user_name = "ana"\nMAX_RETRIES = 3\n_private = 1  # "internal" by convention'],
+        ['Chain comparisons','Reads like maths, no and needed.','if 18 <= age < 65:\n    print("working age")'],
+        ['Learn truthiness','Empty values are False — use that instead of len() checks.','if items:          # [] "" 0 None are all False\n    print("has data")\nif name.strip():\n    print("not blank")'],
+        ['Ternary in one line','value-if-true first, then the condition.','label = "adult" if age >= 18 else "minor"'],
+        ['Swap and unpack','No temp variable dance required.','a, b = b, a\nfirst, *rest = [1, 2, 3, 4]\n# rest == [2, 3, 4]'],
+        ['Underscores in big numbers','1_200_000 reads; 1200000 does not.','salary = 1_200_000\nprint(salary + 1)  # 1200001'],
+        ['Walrus assigns inside if','Capture a value while testing it (3.8+).','if (n := len(items)) > 5:\n    print(f"too many: {n}")'],
+        ['Skip the semicolons','One statement per line is the house style.','x = 1\ny = 2  # not: x = 1; y = 2'],
+        ['Hint your types','Hints document intent; check them with mypy.','def greet(name: str) -> str:\n    return f"hi {name}"']
+    ],
+    'strings': [
+        ['f-strings for everything','Prefix with f and drop variables straight in.','name = "ana"\nprint(f"hi {name}, you are {2026 - 2000}ish")'],
+        ['f-string = self-documents','{x=} prints name and value — perfect for debugging.','total = 42\nprint(f"{total=}")  # total=42'],
+        ['Format numbers inline','Commas, decimals and percents without helpers.','print(f"{1234567:,}")      # 1,234,567\nprint(f"{0.856:.1%}")        # 85.6%\nprint(f"{3.14159:.2f}")       # 3.14'],
+        ['join beats + in loops','Plus copies the string every time; join does one pass.','parts = []\nfor u in users:\n    parts.append(u.name)\ntext = "\\n".join(parts)'],
+        ['Split from the right','rsplit with maxsplit peels off extensions and tails.','"a,b,c".split(",")        # [a, b, c]\n"/a/b/c".rsplit("/", 1)  # [/a/b, c]'],
+        ['Strip whitespace and more','strip cleans both ends; lstrip/rstrip pick a side.','"  hi  ".strip()      # hi\n"00042".lstrip("0")   # 42\n"  hi  ".removeprefix("  ")'],
+        ['startswith takes a tuple','One call checks many prefixes.','if name.startswith(("Mr", "Ms", "Dr")):\n    print("formal")'],
+        ['Limit replacements','Third argument caps how many get swapped.','"aaa".replace("a", "o", 1)  # oaa'],
+        ['Pad with zfill','Zero-pad IDs and counters in one call.','str(7).zfill(3)    # 007\n"42".rjust(5, "0")  # 00042'],
+        ['Raw strings for paths and regex','r"" keeps backslashes literal.','path = r"C:\\new\\test"\nimport re\nre.match(r"\\d+", "42x")'],
+        ['Compare emails with casefold','Lower() misses some Unicode; casefold does not.','if a.casefold() == b.casefold():\n    print("same address")'],
+        ['Dedent multiline blocks','Keep SQL/HTML readable without stray spaces.','import textwrap\nq = textwrap.dedent("""\n    SELECT * FROM users\n    WHERE active = 1\n""")']
+    ],
+    'collections': [
+        ['List comprehensions','Build lists in one readable line.','squares = [x * x for x in range(10)]\nnames = [u["name"] for u in users]'],
+        ['Comprehensions with if','Filter and transform together.','evens = [x for x in nums if x % 2 == 0]\nclean = [s.strip() for s in lines if s.strip()]'],
+        ['Dict and set comprehensions','Same idea, different brackets.','lengths = {w: len(w) for w in words}\nremainders = {x % 3 for x in nums}'],
+        ['enumerate with start','Numbered lists humans count from 1.','for i, name in enumerate(names, start=1):\n    print(f"{i}. {name}")'],
+        ['zip stops at the shortest','Pair lists safely; strict=True shouts on mismatch.','for k, v in zip(keys, vals, strict=True):\n    print(k, v)'],
+        ['Star-unpack rows','Grab the ends, keep the middle.','first, *middle, last = row\nhead, *tail = [1, 2, 3, 4]'],
+        ['dict.get with a default','No KeyError, no if-checks.','role = user.get("role", "guest")\ncount = cart.get(item, 0) + 1'],
+        ['setdefault builds groups','Append to a list that may not exist yet.','groups.setdefault(team, []).append(name)'],
+        ['Counter finds top items','Three lines of tallying become one.','from collections import Counter\nCounter(votes).most_common(3)'],
+        ['defaultdict skips setup','Factory creates missing values automatically.','from collections import defaultdict\nby_team = defaultdict(list)\nby_team["a"].append("ana")'],
+        ['deque with maxlen','A rolling window that forgets old items itself.','from collections import deque\nlast5 = deque(maxlen=5)\nfor x in stream:\n    last5.append(x)'],
+        ['sorted with a key','Sort by any attribute, forward or back.','by_age = sorted(users, key=lambda u: u["age"])\nby_score = sorted(users, key=lambda u: u["score"], reverse=True)'],
+        ['Slice to reverse and trim','[::-1] flips; [:n] takes the head.','items[::-1]       # reversed copy\ntop3 = scores[:3]\nwithout_first = items[1:]'],
+        ['any and all read like English','Short-circuit: they stop at the first answer.','if "@" in email:\n    print("looks plausible")\nif all(p > 0 for p in prices):\n    print("no refunds needed")']
+    ],
+    'functions': [
+        ['*args and **kwargs','Accept any extras and forward them.','def log(*args, **kwargs):\n    print(args, kwargs)\nlog(1, 2, level="info")'],
+        ['Never use a mutable default','One shared list surprises every caller — default to None.','def add(item, box=None):\n    box = box if box is not None else []\n    box.append(item)\n    return box'],
+        ['Keyword-only arguments','Force clarity at call sites with a bare *.','def send(*, to, subject):\n    ...\nsend(to="a@b.c", subject="hi")'],
+        ['Lambdas shine as keys','Tiny throwaway functions for sort/max/min.','max(users, key=lambda u: u["score"])\nsorted(names, key=lambda n: len(n))'],
+        ['Cache pure functions','lru_cache memoizes expensive repeats for free.','from functools import lru_cache\n@lru_cache(maxsize=128)\ndef fib(n):\n    return n if n < 2 else fib(n-1) + fib(n-2)'],
+        ['Closures make factories','Inner function remembers the outer argument.','def make_greeter(word):\n    return lambda name: f"{word}, {name}"\nhi = make_greeter("hello")\nhi("ana")'],
+        ['Write docstrings','Triple-quoted first line powers help().','def total(items):\n    """Return the sum of item prices."""\n    return sum(i["price"] for i in items)'],
+        ['Return tuples freely','Multiple values come back as one tuple.','def calc(w, h):\n    return w * h, 2 * (w + h)\narea, perim = calc(3, 4)'],
+        ['next with a default','Find-or-None without try/except.','admin = next((u for u in users if u["role"] == "admin"), None)'],
+        ['Generators beat lists in any/all','No temporary list — stops at first match.','if any(u["banned"] for u in users):\n    print("review needed")']
+    ],
+    'oop': [
+        ['__init__ sets up state','self is the instance being built.','class User:\n    def __init__(self, name):\n        self.name = name'],
+        ['__repr__ is for developers','Unambiguous output makes logs debuggable.','def __repr__(self):\n    return f"User({self.name!r})"'],
+        ['Dataclasses kill boilerplate','Init, repr and equality generated for you.','from dataclasses import dataclass\n@dataclass\nclass Point:\n    x: int\n    y: int'],
+        ['@property computes attributes','Call it like data, compute it like code.','class Circle:\n    def __init__(self, r): self.r = r\n    @property\n    def area(self):\n        return 3.14159 * self.r ** 2'],
+        ['classmethods build alternates','cls-aware factories like from_dict.','@classmethod\ndef from_dict(cls, d):\n    return cls(d["name"])\n\n@staticmethod\ndef is_valid(name):\n    return bool(name.strip())'],
+        ['super() extends parents','Reuse the parent init, then add yours.','class Admin(User):\n    def __init__(self, name, level):\n        super().__init__(name)\n        self.level = level'],
+        ['__slots__ saves memory','Fixed fields, no per-instance dict — for millions of objects.','class Point:\n    __slots__ = ("x", "y")'],
+        ['Teach len() and for loops','__len__ and __iter__ plug into builtins.','class Playlist:\n    def __init__(self): self.songs = []\n    def __len__(self): return len(self.songs)\n    def __iter__(self): return iter(self.songs)'],
+        ['ABCs enforce contracts','Subclasses must implement the abstract method.','from abc import ABC, abstractmethod\nclass Store(ABC):\n    @abstractmethod\n    def save(self, item): ...'],
+        ['Prefer composition','"Has a" beats deep "is a" hierarchies.','class Car:\n    def __init__(self):\n        self.engine = Engine()  # has-a, not is-a']
+    ],
+    'files': [
+        ['with closes files for you','No close() to forget, even on errors.','with open("notes.txt", encoding="utf-8") as f:\n    text = f.read()'],
+        ['pathlib over os.path','Slash-join paths that work everywhere.','from pathlib import Path\np = Path("data") / "in.csv"\nif p.exists():\n    print(p.stat().st_size)'],
+        ['One-line text read/write','read_text/write_text for small files.','Path("out.txt").write_text("hi", encoding="utf-8")\nprint(Path("out.txt").read_text())'],
+        ['JSON with indent','indent=2 diffs cleanly in git.','import json\ncfg = json.loads(Path("cfg.json").read_text())\nPath("cfg.json").write_text(json.dumps(cfg, indent=2))'],
+        ['CSV as dicts','DictReader names columns for you.','import csv\nwith open("users.csv", newline="", encoding="utf-8") as f:\n    for row in csv.DictReader(f):\n        print(row["email"])'],
+        ['Stream big files line by line','Never readlines() a gigabyte file.','with open("big.log") as f:\n    for line in f:\n        if "ERROR" in line:\n            print(line.strip())'],
+        ['Find files with rglob','Recursive glob in one call.','py_files = list(Path(".").rglob("*.py"))'],
+        ['Append logs safely',"a mode creates the file if missing.",'with open("app.log", "a", encoding="utf-8") as f:\n    f.write("started\\n")']
+    ],
+    'errors': [
+        ['Catch specific errors','Bare except hides bugs — name the failure.','try:\n    n = int(raw)\nexcept ValueError:\n    n = 0'],
+        ['else runs when no error','Splits "risky" from "depends on success".','try:\n    data = fetch()\nexcept TimeoutError:\n    data = {}\nelse:\n    save(data)\nfinally:\n    close()'],
+        ['Chain with raise from','Keep the original cause in the traceback.','try:\n    cfg = load()\nexcept OSError as err:\n    raise ValueError("bad config") from err'],
+        ['Custom exception classes','Callers can catch YOUR failure precisely.','class OutOfStock(Exception):\n    pass\nraise OutOfStock("sku-42")'],
+        ['assert is for developers','Documents invariants; stripped with python -O.','assert price > 0, "price must be positive"'],
+        ['logging beats print','Levels, timestamps and files for free.','import logging\nlogging.basicConfig(level=logging.INFO)\nlogging.info("started for %s", user)'],
+        ['Read tracebacks bottom-up','Last line names the error; top shows the path.','# ZeroDivisionError: division by zero\n#  File "app.py", line 12, in total\n#    avg = total / n'],
+        ['breakpoint() debugs anywhere','Built-in debugger, no imports (3.7+).','def total(items):\n    breakpoint()  # c=continue, n=next, p=expr\n    return sum(items)']
+    ],
+    'stdlib': [
+        ['datetime now and format','strftime codes shape any date string.','from datetime import datetime\nnow = datetime.now()\nprint(now.strftime("%Y-%m-%d %H:%M"))'],
+        ['Date math with timedelta','Deadlines are addition, not calendars.','from datetime import date, timedelta\ndeadline = date.today() + timedelta(days=7)'],
+        ['random trio','choice shuffles picks; seed reproduces.','import random\nrandom.choice(["a", "b", "c"])\nrandom.shuffle(deck)\nrandom.seed(42)  # same "random" every run'],
+        ['secrets for tokens','random is predictable — secrets is not.','import secrets\ntoken = secrets.token_hex(16)\ncode = secrets.randbelow(9000) + 1000'],
+        ['statistics in one import','Mean, median and stdev without numpy.','import statistics\nstatistics.mean(scores)\nstatistics.median(scores)'],
+        ['itertools endless tools','Lazy building blocks for loops.','import itertools\nlist(itertools.islice(itertools.cycle("AB"), 6))\nlist(itertools.product("AB", "12"))'],
+        ['functools reduce and partial','Fold lists; pre-fill arguments.','from functools import reduce, partial\nreduce(lambda a, b: a + b, [1, 2, 3])\ndouble = partial(lambda f, x: f * x, 2)'],
+        ['namedtuple light records','Tuple with names, no class boilerplate.','from collections import namedtuple\nPoint = namedtuple("Point", "x y")\np = Point(1, 2)\nprint(p.x)'],
+        ['heapq top-N without full sort','Faster than sorted()[:n] on big data.','import heapq\nheapq.nlargest(3, scores)\nheapq.nsmallest(3, scores)'],
+        ['bisect keeps lists sorted','Insert in order without re-sorting.','import bisect\nranks = [10, 20, 30]\nbisect.insort(ranks, 25)'],
+        ['argparse mini-CLI','Flags, help text and types in 10 lines.','import argparse\np = argparse.ArgumentParser()\np.add_argument("--name", default="world")\nprint(f"hi {p.parse_args().name}")'],
+        ['One-liner servers and formatters','Stdlib demos, mocks and pretty JSON.','python -m http.server 8000\npython -m json.tool messy.json']
+    ],
+    'prod': [
+        ['Guard your entry point','Import-safe modules run tests without side effects.','def main():\n    print("run")\n\nif __name__ == "__main__":\n    main()'],
+        ['timeit measures snippets','Statistics beat one stopwatch run.','python -m timeit -s "xs=list(range(1000))" "sum(xs)"'],
+        ['Generators save memory','Values on demand, not a billion-item list.','total = sum(x * x for x in range(10 ** 9))\n# generator — ~bytes, not gigabytes'],
+        ['Compare sizes with getsizeof','See the list-vs-generator gap yourself.','import sys\nsys.getsizeof([1] * 1000)       # ~8KB\nsys.getsizeof(x for x in range(1000))  # ~200B'],
+        ['cProfile finds slow spots','Sort by cumulative time, fix the top.','python -m cProfile -s cumulative app.py'],
+        ['Log to a file in prod','Keep console clean, keep evidence.','import logging\nlogging.basicConfig(filename="app.log", level=logging.WARNING)'],
+        ['Pin with requirements','Freeze exact versions before deploy.','pip freeze > requirements.txt\n# deploy: pip install -r requirements.txt'],
+        ['Run packages with -m','Treat folders as programs, relatively imported.','python -m mypackage\n# runs mypackage/__main__.py'],
+        ['Ignore bytecode in git','*.pyc churns diffs for zero benefit.','# .gitignore\n__pycache__/\n*.pyc\n.venv/'],
+        ['Interview one-liner: top word','Counter answers frequency questions fast.','from collections import Counter\ntop = Counter(text.split()).most_common(1)\n# [("the", 42)]']
+    ]
+    };
+    </script>
+    <script src="tips.js"></script>
+    <script src="../lib/bootstrap/bootstrap.bundle.min.js"></script>
+</body>
+</html>

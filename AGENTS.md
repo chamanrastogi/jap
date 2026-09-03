@@ -4,13 +4,17 @@
 Static HTML/CSS/JS collection served as a GitHub Pages site. No build tools, no package manager, no framework — just plain `.html` files with self-hosted vendor assets (no CDNs).
 
 ## Key files
-- `index.html` — Hub/entry page with search, categories, and app grid
+- `index.html` — Hub/entry page with search, categories, and app grid (tools, games, utilities only — no learning content)
 - `jap.html`, `switchword.html` — Spiritual chanting tools (mantra counters)
 - `game.html`, `mgame.html`, `sudoku.html` — Games
 - `holiday.html`, `resume.html` — Utilities
-- `graphql.html` — **reference pattern** for all learning/doc pages
-- `laravel13.html`, `symfony.html`, `django.html`, `angular21.html`, `vue3.html`, `react19.html`, `cakephp.html`, `cakephp28.html`, `mysql.html`, `python.html` + ~30 more — Learning/guide pages (one shared template)
-- `interview.html`, `laravel-interview.html`, `interview-quiz.html` — Dark-theme Q&A pages (separate template, Outfit font, `.sidebar` class — do not apply the light design system to them)
+- `learning/` — Self-contained Learning library (separate from the hub):
+  - `learning/index.html` — Learn Home hub for beginners (routes, search, 38 guide cards)
+  - `learning/python.html`, `learning/laravel13.html`, … (38 guides) + `learning/questions.json` (quiz data)
+  - Paths inside `learning/` are relative to that folder: `../assets/`, `../lib/`, home links `../index.html`
+- `learning/graphql.html` — **reference pattern** for all learning/doc pages
+- `laravel13.html`, `symfony.html`, `django.html`, `angular21.html`, `vue3.html`, `react19.html`, `cakephp.html`, `cakephp28.html`, `mysql.html`, `python.html` + ~30 more — Learning/guide pages (one shared template), all inside `learning/`
+- `interview.html`, `laravel-interview.html`, `interview-quiz.html` — Dark-theme Q&A pages (separate template, Outfit font, `.sidebar` class — do not apply the light design system to them), all inside `learning/`
 
 ## Deployment
 - GitHub Pages via `.github/workflows/static.yml` — push to `master` auto-deploys
@@ -23,7 +27,7 @@ Static HTML/CSS/JS collection served as a GitHub Pages site. No build tools, no 
   - `assets/vendor/font-awesome/` — FA 6.4.0 CSS + webfonts
   - `assets/vendor/fonts/fonts.css` — all Google Fonts families (woff2 in `files/`); replaces every `fonts.googleapis.com/css2` link/@import
   - `assets/vendor/three/`, `htmx/`, `tailwind/`, `firebase/` — per-app libs
-- Code-sample URLs inside tutorial pages (e.g. `bootstrap.html` install snippets) intentionally still show CDN URLs — do not "fix" them
+- Code-sample URLs inside tutorial pages (e.g. `learning/bootstrap.html` install snippets) intentionally still show CDN URLs — do not "fix" them
 - Glass-morphism theme: `.glass-card`, `.hero-shell`, `.section-panel`
 - Custom saffron/orange accent color (`--saffron: #ff9933`)
 - Dark mode via `data-bs-theme` toggle (stored in localStorage)
@@ -57,12 +61,9 @@ page-specific classes (`.vs-card`, `.diagram-box`, `.badge-diet`, etc. stay work
 - Tail JS (sidebar toggle + active-link close) is shared by the template — already present everywhere.
 
 ## How to add a new page
-1. Create `.html` following existing pattern (e.g., `laravel13.html`) — copy the head/style/sidebar
-   structure, then inject the design-system override block (`graphql` pattern tokens) before `</head>`
-2. Add link to `index.html` in:
-   - "Learning resources" section (quick-chip)
-   - `APPS` array in the JS (for search + category system)
+1. Hub page: create flat `.html` in root following existing pattern, add to `APPS` array in `index.html` JS (for search + category system)
+2. Learning guide: create it inside `learning/` (copy head/style/sidebar structure from a sibling, keep `../assets/` + `../lib/` + `../index.html` relative paths, inject the design-system override block before `</head>`), then add its card to the `GUIDES` array in `learning/index.html`
 
 ## Naming
-- All pages are flat `.html` files in root — no subdirectories
+- Root hub pages are flat `.html` files in root; all learning/guide pages live in `learning/`
 - File names are kebab-case (e.g., `switchword.html`, `cakephp28.html`)
