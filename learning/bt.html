@@ -29,7 +29,7 @@
 </style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tailwind CSS 4 â€” Bootstrap Developer's Guide</title>
+  <title>Tailwind CSS 4 — Bootstrap Developer's Guide</title>
   <link href="../lib/bootstrap/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../assets/vendor/bootstrap-icons/bootstrap-icons.min.css">
   <style>
@@ -457,6 +457,8 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
     <a class="nav-link tw-link" href="#setup"><i class="bi bi-gear"></i> Setup</a>
     <a class="nav-link tw-link" href="#concepts"><i class="bi bi-lightbulb"></i> Core Concepts</a>
     <a class="nav-link tw-link" href="#layout"><i class="bi bi-layout-three-columns"></i> Layout</a>
+    <a class="nav-link tw-link" href="#grid"><i class="bi bi-grid"></i> Grid Deep Dive</a>
+    <a class="nav-link tw-link" href="#position"><i class="bi bi-bounding-box"></i> Positioning &amp; Z-Index</a>
     <a class="nav-link tw-link" href="#typography"><i class="bi bi-fonts"></i> Typography</a>
     <a class="nav-link tw-link" href="#spacing"><i class="bi bi-arrows-expand"></i> Spacing &amp; Sizing</a>
     <a class="nav-link tw-link" href="#colors"><i class="bi bi-palette"></i> Colors &amp; Backgrounds</a>
@@ -467,6 +469,8 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
     <a class="nav-link tw-link" href="#custom"><i class="bi bi-sliders"></i> Customization</a>
     <a class="nav-link tw-link" href="#patterns"><i class="bi bi-puzzle"></i> Common Patterns</a>
     <a class="nav-link tw-link" href="#responsive"><i class="bi bi-phone"></i> Responsive Design</a>
+    <a class="nav-link tw-link" href="#migrate"><i class="bi bi-signpost-split"></i> Migration Checklist</a>
+    <a class="nav-link tw-link" href="#faq"><i class="bi bi-question-circle"></i> FAQ &amp; Gotchas</a>
   </div>
 </nav>
 
@@ -765,7 +769,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
         </div>
 
         <div class="highlight-box bs-box mt-2">
-          <strong>BS â†’ TW:</strong> Bootstrap drops CSS + JS via <code>&lt;link&gt;</code>. Tailwind is pure CSS â€” no JS needed for components. Addiclick interactivity yourself (or use Alpine, HTMX, etc.).
+          <strong>BS → TW:</strong> Bootstrap drops CSS + JS via <code>&lt;link&gt;</code>. Tailwind is pure CSS — no JS needed for components. Addiclick interactivity yourself (or use Alpine, HTMX, etc.).
         </div>
       </div>
     </div>
@@ -787,7 +791,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
   <span class="kw">&lt;/div</span><span class="kw">&gt;</span>
 <span class="kw">&lt;/div</span><span class="kw">&gt;</span>
 
-<span class="cm">&lt;!-- Tailwind â€” same result, built from utilities --&gt;</span>
+<span class="cm">&lt;!-- Tailwind — same result, built from utilities --&gt;</span>
 <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"bg-white rounded-xl shadow-md overflow-hidden"</span><span class="kw">&gt;</span>
   <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"p-6"</span><span class="kw">&gt;</span>
     <span class="kw">&lt;h2</span> <span class="fn">class</span>=<span class="str">"text-xl font-semibold text-gray-900"</span><span class="kw">&gt;</span>Card<span class="kw">&lt;/h2</span><span class="kw">&gt;</span>
@@ -796,7 +800,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
 <span class="kw">&lt;/div</span><span class="kw">&gt;</span></code></pre>
 
         <div class="highlight-box tw-box">
-          <strong>Mindset shift:</strong> Instead of searching for "the right BS class", you <em>compose</em> tiny single-purpose classes. <code>.card</code> (1 class) â†’ <code>bg-white rounded-xl shadow-md overflow-hidden</code> (4 classes).
+          <strong>Mindset shift:</strong> Instead of searching for "the right BS class", you <em>compose</em> tiny single-purpose classes. <code>.card</code> (1 class) → <code>bg-white rounded-xl shadow-md overflow-hidden</code> (4 classes).
         </div>
       </div>
     </div>
@@ -823,6 +827,33 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
 <span class="kw">&lt;/div</span><span class="kw">&gt;</span></code></pre>
         <div class="highlight-box tw-box">
           <strong>Key difference:</strong> In BS, <code>hover:</code> only works on some components. In Tailwind, <strong>every utility</strong> gets every variant: <code>sm:md:lg:xl:2xl:</code>, <code>hover:focus:active:visited:disabled:</code>, <code>dark:print:portrait:landscape:</code>, <code>group-hover:peer-checked:</code>, and custom ones via <code>@custom-variant</code>.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-list-check me-1"></i> Variant Quick Reference</div>
+      <div class="card-body">
+        <p>Bootstrap prefixes follow the pattern <code>breakpoint-utility</code>. Tailwind applies <strong>any</strong> of these prefixes to <strong>any</strong> utility:</p>
+        <div class="table-responsive">
+          <table class="table table-sm table-bordered">
+            <thead class="table-light"><tr><th>Category</th><th>Bootstrap</th><th>Tailwind</th></tr></thead>
+            <tbody>
+              <tr><td>Breakpoints</td><td><code>.col-md-6</code>, <code>.d-md-none</code></td><td><code>md:w-1/2</code>, <code>md:hidden</code></td></tr>
+              <tr><td>Hover / active</td><td><code>.btn:hover</code> (few)</td><td><code>hover:bg-…</code>, <code>active:scale-95</code> on <em>anything</em></td></tr>
+              <tr><td>Focus</td><td><code>.form-control:focus</code></td><td><code>focus:ring-2</code>, <code>focus:outline-none</code></td></tr>
+              <tr><td>Disabled / checked</td><td><code>:disabled</code> CSS</td><td><code>disabled:opacity-50</code>, <code>checked:bg-blue-600</code></td></tr>
+              <tr><td>Parent state</td><td>not available</td><td><code>group-hover:…</code>, <code>group-focus:…</code></td></tr>
+              <tr><td>Sibling state</td><td>not available</td><td><code>peer-checked:…</code>, <code>peer-invalid:…</code></td></tr>
+              <tr><td>Direct children</td><td>not available</td><td><code>first:</code>, <code>last:</code>, <code>odd:</code>, <code>even:</code>, <code>only:</code></td></tr>
+              <tr><td>Pseudo-elements</td><td>not available</td><td><code>before:</code>, <code>after:</code>, <code>placeholder:</code>, <code>selection:</code></td></tr>
+              <tr><td>Dark mode</td><td><code>data-bs-theme="dark"</code></td><td><code>dark:bg-gray-900</code></td></tr>
+              <tr><td>Media / OS</td><td>not available</td><td><code>print:</code>, <code>portrait:</code>, <code>motion-safe:</code>, <code>contrast-more:</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="highlight-box bs-box mt-2">
+          <strong>Rewrite the trigger, keep the target:</strong> the same utility (<code>bg-blue-600</code>) works for <code>hover</code>, <code>focus</code>, <code>dark</code>, <code>md</code> — you only change the prefix. Bootstrap forces you to buy a new component class (or write custom CSS) for each trigger.
         </div>
       </div>
     </div>
@@ -860,11 +891,11 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
   <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"col-span-12 md:col-span-4"</span><span class="kw">&gt;</span>Sidebar<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
 <span class="kw">&lt;/div</span><span class="kw">&gt;</span></code></pre>
         <div class="highlight-box tw-box">
-          <strong>Flexbox alternative:</strong> <code>flex flex-wrap gap-4</code> with <code>w-1/3</code> works too â€” more like BS row/col.
+          <strong>Flexbox alternative:</strong> <code>flex flex-wrap gap-4</code> with <code>w-1/3</code> works too — more like BS row/col.
         </div>
 
         <div class="highlight-box bs-box mt-2">
-          <strong>BS â†’ TW:</strong> <code>.container</code> = <code>container mx-auto max-w-7xl</code> (or <code>max-w-6xl</code>). <code>.row</code> = <code>grid grid-cols-12 gap-4</code> (or <code>flex flex-wrap</code>). <code>.col-md-4</code> = <code>md:col-span-4</code>.
+          <strong>BS → TW:</strong> <code>.container</code> = <code>container mx-auto max-w-7xl</code> (or <code>max-w-6xl</code>). <code>.row</code> = <code>grid grid-cols-12 gap-4</code> (or <code>flex flex-wrap</code>). <code>.col-md-4</code> = <code>md:col-span-4</code>.
         </div>
       </div>
     </div>
@@ -884,6 +915,104 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
 
 <span class="cm">&lt;!-- Arbitrary values --&gt;</span>
 .w-[<span class="num">420</span>px] / .h-[calc(<span class="num">100</span>vh-<span class="num">4</span>rem)] / .max-w-[<span class="num">900</span>px]</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GRID DEEP DIVE ===== -->
+  <section id="grid">
+    <h2 class="tw-heading"><i class="bi bi-grid me-2" style="color:var(--tw-cyan)"></i>Grid Deep Dive</h2>
+    <p class="text-muted">Bootstrap's grid covers equal columns and offsets. Tailwind exposes the full CSS Grid — column/row spans, explicit placement, auto-fill, and named lines — with the same <code>grid-cols-*</code> vocabulary you already know.</p>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-columns-gap me-1"></i> Spans &amp; Placement</div>
+      <div class="card-body">
+        <pre><code><span class="cm">&lt;!-- Bootstrap: --&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"row"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"col-md-8"</span><span class="kw">&gt;</span>Main<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"col-md-4"</span><span class="kw">&gt;</span>Sidebar<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+
+<span class="cm">&lt;!-- Tailwind: explicit placement + spans --&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"grid grid-cols-12 gap-4"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"col-span-12 md:col-span-8"</span><span class="kw">&gt;</span>Main<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"col-span-12 md:col-span-4 md:col-start-9"</span><span class="kw">&gt;</span>Sidebar<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+
+<span class="cm">&lt;!-- Row spans (BS has NO equivalent) --&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"grid grid-cols-3 grid-rows-2 gap-4"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"row-span-2"</span><span class="kw">&gt;</span>Tall sidebar (2 rows tall)<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span><span class="kw">&gt;</span>&nbsp;<span class="kw">&lt;/div</span><span class="kw">&gt;</span> <span class="kw">&lt;div</span><span class="kw">&gt;</span>&nbsp;<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span><span class="kw">&gt;</span>&nbsp;<span class="kw">&lt;/div</span><span class="kw">&gt;</span> <span class="kw">&lt;div</span><span class="kw">&gt;</span>&nbsp;<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+
+<span class="cm">&lt;!-- Start line control --&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"col-start-2 col-end-4"</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div</span><span class="kw">&gt;</span>   <span class="cm">/* grid-column: 2 / 4; */</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"md:col-start-3"</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div</span><span class="kw">&gt;</span>   <span class="cm">/* responsive placement */</span></code></pre>
+        <div class="highlight-box tw-box">
+          <strong>Why it matters:</strong> Bootstrap's <code>.offset-*</code> only pushes columns forward. Grid lets you place any item anywhere (<code>col-start-*</code>), stretch it across rows (<code>row-span-2</code>), and re-order the source without changing HTML order.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-arrows-fullscreen me-1"></i> Auto-Fit &amp; Equal Columns</div>
+      <div class="card-body">
+        <pre><code><span class="cm">&lt;!-- Equal columns that wrap (like BS col-12 col-md-4) --&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"grid grid-cols-1 md:grid-cols-3 gap-4"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span><span class="kw">&gt;</span>Card<span class="kw">&lt;/div</span><span class="kw">&gt;</span> <span class="kw">&lt;div</span><span class="kw">&gt;</span>Card<span class="kw">&lt;/div</span><span class="kw">&gt;</span> <span class="kw">&lt;div</span><span class="kw">&gt;</span>Card<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+
+<span class="cm">&lt;!-- Auto-fit: cards size themselves, no media queries (BS has NO equivalent) --&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"grid gap-4 grid-cols-[repeat(auto-fit,minmax(240px,1fr))]"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span><span class="kw">&gt;</span>&hellip;<span class="kw">&lt;/div</span><span class="kw">&gt;</span> <span class="cm">&lt;!-- as many as fit --&gt;</span>
+<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+
+<span class="cm">&lt;!-- Explicit tracks: fancy column sizing --&gt;</span>
+.grid-cols-<span class="num">[200px_1fr_2fr]</span>   <span class="cm">/* 200px, flexible, double-flexible */</span></code></pre>
+        <div class="d-flex gap-2 flex-wrap mt-2">
+          <span style="padding:.5rem .75rem;background:#fff;border-radius:.375rem;box-shadow:0 1px 3px rgba(0,0,0,.1);font-size:.75rem">min 240px</span>
+          <span style="padding:.5rem .75rem;background:#fff;border-radius:.375rem;box-shadow:0 1px 3px rgba(0,0,0,.1);font-size:.75rem">min 240px</span>
+          <span style="padding:.5rem .75rem;background:#fff;border-radius:.375rem;box-shadow:0 1px 3px rgba(0,0,0,.1);font-size:.75rem">min 240px</span>
+          <span style="padding:.5rem .75rem;background:#fff;border-radius:.375rem;box-shadow:0 1px 3px rgba(0,0,0,.1);font-size:.75rem">…auto-fill at ~320px</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== POSITIONING ===== -->
+  <section id="position">
+    <h2 class="tw-heading"><i class="bi bi-bounding-box me-2" style="color:var(--tw-cyan)"></i>Positioning &amp; Z-Index</h2>
+    <p class="text-muted">Tailwind gives the same <code>position-*</code> vocabulary as Bootstrap, plus the utility pair you'll use most: centering anything with <code>absolute + inset-0 + flex</code>.</p>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-arrows-move me-1"></i> Position Utilities</div>
+      <div class="card-body">
+        <pre><code><span class="cm">&lt;!-- Bootstrap → Tailwind --&gt;</span>
+.position-static  → .static
+.position-relative → .relative
+.position-absolute → .absolute
+.position-fixed   → .fixed
+.position-sticky  → .sticky
+
+<span class="cm">&lt;!-- Offsets: BS top/start/end/bottom → TW top/left/right/bottom --&gt;</span>
+.top-<span class="num">0</span> .top-<span class="num">50</span> .top-<span class="num">100</span>   →   .top-<span class="num">0</span> .top-<span class="num">1</span>/<span class="num">2</span> .top-full
+.start-<span class="num">0</span> .start-<span class="num">50</span>        →   .left-<span class="num">0</span> .left-<span class="num">1</span>/<span class="num">2</span>
+.top-<span class="num">50</span> .translate-middle  →   .top-<span class="num">1</span>/<span class="num">2</span> -translate-x-<span class="num">1</span>/<span class="num">2</span> -translate-y-<span class="num">1</span>/<span class="num">2</span>
+
+<span class="cm">&lt;!-- Extra offset sizes BS doesn't have --&gt;</span>
+.top-0.5  <span class="cm">/* 2px */</span>   <span class="fn">left-4</span> <span class="cm">/* 1rem */</span>   <span class="fn">-left-2</span> <span class="cm">/* negative allowed */</span>
+.top-<span class="num">1</span>/<span class="num">3</span> .bottom-<span class="num">1</span>/<span class="num">4</span>  <span class="cm">/* fractions */</span>
+
+<span class="cm">&lt;!-- z-index --&gt;</span>
+.z-<span class="num">0</span> .z-<span class="num">10</span> .z-<span class="num">50</span> .z-auto    →    .z-<span class="num">0</span> .z-<span class="num">10</span> .z-<span class="num">50</span> .z-auto
+.z-[<span class="num">999</span>]  <span class="cm">/* arbitrary */</span>
+
+<span class="cm">&lt;!-- Sticky header --&gt;</span>
+<span class="kw">&lt;header</span> <span class="fn">class</span>=<span class="str">"sticky top-0 z-40 bg-white shadow-sm"</span><span class="kw">&gt;</span>&hellip;<span class="kw">&lt;/header</span><span class="kw">&gt;</span></code></pre>
+        <div class="highlight-box bs-box">
+          <strong>BS → TW:</strong> <code>.sticky-top</code> = <code>sticky top-0 z-40</code>. Bootstrap's <code>.position-relative</code> exists as-is, but the winning pattern is <code>absolute inset-0 flex items-center justify-center</code> for overlays — a full-screen backdrop in one class list instead of custom CSS.
+        </div>
       </div>
     </div>
   </section>
@@ -935,9 +1064,9 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
     <div class="card">
       <div class="card-header"><i class="bi bi-rulers me-1"></i> Margin, Padding, Gap</div>
       <div class="card-body">
-        <p><strong>Good news:</strong> Tailwind uses the same scale as Bootstrap (0â€“5 = 0â€“3rem).</p>
+        <p><strong>Good news:</strong> Tailwind uses the same scale as Bootstrap (0–5 = 0–3rem).</p>
         <pre><code><span class="cm">&lt;!-- Identical syntax --&gt;</span>
-.m-<span class="num">0</span> / .m-<span class="num">1</span> / .m-<span class="num">2</span> / .m-<span class="num">3</span> / .m-<span class="num">4</span> / .m-<span class="num">5</span>    /* <span class="num">0</span>â€“<span class="num">3</span>rem */
+.m-<span class="num">0</span> / .m-<span class="num">1</span> / .m-<span class="num">2</span> / .m-<span class="num">3</span> / .m-<span class="num">4</span> / .m-<span class="num">5</span>    /* <span class="num">0</span>–<span class="num">3</span>rem */
 .p-<span class="num">0</span> / .p-<span class="num">1</span> / .p-<span class="num">2</span> / .p-<span class="num">3</span> / .p-<span class="num">4</span> / .p-<span class="num">5</span>
 .mt- / .mb- / .ml- / .mr- / .pt- / .pb- / .pl- / .pr-
 
@@ -961,7 +1090,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
 .p-[<span class="num">17</span>px] / .mt-[calc(<span class="num">100</span>vh-<span class="num">80</span>px)]</code></pre>
 
         <div class="highlight-box bs-box mt-2">
-          <strong>BS â†’ TW:</strong> The spacing scale 0â€“5 is identical. Tailwind adds 6, 8, 10, 12, 14, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 72, 80, 96. So <code>.mt-3</code> works in both â€” you already know it.
+          <strong>BS → TW:</strong> The spacing scale 0–5 is identical. Tailwind adds 6, 8, 10, 12, 14, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 72, 80, 96. So <code>.mt-3</code> works in both — you already know it.
         </div>
       </div>
     </div>
@@ -974,7 +1103,7 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
     <div class="card">
       <div class="card-header"><i class="bi bi-eyedropper me-1"></i> Tailwind Color Palette</div>
       <div class="card-body">
-        <p>Bootstrap has 8 named colors (primary, secondary, success, danger, warning, info, light, dark). Tailwind has <strong>22 color families</strong>, each with 10â€“11 shades (50â€“950).</p>
+        <p>Bootstrap has 8 named colors (primary, secondary, success, danger, warning, info, light, dark). Tailwind has <strong>22 color families</strong>, each with 10–11 shades (50–950).</p>
 
         <pre><code><span class="cm">&lt;!-- Text --&gt;</span>
 .text-gray-<span class="num">500</span> / .text-blue-<span class="num">600</span> / .text-red-<span class="num">500</span>
@@ -994,13 +1123,13 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
 .hover:bg-black/<span class="num">10</span>  /* <span class="num">10</span>% on hover */
 
 <span class="cm">&lt;!-- BS color mapping --&gt;</span>
-.text-primary  â†’ text-blue-<span class="num">600</span>
-.text-danger   â†’ text-red-<span class="num">600</span>
-.text-success  â†’ text-green-<span class="num">600</span>
-.text-warning  â†’ text-yellow-<span class="num">500</span>
-.text-info     â†’ text-cyan-<span class="num">500</span>
-.text-dark     â†’ text-gray-<span class="num">900</span>
-.text-light    â†’ text-gray-<span class="num">100</span></code></pre>
+.text-primary  → text-blue-<span class="num">600</span>
+.text-danger   → text-red-<span class="num">600</span>
+.text-success  → text-green-<span class="num">600</span>
+.text-warning  → text-yellow-<span class="num">500</span>
+.text-info     → text-cyan-<span class="num">500</span>
+.text-dark     → text-gray-<span class="num">900</span>
+.text-light    → text-gray-<span class="num">100</span></code></pre>
 
         <div class="d-flex gap-2 flex-wrap mt-3">
           <span style="display:inline-block;width:2rem;height:2rem;border-radius:.375rem;background:#6b7280" title="gray-500"></span>
@@ -1046,15 +1175,15 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
 .border-b border-dashed border-gray-<span class="num">300</span>
 
 <span class="cm">&lt;!-- Radius --&gt;</span>
-.rounded-none  â†’ .rounded-<span class="num">0</span>
-.rounded-sm    â†’ .rounded-<span class="num">1</span>
-.rounded       â†’ .rounded-<span class="num">2</span>
-.rounded-md    â†’ (no BS equivalent, .<span class="num">375</span>rem)
-.rounded-lg    â†’ .rounded-<span class="num">3</span>
-.rounded-xl    â†’ (no BS equivalent, .<span class="num">75</span>rem)
-.rounded-<span class="num">2</span>xl   â†’ (no BS equivalent, <span class="num">1</span>rem)
-.rounded-<span class="num">3</span>xl   â†’ (no BS equivalent, <span class="num">1.5</span>rem)
-.rounded-full  â†’ .rounded-circle / .rounded-pill</code></pre>
+.rounded-none  → .rounded-<span class="num">0</span>
+.rounded-sm    → .rounded-<span class="num">1</span>
+.rounded       → .rounded-<span class="num">2</span>
+.rounded-md    → (no BS equivalent, .<span class="num">375</span>rem)
+.rounded-lg    → .rounded-<span class="num">3</span>
+.rounded-xl    → (no BS equivalent, .<span class="num">75</span>rem)
+.rounded-<span class="num">2</span>xl   → (no BS equivalent, <span class="num">1</span>rem)
+.rounded-<span class="num">3</span>xl   → (no BS equivalent, <span class="num">1.5</span>rem)
+.rounded-full  → .rounded-circle / .rounded-pill</code></pre>
       </div>
     </div>
 
@@ -1062,13 +1191,13 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
       <div class="card-header"><i class="bi bi-box me-1"></i> Shadows</div>
       <div class="card-body">
         <p>Same naming but more options:</p>
-        <pre><code>.shadow-sm    â†’ .shadow-sm        /* identical */
-.shadow       â†’ .shadow           /* BS = TW shadow-md-ish */
-.shadow-lg    â†’ .shadow-lg        /* identical */
-.shadow-md    â†’ (BS has no .shadow-md)
-.shadow-xl    â†’ (BS has no .shadow-xl)
-.shadow-2xl   â†’ (BS has no .shadow-2xl)
-.shadow-inner â†’ (BS has no .shadow-inner)</code></pre>
+        <pre><code>.shadow-sm    → .shadow-sm        /* identical */
+.shadow       → .shadow           /* BS = TW shadow-md-ish */
+.shadow-lg    → .shadow-lg        /* identical */
+.shadow-md    → (BS has no .shadow-md)
+.shadow-xl    → (BS has no .shadow-xl)
+.shadow-2xl   → (BS has no .shadow-2xl)
+.shadow-inner → (BS has no .shadow-inner)</code></pre>
         <div class="d-flex gap-2 flex-wrap mt-2">
           <span style="padding:.5rem .75rem;background:#fff;border-radius:.375rem;box-shadow:0 1px 2px rgba(0,0,0,.05);font-size:.75rem">sm</span>
           <span style="padding:.5rem .75rem;background:#fff;border-radius:.375rem;box-shadow:0 1px 3px rgba(0,0,0,.1);font-size:.75rem">default</span>
@@ -1097,14 +1226,14 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
 <span class="kw">&lt;/button</span><span class="kw">&gt;</span>
 
 <span class="cm">&lt;!-- Animation utilities --&gt;</span>
-.animate-spin          /* rotate <span class="num">360</span>Â° */
+.animate-spin          /* rotate <span class="num">360</span>° */
 .animate-ping          /* radar ping */
 .animate-pulse         /* fade pulse */
 .animate-bounce        /* bounce */
 .animate-none
 
 <span class="cm">&lt;!-- Opacity --&gt;</span>
-.opacity-<span class="num">0</span> â†’ .invisible (hidden)
+.opacity-<span class="num">0</span> → .invisible (hidden)
 .opacity-<span class="num">50</span> / .opacity-<span class="num">100</span>
 .hover:opacity-<span class="num">80</span>
 
@@ -1179,10 +1308,26 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
   <span class="kw">&lt;input</span> <span class="fn">class</span>="<span class="fn">flex-1</span> <span class="fn">px-3</span> <span class="fn">py-2</span> <span class="fn">border</span> <span class="fn">border-gray-300</span>
                rounded-r-lg focus:ring-<span class="num">2</span> focus:ring-blue-<span class="num">500</span>
                focus:outline-none" placeholder="Username"&gt;
+<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+
+<span class="cm">&lt;!-- Validation states (like is-invalid) --&gt;</span>
+<span class="kw">&lt;input</span> <span class="fn">class</span>="<span class="fn">w-full</span> <span class="fn">px-3</span> <span class="fn">py-2</span> <span class="fn">border</span> <span class="fn">border-red-400</span>
+       rounded-lg focus:ring-<span class="num">2</span> focus:ring-red-<span class="num">500</span>
+       focus:outline-none invalid:border-red-<span class="num">400</span>"&gt;
+<span class="kw">&lt;p</span> <span class="fn">class</span>=<span class="str">"mt-1 text-sm text-red-600"</span><span class="kw">&gt;</span>
+  Please enter a valid email address.
+<span class="kw">&lt;/p</span><span class="kw">&gt;</span>
+
+<span class="cm">&lt;!-- peer-invalid: style a sibling when input is bad --&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"flex items-center gap-2"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;input</span> <span class="fn">type</span>=<span class="str">"email"</span> <span class="fn">class</span>=<span class="str">"peer ..."</span> <span class="fn">required</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;span</span> <span class="fn">class</span>=<span class="str">"hidden peer-invalid:block text-red-600 text-sm"</span><span class="kw">&gt;</span>
+    Oops, that email doesn't look right.
+  <span class="kw">&lt;/span</span><span class="kw">&gt;</span>
 <span class="kw">&lt;/div</span><span class="kw">&gt;</span></code></pre>
 
         <div class="highlight-box bs-box">
-          <strong>BS â†’ TW:</strong> Bootstrap's <code>.form-control</code> handles focus, border, padding in one class. Tailwind makes you compose 5â€“7 utilities â€” but you get total control over every detail (focus ring color, border radius per side, placeholder styling).
+          <strong>BS → TW:</strong> Bootstrap's <code>.form-control</code> handles focus, border, padding in one class. Tailwind makes you compose 5–7 utilities — but you get total control over every detail (focus ring color, border radius per side, placeholder styling).
         </div>
       </div>
     </div>
@@ -1216,9 +1361,12 @@ pre code { background: transparent; color: inherit; padding: 0; border-radius: 0
 
 <span class="cm">&lt;!-- JS toggle --&gt;</span>
 document.documentElement.classList.toggle('dark');
-localStorage.setItem('theme', 'dark');</code></pre>
+localStorage.setItem('theme', 'dark');
+
+<span class="cm">&lt;!-- v4: class strategy instead of prefers-color-scheme --&gt;</span>
+@custom-variant dark (&amp;:where(.dark, .dark *));</code></pre>
         <div class="highlight-box tw-box">
-          <strong>Key difference:</strong> BS's dark mode is opt-in per component (<code>data-bs-theme</code> overrides). Tailwind's <code>dark:</code> lets you toggle <em>individual properties</em> â€” much finer control.
+          <strong>Key difference:</strong> BS's dark mode is opt-in per component (<code>data-bs-theme</code> overrides). Tailwind's <code>dark:</code> lets you toggle <em>individual properties</em> — much finer control.
         </div>
       </div>
     </div>
@@ -1231,15 +1379,15 @@ localStorage.setItem('theme', 'dark');</code></pre>
     <div class="card">
       <div class="card-header"><i class="bi bi-palette me-1"></i> CSS-First Config via @theme (v4)</div>
       <div class="card-body">
-        <p>Bootstrap uses <code>--bs-*</code> CSS vars or SASS. Tailwind v4 uses the <code>@theme</code> directive â€” no config file needed.</p>
+        <p>Bootstrap uses <code>--bs-*</code> CSS vars or SASS. Tailwind v4 uses the <code>@theme</code> directive — no config file needed.</p>
         <pre><code>@import <span class="str">"tailwindcss"</span>;
 
 @theme {
-  <span class="cm">/* Colors â€” like --bs-primary */</span>
+  <span class="cm">/* Colors — like --bs-primary */</span>
   --color-primary: <span class="tp">#ff6600</span>;
   --color-primary-dark: <span class="tp">#cc5200</span>;
 
-  <span class="cm">/* Spacing â€” extend the scale */</span>
+  <span class="cm">/* Spacing — extend the scale */</span>
   --spacing-18: <span class="num">4.5rem</span>;
 
   <span class="cm">/* Fonts */</span>
@@ -1289,7 +1437,7 @@ localStorage.setItem('theme', 'dark');</code></pre>
   <span class="tp">.text-balance</span> { <span class="kw">text-wrap</span>: <span class="kw">balance</span>; }
 }</code></pre>
         <div class="highlight-box bs-box mt-2">
-          <strong>BS â†’ TW:</strong> BS gives you <code>.btn-primary</code> out of the box. Tailwind makes you define it yourself via <code>@apply</code>. More work upfront, but you control everything â€” no "Bootstrap look" limitation.
+          <strong>BS → TW:</strong> BS gives you <code>.btn-primary</code> out of the box. Tailwind makes you define it yourself via <code>@apply</code>. More work upfront, but you control everything — no "Bootstrap look" limitation.
         </div>
       </div>
     </div>
@@ -1318,7 +1466,7 @@ localStorage.setItem('theme', 'dark');</code></pre>
   <span class="kw">&lt;/div</span><span class="kw">&gt;</span>
 <span class="kw">&lt;/div</span><span class="kw">&gt;</span></code></pre>
         <div class="highlight-box tw-box">
-          Compare to BS: <code>.card</code> â†’ <code>bg-white rounded-xl shadow-md overflow-hidden</code>. Same visual, you just write the primitives.
+          Compare to BS: <code>.card</code> → <code>bg-white rounded-xl shadow-md overflow-hidden</code>. Same visual, you just write the primitives.
         </div>
       </div>
     </div>
@@ -1389,7 +1537,7 @@ localStorage.setItem('theme', 'dark');</code></pre>
   <span class="kw">&lt;/div</span><span class="kw">&gt;</span>
 <span class="kw">&lt;/div</span><span class="kw">&gt;</span></code></pre>
         <div class="highlight-box bs-box">
-          <strong>Note:</strong> BS handles modal open/close with JS. Tailwind just toggles <code>hidden</code> / <code>fixed</code> classes â€” you need your own JS or a library like Alpine.js.
+          <strong>Note:</strong> BS handles modal open/close with JS. Tailwind just toggles <code>hidden</code> / <code>fixed</code> classes — you need your own JS or a library like Alpine.js.
         </div>
       </div>
     </div>
@@ -1478,7 +1626,80 @@ localStorage.setItem('theme', 'dark');</code></pre>
 <span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"block md:hidden"</span><span class="kw">&gt;</span>Visible on mobile only<span class="kw">&lt;/div</span><span class="kw">&gt;</span></code></pre>
 
         <div class="highlight-box tw-box">
-          <strong>Same mental model:</strong> BS <code>{property}-{breakpoint}-{value}</code> â†’ TW <code>{breakpoint}:{utility}</code>. The breakpoints are the same names (<code>sm md lg xl 2xl</code>). The difference: TW applies the pattern to <em>every</em> utility, not just grid.
+          <strong>Same mental model:</strong> BS <code>{property}-{breakpoint}-{value}</code> → TW <code>{breakpoint}:{utility}</code>. The breakpoints are the same names (<code>sm md lg xl 2xl</code>). The difference: TW applies the pattern to <em>every</em> utility, not just grid.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MIGRATION ===== -->
+  <section id="migrate">
+    <h2 class="tw-heading"><i class="bi bi-signpost-split me-2" style="color:var(--tw-cyan)"></i>Migrating from Bootstrap</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-signpost-split me-1"></i> Migration Checklist</div>
+      <div class="card-body">
+        <p>Converting a Bootstrap project section-by-section — what to do in order, and how to verify at each step:</p>
+        <div class="table-responsive">
+          <table class="table table-sm table-bordered">
+            <thead class="table-light"><tr><th>#</th><th>Task</th><th>Bootstrap</th><th>Tailwind v4</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>Install &amp; build</td><td><code>&lt;link bootstrap.min.css&gt;</code></td><td><code>npm i tailwindcss @tailwindcss/vite</code></td></tr>
+              <tr><td>2</td><td>Reset / base layer</td><td><code>reboot.css</code> (auto)</td><td><code>@import "tailwindcss"</code> (Preflight auto)</td></tr>
+              <tr><td>3</td><td>Theme tokens</td><td>overwrite CSS vars</td><td><code>@theme { --color-primary: … }</code></td></tr>
+              <tr><td>4</td><td>Components</td><td>copy BS markup</td><td>rewrite with utilities or <code>@apply</code></td></tr>
+              <tr><td>5</td><td>Grid layout</td><td><code>.container .row .col-*</code></td><td><code>grid grid-cols-12 gap-4 col-span-*</code></td></tr>
+              <tr><td>6</td><td>JS widgets</td><td><code>bootstrap.bundle.js</code></td><td>replace with Alpine/JS or keep BS JS</td></tr>
+              <tr><td>7</td><td>Responsive pass</td><td><code>d-none d-md-block</code></td><td><code>hidden md:block</code></td></tr>
+              <tr><td>8</td><td>Dark mode</td><td><code>data-bs-theme</code></td><td><code>dark:</code> variants</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="highlight-box bs-box mt-2">
+          <strong>Recommended strategy:</strong> don't rewrite everything at once. Tailwind's utilities can live next to Bootstrap for a transition period — swap one card, one navbar, one form at a time, and remove Bootstrap's CSS link once the last component is converted.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ & GOTCHAS ===== -->
+  <section id="faq">
+    <h2 class="tw-heading"><i class="bi bi-question-circle me-2" style="color:var(--tw-cyan)"></i>FAQ &amp; Gotchas</h2>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-patch-question me-1"></i> Common Questions</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-sm table-bordered">
+            <thead class="table-light"><tr><th>Question</th><th>Short answer</th></tr></thead>
+            <tbody>
+              <tr><td>Can I use Bootstrap and Tailwind together?</td><td>Yes, but class names rarely collide. Use one for layout skeleton, the other for components — and remove Bootstrap's own utilities you've replaced to avoid conflicts.</td></tr>
+              <tr><td>Is Tailwind faster or slower to write?</td><td>Slower at first (no ready-made <code>.card</code>), faster later — you stop context-switching between HTML and CSS for every tweak.</td></tr>
+              <tr><td>Why do my classes sometimes "not work"?</td><td>Tailwind scans source files; if a class is built dynamically (e.g. <code>bg-${color}-600</code>) it may be missing from the output. Add it to <code>@source</code> or use the full literal class name.</td></tr>
+              <tr><td>Does the file size grow?</td><td>No — Tailwind tree-shakes unused utilities. A real project typically ships only the classes you actually used.</td></tr>
+              <tr><td>What about Bootstrap's JavaScript widgets?</td><td>Tailwind ships no JS. Keep Bootstrap's <code>bootstrap.bundle.js</code> for modals/collapse, or switch to Alpine.js — both work fine with Tailwind classes.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-exclamation-octagon me-1"></i> Gotchas for Bootstrap Devs</div>
+      <div class="card-body">
+        <pre><code><span class="cm">&lt;!-- 1. Preflight resets margins: h1/p/ul have margin 0 --&gt;</span>
+<span class="kw">&lt;h1</span> <span class="fn">class</span>=<span class="str">"mt-4"</span><span class="kw">&gt;</span>You must add spacing yourself<span class="kw">&lt;/h1</span><span class="kw">&gt;</span>
+
+<span class="cm">&lt;!-- 2. focus ring vs outline: add focus:outline-none yourself --&gt;</span>
+<span class="kw">&lt;input</span> <span class="fn">class</span>=<span class="str">"focus:ring-2 focus:ring-blue-500 focus:outline-none"</span><span class="kw">&gt;</span>
+
+<span class="cm">&lt;!-- 3. Tailwind has NO .container classes built in --&gt;</span>
+<span class="kw">&lt;div</span> <span class="fn">class</span>=<span class="str">"container mx-auto max-w-7xl px-4"</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div</span><span class="kw">&gt;</span>
+
+<span class="cm">&lt;!-- 4. Button element vs &lt;button&gt;: Preflight makes buttons non-styled --&gt;</span>
+<span class="kw">&lt;button</span> <span class="fn">class</span>=<span class="str">"px-4 py-2 bg-blue-600 text-white rounded-lg"</span><span class="kw">&gt;</span>Go<span class="kw">&lt;/button</span><span class="kw">&gt;</span></code></pre>
+        <div class="highlight-box tw-box mt-2">
+          <strong>The biggest gotcha:</strong> Bootstrap's components come pre-spaced and pre-styled. With Tailwind, <em>everything</em> is opt-in — no margins, no borders, no default button look. That's the learning curve to expect.
         </div>
       </div>
     </div>
