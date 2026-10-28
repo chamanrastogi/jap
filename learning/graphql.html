@@ -631,7 +631,7 @@
       </div>
     </div>
 
-    <div class="card">
+    <div class="card py-0 mt-4">
       <div class="card-header">GraphQL vs REST <span class="lang-pill">concept</span></div>
       <div class="table-responsive">
         <table class="table table-hover mb-0">
@@ -690,7 +690,7 @@
 
     <h3>Playground / GraphiQL</h3>
     <p class="text-secondary">
-      With the playground package installed, open <code>http://localhost:8000/graphql</code> in the browser.
+      With the playground package installed, open <code>http://localhost:8000/graphql-playground</code> in the browser.
       The left panel is the query editor, the middle shows documentation (introspection), and the right side
       returns live responses.
     </p>
@@ -1242,7 +1242,7 @@
     <div class="card">
       <div class="card-header">curl <span class="lang-pill">bash</span></div>
       <div class="card-body">
-        <pre><code><span class="kw">curl</span> -X POST http://localhost:8000/graphql \
+        <pre><code><span class="kw">curl</span> -X POST http://localhost:8000/graphql-playground \
   -H <span class="str">"Content-Type: application/json"</span> \
   -H <span class="str">"Authorization: Bearer YOUR_TOKEN"</span> \
   -d <span class="str">'{"query":"{ me { id name } }"}'</span></code></pre>
