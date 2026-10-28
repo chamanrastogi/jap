@@ -1,0 +1,1636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+    body {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(100, 116, 139, 0.35) transparent;
+    }
+    body::-webkit-scrollbar { width: 8px; }
+    body::-webkit-scrollbar-track { background: transparent; }
+    body::-webkit-scrollbar-thumb {
+      background: rgba(100, 116, 139, 0.35);
+      border-radius: 999px;
+    }
+    body::-webkit-scrollbar-thumb:hover { background: rgba(100, 116, 139, 0.55); }
+    #sidebar, .sidebar {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+    }
+    #sidebar::-webkit-scrollbar, .sidebar::-webkit-scrollbar { width: 5px; }
+    #sidebar::-webkit-scrollbar-track, .sidebar::-webkit-scrollbar-track { background: transparent; }
+    #sidebar::-webkit-scrollbar-thumb, .sidebar::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+    }
+    #sidebar::-webkit-scrollbar-thumb:hover, .sidebar::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.32);
+    }
+</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Amazon Web Services explained for beginners: regions, EC2, S3, Lambda, VPC and IAM, with CLI commands, real pricing limits and a first project." />
+  <title>Amazon Web Services (AWS) &mdash; Core Services, CLI &amp; Architecture Guide</title>
+  <link href="../lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --aws-orange: #ff9900;
+      --aws-navy: #232f3e;
+      --sidebar-width: 280px;
+    }
+    * { scroll-margin-top: 1rem; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f6f5f2;
+      display: flex;
+    }
+    #sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0; left: 0;
+      background: var(--aws-navy);
+      overflow-y: auto;
+      z-index: 1000;
+      transition: transform .3s;
+    }
+    #sidebar .brand {
+      padding: 1.25rem 1.25rem .85rem;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+    #sidebar .brand svg { flex-shrink: 0; }
+    #sidebar .brand h5 { color: #fff; font-weight: 700; margin: 0; letter-spacing: .01em; }
+    #sidebar .brand small { color: #a0a8b8; font-size: .7rem; }
+    #sidebar .nav-link {
+      color: #c2c9d6;
+      padding: .5rem 1.25rem;
+      font-size: .88rem;
+      border-left: 3px solid transparent;
+      transition: all .15s;
+    }
+    #sidebar .nav-link:hover {
+      color: #fff;
+      background: rgba(255,255,255,.06);
+    }
+    #sidebar .nav-link.active {
+      color: #fff;
+      border-left-color: var(--aws-orange);
+      background: linear-gradient(90deg, rgba(255,153,0,.18), rgba(255,153,0,.04));
+    }
+    #sidebar .nav-link i { width: 1.3rem; color: #ffb84d; }
+    #sidebar .nav-section {
+      color: #7b8496;
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      padding: 1rem 1.25rem .3rem;
+      font-weight: 700;
+    }
+    .sidebar-toggle {
+      position: fixed;
+      top: .75rem; left: .75rem;
+      z-index: 1050;
+      background: var(--aws-navy);
+      color: #fff;
+      border: none;
+      border-radius: .4rem;
+      padding: .4rem .65rem;
+      display: none;
+    }
+    @media (max-width: 991.98px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.show { transform: translateX(0); }
+      #main { margin-left: 0 !important; padding: 1.5rem !important; }
+      .sidebar-toggle { display: block; }
+    }
+
+    /* ---------- Main ---------- */
+    #main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 2rem 2.5rem 4rem;
+      max-width: 1120px;
+    }
+    h2 {
+      font-weight: 700;
+      color: var(--aws-navy);
+      margin-top: 2.5rem;
+      padding-bottom: .5rem;
+      border-bottom: none;
+      position: relative;
+    }
+    h2::after {
+      content: "";
+      position: absolute;
+      left: 0; bottom: 0;
+      width: 58px; height: 3px;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--aws-orange), #d96a00);
+    }
+    h3 {
+      font-weight: 600;
+      color: #2b3446;
+      margin-top: 1.8rem;
+    }
+    h3 i { color: var(--aws-orange); }
+    .card {
+      border: none;
+      border-radius: .75rem;
+      box-shadow: 0 2px 10px rgba(20, 26, 40, .07);
+      margin-bottom: 1.5rem;
+    }
+    .card-header {
+      background: #fff;
+      border-bottom: 1px solid #e9ecef;
+      font-weight: 600;
+      font-size: .88rem;
+      padding: .9rem 1.25rem;
+    }
+    .card-body { padding: 1.4rem 1.5rem; }
+    pre {
+      background: #10151f;
+      color: #e6e9f2;
+      padding: 1rem 1.25rem;
+      border-radius: .55rem;
+      font-size: .82rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      position: relative;
+      border: 1px solid rgba(255,255,255,.06);
+    }
+    pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
+    .kw { color: #c792ea; }
+    .fn { color: #82aaff; }
+    .str { color: #c3e88d; }
+    .cm { color: #6c7693; font-style: italic; }
+    .num { color: #ffb86c; }
+    .tp { color: #ffcb6b; }
+    .at { color: #f07178; }
+    .cmd-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+      color: #b45309;
+    }
+    .highlight-box {
+      background: #fff7ec;
+      border-left: 4px solid var(--aws-orange);
+      padding: 1rem 1.25rem;
+      border-radius: .4rem;
+      margin: 1rem 0;
+    }
+    .new-badge {
+      background: #0f9d58;
+      color: #fff;
+      font-size: .65rem;
+      font-weight: 600;
+      padding: .15rem .5rem;
+      border-radius: 1rem;
+      vertical-align: middle;
+    }
+    .svc-chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem;
+      font-weight: 600;
+      background: rgba(255,153,0,.14);
+      color: #b45309;
+      border: 1px solid rgba(255,153,0,.32);
+      padding: .1rem .45rem;
+      border-radius: .35rem;
+      white-space: nowrap;
+    }
+
+    /* ---------- Signature: AWS global infrastructure map ---------- */
+    .aws-map {
+      background: #fff;
+      border: 1px solid #e7e3da;
+      border-radius: .9rem;
+      padding: 1.35rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 10px 28px rgba(20, 26, 40, .07);
+    }
+    .aws-map .users-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #6b7280;
+    }
+    .aws-map .flow-arrow {
+      text-align: center;
+      color: #c3c9d4;
+      font-size: 1rem;
+      line-height: 1.1;
+    }
+    .aws-map .edge-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      justify-content: center;
+      background: linear-gradient(135deg, #232f3e, #17202d);
+      border-radius: .6rem;
+      padding: .7rem .8rem;
+    }
+    .aws-map .edge-strip .edge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .68rem;
+      color: #ffd79a;
+      background: rgba(255,153,0,.12);
+      border: 1px solid rgba(255,153,0,.35);
+      border-radius: .35rem;
+      padding: .18rem .5rem;
+      white-space: nowrap;
+    }
+    .aws-map .edge-label {
+      width: 100%;
+      text-align: center;
+      color: #9aa4b4;
+      font-size: .7rem;
+      margin-bottom: .35rem;
+    }
+    .aws-map .region-box {
+      border: 2px dashed rgba(255,153,0,.55);
+      border-radius: .75rem;
+      background: rgba(255,153,0,.05);
+      padding: 1rem 1rem 1.1rem;
+      position: relative;
+    }
+    .aws-map .region-title {
+      position: absolute;
+      top: -.7rem; left: .9rem;
+      background: #fff;
+      padding: 0 .5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      color: #b45309;
+      text-transform: uppercase;
+    }
+    .aws-map .region-sub {
+      text-align: center;
+      font-size: .74rem;
+      color: #6b7280;
+      margin: .35rem 0 .8rem;
+    }
+    .aws-map .az-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: .7rem;
+    }
+    .aws-map .az {
+      background: #fff;
+      border: 1px solid #e7e3da;
+      border-left: 4px solid var(--aws-orange);
+      border-radius: .55rem;
+      padding: .7rem .75rem;
+      box-shadow: 0 4px 12px rgba(20, 26, 40, .06);
+    }
+    .aws-map .az b {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+      color: #232f3e;
+      margin-bottom: .2rem;
+    }
+    .aws-map .az span {
+      font-size: .7rem;
+      color: #6b7280;
+      line-height: 1.45;
+      display: block;
+    }
+    .stat-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .7rem;
+      margin-top: 1.1rem;
+    }
+    .stat-strip .st {
+      flex: 1 1 150px;
+      background: #faf8f4;
+      border: 1px solid #e7e3da;
+      border-radius: .55rem;
+      padding: .7rem .8rem;
+    }
+    .stat-strip .st b {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.35rem;
+      color: #232f3e;
+      line-height: 1.15;
+    }
+    .stat-strip .st span {
+      font-size: .68rem;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: #8a8574;
+    }
+    @media (max-width: 767.98px) {
+      .aws-map .az-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ---------- Home link ---------- */
+    .home-link {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 1100;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.94);
+      color: #101828;
+      text-decoration: none;
+      font-size: .78rem;
+      font-weight: 700;
+      box-shadow: 0 10px 28px rgba(0,0,0,.08);
+      border: 1px solid rgba(226,232,240,.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: .2s;
+    }
+    .home-link:hover { color: #d96a00; }
+    @media (min-width: 992px) { .home-link { left: calc(var(--sidebar-width) + 14px); } }
+    @media (max-width: 991.98px) { .home-link { left: 4rem; } }
+    @media (max-width: 767.98px) {
+      #main { padding: 1.25rem 1rem 3rem; }
+      .home-link { left: 3.5rem; font-size: .72rem; padding: 6px 10px; }
+      .sidebar-toggle { top: .6rem; left: .6rem; }
+    }
+    @media (max-width: 575.98px) {
+      #main { padding: 1rem .75rem 2.5rem; }
+      .home-link { left: 3rem; font-size: .68rem; padding: 5px 8px; }
+    }
+  </style>
+  <link rel="stylesheet" href="../assets/vendor/fonts/fonts.css">
+<style>
+/* ===== Jap Hub design system - graphql pattern (injected layer) ===== */
+:root {
+  --acc: #ff9900;
+  --acc2: #d96a00;
+  --acc-soft: color-mix(in srgb, var(--acc) 32%, #ffffff);
+  --ink-deep: #1b2434;
+  --ink-2: #111725;
+  --ink: var(--ink-deep);
+  --bg: color-mix(in srgb, var(--acc) 5%, #f7f6f3);
+  --surface: #ffffff;
+  --surface-soft: rgba(255,255,255,.72);
+  --muted: color-mix(in srgb, var(--acc) 24%, #64698a);
+  --border: color-mix(in srgb, var(--acc) 16%, #e6e2f0);
+  --code: #0e1120;
+  --code-text: #e7e4f6;
+  --good: #0f9d58;
+}
+[data-bs-theme="dark"] {
+  --ink: #eef0fb;
+  --bg: color-mix(in srgb, var(--acc) 8%, #0e1120);
+  --surface: #161a2e;
+  --muted: #9aa2bb;
+  --border: color-mix(in srgb, var(--acc) 24%, #262b3f);
+  --code: #0a0d1e;
+  --code-text: #dcd8ef;
+}
+::selection { background: var(--acc); color: #fff; }
+body {
+  font-family: 'Space Grotesk', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background:
+    radial-gradient(52rem 30rem at 110% -6%, color-mix(in srgb, var(--acc) 11%, transparent), transparent 60%),
+    radial-gradient(40rem 28rem at -10% 8%, color-mix(in srgb, var(--acc2) 9%, transparent), transparent 55%),
+    var(--bg);
+  color: var(--ink);
+  display: flex;
+}
+h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', 'Segoe UI', sans-serif; }
+#sidebar {
+  background:
+    radial-gradient(120% 90% at 100% 0%, color-mix(in srgb, var(--acc2) 30%, transparent), transparent 55%),
+    linear-gradient(180deg, var(--ink-deep) 0%, var(--ink-2) 100%);
+}
+#sidebar .brand h5 { color: #fff; letter-spacing: .01em; }
+#sidebar .brand small { color: #a9a6c9; font-size: .7rem; }
+#sidebar .nav-link { color: #c9c6e3; font-family: 'Space Grotesk', sans-serif; }
+#sidebar .nav-link:hover { color: #fff; background: rgba(255,255,255,.06); }
+#sidebar .nav-link i { color: color-mix(in srgb, var(--acc-soft) 62%, #ffffff); }
+#sidebar .nav-link.active {
+  color: #fff;
+  border-left-color: var(--acc);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--acc) 22%, transparent), transparent);
+}
+#sidebar .nav-section { color: #8d89b8; }
+.sidebar-toggle { background: var(--ink-deep); color: #fff; }
+#main { width: 100%; padding: 2rem 2.5rem 4rem; max-width: 1120px; }
+h2 {
+  color: var(--ink);
+  font-weight: 700;
+  margin-top: 2.2rem;
+  padding-bottom: .55rem;
+  border-bottom: none;
+  position: relative;
+}
+h2 i { color: var(--acc); }
+h2::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 58px; height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--acc), var(--acc2));
+}
+h3 { color: var(--ink); font-weight: 600; }
+h3 i { color: var(--acc); }
+h4 { color: var(--ink); }
+.card {
+  border: 1px solid var(--border);
+  border-radius: .8rem;
+  background: var(--surface);
+  box-shadow: 0 4px 16px rgba(15, 18, 38, .05);
+}
+.card-header {
+  background: color-mix(in srgb, var(--acc) 6%, var(--surface));
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+  font-size: .84rem;
+  color: var(--ink);
+  padding: .75rem 1.1rem;
+}
+.card-body { padding: 1.25rem 1.35rem; }
+pre {
+  background: var(--code);
+  color: var(--code-text);
+  padding: 1.05rem 1.2rem;
+  border-radius: .6rem;
+  font-size: .82rem;
+  line-height: 1.6;
+  border: 1px solid rgba(255,255,255,.05);
+  overflow-x: auto;
+}
+pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', ui-monospace, monospace; }
+code {
+  font-family: 'JetBrains Mono', 'Cascadia Code', ui-monospace, monospace;
+  font-size: .85em;
+  background: color-mix(in srgb, var(--acc) 10%, transparent);
+  color: var(--acc);
+  padding: .1em .35em;
+  border-radius: .35em;
+}
+pre code { background: transparent; color: inherit; padding: 0; border-radius: 0; }
+.kw { color: #c792ea; }
+.fn { color: #7ee0c3; }
+.str { color: #c3e88d; }
+.cm { color: #6c7693; font-style: italic; }
+.num { color: #ffb86c; }
+.tp { color: #82aaff; }
+.at { color: #f07178; }
+.highlight-box {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--acc2) 8%, transparent), color-mix(in srgb, var(--acc) 5%, transparent));
+  border-left: 4px solid var(--acc);
+  padding: 1rem 1.25rem;
+  border-radius: .45rem;
+  color: var(--ink);
+}
+.table thead th {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--muted);
+  background: color-mix(in srgb, var(--acc) 6%, var(--surface));
+  border-bottom: 2px solid var(--border);
+}
+.cmd-table td:first-child { color: var(--acc); }
+.new-badge {
+  background: linear-gradient(135deg, var(--acc), var(--acc2));
+  color: #fff;
+}
+#main a { color: var(--acc); }
+#main a:hover { color: var(--acc2); }
+.home-link:hover { color: var(--acc); }
+:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; border-radius: 6px; }
+
+/* hero band (legacy doc template) */
+#main > div:first-child.d-flex {
+  background:
+    radial-gradient(120% 150% at 100% 0%, color-mix(in srgb, var(--acc2) 30%, transparent), transparent 55%),
+    radial-gradient(100% 140% at 0% 100%, color-mix(in srgb, var(--acc) 24%, transparent), transparent 50%),
+    linear-gradient(135deg, var(--ink-deep) 0%, var(--ink-2) 100%);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 20px;
+  padding: 2.2rem 1.9rem 1.7rem;
+  margin-bottom: 1.5rem;
+  color: #fff;
+  box-shadow: 0 24px 50px rgba(10, 12, 30, .18);
+}
+#main > div:first-child.d-flex h1 {
+  color: #fff !important;
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  margin-bottom: .55rem;
+}
+#main > div:first-child.d-flex h1 i { color: var(--acc-soft) !important; }
+#main > div:first-child.d-flex p {
+  color: rgba(255, 255, 255, .74) !important;
+  font-size: 1rem;
+}
+#main > div:first-child.d-flex .badge {
+  border-radius: 999px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .64rem;
+  font-weight: 600;
+  letter-spacing: .03em;
+}
+#main > div:first-child.d-flex .badge.bg-secondary { background: rgba(255,255,255,.14) !important; color: #fff; }
+#main > div:first-child.d-flex .badge.bg-success { background: var(--good) !important; }
+#main > div:first-child.d-flex .badge.bg-warning { background: #f7a54c !important; color: #241810 !important; }
+
+/* intro lead */
+#main > p.fs-5 {
+  color: var(--muted) !important;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  max-width: 52rem;
+}
+@media (max-width: 768px) {
+  #main { padding: 1.5rem 1.15rem 3rem; }
+  #main > div:first-child.d-flex { padding: 1.6rem 1.3rem 1.4rem; }
+}
+</style></head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
+<a href="../index.html" class="home-link" aria-label="Go back to home page"><i class="bi bi-arrow-left"></i> Home</a>
+
+<!-- ===== SIDEBAR ===== -->
+<nav id="sidebar">
+  <div class="brand">
+    <h5><i class="bi bi-cloud-fill me-2" style="color:var(--aws-orange)"></i>AWS</h5>
+    <small class="d-block mt-1">Amazon Web Services &middot; Core Guide</small>
+  </div>
+  <div class="py-2">
+    <div class="nav-section">Start here</div>
+    <a class="nav-link" href="#start"><i class="bi bi-cloudy"></i> What AWS Is</a>
+    <a class="nav-link" href="#infra"><i class="bi bi-globe2"></i> Regions &amp; AZs</a>
+    <a class="nav-link" href="#pricing"><i class="bi bi-cash-coin"></i> Pricing &amp; Free Tier</a>
+
+    <div class="nav-section">Build</div>
+    <a class="nav-link" href="#compute"><i class="bi bi-cpu"></i> Compute</a>
+    <a class="nav-link" href="#storage"><i class="bi bi-hdd-network"></i> Storage</a>
+    <a class="nav-link" href="#database"><i class="bi bi-database"></i> Databases</a>
+    <a class="nav-link" href="#network"><i class="bi bi-diagram-3"></i> Networking &amp; VPC</a>
+    <a class="nav-link" href="#security"><i class="bi bi-shield-lock"></i> Security &amp; IAM</a>
+    <a class="nav-link" href="#messaging"><i class="bi bi-arrow-left-right"></i> Messaging &amp; Events</a>
+
+    <div class="nav-section">Operate</div>
+    <a class="nav-link" href="#ops"><i class="bi bi-graph-up"></i> Monitoring &amp; IaC</a>
+    <a class="nav-link" href="#cli"><i class="bi bi-terminal"></i> AWS CLI</a>
+    <a class="nav-link" href="#firstproject"><i class="bi bi-rocket-takeoff"></i> First 24 Hours</a>
+
+    <div class="nav-section">Get hired</div>
+    <a class="nav-link" href="#interview"><i class="bi bi-patch-check"></i> Interview Q&amp;A</a>
+    <a class="nav-link" href="#cheatsheet"><i class="bi bi-lightbulb"></i> Cheat Sheet</a>
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<div id="main">
+
+  <!-- HERO -->
+  <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+    <div>
+      <h1 class="fw-bold mb-1" style="color:var(--aws-navy)">
+        <i class="bi bi-cloud-fill" style="color:var(--aws-orange)"></i>
+        Amazon Web Services
+      </h1>
+      <p class="text-muted mb-0 fs-5">
+        The cloud, explained service by service
+        <span class="badge bg-warning text-dark ms-2">AWS</span>
+        <span class="badge bg-secondary ms-1">since 2006 &middot; us-east-1 first</span>
+        <span class="badge bg-success ms-1">39 regions &middot; 124 AZs</span>
+      </p>
+    </div>
+  </div>
+
+  <p class="fs-5 text-muted mb-5">
+    AWS is a warehouse of rented computers: you ask for a server, a bucket, a database or a
+    queue through an API call, and you pay for what you use by the second. This guide walks the
+    <strong>services that actually show up in projects and interviews</strong>, with the CLI
+    commands to run them, the pricing traps that surprise beginners, and a first
+    architecture you can build in a day.
+  </p>
+
+  <!-- ==================== WHAT AWS IS ==================== -->
+  <section id="start">
+    <h2><i class="bi bi-cloudy me-2"></i>What AWS Actually Is</h2>
+    <p class="text-muted">Before any service name: the mental model. You stopped buying computers and started renting them, by the minute, from a company that owns millions.</p>
+
+    <div class="card">
+      <div class="card-header">Your server vs. an AWS server</div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-light"><tr><th style="width:26%">Aspect</th><th style="width:37%">Owning a server</th><th>Using AWS</th></tr></thead>
+          <tbody>
+            <tr><td>Upfront cost</td><td>Buy hardware before you earn anything</td><td>Nothing &mdash; you rent by the second</td></tr>
+            <tr><td>Capacity</td><td>Guess, then over-buy for the peak day</td><td>Add or remove machines in minutes</td></tr>
+            <tr><td>Maintenance</td><td>You patch, cool, power and secure it</td><td>AWS runs the building; you configure your machine</td></tr>
+            <tr><td>Geography</td><td>One room, one country</td><td>39 regions &mdash; put compute next to your users</td></tr>
+            <tr><td>Scaling</td><td>Weeks of procurement</td><td>An auto scaling group handles it automatically</td></tr>
+            <tr><td>Bill</td><td>Depreciated asset</td><td>Usage line items &mdash; idle resources are still billed</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>Service models: how much do you manage?</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:24%">Model</th><th style="width:38%">AWS examples</th><th>You manage</th></tr></thead>
+          <tbody>
+            <tr><td>IaaS &mdash; rent the machine</td><td>EC2, VPC, EBS, S3</td><td>OS, runtime, code, data</td></tr>
+            <tr><td>PaaS &mdash; rent the platform</td><td>RDS, Elastic Beanstalk, Lambda</td><td>Code and data only</td></tr>
+            <tr><td>Serverless &mdash; rent the function</td><td>Lambda, API Gateway, DynamoDB</td><td>Code &mdash; nothing to patch</td></tr>
+            <tr><td>SaaS &mdash; rent the product</td><td>WorkMail, Connect (outside AWS: Gmail)</td><td>Nothing</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>The one habit that makes AWS click:</strong> everything in AWS is an API call.
+      Clicking <em>Launch instance</em> in the console sends the same request you could type as
+      <code>aws ec2 run-instances</code>. Learn the words &mdash; <em>create, describe, list,
+      delete</em> &mdash; and every service suddenly speaks the same grammar.
+    </div>
+  </section>
+
+  <!-- ==================== REGIONS & AZs ==================== -->
+  <section id="infra">
+    <h2><i class="bi bi-globe2 me-2"></i>Regions, Availability Zones &amp; Edge Locations</h2>
+    <p class="text-muted">The single most useful AWS diagram there is. Every architecture question eventually comes back to: <em>where does this physically run, and what happens if one building dies?</em></p>
+
+    <!-- SIGNATURE DIAGRAM -->
+    <div class="aws-map">
+      <div class="users-row"><i class="bi bi-people"></i> Users in every city</div>
+      <div class="flow-arrow">&darr;</div>
+      <div class="edge-strip">
+        <div class="edge-label">Edge locations &mdash; CloudFront caches your content and terminates TLS close to the user</div>
+        <span class="edge">edge: london</span>
+        <span class="edge">edge: frankfurt</span>
+        <span class="edge">edge: mumbai</span>
+        <span class="edge">edge: singapore</span>
+        <span class="edge">edge: sao paulo</span>
+      </div>
+      <div class="flow-arrow">&darr;</div>
+      <div class="region-box">
+        <div class="region-title">Region: us-east-1 &mdash; US East (N. Virginia)</div>
+        <div class="region-sub">One geographic area. Your data stays here, and services only see each other inside it.</div>
+        <div class="az-grid">
+          <div class="az">
+            <b>us-east-1a</b>
+            <span>Own power, cooling, physical security</span>
+            <span>Dozens of data centers</span>
+            <span>AZ ID: <code>use1-az1</code></span>
+          </div>
+          <div class="az">
+            <b>us-east-1b</b>
+            <span>Independent failure domain</span>
+            <span>Ultra-low-latency fibre to 1a and 1c</span>
+            <span>AZ ID: <code>use1-az2</code></span>
+          </div>
+          <div class="az">
+            <b>us-east-1c</b>
+            <span>The third one &mdash; AWS ships at least three</span>
+            <span>Your database usually lives here</span>
+            <span>AZ ID: <code>use1-az3</code></span>
+          </div>
+        </div>
+      </div>
+      <div class="stat-strip">
+        <div class="st"><b>39</b><span>Regions live</span></div>
+        <div class="st"><b>124</b><span>Availability Zones</span></div>
+        <div class="st"><b>&ge;3</b><span>AZs per region</span></div>
+        <div class="st"><b>2006</b><span>us-east-1, the first</span></div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>The golden rule:</strong> run across <strong>at least two Availability Zones</strong>.
+      One AZ failing is a normal, expected event &mdash; an unhealthy disk, a network cut, a power
+      incident. Two copies means your app keeps running; a single AZ means you are renting a
+      server with extra steps. Note that an AZ can also be <em>constrained</em>: AWS may stop new
+      accounts from using it, so code with AZ IDs, not hard-coded <code>a/b/c</code> letters.
+    </div>
+
+    <h3>Choosing where to deploy</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:30%">Question</th><th>Why it decides</th></tr></thead>
+          <tbody>
+            <tr><td>Where are my users?</td><td>Latency drops when compute sits near them &mdash; Sydney users should not wait on Virginia</td></tr>
+            <tr><td>Where must the data live?</td><td>GDPR, RBI, data-residency rules pin storage to a country or region</td></tr>
+            <tr><td>What does it cost?</td><td>The same instance can be ~30% cheaper in another region</td></tr>
+            <tr><td>Which services exist there?</td><td>New services launch in a few regions first; some never reach all of them</td></tr>
+            <tr><td>Disaster recovery?</td><td>Two regions for real DR, two AZs for everyday resilience &mdash; they are not the same thing</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PRICING ==================== -->
+  <section id="pricing">
+    <h2><i class="bi bi-cash-coin me-2"></i>Pricing &amp; the Free Tier</h2>
+    <p class="text-muted">You pay for usage, per second, with no contract. That sounds safe &mdash; until a forgotten resource quietly bills you all month.</p>
+
+    <h3>Three ways to pay for the same machine</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:26%">Option</th><th style="width:30%">Discount</th><th>Use it when</th></tr></thead>
+          <tbody>
+            <tr><td>On-Demand</td><td>None &mdash; the base price</td><td>Unknown workloads, first experiments, spiky traffic</td></tr>
+            <tr><td>Savings Plans / Reserved</td><td>Up to ~72% for a 1&ndash;3 year commitment</td><td>A server you already know runs 24/7</td></tr>
+            <tr><td>Spot</td><td>Up to ~90%, but AWS can reclaim it</td><td>Batch jobs and CI that tolerate interruption</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>What "free" currently means</h3>
+    <div class="card">
+      <div class="card-header">New accounts (since 15 July 2025)</div>
+      <div class="card-body">
+        <p class="mb-2">AWS replaced the classic 12-month free tier with a credit-based
+        <strong>Free plan</strong>: <strong>up to $200 in credits over 6 months</strong> &mdash; $100
+        at sign-up, $100 more as you explore &mdash; then the account closes unless you move to the
+        paid plan. Older accounts keep their 12-month benefits (750 hrs of <code>t3.micro</code>,
+        5&nbsp;GB S3, 750 hrs of RDS).</p>
+        <div class="table-responsive">
+          <table class="table table-hover mb-0 cmd-table">
+            <thead class="table-light"><tr><th style="width:34%">Always free &mdash; every month, forever</th><th style="width:36%">Allowance</th><th>Overflow cost</th></tr></thead>
+            <tbody>
+              <tr><td>AWS Lambda</td><td>1M requests + 400,000 GB-seconds</td><td>$0.20 per 1M requests</td></tr>
+              <tr><td>Amazon DynamoDB</td><td>25 GB storage + 25 read/write units</td><td>Per-request or per-unit pricing</td></tr>
+              <tr><td>Amazon SQS</td><td>1M requests per month</td><td>$0.40 per 1M (standard)</td></tr>
+              <tr><td>Amazon SNS</td><td>1M publishes + 100,000 notifications</td><td>$0.50 per 1M publishes</td></tr>
+              <tr><td>Amazon CloudWatch</td><td>10 alarms, 10 custom metrics, 5 GB logs</td><td>Cents per metric &mdash; but they add up</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <h3>Where beginners get the bill</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:34%">Trap</th><th>How to avoid it</th></tr></thead>
+          <tbody>
+            <tr><td>Idle EC2 running nights and weekends</td><td>Stop it &mdash; or use a schedule; stopped instances keep paying for EBS</td></tr>
+            <tr><td>NAT Gateway</td><td>~$0.045/hr + per GB &mdash; the classic surprise on hobby projects</td></tr>
+            <tr><td>Public IPv4 addresses</td><td>$0.005/hr each, since Feb 2024 &mdash; free was removed</td></tr>
+            <tr><td>Elastic Load Balancer</td><td>Billed hourly even with zero traffic</td></tr>
+            <tr><td>Unattached EBS volumes &amp; old snapshots</td><td>Delete them with the instance &mdash; they bill while idle</td></tr>
+            <tr><td>Data transfer out</td><td>Charged per GB leaving AWS &mdash; CDNs keep it near zero</td></tr>
+            <tr><td>Leftover resources after an experiment</td><td>Tag everything, then run a cleanup pass</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Day-one guardrail:</strong> open <em>Billing &rarr; Budgets</em> and create a budget
+      alarm at <strong>$5</strong>. It takes ninety seconds and is the cheapest insurance AWS
+      sells. Then check the <a href="https://calculator.aws" target="_blank" rel="noopener">AWS Pricing Calculator</a>
+      before building anything big.
+    </div>
+  </section>
+
+  <!-- ==================== COMPUTE ==================== -->
+  <section id="compute">
+    <h2><i class="bi bi-cpu me-2"></i>Compute &mdash; Where Your Code Runs</h2>
+    <p class="text-muted">Five ways to run the same hello-world. The only question that matters: <em>how much of the machine do I want to think about?</em></p>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:24%">Service</th><th style="width:36%">You think about</th><th>Reach for it when</th></tr></thead>
+          <tbody>
+            <tr><td>Amazon EC2</td><td>OS, patches, scaling, everything</td><td>Full control: special software, legacy apps, SSH access</td></tr>
+            <tr><td>AWS Lambda</td><td>One function and its trigger</td><td>Event-driven work: webhooks, scheduled jobs, image resizing</td></tr>
+            <tr><td>ECS on Fargate</td><td>Containers and task definitions</td><td>You ship Docker images but want no servers to manage</td></tr>
+            <tr><td>Amazon EKS</td><td>Kubernetes itself</td><td>Your company already runs Kubernetes &mdash; not a first stop</td></tr>
+            <tr><td>Elastic Beanstalk</td><td>Application only</td><td>Upload code, get a URL &mdash; training wheels for EC2</td></tr>
+            <tr><td>Amazon Lightsail</td><td>A fixed monthly plan</td><td>A simple VPS with one predictable price</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>EC2 in one screen</h3>
+    <div class="card">
+      <div class="card-header">Launch and connect &mdash; the whole ritual</div>
+      <div class="card-body">
+        <pre><code><span class="cm"># 1. Identity check - always works, proves your credentials</span>
+aws sts get-caller-identity
+
+<span class="cm"># 2. Launch a free-tier friendly instance in your default VPC</span>
+aws ec2 run-instances \
+  --image-id ami-0c02fb55956c7d316 \
+  --instance-type t3.micro \
+  --key-name my-key \
+  --security-group-ids sg-0abcdef1234567890 \
+  --subnet-id subnet-0abcdef1234567890 \
+  --tag-specifications <span class="str">'ResourceType=instance,Tags=[{Key=Name,Value=first-server}]'</span>
+
+<span class="cm"># 3. Watch it boot, grab its public address</span>
+aws ec2 describe-instances \
+  --filters <span class="str">"Name=instance-state-name,Values=running"</span> \
+  --query <span class="str">"Reservations[].Instances[].[InstanceId,PublicIpAddress]"</span> \
+  --output table
+
+<span class="cm"># 4. When you are done - this is the button people forget</span>
+aws ec2 terminate-instances --instance-ids i-0123456789abcdef0</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Three words you need before launching</div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-4"><strong>AMI</strong> &mdash; the blueprint: OS plus whatever image you chose. Ubuntu, Amazon Linux, or your baked custom image.</div>
+          <div class="col-md-4"><strong>Instance type</strong> &mdash; the size. <code>t3.micro</code> = 1 vCPU / 1&nbsp;GB; <code>t3.large</code> = 2 vCPU / 8&nbsp;GB. The <code>t</code> family bursts above its baseline.</div>
+          <div class="col-md-4"><strong>Key pair</strong> &mdash; the SSH key. Lose it and you log in via the console, not via magic.</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Lambda: code without a server</h3>
+    <div class="card">
+      <div class="card-header">A complete function (Python runtime)</div>
+      <div class="card-body">
+        <pre><code><span class="kw">import</span> json
+<span class="kw">import</span> os
+<span class="kw">import</span> urllib.request
+
+<span class="kw">def</span> <span class="fn">lambda_handler</span>(event, context):
+    <span class="str">"""Runs only while a request is in flight - then freezes."""</span>
+    city = event.get(<span class="str">"queryStringParameters"</span>, {}).get(<span class="str">"city"</span>, <span class="str">"Tokyo"</span>)
+    url = <span class="str">f"https://api.weather.example/v1/{city.lower()}"</span>
+
+    <span class="kw">with</span> urllib.request.urlopen(url, timeout=<span class="num">3</span>) <span class="kw">as</span> r:
+        data = json.loads(r.read().decode())
+
+    <span class="kw">return</span> {
+        <span class="str">"statusCode"</span>: <span class="num">200</span>,
+        <span class="str">"headers"</span>: {<span class="str">"content-type"</span>: <span class="str">"application/json"</span>},
+        <span class="str">"body"</span>: json.dumps({<span class="str">"city"</span>: city, <span class="str">"temp"</span>: data[<span class="str">"temp_c"</span>],
+                           <span class="str">"env"</span>: os.environ.get(<span class="str">"STAGE"</span>, <span class="str">"dev"</span>)}),
+    }</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:34%">Lambda fact</th><th>Number</th></tr></thead>
+          <tbody>
+            <tr><td>Max execution time</td><td>15 minutes &mdash; anything longer belongs on ECS or EC2</td></tr>
+            <tr><td>Memory range</td><td>128 MB to 10,240 MB &mdash; CPU scales with memory</td></tr>
+            <tr><td>Billing</td><td>Per millisecond, per GB &mdash; a cold API call costs a fraction of a cent</td></tr>
+            <tr><td>Cold start</td><td>First invocation after idle takes hundreds of ms &mdash; provisioned concurrency trades money for consistency</td></tr>
+            <tr><td>Free allowance</td><td>1M requests and 400,000 GB-seconds, every month, forever</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Decision in one line:</strong> need SSH or special software &rarr; <strong>EC2</strong>.
+      Need a container platform &rarr; <strong>Fargate</strong>. Need to react to an event in under a
+      second and never want to patch &rarr; <strong>Lambda</strong>.
+    </div>
+  </section>
+
+  <!-- ==================== STORAGE ==================== -->
+  <section id="storage">
+    <h2><i class="bi bi-hdd-network me-2"></i>Storage &mdash; S3, EBS and EFS</h2>
+    <p class="text-muted">Three storage services, three completely different jobs. Picking the wrong one is the most common early mistake.</p>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:20%">Service</th><th style="width:34%">What it is</th><th>Reach for it when</th></tr></thead>
+          <tbody>
+            <tr><td>Amazon S3</td><td>Object storage: files (objects) inside buckets, reached over HTTP</td><td>Uploads, backups, static websites, images, logs &mdash; the default answer</td></tr>
+            <tr><td>Amazon EBS</td><td>A block disk you attach to one instance, like an external drive</td><td>The root disk of an EC2 box or a database's data volume</td></tr>
+            <tr><td>Amazon EFS</td><td>A shared network file system, mountable by many machines at once</td><td>Content shared between several servers or containers</td></tr>
+            <tr><td>S3 Glacier</td><td>Deep archive inside S3, retrieval takes minutes to hours</td><td>Compliance archives you expect never to read</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>S3 storage classes: pay less, wait more</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:30%">Class</th><th style="width:30%">Retrieval</th><th>Use for</th></tr></thead>
+          <tbody>
+            <tr><td>Standard</td><td>Instant</td><td>Frequently read data, websites, active uploads</td></tr>
+            <tr><td>Intelligent-Tiering</td><td>Instant</td><td>Unknown or changing access patterns &mdash; AWS moves it for you</td></tr>
+            <tr><td>Standard-IA</td><td>Instant, per-GB fee</td><td>Monthly-not-weekly data: reports, completed exports</td></tr>
+            <tr><td>Glacier Instant Retrieval</td><td>Instant</td><td>Quarterly medical images, long-term media with occasional reads</td></tr>
+            <tr><td>Glacier Flexible</td><td>Minutes to hours</td><td>Backups with a 1&ndash;3 month recovery window</td></tr>
+            <tr><td>Glacier Deep Archive</td><td>Up to 12 hours</td><td>Records kept for 7&ndash;10 years, never touched</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Everyday S3 commands</div>
+      <div class="card-body">
+        <pre><code><span class="cm"># Bucket names are global and permanent - pick something unique</span>
+aws s3 mb s3://my-first-bucket-2026 --region ap-south-1
+
+<span class="cm"># Copy files up and down</span>
+aws s3 cp ./dist/index.html s3://my-first-bucket-2026/index.html
+aws s3 cp s3://my-first-bucket-2026/logo.png ./logo.png
+
+<span class="cm"># The workhorse: mirror a whole folder, only changed files</span>
+aws s3 sync ./dist s3://my-first-bucket-2026 --delete
+
+aws s3 ls s3://my-first-bucket-2026 --recursive --human-readable
+aws s3 rb s3://my-first-bucket-2026 --force   <span class="cm"># delete only when empty</span></code></pre>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Defaults worth turning on:</strong> <em>versioning</em> (recover from a bad upload),
+      <em>block public access</em> (nobody reads your bucket by accident), and
+      <em>server-side encryption</em>. S3 promises "eleven nines" of durability per object &mdash;
+      durability is not permission, and it is certainly not a backup of deleted files without
+      versioning.
+    </div>
+  </section>
+
+  <!-- ==================== DATABASES ==================== -->
+  <section id="database">
+    <h2><i class="bi bi-database me-2"></i>Databases</h2>
+    <p class="text-muted">AWS offers a database for every shape of data. Choose by shape first, brand second.</p>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:26%">Service</th><th style="width:32%">Shape &amp; speed</th><th>Typical job</th></tr></thead>
+          <tbody>
+            <tr><td>Amazon RDS</td><td>Relational (MySQL, PostgreSQL, MariaDB)</td><td>Orders, users, joins &mdash; managed backups, patching, failover</td></tr>
+            <tr><td>Amazon Aurora</td><td>Relational, MySQL/PostgreSQL compatible</td><td>RDS with better performance and up to 15 read replicas</td></tr>
+            <tr><td>Amazon DynamoDB</td><td>Key-value document, single-digit ms at any scale</td><td>Sessions, carts, counters, feature flags &mdash; serverless</td></tr>
+            <tr><td>Amazon ElastiCache</td><td>Redis or Memcached, in memory</td><td>Cache and hot sessions in front of a slower database</td></tr>
+            <tr><td>Amazon Redshift</td><td>Columnar warehouse</td><td>Analytics across billions of rows &mdash; not an app database</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>Multi-AZ vs Read Replicas &mdash; the interview pair</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:26%">Feature</th><th style="width:34%">What it does</th><th>What it does not do</th></tr></thead>
+          <tbody>
+            <tr><td>Multi-AZ</td><td>Synchronous standby in a second AZ; DNS flips to it automatically on failure</td><td>Does not make reads faster &mdash; you never write to it yourself</td></tr>
+            <tr><td>Read replica</td><td>Asynchronous copy you can read from; scale reads, or keep one for reporting</td><td>Does not fail over on its own &mdash; promote it yourself during a disaster</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Working with both from the CLI</div>
+      <div class="card-body">
+        <pre><code><span class="cm"># Relational: your databases, one command away</span>
+aws rds describe-db-instances \
+  --query <span class="str">"DBInstances[].[DBInstanceIdentifier,DBInstanceStatus,DBInstanceClass]"</span> \
+  --output table
+
+<span class="cm"># Serverless key-value: list, then put and read</span>
+aws dynamodb list-tables
+aws dynamodb put-item --table-name orders \
+  --item <span class="str">'{"id": {"S": "o-1001"}, "total": {"N": "42.50"}, "status": {"S": "paid"}}'</span>
+aws dynamodb query --table-name orders \
+  --key-condition-expression <span class="str">"id = :id"</span> --expression-attribute-values <span class="str">'{":id": {"S": "o-1001"}}'</span></code></pre>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Rule of thumb:</strong> data with relationships and transactions &rarr; <strong>RDS or
+      Aurora</strong>. Flat records read and written by primary key &rarr; <strong>DynamoDB</strong>.
+      Same answer repeated thousands of times per second &rarr; put a <strong>ElastiCache</strong>
+      cache in front. Starting with DynamoDB because "serverless" and then needing joins is the
+      most expensive lesson in this table.
+    </div>
+  </section>
+
+  <!-- ==================== NETWORKING ==================== -->
+  <section id="network">
+    <h2><i class="bi bi-diagram-3 me-2"></i>Networking &amp; the VPC</h2>
+    <p class="text-muted">A VPC is your private slice of AWS: your address ranges, your subnets, your firewall rules. Every other service plugs into it.</p>
+
+    <div class="card">
+      <div class="card-header">The layout almost every web app ends up with</div>
+      <div class="card-body">
+        <pre><code>                        internet
+                            |
+                        [ Internet Gateway ]   &lt;- the door in
+                            |
+   ============ VPC 10.0.0.0/16 ====================================
+   |                                                                |
+   |  Public subnet 10.0.1.0/24 (AZ-a)     Public subnet 10.0.2.0/24 (AZ-b)
+   |  +---------------------------+         +---------------------------+
+   |  | ALB  (listens on 443)     |         | ALB  (listens on 443)     |
+   |  +---------------------------+         +---------------------------+
+   |                                                                |
+   |  Private subnet 10.0.11.0/24 (AZ-a)   Private subnet 10.0.12.0/24 (AZ-b)
+   |  +---------------------------+         +---------------------------+
+   |  | app servers / ECS tasks   |         | app servers / ECS tasks   |
+   |  +---------------------------+         +---------------------------+
+   |                 \                         /
+   |                  \--- [ NAT Gateway ] ---/  &lt;- private egress only
+   |                                                                |
+   |  Data subnet 10.0.21.0/24 (AZ-a)      Data subnet 10.0.22.0/24 (AZ-b)
+   |  +---------------------------+         +---------------------------+
+   |  | RDS primary               |------&gt;  | RDS standby (Multi-AZ)    |
+   |  +---------------------------+         +---------------------------+
+   ==================================================================</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Security group vs NACL</div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:24%">Aspect</th><th style="width:38%">Security group</th><th>Network ACL</th></tr></thead>
+          <tbody>
+            <tr><td>Applies to</td><td>Attached to an instance or ENI</td><td>Attached to a subnet</td></tr>
+            <tr><td>Rules</td><td>Allow rules only</td><td>Allow and deny rules, evaluated in order</td></tr>
+            <tr><td>State</td><td>Stateful &mdash; replies always allowed back</td><td>Stateless &mdash; you must open the return path</td></tr>
+            <tr><td>Default</td><td>Deny everything until you add a rule</td><td>Allow all (fresh VPC), edit when paranoid</td></tr>
+            <tr><td>Use for</td><td>"Only my ALB may reach port 8080"</td><td>Broad blocks: a misbehaving IP range</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>The front door services</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:28%">Service</th><th>Does</th></tr></thead>
+          <tbody>
+            <tr><td>Amazon Route 53</td><td>DNS: turns <code>example.com</code> into your load balancer, with health checks and simple, weighted, latency and failover routing</td></tr>
+            <tr><td>Amazon CloudFront</td><td>CDN: caches at edge locations, adds TLS and shields origins &mdash; the free-tier pairing for S3 static sites</td></tr>
+            <tr><td>Application Load Balancer</td><td>Layer 7: routes HTTP by path and host across targets in several AZs</td></tr>
+            <tr><td>Network Load Balancer</td><td>Layer 4: millions of connections, static IPs, microseconds of latency</td></tr>
+            <tr><td>Amazon API Gateway</td><td>An API front door: auth, throttling, stages and usage plans in front of Lambda or HTTP backends</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Small charge, big surprise:</strong> public IPv4 addresses now cost
+      <strong>$0.005 per hour each</strong> &mdash; about $3.60 per month per address. A load
+      balancer, a NAT gateway and four instances can quietly bill you a dozen times over. IPv6
+      inbound traffic is free, and private subnets avoid the fee entirely.
+    </div>
+  </section>
+
+  <!-- ==================== SECURITY ==================== -->
+  <section id="security">
+    <h2><i class="bi bi-shield-lock me-2"></i>Security &amp; IAM</h2>
+    <p class="text-muted">IAM is the front door of your AWS account. Get it right before you launch anything, because every credential you mint can spend your money.</p>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:24%">Concept</th><th style="width:38%">What it is</th><th>Rule</th></tr></thead>
+          <tbody>
+            <tr><td>Root user</td><td>The account owner email + password</td><td>MFA on, no access keys, used twice a year at most</td></tr>
+            <tr><td>IAM user</td><td>A named human with a password or access key</td><td>Never share one; one person, one user</td></tr>
+            <tr><td>IAM role</td><td>A set of permissions something can <em>assume</em> temporarily</td><td>Default choice for apps, services and cross-account work</td></tr>
+            <tr><td>Policy</td><td>JSON document listing actions, resources and effect</td><td>Least privilege: allow exactly what is needed</td></tr>
+            <tr><td>Group</td><td>A bundle of policies applied to many users</td><td><code>developers</code>, <code>admins</code> &mdash; manage once</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">A least-privilege policy, annotated</div>
+      <div class="card-body">
+        <pre><code>{
+  <span class="str">"Version"</span>: <span class="str">"2012-10-17"</span>,
+  <span class="str">"Statement"</span>: [
+    {
+      <span class="str">"Sid"</span>: <span class="str">"AllowListAndReadOnOneBucket"</span>,
+      <span class="str">"Effect"</span>: <span class="str">"Allow"</span>,
+      <span class="str">"Action"</span>: [<span class="str">"s3:GetObject"</span>, <span class="str">"s3:ListBucket"</span>],
+      <span class="str">"Resource"</span>: [
+        <span class="str">"arn:aws:s3:::my-first-bucket-2026"</span>,
+        <span class="str">"arn:aws:s3:::my-first-bucket-2026/*"</span>
+      ]
+    },
+    {
+      <span class="str">"Sid"</span>: <span class="str">"DenyEverythingElseIsImplicit"</span>,
+      <span class="str">"Effect"</span>: <span class="str">"Deny"</span>,
+      <span class="str">"Action"</span>: <span class="str">"s3:DeleteBucket"</span>,
+      <span class="str">"Resource"</span>: <span class="str">"arn:aws:s3:::my-first-bucket-2026"</span>,
+      <span class="str">"Condition"</span>: { <span class="str">"StringNotEquals"</span>: { <span class="str">"aws:PrincipalTag/team"</span>: <span class="str">"platform"</span> } }
+    }
+  ]
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Habits that prevent almost every AWS breach story</div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-6"><strong>1. MFA everywhere</strong> &mdash; root and every IAM user. A stolen password without a second factor is just a typo.</div>
+          <div class="col-md-6"><strong>2. Roles over keys</strong> &mdash; EC2, Lambda and ECS get credentials from an instance or task role. Static access keys in a repo are a classic leak.</div>
+          <div class="col-md-6"><strong>3. No <code>*</code> actions</strong> &mdash; <code>"Action": "*"</code> on <code>"Resource": "*"</code> is an accident waiting for a bad day.</div>
+          <div class="col-md-6"><strong>4. Audit yourself</strong> &mdash; enable CloudTrail (who called what) and IAM Access Analyzer (which policies opened outward).</div>
+          <div class="col-md-6"><strong>5. Encrypt by default</strong> &mdash; S3, EBS and RDS all offer encryption at rest; KMS keys are auditable.</div>
+          <div class="col-md-6"><strong>6. Understand the split</strong> &mdash; AWS secures <em>of</em> the cloud; you secure <em>in</em> it: your keys, your buckets, your patches.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MESSAGING ==================== -->
+  <section id="messaging">
+    <h2><i class="bi bi-arrow-left-right me-2"></i>Messaging &amp; Events</h2>
+    <p class="text-muted">Two services do most of the work: a queue you pull from, and a topic you broadcast to. Once those click, the rest is decoration.</p>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:24%">Service</th><th style="width:34%">Pattern</th><th>Use for</th></tr></thead>
+          <tbody>
+            <tr><td>Amazon SQS</td><td>Queue &mdash; consumers pull messages</td><td>Decoupling: a slow checkout step must not slow the whole request</td></tr>
+            <tr><td>Amazon SNS</td><td>Topic &mdash; one publish, many subscribers</td><td>Fan-out alerts: SMS, email, HTTP and queues at once</td></tr>
+            <tr><td>Amazon EventBridge</td><td>Event bus with filters and schedules</td><td>Cron in the cloud, SaaS integrations, "when X happened" rules</td></tr>
+            <tr><td>AWS Step Functions</td><td>Orchestrated state machine</td><td>Multi-step workflows with retries, branches and a visual history</td></tr>
+            <tr><td>Amazon SES</td><td>Email sending service</td><td>Transactional mail &mdash; free from EC2 within limits</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">The fan-out pattern &mdash; SNS topic feeding SQS queues</div>
+      <div class="card-body">
+        <pre><code>  producer                topic                 queues                  workers
++-----------+      +------------------+   +------------------+   +------------------+
+| order API |--+--&gt;|  orders-created  |--&gt;| email queue      |--&gt;| email worker     |
++-----------+  |   +------------------+   +------------------+   +------------------+
+               |   +------------------+   +------------------+   +------------------+
+               +--&gt;|  search-index    |--&gt;| indexer queue    |--&gt;| OpenSearch job   |
+               |   +------------------+   +------------------+   +------------------+
+               |   +------------------+   +------------------+   +------------------+
+               +--&gt;|  analytics bus   |--&gt;| warehouse queue  |--&gt;| nightly ETL      |
+                   +------------------+   +------------------+   +------------------+
+
+  One write on the API; three consumers, each failing and retrying on its own.</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:34%">SQS detail</th><th>Why it matters</th></tr></thead>
+          <tbody>
+            <tr><td>Visibility timeout</td><td>A message being handled disappears for others, then reappears if the worker dies</td></tr>
+            <tr><td>Dead-letter queue</td><td>Messages that keep failing park here so you can read them instead of losing them</td></tr>
+            <tr><td>FIFO queues</td><td>Exactly-once, ordered delivery &mdash; at the cost of throughput</td></tr>
+            <tr><td>Standard queues</td><td>At-least-once, nearly unlimited throughput &mdash; make consumers idempotent</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Why bother?</strong> Queues turn one fragile request into two survivable ones. When
+      your search index is down, orders still succeed and the indexer catches up later &mdash;
+      that is availability bought with a service that costs $0.40 per million messages.
+    </div>
+  </section>
+
+  <!-- ==================== MONITORING & IaC ==================== -->
+  <section id="ops">
+    <h2><i class="bi bi-graph-up me-2"></i>Monitoring &amp; Infrastructure as Code</h2>
+    <p class="text-muted">Two services answer the questions you will eventually be woken up for: <em>is it broken?</em> and <em>who changed what?</em></p>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:26%">Service</th><th>Answers</th></tr></thead>
+          <tbody>
+            <tr><td>Amazon CloudWatch</td><td>"Is it broken?" Metrics, logs, alarms and dashboards &mdash; CPU, request count, error rate, latency</td></tr>
+            <tr><td>AWS CloudTrail</td><td>"Who did that?" An audit log of every API call in the account, including console clicks</td></tr>
+            <tr><td>AWS Config</td><td>"Is it still compliant?" Tracks resource settings over time and flags drift</td></tr>
+            <tr><td>AWS Trusted Advisor</td><td>"What am I wasting?" Checks for idle resources, open security groups and low coverage</td></tr>
+            <tr><td>Amazon EventBridge</td><td>"Run this on a schedule" &mdash; cron rules that trigger Lambda without a server</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">An alarm you should create today</div>
+      <div class="card-body">
+        <pre><code><span class="cm"># Alarm on 5xx errors from your load balancer, then read it</span>
+aws cloudwatch put-alarm-alarm --alarm-name alb-5xx-high \
+  --metric-name TargetResponseCodeCount --namespace AWS/ApplicationELB \
+  --statistic Sum --period <span class="num">60</span> --threshold <span class="num">5</span> \
+  --comparison-operator GreaterThanThreshold --evaluation-periods <span class="num">1</span> \
+  --alarm-actions arn:aws:sns:ap-south-1:111122223333:ops-topic
+
+aws cloudwatch describe-alarms --state-value ALARM --output table
+aws logs tail /aws/lambda/order-api --follow</code></pre>
+      </div>
+    </div>
+
+    <h3>Build it the same way twice</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:24%">Tool</th><th style="width:36%">Written in</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>AWS CloudFormation</td><td>YAML or JSON templates</td><td>Native, free, stacks with rollback &mdash; verbose but dependable</td></tr>
+            <tr><td>AWS CDK</td><td>TypeScript, Python, Java...</td><td>Real programming that compiles into CloudFormation</td></tr>
+            <tr><td>Terraform</td><td>HCL (HashiCorp)</td><td>Third-party, multi-cloud &mdash; brings its own state file to babysit</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">CloudFormation: an entire bucket as code</div>
+      <div class="card-body">
+        <pre><code><span class="at">AWSTemplateFormatVersion</span>: <span class="str">"2010-09-09"</span>
+<span class="at">Description</span>: <span class="str">My first infrastructure-as-code resource</span>
+
+<span class="at">Resources</span>:
+  <span class="fn">StaticSiteBucket</span>:
+    <span class="at">Type</span>: <span class="tp">AWS::S3::Bucket</span>
+    <span class="at">Properties</span>:
+      <span class="at">BucketName</span>: <span class="str">my-first-bucket-2026</span>
+      <span class="at">PublicAccessBlockConfiguration</span>:
+        <span class="at">BlockPublicAcls</span>: <span class="tp">true</span>
+        <span class="at">BlockPublicPolicy</span>: <span class="tp">true</span>
+
+<span class="at">Outputs</span>:
+  <span class="fn">BucketArn</span>:
+    <span class="at">Value</span>: <span class="fn">!GetAtt</span> StaticSiteBucket.Arn</code></pre>
+        <pre class="mt-3"><code>aws cloudformation deploy \
+  --template-file template.yaml \
+  --stack-name first-stack \
+  --capabilities CAPABILITY_IAM
+
+aws cloudformation delete-stack --stack-name first-stack  <span class="cm"># free again</span></code></pre>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Order of learning:</strong> console first (so you understand what exists), CLI second
+      (so you can repeat it), templates third (so it survives you). Jumping straight to Terraform
+      is learning a language before you know what it is describing.
+    </div>
+  </section>
+
+  <!-- ==================== CLI ==================== -->
+  <section id="cli">
+    <h2><i class="bi bi-terminal me-2"></i>AWS CLI &mdash; the Commands You Actually Type</h2>
+    <p class="text-muted">One binary, every service. Install once, and the console becomes optional.</p>
+
+    <div class="card">
+      <div class="card-header">Setup, once per machine</div>
+      <div class="card-body">
+        <pre><code><span class="cm"># Install (Windows / macOS / Linux)</span>
+winget install AWS.AWSCLI        <span class="cm"># Windows</span>
+brew install awscli              <span class="cm"># macOS</span>
+curl <span class="str">"https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"</span> -o awscliv2.zip
+
+aws --version
+aws configure                    <span class="cm"># access key, secret key, region, output</span>
+
+<span class="cm"># What lands on disk</span>
+<span class="cm"># ~/.aws/credentials  - keys (never commit this file)</span>
+<span class="cm"># ~/.aws/config       - regions, output format, named profiles</span>
+
+aws configure list-profiles
+aws sts get-caller-identity --profile work   <span class="cm"># which identity am I using?</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">The daily twenty</div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:46%">Command</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td>aws sts get-caller-identity</td><td>Who am I, and with which account</td></tr>
+            <tr><td>aws ec2 describe-instances</td><td>List machines with state, type and IP</td></tr>
+            <tr><td>aws ec2 run-instances ...</td><td>Launch a machine</td></tr>
+            <tr><td>aws ec2 stop-instances / terminate-instances</td><td>Pause (still pays for EBS) / delete for good</td></tr>
+            <tr><td>aws s3 ls s3://bucket</td><td>Look inside a bucket</td></tr>
+            <tr><td>aws s3 cp / mv &lt;src&gt; &lt;dst&gt;</td><td>Copy a single object</td></tr>
+            <tr><td>aws s3 sync ./local s3://bucket</td><td>Mirror a folder, skip unchanged files</td></tr>
+            <tr><td>aws s3 rb s3://bucket --force</td><td>Empty and delete a bucket</td></tr>
+            <tr><td>aws lambda list-functions</td><td>All functions with runtime and memory</td></tr>
+            <tr><td>aws lambda invoke --function-name f --payload file://in.json out.json</td><td>Test a function locally</td></tr>
+            <tr><td>aws dynamodb list-tables</td><td>Your tables</td></tr>
+            <tr><td>aws rds describe-db-instances</td><td>Databases with class, engine and status</td></tr>
+            <tr><td>aws iam list-users / list-roles</td><td>Who and what can act in the account</td></tr>
+            <tr><td>aws iam create-policy ...</td><td>Attach a least-privilege policy</td></tr>
+            <tr><td>aws logs tail /aws/lambda/f --follow</td><td>Tail a function's logs like <code>kubectl</code></td></tr>
+            <tr><td>aws cloudwatch describe-alarms</td><td>Alarms currently in ALARM state</td></tr>
+            <tr><td>aws cloudformation describe-stacks</td><td>Stack status and outputs</td></tr>
+            <tr><td>aws cloudformation deploy ...</td><td>Update a stack from a template file</td></tr>
+            <tr><td>aws ec2 describe-vpcs / describe-subnets</td><td>Your network before you deploy into it</td></tr>
+            <tr><td>aws pricing get-products --service-code AmazonEC2</td><td>Raw price data, when the calculator is not enough</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Filter like a pro: <code>--query</code> and <code>--output</code></div>
+      <div class="card-body">
+        <pre><code><span class="cm"># JMESPath: pull exactly the fields you want, as a table</span>
+aws ec2 describe-instances \
+  --filters <span class="str">"Name=tag:Project,Values=shop"</span> \
+  --query <span class="str">"Reservations[].Instances[].[InstanceId,InstanceType,State.Name,PrivateIpAddress]"</span> \
+  --output table
+
+<span class="cm"># JSON for scripts, text for humans, table for scanning</span>
+aws lambda list-functions --query <span class="str">"Functions[].FunctionName"</span> --output text
+aws s3api list-buckets --query <span class="str">"Buckets[].Name"</span> --output json
+
+<span class="cm"># Handy flags everywhere: --region ap-south-1 --profile work --no-cli-pager</span></code></pre>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>One safety habit:</strong> every <code>describe</code>/<code>list</code> command is
+      free and harmless; every <code>create</code>, <code>put</code> and <code>terminate</code>
+      spends money or destroys something. When scripting, run with <code>--dry-run</code> where it
+      exists (EC2 launch does) and always log what you ran.
+    </div>
+  </section>
+
+  <!-- ==================== FIRST PROJECT ==================== -->
+  <section id="firstproject">
+    <h2><i class="bi bi-rocket-takeoff me-2"></i>Your First 24 Hours on AWS</h2>
+    <p class="text-muted">A real sequence, in order. By the end you will have used IAM, S3, CloudFront, Lambda, API Gateway, DynamoDB and CloudWatch &mdash; and spent close to nothing.</p>
+
+    <div class="card">
+      <div class="card-header">Step 1 &mdash; Account and guardrails (20 min)</div>
+      <div class="card-body">
+        <ol class="mb-2">
+          <li>Create the account, confirm the email, add a <strong>credit card</strong>.</li>
+          <li>Enable <strong>MFA</strong> on the root user &mdash; an app on your phone, not SMS.</li>
+          <li>Create the <strong>$5 budget alarm</strong> in the Billing console.</li>
+          <li>Create an IAM user for yourself with a group policy, and leave root alone.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Step 2 &mdash; Static website on S3 + CloudFront (45 min)</div>
+      <div class="card-body">
+        <pre><code>aws s3 mb s3://my-first-bucket-2026 --region ap-south-1
+aws s3 website s3://my-first-bucket-2026 --index-document index.html
+aws s3 cp ./index.html s3://my-first-bucket-2026/index.html
+
+<span class="cm"># Then, in the console: create a CloudFront distribution with that bucket</span>
+<span class="cm"># as origin, and note the domain name it hands you.</span>
+<span class="cm"># https://d111111abcdef8.cloudfront.net is now your live website.</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Step 3 &mdash; A serverless API (90 min)</div>
+      <div class="card-body">
+        <ol class="mb-0">
+          <li>Create a <strong>DynamoDB</strong> table <code>notes</code> with partition key <code>id</code>.</li>
+          <li>Create a <strong>Lambda</strong> function, paste a handler, and give it a role that can write to that one table.</li>
+          <li>Create an <strong>API Gateway</strong> HTTP API with a <code>GET /notes</code> route pointing at the function.</li>
+          <li>Call the URL with curl. When JSON comes back, you just ran a full request through four services.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Step 4 &mdash; See the whole picture</div>
+      <div class="card-body">
+        <pre><code>                      Route 53 (example.com)
+                             |
+                       [ CloudFront ]  &lt;- cache + TLS, at the edge
+                             |
+                    +--------+--------+
+                    |                 |
+              S3 bucket           API Gateway
+              (your HTML)        (GET /notes)
+                                     |
+                                  Lambda
+                                     |
+                                  DynamoDB
+                                  (notes table)
+
+  CloudWatch watches all of it. EventBridge can wake Lambda on a schedule.</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Step 5 &mdash; Tear it down (15 min, do not skip)</div>
+      <div class="card-body">
+        <pre><code><span class="cm"># Delete in reverse order of creation</span>
+aws cloudfront disable-distribution --id E1EXAMPLE   <span class="cm"># must disable before delete</span>
+aws lambda delete-function --function-name notes-api
+aws apigatewayv2 delete-api --api-id abc123
+aws dynamodb delete-table --table-name notes
+aws s3 rb s3://my-first-bucket-2026 --force
+aws ec2 terminate-instances --instance-ids i-0123456789abcdef0   <span class="cm"># if you launched one</span>
+
+<span class="cm"># Final check: nothing left running, bill back to ~zero</span>
+aws ec2 describe-instances --filters <span class="str">"Name=instance-state-name,Values=running"</span> --output table</code></pre>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Expected cost for this project:</strong> well under a dollar. CloudFront, Lambda, API
+      Gateway and DynamoDB all sit inside free allowances, and the S3 bucket holds a few kilobytes.
+      The bill arrives only from things you forget to delete &mdash; which is why step 5 is part of
+      the project, not cleanup after it.
+    </div>
+  </section>
+
+  <!-- ==================== INTERVIEW ==================== -->
+  <section id="interview">
+    <h2><i class="bi bi-patch-check me-2"></i>Interview Q&amp;A</h2>
+    <p class="text-muted">The questions that come up again and again, answered the way a candidate should say them aloud.</p>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-question-circle me-1"></i>What is the difference between a Region and an Availability Zone?</div>
+      <div class="card-body">A <strong>Region</strong> is a geographic area (for example <code>ap-south-1</code>, Mumbai) and everything in it stays inside it. An <strong>AZ</strong> is one or more data centres inside that region with independent power and cooling &mdash; <code>ap-south-1a</code>. Each region has at least three AZs, connected by low-latency fibre, so I spread the app across two or more of them to survive losing one.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-question-circle me-1"></i>S3, EBS or EFS &mdash; which do you choose?</div>
+      <div class="card-body"><strong>S3</strong> for objects over HTTP: uploads, backups, static assets. <strong>EBS</strong> for a disk attached to one instance, like a root volume or a database volume. <strong>EFS</strong> when several machines must mount the same files. I pick S3 unless something specifically needs a block device or a POSIX file system.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-question-circle me-1"></i>Security group vs NACL?</div>
+      <div class="card-body">A <strong>security group</strong> is attached to an instance, stateful, allow-only, and it lets replies back automatically. A <strong>NACL</strong> is attached to a subnet, stateless, and can deny traffic explicitly &mdash; you must allow the return path yourself. In practice I set a tight security group and leave the NACL at its defaults unless I need to block a range.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-question-circle me-1"></i>When would you use an IAM role instead of an access key?</div>
+      <div class="card-body">Always, when something runs on AWS. An EC2 instance, Lambda function or ECS task assumes a <strong>role</strong> automatically &mdash; no keys on disk, no rotation, no leak through a repository. Static <strong>access keys</strong> are for humans and CI outside AWS, and even then I scope them to a policy and rotate them.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-question-circle me-1"></i>EC2 or Lambda?</div>
+      <div class="card-body">EC2 when I need long-running processes, SSH, GPUs, special runtimes or anything past 15 minutes. Lambda when work is event-driven, bursty or idle most of the day &mdash; it scales per request and costs a fraction of a cent per call. Many real systems use both: Lambda for webhooks, a small ECS or EC2 fleet for the heavy lifting.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-question-circle me-1"></i>Multi-AZ or read replica &mdash; what is each for?</div>
+      <div class="card-body"><strong>Multi-AZ</strong> is for availability: a synchronous standby in another AZ that DNS fails over to automatically. <strong>Read replicas</strong> are for scale: asynchronous copies that serve reads, or that you promote manually in a disaster. A production database usually wants Multi-AZ plus one or two replicas.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-question-circle me-1"></i>SQS, SNS or EventBridge?</div>
+      <div class="card-body"><strong>SQS</strong> is a queue one consumer pulls from &mdash; ideal for decoupling a slow step. <strong>SNS</strong> is a topic that pushes one message to many subscribers &mdash; alerts and fan-out. <strong>EventBridge</strong> is an event bus with filtering and schedules, connecting AWS services, SaaS vendors and cron rules. My common pattern is SNS fan-out into per-consumer SQS queues.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-question-circle me-1"></i>How do you make an application highly available?</div>
+      <div class="card-body">Put the stateless part &mdash; web and app tier &mdash; in private subnets across <strong>two or more AZs</strong> behind an <strong>Application Load Balancer</strong> with health checks. Put the database in <strong>Multi-AZ</strong> with backups and a defined RPO/RTO. Cache at the edge with CloudFront, make every consumer idempotent, and test a failure deliberately rather than waiting for one.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-question-circle me-1"></i>What is the shared responsibility model?</div>
+      <div class="card-body">AWS is responsible for <strong>security <em>of</em> the cloud</strong>: the buildings, hardware, hypervisor and managed service internals. I am responsible for <strong>security <em>in</em> the cloud</strong>: my IAM policies, my data, my OS patches on EC2, my encryption settings and my network rules. Misunderstanding that split is behind most real incidents.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-question-circle me-1"></i>How would you cut an AWS bill in half?</div>
+      <div class="card-body">First, delete: idle instances, unattached volumes, old snapshots, forgotten load balancers. Second, right-size from CloudWatch data instead of guessing. Third, commit on stable workloads with <strong>Savings Plans</strong>, and move fault-tolerant batch work to <strong>Spot</strong>. Fourth, move cacheable traffic to <strong>CloudFront</strong> to cut data-transfer fees. Then set a budget alarm so it never creeps back.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-question-circle me-1"></i>What is the Well-Architected Framework?</div>
+      <div class="card-body">AWS's checklist of six pillars: <strong>operational excellence, security, reliability, performance efficiency, cost optimization</strong> and <strong>sustainability</strong>. I use it as a review lens before launch: is this observable, least-privilege, recoverable, right-sized, affordable and not wasting energy?</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="bi bi-question-circle me-1"></i>Your S3 bucket holds backups. Is that a disaster-recovery plan?</div>
+      <div class="card-body">No. A single bucket in one region is a copy, not a plan. I would enable <strong>versioning</strong>, add <strong>cross-region replication</strong> to a second account, and define an RPO and RTO in writing. Then I restore from the replica once, on purpose, to prove it works.</div>
+    </div>
+  </section>
+
+  <!-- ==================== CHEAT SHEET ==================== -->
+  <section id="cheatsheet">
+    <h2><i class="bi bi-lightbulb me-2"></i>Cheat Sheet &mdash; "I want to..."</h2>
+    <p class="text-muted">The whole guide compressed into one table. Print it, or keep it in the next tab while you build.</p>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead class="table-light"><tr><th style="width:44%">I want to...</th><th>Reach for</th></tr></thead>
+          <tbody>
+            <tr><td>host a static website cheaply</td><td>S3 + CloudFront (+ Route 53 for the domain)</td></tr>
+            <tr><td>run a full server</td><td>EC2 <code>t3.micro</code>, or Lightsail for a flat price</td></tr>
+            <tr><td>run code on a schedule</td><td>EventBridge Scheduler &rarr; Lambda</td></tr>
+            <tr><td>an API with no servers</td><td>API Gateway &rarr; Lambda &rarr; DynamoDB</td></tr>
+            <tr><td>a real relational database</td><td>RDS (Aurora when you outgrow it)</td></tr>
+            <tr><td>millions of reads on single keys</td><td>DynamoDB</td></tr>
+            <tr><td>slow down a burst of work</td><td>SQS queue (SNS for fan-out)</td></tr>
+            <tr><td>send transactional email</td><td>Amazon SES</td></tr>
+            <tr><td>sign users into my app</td><td>Amazon Cognito</td></tr>
+            <tr><td>store secrets safely</td><td>Secrets Manager or SSM Parameter Store &mdash; never in code</td></tr>
+            <tr><td>custom domain + DNS</td><td>Route 53</td></tr>
+            <tr><td>know when something breaks</td><td>CloudWatch alarms &rarr; SNS</td></tr>
+            <tr><td>know who changed what</td><td>CloudTrail + AWS Config</td></tr>
+            <tr><td>define infrastructure repeatably</td><td>CloudFormation or CDK</td></tr>
+            <tr><td>ship containers without servers</td><td>ECS on Fargate (+ ECR for images)</td></tr>
+            <tr><td>keep my bill predictable</td><td>Budgets alert, Cost Explorer, right-sizing, Savings Plans</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Say it out loud once and it sticks:</strong> <code>S3</code> stores, <code>EC2</code>
+      computes, <code>RDS</code> remembers relationally, <code>DynamoDB</code> remembers fast,
+      <code>SQS</code> waits, <code>SNS</code> tells everyone, <code>EventBridge</code> reacts,
+      <code>CloudFront</code> delivers closer, <code>VPC</code> fences, <code>IAM</code> decides who
+      may, and <code>CloudWatch</code> tells you when you were wrong.
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="mt-5 pt-4 border-top text-muted">
+    <div class="row">
+      <div class="col-md-6">
+        <p class="fw-bold mb-2">Amazon Web Services &mdash; Core Guide</p>
+        <p class="small">Written for study. Numbers verified against AWS pages in October 2026 &mdash; regions, free-tier allowances and prices change, so check the source before you rely on them.</p>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <p class="small mb-1">
+          <a href="https://aws.amazon.com/free/" target="_blank" rel="noopener" class="text-decoration-none"><i class="bi bi-gift me-1"></i> Free Tier</a>
+          &middot;
+          <a href="https://docs.aws.amazon.com/" target="_blank" rel="noopener" class="text-decoration-none"><i class="bi bi-journal-text me-1"></i> Documentation</a>
+          &middot;
+          <a href="https://calculator.aws" target="_blank" rel="noopener" class="text-decoration-none"><i class="bi bi-calculator me-1"></i> Pricing Calculator</a>
+          &middot;
+          <a href="https://aws.amazon.com/architecture/well-architected/" target="_blank" rel="noopener" class="text-decoration-none"><i class="bi bi-rulers me-1"></i> Well-Architected</a>
+        </p>
+        <p class="small mb-0">Amazon Web Services &copy; Amazon.com, Inc. &mdash; this page is an independent study guide.</p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script src="../lib/bootstrap/bootstrap.bundle.min.js"></script>
+<script>
+  document.getElementById('sidebarToggle')?.addEventListener('click', function () {
+    document.getElementById('sidebar').classList.toggle('show');
+  });
+  document.querySelectorAll('#sidebar .nav-link').forEach(function (link) {
+    link.addEventListener('click', function () {
+      document.getElementById('sidebar').classList.remove('show');
+    });
+  });
+</script>
+</body>
+</html>

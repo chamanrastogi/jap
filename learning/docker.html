@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+    body {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(100, 116, 139, 0.35) transparent;
+    }
+    body::-webkit-scrollbar { width: 8px; }
+    body::-webkit-scrollbar-track { background: transparent; }
+    body::-webkit-scrollbar-thumb {
+      background: rgba(100, 116, 139, 0.35);
+      border-radius: 999px;
+    }
+    body::-webkit-scrollbar-thumb:hover { background: rgba(100, 116, 139, 0.55); }
+    #sidebar, .sidebar {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+    }
+    #sidebar::-webkit-scrollbar, .sidebar::-webkit-scrollbar { width: 5px; }
+    #sidebar::-webkit-scrollbar-track, .sidebar::-webkit-scrollbar-track { background: transparent; }
+    #sidebar::-webkit-scrollbar-thumb, .sidebar::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+    }
+    #sidebar::-webkit-scrollbar-thumb:hover, .sidebar::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.32);
+    }
+</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Docker for developers: images, containers, Dockerfiles, layers, multi-stage builds, Compose, volumes, networking and production hardening, with runnable commands." />
+  <title>Docker &mdash; Containers, Images &amp; Compose: A Working Guide</title>
+  <link href="../lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --docker-blue: #2496ed;
+      --docker-deep: #0b214a;
+      --sidebar-width: 280px;
+    }
+    * { scroll-margin-top: 1rem; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f6f7f9;
+      display: flex;
+    }
+    #sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0; left: 0;
+      background: var(--docker-deep);
+      overflow-y: auto;
+      z-index: 1000;
+      transition: transform .3s;
+    }
+    #sidebar .brand {
+      padding: 1.25rem 1.25rem .85rem;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+    #sidebar .brand svg { flex-shrink: 0; }
+    #sidebar .brand h5 { color: #fff; font-weight: 700; margin: 0; letter-spacing: .01em; }
+    #sidebar .brand small { color: #98a8c8; font-size: .7rem; }
+    #sidebar .nav-link {
+      color: #c2cde4;
+      padding: .5rem 1.25rem;
+      font-size: .88rem;
+      border-left: 3px solid transparent;
+      transition: all .15s;
+    }
+    #sidebar .nav-link:hover {
+      color: #fff;
+      background: rgba(255,255,255,.06);
+    }
+    #sidebar .nav-link.active {
+      color: #fff;
+      border-left-color: var(--docker-blue);
+      background: linear-gradient(90deg, rgba(36,150,237,.20), rgba(36,150,237,.04));
+    }
+    #sidebar .nav-link i { width: 1.3rem; color: #7cc0f7; }
+    #sidebar .nav-section {
+      color: #7b8aa8;
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      padding: 1rem 1.25rem .3rem;
+      font-weight: 700;
+    }
+    .sidebar-toggle {
+      position: fixed;
+      top: .75rem; left: .75rem;
+      z-index: 1050;
+      background: var(--docker-deep);
+      color: #fff;
+      border: none;
+      border-radius: .4rem;
+      padding: .4rem .65rem;
+      display: none;
+    }
+    @media (max-width: 991.98px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.show { transform: translateX(0); }
+      #main { margin-left: 0 !important; padding: 1.5rem !important; }
+      .sidebar-toggle { display: block; }
+    }
+
+    /* ---------- Main ---------- */
+    #main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 2rem 2.5rem 4rem;
+      max-width: 1120px;
+    }
+    h2 {
+      font-weight: 700;
+      color: var(--docker-deep);
+      margin-top: 2.5rem;
+      padding-bottom: .5rem;
+      border-bottom: none;
+      position: relative;
+    }
+    h2::after {
+      content: "";
+      position: absolute;
+      left: 0; bottom: 0;
+      width: 58px; height: 3px;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--docker-blue), #1d63ed);
+    }
+    h3 {
+      font-weight: 600;
+      color: #2b3446;
+      margin-top: 1.8rem;
+    }
+    h3 i { color: var(--docker-blue); }
+    .card {
+      border: none;
+      border-radius: .75rem;
+      box-shadow: 0 2px 10px rgba(20, 26, 40, .07);
+      margin-bottom: 1.5rem;
+    }
+    .card-header {
+      background: #fff;
+      border-bottom: 1px solid #e9ecef;
+      font-weight: 600;
+      font-size: .88rem;
+      padding: .9rem 1.25rem;
+    }
+    .card-body { padding: 1.4rem 1.5rem; }
+    pre {
+      background: #0e1a2b;
+      color: #e6e9f2;
+      padding: 1rem 1.25rem;
+      border-radius: .55rem;
+      font-size: .82rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      position: relative;
+      border: 1px solid rgba(255,255,255,.06);
+    }
+    pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
+    .kw { color: #c792ea; }
+    .fn { color: #82aaff; }
+    .str { color: #c3e88d; }
+    .cm { color: #6c7693; font-style: italic; }
+    .num { color: #ffb86c; }
+    .tp { color: #ffcb6b; }
+    .at { color: #f07178; }
+    .cmd-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+      color: #0b5fb3;
+    }
+    .highlight-box {
+      background: #eef7ff;
+      border-left: 4px solid var(--docker-blue);
+      padding: 1rem 1.25rem;
+      border-radius: .4rem;
+      margin: 1rem 0;
+    }
+    .new-badge {
+      background: #0f9d58;
+      color: #fff;
+      font-size: .65rem;
+      font-weight: 600;
+      padding: .15rem .5rem;
+      border-radius: 1rem;
+      vertical-align: middle;
+    }
+    .svc-chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem;
+      font-weight: 600;
+      background: rgba(36,150,237,.14);
+      color: #0b5fb3;
+      border: 1px solid rgba(36,150,237,.32);
+      padding: .1rem .45rem;
+      border-radius: .35rem;
+      white-space: nowrap;
+    }
+
+    /* ---------- Signature: image layer stack ---------- */
+    .layer-stack {
+      background: #fff;
+      border: 1px solid #e3e8ef;
+      border-radius: .9rem;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 10px 28px rgba(20, 26, 40, .07);
+    }
+    .layer-stack .stack-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .66rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #7c8798;
+      margin-bottom: .8rem;
+    }
+    .layer-stack .lyr {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      padding: .55rem .8rem;
+      border-radius: .5rem;
+      border: 1px solid rgba(36,150,237,.22);
+      background: linear-gradient(90deg, rgba(36,150,237,.10), rgba(36,150,237,.02));
+      margin-bottom: .4rem;
+    }
+    .layer-stack .lyr b {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem;
+      background: var(--docker-blue);
+      color: #fff;
+      border-radius: .3rem;
+      padding: .12rem .4rem;
+      min-width: 3.2rem;
+      text-align: center;
+    }
+    .layer-stack .lyr code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .76rem;
+      color: #0b214a;
+      background: none;
+      padding: 0;
+    }
+    .layer-stack .lyr span { font-size: .74rem; color: #6b7484; margin-left: auto; text-align: right; }
+    .layer-stack .lyr.base { border-color: rgba(15,157,88,.3); background: linear-gradient(90deg, rgba(15,157,88,.1), rgba(15,157,88,.02)); }
+    .layer-stack .lyr.base b { background: #0f9d58; }
+    .layer-stack .lyr.top { border-style: dashed; background: rgba(36,150,237,.04); }
+    .layer-stack .lyr.top b { background: #6b7484; }
+    .layer-stack .stack-note { font-size: .74rem; color: #6b7484; margin: .55rem 0 0; }
+
+    .stat-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .7rem;
+      margin-top: 1.1rem;
+    }
+    .stat-strip .st {
+      flex: 1 1 150px;
+      background: #f7fafd;
+      border: 1px solid #e3e8ef;
+      border-radius: .55rem;
+      padding: .7rem .8rem;
+    }
+    .stat-strip .st b {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.3rem;
+      color: #0b214a;
+      line-height: 1.2;
+    }
+    .stat-strip .st span {
+      font-size: .68rem;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: #8a93a3;
+    }
+
+    /* ---------- Home link ---------- */
+    .home-link {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 1100;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.94);
+      color: #101828;
+      text-decoration: none;
+      font-size: .78rem;
+      font-weight: 700;
+      box-shadow: 0 10px 28px rgba(0,0,0,.08);
+      border: 1px solid rgba(226,232,240,.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: .2s;
+    }
+    .home-link:hover { color: #0b5fb3; }
+    @media (min-width: 992px) { .home-link { left: calc(var(--sidebar-width) + 14px); } }
+    @media (max-width: 991.98px) { .home-link { left: 4rem; } }
+    @media (max-width: 767.98px) {
+      #main { padding: 1.25rem 1rem 3rem; }
+      .home-link { left: 3.5rem; font-size: .72rem; padding: 6px 10px; }
+      .sidebar-toggle { top: .6rem; left: .6rem; }
+    }
+    @media (max-width: 575.98px) {
+      #main { padding: 1rem .75rem 2.5rem; }
+      .home-link { left: 3rem; font-size: .68rem; padding: 5px 8px; }
+    }
+  </style>
+  <link rel="stylesheet" href="../assets/vendor/fonts/fonts.css">
+<style>
+/* ===== Jap Hub design system - graphql pattern (injected layer) ===== */
+:root {
+  --acc: #2496ed;
+  --acc2: #1d63ed;
+  --acc-soft: color-mix(in srgb, var(--acc) 32%, #ffffff);
+  --ink-deep: #0b214a;
+  --ink-2: #071733;
+  --ink: var(--ink-deep);
+  --bg: color-mix(in srgb, var(--acc) 5%, #f6f7f9);
+  --surface: #ffffff;
+  --surface-soft: rgba(255,255,255,.72);
+  --muted: color-mix(in srgb, var(--acc) 24%, #64698a);
+  --border: color-mix(in srgb, var(--acc) 16%, #e6e2f0);
+  --code: #0e1a2b;
+  --code-text: #e7e4f6;
+  --good: #0f9d58;
+}
+[data-bs-theme="dark"] {
+  --ink: #eef0fb;
+  --bg: color-mix(in srgb, var(--acc) 8%, #0e1120);
+  --surface: #161a2e;
+  --muted: #9aa2bb;
+  --border: color-mix(in srgb, var(--acc) 24%, #262b3f);
+  --code: #0a0d1e;
+  --code-text: #dcd8ef;
+}
+::selection { background: var(--acc); color: #fff; }
+body {
+  font-family: 'Space Grotesk', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background:
+    radial-gradient(52rem 30rem at 110% -6%, color-mix(in srgb, var(--acc) 11%, transparent), transparent 60%),
+    radial-gradient(40rem 28rem at -10% 8%, color-mix(in srgb, var(--acc2) 9%, transparent), transparent 55%),
+    var(--bg);
+  color: var(--ink);
+  display: flex;
+}
+h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', 'Segoe UI', sans-serif; }
+#sidebar {
+  background:
+    radial-gradient(120% 90% at 100% 0%, color-mix(in srgb, var(--acc2) 30%, transparent), transparent 55%),
+    linear-gradient(180deg, var(--ink-deep) 0%, var(--ink-2) 100%);
+}
+#sidebar .brand h5 { color: #fff; letter-spacing: .01em; }
+#sidebar .brand small { color: #a9b6d0; font-size: .7rem; }
+#sidebar .nav-link { color: #c6d3ea; font-family: 'Space Grotesk', sans-serif; }
+#sidebar .nav-link:hover { color: #fff; background: rgba(255,255,255,.06); }
+#sidebar .nav-link i { color: color-mix(in srgb, var(--acc-soft) 62%, #ffffff); }
+#sidebar .nav-link.active {
+  color: #fff;
+  border-left-color: var(--acc);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--acc) 22%, transparent), transparent);
+}
+#sidebar .nav-section { color: #8d9ab8; }
+.sidebar-toggle { background: var(--ink-deep); color: #fff; }
+#main { width: 100%; padding: 2rem 2.5rem 4rem; max-width: 1120px; min-width: 0; }
+h2 {
+  color: var(--ink);
+  font-weight: 700;
+  margin-top: 2.2rem;
+  padding-bottom: .55rem;
+  border-bottom: none;
+  position: relative;
+}
+h2 i { color: var(--acc); }
+h2::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 58px; height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--acc), var(--acc2));
+}
+h3 { color: var(--ink); font-weight: 600; }
+h3 i { color: var(--acc); }
+h4 { color: var(--ink); }
+.card {
+  border: 1px solid var(--border);
+  border-radius: .8rem;
+  background: var(--surface);
+  box-shadow: 0 4px 16px rgba(15, 18, 38, .05);
+}
+.card-header {
+  background: color-mix(in srgb, var(--acc) 6%, var(--surface));
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+  font-size: .84rem;
+  color: var(--ink);
+  padding: .75rem 1.1rem;
+}
+.card-body { padding: 1.25rem 1.35rem; }
+pre {
+  background: var(--code);
+  color: var(--code-text);
+  padding: 1.05rem 1.2rem;
+  border-radius: .6rem;
+  font-size: .82rem;
+  line-height: 1.6;
+  border: 1px solid rgba(255,255,255,.05);
+  overflow-x: auto;
+}
+pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', ui-monospace, monospace; }
+code {
+  font-family: 'JetBrains Mono', 'Cascadia Code', ui-monospace, monospace;
+  font-size: .85em;
+  background: color-mix(in srgb, var(--acc) 10%, transparent);
+  color: var(--acc);
+  padding: .1em .35em;
+  border-radius: .35em;
+}
+pre code { background: transparent; color: inherit; padding: 0; border-radius: 0; }
+.kw { color: #c792ea; }
+.fn { color: #7ee0c3; }
+.str { color: #c3e88d; }
+.cm { color: #6c7693; font-style: italic; }
+.num { color: #ffb86c; }
+.tp { color: #82aaff; }
+.at { color: #f07178; }
+.highlight-box {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--acc2) 8%, transparent), color-mix(in srgb, var(--acc) 5%, transparent));
+  border-left: 4px solid var(--acc);
+  padding: 1rem 1.25rem;
+  border-radius: .45rem;
+  color: var(--ink);
+}
+.table thead th {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--muted);
+  background: color-mix(in srgb, var(--acc) 6%, var(--surface));
+  border-bottom: 2px solid var(--border);
+}
+.cmd-table td:first-child { color: var(--acc); }
+.new-badge {
+  background: linear-gradient(135deg, var(--acc), var(--acc2));
+  color: #fff;
+}
+#main a { color: var(--acc); }
+#main a:hover { color: var(--acc2); }
+.home-link:hover { color: var(--acc); }
+:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; border-radius: 6px; }
+
+/* hero band (legacy doc template) */
+#main > div:first-child.d-flex {
+  background:
+    radial-gradient(120% 150% at 100% 0%, color-mix(in srgb, var(--acc2) 30%, transparent), transparent 55%),
+    radial-gradient(100% 140% at 0% 100%, color-mix(in srgb, var(--acc) 24%, transparent), transparent 50%),
+    linear-gradient(135deg, var(--ink-deep) 0%, var(--ink-2) 100%);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 20px;
+  padding: 2.2rem 1.9rem 1.7rem;
+  margin-bottom: 1.5rem;
+  color: #fff;
+  box-shadow: 0 24px 50px rgba(10, 12, 30, .18);
+}
+#main > div:first-child.d-flex h1 {
+  color: #fff !important;
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  margin-bottom: .55rem;
+}
+#main > div:first-child.d-flex h1 i { color: var(--acc-soft) !important; }
+#main > div:first-child.d-flex p {
+  color: rgba(255, 255, 255, .74) !important;
+  font-size: 1rem;
+}
+#main > div:first-child.d-flex .badge {
+  border-radius: 999px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .64rem;
+  font-weight: 600;
+  letter-spacing: .03em;
+}
+#main > div:first-child.d-flex .badge.bg-secondary { background: rgba(255,255,255,.14) !important; color: #fff; }
+#main > div:first-child.d-flex .badge.bg-success { background: var(--good) !important; }
+#main > div:first-child.d-flex .badge.bg-warning { background: #f7a54c !important; color: #241810 !important; }
+
+/* intro lead */
+#main > p.fs-5 {
+  color: var(--muted) !important;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  max-width: 52rem;
+}
+@media (max-width: 768px) {
+  /* stack instead of flex so wide tables/code cannot stretch the page */
+  body { display: block; }
+  #main { width: 100%; max-width: none; padding: 1.5rem 1.15rem 3rem; }
+  #main > div:first-child.d-flex { padding: 1.6rem 1.3rem 1.4rem; }
+}
+</style></head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
+<a href="../index.html" class="home-link" aria-label="Go back to home page"><i class="bi bi-arrow-left"></i> Home</a>
+
+<!-- ===== SIDEBAR ===== -->
+<nav id="sidebar">
+  <div class="brand">
+    <h5><i class="bi bi-box-seam me-2" style="color:var(--docker-blue)"></i>Docker</h5>
+    <small class="d-block mt-1">Containers &middot; Working Guide</small>
+  </div>
+  <div class="py-2">
+    <div class="nav-section">Start here</div>
+    <a class="nav-link" href="#start"><i class="bi bi-question-circle"></i> What Docker Is</a>
+    <a class="nav-link" href="#install"><i class="bi bi-download"></i> Install &amp; First Run</a>
+    <a class="nav-link" href="#images"><i class="bi bi-collection"></i> Images &amp; Containers</a>
+
+    <div class="nav-section">Build</div>
+    <a class="nav-link" href="#dockerfile"><i class="bi bi-file-earmark-code"></i> The Dockerfile</a>
+    <a class="nav-link" href="#layers"><i class="bi bi-stack"></i> Layers &amp; Cache</a>
+    <a class="nav-link" href="#multistage"><i class="bi bi-layers-half"></i> Multi-Stage Builds</a>
+    <a class="nav-link" href="#ignore"><i class="bi bi-funnel"></i> .dockerignore</a>
+
+    <div class="nav-section">Run</div>
+    <a class="nav-link" href="#compose"><i class="bi bi-diagram-2"></i> Docker Compose</a>
+    <a class="nav-link" href="#volumes"><i class="bi bi-hdd"></i> Volumes &amp; Ports</a>
+    <a class="nav-link" href="#networks"><i class="bi bi-share"></i> Networks</a>
+    <a class="nav-link" href="#env"><i class="bi bi-key"></i> Config &amp; Secrets</a>
+
+    <div class="nav-section">Ship</div>
+    <a class="nav-link" href="#registry"><i class="bi bi-cloud-upload"></i> Registries &amp; Tags</a>
+    <a class="nav-link" href="#prod"><i class="bi bi-shield-check"></i> Production Checklist</a>
+    <a class="nav-link" href="#debug"><i class="bi bi-bug"></i> Debugging</a>
+
+    <div class="nav-section">Get hired</div>
+    <a class="nav-link" href="#interview"><i class="bi bi-patch-question"></i> Interview Q&amp;A</a>
+    <a class="nav-link" href="#cheatsheet"><i class="bi bi-lightning"></i> Cheat Sheet</a>
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<div id="main">
+
+  <!-- HERO -->
+  <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+    <div>
+      <h1 class="fw-bold mb-1">
+        <i class="bi bi-box-seam"></i>
+        Docker
+      </h1>
+      <p class="text-muted mb-0 fs-5">
+        One image, the same app everywhere
+        <span class="badge bg-warning text-dark ms-2">Containers</span>
+        <span class="badge bg-secondary ms-1">since 2013 &middot; OCI standard</span>
+        <span class="badge bg-success ms-1">Compose v2 &middot; BuildKit</span>
+      </p>
+    </div>
+  </div>
+
+  <p class="fs-5 text-muted mb-5">
+    Docker packages your app and everything it needs &mdash; the right PHP, the right Node,
+    the right extensions &mdash; into an <strong>image</strong>, then runs that image as an isolated
+    <strong>container</strong>. "Works on my machine" stops being a sentence. This guide goes from
+    your first <code>docker run</code> to a hardened, multi-stage build you would actually deploy,
+    with the commands and the failure modes written next to each other.
+  </p>
+
+  <!-- ==================== WHAT DOCKER IS ==================== -->
+  <section id="start">
+    <h2><i class="bi bi-question-circle me-2"></i>What Docker Actually Is</h2>
+    <p class="text-muted">Three words get mixed up constantly: image, container, and volume. Learn them once and the rest of Docker is just flags.</p>
+
+    <div class="card">
+      <div class="card-header">The three nouns</div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead><tr><th style="width:18%">Noun</th><th style="width:38%">What it is</th><th>Analogy</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Image</strong></td><td>A read-only template: filesystem layers plus a start command</td><td>A class, or a <code>.zip</code> of a whole machine</td></tr>
+            <tr><td><strong>Container</strong></td><td>A running (or stopped) instance of an image, with its own writable layer</td><td>An object created from that class</td></tr>
+            <tr><td><strong>Volume</strong></td><td>Storage that lives outside the container's life</td><td>A USB stick you plug into it</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="layer-stack">
+      <div class="stack-title">an image, top to bottom</div>
+      <div class="lyr top"><b>RUN</b><code>CMD ["php-fpm"]</code><span>start command &mdash; not stored files</span></div>
+      <div class="lyr"><b>COPY</b><code>COPY . /var/www/html</code><span>your application code</span></div>
+      <div class="lyr"><b>COPY</b><code>COPY --from=vendor /app/vendor ./vendor</code><span>built dependencies</span></div>
+      <div class="lyr"><b>RUN</b><code>RUN docker-php-ext-install pdo_mysql</code><span>installed extensions</span></div>
+      <div class="lyr base"><b>FROM</b><code>FROM php:8.4-fpm-alpine</code><span>base image &mdash; shared, cached</span></div>
+      <p class="stack-note">Each instruction adds one layer. Docker caches every layer and reuses it until the instruction or its inputs change.</p>
+    </div>
+
+    <h3>Container vs. virtual machine</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead><tr><th style="width:26%">Aspect</th><th style="width:37%">Virtual machine</th><th>Container</th></tr></thead>
+          <tbody>
+            <tr><td>Kernel</td><td>A full guest OS per VM</td><td>Shares the host kernel</td></tr>
+            <tr><td>Size</td><td>Gigabytes</td><td>Megabytes to a few hundred MB</td></tr>
+            <tr><td>Boot time</td><td>30&ndash;90 seconds</td><td>Under a second</td></tr>
+            <tr><td>Isolation</td><td>Strong (hardware level)</td><td>Good (namespaces + cgroups)</td></tr>
+            <tr><td>Density</td><td>Dozens per host</td><td>Hundreds per host</td></tr>
+            <tr><td>Best for</td><td>Different OSes, hard multi-tenant boundaries</td><td>Shipping one app reproducibly</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>The mental model that fixes 80% of confusion:</strong> a container is not a small computer.
+      It is <em>one process</em> (plus its children) that the kernel has lied to about being alone.
+      If that process exits, the container is dead &mdash; even if the machine is fine.
+    </div>
+
+    <div class="stat-strip">
+      <div class="st"><b>1</b><span>main process per container</span></div>
+      <div class="st"><b>~0.2s</b><span>typical start time</span></div>
+      <div class="st"><b>OCI</b><span>image + runtime standard</span></div>
+    </div>
+  </section>
+
+  <!-- ==================== INSTALL ==================== -->
+  <section id="install">
+    <h2><i class="bi bi-download me-2"></i>Install &amp; First Run</h2>
+    <p class="text-muted">Docker Desktop on Windows and macOS bundles the engine, Compose and a small Linux VM. On a Linux server you install the engine directly.</p>
+
+    <div class="card">
+      <div class="card-header">Verify the install</div>
+      <div class="card-body">
+<pre><code><span class="cm"># client + server versions</span>
+docker version
+
+<span class="cm"># engine details, storage driver, resources</span>
+docker info
+
+<span class="cm"># the smallest possible smoke test</span>
+docker run --rm hello-world
+
+<span class="cm"># Compose is a plugin now: "docker compose", not "docker-compose"</span>
+docker compose version</code></pre>
+      </div>
+    </div>
+
+    <h3>Run something real in one line</h3>
+<pre><code><span class="cm"># nginx on http://localhost:8080, deleted when stopped</span>
+docker run --rm -d --name web -p 8080:80 nginx:1.27-alpine
+
+<span class="cm"># look inside it (a shell in a container)</span>
+docker exec -it web sh
+
+<span class="cm"># follow its logs, then stop it</span>
+docker logs -f web
+docker stop web</code></pre>
+
+    <div class="card">
+      <div class="card-header">Lifecycle commands you will type every day</div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead><tr><th style="width:38%">Command</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td>docker run IMAGE</td><td>Create <em>and</em> start a container from an image</td></tr>
+            <tr><td>docker ps -a</td><td>List containers, including stopped ones</td></tr>
+            <tr><td>docker start / stop / restart NAME</td><td>Control an existing container</td></tr>
+            <tr><td>docker rm NAME</td><td>Delete a stopped container (<code>-f</code> to force)</td></tr>
+            <tr><td>docker exec -it NAME sh</td><td>Open a shell inside a running container</td></tr>
+            <tr><td>docker logs --tail 100 -f NAME</td><td>Read its stdout/stderr</td></tr>
+            <tr><td>docker inspect NAME</td><td>Full JSON: IP, mounts, env, exit code</td></tr>
+            <tr><td>docker stats</td><td>Live CPU, memory and network per container</td></tr>
+            <tr><td>docker cp NAME:/path ./here</td><td>Copy files out of (or into) a container</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Always name your containers in development</strong> (<code>--name app</code>).
+      Random names like <code>focused_turing</code> make the next twenty commands a memory test.
+    </div>
+  </section>
+
+  <!-- ==================== IMAGES & CONTAINERS ==================== -->
+  <section id="images">
+    <h2><i class="bi bi-collection me-2"></i>Images &amp; Containers in Practice</h2>
+
+    <h3>The commands that move an image around</h3>
+<pre><code><span class="cm"># download from a registry (Docker Hub by default)</span>
+docker pull mysql:8.4
+
+<span class="cm"># what do I have locally?</span>
+docker images
+
+<span class="cm"># build an image from ./Dockerfile and tag it</span>
+docker build -t myapp:1.0 .
+
+<span class="cm"># copy a tag, then push it somewhere</span>
+docker tag myapp:1.0 ghcr.io/acme/myapp:1.0
+docker push ghcr.io/acme/myapp:1.0
+
+<span class="cm"># inspect without running it</span>
+docker image inspect mysql:8.4
+docker history myapp:1.0      <span class="cm"># layer sizes, biggest last</span>
+docker image prune -a         <span class="cm"># delete unused images</span></code></pre>
+
+    <h3>What actually persists?</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead><tr><th style="width:22%">Written to&hellip;</th><th style="width:30%">Survives restart?</th><th>Survives <code>docker rm</code>?</th></tr></thead>
+          <tbody>
+            <tr><td>Container writable layer</td><td>Yes</td><td><strong>No</strong></td></tr>
+            <tr><td>Named volume</td><td>Yes</td><td>Yes, until <code>docker volume rm</code></td></tr>
+            <tr><td>Bind mount (host folder)</td><td>Yes</td><td>Yes &mdash; it is just your folder</td></tr>
+            <tr><td>tmpfs mount</td><td>No</td><td>No</td></tr>
+            <tr><td>Anything sent to stdout</td><td>In <code>docker logs</code></td><td>No</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Rule:</strong> if it matters after the container dies &mdash; database files, uploads, sessions on disk &mdash;
+      it must be in a volume or a bind mount. The writable layer is a scratch pad, not storage.
+    </div>
+  </section>
+
+  <!-- ==================== DOCKERFILE ==================== -->
+  <section id="dockerfile">
+    <h2><i class="bi bi-file-earmark-code me-2"></i>The Dockerfile</h2>
+    <p class="text-muted">A Dockerfile is a recipe read top to bottom. One instruction per line, one layer per instruction. Here is a production-shaped Node image:</p>
+
+    <div class="card">
+      <div class="card-header">Dockerfile &mdash; Node 22, multi-stage, non-root</div>
+      <div class="card-body">
+<pre><code><span class="cm"># ---------- build stage ----------</span>
+<span class="kw">FROM</span> node:22-alpine <span class="kw">AS</span> build
+<span class="kw">WORKDIR</span> /app
+
+<span class="cm"># copy manifests first so this layer caches</span>
+<span class="kw">COPY</span> package*.json ./
+<span class="kw">RUN</span> npm ci
+
+<span class="kw">COPY</span> . .
+<span class="kw">RUN</span> npm run build
+
+<span class="cm"># ---------- runtime stage ----------</span>
+<span class="kw">FROM</span> node:22-alpine
+<span class="kw">ENV</span> NODE_ENV=production
+<span class="kw">WORKDIR</span> /app
+
+<span class="kw">COPY</span> package*.json ./
+<span class="kw">RUN</span> npm ci --omit=dev && npm cache clean --force
+
+<span class="kw">COPY</span> <span class="kw">--from</span>=build /app/dist ./dist
+
+<span class="kw">RUN</span> addgroup -S app && adduser -S app -G app
+<span class="kw">USER</span> app
+
+<span class="kw">EXPOSE</span> 3000
+<span class="kw">CMD</span> [<span class="str">"node"</span>, <span class="str">"dist/server.js"</span>]</code></pre>
+      </div>
+    </div>
+
+    <h3>Every instruction, in one table</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead><tr><th style="width:20%">Instruction</th><th>What it does &mdash; and the trap</th></tr></thead>
+          <tbody>
+            <tr><td>FROM</td><td>Base image. Pin a minor version (<code>php:8.4-fpm</code>), not <code>latest</code>.</td></tr>
+            <tr><td>WORKDIR</td><td>Creates and enters a directory. Use it instead of <code>RUN cd</code>.</td></tr>
+            <tr><td>COPY</td><td>Files from build context. Cannot copy from outside it (<code>../</code> fails).</td></tr>
+            <tr><td>ADD</td><td>Like COPY, plus URL and tar extraction. Prefer COPY unless you need that.</td></tr>
+            <tr><td>RUN</td><td>Executes at build time, result is baked into a layer. Chain with <code>&amp;&amp;</code> and clean up in the same line.</td></tr>
+            <tr><td>ENV</td><td>Persists at run time <em>and</em> build time. Baked into the image &mdash; never secrets.</td></tr>
+            <tr><td>ARG</td><td>Build-time only, gone after the build. Still visible in <code>docker history</code>.</td></tr>
+            <tr><td>EXPOSE</td><td>Documentation only. It does not publish the port; <code>-p</code> does.</td></tr>
+            <tr><td>CMD</td><td>Default command &mdash; replaced by anything after the image name in <code>docker run</code>.</td></tr>
+            <tr><td>ENTRYPOINT</td><td>Fixed executable; <code>CMD</code> becomes its default arguments.</td></tr>
+            <tr><td>USER</td><td>Drop root. Set it after installs, before CMD.</td></tr>
+            <tr><td>HEALTHCHECK</td><td>Tells Docker (and Compose) whether the app is actually alive.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>CMD vs ENTRYPOINT, and exec vs shell form</h3>
+    <div class="card">
+      <div class="card-body">
+<pre><code><span class="cm"># shell form: runs /bin/sh -c "..." (PID 1 is sh, signals can be missed)</span>
+<span class="kw">CMD</span> php artisan serve --host=0.0.0.0
+
+<span class="cm"># exec form: runs the binary directly (PID 1 is php, signals work)</span>
+<span class="kw">CMD</span> [<span class="str">"php"</span>, <span class="str">"artisan"</span>, <span class="str">"serve"</span>, <span class="str">"--host=0.0.0.0"</span>]
+
+<span class="cm"># fixed binary + swappable args</span>
+<span class="kw">ENTRYPOINT</span> [<span class="str">"docker-entrypoint.sh"</span>]
+<span class="kw">CMD</span> [<span class="str">"php-fpm"</span>]</code></pre>
+        <p class="mb-0 small text-muted">Use exec form for anything that must receive <code>SIGTERM</code> and shut down cleanly &mdash; queue workers especially.</p>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>The two-minute Dockerfile review:</strong> Is the base pinned? Is the manifest copied before the source?
+      Does it run as non-root? Is there a single obvious CMD? Is anything secret in ENV or ARG? If all five are yes, it is deployable.
+    </div>
+  </section>
+
+  <!-- ==================== LAYERS ==================== -->
+  <section id="layers">
+    <h2><i class="bi bi-stack me-2"></i>Layers &amp; Cache</h2>
+    <p class="text-muted">Build speed is almost entirely about cache hits. Docker reuses a layer if its instruction <em>and</em> its input files are unchanged; the first miss invalidates everything below it.</p>
+
+    <div class="card">
+      <div class="card-header">Wrong order &mdash; every code edit re-installs dependencies</div>
+      <div class="card-body">
+<pre><code><span class="kw">COPY</span> . .                 <span class="cm"># any file change busts the cache…</span>
+<span class="kw">RUN</span> npm ci              <span class="cm"># …so this runs again, every single build</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Right order &mdash; dependencies cached until the lockfile changes</div>
+      <div class="card-body">
+<pre><code><span class="kw">COPY</span> package.json package-lock.json ./
+<span class="kw">RUN</span> npm ci
+<span class="kw">COPY</span> . .                 <span class="cm"># code churn stops here</span></code></pre>
+      </div>
+    </div>
+
+    <h3>Keep layers small</h3>
+<pre><code><span class="cm"># bad: apt lists stay in the layer forever</span>
+<span class="kw">RUN</span> apt-get update
+<span class="kw">RUN</span> apt-get install -y git
+<span class="kw">RUN</span> rm -rf /var/lib/apt/lists/*
+
+<span class="cm"># good: one layer, cleaned before it is committed</span>
+<span class="kw">RUN</span> apt-get update \
+ && apt-get install -y --no-install-recommends git \
+ && rm -rf /var/lib/apt/lists/*</code></pre>
+
+    <h3>Forcing and sharing cache</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead><tr><th style="width:42%">Command</th><th>Use it when</th></tr></thead>
+          <tbody>
+            <tr><td>docker build --no-cache -t app .</td><td>A stale layer is hiding a bug</td></tr>
+            <tr><td>docker build --progress=plain .</td><td>You need to see which step failed</td></tr>
+            <tr><td>docker buildx build --cache-to type=local,dest=.cache --cache-from type=local,src=.cache .</td><td>CI builds that should reuse a cache across runs</td></tr>
+            <tr><td>docker builder prune</td><td>Cache has grown to several GB</td></tr>
+            <tr><td>docker build --target build .</td><td>Stop at a named stage to debug it</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Order instructions by how often they change:</strong> OS packages, then language runtime,
+      then dependency manifests, then your code. Stable at the top, churn at the bottom.
+    </div>
+  </section>
+
+  <!-- ==================== MULTI-STAGE ==================== -->
+  <section id="multistage">
+    <h2><i class="bi bi-layers-half me-2"></i>Multi-Stage Builds</h2>
+    <p class="text-muted">Build with compilers and dev dependencies, then copy only the output into a clean runtime image. Same Dockerfile, one <code>docker build</code>.</p>
+
+    <div class="card">
+      <div class="card-header">PHP / Laravel &mdash; composer in a throwaway stage</div>
+      <div class="card-body">
+<pre><code><span class="cm"># ---------- vendor stage ----------</span>
+<span class="kw">FROM</span> composer:2 <span class="kw">AS</span> vendor
+<span class="kw">WORKDIR</span> /app
+<span class="kw">COPY</span> composer.json composer.lock ./
+<span class="kw">RUN</span> composer install --no-dev --no-scripts --prefer-dist --no-interaction
+
+<span class="cm"># ---------- runtime stage ----------</span>
+<span class="kw">FROM</span> php:8.4-fpm-alpine
+
+<span class="kw">RUN</span> apk add --no-cache icu-dev oniguruma-dev libzip-dev \
+ && docker-php-ext-install pdo_mysql intl mbstring zip opcache \
+ && apk del icu-dev oniguruma-dev libzip-dev
+
+<span class="kw">WORKDIR</span> /var/www/html
+<span class="kw">COPY</span> . .
+<span class="kw">COPY</span> <span class="kw">--from</span>=vendor /app/vendor ./vendor
+
+<span class="kw">RUN</span> php artisan config:cache && php artisan route:cache \
+ && chown -R www-data:www-data storage bootstrap/cache
+
+<span class="kw">USER</span> www-data
+<span class="kw">EXPOSE</span> 9000
+<span class="kw">CMD</span> [<span class="str">"php-fpm"</span>]</code></pre>
+      </div>
+    </div>
+
+    <h3>Why it is worth it</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead><tr><th style="width:34%">Image</th><th style="width:22%">Size</th><th>Contains</th></tr></thead>
+          <tbody>
+            <tr><td>Single-stage <code>node:22</code></td><td>~1.1 GB</td><td>TypeScript, test tools, source, full OS toolchain</td></tr>
+            <tr><td>Multi-stage <code>node:22-alpine</code></td><td>~150&ndash;250 MB</td><td>Built output and production dependencies only</td></tr>
+            <tr><td>PHP single-stage (composer image)</td><td>~800 MB</td><td>Composer, git, dev packages, caches</td></tr>
+            <tr><td>PHP multi-stage <code>php:8.4-fpm-alpine</code></td><td>~120 MB</td><td>Runtime extensions and vendored code</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      Smaller images are not vanity: they pull faster in CI, start faster, and expose far fewer packages
+      a scanner can flag. A distroless or Alpine runtime with no shell is a real security win.
+    </div>
+  </section>
+
+  <!-- ==================== DOCKERIGNORE ==================== -->
+  <section id="ignore">
+    <h2><i class="bi bi-funnel me-2"></i>.dockerignore</h2>
+    <p class="text-muted">The build context is everything sent to the daemon. Without this file you ship <code>node_modules</code>, <code>.git</code> and your <code>.env</code> into it &mdash; slowly.</p>
+
+<pre><code><span class="cm"># dependency dirs are rebuilt inside the image</span>
+node_modules
+vendor
+
+<span class="cm"># never send secrets or history</span>
+.git
+.env
+.env.*
+*.pem
+
+<span class="cm"># noise</span>
+dist
+coverage
+storage/logs/*
+*.log
+.DS_Store
+.vscode
+.idea</code></pre>
+
+    <div class="highlight-box">
+      <strong>Check the size before you blame the network:</strong> <code>docker build .</code> prints
+      "transferring context" in the first line. If that number is hundreds of MB, you forgot this file.
+    </div>
+  </section>
+
+  <!-- ==================== COMPOSE ==================== -->
+  <section id="compose">
+    <h2><i class="bi bi-diagram-2 me-2"></i>Docker Compose</h2>
+    <p class="text-muted">One image is a demo; five services is an app. Compose declares the whole stack in one YAML file and starts it with one command.</p>
+
+    <div class="card">
+      <div class="card-header">compose.yaml &mdash; Laravel + MySQL + Redis + queue worker</div>
+      <div class="card-body">
+<pre><code><span class="kw">services</span>:
+  <span class="kw">app</span>:
+    <span class="kw">build</span>:
+      <span class="kw">context</span>: .
+      <span class="kw">target</span>: runtime
+    <span class="cm"># dev convenience: artisan serve. In production put nginx in</span>
+    <span class="cm"># front of php-fpm and drop this command.</span>
+    <span class="kw">command</span>: [<span class="str">"php"</span>, <span class="str">"artisan"</span>, <span class="str">"serve"</span>, <span class="str">"--host=0.0.0.0"</span>, <span class="str">"--port=8000"</span>]
+    <span class="kw">ports</span>:
+      - <span class="str">"8000:8000"</span>
+    <span class="kw">environment</span>:
+      <span class="kw">DB_HOST</span>: db
+      <span class="kw">REDIS_HOST</span>: cache
+    <span class="kw">depends_on</span>:
+      <span class="kw">db</span>:
+        <span class="kw">condition</span>: service_healthy
+      <span class="kw">cache</span>:
+        <span class="kw">condition</span>: service_started
+    <span class="kw">volumes</span>:
+      - <span class="str">"storage:/var/www/html/storage"</span>
+
+  <span class="kw">queue</span>:
+    <span class="kw">build</span>: .
+    <span class="kw">command</span>: [<span class="str">"php"</span>, <span class="str">"artisan"</span>, <span class="str">"queue:work"</span>, <span class="str">"--tries=3"</span>]
+    <span class="kw">depends_on</span>: [<span class="str">app</span>, <span class="str">db</span>, <span class="str">cache</span>]
+    <span class="kw">restart</span>: unless-stopped
+
+  <span class="kw">db</span>:
+    <span class="kw">image</span>: mysql:8.4
+    <span class="kw">environment</span>:
+      <span class="kw">MYSQL_DATABASE</span>: app
+      <span class="kw">MYSQL_ROOT_PASSWORD</span>: secret
+    <span class="kw">volumes</span>:
+      - <span class="str">"dbdata:/var/lib/mysql"</span>
+    <span class="kw">healthcheck</span>:
+      <span class="kw">test</span>: [<span class="str">"CMD"</span>, <span class="str">"mysqladmin"</span>, <span class="str">"ping"</span>, <span class="str">"-h"</span>, <span class="str">"localhost"</span>, <span class="str">"-uroot"</span>, <span class="str">"-psecret"</span>]
+      <span class="kw">interval</span>: 5s
+      <span class="kw">retries</span>: 10
+
+  <span class="kw">cache</span>:
+    <span class="kw">image</span>: redis:7-alpine
+    <span class="kw">volumes</span>:
+      - <span class="str">"redisdata:/data"</span>
+
+<span class="kw">volumes</span>:
+  <span class="kw">dbdata</span>:
+  <span class="kw">redisdata</span>:
+  <span class="kw">storage</span>:</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">The commands</div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead><tr><th style="width:40%">Command</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td>docker compose up -d --build</td><td>Build images, recreate what changed, run in background</td></tr>
+            <tr><td>docker compose ps</td><td>Status and health of each service</td></tr>
+            <tr><td>docker compose logs -f app</td><td>Follow one service's logs</td></tr>
+            <tr><td>docker compose exec app sh</td><td>Shell into a running service</td></tr>
+            <tr><td>docker compose run --rm app php artisan migrate</td><td>One-off command in a throwaway container</td></tr>
+            <tr><td>docker compose down</td><td>Stop and remove containers (volumes survive)</td></tr>
+            <tr><td>docker compose down -v</td><td>&hellip;and delete the volumes. Database gone.</td></tr>
+            <tr><td>docker compose watch</td><td>Sync code changes into the container live</td></tr>
+            <tr><td>docker compose config</td><td>Validate and print the resolved YAML</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Two habits that save an afternoon:</strong> use <code>condition: service_healthy</code> instead of a bare
+      <code>depends_on</code> (Compose starts dependencies in order, it does not wait for the database to accept
+      connections), and run one-off tasks with <code>compose run --rm</code> rather than polluting a long-lived container.
+    </div>
+  </section>
+
+  <!-- ==================== VOLUMES & PORTS ==================== -->
+  <section id="volumes">
+    <h2><i class="bi bi-hdd me-2"></i>Volumes &amp; Ports</h2>
+
+    <h3>Three kinds of mount</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead><tr><th style="width:20%">Type</th><th style="width:30%">Example</th><th>Use it for</th></tr></thead>
+          <tbody>
+            <tr><td>Named volume</td><td><code>dbdata:/var/lib/mysql</code></td><td>Databases, uploads &mdash; anything Docker should own and back up</td></tr>
+            <tr><td>Bind mount</td><td><code>./src:/app/src</code></td><td>Live code editing in development</td></tr>
+            <tr><td>tmpfs</td><td><code>tmpfs:/tmp</code></td><td>Caches and scratch files that must never touch disk</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+<pre><code><span class="cm"># publish a port: HOST:CONTAINER</span>
+docker run -p 8080:80 nginx           <span class="cm"># localhost:8080 → nginx:80</span>
+docker run -p 127.0.0.1:8080:80 nginx <span class="cm"># bind to loopback only</span>
+
+<span class="cm"># named volume</span>
+docker run -v dbdata:/var/lib/mysql mysql:8.4
+
+<span class="cm"># bind mount, read-only</span>
+docker run -v "$(pwd)/src:/app/src:ro" myapp
+
+<span class="cm"># inspect and clean</span>
+docker volume ls
+docker volume inspect dbdata
+docker volume prune</code></pre>
+
+    <div class="highlight-box">
+      <strong>Windows note:</strong> bind mounts across the WSL boundary are slow. Keep source inside the Linux
+      filesystem (<code>\\wsl$\...</code>) or use a named volume plus <code>compose watch</code>, and builds stop dragging.
+    </div>
+  </section>
+
+  <!-- ==================== NETWORKS ==================== -->
+  <section id="networks">
+    <h2><i class="bi bi-share me-2"></i>Networks</h2>
+    <p class="text-muted">Containers on the same user-defined network resolve each other by <strong>service name</strong>. That is why <code>DB_HOST=db</code> works and <code>DB_HOST=localhost</code> does not.</p>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead><tr><th style="width:20%">Driver</th><th style="width:38%">Behaviour</th><th>Typical use</th></tr></thead>
+          <tbody>
+            <tr><td>bridge</td><td>Private network, NAT to the host, DNS by name</td><td>Default for Compose stacks</td></tr>
+            <tr><td>host</td><td>No isolation &mdash; shares the host's ports</td><td>Performance-sensitive Linux services</td></tr>
+            <tr><td>none</td><td>Loopback only</td><td>Batch jobs that need no network</td></tr>
+            <tr><td>overlay</td><td>Spans multiple hosts</td><td>Swarm / cluster mode</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+<pre><code><span class="cm"># create a network and put two containers on it</span>
+docker network create appnet
+docker run -d --name db --network appnet mysql:8.4
+docker run --rm --network appnet mysql:8.4 \
+  mysql -h db -u root -psecret -e <span class="str">"SELECT 1"</span>
+
+<span class="cm"># who is attached to what?</span>
+docker network inspect appnet
+
+<span class="cm"># from inside a container</span>
+docker exec -it app getent hosts db
+docker exec -it app ping -c1 cache</code></pre>
+
+    <div class="highlight-box">
+      <strong><code>EXPOSE</code> is documentation; <code>-p</code> is publishing.</strong> Two containers on the same
+      network reach each other on the container port without any <code>-p</code> at all. Publish only what the
+      host (or the internet) must reach.
+    </div>
+  </section>
+
+  <!-- ==================== ENV & SECRETS ==================== -->
+  <section id="env">
+    <h2><i class="bi bi-key me-2"></i>Config &amp; Secrets</h2>
+
+    <div class="card">
+      <div class="card-header">What belongs where</div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead><tr><th style="width:26%">Mechanism</th><th style="width:30%">Lives</th><th>Safe for secrets?</th></tr></thead>
+          <tbody>
+            <tr><td><code>ENV</code> in Dockerfile</td><td>Baked into the image</td><td><strong>No</strong> &mdash; visible in <code>docker history</code></td></tr>
+            <tr><td><code>ARG</code></td><td>Build time only</td><td><strong>No</strong> &mdash; also visible in history</td></tr>
+            <tr><td><code>-e</code> / <code>environment:</code></td><td>Process environment at run time</td><td>Better, but visible in <code>inspect</code></td></tr>
+            <tr><td><code>env_file:</code> / <code>--env-file</code></td><td>A file on the host, injected at run time</td><td>Yes, if the file stays out of git and the image</td></tr>
+            <tr><td>Docker secrets / cloud secret manager</td><td>Mounted as a file, encrypted at rest</td><td>Yes &mdash; the right answer in production</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+<pre><code><span class="cm"># .env stays on the host and out of the image</span>
+docker run --env-file .env.production myapp:1.0
+
+<span class="cm"># build-time variable (not a secret)</span>
+docker build --build-arg APP_VERSION=1.4.2 -t myapp:1.4.2 .
+
+<span class="cm"># BuildKit secret: available only during the RUN, never in a layer</span>
+docker build --secret id=npmrc,src=$HOME/.npmrc .
+<span class="cm"># Dockerfile: RUN --mount=type=secret,id=npmrc npm ci</span></code></pre>
+
+    <div class="highlight-box">
+      <strong>Once a secret is in a layer, deleting it later does not remove it.</strong> Rebuilding from
+      <code>RUN export TOKEN=...</code> leaves the value recoverable in image history. Start with
+      <code>--env-file</code> or a secret mount and you never have to rotate in a panic.
+    </div>
+  </section>
+
+  <!-- ==================== REGISTRY ==================== -->
+  <section id="registry">
+    <h2><i class="bi bi-cloud-upload me-2"></i>Registries &amp; Tags</h2>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead><tr><th style="width:24%">Registry</th><th style="width:34%">Image prefix</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Docker Hub</td><td><code>docker.io/user/app</code></td><td>Free public repos, rate-limited pulls</td></tr>
+            <tr><td>GitHub Container Registry</td><td><code>ghcr.io/org/app</code></td><td>Uses <code>GITHUB_TOKEN</code> in Actions, free for public</td></tr>
+            <tr><td>Amazon ECR</td><td><code>123.dkr.ecr.eu-west-1.amazonaws.com/app</code></td><td>IAM auth, scan on push</td></tr>
+            <tr><td>GitLab Registry</td><td><code>registry.gitlab.com/group/app</code></td><td>Built into GitLab CI</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+<pre><code><span class="cm"># log in once, credentials land in ~/.docker/config.json</span>
+docker login ghcr.io -u USERNAME
+
+<span class="cm"># tag with the commit SHA — immutable and traceable</span>
+docker build -t ghcr.io/acme/app:$(git rev-parse --short HEAD) .
+docker push ghcr.io/acme/app:$(git rev-parse --short HEAD)
+
+<span class="cm"># multi-architecture build (Apple Silicon + amd64 servers)</span>
+docker buildx create --use
+docker buildx build --platform linux/amd64,linux/arm64 \
+  -t ghcr.io/acme/app:1.4.2 --push .
+
+<span class="cm"># scan what you built</span>
+docker scout cves ghcr.io/acme/app:1.4.2</code></pre>
+
+    <div class="highlight-box">
+      <strong>Never deploy <code>:latest</code>.</strong> Two servers pulling "latest" at different times can run
+      different code while both claim the same version. Tag with a commit SHA or a semver, and keep
+      <code>latest</code> as a convenience alias only.
+    </div>
+  </section>
+
+  <!-- ==================== PRODUCTION ==================== -->
+  <section id="prod">
+    <h2><i class="bi bi-shield-check me-2"></i>Production Checklist</h2>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead><tr><th style="width:32%">Check</th><th>Why it matters</th></tr></thead>
+          <tbody>
+            <tr><td>Non-root <code>USER</code></td><td>A container escape starts as root only if you let it</td></tr>
+            <tr><td>Pinned base image (tag or digest)</td><td><code>latest</code> silently changes under you</td></tr>
+            <tr><td>Small runtime base</td><td>Fewer packages, fewer CVEs, faster pulls</td></tr>
+            <tr><td>Logs to stdout/stderr</td><td><code>docker logs</code> and every log driver read them</td></tr>
+            <tr><td><code>HEALTHCHECK</code></td><td>Orchestrators can restart a hung &mdash; not dead &mdash; app</td></tr>
+            <tr><td>Memory and CPU limits</td><td>One runaway process should not take the host down</td></tr>
+            <tr><td>Read-only root filesystem</td><td>Ransomware and accidental writes both fail</td></tr>
+            <tr><td>No secrets in the image</td><td>Images get pushed, copied and cached everywhere</td></tr>
+            <tr><td>Graceful shutdown on SIGTERM</td><td>Queue workers finish the job in hand</td></tr>
+            <tr><td>Image scanned in CI</td><td>You find the CVE before a customer does</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+<pre><code><span class="cm"># a hardened run</span>
+docker run -d --name app \
+  --user 10001:10001 \
+  --read-only --tmpfs /tmp \
+  --memory 512m --cpus 1.5 \
+  --cap-drop ALL --security-opt no-new-privileges \
+  --restart unless-stopped \
+  -p 127.0.0.1:8000:8000 \
+  --env-file .env.production \
+  ghcr.io/acme/app:1.4.2</code></pre>
+
+    <div class="highlight-box">
+      <strong>Enable BuildKit cache and a healthcheck before you need them.</strong> Most "Docker is slow" and
+      "the container keeps restarting" tickets are a missing cache mount and a missing healthcheck, not the engine.
+    </div>
+  </section>
+
+  <!-- ==================== DEBUGGING ==================== -->
+  <section id="debug">
+    <h2><i class="bi bi-bug me-2"></i>Debugging</h2>
+
+    <div class="card">
+      <div class="card-header">Symptom &rarr; cause &rarr; fix</div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead><tr><th style="width:28%">Symptom</th><th style="width:36%">Usual cause</th><th>Fix</th></tr></thead>
+          <tbody>
+            <tr><td>Container exits immediately</td><td>The main process crashed; logs went with it</td><td><code>docker logs NAME</code>, then <code>docker run -it IMAGE sh</code></td></tr>
+            <tr><td><code>port is already allocated</code></td><td>Another process (or an old container) owns the port</td><td><code>docker ps</code>, or publish a different host port</td></tr>
+            <tr><td>Cannot connect to the database</td><td>Using <code>localhost</code> instead of the service name, or the DB is not ready</td><td><code>DB_HOST=db</code>, add a healthcheck + <code>service_healthy</code></td></tr>
+            <tr><td><code>permission denied</code> on a mount</td><td>Host UID does not match the container user</td><td>Match UIDs, or <code>chown</code> in the entrypoint</td></tr>
+            <tr><td><code>no such file or directory</code> at start</td><td>Wrong path, CRLF line endings in a script</td><td>Use <code>ls</code> in the image; convert scripts to LF</td></tr>
+            <tr><td>Changes to code do not appear</td><td>Old image, or the file never got copied</td><td><code>docker compose up -d --build</code></td></tr>
+            <tr><td>Disk full, builds fail</td><td>Dangling images, stopped containers, volumes</td><td><code>docker system df</code>, then targeted <code>prune</code></td></tr>
+            <tr><td>Image is huge</td><td>Build context too big, or dev deps in runtime</td><td><code>.dockerignore</code> + multi-stage</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>The five commands to run first</h3>
+<pre><code>docker ps -a                     <span class="cm"># did it die? exit code tells you why</span>
+docker logs --tail 200 NAME      <span class="cm"># the actual error</span>
+docker inspect NAME              <span class="cm"># mounts, env, network, exit code</span>
+docker exec -it NAME sh          <span class="cm"># look from the inside</span>
+docker system df                 <span class="cm"># where did the disk go</span></code></pre>
+
+    <div class="highlight-box">
+      <strong>Exit code 137</strong> means SIGKILL &mdash; almost always the OOM killer or <code>docker stop</code>
+      timing out. <strong>Exit code 1</strong> with no logs usually means the start command itself is wrong.
+    </div>
+  </section>
+
+  <!-- ==================== INTERVIEW ==================== -->
+  <section id="interview">
+    <h2><i class="bi bi-patch-question me-2"></i>Interview Q&amp;A</h2>
+
+    <div class="card">
+      <div class="card-header">Image vs container?</div>
+      <div class="card-body">An image is an immutable, layered template. A container is a running instance of that image with a thin writable layer on top. Many containers can run from one image; deleting a container never deletes the image.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">How does layer caching work?</div>
+      <div class="card-body">Each Dockerfile instruction produces a layer. Docker reuses a cached layer when the instruction and the checksum of its inputs are unchanged. The first cache miss invalidates every layer after it &mdash; which is why dependency manifests are copied before application code.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">CMD vs ENTRYPOINT?</div>
+      <div class="card-body"><code>ENTRYPOINT</code> sets the executable that always runs; <code>CMD</code> supplies default arguments that <code>docker run IMAGE arg</code> can override. Use both for CLI-style images, and prefer exec form (<code>["php","fpm"]</code>) so signals reach the process.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Why is my image 1 GB?</div>
+      <div class="card-body">Usually one of: a full-language base image, a large build context (no <code>.dockerignore</code>), dev dependencies installed in the runtime stage, or <code>apt-get</code> lists left in an earlier layer. Multi-stage builds plus a slim/Alpine base plus cleaning in the same <code>RUN</code> line fixes it.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">How do containers talk to each other?</div>
+      <div class="card-body">Through a shared user-defined network. Docker's embedded DNS resolves the container or service name, so <code>DB_HOST=db</code> works. On the default bridge you only get IPs, which is why Compose creates a project network for you.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">How do you handle secrets?</div>
+      <div class="card-body">Never in <code>ENV</code>, <code>ARG</code> or a copied <code>.env</code> inside the image. Inject at run time with <code>--env-file</code> or an orchestrator secret, and use BuildKit <code>--mount=type=secret</code> for anything needed during a build. Rotate anything that was ever committed.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">What is the difference between a bind mount and a volume?</div>
+      <div class="card-body">A bind mount maps a host path into the container &mdash; great for live editing, tied to the host's layout. A named volume is managed by Docker in its own storage area &mdash; portable, faster on Windows/macOS, and the right choice for databases and uploads.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Container vs virtual machine?</div>
+      <div class="card-body">A VM virtualises hardware and runs a full guest kernel; a container virtualises the OS and shares the host kernel using namespaces and cgroups. Containers start in under a second and are far denser, at the cost of weaker isolation.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">How do you get zero-downtime deploys?</div>
+      <div class="card-body">Run at least two replicas behind a load balancer, add a readiness check, then replace them one at a time (rolling) or swap a whole new stack in front of the old one (blue/green). Migrations must be backwards-compatible: add columns, deploy code, backfill, then remove old columns in a later release.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">What does a container actually consist of?</div>
+      <div class="card-body">A normal Linux process with namespaces (pid, net, mount, uts, ipc, user) for isolation, cgroups for resource limits, and a layered filesystem from the image. There is no guest kernel &mdash; the host kernel is shared.</div>
+    </div>
+  </section>
+
+  <!-- ==================== CHEAT SHEET ==================== -->
+  <section id="cheatsheet">
+    <h2><i class="bi bi-lightning me-2"></i>Cheat Sheet</h2>
+
+    <div class="card">
+      <div class="card-header">Images</div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead><tr><th style="width:44%">Command</th><th>Effect</th></tr></thead>
+          <tbody>
+            <tr><td>docker build -t app:1.0 .</td><td>Build from ./Dockerfile</td></tr>
+            <tr><td>docker images</td><td>List local images</td></tr>
+            <tr><td>docker pull redis:7-alpine</td><td>Download an image</td></tr>
+            <tr><td>docker tag app:1.0 repo/app:1.0</td><td>Add a second name</td></tr>
+            <tr><td>docker push repo/app:1.0</td><td>Upload to a registry</td></tr>
+            <tr><td>docker rmi app:1.0</td><td>Delete an image</td></tr>
+            <tr><td>docker history app:1.0</td><td>Layers and sizes</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Containers</div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead><tr><th style="width:44%">Command</th><th>Effect</th></tr></thead>
+          <tbody>
+            <tr><td>docker run --rm -it IMAGE sh</td><td>Throwaway interactive container</td></tr>
+            <tr><td>docker run -d -p 8080:80 --name web IMAGE</td><td>Detached, published port, named</td></tr>
+            <tr><td>docker ps -a</td><td>All containers</td></tr>
+            <tr><td>docker exec -it web sh</td><td>Shell inside a running container</td></tr>
+            <tr><td>docker logs -f --tail 100 web</td><td>Follow logs</td></tr>
+            <tr><td>docker cp web:/app/log.txt .</td><td>Copy a file out</td></tr>
+            <tr><td>docker stats</td><td>Live resource usage</td></tr>
+            <tr><td>docker rm -f web</td><td>Force delete</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Compose &amp; cleanup</div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead><tr><th style="width:44%">Command</th><th>Effect</th></tr></thead>
+          <tbody>
+            <tr><td>docker compose up -d --build</td><td>Build and start the stack</td></tr>
+            <tr><td>docker compose logs -f SERVICE</td><td>Follow one service</td></tr>
+            <tr><td>docker compose exec SERVICE sh</td><td>Shell into a service</td></tr>
+            <tr><td>docker compose run --rm SERVICE CMD</td><td>One-off command</td></tr>
+            <tr><td>docker compose down</td><td>Stop and remove (volumes kept)</td></tr>
+            <tr><td>docker compose down -v</td><td>Also delete volumes</td></tr>
+            <tr><td>docker system df</td><td>Disk used by images/containers/volumes</td></tr>
+            <tr><td>docker system prune -a --volumes</td><td>Reclaim everything unused &mdash; read twice</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Learn next:</strong> <a href="ci-cd.html">CI/CD</a> to build and ship these images automatically,
+      <a href="git.html">Git</a> for the tags those pipelines read, and
+      <a href="laravel13.html">Laravel 13</a> for the app-side of the Compose file above.
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="mt-5 pt-4 border-top text-muted">
+    <div class="row">
+      <div class="col-md-6">
+        <p class="fw-bold mb-2">Docker &mdash; Containers, Images &amp; Compose</p>
+        <p class="small">Written for study. Commands checked against Docker Engine 28+, Compose v2 and BuildKit in October 2026 &mdash; flags do change, so read the error before the blog post.</p>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <p class="small mb-1">
+          <a href="https://docs.docker.com/" target="_blank" rel="noopener" class="text-decoration-none"><i class="bi bi-journal-text me-1"></i> Docker Docs</a>
+          &middot;
+          <a href="https://docs.docker.com/reference/dockerfile/" target="_blank" rel="noopener" class="text-decoration-none"><i class="bi bi-file-earmark-code me-1"></i> Dockerfile Reference</a>
+          &middot;
+          <a href="https://docs.docker.com/compose/" target="_blank" rel="noopener" class="text-decoration-none"><i class="bi bi-diagram-2 me-1"></i> Compose</a>
+        </p>
+        <p class="small mb-0">Docker is a trademark of Docker, Inc. &mdash; this page is an independent study guide.</p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script src="../lib/bootstrap/bootstrap.bundle.min.js"></script>
+<script>
+  document.getElementById('sidebarToggle')?.addEventListener('click', function () {
+    document.getElementById('sidebar').classList.toggle('show');
+  });
+  document.querySelectorAll('#sidebar .nav-link').forEach(function (link) {
+    link.addEventListener('click', function () {
+      document.getElementById('sidebar').classList.remove('show');
+    });
+  });
+</script>
+</body>
+</html>

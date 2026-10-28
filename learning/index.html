@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Start learning a new programming language — pick a route, read its first sentence, open a guide. 38 offline study guides." />
+  <meta name="description" content="Start learning a new programming language — pick a route, read its first sentence, open a guide. 42 offline study guides." />
   <title>Learn a New Language — Start Here · Jap App Hub</title>
   <link href="../assets/vendor/bootstrap/bootstrap.min.css" rel="stylesheet" />
   <link href="../assets/vendor/font-awesome/all.min.css" rel="stylesheet" />
@@ -276,16 +276,16 @@
       <a class="home-link" href="../index.html" aria-label="Back to home">← Home</a>
       <div class="search-box">
         <i class="fas fa-search glyph" aria-hidden="true"></i>
-        <input id="q" type="text" placeholder="Search 38 guides — try &quot;python&quot; or &quot;job&quot;…" aria-label="Search guides" autocomplete="off" spellcheck="false" />
+        <input id="q" type="text" placeholder="Search 42 guides — try &quot;python&quot; or &quot;job&quot;…" aria-label="Search guides" autocomplete="off" spellcheck="false" />
       </div>
-      <span class="count-badge"><i class="fas fa-passport" aria-hidden="true"></i><span id="count">38</span>&nbsp;<span class="long">guides</span></span>
+      <span class="count-badge"><i class="fas fa-passport" aria-hidden="true"></i><span id="count">42</span>&nbsp;<span class="long">guides</span></span>
       <button class="icon-btn" id="themeBtn" title="Toggle dark or light mode" aria-label="Toggle dark or light mode"><i class="fas fa-moon" aria-hidden="true"></i></button>
     </div>
 
     <header class="hero">
       <div class="hero-inner">
         <div>
-          <span class="eyebrow"><span class="dot"></span> Phrasebook · 38 offline guides</span>
+          <span class="eyebrow"><span class="dot"></span> Phrasebook · 42 offline guides</span>
           <h1>Pick a language.<br />Learn its <em>first sentence.</em></h1>
           <p class="lede">Every programming language is a country. This page is the passport office: choose what you want to build, read each language&rsquo;s version of &ldquo;hello&rdquo;, then open the full guide and stay a while.</p>
           <div class="route-row" role="group" aria-label="Choose a learning route">
@@ -312,14 +312,14 @@
     </header>
 
     <div class="stats" aria-label="Library facts">
-      <div class="stat"><span class="k">Guides</span><span class="v" id="statGuides">38</span><span class="n d-block">Every page works offline.</span></div>
+      <div class="stat"><span class="k">Guides</span><span class="v" id="statGuides">42</span><span class="n d-block">Every page works offline.</span></div>
       <div class="stat"><span class="k">Routes</span><span class="v">3</span><span class="n d-block">Websites · backend · data.</span></div>
       <div class="stat"><span class="k">First step</span><span class="v font-mono" style="font-size:1.15rem;padding-top:0.3rem">hello</span><span class="n d-block">One sentence per language.</span></div>
       <div class="stat"><span class="k">Cost</span><span class="v">₹0</span><span class="n d-block">No sign-up, no tracking.</span></div>
     </div>
 
     <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mt-3 mb-1 px-1">
-      <span class="results-line" id="resultsLine">38 guides shown</span>
+      <span class="results-line" id="resultsLine">42 guides shown</span>
       <span class="results-line">Gentle ●○○ · Steady ●●○ · Steep ●●●</span>
     </div>
 
@@ -360,12 +360,15 @@
       { shelf: "Backends & jobs", file: "django.html", code: "DJ", name: "Django 5.2", sub: "Python backend", desc: "Models, admin and DRF. Batteries included, interviews included.", hello: 'HttpResponse("hello")', level: 2, time: "4 wks", routes: ["backend", "data"], tags: "django python backend drf" },
       { shelf: "Backends & jobs", file: "wordpress.html", code: "WP", name: "WordPress Dev", sub: "freelance fast", desc: "Themes, hooks and blocks. The quickest path to paid client work.", hello: "add_action('init')", level: 1, time: "3 wks", routes: ["backend", "websites"], tags: "wordpress php freelance cms" },
       { shelf: "Backends & jobs", file: "php-cron.html", code: "CRN", name: "PHP Cron Jobs", sub: "night shift", desc: "Scheduled scripts that run while you sleep — batches, memory, logs.", hello: "* * * * * hello.php", level: 2, time: "1 wk", routes: ["backend"], tags: "php cron cli linux" },
+      { shelf: "Backends & jobs", file: "aws.html", code: "AWS", name: "Amazon Web Services", sub: "cloud from zero", desc: "Regions, EC2, S3 and Lambda - what each service is for, with CLI commands, prices and a first project.", hello: "aws s3 ls", level: 2, time: "3 wks", routes: ["backend", "data"], tags: "aws amazon cloud ec2 s3 lambda serverless vpc devops" },
       { shelf: "Data & storage", shelfHint: "Every app keeps things somewhere. Learn one SQL page properly, skim the rest.", file: "mysql.html", code: "MY", name: "MySQL Q&A", sub: "114 questions", desc: "Joins to replication. The interview-heavy SQL page to grind.", hello: "SELECT 'hello';", level: 2, time: "3 wks", routes: ["data", "backend"], tags: "mysql sql database interview" },
       { shelf: "Data & storage", file: "postgresql.html", code: "PG", name: "PostgreSQL", sub: "grown-up SQL", desc: "JSON, search and tuning for apps that outgrow basics.", hello: "SELECT 'hello';", level: 2, time: "3 wks", routes: ["data", "backend"], tags: "postgresql sql database" },
       { shelf: "Data & storage", file: "mongodb.html", code: "MDB", name: "MongoDB", sub: "documents", desc: "Collections and pipelines for data shaped like objects, not rows.", hello: "db.hi.insertOne({})", level: 2, time: "2 wks", routes: ["data", "backend"], tags: "mongodb nosql database" },
       { shelf: "Tools of the trade", shelfHint: "Ten-minute pages. Read one whenever a tutorial says a word you don't know.", file: "git.html", code: "GIT", name: "Git Commands", sub: "save your work", desc: "Every command with the situation it rescues you from.", hello: 'git commit -m "hi"', level: 1, time: "3 days", routes: ["websites", "backend", "data"], tags: "git version control cli" },
       { shelf: "Tools of the trade", file: "grep.html", code: "GRP", name: "grep", sub: "find anything", desc: "Search any codebase in seconds. 30 flags, zero fear.", hello: 'grep -r "hi" .', level: 1, time: "1 day", routes: ["backend", "data"], tags: "grep regex terminal linux" },
       { shelf: "Tools of the trade", file: "ls.html", code: "LS", name: "ls", sub: "see clearly", desc: "Every flag a–z, plus the Windows equivalents nobody tells you.", hello: "ls -la", level: 1, time: "1 day", routes: ["backend", "data"], tags: "ls terminal cli windows" },
+      { shelf: "Ship it", shelfHint: "The app works on your machine. Now make it work everywhere, and ship it on every push.", file: "docker.html", code: "DKR", name: "Docker", sub: "images · compose", desc: "One image, the same app everywhere — Dockerfiles, layers, Compose and deploys.", hello: "docker run hello-world", level: 2, time: "1 wk", routes: ["backend", "websites", "data"], tags: "docker container compose devops image build" },
+      { shelf: "Ship it", file: "ci-cd.html", code: "CI", name: "CI/CD Pipelines", sub: "ship on push", desc: "GitHub Actions, tests, image builds and zero-downtime deploys, workflow by workflow.", hello: "on: push", level: 2, time: "1 wk", routes: ["backend", "websites", "data"], tags: "ci cd github actions gitlab pipeline deploy devops" },
       { shelf: "Get hired", shelfHint: "Only after one route above. Practice out loud, not just in your head.", file: "laravel-tips.html", code: "TIP", name: "Laravel Tips", sub: "350+ tricks", desc: "Short Eloquent and Blade wins to steal for real projects.", hello: "Tip #1: eager load", level: 2, time: "ongoing", routes: ["backend"], tags: "laravel tips eloquent" },
       { shelf: "Get hired", file: "interview.html", code: "Q&A", name: "PHP / Laravel Interview", sub: "100+ answers", desc: "Core PHP, OOP and Laravel, written as answers you can say aloud.", hello: "Tell me about OOP…", level: 2, time: "2 wks", routes: ["backend"], tags: "interview php laravel jobs" },
       { shelf: "Get hired", file: "laravel-interview.html", code: "LVQ", name: "Laravel Interview", sub: "deep drill", desc: "Queues, caching and Laravel 11+ features, question by question.", hello: "Explain queues…", level: 3, time: "2 wks", routes: ["backend"], tags: "laravel interview jobs" },

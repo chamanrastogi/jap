@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+    body {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(100, 116, 139, 0.35) transparent;
+    }
+    body::-webkit-scrollbar { width: 8px; }
+    body::-webkit-scrollbar-track { background: transparent; }
+    body::-webkit-scrollbar-thumb {
+      background: rgba(100, 116, 139, 0.35);
+      border-radius: 999px;
+    }
+    body::-webkit-scrollbar-thumb:hover { background: rgba(100, 116, 139, 0.55); }
+    #sidebar, .sidebar {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+    }
+    #sidebar::-webkit-scrollbar, .sidebar::-webkit-scrollbar { width: 5px; }
+    #sidebar::-webkit-scrollbar-track, .sidebar::-webkit-scrollbar-track { background: transparent; }
+    #sidebar::-webkit-scrollbar-thumb, .sidebar::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+    }
+    #sidebar::-webkit-scrollbar-thumb:hover, #sidebar::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.32);
+    }
+</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CI/CD for developers: pipelines, GitHub Actions, GitLab CI, Docker builds, secrets, deployment strategies and quality gates, with copyable workflows." />
+  <title>CI/CD &mdash; Pipelines That Ship: GitHub Actions, Docker &amp; Deploys</title>
+  <link href="../lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --cicd-violet: #7c3aed;
+      --cicd-pink: #db2777;
+      --cicd-deep: #1c1140;
+      --sidebar-width: 280px;
+    }
+    * { scroll-margin-top: 1rem; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f7f6fa;
+      display: flex;
+    }
+    #sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0; left: 0;
+      background: var(--cicd-deep);
+      overflow-y: auto;
+      z-index: 1000;
+      transition: transform .3s;
+    }
+    #sidebar .brand {
+      padding: 1.25rem 1.25rem .85rem;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+    #sidebar .brand svg { flex-shrink: 0; }
+    #sidebar .brand h5 { color: #fff; font-weight: 700; margin: 0; letter-spacing: .01em; }
+    #sidebar .brand small { color: #a79ecb; font-size: .7rem; }
+    #sidebar .nav-link {
+      color: #cdc5e6;
+      padding: .5rem 1.25rem;
+      font-size: .88rem;
+      border-left: 3px solid transparent;
+      transition: all .15s;
+    }
+    #sidebar .nav-link:hover {
+      color: #fff;
+      background: rgba(255,255,255,.06);
+    }
+    #sidebar .nav-link.active {
+      color: #fff;
+      border-left-color: var(--cicd-violet);
+      background: linear-gradient(90deg, rgba(124,58,237,.24), rgba(124,58,237,.04));
+    }
+    #sidebar .nav-link i { width: 1.3rem; color: #c4b5fd; }
+    #sidebar .nav-section {
+      color: #857ba8;
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      padding: 1rem 1.25rem .3rem;
+      font-weight: 700;
+    }
+    .sidebar-toggle {
+      position: fixed;
+      top: .75rem; left: .75rem;
+      z-index: 1050;
+      background: var(--cicd-deep);
+      color: #fff;
+      border: none;
+      border-radius: .4rem;
+      padding: .4rem .65rem;
+      display: none;
+    }
+    @media (max-width: 991.98px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.show { transform: translateX(0); }
+      #main { margin-left: 0 !important; padding: 1.5rem !important; }
+      .sidebar-toggle { display: block; }
+    }
+
+    /* ---------- Main ---------- */
+    #main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 2rem 2.5rem 4rem;
+      max-width: 1120px;
+    }
+    h2 {
+      font-weight: 700;
+      color: var(--cicd-deep);
+      margin-top: 2.5rem;
+      padding-bottom: .5rem;
+      border-bottom: none;
+      position: relative;
+    }
+    h2::after {
+      content: "";
+      position: absolute;
+      left: 0; bottom: 0;
+      width: 58px; height: 3px;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--cicd-violet), var(--cicd-pink));
+    }
+    h3 {
+      font-weight: 600;
+      color: #2b2440;
+      margin-top: 1.8rem;
+    }
+    h3 i { color: var(--cicd-violet); }
+    .card {
+      border: none;
+      border-radius: .75rem;
+      box-shadow: 0 2px 10px rgba(20, 26, 40, .07);
+      margin-bottom: 1.5rem;
+    }
+    .card-header {
+      background: #fff;
+      border-bottom: 1px solid #e9ecef;
+      font-weight: 600;
+      font-size: .88rem;
+      padding: .9rem 1.25rem;
+    }
+    .card-body { padding: 1.4rem 1.5rem; }
+    pre {
+      background: #16112b;
+      color: #e6e9f2;
+      padding: 1rem 1.25rem;
+      border-radius: .55rem;
+      font-size: .82rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      position: relative;
+      border: 1px solid rgba(255,255,255,.06);
+    }
+    pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace; }
+    .kw { color: #c792ea; }
+    .fn { color: #82aaff; }
+    .str { color: #c3e88d; }
+    .cm { color: #6c7693; font-style: italic; }
+    .num { color: #ffb86c; }
+    .tp { color: #ffcb6b; }
+    .at { color: #f07178; }
+    .cmd-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+      color: #6d28d9;
+    }
+    .highlight-box {
+      background: #f6f1ff;
+      border-left: 4px solid var(--cicd-violet);
+      padding: 1rem 1.25rem;
+      border-radius: .4rem;
+      margin: 1rem 0;
+    }
+    .new-badge {
+      background: #0f9d58;
+      color: #fff;
+      font-size: .65rem;
+      font-weight: 600;
+      padding: .15rem .5rem;
+      border-radius: 1rem;
+      vertical-align: middle;
+    }
+    .svc-chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem;
+      font-weight: 600;
+      background: rgba(124,58,237,.12);
+      color: #6d28d9;
+      border: 1px solid rgba(124,58,237,.3);
+      padding: .1rem .45rem;
+      border-radius: .35rem;
+      white-space: nowrap;
+    }
+
+    /* ---------- Signature: pipeline flow ---------- */
+    .pipe-flow {
+      background: #fff;
+      border: 1px solid #e6e1f2;
+      border-radius: .9rem;
+      padding: 1.35rem 1.2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 10px 28px rgba(20, 26, 40, .07);
+    }
+    .pipe-flow .pipe-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .66rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #8b84a3;
+      margin-bottom: .9rem;
+    }
+    .pipe-flow .track {
+      display: flex;
+      align-items: stretch;
+      flex-wrap: wrap;
+      gap: .45rem;
+    }
+    .pipe-flow .stage {
+      flex: 1 1 110px;
+      border: 1px solid rgba(124,58,237,.25);
+      border-top: 3px solid var(--cicd-violet);
+      border-radius: .55rem;
+      padding: .6rem .65rem;
+      background: linear-gradient(180deg, rgba(124,58,237,.08), rgba(124,58,237,.02));
+      min-width: 0;
+    }
+    .pipe-flow .stage b {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: #4c1d95;
+      margin-bottom: .25rem;
+    }
+    .pipe-flow .stage span {
+      display: block;
+      font-size: .7rem;
+      color: #6b6480;
+      line-height: 1.35;
+    }
+    .pipe-flow .stage.gate { border-top-color: var(--cicd-pink); }
+    .pipe-flow .stage.gate b { color: #9d174d; }
+    .pipe-flow .stage.done { border-top-color: #0f9d58; }
+    .pipe-flow .stage.done b { color: #0b6b3f; }
+    .pipe-flow .pipe-note {
+      font-size: .74rem;
+      color: #6b6480;
+      margin: .85rem 0 0;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .stat-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .7rem;
+      margin-top: 1.1rem;
+    }
+    .stat-strip .st {
+      flex: 1 1 150px;
+      background: #faf8ff;
+      border: 1px solid #e6e1f2;
+      border-radius: .55rem;
+      padding: .7rem .8rem;
+    }
+    .stat-strip .st b {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.3rem;
+      color: #1c1140;
+      line-height: 1.2;
+    }
+    .stat-strip .st span {
+      font-size: .68rem;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: #8b84a3;
+    }
+
+    /* ---------- Home link ---------- */
+    .home-link {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 1100;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.94);
+      color: #101828;
+      text-decoration: none;
+      font-size: .78rem;
+      font-weight: 700;
+      box-shadow: 0 10px 28px rgba(0,0,0,.08);
+      border: 1px solid rgba(226,232,240,.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: .2s;
+    }
+    .home-link:hover { color: #6d28d9; }
+    @media (min-width: 992px) { .home-link { left: calc(var(--sidebar-width) + 14px); } }
+    @media (max-width: 991.98px) { .home-link { left: 4rem; } }
+    @media (max-width: 767.98px) {
+      #main { padding: 1.25rem 1rem 3rem; }
+      .home-link { left: 3.5rem; font-size: .72rem; padding: 6px 10px; }
+      .sidebar-toggle { top: .6rem; left: .6rem; }
+    }
+    @media (max-width: 575.98px) {
+      #main { padding: 1rem .75rem 2.5rem; }
+      .home-link { left: 3rem; font-size: .68rem; padding: 5px 8px; }
+    }
+  </style>
+  <link rel="stylesheet" href="../assets/vendor/fonts/fonts.css">
+<style>
+/* ===== Jap Hub design system - graphql pattern (injected layer) ===== */
+:root {
+  --acc: #7c3aed;
+  --acc2: #db2777;
+  --acc-soft: color-mix(in srgb, var(--acc) 32%, #ffffff);
+  --ink-deep: #1c1140;
+  --ink-2: #120a2c;
+  --ink: var(--ink-deep);
+  --bg: color-mix(in srgb, var(--acc) 5%, #f7f6fa);
+  --surface: #ffffff;
+  --surface-soft: rgba(255,255,255,.72);
+  --muted: color-mix(in srgb, var(--acc) 24%, #64698a);
+  --border: color-mix(in srgb, var(--acc) 16%, #e6e2f0);
+  --code: #16112b;
+  --code-text: #e7e4f6;
+  --good: #0f9d58;
+}
+[data-bs-theme="dark"] {
+  --ink: #eef0fb;
+  --bg: color-mix(in srgb, var(--acc) 8%, #0e1120);
+  --surface: #161a2e;
+  --muted: #9aa2bb;
+  --border: color-mix(in srgb, var(--acc) 24%, #262b3f);
+  --code: #0a0d1e;
+  --code-text: #dcd8ef;
+}
+::selection { background: var(--acc); color: #fff; }
+body {
+  font-family: 'Space Grotesk', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background:
+    radial-gradient(52rem 30rem at 110% -6%, color-mix(in srgb, var(--acc) 11%, transparent), transparent 60%),
+    radial-gradient(40rem 28rem at -10% 8%, color-mix(in srgb, var(--acc2) 9%, transparent), transparent 55%),
+    var(--bg);
+  color: var(--ink);
+  display: flex;
+}
+h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', 'Segoe UI', sans-serif; }
+#sidebar {
+  background:
+    radial-gradient(120% 90% at 100% 0%, color-mix(in srgb, var(--acc2) 30%, transparent), transparent 55%),
+    linear-gradient(180deg, var(--ink-deep) 0%, var(--ink-2) 100%);
+}
+#sidebar .brand h5 { color: #fff; letter-spacing: .01em; }
+#sidebar .brand small { color: #b3aad2; font-size: .7rem; }
+#sidebar .nav-link { color: #cfc7e6; font-family: 'Space Grotesk', sans-serif; }
+#sidebar .nav-link:hover { color: #fff; background: rgba(255,255,255,.06); }
+#sidebar .nav-link i { color: color-mix(in srgb, var(--acc-soft) 62%, #ffffff); }
+#sidebar .nav-link.active {
+  color: #fff;
+  border-left-color: var(--acc);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--acc) 22%, transparent), transparent);
+}
+#sidebar .nav-section { color: #928ab0; }
+.sidebar-toggle { background: var(--ink-deep); color: #fff; }
+#main { width: 100%; padding: 2rem 2.5rem 4rem; max-width: 1120px; min-width: 0; }
+h2 {
+  color: var(--ink);
+  font-weight: 700;
+  margin-top: 2.2rem;
+  padding-bottom: .55rem;
+  border-bottom: none;
+  position: relative;
+}
+h2 i { color: var(--acc); }
+h2::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 58px; height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--acc), var(--acc2));
+}
+h3 { color: var(--ink); font-weight: 600; }
+h3 i { color: var(--acc); }
+h4 { color: var(--ink); }
+.card {
+  border: 1px solid var(--border);
+  border-radius: .8rem;
+  background: var(--surface);
+  box-shadow: 0 4px 16px rgba(15, 18, 38, .05);
+}
+.card-header {
+  background: color-mix(in srgb, var(--acc) 6%, var(--surface));
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+  font-size: .84rem;
+  color: var(--ink);
+  padding: .75rem 1.1rem;
+}
+.card-body { padding: 1.25rem 1.35rem; }
+pre {
+  background: var(--code);
+  color: var(--code-text);
+  padding: 1.05rem 1.2rem;
+  border-radius: .6rem;
+  font-size: .82rem;
+  line-height: 1.6;
+  border: 1px solid rgba(255,255,255,.05);
+  overflow-x: auto;
+}
+pre code { font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', ui-monospace, monospace; }
+code {
+  font-family: 'JetBrains Mono', 'Cascadia Code', ui-monospace, monospace;
+  font-size: .85em;
+  background: color-mix(in srgb, var(--acc) 10%, transparent);
+  color: var(--acc);
+  padding: .1em .35em;
+  border-radius: .35em;
+}
+pre code { background: transparent; color: inherit; padding: 0; border-radius: 0; }
+.kw { color: #c792ea; }
+.fn { color: #7ee0c3; }
+.str { color: #c3e88d; }
+.cm { color: #6c7693; font-style: italic; }
+.num { color: #ffb86c; }
+.tp { color: #82aaff; }
+.at { color: #f07178; }
+.highlight-box {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--acc2) 8%, transparent), color-mix(in srgb, var(--acc) 5%, transparent));
+  border-left: 4px solid var(--acc);
+  padding: 1rem 1.25rem;
+  border-radius: .45rem;
+  color: var(--ink);
+}
+.table thead th {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--muted);
+  background: color-mix(in srgb, var(--acc) 6%, var(--surface));
+  border-bottom: 2px solid var(--border);
+}
+.cmd-table td:first-child { color: var(--acc); }
+.new-badge {
+  background: linear-gradient(135deg, var(--acc), var(--acc2));
+  color: #fff;
+}
+#main a { color: var(--acc); }
+#main a:hover { color: var(--acc2); }
+.home-link:hover { color: var(--acc); }
+:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; border-radius: 6px; }
+
+/* hero band (legacy doc template) */
+#main > div:first-child.d-flex {
+  background:
+    radial-gradient(120% 150% at 100% 0%, color-mix(in srgb, var(--acc2) 30%, transparent), transparent 55%),
+    radial-gradient(100% 140% at 0% 100%, color-mix(in srgb, var(--acc) 24%, transparent), transparent 50%),
+    linear-gradient(135deg, var(--ink-deep) 0%, var(--ink-2) 100%);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 20px;
+  padding: 2.2rem 1.9rem 1.7rem;
+  margin-bottom: 1.5rem;
+  color: #fff;
+  box-shadow: 0 24px 50px rgba(10, 12, 30, .18);
+}
+#main > div:first-child.d-flex h1 {
+  color: #fff !important;
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  margin-bottom: .55rem;
+}
+#main > div:first-child.d-flex h1 i { color: var(--acc-soft) !important; }
+#main > div:first-child.d-flex p {
+  color: rgba(255, 255, 255, .74) !important;
+  font-size: 1rem;
+}
+#main > div:first-child.d-flex .badge {
+  border-radius: 999px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .64rem;
+  font-weight: 600;
+  letter-spacing: .03em;
+}
+#main > div:first-child.d-flex .badge.bg-secondary { background: rgba(255,255,255,.14) !important; color: #fff; }
+#main > div:first-child.d-flex .badge.bg-success { background: var(--good) !important; }
+#main > div:first-child.d-flex .badge.bg-warning { background: #f7a54c !important; color: #241810 !important; }
+
+/* intro lead */
+#main > p.fs-5 {
+  color: var(--muted) !important;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  max-width: 52rem;
+}
+@media (max-width: 768px) {
+  /* stack instead of flex so wide tables/code cannot stretch the page */
+  body { display: block; }
+  #main { width: 100%; max-width: none; padding: 1.5rem 1.15rem 3rem; }
+  #main > div:first-child.d-flex { padding: 1.6rem 1.3rem 1.4rem; }
+}
+</style></head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
+<a href="../index.html" class="home-link" aria-label="Go back to home page"><i class="bi bi-arrow-left"></i> Home</a>
+
+<!-- ===== SIDEBAR ===== -->
+<nav id="sidebar">
+  <div class="brand">
+    <h5><i class="bi bi-arrow-repeat me-2" style="color:var(--cicd-violet)"></i>CI/CD</h5>
+    <small class="d-block mt-1">Pipelines &middot; Working Guide</small>
+  </div>
+  <div class="py-2">
+    <div class="nav-section">Start here</div>
+    <a class="nav-link" href="#start"><i class="bi bi-question-circle"></i> What CI/CD Is</a>
+    <a class="nav-link" href="#anatomy"><i class="bi bi-diagram-3"></i> Pipeline Anatomy</a>
+    <a class="nav-link" href="#first"><i class="bi bi-play-circle"></i> Your First Pipeline</a>
+
+    <div class="nav-section">GitHub Actions</div>
+    <a class="nav-link" href="#github"><i class="bi bi-github"></i> Workflow Syntax</a>
+    <a class="nav-link" href="#laravel"><i class="bi bi-braces"></i> Laravel Pipeline</a>
+    <a class="nav-link" href="#node"><i class="bi bi-node-plus"></i> Node / React Pipeline</a>
+    <a class="nav-link" href="#docker"><i class="bi bi-box-seam"></i> Build &amp; Push Images</a>
+
+    <div class="nav-section">Ship it</div>
+    <a class="nav-link" href="#secrets"><i class="bi bi-key"></i> Secrets &amp; OIDC</a>
+    <a class="nav-link" href="#deploy"><i class="bi bi-rocket-takeoff"></i> Deploy Strategies</a>
+    <a class="nav-link" href="#migrations"><i class="bi bi-database-gear"></i> Safe Migrations</a>
+    <a class="nav-link" href="#gitlab"><i class="bi bi-gitlab"></i> GitLab &amp; Others</a>
+
+    <div class="nav-section">Keep it healthy</div>
+    <a class="nav-link" href="#quality"><i class="bi bi-shield-check"></i> Gates &amp; Security</a>
+    <a class="nav-link" href="#speed"><i class="bi bi-lightning-charge"></i> Making It Fast</a>
+    <a class="nav-link" href="#debug"><i class="bi bi-bug"></i> When It Goes Red</a>
+
+    <div class="nav-section">Get hired</div>
+    <a class="nav-link" href="#interview"><i class="bi bi-patch-question"></i> Interview Q&amp;A</a>
+    <a class="nav-link" href="#cheatsheet"><i class="bi bi-lightning"></i> Cheat Sheet</a>
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<div id="main">
+
+  <!-- HERO -->
+  <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+    <div>
+      <h1 class="fw-bold mb-1">
+        <i class="bi bi-arrow-repeat"></i>
+        CI/CD
+      </h1>
+      <p class="text-muted mb-0 fs-5">
+        Every push tested, every merge shippable
+        <span class="badge bg-warning text-dark ms-2">Pipelines</span>
+        <span class="badge bg-secondary ms-1">GitHub Actions &middot; GitLab CI</span>
+        <span class="badge bg-success ms-1">zero-downtime deploys</span>
+      </p>
+    </div>
+  </div>
+
+  <p class="fs-5 text-muted mb-5">
+    <strong>Continuous Integration</strong> means every push is built and tested automatically.
+    <strong>Continuous Delivery</strong> means a green pipeline always produces something deployable.
+    <strong>Continuous Deployment</strong> means the deploy happens without a human. This guide builds the
+    first two properly &mdash; real YAML for Laravel and Node, Docker image publishing, secrets done
+    right, and the deployment patterns that keep a release from becoming an outage.
+  </p>
+
+  <!-- ==================== WHAT CI/CD IS ==================== -->
+  <section id="start">
+    <h2><i class="bi bi-question-circle me-2"></i>What CI/CD Actually Is</h2>
+
+    <div class="card">
+      <div class="card-header">The words, without the marketing</div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead><tr><th style="width:24%">Term</th><th style="width:36%">Means</th><th>The test for whether you have it</th></tr></thead>
+          <tbody>
+            <tr><td>Continuous Integration</td><td>Push &rarr; build &rarr; test, for every branch</td><td>A broken branch is red within minutes</td></tr>
+            <tr><td>Continuous Delivery</td><td>Green build is always deployable</td><td>You could deploy main today without asking anyone</td></tr>
+            <tr><td>Continuous Deployment</td><td>Green build deploys itself</td><td>Nobody clicks "Deploy" at all</td></tr>
+            <tr><td>Pipeline</td><td>The ordered stages that do the above</td><td>You can name your stages in order</td></tr>
+            <tr><td>Job / step</td><td>A unit of work inside a stage</td><td>One <code>run:</code> or action call</td></tr>
+            <tr><td>Runner</td><td>The machine that executes jobs</td><td>Hosted by GitHub, or self-hosted</td></tr>
+            <tr><td>Artifact</td><td>A file passed between jobs</td><td>Built bundle, coverage report, image tag</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="pipe-flow">
+      <div class="pipe-title">the loop you are automating</div>
+      <div class="track">
+        <div class="stage"><b>push</b><span>commit or PR to the repo</span></div>
+        <div class="stage"><b>lint</b><span>style + static analysis, seconds</span></div>
+        <div class="stage"><b>test</b><span>unit, feature, integration</span></div>
+        <div class="stage gate"><b>build</b><span>image or bundle, immutable tag</span></div>
+        <div class="stage gate"><b>scan</b><span>CVEs, secrets, dependency audit</span></div>
+        <div class="stage done"><b>deploy</b><span>staging first, then production</span></div>
+        <div class="stage done"><b>verify</b><span>health check, smoke test, rollback hook</span></div>
+      </div>
+      <p class="pipe-note">Cheap checks run first. Nothing expensive starts until the fast feedback is green.</p>
+    </div>
+
+    <div class="highlight-box">
+      <strong>The one rule that matters:</strong> if a step can be done by a human on a laptop, it can be done by
+      the pipeline instead. The pipeline is the documentation of how to ship that is guaranteed not to be out of date.
+    </div>
+
+    <div class="stat-strip">
+      <div class="st"><b>&lt;10m</b><span>target pipeline time</span></div>
+      <div class="st"><b>1</b><span>artifact, promoted, never rebuilt</span></div>
+      <div class="st"><b>0</b><span>long-lived cloud keys</span></div>
+    </div>
+  </section>
+
+  <!-- ==================== ANATOMY ==================== -->
+  <section id="anatomy">
+    <h2><i class="bi bi-diagram-3 me-2"></i>Pipeline Anatomy</h2>
+    <p class="text-muted">Every CI system, whatever the YAML looks like, has the same six moving parts.</p>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead><tr><th style="width:22%">Part</th><th style="width:32%">GitHub Actions</th><th>GitLab CI</th></tr></thead>
+          <tbody>
+            <tr><td>Trigger</td><td><code>on: push, pull_request</code></td><td><code>rules:</code> / <code>only:</code></td></tr>
+            <tr><td>Pipeline</td><td>A workflow file in <code>.github/workflows/</code></td><td><code>.gitlab-ci.yml</code></td></tr>
+            <tr><td>Stage</td><td>A <code>job</code> (order via <code>needs:</code>)</td><td>A <code>stage</code> (ordered list)</td></tr>
+            <tr><td>Step</td><td><code>uses:</code> a published action</td><td><code>script:</code> lines</td></tr>
+            <tr><td>Runner</td><td><code>runs-on: ubuntu-latest</code></td><td><code>tags:</code> / default runner</td></tr>
+            <tr><td>Shared state</td><td><code>actions/cache</code>, <code>upload-artifact</code></td><td><code>cache:</code>, <code>artifacts:</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>What belongs in which stage</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead><tr><th style="width:22%">Stage</th><th style="width:30%">Runs on</th><th>Fails the build when&hellip;</th></tr></thead>
+          <tbody>
+            <tr><td>Lint</td><td>Every push, every PR</td><td>Style or static analysis complains</td></tr>
+            <tr><td>Test</td><td>Every push, every PR</td><td>A test fails, or coverage drops below the floor</td></tr>
+            <tr><td>Build</td><td>Main, tags, releases</td><td>The image or bundle cannot be produced</td></tr>
+            <tr><td>Scan</td><td>Builds that will ship</td><td>A critical CVE or a leaked secret is found</td></tr>
+            <tr><td>Deploy staging</td><td>Merges to main</td><td>Health check or smoke test fails</td></tr>
+            <tr><td>Deploy production</td><td>A tag, or a manual approval</td><td>Same checks, plus canary error rate</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Build once, promote everywhere.</strong> The image tested in staging must be the exact image
+      deployed to production &mdash; same digest. Rebuilding per environment means you are testing one thing
+      and shipping another.
+    </div>
+  </section>
+
+  <!-- ==================== FIRST PIPELINE ==================== -->
+  <section id="first">
+    <h2><i class="bi bi-play-circle me-2"></i>Your First Pipeline</h2>
+    <p class="text-muted">Create <code>.github/workflows/ci.yml</code> in the repository. That is the whole setup &mdash; no server, no plugin.</p>
+
+<pre><code><span class="cm"># .github/workflows/ci.yml</span>
+<span class="kw">name</span>: CI
+
+<span class="kw">on</span>:
+  <span class="kw">push</span>:
+    <span class="kw">branches</span>: [main]
+  <span class="kw">pull_request</span>:
+
+<span class="kw">permissions</span>:
+  <span class="kw">contents</span>: read
+
+<span class="kw">concurrency</span>:
+  <span class="kw">group</span>: ci-${{ github.ref }}
+  <span class="kw">cancel-in-progress</span>: true
+
+<span class="kw">jobs</span>:
+  <span class="kw">test</span>:
+    <span class="kw">runs-on</span>: ubuntu-latest
+    <span class="kw">timeout-minutes</span>: 15
+    <span class="kw">steps</span>:
+      - <span class="kw">uses</span>: actions/checkout@v4
+
+      - <span class="kw">uses</span>: actions/setup-node@v4
+        <span class="kw">with</span>:
+          <span class="kw">node-version</span>: 22
+          <span class="kw">cache</span>: npm
+
+      - <span class="kw">run</span>: npm ci
+      - <span class="kw">run</span>: npm run lint
+      - <span class="kw">run</span>: npm test</code></pre>
+
+    <div class="card">
+      <div class="card-header">What each block is doing</div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead><tr><th style="width:30%">Block</th><th>Why it is there</th></tr></thead>
+          <tbody>
+            <tr><td>on</td><td>Tests pull requests <em>and</em> main, so the badge means something</td></tr>
+            <tr><td>permissions</td><td>Least privilege; the default token is too broad</td></tr>
+            <tr><td>concurrency</td><td>A new push cancels the previous run &mdash; saves minutes and confusion</td></tr>
+            <tr><td>timeout-minutes</td><td>A hung job cannot burn an hour of quota</td></tr>
+            <tr><td>setup-node cache: npm</td><td>Caches <code>~/.npm</code> keyed on the lockfile</td></tr>
+            <tr><td>npm ci</td><td>Reproducible install from the lockfile; never <code>npm install</code> in CI</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Debug ladder:</strong> read the failing step name, expand the log at the <em>first</em> error rather than
+      the last, then reproduce locally with the same command. Nine out of ten red builds are a missing
+      environment variable or a version that differs from your laptop.
+    </div>
+  </section>
+
+  <!-- ==================== WORKFLOW SYNTAX ==================== -->
+  <section id="github">
+    <h2><i class="bi bi-github me-2"></i>GitHub Actions: the Parts You Will Use</h2>
+
+    <h3>Triggers</h3>
+<pre><code><span class="kw">on</span>:
+  <span class="kw">push</span>:
+    <span class="kw">branches</span>: [main]
+    <span class="kw">tags</span>: [<span class="str">"v*"</span>]        <span class="cm"># release tags</span>
+    <span class="kw">paths</span>: [<span class="str">"src/**"</span>, <span class="str">"package.json"</span>]   <span class="cm"># skip doc-only changes</span>
+  <span class="kw">pull_request</span>:
+    <span class="kw">branches</span>: [main]
+  <span class="kw">schedule</span>:
+    - <span class="kw">cron</span>: <span class="str">"0 3 * * 1"</span>   <span class="cm"># Mondays 03:00 UTC</span>
+  <span class="kw">workflow_dispatch</span>:          <span class="cm"># a manual Run button</span>
+  <span class="kw">release</span>:
+    <span class="kw">types</span>: [published]</code></pre>
+
+    <h3>Jobs, needs and matrix</h3>
+<pre><code><span class="kw">jobs</span>:
+  <span class="kw">lint</span>:
+    <span class="kw">runs-on</span>: ubuntu-latest
+    <span class="kw">steps</span>:
+      - <span class="kw">uses</span>: actions/checkout@v4
+      - <span class="kw">run</span>: composer install --no-interaction --prefer-dist
+      - <span class="kw">run</span>: vendor/bin/pint --test
+
+  <span class="kw">test</span>:
+    <span class="kw">needs</span>: lint                 <span class="cm"># do not spend money if style fails</span>
+    <span class="kw">runs-on</span>: ubuntu-latest
+    <span class="kw">strategy</span>:
+      <span class="kw">fail-fast</span>: false
+      <span class="kw">matrix</span>:
+        <span class="kw">php</span>: [<span class="str">"8.3"</span>, <span class="str">"8.4"</span>]
+        <span class="kw">laravel</span>: [<span class="str">"12.*"</span>, <span class="str">"13.*"</span>]
+    <span class="kw">name</span>: PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}
+    <span class="kw">steps</span>:
+      - <span class="kw">uses</span>: actions/checkout@v4
+      - <span class="kw">run</span>: echo "testing on ${{ matrix.php }}"</code></pre>
+
+    <h3>Reusable pieces: actions, artifacts, outputs</h3>
+<pre><code>      <span class="cm"># files between jobs</span>
+      - <span class="kw">uses</span>: actions/upload-artifact@v4
+        <span class="kw">with</span>:
+          <span class="kw">name</span>: coverage
+          <span class="kw">path</span>: coverage/
+          <span class="kw">retention-days</span>: 7
+
+      <span class="cm"># a job that reads another job's output (e.g. the image tag)</span>
+      - <span class="kw">id</span>: meta
+        <span class="kw">run</span>: echo "tag=${GITHUB_SHA::7}" &gt;&gt; "$GITHUB_OUTPUT"
+    <span class="cm"># later job:</span>
+    <span class="kw">needs</span>: build
+    <span class="kw">steps</span>:
+      - <span class="kw">run</span>: echo "deploying ${{ needs.build.outputs.tag }}"</code></pre>
+
+    <div class="highlight-box">
+      <strong>Two environment files, easily confused:</strong> <code>$GITHUB_ENV</code> sets variables for
+      <em>later steps</em>; <code>$GITHUB_OUTPUT</code> passes values to <em>other jobs</em>. Writing
+      <code>echo "FOO=bar"</code> into the log does neither.
+    </div>
+
+    <h3>Services: a real database for the test job</h3>
+<pre><code>    <span class="kw">services</span>:
+      <span class="kw">mysql</span>:
+        <span class="kw">image</span>: mysql:8.4
+        <span class="kw">env</span>:
+          <span class="kw">MYSQL_ROOT_PASSWORD</span>: root
+          <span class="kw">MYSQL_DATABASE</span>: testing
+        <span class="kw">ports</span>: [<span class="str">"3306:3306"</span>]
+        <span class="kw">options</span>: &gt;-
+          --health-cmd="mysqladmin ping -h localhost -proot"
+          --health-interval=5s --health-timeout=5s --health-retries=15</code></pre>
+  </section>
+
+  <!-- ==================== LARAVEL ==================== -->
+  <section id="laravel">
+    <h2><i class="bi bi-braces me-2"></i>A Complete Laravel Pipeline</h2>
+    <p class="text-muted">Setup PHP with the right extensions, cache Composer, run migrations against a real MySQL, test, then build the image once.</p>
+
+<pre><code><span class="kw">name</span>: Laravel CI
+
+<span class="kw">on</span>:
+  <span class="kw">push</span>: { <span class="kw">branches</span>: [main] }
+  <span class="kw">pull_request</span>: { <span class="kw">branches</span>: [main] }
+
+<span class="kw">concurrency</span>:
+  <span class="kw">group</span>: laravel-${{ github.ref }}
+  <span class="kw">cancel-in-progress</span>: true
+
+<span class="kw">jobs</span>:
+  <span class="kw">test</span>:
+    <span class="kw">runs-on</span>: ubuntu-latest
+    <span class="kw">timeout-minutes</span>: 15
+
+    <span class="kw">services</span>:
+      <span class="kw">mysql</span>:
+        <span class="kw">image</span>: mysql:8.4
+        <span class="kw">env</span>:
+          <span class="kw">MYSQL_ROOT_PASSWORD</span>: root
+          <span class="kw">MYSQL_DATABASE</span>: testing
+        <span class="kw">ports</span>: [<span class="str">"3306:3306"</span>]
+        <span class="kw">options</span>: &gt;- --health-cmd="mysqladmin ping -proot" --health-interval=5s --health-retries=15
+      <span class="kw">redis</span>:
+        <span class="kw">image</span>: redis:7-alpine
+        <span class="kw">ports</span>: [<span class="str">"6379:6379"</span>]
+
+    <span class="kw">env</span>:
+      <span class="kw">DB_CONNECTION</span>: mysql
+      <span class="kw">DB_HOST</span>: 127.0.0.1
+      <span class="kw">DB_PORT</span>: 3306
+      <span class="kw">DB_DATABASE</span>: testing
+      <span class="kw">DB_USERNAME</span>: root
+      <span class="kw">DB_PASSWORD</span>: root
+      <span class="kw">CACHE_STORE</span>: redis
+      <span class="kw">REDIS_HOST</span>: 127.0.0.1
+
+    <span class="kw">steps</span>:
+      - <span class="kw">uses</span>: actions/checkout@v4
+
+      - <span class="kw">uses</span>: shivammathur/setup-php@v2
+        <span class="kw">with</span>:
+          <span class="kw">php-version</span>: <span class="str">"8.4"</span>
+          <span class="kw">extensions</span>: mbstring, pdo_mysql, intl, zip, bcmath
+          <span class="kw">coverage</span>: none
+          <span class="kw">tools</span>: composer
+
+      - <span class="kw">name</span>: Cache Composer
+        <span class="kw">uses</span>: actions/cache@v4
+        <span class="kw">with</span>:
+          <span class="kw">path</span>: ~/.composer/cache
+          <span class="kw">key</span>: composer-${{ hashFiles('**/composer.lock') }}
+          <span class="kw">restore-keys</span>: composer-
+
+      - <span class="kw">name</span>: Install
+        <span class="kw">run</span>: composer install --no-interaction --prefer-dist --no-progress
+
+      - <span class="kw">name</span>: Prepare
+        <span class="kw">run</span>: |
+          cp .env.example .env
+          php artisan key:generate
+          php artisan migrate --force
+
+      - <span class="kw">name</span>: Style
+        <span class="kw">run</span>: vendor/bin/pint --test
+
+      - <span class="kw">name</span>: Tests
+        <span class="kw">run</span>: php artisan test --parallel --coverage --min=80</code></pre>
+
+    <div class="highlight-box">
+      <strong>Test the database you deploy on.</strong> SQLite hides <code>json</code> path behaviour,
+      foreign-key timing and deadlocks. A MySQL service container costs about 20 seconds and removes an
+      entire class of "works in CI, fails in production".
+    </div>
+
+    <p class="small text-muted mb-0">
+      PHP 8.4 and Laravel 12/13 are current lines in 2026. Pin exact versions in the matrix if your composer
+      constraints are narrow; a moving <code>latest</code> in CI is the same trap as a moving
+      <code>latest</code> in Docker.
+    </p>
+  </section>
+
+  <!-- ==================== NODE ==================== -->
+  <section id="node">
+    <h2><i class="bi bi-node-plus me-2"></i>A Node / React Pipeline</h2>
+
+<pre><code><span class="kw">name</span>: Frontend CI
+
+<span class="kw">on</span>:
+  <span class="kw">push</span>: { <span class="kw">branches</span>: [main] }
+  <span class="kw">pull_request</span>: { <span class="kw">branches</span>: [main] }
+
+<span class="kw">jobs</span>:
+  <span class="kw">verify</span>:
+    <span class="kw">runs-on</span>: ubuntu-latest
+    <span class="kw">steps</span>:
+      - <span class="kw">uses</span>: actions/checkout@v4
+
+      - <span class="kw">uses</span>: actions/setup-node@v4
+        <span class="kw">with</span>:
+          <span class="kw">node-version</span>: 22
+          <span class="kw">cache</span>: npm
+
+      - <span class="kw">run</span>: npm ci
+
+      - <span class="kw">name</span>: Types
+        <span class="kw">run</span>: npx tsc --noEmit
+
+      - <span class="kw">name</span>: Lint
+        <span class="kw">run</span>: npm run lint
+
+      - <span class="kw">name</span>: Unit tests
+        <span class="kw">run</span>: npm test -- --run --coverage
+
+      - <span class="kw">name</span>: Production build
+        <span class="kw">run</span>: npm run build
+        <span class="kw">env</span>:
+          <span class="kw">VITE_API_URL</span>: https://api.example.com
+
+      - <span class="kw">name</span>: E2E
+        <span class="kw">run</span>: npx playwright test
+        <span class="kw">env</span>:
+          <span class="kw">PLAYWRIGHT_BROWSERS_PATH</span>: 0</code></pre>
+
+    <div class="highlight-box">
+      <strong>Frontend env vars are baked at build time.</strong> <code>VITE_*</code>, <code>NEXT_PUBLIC_*</code> and
+      React's <code>REACT_APP_*</code> values end up in the JavaScript bundle. Never put an API secret there &mdash;
+      only the public base URL and, at most, a public key.
+    </div>
+  </section>
+
+  <!-- ==================== DOCKER ==================== -->
+  <section id="docker">
+    <h2><i class="bi bi-box-seam me-2"></i>Build &amp; Push a Docker Image</h2>
+
+<pre><code><span class="kw">name</span>: Release
+
+<span class="kw">on</span>:
+  <span class="kw">push</span>:
+    <span class="kw">tags</span>: [<span class="str">"v*"</span>]
+
+<span class="kw">permissions</span>:
+  <span class="kw">contents</span>: read
+  <span class="kw">packages</span>: write        <span class="cm"># push to ghcr.io</span>
+
+<span class="kw">jobs</span>:
+  <span class="kw">image</span>:
+    <span class="kw">runs-on</span>: ubuntu-latest
+    <span class="kw">steps</span>:
+      - <span class="kw">uses</span>: actions/checkout@v4
+
+      - <span class="kw">uses</span>: docker/setup-buildx-action@v3
+
+      - <span class="kw">uses</span>: docker/login-action@v3
+        <span class="kw">with</span>:
+          <span class="kw">registry</span>: ghcr.io
+          <span class="kw">username</span>: ${{ github.actor }}
+          <span class="kw">password</span>: ${{ secrets.GITHUB_TOKEN }}
+
+      - <span class="kw">id</span>: meta
+        <span class="kw">uses</span>: docker/metadata-action@v5
+        <span class="kw">with</span>:
+          <span class="kw">images</span>: ghcr.io/${{ github.repository }}
+          <span class="kw">tags</span>: |
+            type=semver,pattern={{version}}
+            type=sha,prefix=sha-
+
+      - <span class="kw">uses</span>: docker/build-push-action@v6
+        <span class="kw">with</span>:
+          <span class="kw">context</span>: .
+          <span class="kw">push</span>: true
+          <span class="kw">tags</span>: ${{ steps.meta.outputs.tags }}
+          <span class="kw">labels</span>: ${{ steps.meta.outputs.labels }}
+          <span class="kw">cache-from</span>: type=gha
+          <span class="kw">cache-to</span>: type=gha,mode=max
+          <span class="kw">platforms</span>: linux/amd64,linux/arm64
+          <span class="kw">provenance</span>: true</code></pre>
+
+    <div class="card">
+      <div class="card-header">What the cache lines actually save</div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead><tr><th style="width:34%">Setting</th><th>Effect</th></tr></thead>
+          <tbody>
+            <tr><td><code>cache-from: type=gha</code></td><td>Pulls layer cache from previous runs</td></tr>
+            <tr><td><code>cache-to: type=gha,mode=max</code></td><td>Stores every layer, not just the final one</td></tr>
+            <tr><td><code>platforms:</code> amd64 + arm64</td><td>One tag that runs on both servers and Apple laptops</td></tr>
+            <tr><td><code>provenance: true</code></td><td>Records how and from what the image was built</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Do not build the image twice.</strong> Build here, use the digest downstream
+      (<code>${{ steps.build.outputs.digest }}</code>) and deploy exactly that. The staging and production
+      containers then cannot drift.
+    </div>
+  </section>
+
+  <!-- ==================== SECRETS ==================== -->
+  <section id="secrets">
+    <h2><i class="bi bi-key me-2"></i>Secrets &amp; OIDC</h2>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead><tr><th style="width:26%">Where</th><th style="width:34%">Used for</th><th>Exposure risk</th></tr></thead>
+          <tbody>
+            <tr><td>Repo secrets</td><td>Tokens available to all workflows</td><td>Any workflow edit can read them</td></tr>
+            <tr><td>Environment secrets</td><td>Production only, behind required reviewers</td><td>Lower &mdash; approval gates apply</td></tr>
+            <tr><td><code>GITHUB_TOKEN</code></td><td>Repo-scoped, expires with the job</td><td>Low &mdash; set <code>permissions:</code> tightly</td></tr>
+            <tr><td>OIDC &rarr; cloud role</td><td>Short-lived AWS/GCP/Azure credentials</td><td>Lowest &mdash; nothing long-lived to leak</td></tr>
+            <tr><td>Hashed into the repo</td><td>Nothing. Ever.</td><td>Certain incident</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+<pre><code><span class="cm"># repository → Settings → Environments → production → required reviewers</span>
+<span class="kw">jobs</span>:
+  <span class="kw">deploy</span>:
+    <span class="kw">runs-on</span>: ubuntu-latest
+    <span class="kw">environment</span>:
+      <span class="kw">name</span>: production
+      <span class="kw">url</span>: https://example.com
+    <span class="kw">permissions</span>:
+      <span class="kw">id-token</span>: write      <span class="cm"># OIDC, no stored cloud keys</span>
+      <span class="kw">contents</span>: read
+    <span class="kw">steps</span>:
+      - <span class="kw">uses</span>: aws-actions/configure-aws-credentials@v4
+        <span class="kw">with</span>:
+          <span class="kw">role-to-assume</span>: arn:aws:iam::123456789012:role/gh-deploy
+          <span class="kw">aws-region</span>: eu-west-1</code></pre>
+
+    <div class="highlight-box">
+      <strong>Pull requests from forks do not get your secrets.</strong> That is a feature. If a workflow needs
+      secrets on <code>pull_request</code>, use <code>pull_request_target</code> only with extreme care &mdash;
+      it runs untrusted code with your credentials. Prefer splitting into "test with no secrets" and
+      "deploy on merge".
+    </div>
+  </section>
+
+  <!-- ==================== DEPLOY ==================== -->
+  <section id="deploy">
+    <h2><i class="bi bi-rocket-takeoff me-2"></i>Deploy Strategies</h2>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead><tr><th style="width:20%">Strategy</th><th style="width:34%">How it works</th><th>Cost / risk</th></tr></thead>
+          <tbody>
+            <tr><td>Recreate</td><td>Stop old, start new</td><td>Simple, visible downtime</td></tr>
+            <tr><td>Rolling</td><td>Replace instances a few at a time</td><td>No downtime; two versions briefly coexist</td></tr>
+            <tr><td>Blue / green</td><td>Stand up the new stack, flip traffic</td><td>Double resources; instant rollback</td></tr>
+            <tr><td>Canary</td><td>Send 5% of traffic, watch error rate, widen</td><td>Best blast-radius control, needs metrics</td></tr>
+            <tr><td>Feature flag</td><td>Deploy dark, enable per user or percentage</td><td>Decouples deploy from release</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>Why two versions coexisting changes your code</h3>
+    <p class="text-muted">During a rolling deploy, old and new code run at the same time against one database. Anything that is not backwards-compatible is an outage, not a deploy.</p>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead><tr><th style="width:34%">Change</th><th>Safe during a rolling deploy?</th></tr></thead>
+          <tbody>
+            <tr><td>Add a nullable column</td><td>Yes</td></tr>
+            <tr><td>Rename a column</td><td><strong>No</strong> &mdash; old code still writes to the old name</td></tr>
+            <tr><td>Drop a column</td><td>Only after no running code reads it</td></tr>
+            <tr><td>Add a required column without default</td><td><strong>No</strong> &mdash; old code inserts break</td></tr>
+            <tr><td>Change a queue job payload shape</td><td>Only if workers tolerate both shapes</td></tr>
+            <tr><td>Cache key format change</td><td>Yes, with a version prefix (<code>v2:</code>)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Write your rollback before your deploy.</strong> A deploy job without a documented
+      "how do we go back" line is only half a pipeline. Blue/green gives it to you for free: flip the router.
+    </div>
+  </section>
+
+  <!-- ==================== MIGRATIONS ==================== -->
+  <section id="migrations">
+    <h2><i class="bi bi-database-gear me-2"></i>Safe Migrations in a Pipeline</h2>
+    <p class="text-muted">Migrations are the step that most often turns a green deploy into a 3 a.m. incident, because they are the only irreversible thing in it.</p>
+
+    <div class="card">
+      <div class="card-header">Expand &rarr; migrate &rarr; contract, in three releases</div>
+      <div class="card-body">
+<pre><code><span class="cm"># Release 1 — expand (schema only)</span>
+Schema::table(<span class="str">'orders'</span>, <span class="kw">function</span> (Blueprint $t) {
+    $t-&gt;string(<span class="str">'status_v2'</span>)-&gt;nullable()-&gt;after(<span class="str">'status'</span>);
+});
+
+<span class="cm"># Release 2 — code writes both, reads the new one, backfill in batches</span>
+<span class="cm"># Release 3 — contract: drop the old column once nothing reads it</span></code></pre>
+      </div>
+    </div>
+
+<pre><code><span class="cm"># run migrations as a separate job, not from every web container</span>
+- <span class="kw">name</span>: Migrate
+  <span class="kw">run</span>: php artisan migrate --force --isolated
+  <span class="kw">env</span>:
+    <span class="kw">DB_HOST</span>: ${{ secrets.DB_HOST }}
+    <span class="kw">DB_PASSWORD</span>: ${{ secrets.DB_PASSWORD }}</code></pre>
+
+    <div class="card">
+      <div class="card-header">Rules that prevent the classic outage</div>
+      <div class="card-body mb-0">
+        <ul class="mb-0 small">
+          <li>Run migrations <strong>once</strong> per release &mdash; <code>--isolated</code> uses a lock so parallel containers cannot race.</li>
+          <li>Never run a long <code>ALTER</code> on a large table without a plan; it locks writes.</li>
+          <li>Take a backup (or a snapshot) before destructive migrations, and say so in the release notes.</li>
+          <li>Migrations must not depend on application code that may still be the old version.</li>
+          <li>Seed data belongs in a seeder, not in a migration that runs on production.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== GITLAB ==================== -->
+  <section id="gitlab">
+    <h2><i class="bi bi-gitlab me-2"></i>GitLab CI &amp; the Alternatives</h2>
+
+<pre><code><span class="cm"># .gitlab-ci.yml</span>
+<span class="kw">stages</span>: [test, build, deploy]
+
+<span class="kw">default</span>:
+  <span class="kw">image</span>: php:8.4-cli
+  <span class="kw">cache</span>:
+    <span class="kw">key</span>:
+      <span class="kw">files</span>: [composer.lock]
+    <span class="kw">paths</span>: [vendor/]
+
+<span class="kw">test</span>:
+  <span class="kw">stage</span>: test
+  <span class="kw">script</span>:
+    - composer install --no-interaction --prefer-dist
+    - cp .env.example .env
+    - php artisan key:generate
+    - php artisan test
+
+<span class="kw">build</span>:
+  <span class="kw">stage</span>: build
+  <span class="kw">image</span>: docker:28
+  <span class="kw">services</span>: [docker:28-dind]
+  <span class="kw">script</span>:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+    - docker build -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" .
+    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
+  <span class="kw">rules</span>:
+    - <span class="kw">if</span>: $CI_COMMIT_BRANCH == "main"
+
+<span class="kw">deploy</span>:
+  <span class="kw">stage</span>: deploy
+  <span class="kw">environment</span>: production
+  <span class="kw">script</span>:
+    - ./deploy.sh "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
+  <span class="kw">when</span>: manual</code></pre>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead><tr><th style="width:24%">Platform</th><th style="width:34%">Best when</th><th>Watch out for</th></tr></thead>
+          <tbody>
+            <tr><td>GitHub Actions</td><td>Code already on GitHub; huge action marketplace</td><td>Minutes add up on private repos; third-party actions are code you trust</td></tr>
+            <tr><td>GitLab CI</td><td>One tool for repo, registry, environments</td><td>Runner cost and shared-runner limits</td></tr>
+            <tr><td>Jenkins</td><td>Legacy, on-prem, very custom needs</td><td>You maintain the server, plugins and upgrades</td></tr>
+            <tr><td>CircleCI / Drone</td><td>Speed, container-native workflows</td><td>Another account, another YAML dialect</td></tr>
+            <tr><td>Argo CD / Flux</td><td>Kubernetes, GitOps, drift correction</td><td>Only worth it once you have a cluster</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>The platform is not the skill.</strong> Triggers, stages, caching, artifacts, secrets and
+      gates are the same concepts everywhere. Learn them once and any YAML reads like a dialect, not a new language.
+    </div>
+  </section>
+
+  <!-- ==================== QUALITY ==================== -->
+  <section id="quality">
+    <h2><i class="bi bi-shield-check me-2"></i>Quality Gates &amp; Security</h2>
+
+    <h3>Branch protection is the real gate</h3>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead><tr><th style="width:36%">Setting</th><th>Why</th></tr></thead>
+          <tbody>
+            <tr><td>Require pull request reviews</td><td>The pipeline cannot review design</td></tr>
+            <tr><td>Require status checks to pass</td><td>Turns your workflow into a merge blocker</td></tr>
+            <tr><td>Require branches to be up to date</td><td>Prevents "green on an old base" merges</td></tr>
+            <tr><td>Require linear history / squash</td><td>One revertable commit per change</td></tr>
+            <tr><td>Restrict who can push to main</td><td>No direct pushes, including your own</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>Security jobs worth adding on day one</h3>
+<pre><code><span class="cm"># 1. dependency review on every PR (fails on high severity)</span>
+- <span class="kw">uses</span>: actions/dependency-review-action@v4
+  <span class="kw">with</span>:
+    <span class="kw">fail-on-severity</span>: high
+
+<span class="cm"># 2. static analysis for your language</span>
+- <span class="kw">uses</span>: github/codeql-action/analyze@v3
+  <span class="kw">with</span>: { <span class="kw">languages</span>: javascript-typescript }
+
+<span class="cm"># 3. container scan before the push is promoted</span>
+- <span class="kw">uses</span>: aquasecurity/trivy-action@0.28.0
+  <span class="kw">with</span>:
+    <span class="kw">image-ref</span>: ghcr.io/${{ github.repository }}:sha-${{ github.sha }}
+    <span class="kw">exit-code</span>: <span class="str">"1"</span>
+    <span class="kw">severity</span>: CRITICAL,HIGH
+    <span class="kw">ignore-unfixed</span>: true
+
+<span class="cm"># 4. keep dependencies moving</span>
+<span class="cm"># .github/dependabot.yml handles composer, npm and actions weekly</span></code></pre>
+
+    <div class="highlight-box">
+      <strong>Never scan with <code>exit-code: 0</code> and call it security.</strong> A scanner that cannot fail
+      the build is a dashboard. Start by failing on critical only, fix the backlog, then tighten.
+    </div>
+  </section>
+
+  <!-- ==================== SPEED ==================== -->
+  <section id="speed">
+    <h2><i class="bi bi-lightning-charge me-2"></i>Making It Fast</h2>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead><tr><th style="width:30%">Lever</th><th style="width:34%">Effect</th><th>Where</th></tr></thead>
+          <tbody>
+            <tr><td>Cache dependencies</td><td>Usually the single biggest win</td><td><code>actions/cache</code>, <code>cache:</code></td></tr>
+            <tr><td>Parallel matrix</td><td>N versions tested in the time of one</td><td><code>strategy.matrix</code></td></tr>
+            <tr><td>Path filters</td><td>Skip jobs unrelated to the change</td><td><code>paths:</code>, <code>rules:changes</code></td></tr>
+            <tr><td><code>fail-fast: true</code></td><td>Stop the matrix at the first failure</td><td>Default; disable for wide compatibility sweeps</td></tr>
+            <tr><td>Order by cost</td><td>Cheap checks fail first, expensive never start</td><td><code>needs:</code></td></tr>
+            <tr><td>Docker layer cache</td><td>Rebuild only what changed</td><td><code>cache-from: type=gha</code></td></tr>
+            <tr><td>Shallow clone</td><td>Less history to fetch</td><td><code>fetch-depth: 1</code></td></tr>
+            <tr><td>Self-hosted runner</td><td>Bigger machine, local cache, no queue</td><td>Only after the above</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>A pipeline over ten minutes stops being used.</strong> People push and walk away; failures get
+      discovered hours later. Fix the cache before you buy a bigger runner.
+    </div>
+  </section>
+
+  <!-- ==================== DEBUG ==================== -->
+  <section id="debug">
+    <h2><i class="bi bi-bug me-2"></i>When It Goes Red</h2>
+
+    <div class="card">
+      <div class="card-header">Symptom &rarr; cause &rarr; fix</div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead><tr><th style="width:28%">Symptom</th><th style="width:34%">Usual cause</th><th>Fix</th></tr></thead>
+          <tbody>
+            <tr><td>Passes locally, fails in CI</td><td>Different PHP/Node version, missing extension, or an env var</td><td>Pin versions; print them in a step; mirror CI in Docker</td></tr>
+            <tr><td><code>command not found</code></td><td>Tool not installed on the runner image</td><td>Add a setup action or install step</td></tr>
+            <tr><td>MySQL connection refused</td><td>Service not healthy yet, or wrong host</td><td>Health-check options + <code>127.0.0.1</code></td></tr>
+            <tr><td>Works on main, fails on PR</td><td>Secrets are not available to fork PRs</td><td>Split the workflow; do not print secrets</td></tr>
+            <tr><td>Flaky test</td><td>Time, order or shared state</td><td>Freeze the clock, isolate the database, retry only as a last resort</td></tr>
+            <tr><td>Deploy succeeded, app down</td><td>Health check missing or checking the wrong thing</td><td>Add a readiness probe and a post-deploy smoke test</td></tr>
+            <tr><td>Cache never hits</td><td>Key includes a changing value</td><td>Key on the lockfile hash, restore with a prefix</td></tr>
+            <tr><td>Pipeline green, bug shipped</td><td>No test covers it</td><td>Write the test that would have caught it, first</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Reproduce before you re-run.</strong> "Re-run failed jobs" hides the problem. Run the failing
+      command in the same container image locally &mdash; <code>docker run --rm -it -v "$PWD:/app" -w /app php:8.4-cli bash</code>
+      &mdash; and you will usually see the real error in one attempt.
+    </div>
+  </section>
+
+  <!-- ==================== INTERVIEW ==================== -->
+  <section id="interview">
+    <h2><i class="bi bi-patch-question me-2"></i>Interview Q&amp;A</h2>
+
+    <div class="card">
+      <div class="card-header">What is the difference between CI, CD and CD?</div>
+      <div class="card-body">Continuous Integration: every push is built and tested. Continuous Delivery: every green build is deployable, but a human decides. Continuous Deployment: the green build deploys itself. The two CDs differ only in who presses the button.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">How do you keep a pipeline fast?</div>
+      <div class="card-body">Cache dependencies and Docker layers, parallelise independent jobs, skip jobs by path filter, run cheap checks before expensive ones, keep the test suite honest (delete or fix slow flaky tests), and only reach for bigger runners after that. Target under ten minutes.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">How do you handle secrets?</div>
+      <div class="card-body">Short-lived, scoped, and never in the repo or logs. Prefer OIDC federation to a cloud role over stored keys, use environment-scoped secrets with required reviewers for production, and mask values. Rotate immediately if a secret ever reaches a log or an image layer.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Why build once and promote?</div>
+      <div class="card-body">Rebuilding per environment means the artifact tested is not the artifact shipped &mdash; different base image digest, different dependency resolution. Build one immutable image, tag it with the commit SHA, and deploy that digest to staging and production.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">How do you deploy without downtime?</div>
+      <div class="card-body">At least two replicas, a readiness check, then rolling replacement or blue/green with instant traffic switching. The hard part is database compatibility: expand/contract migrations so old and new code can run side by side.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">A migration broke production. What now?</div>
+      <div class="card-body">Roll back the deploy to the previous image first (blue/green or a pinned tag), stop any further steps, then decide whether the schema change must be reversed or made backwards-compatible. Incident review afterwards should end with a migration rule, not a blame assignment.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">How do you test a pipeline change?</div>
+      <div class="card-body">Run it on a branch with <code>workflow_dispatch</code> or a PR trigger, use a staging environment that mirrors production, and keep an idempotent deploy script. Treat the pipeline as code: review it, version it, and test it before it touches production.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">What is GitOps?</div>
+      <div class="card-body">The desired state of the infrastructure lives in a Git repository; a controller (Argo CD, Flux) continuously reconciles the cluster to match. The deploy becomes a reviewed pull request, and drift is corrected automatically. The pipeline still builds and tests &mdash; GitOps takes over the delivery half.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">How do you handle database tests in CI?</div>
+      <div class="card-body">Run the real engine as a service container or a Docker Compose dependency, migrate a fresh database per job, and wrap each test in a transaction where the framework supports it. SQLite is fine for fast unit tests, but at least one job must run against MySQL/PostgreSQL.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">What do you monitor after a deploy?</div>
+      <div class="card-body">Error rate, latency percentiles, queue depth, failed jobs and a business metric (signups, orders). Automate a canary check and roll back on a threshold instead of waiting for a support ticket.</div>
+    </div>
+  </section>
+
+  <!-- ==================== CHEAT SHEET ==================== -->
+  <section id="cheatsheet">
+    <h2><i class="bi bi-lightning me-2"></i>Cheat Sheet</h2>
+
+    <div class="card">
+      <div class="card-header">Workflow skeleton</div>
+      <div class="card-body">
+<pre><code><span class="kw">name</span>: CI
+<span class="kw">on</span>: [push, pull_request]
+<span class="kw">permissions</span>: { <span class="kw">contents</span>: read }
+<span class="kw">concurrency</span>: { <span class="kw">group</span>: ci-${{ github.ref }}, <span class="kw">cancel-in-progress</span>: true }
+<span class="kw">jobs</span>:
+  <span class="kw">test</span>:
+    <span class="kw">runs-on</span>: ubuntu-latest
+    <span class="kw">timeout-minutes</span>: 15
+    <span class="kw">steps</span>:
+      - <span class="kw">uses</span>: actions/checkout@v4
+      - <span class="kw">run</span>: make test</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Actions you will keep reaching for</div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead><tr><th style="width:44%">Action</th><th>Does</th></tr></thead>
+          <tbody>
+            <tr><td>actions/checkout@v4</td><td>Clone the repo</td></tr>
+            <tr><td>actions/setup-node@v4</td><td>Node + dependency cache</td></tr>
+            <tr><td>shivammathur/setup-php@v2</td><td>PHP, extensions, composer</td></tr>
+            <tr><td>actions/cache@v4</td><td>Cache any directory by key</td></tr>
+            <tr><td>actions/upload-artifact@v4</td><td>Keep files between jobs</td></tr>
+            <tr><td>docker/build-push-action@v6</td><td>Build and push an image</td></tr>
+            <tr><td>docker/metadata-action@v5</td><td>Semver + SHA tags and labels</td></tr>
+            <tr><td>aws-actions/configure-aws-credentials@v4</td><td>OIDC into an AWS role</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">GitHub context variables worth memorising</div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 cmd-table">
+          <thead><tr><th style="width:44%">Expression</th><th>Is</th></tr></thead>
+          <tbody>
+            <tr><td>${{ github.sha }}</td><td>Full commit SHA</td></tr>
+            <tr><td>${{ github.ref_name }}</td><td>Branch or tag name</td></tr>
+            <tr><td>${{ github.event_name }}</td><td>push, pull_request, schedule&hellip;</td></tr>
+            <tr><td>${{ github.repository }}</td><td>owner/repo, for image names</td></tr>
+            <tr><td>${{ runner.os }}</td><td>Linux, macOS or Windows</td></tr>
+            <tr><td>${{ secrets.NAME }}</td><td>A secret, masked in logs</td></tr>
+            <tr><td>${{ vars.NAME }}</td><td>A non-secret repository variable</td></tr>
+            <tr><td>${{ needs.job.outputs.x }}</td><td>A value from another job</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Learn next:</strong> <a href="docker.html">Docker</a> for the images your pipeline builds,
+      <a href="git.html">Git</a> for the branches and tags that trigger it,
+      <a href="aws.html">AWS</a> for the target you deploy to, and
+      <a href="laravel-api-testing.html">Laravel API + Testing</a> for the tests themselves.
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="mt-5 pt-4 border-top text-muted">
+    <div class="row">
+      <div class="col-md-6">
+        <p class="fw-bold mb-2">CI/CD &mdash; Pipelines That Ship</p>
+        <p class="small">Written for study. Workflow syntax and action versions checked against GitHub Actions and GitLab CI in October 2026 &mdash; action majors move, so pin and read the release notes.</p>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <p class="small mb-1">
+          <a href="https://docs.github.com/actions" target="_blank" rel="noopener" class="text-decoration-none"><i class="bi bi-journal-text me-1"></i> Actions Docs</a>
+          &middot;
+          <a href="https://docs.gitlab.com/ee/ci/" target="_blank" rel="noopener" class="text-decoration-none"><i class="bi bi-journal-text me-1"></i> GitLab CI Docs</a>
+          &middot;
+          <a href="https://docs.docker.com/build/ci/" target="_blank" rel="noopener" class="text-decoration-none"><i class="bi bi-box-seam me-1"></i> Docker in CI</a>
+        </p>
+        <p class="small mb-0">GitHub Actions and GitLab are trademarks of their owners &mdash; this page is an independent study guide.</p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script src="../lib/bootstrap/bootstrap.bundle.min.js"></script>
+<script>
+  document.getElementById('sidebarToggle')?.addEventListener('click', function () {
+    document.getElementById('sidebar').classList.toggle('show');
+  });
+  document.querySelectorAll('#sidebar .nav-link').forEach(function (link) {
+    link.addEventListener('click', function () {
+      document.getElementById('sidebar').classList.remove('show');
+    });
+  });
+</script>
+</body>
+</html>
